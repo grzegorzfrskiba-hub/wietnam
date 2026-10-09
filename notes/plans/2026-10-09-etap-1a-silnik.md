@@ -1366,3 +1366,10 @@ Punkt kontrolny, decyzje użytkownika:
 - Huế `[2, 2, 3]` (41acbac);
 - cztery czasy przejazdu na typowe (0b7f62d) i liczony od nich szacunek Pù Luông–Cát Bà 7,5 h (2a40cd4);
 - granica 4 h i model tras bez zmian.
+
+Po przeglądzie końcowym:
+- Noc w Hà Nội w drodze nie otwiera ani nie zamyka trasy, a usunięcie Hà Nội usuwa też ją (d40e5b1).
+- Testy tras tam i z powrotem mają przypięte wyniki, a „Dodaj” liczy premię raz (24200d2).
+- Ustawienia przyjmują tylko liczby (miesiąc, długość, poziom) i listy (zainteresowania, Dodaj, Usuń). Kody błędów: `airport`, `date`, `month`, `days`, `interests`, `level`, `add`, `remove` (59617d6).
+- `tests/run.sh` wymienia wszystkie pliki i przerywa, gdy któregoś brakuje albo argument jest nieznany (f0625c9).
+- Uwagi dla planu 1B w `notes/etapy.md` (950af85).

@@ -104,10 +104,16 @@ Plan 1B (strona) powstanie teraz; zarys jest na końcu planu 1A. Uwagi z przegl�
 - **Poziom przygody:** wszystkie 12 miejsc ma poziom 1, więc na razie poziom wybiera tylko warianty dni. Miejsca od poziomu 2 i 3 dojdą w etapie 3.
 - **Plany dni:** złote tarasy w Pù Luông to dwa okna, koniec maja–połowa czerwca i koniec września–początek października. Woda na Bản Giốc w suche lata płynie głównie ok. 11:00–14:30, a plan dnia w pierwowzorze mówi o późnym popołudniu.
 - **Research sezonów:** po przeniesieniu planów dni do repo wskazać je zamiast plików pierwowzoru; ustalenie o Tà Năng podać z własnym źródłem.
+- **Lista testów:** `tests/run.sh` nie zauważy nowego pliku testu, którego nie dopisano do jego listy. Każdy nowy test dopisać do listy albo dodać sprawdzenie, że lista obejmuje wszystkie `tests/*.test.js`.
+- **Lotniska i daty z linku:** `from`, `to`, `start` i `end` nie mają jeszcze kontroli typu w silniku. Parser linku podaje je jako tekst.
 
 Do etapu 2 (interfejs):
 - komunikat, gdy wybrane zainteresowanie ma na trasie zły sezon, np. morze we wrześniu (raport, trasa 13);
 - do obejrzenia po dodaniu nowych miejsc: zygzaki przy trasie tam i z powrotem i przy przylocie do Đà Nẵng (raport, trasy 6, 8 i 11), dzień z dwoma lotami (ok. 9% tras, głównie Phú Quốc ↔ Đà Lạt przez Sajgon), Cát Bà często na 4 noce, Hà Nội trzy razy na 30-dniowej trasie z Hà Nội.
+
+Do etapu 3 (nowe miejsca):
+- włączyć testy, które dziś nie mają czego łapać, bo wszystkie miejsca mają poziom 1, a w sezonach nie ma X: niezależne przeliczenie sezonu każdej nocy, przegląd trybu dat, lista znanych lotnisk w danych i wymóg, żeby każde miejsce trafiło na jakąś trasę;
+- dwie drogi po korekcie silnik omija przez Hà Nội: lotnisko Hà Nội – Pù Luông (5,25 h w danych, efektywnie 5 h) i Ninh Bình – Cao Bằng (9,25 h w danych, efektywnie 8,5 h). Do decyzji przy przeglądzie danych: zostawić albo poprawić drogi przez Hà Nội.
 
 Do audytu przed publikacją (etap 4):
 - research połączeń: robocze dopiski, odwołania do audytu pierwowzoru (dokument spoza repo), twierdzenie bez źródła o autostradzie przed Tết 2027, nazwa firmy z imieniem;

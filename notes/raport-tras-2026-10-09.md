@@ -200,4 +200,4 @@ Dzień 19: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 22,75 h, lotów kr
 
 ## Miejsca na trasach
 
-`places used: babe 2960, caobang 2684, catba 11919, cattien 5473, dalat 15666, hanoi 17491, hanoiStop 1907, hoian 20988, hue 11514, mekong 7294, ninhbinh 13625, phuquoc 6859, puluong 2961, saigon 19385`
+`places used: babe 2981, caobang 2694, catba 11915, cattien 5518, dalat 15666, hanoi 17558, hanoiStop 1742, hoian 20992, hue 11511, mekong 7296, ninhbinh 13633, phuquoc 6865, puluong 2969, saigon 19385`
