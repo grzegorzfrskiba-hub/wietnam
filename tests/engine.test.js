@@ -70,7 +70,9 @@ eq(fxSet({ from: 'XA', to: 'XD', start: '2027-12-29', end: '2028-01-02' }).month
   [{ from: 'XA', to: 'XD', start: '2027-02-30', end: '2027-03-03' }, 'date'],
   [{ from: 'XA', to: 'XD', start: '2027-02-03', end: '2027-02-01' }, 'days'],
   [{ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['kultura', 'morze', 'gory'] }, 'interests'],
-  [{ from: 'XA', to: 'XD', month: 3, days: 6, level: 4 }, 'level']
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, level: 4 }, 'level'],
+  [{ from: 'XA', to: 'XD', month: 3, days: Infinity }, 'days'],
+  [{ from: 'XA', to: 'XD', start: '2027-01-01', end: '9999-12-31' }, 'days']
 ].forEach(function (c) { eq(fxSet(c[0]), { ok: false, error: c[1] }, 'error ' + c[1] + ' for ' + JSON.stringify(c[0])); });
 eq(fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['morze', 'kultura', 'xyz'] }).interests, ['kultura', 'morze'], 'interests: known ones, in INTERESTS order');
 var s3 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, add: ['c', 'b', 'zz'], remove: ['b'] });

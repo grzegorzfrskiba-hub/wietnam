@@ -80,13 +80,17 @@ function normSettings(s, places, hubs) {
     var a = isoDay(s.start), b = isoDay(s.end);
     if (a === null || b === null) return { ok: false, error: 'date' };
     out.start = s.start; out.days = b - a + 1;
-    for (var d = 0; d < out.days; d++) out.months.push(new Date((a + d) * 864e5).getUTCMonth());
   } else {
     if (!(s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
     out.month = s.month; out.days = s.days;
-    for (var k = 0; k < s.days; k++) out.months.push(s.month - 1);
   }
+  // the days check comes before any loop, so a huge span is refused without building months
   if (!(out.days >= MIN_DAYS && out.days <= MAX_DAYS && out.days % 1 === 0)) return { ok: false, error: 'days' };
+  if (s.start != null) {
+    for (var d = 0; d < out.days; d++) out.months.push(new Date((a + d) * 864e5).getUTCMonth());
+  } else {
+    for (var k = 0; k < out.days; k++) out.months.push(out.month - 1);
+  }
   var wanted = s.interests || [];
   out.interests = INTERESTS.filter(function (k) { return wanted.indexOf(k) > -1; });
   if (out.interests.length > 2) return { ok: false, error: 'interests' };
