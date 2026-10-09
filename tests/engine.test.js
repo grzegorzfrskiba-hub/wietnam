@@ -34,4 +34,20 @@ eq(legBetween(FX_GRAPH, 'a', 'nowhere'), null, 'unknown node');
 near(legCost(4), 0.4, 'legCost 4 h');
 near(legCost(5), 0.5, 'legCost 5 h');
 near(legCost(7), 1.3, 'legCost 7 h: 0.7 + 0.15 × 2²');
+/* ---------- a pair listed more than once: the shortest link of each mode is kept ---------- */
+/* Five pairs that do not meet: A-B roads 1, 3; C-D roads 3, 1; E-F roads 2 and 3, one each way;
+   G-H roads 2, 5 and a flight of 1 (the road is faster); I-J flights 1, 4 (a flight adds AIRPORT_H = 1.5 h). */
+var DUP = travelGraph([['A', 'B', 1], ['A', 'B', 3], ['C', 'D', 3], ['C', 'D', 1], ['E', 'F', 2], ['F', 'E', 3],
+  ['G', 'H', 2], ['G', 'H', 5]], [['G', 'H', 1], ['I', 'J', 1], ['J', 'I', 4]]);
+// a leg of one segment: its mode, hours and flights, and its total
+function checkLeg(g, a, b, mode, h, flights, total) {
+  var leg = legBetween(g, a, b);
+  eq([leg.segs.length, leg.segs[0].mode, leg.segs[0].h, leg.flights], [1, mode, h, flights], a + '→' + b + ' segment');
+  near(leg.total, total, a + '→' + b + ' total');
+}
+checkLeg(DUP, 'A', 'B', 'road', 1, 0, 1); checkLeg(DUP, 'B', 'A', 'road', 1, 0, 1);
+checkLeg(DUP, 'C', 'D', 'road', 1, 0, 1); checkLeg(DUP, 'D', 'C', 'road', 1, 0, 1);
+checkLeg(DUP, 'E', 'F', 'road', 2, 0, 2); checkLeg(DUP, 'F', 'E', 'road', 2, 0, 2);
+checkLeg(DUP, 'G', 'H', 'road', 2, 0, 2); checkLeg(DUP, 'H', 'G', 'road', 2, 0, 2);
+checkLeg(DUP, 'I', 'J', 'fly', 1, 1, 2.5); checkLeg(DUP, 'J', 'I', 'fly', 1, 1, 2.5);
 print('travel ok');

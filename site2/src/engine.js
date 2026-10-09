@@ -21,7 +21,7 @@ function travelGraph(roads, flights) {
   });
   function link(a, b, hours, mode) {
     var w = mode === 'fly' ? hours + AIRPORT_H : hours;
-    edge[a][b + '|' + mode] = hours;
+    var k = b + '|' + mode; if (edge[a][k] == null || hours < edge[a][k]) edge[a][k] = hours;
     if (mode === 'road' && w < road[a][b]) { road[a][b] = w; nextRoad[a][b] = b; }
     if (w < h[a][b]) { h[a][b] = w; next[a][b] = b; }
   }
