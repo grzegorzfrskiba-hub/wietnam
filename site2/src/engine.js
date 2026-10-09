@@ -103,7 +103,7 @@ function normSettings(s, places, hubs) {
 }
 
 /* ---------- value ---------- */
-var SEASON_K = { D: 1, S: 0.7, Z: 0.35 };   // D good, S fair, Z poor; X (closed) never goes on a route
+var SEASON_K = { D: 1, S: 0.7, Z: 0.2 };   // D good, S fair, Z poor; X (closed) never goes on a route
 
 /* How much one night at a place is worth for the chosen interests (0–2 of INTERESTS), before the season.
    With no interest chosen every interest counts the same ("a bit of everything"). */

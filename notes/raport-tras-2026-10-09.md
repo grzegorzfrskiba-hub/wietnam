@@ -1,6 +1,6 @@
 # Raport tras: przegląd silnika
 
-Stałe: MOVE_COST 0.75, END_LEG_H 4 h, MAX_LEG_H 10 h, sezon D 1 / S 0.7 / Z 0.35.
+Stałe: MOVE_COST 0.75, END_LEG_H 4 h, MAX_LEG_H 10 h, sezon D 1 / S 0.7 / Z 0.2.
 Litery sezonu przy nocach: D dobry, S średni, Z zły (X, czyli zamknięte, nie trafia na trasę).
 
 ## 1. HCMC → Hà Nội, marzec, 15 dni, po trochu wszystkiego, aktywnie
@@ -200,4 +200,4 @@ Dzień 19: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 22,75 h, lotów kr
 
 ## Miejsca na trasach
 
-`places used: babe 2313, caobang 2184, catba 12225, cattien 5749, dalat 15446, hanoi 16937, hanoiStop 1525, hoian 21046, hue 11885, mekong 6988, ninhbinh 13475, phuquoc 7269, puluong 4376, saigon 19069`
+`places used: babe 2610, caobang 2432, catba 11675, cattien 5533, dalat 15711, hanoi 17197, hanoiStop 1615, hoian 20910, hue 11604, mekong 7226, ninhbinh 13667, phuquoc 6711, puluong 4549, saigon 19210`
