@@ -50,3 +50,9 @@ dataCheck('travel', function (need) {
     Object.keys(PLACES).forEach(function (id) { need(G.h[code] && G.h[code][node(id)] < Infinity, id + ' cannot be reached from ' + code); });
   });
 });
+
+dataCheck('seasons', function (need) {
+  Object.keys(PLACES).forEach(function (id) { need(/^[DSZX]{12}$/.test(SEASONS[id] || ''), id + ': season is 12 letters D, S, Z or X'); });
+  Object.keys(SEASONS).forEach(function (id) { need(PLACES[id], 'season for an unknown place: ' + id); });
+  need(SEASONS.hanoiStop === SEASONS.hanoi, 'a night in Hà Nội on the way has Hà Nội\'s season');
+});
