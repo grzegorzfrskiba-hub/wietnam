@@ -129,3 +129,150 @@ function stayValue(place, season, weight, months, first, n, done) {
   }
   return v;
 }
+/* ---------- planning ---------- */
+var MAX_LEG_H = 10;       // longest travel day allowed, door to door
+var END_LEG_H = 4;        // arrival and departure day: by road only, at most this long to or from the airport
+var MOVE_COST = 0.75;     // what each change of place costs, in the units of one good night
+var FORCE_BONUS = 1000;   // a place added by hand outweighs everything else
+
+/* The best trip for checked settings (normSettings). data: { places, seasons, graph, hubs }.
+   A trip sweeps the country one way along the places' axis (south→north and north→south are both tried),
+   so no place comes twice. The arrival airport's city (hubs) may open the trip and the departure airport's
+   city may close it, both out of the axis order; on a round trip the one city may do both, splitting its nights.
+   The first place lies within END_LEG_H by road of the arrival airport, the last within END_LEG_H of the
+   departure airport. Returns { ok: true, days, stops: [{ id, n, start, end, season, leg }], home, missing, score }
+   or { ok: false, error: 'no_route' }. */
+function planRoute(st, data) {
+  var P = data.places, G = data.graph, N = st.days - 1;
+  var hubA = data.hubs[st.from], hubB = data.hubs[st.to];
+  var ids = Object.keys(P).sort();
+  var usable = {}, weight = {}, bonus = {}, table = {};
+  ids.forEach(function (id) {
+    usable[id] = st.remove.indexOf(id) < 0 && P[id].level <= st.level;
+    if (!usable[id]) return;
+    weight[id] = placeWeight(P[id], st.interests);
+    bonus[id] = st.add.indexOf(id) > -1 ? FORCE_BONUS : 0;
+    table[id] = [];   // table[id][first][n]: value of n nights from trip day `first`
+    for (var first = 1; first <= N; first++) {
+      table[id][first] = [];
+      for (var n = P[id].nights[0]; n <= P[id].nights[2] && first + n - 1 <= N; n++) {
+        var v = stayValue(P[id], data.seasons[id], weight[id], st.months, first, n, 0);
+        table[id][first][n] = v === null ? null : v + bonus[id];
+      }
+    }
+  });
+  function val(id, first, n) { var r = table[id][first] && table[id][first][n]; return r == null ? null : r; }
+  function node(id) { return P[id].node || id; }
+  function hop(a, b) {   // cost of moving between two places, or null when it is no real move or too long
+    if (node(a) === node(b)) return null;
+    var h = G.h[node(a)][node(b)];
+    return h <= MAX_LEG_H ? MOVE_COST + legCost(h) : null;
+  }
+  function arrive(id) { var h = G.road[st.from][node(id)]; return h <= END_LEG_H ? legCost(h) : null; }
+  function depart(id) { var h = G.road[node(id)][st.to]; return h <= END_LEG_H ? legCost(h) : null; }
+  function nightsOf(id) { var out = []; for (var n = P[id].nights[0]; n <= P[id].nights[2]; n++) out.push(n); return out; }
+
+  /* One sweep. first: the city opening the trip out of order, or null; last: the city closing it, or null;
+     n1: on a round trip with first === last, the nights of the first visit (the second gets what is left). */
+  function sweep(dir, first, last, n1) {
+    var order = ids.filter(function (id) { return usable[id] && id !== hubA && id !== hubB; })
+      .sort(function (a, b) { return P[a].axis - P[b].axis || (a < b ? -1 : 1); });
+    if (dir === 'NS') order.reverse();
+    var m = order.length, score = [], back = [], i, j, t, k;
+    for (i = 0; i < m; i++) { score.push([]); back.push([]); for (t = 0; t <= N; t++) { score[i].push(-Infinity); back[i].push(null); } }
+    var open = [];   // open[k]: value of k nights in the opening city, arrival included
+    if (first && arrive(first) !== null) nightsOf(first).forEach(function (k) {
+      var g = val(first, 1, k);
+      if (g !== null && (!n1 || k === n1)) open[k] = g - arrive(first);
+    });
+    function better(i, t, v, how) { if (v > score[i][t] + 1e-9) { score[i][t] = v; back[i][t] = how; } }
+    for (j = 0; j < m; j++) {
+      var id = order[j], nj = nightsOf(id), aj = arrive(id), hj = first ? hop(first, id) : null;
+      nj.forEach(function (n) {
+        var g1 = val(id, 1, n);
+        if (aj !== null && g1 !== null) better(j, n, g1 - aj, { kind: 'start' });
+        if (hj !== null) open.forEach(function (ov, k) {
+          var g = val(id, k + 1, n);
+          if (g !== null) better(j, k + n, ov + g - hj, { kind: 'open', k: k });
+        });
+      });
+      for (i = 0; i < j; i++) {
+        var c = hop(order[i], id);
+        if (c === null) continue;
+        for (t = 1; t < N; t++) {
+          if (score[i][t] === -Infinity) continue;
+          for (k = 0; k < nj.length; k++) {
+            var g2 = val(id, t + 1, nj[k]);
+            if (g2 !== null) better(j, t + nj[k], score[i][t] + g2 - c, { kind: 'stop', i: i, t: t });
+          }
+        }
+      }
+    }
+    // value of the closing city for nights t+1..N, or null
+    function close(t) {
+      var n2 = N - t, done = n1 && first === last ? n1 : 0;
+      if (n2 < P[last].nights[0] || n2 + done > P[last].nights[2] || depart(last) === null) return null;
+      var v = stayValue(P[last], data.seasons[last], weight[last], st.months, t + 1, n2, done);
+      return v === null ? null : v + (done ? 0 : bonus[last]) - depart(last);
+    }
+    var best = null;
+    function end(v, how) { if (!best || v > best.score + 1e-9) best = { score: v, how: how }; }
+    for (i = 0; i < m; i++) {
+      if (score[i][N] > -Infinity && depart(order[i]) !== null) end(score[i][N] - depart(order[i]), { i: i, t: N });
+      var cl = last ? hop(order[i], last) : null;
+      if (cl !== null) for (t = 1; t < N; t++) {
+        if (score[i][t] === -Infinity) continue;
+        var vl = close(t);
+        if (vl !== null) end(score[i][t] + vl - cl, { i: i, t: t, last: N - t });
+      }
+    }
+    open.forEach(function (ov, k) {
+      if (k === N && depart(first) !== null) end(ov - depart(first), { open: k });
+      var c1 = last && k < N ? hop(first, last) : null, v1 = c1 !== null ? close(k) : null;
+      if (v1 !== null) end(ov + v1 - c1, { open: k, last: N - k });
+    });
+    if (!best) return null;
+    var stops = [], how = best.how;   // walk back to the list of stops
+    if (how.last) stops.push({ id: last, n: how.last });
+    if (how.open) stops.unshift({ id: first, n: how.open });
+    else {
+      i = how.i; t = how.t;
+      while (true) {
+        var b = back[i][t], prevT = b.kind === 'stop' ? b.t : b.kind === 'open' ? b.k : 0;
+        stops.unshift({ id: order[i], n: t - prevT });
+        if (b.kind === 'open') { stops.unshift({ id: first, n: b.k }); break; }
+        if (b.kind === 'start') break;
+        i = b.i; t = b.t;
+      }
+    }
+    return { score: best.score, stops: stops };
+  }
+
+  var tries = [[hubA, hubB, 0]];
+  if (hubA === hubB) {
+    tries = [[hubA, null, 0], [null, hubB, 0]];
+    if (usable[hubA]) nightsOf(hubA).forEach(function (k) { tries.push([hubA, hubB, k]); });
+  }
+  var best = null;
+  ['SN', 'NS'].forEach(function (dir) {
+    tries.forEach(function (x) {
+      var r = sweep(dir, x[0] && usable[x[0]] ? x[0] : null, x[1] && usable[x[1]] ? x[1] : null, x[2]);
+      if (r && (!best || r.score > best.score + 1e-9)) best = r;
+    });
+  });
+  if (!best) return { ok: false, error: 'no_route' };
+
+  var day = 1, prev = null, out = [];
+  best.stops.forEach(function (s) {
+    var season = '';
+    for (var x = 0; x < s.n; x++) season += data.seasons[s.id].charAt(st.months[day - 1 + x]);
+    out.push({ id: s.id, n: s.n, start: day, end: day + s.n - 1, season: season,
+      leg: prev === null ? legBetween(G, st.from, node(s.id), true) : legBetween(G, node(prev), node(s.id), false) });
+    day += s.n; prev = s.id;
+  });
+  var here = {};
+  out.forEach(function (s) { here[s.id] = true; });
+  var missing = st.add.filter(function (id) { return !here[id]; });
+  return { ok: true, days: st.days, stops: out, home: legBetween(G, node(prev), st.to, true), missing: missing,
+    score: best.score - FORCE_BONUS * (st.add.length - missing.length) };
+}

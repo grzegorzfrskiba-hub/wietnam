@@ -95,3 +95,44 @@ near(stayValue(FX_PLACES.a, 'DSDDDDDDDDDD', 1, [0, 0, 1, 1], 2, 2, 0), 1.7, 'a s
 eq(stayValue(FX_PLACES.a, ALL_D, 1, [2, 2], 1, 3, 0), null, 'a night outside the trip is not valued');
 eq(stayValue(FX_PLACES.b, FX_SEASONS.b, 1, [6, 6], 1, 2, 0), null, 'closed in July');
 print('value ok');
+/* ---------- planning ---------- */
+function fxPlan(s) {
+  var st = fxSet(s);
+  ok(st.ok, 'settings ' + JSON.stringify(s));
+  return planRoute(st, FX);
+}
+function brief(r) { return r.ok ? r.stops.map(function (x) { return x.id + x.n; }).join(' ') : r.error; }
+var NATURE = { from: 'XA', to: 'XD', month: 3, days: 6, interests: ['przyroda'] };
+function with_(extra) { var s = JSON.parse(JSON.stringify(NATURE)); Object.keys(extra).forEach(function (k) { s[k] = extra[k]; }); return s; }
+
+// nature: b 2 nights (6.3) + c 3 nights (2.2 + 2.2 + 1.1) − arrive 2.5 h (0.25) − b→c (0.75 + 0.2) − leave 2.5 h (0.25)
+var r1 = fxPlan(NATURE);
+eq(brief(r1), 'b2 c3', 'nature in March');
+near(r1.score, 10.35, 'nature score');
+eq(r1.stops.map(function (s) { return [s.start, s.end, s.season]; }), [[1, 2, 'DD'], [3, 5, 'DDD']], 'days and seasons of the stops');
+eq([r1.stops[0].leg.from, r1.stops[0].leg.to, r1.stops[0].leg.flights], ['XA', 'b', 0], 'arrival day: road from the airport');
+eq([r1.home.from, r1.home.to, r1.home.flights, r1.home.total], ['c', 'XD', 0, 2.5], 'departure day: road to the airport');
+eq(r1.days, 6, 'six days, five nights');
+eq(brief(fxPlan(with_({ month: 7 }))), 'a2 c3', 'b is closed in July');
+eq(brief(fxPlan(with_({ level: 3 }))), 'b2 e1 c2', 'level 3 opens e');
+eq(brief(fxPlan(with_({ interests: ['kultura'] }))), 'a3 d2', 'culture flies from a to d');
+eq(brief(fxPlan(with_({ from: 'XD', to: 'XA' }))), 'c3 b2', 'the other way: north to south');
+eq(brief(fxPlan(with_({ days: 12 }))), 'a3 b2 c3 d3', 'twelve days use every place at its most');
+eq(brief(fxPlan(with_({ start: '2027-06-28', end: '2027-07-03', month: null, days: null }))), 'b2 c3', 'b in June is fine, the July nights go to c');
+
+// add and remove
+var r2 = fxPlan(with_({ add: ['a'] }));
+eq([brief(r2), r2.missing], ['a1 b2 c2', []], 'an added place goes on the route');
+near(r2.score, 8.65, 'the bonus for an added place is not in the score');
+var r3 = fxPlan(with_({ month: 7, add: ['b'] }));
+eq([brief(r3), r3.missing], ['a2 c3', ['b']], 'a closed place cannot be added: it is listed as missing');
+eq(brief(fxPlan(with_({ remove: ['b'] }))), 'a2 c3', 'a removed place stays off');
+eq(fxPlan(with_({ remove: ['a', 'b', 'c', 'd', 'e'] })), { ok: false, error: 'no_route' }, 'no places, no route');
+
+// round trips: the airport's city may open and close the trip, splitting its nights
+eq(brief(fxPlan({ from: 'XA', to: 'XA', month: 3, days: 6, interests: ['kultura'] })), 'a1 d2 a2', 'round trip: a opens and closes');
+eq(brief(fxPlan({ from: 'XA', to: 'XA', month: 3, days: 8, interests: ['przyroda'] })), 'b2 c3 a2', 'round trip: a closes');
+
+// the same settings always give the same trip
+eq(JSON.stringify(fxPlan(NATURE)), JSON.stringify(fxPlan(NATURE)), 'same settings, same trip');
+print('planning ok');
