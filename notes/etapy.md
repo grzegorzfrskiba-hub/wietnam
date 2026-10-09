@@ -98,7 +98,9 @@ Decyzje z punktu kontrolnego (10.10.2026):
 
 Plan 1B (strona) powstanie teraz; zarys jest na końcu planu 1A. Uwagi z przeglądu, które dotyczą strony:
 - **Link z ustawieniami:** parser podaje silnikowi liczby (miesiąc, długość, poziom) i listy (zainteresowania, Dodaj, Usuń); inne typy silnik odrzuca błędem.
+- **Termin w trybie miesiąca:** wizja chce miesiąca z rokiem (ostrzeżenie o Tết), a silnik nie ma jeszcze pola roku; dodać je w planie 1B.
 - **„Nie zmieściło się” i „Nie ma na twojej trasie, bo…”:** silnik podaje tylko listę brakujących miejsc, powód liczy strona.
+- **Noc w Hà Nội w drodze** nie jest pozycją do „Dodaj” i „Usuń” na stronie; „Usuń Hà Nội” usuwa też ją.
 - **Poziom przygody:** wszystkie 12 miejsc ma poziom 1, więc na razie poziom wybiera tylko warianty dni. Miejsca od poziomu 2 i 3 dojdą w etapie 3.
 - **Plany dni:** złote tarasy w Pù Luông to dwa okna, koniec maja–połowa czerwca i koniec września–początek października. Woda na Bản Giốc w suche lata płynie głównie ok. 11:00–14:30, a plan dnia w pierwowzorze mówi o późnym popołudniu.
 - **Research sezonów:** po przeniesieniu planów dni do repo wskazać je zamiast plików pierwowzoru; ustalenie o Tà Năng podać z własnym źródłem.
