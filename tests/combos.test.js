@@ -3,20 +3,23 @@
 (function () {
   var all = typeof RUN_ALL !== 'undefined' && RUN_ALL;
   var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
+  // the hard limits are pinned here: a changed limit must be a deliberate change of this line
+  eq([END_LEG_H, MAX_LEG_H], [4, 10], 'the hard limits: arrival and departure day at most 4 h by road, any travel day at most 10 h');
   var sets = [[]];
   INTERESTS.forEach(function (a, i) { sets.push([a]); INTERESTS.slice(i + 1).forEach(function (b) { sets.push([a, b]); }); });
   var airports = Object.keys(HUBS).sort(), ids = Object.keys(PLACES).sort();
   var count = 0, k = 0, fails = [], used = {};
   function node(id) { return PLACES[id].node || id; }
 
-  // extra: a label for a changed setting; then no route at all is allowed (e.g. the only city near the airport removed)
-  function check(s, extra) {
+  // extra: a label for a changed setting; then no route is allowed (e.g. the only city near the airport removed),
+  // unless strict (after an added place the base trip still exists, so no route is a failure)
+  function check(s, extra, strict) {
     var name = s.from + '→' + s.to + ' ' + s.days + 'd m' + s.month + ' L' + s.level + ' ' + (s.interests.join('+') || '-') + (extra || '');
     function need(c, what) { if (!c) fails.push(name + ': ' + what); }
     var st = normSettings(s, PLACES, HUBS);
     if (!st.ok) { fails.push(name + ': settings ' + st.error); return null; }
     var r = planRoute(st, DATA);
-    if (!r.ok) { if (!extra) fails.push(name + ': ' + r.error); return null; }
+    if (!r.ok) { if (!extra || strict) fails.push(name + ': ' + r.error); return null; }
     var nights = 0, day = 1, seen = {}, last = r.stops.length - 1;
     r.stops.forEach(function (x, i) {
       var p = PLACES[x.id];
@@ -52,14 +55,26 @@
               var s = { from: from, to: to, month: month, days: days, interests: interests, level: level };
               count++;
               var r = check(s);
-              if (!r || count % 150) return;
-              // now and then: the same settings give the same trip, and every place can be removed or added
+              if (!r || count % 151) return;
+              // now and then: the same settings give the same trip. Removing a place: no route only if it was on the trip,
+              // and a place that was not on it leaves the trip unchanged. Adding a place: it is on the trip, or missing
+              // only if no trip found for these settings has it, and then the trip is unchanged
               ok(JSON.stringify(planRoute(normSettings(s, PLACES, HUBS), DATA)) === JSON.stringify(r), 'not the same trip twice: ' + JSON.stringify(s));
+              // baseOn: the places on the trip; seenOn: the places on any trip found for these settings (this one and each removal)
+              var baseOn = {}, seenOn = {};
+              r.stops.forEach(function (x) { baseOn[x.id] = seenOn[x.id] = true; });
               ids.forEach(function (id) {
                 var rm = check(Object.assign({}, s, { remove: [id] }), ' -' + id);
-                if (rm) ok(rm.stops.every(function (x) { return x.id !== id; }), id + ' removed but on the trip: ' + JSON.stringify(s));
-                var ad = check(Object.assign({}, s, { add: [id] }), ' +' + id);
-                if (ad) ok(ad.missing.length === 0 ? ad.stops.some(function (x) { return x.id === id; }) : ad.missing[0] === id, id + ' added: on the trip or missing: ' + JSON.stringify(s));
+                if (rm) {
+                  rm.stops.forEach(function (x) { seenOn[x.id] = true; });
+                  ok(rm.stops.every(function (x) { return x.id !== id; }), id + ' removed but on the trip: ' + JSON.stringify(s));
+                  if (!baseOn[id]) ok(JSON.stringify(rm.stops) === JSON.stringify(r.stops), id + ' removed but was not on the trip, yet the trip changed: ' + JSON.stringify(s));
+                } else ok(baseOn[id], id + ' removed but was not on the trip, yet no route: ' + JSON.stringify(s));
+              });
+              ids.forEach(function (id) {
+                var ad = check(Object.assign({}, s, { add: [id] }), ' +' + id, true);
+                if (ad) ok(ad.missing.length === 0 ? ad.stops.some(function (x) { return x.id === id; }) : ad.missing[0] === id && !seenOn[id], id + ' added: on the trip, or missing only if no trip for these settings has it: ' + JSON.stringify(s));
+                if (ad && ad.missing.length) ok(JSON.stringify(ad.stops) === JSON.stringify(r.stops), id + ' added but missing, yet the trip changed: ' + JSON.stringify(s));
               });
             });
           });
