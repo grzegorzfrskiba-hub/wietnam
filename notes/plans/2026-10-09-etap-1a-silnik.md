@@ -1337,3 +1337,32 @@ Szczegółowy plan 1B powstanie po punkcie kontrolnym.
   - kopiowanie planu.
 - **Build i zrzut** na szerokości telefonu.
 - **Uwaga do etapu 2:** w pierwowzorze nie ma skryptu `geo/make_basemap.py`, jest tylko jego wynik w `basemap.js`. Nowe kadry mapy wymagają napisania tego skryptu od nowa.
+
+---
+
+## Aneks: zmiany względem planu po wykonaniu (10.10.2026)
+
+Kod w repo różni się od bloków powyżej. Przy ponownym przejściu planu obowiązuje kod w repo.
+
+Poprawki z przeglądów, każda z testem:
+- `travelGraph` zapamiętuje najkrótszy odcinek dla pary i rodzaju przejazdu (8028773).
+- `normSettings` sprawdza długość przed liczeniem miesięcy (098b7f8), a `isoDay` odrzuca miesiące spoza 1–12 i lata przed 100 (2e9093f).
+- `stayValue` nie liczy nocy spoza wyjazdu (c4fd7ab).
+- Test danych przyjmuje noce tylko jako liczby całkowite (6bfccfc).
+- Test kombinacji (ea2f758):
+  - przypina limity 4 h i 10 h;
+  - po „Dodaj” brak trasy jest błędem;
+  - usunięcie miejsca spoza trasy nie zmienia trasy;
+  - dodane miejsce może brakować tylko wtedy, gdy nie ma go żadna trasa znaleziona dla tych ustawień, a wtedy reszta trasy jest bez zmian;
+  - próbka obejmuje co 151. kombinację, czyli wszystkie pary lotnisk.
+- Zadanie 8, krok 3: test kombinacji z `END_LEG_H = 0.25` uruchamiany osobno, bo `bash tests/run.sh` zatrzymuje się wcześniej na teście silnika.
+
+Research i dane:
+- Research połączeń i sezonów zlecony na starcie. Sezony w dwóch połowach, scalone pod jednym zestawem progów (zob. `research/sezony-2026-10.md`, „Zasady oceny”).
+- Doszły lotniska Cát Bi (HPH) i Thọ Xuân (THD). Razem 34 drogi i 16 lotów.
+
+Punkt kontrolny, decyzje użytkownika:
+- `SEASON_K.Z` 0,35 → 0,2 (74e70e3);
+- Huế `[2, 2, 3]` (41acbac);
+- cztery czasy przejazdu na typowe (0b7f62d) i liczony od nich szacunek Pù Luông–Cát Bà 7,5 h (2a40cd4);
+- granica 4 h i model tras bez zmian.

@@ -5,7 +5,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | Etap | Status |
 |---|---|
 | 0. Wizja | zrobione 9.10.2026 |
-| 1. Fundament i silnik na 12 miejscach | w toku: plan 1A (silnik) gotowy 9.10.2026, plan 1B (strona) po przeglądzie tras |
+| 1. Fundament i silnik na 12 miejscach | w toku: 1A (silnik) zrobione 10.10.2026, raport: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md); dalej plan 1B (strona) |
 | 2. Interfejs | |
 | 3. Nowe miejsca, partiami | |
 | 4. Audyt i publikacja (po partii A) | |
@@ -84,10 +84,29 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Następny krok: wykonanie planu 1A
+## Następny krok: plan 1B, strona na nowym silniku
 
-Zrobione 9.10.2026: `git init`, pierwszy commit, repo https://github.com/grzegorzfrskiba-hub/wietnam (prywatne do publikacji w etapie 4) i plan 1A.
+Zrobione 10.10.2026: plan 1A ([plans/2026-10-09-etap-1a-silnik.md](plans/2026-10-09-etap-1a-silnik.md)). Silnik tras, dane 12 miejsc (14 pozycji: Hội An i Huế osobno, noc w Hà Nội w drodze), research połączeń i sezonów, test wszystkich 134 784 kombinacji i [raport tras](raport-tras-2026-10-09.md). Zmiany względem tekstu planu są w aneksie na końcu planu.
 
-Etap 1 dzielimy na dwa plany:
-- **1A, silnik:** [plans/2026-10-09-etap-1a-silnik.md](plans/2026-10-09-etap-1a-silnik.md). Silnik, dane 12 miejsc, research połączeń i sezonów, test wszystkich kombinacji. Kończy się raportem przykładowych tras i przeglądem z użytkownikiem.
-- **1B, strona na nowym silniku:** kopia `site2/`, polski jako baza, treść miejsc, pasek ustawień, link. Szczegółowy plan powstanie po przeglądzie tras, bo dopiero wtedy zamrażamy model modułu. Zarys jest na końcu planu 1A.
+Decyzje z punktu kontrolnego (10.10.2026):
+- model tras zostaje;
+- noc w złym sezonie (Z) jest warta 0,2 zamiast 0,35;
+- dzień przylotu i wylotu: najwyżej 4 h drogą, bez zmian;
+- Huế co najmniej 2 noce, reszta ocen i nocy bez zmian;
+- sezony z researchu przyjęte, z jednym zestawem progów dla wszystkich miejsc;
+- cztery czasy przejazdu podniesione do typowych (Cát Tiên, Pù Luông–Ninh Bình, Ninh Bình–Cao Bằng, lotnisko Hà Nội–Pù Luông), a z nimi szacunek Pù Luông–Cát Bà 7,5 h.
+
+Plan 1B (strona) powstanie teraz; zarys jest na końcu planu 1A. Uwagi z przeglądu, które dotyczą strony:
+- **Link z ustawieniami:** parser zamienia miesiąc, długość i poziom na liczby, bo silnik przyjmuje tylko liczby.
+- **„Nie zmieściło się” i „Nie ma na twojej trasie, bo…”:** silnik podaje tylko listę brakujących miejsc, powód liczy strona.
+- **Poziom przygody:** wszystkie 12 miejsc ma poziom 1, więc na razie poziom wybiera tylko warianty dni. Miejsca od poziomu 2 i 3 dojdą w etapie 3.
+- **Plany dni:** złote tarasy w Pù Luông to dwa okna, koniec maja–połowa czerwca i koniec września–początek października. Woda na Bản Giốc w suche lata płynie głównie ok. 11:00–14:30, a plan dnia w pierwowzorze mówi o późnym popołudniu.
+- **Research sezonów:** po przeniesieniu planów dni do repo wskazać je zamiast plików pierwowzoru; ustalenie o Tà Năng podać z własnym źródłem.
+
+Do etapu 2 (interfejs):
+- komunikat, gdy wybrane zainteresowanie ma na trasie zły sezon, np. morze we wrześniu (raport, trasa 13);
+- do obejrzenia po dodaniu nowych miejsc: zygzaki przy trasie tam i z powrotem i przy przylocie do Đà Nẵng (raport, trasy 6, 8 i 11), dzień z dwoma lotami (ok. 9% tras, głównie Phú Quốc ↔ Đà Lạt przez Sajgon), Cát Bà często na 4 noce, Hà Nội trzy razy na 30-dniowej trasie z Hà Nội.
+
+Do audytu przed publikacją (etap 4):
+- research połączeń: robocze dopiski, odwołania do audytu pierwowzoru (dokument spoza repo), twierdzenie bez źródła o autostradzie przed Tết 2027, nazwa firmy z imieniem;
+- research sezonów: tabelę zmian i „połówki” opisać jako historię metody, usunąć robocze dopiski.

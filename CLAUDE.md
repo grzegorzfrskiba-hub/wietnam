@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (9.10.2026):** wizja ustalona, plan 1A (silnik) gotowy, kodu jeszcze nie ma. Następny krok: wykonanie [planu 1A](notes/plans/2026-10-09-etap-1a-silnik.md), zob. też [notes/etapy.md](notes/etapy.md).
+**Status (10.10.2026):** plan 1A (silnik) zrobiony: silnik tras, dane 12 miejsc, research połączeń i sezonów, test wszystkich kombinacji, raport tras. Następny krok: plan 1B (strona na nowym silniku), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -31,3 +31,8 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
   - node nie ma: testy pierwowzoru działają w JavaScriptCore (`tests/run.sh`);
   - `python3` jest;
   - `brew install` nie działa z tego konta, bo Homebrew należy do innego użytkownika.
+
+## Jak sprawdzać
+
+- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie (ok. pół minuty).
+- `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
