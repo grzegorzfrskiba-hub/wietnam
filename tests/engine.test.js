@@ -51,3 +51,30 @@ checkLeg(DUP, 'E', 'F', 'road', 2, 0, 2); checkLeg(DUP, 'F', 'E', 'road', 2, 0, 
 checkLeg(DUP, 'G', 'H', 'road', 2, 0, 2); checkLeg(DUP, 'H', 'G', 'road', 2, 0, 2);
 checkLeg(DUP, 'I', 'J', 'fly', 1, 1, 2.5); checkLeg(DUP, 'J', 'I', 'fly', 1, 1, 2.5);
 print('travel ok');
+
+/* ---------- settings ---------- */
+function fxSet(s) { return normSettings(s, FX_PLACES, FX_HUBS); }
+var s1 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6 });
+eq([s1.ok, s1.days, s1.months, s1.interests, s1.level, s1.add, s1.remove, s1.start, s1.month],
+  [true, 6, [2, 2, 2, 2, 2, 2], [], 2, [], [], null, 3], 'month and length');
+var s2 = fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03' });
+eq([s2.ok, s2.days, s2.months, s2.start], [true, 5, [0, 0, 1, 1, 1], '2027-01-30'], 'dates across a month end');
+eq(fxSet({ from: 'XA', to: 'XD', start: '2027-12-29', end: '2028-01-02' }).months, [11, 11, 11, 0, 0], 'dates across a year end');
+[
+  [{ from: 'ZZ', to: 'XD', month: 3, days: 6 }, 'airport'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 4 }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 31 }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6.5 }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 13, days: 6 }, 'month'],
+  [{ from: 'XA', to: 'XD', days: 6 }, 'month'],
+  [{ from: 'XA', to: 'XD', start: '2027-02-30', end: '2027-03-03' }, 'date'],
+  [{ from: 'XA', to: 'XD', start: '2027-02-03', end: '2027-02-01' }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['kultura', 'morze', 'gory'] }, 'interests'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, level: 4 }, 'level']
+].forEach(function (c) { eq(fxSet(c[0]), { ok: false, error: c[1] }, 'error ' + c[1] + ' for ' + JSON.stringify(c[0])); });
+eq(fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['morze', 'kultura', 'xyz'] }).interests, ['kultura', 'morze'], 'interests: known ones, in INTERESTS order');
+var s3 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, add: ['c', 'b', 'zz'], remove: ['b'] });
+eq([s3.add, s3.remove], [['c'], ['b']], 'add and remove: known places; remove wins');
+eq(isoDay('2027-02-29'), null, 'no 29 February in 2027');
+eq(isoDay('2028-02-29') - isoDay('2028-02-28'), 1, '2028 is a leap year');
+print('settings ok');

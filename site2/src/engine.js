@@ -56,3 +56,44 @@ function legBetween(g, a, b, roadOnly) {
 
 /* What one travel day costs: a little per hour, and much more for every hour past five. */
 function legCost(hours) { return 0.1 * hours + 0.15 * Math.pow(Math.max(0, hours - 5), 2); }
+
+/* ---------- settings ---------- */
+var MIN_DAYS = 5, MAX_DAYS = 30;
+var INTERESTS = ['kultura', 'jedzenie', 'przyroda', 'gory', 'morze'];
+var LEVELS = [1, 2, 3];   // spokojnie, aktywnie, ekstremalnie
+
+/* Day number since 1970 of a YYYY-MM-DD date, or null when it is no real date. */
+function isoDay(iso) {
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!m) return null;
+  var t = Date.UTC(+m[1], +m[2] - 1, +m[3]);
+  return new Date(t).getUTCDate() === +m[3] ? t / 864e5 : null;
+}
+
+/* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days.
+   Returns { ok: true, from, to, days, start, month, months, interests, level, add, remove } or { ok: false, error }.
+   months[d - 1] is the month (0–11) of trip day d: day 1 is the arrival day, the last day the flight home. */
+function normSettings(s, places, hubs) {
+  if (!hubs.hasOwnProperty(s.from) || !hubs.hasOwnProperty(s.to)) return { ok: false, error: 'airport' };
+  var out = { ok: true, from: s.from, to: s.to, start: null, month: null, months: [] };
+  if (s.start != null) {
+    var a = isoDay(s.start), b = isoDay(s.end);
+    if (a === null || b === null) return { ok: false, error: 'date' };
+    out.start = s.start; out.days = b - a + 1;
+    for (var d = 0; d < out.days; d++) out.months.push(new Date((a + d) * 864e5).getUTCMonth());
+  } else {
+    if (!(s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
+    out.month = s.month; out.days = s.days;
+    for (var k = 0; k < s.days; k++) out.months.push(s.month - 1);
+  }
+  if (!(out.days >= MIN_DAYS && out.days <= MAX_DAYS && out.days % 1 === 0)) return { ok: false, error: 'days' };
+  var wanted = s.interests || [];
+  out.interests = INTERESTS.filter(function (k) { return wanted.indexOf(k) > -1; });
+  if (out.interests.length > 2) return { ok: false, error: 'interests' };
+  out.level = s.level == null ? 2 : s.level;
+  if (LEVELS.indexOf(out.level) < 0) return { ok: false, error: 'level' };
+  var known = Object.keys(places).sort();
+  out.remove = known.filter(function (id) { return (s.remove || []).indexOf(id) > -1; });
+  out.add = known.filter(function (id) { return (s.add || []).indexOf(id) > -1 && out.remove.indexOf(id) < 0; });
+  return out;
+}
