@@ -12,8 +12,8 @@ dataCheck('places', function (need) {
     var p = PLACES[id];
     need(typeof p.name === 'string' && p.name.trim(), id + ': name');
     need(typeof p.axis === 'number' && p.axis > 8 && p.axis < 24, id + ': axis between 8 and 24');
-    need(Array.isArray(p.nights) && p.nights.length === 3 && p.nights[0] >= 1 &&
-      p.nights[0] <= p.nights[1] && p.nights[1] <= p.nights[2] && p.nights[2] <= 6, id + ': nights [min, ideal, max] with 1 ≤ min ≤ ideal ≤ max ≤ 6');
+    need(Array.isArray(p.nights) && p.nights.length === 3 && p.nights.every(function (n) { return typeof n === 'number' && n % 1 === 0; }) && p.nights[0] >= 1 &&
+      p.nights[0] <= p.nights[1] && p.nights[1] <= p.nights[2] && p.nights[2] <= 6, id + ': nights [min, ideal, max]: whole numbers with 1 ≤ min ≤ ideal ≤ max ≤ 6');
     need(LEVELS.indexOf(p.level) > -1, id + ': level 1, 2 or 3');
     need(p.fit && INTERESTS.every(function (k) { return [0, 1, 2, 3].indexOf(p.fit[k]) > -1; }), id + ': fit 0–3 for each of ' + INTERESTS.join(', '));
     Object.keys(p.fit || {}).forEach(function (k) { need(INTERESTS.indexOf(k) > -1, id + ': unknown interest ' + k); });
