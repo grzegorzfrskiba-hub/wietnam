@@ -82,3 +82,15 @@ eq(isoDay('2027-13-05'), null, 'no month 13 in 2027');
 eq(isoDay('2027-00-10'), null, 'no month 0 in 2027');
 eq(isoDay('2028-02-29') - isoDay('2028-02-28'), 1, '2028 is a leap year');
 print('settings ok');
+
+/* ---------- value ---------- */
+near(placeWeight(FX_PLACES.a, []), 0.75, 'no interest: mean fit 3/5 × 1.25');
+near(placeWeight(FX_PLACES.a, ['kultura']), 3.15, 'one interest: 3 + 0.25 × 0.6');
+near(placeWeight(FX_PLACES.a, ['kultura', 'przyroda']), 1.65, 'two interests: (3 + 0) / 2 + 0.15');
+var march = [2, 2, 2, 2, 2];
+near(stayValue(FX_PLACES.a, ALL_D, 1, march, 1, 3, 0), 2.5, 'third night past the ideal of 2 is worth half');
+near(stayValue(FX_PLACES.a, 'DDSDDDDDDDDD', 1, march, 1, 3, 0), 1.75, 'a fair month (S) is worth 0.7');
+near(stayValue(FX_PLACES.a, ALL_D, 1, march, 1, 1, 2), 0.5, 'two nights already spent there earlier');
+near(stayValue(FX_PLACES.a, 'DSDDDDDDDDDD', 1, [0, 0, 1], 2, 2, 0), 1.7, 'a stay across a month end takes each night\'s month');
+eq(stayValue(FX_PLACES.b, FX_SEASONS.b, 1, [6, 6], 1, 2, 0), null, 'closed in July');
+print('value ok');

@@ -101,3 +101,30 @@ function normSettings(s, places, hubs) {
   out.add = known.filter(function (id) { return (s.add || []).indexOf(id) > -1 && out.remove.indexOf(id) < 0; });
   return out;
 }
+
+/* ---------- value ---------- */
+var SEASON_K = { D: 1, S: 0.7, Z: 0.35 };   // D good, S fair, Z poor; X (closed) never goes on a route
+
+/* How much one night at a place is worth for the chosen interests (0–2 of INTERESTS), before the season.
+   With no interest chosen every interest counts the same ("a bit of everything"). */
+function placeWeight(place, interests) {
+  var all = 0, chosen = 0;
+  INTERESTS.forEach(function (k) { all += place.fit[k] || 0; });
+  all /= INTERESTS.length;
+  if (!interests.length) return all * 1.25;
+  interests.forEach(function (k) { chosen += place.fit[k] || 0; });
+  return chosen / interests.length + 0.25 * all;
+}
+
+/* A stay of n nights from trip day `first`: weight × season of each night; the nights past the place's ideal are
+   worth half as much each. done: nights already spent there earlier in the trip. season: the place's 12-letter
+   code, January first. null when a night falls in a closed month (X). */
+function stayValue(place, season, weight, months, first, n, done) {
+  var v = 0;
+  for (var k = 1; k <= n; k++) {
+    var s = season.charAt(months[first + k - 2]), all = k + (done || 0);
+    if (!SEASON_K[s]) return null;
+    v += weight * SEASON_K[s] * (all <= place.nights[1] ? 1 : Math.pow(0.5, all - place.nights[1]));
+  }
+  return v;
+}
