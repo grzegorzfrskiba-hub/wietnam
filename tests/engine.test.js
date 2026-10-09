@@ -72,11 +72,26 @@ eq(fxSet({ from: 'XA', to: 'XD', start: '2027-12-29', end: '2028-01-02' }).month
   [{ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['kultura', 'morze', 'gory'] }, 'interests'],
   [{ from: 'XA', to: 'XD', month: 3, days: 6, level: 4 }, 'level'],
   [{ from: 'XA', to: 'XD', month: 3, days: Infinity }, 'days'],
-  [{ from: 'XA', to: 'XD', start: '2027-01-01', end: '9999-12-31' }, 'days']
+  [{ from: 'XA', to: 'XD', start: '2027-01-01', end: '9999-12-31' }, 'days'],
+  // only numbers and lists: text from a link is the page's to turn into those, not the engine's to read
+  [{ from: 'XA', to: 'XD', month: '3', days: 6 }, 'month'],
+  [{ from: 'XA', to: 'XD', month: true, days: 6 }, 'month'],
+  [{ from: 'XA', to: 'XD', month: 3, days: '15' }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: '1e1' }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: [6] }, 'days'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, level: '2' }, 'level'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, interests: 'gorykultura' }, 'interests'],   // a text would match by substring
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, interests: 'kultura' }, 'interests'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, add: 'cb' }, 'add'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, remove: 'bc' }, 'remove'],
+  [{ from: 'XA', to: 'XD', month: 3, days: 6, remove: {} }, 'remove']
 ].forEach(function (c) { eq(fxSet(c[0]), { ok: false, error: c[1] }, 'error ' + c[1] + ' for ' + JSON.stringify(c[0])); });
 eq(fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['morze', 'kultura', 'xyz'] }).interests, ['kultura', 'morze'], 'interests: known ones, in INTERESTS order');
 var s3 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, add: ['c', 'b', 'zz'], remove: ['b'] });
 eq([s3.add, s3.remove], [['c'], ['b']], 'add and remove: known places; remove wins');
+var s4 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, interests: null, level: null, add: null, remove: null });
+eq([s4.ok, s4.interests, s4.level, s4.add, s4.remove], [true, [], 2, [], []], 'null stands for no choice, as a missing field does');
+eq(fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03', month: 'x', days: 'y' }).days, 5, 'with dates, month and days are not read');
 eq(isoDay('2027-02-29'), null, 'no 29 February in 2027');
 eq(isoDay('2027-13-05'), null, 'no month 13 in 2027');
 eq(isoDay('2027-00-10'), null, 'no month 0 in 2027');

@@ -97,7 +97,7 @@ Decyzje z punktu kontrolnego (10.10.2026):
 - cztery czasy przejazdu podniesione do typowych (Cát Tiên, Pù Luông–Ninh Bình, Ninh Bình–Cao Bằng, lotnisko Hà Nội–Pù Luông), a z nimi szacunek Pù Luông–Cát Bà 7,5 h.
 
 Plan 1B (strona) powstanie teraz; zarys jest na końcu planu 1A. Uwagi z przeglądu, które dotyczą strony:
-- **Link z ustawieniami:** parser zamienia miesiąc, długość i poziom na liczby, bo silnik przyjmuje tylko liczby.
+- **Link z ustawieniami:** parser podaje silnikowi liczby (miesiąc, długość, poziom) i listy (zainteresowania, Dodaj, Usuń); inne typy silnik odrzuca błędem.
 - **„Nie zmieściło się” i „Nie ma na twojej trasie, bo…”:** silnik podaje tylko listę brakujących miejsc, powód liczy strona.
 - **Poziom przygody:** wszystkie 12 miejsc ma poziom 1, więc na razie poziom wybiera tylko warianty dni. Miejsca od poziomu 2 i 3 dojdą w etapie 3.
 - **Plany dni:** złote tarasy w Pù Luông to dwa okna, koniec maja–połowa czerwca i koniec września–początek października. Woda na Bản Giốc w suche lata płynie głównie ok. 11:00–14:30, a plan dnia w pierwowzorze mówi o późnym popołudniu.

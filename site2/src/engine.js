@@ -70,8 +70,13 @@ function isoDay(iso) {
   return dt.getUTCFullYear() === +m[1] && dt.getUTCMonth() === +m[2] - 1 && dt.getUTCDate() === +m[3] ? t / 864e5 : null;
 }
 
-/* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days.
-   Returns { ok: true, from, to, days, start, month, months, interests, level, add, remove } or { ok: false, error }.
+/* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days;
+   with dates, month and days are not read. Month, days and level must be numbers, interests, add and remove lists
+   (null counts as missing: a missing level is 2, a missing list is empty). The page turns the text of a link into
+   those first: a text would be read as digits or by substring ('gorykultura' holds two interests), so any other
+   type is refused.
+   Returns { ok: true, from, to, days, start, month, months, interests, level, add, remove } or { ok: false, error },
+   error being the field refused: airport, date, month, days, interests, level, add or remove.
    months[d - 1] is the month (0–11) of trip day d: day 1 is the arrival day, the last day the flight home. */
 function normSettings(s, places, hubs) {
   if (!hubs.hasOwnProperty(s.from) || !hubs.hasOwnProperty(s.to)) return { ok: false, error: 'airport' };
@@ -81,24 +86,28 @@ function normSettings(s, places, hubs) {
     if (a === null || b === null) return { ok: false, error: 'date' };
     out.start = s.start; out.days = b - a + 1;
   } else {
-    if (!(s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
+    if (!(typeof s.month === 'number' && s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
     out.month = s.month; out.days = s.days;
   }
   // the days check comes before any loop, so a huge span is refused without building months
-  if (!(out.days >= MIN_DAYS && out.days <= MAX_DAYS && out.days % 1 === 0)) return { ok: false, error: 'days' };
+  if (!(typeof out.days === 'number' && out.days >= MIN_DAYS && out.days <= MAX_DAYS && out.days % 1 === 0)) return { ok: false, error: 'days' };
   if (s.start != null) {
     for (var d = 0; d < out.days; d++) out.months.push(new Date((a + d) * 864e5).getUTCMonth());
   } else {
     for (var k = 0; k < out.days; k++) out.months.push(out.month - 1);
   }
-  var wanted = s.interests || [];
+  var wanted = s.interests == null ? [] : s.interests;
+  if (!Array.isArray(wanted)) return { ok: false, error: 'interests' };
   out.interests = INTERESTS.filter(function (k) { return wanted.indexOf(k) > -1; });
   if (out.interests.length > 2) return { ok: false, error: 'interests' };
   out.level = s.level == null ? 2 : s.level;
-  if (LEVELS.indexOf(out.level) < 0) return { ok: false, error: 'level' };
+  if (LEVELS.indexOf(out.level) < 0) return { ok: false, error: 'level' };   // LEVELS holds numbers: '2' is refused
+  var toAdd = s.add == null ? [] : s.add, toRemove = s.remove == null ? [] : s.remove;
+  if (!Array.isArray(toAdd)) return { ok: false, error: 'add' };
+  if (!Array.isArray(toRemove)) return { ok: false, error: 'remove' };
   var known = Object.keys(places).sort();
-  out.remove = known.filter(function (id) { return (s.remove || []).indexOf(id) > -1; });
-  out.add = known.filter(function (id) { return (s.add || []).indexOf(id) > -1 && out.remove.indexOf(id) < 0; });
+  out.remove = known.filter(function (id) { return toRemove.indexOf(id) > -1; });
+  out.add = known.filter(function (id) { return toAdd.indexOf(id) > -1 && out.remove.indexOf(id) < 0; });
   return out;
 }
 
