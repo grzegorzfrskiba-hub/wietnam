@@ -10,7 +10,7 @@ var ROADS = [
   // the north
   ['HAN', 'hanoi', 0.75], ['HAN', 'ninhbinh', 2.25], ['HAN', 'catba', 4], ['HAN', 'puluong', 5.25], ['HAN', 'babe', 5], ['HAN', 'caobang', 6.25],
   ['hanoi', 'ninhbinh', 2], ['hanoi', 'catba', 4], ['hanoi', 'caobang', 6.5], ['hanoi', 'babe', 5.25], ['hanoi', 'puluong', 4.25],
-  ['puluong', 'ninhbinh', 3.5], ['puluong', 'catba', 7], ['ninhbinh', 'catba', 4.5], ['ninhbinh', 'caobang', 9.25], ['ninhbinh', 'babe', 7],
+  ['puluong', 'ninhbinh', 3.5], ['puluong', 'catba', 7.5], ['ninhbinh', 'catba', 4.5], ['ninhbinh', 'caobang', 9.25], ['ninhbinh', 'babe', 7],
   ['catba', 'caobang', 9.5], ['caobang', 'babe', 4.5],
   // the extra airports: Cát Bi (HPH) near Cát Bà, Thọ Xuân (THD) near Pù Luông and Ninh Bình
   ['HPH', 'catba', 1.75], ['THD', 'puluong', 2.5], ['THD', 'ninhbinh', 2]
