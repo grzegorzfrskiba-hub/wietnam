@@ -130,8 +130,21 @@ eq(brief(fxPlan(with_({ remove: ['b'] }))), 'a2 c3', 'a removed place stays off'
 eq(fxPlan(with_({ remove: ['a', 'b', 'c', 'd', 'e'] })), { ok: false, error: 'no_route' }, 'no places, no route');
 
 // round trips: the airport's city may open and close the trip, splitting its nights
-eq(brief(fxPlan({ from: 'XA', to: 'XA', month: 3, days: 6, interests: ['kultura'] })), 'a1 d2 a2', 'round trip: a opens and closes');
-eq(brief(fxPlan({ from: 'XA', to: 'XA', month: 3, days: 8, interests: ['przyroda'] })), 'b2 c3 a2', 'round trip: a closes');
+// a1 d2 a2 = 3.15 + 2 × 2.25 + (3.15 + 3.15 / 2: of the 3 nights at a the third is past the ideal of 2) − 0.05 (arrive)
+//   − (0.75 + 0.35) (a to d by air, 3.5 h) − (0.75 + 0.35) (d to a) − 0.05 (leave) = 10.075
+var rt1 = fxPlan({ from: 'XA', to: 'XA', month: 3, days: 6, interests: ['kultura'] });
+eq(brief(rt1), 'a1 d2 a2', 'round trip: a opens and closes');
+near(rt1.score, 10.075, 'round trip: a opens and closes, score');
+// b2 c3 a2 = 2 × 3.15 + (2.2 + 2.2 + 1.1) + 2 × 0.15 − 0.25 (arrive: XA to b 2.5 h) − (0.75 + 0.2) (b to c)
+//   − (0.75 + 0.4) (c to a by road, 4 h) − 0.05 (leave) = 9.7
+var rt2 = fxPlan({ from: 'XA', to: 'XA', month: 3, days: 8, interests: ['przyroda'] });
+eq(brief(rt2), 'b2 c3 a2', 'round trip: a closes');
+near(rt2.score, 9.7, 'round trip: a closes, score');
+// added by hand, a is on the trip anyway: the same stops, and the same score because the bonus is counted once
+// (not for each of the two visits) and taken out of the score
+var rt1a = fxPlan({ from: 'XA', to: 'XA', month: 3, days: 6, interests: ['kultura'], add: ['a'] });
+eq([brief(rt1a), rt1a.missing], ['a1 d2 a2', []], 'round trip with a added: the same stops');
+near(rt1a.score, rt1.score, 'round trip with a added: the bonus is counted once');
 
 // the same settings always give the same trip
 eq(JSON.stringify(fxPlan(NATURE)), JSON.stringify(fxPlan(NATURE)), 'same settings, same trip');
