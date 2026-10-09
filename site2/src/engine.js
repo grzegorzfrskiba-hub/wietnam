@@ -66,8 +66,8 @@ var LEVELS = [1, 2, 3];   // spokojnie, aktywnie, ekstremalnie
 function isoDay(iso) {
   var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
   if (!m) return null;
-  var t = Date.UTC(+m[1], +m[2] - 1, +m[3]);
-  return new Date(t).getUTCDate() === +m[3] ? t / 864e5 : null;
+  var t = Date.UTC(+m[1], +m[2] - 1, +m[3]), dt = new Date(t);
+  return dt.getUTCFullYear() === +m[1] && dt.getUTCMonth() === +m[2] - 1 && dt.getUTCDate() === +m[3] ? t / 864e5 : null;
 }
 
 /* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days.

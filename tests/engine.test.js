@@ -78,5 +78,7 @@ eq(fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, interests: ['morze', 'kultur
 var s3 = fxSet({ from: 'XA', to: 'XD', month: 3, days: 6, add: ['c', 'b', 'zz'], remove: ['b'] });
 eq([s3.add, s3.remove], [['c'], ['b']], 'add and remove: known places; remove wins');
 eq(isoDay('2027-02-29'), null, 'no 29 February in 2027');
+eq(isoDay('2027-13-05'), null, 'no month 13 in 2027');
+eq(isoDay('2027-00-10'), null, 'no month 0 in 2027');
 eq(isoDay('2028-02-29') - isoDay('2028-02-28'), 1, '2028 is a leap year');
 print('settings ok');
