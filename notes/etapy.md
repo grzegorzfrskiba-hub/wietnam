@@ -5,7 +5,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | Etap | Status |
 |---|---|
 | 0. Wizja | zrobione 9.10.2026 |
-| 1. Fundament i silnik na 12 miejscach | następny |
+| 1. Fundament i silnik na 12 miejscach | w toku: plan 1A (silnik) gotowy 9.10.2026, plan 1B (strona) po przeglądzie tras |
 | 2. Interfejs | |
 | 3. Nowe miejsca, partiami | |
 | 4. Audyt i publikacja (po partii A) | |
@@ -46,7 +46,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 - panel ustawień pod telefon i ustawienia domyślne na pierwsze wejście, trasa przelicza się od razu;
 - „Wybrane, bo…”, „Nie ma na twojej trasie, bo…”, przyciski „Dodaj” i „Usuń”;
 - zamiany albo–albo wewnątrz modułów;
-- mapa z nowymi kadrami (`geo/make_basemap.py`), od razu z miejscem na partię A: Sa Pa i Hà Giang leżą poza dzisiejszym panelem północy, a Phong Nha w środku kraju;
+- mapa z nowymi kadrami, od razu z miejscem na partię A: Sa Pa i Hà Giang leżą poza dzisiejszym panelem północy, a Phong Nha w środku kraju. W pierwowzorze nie ma skryptu `geo/make_basemap.py`, jest tylko jego wynik w `basemap.js`, więc skrypt trzeba napisać od nowa;
 - sezon i pogoda dla dni trasy, ostrzeżenia o Tết, świętach i zamknięciach;
 - budżet: przedział w złotych, najdroższe pozycje, wyprzedzenie rezerwacji;
 - kopiowanie planu i link;
@@ -84,9 +84,10 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Następny krok: sesja „plan etapu 1”
+## Następny krok: wykonanie planu 1A
 
-Zrobione 9.10.2026: `git init`, pierwszy commit i repo https://github.com/grzegorzfrskiba-hub/wietnam, prywatne do publikacji w etapie 4.
+Zrobione 9.10.2026: `git init`, pierwszy commit, repo https://github.com/grzegorzfrskiba-hub/wietnam (prywatne do publikacji w etapie 4) i plan 1A.
 
-1. Plan wdrożenia etapu 1 w `notes/plans/`: zadania po kolei, każde z testem. Pierwsze zadanie to prototyp silnika na 12 miejscach.
-2. Research sezonów (12 miejsc × 12 miesięcy) nie zależy od kodu, więc może iść równolegle.
+Etap 1 dzielimy na dwa plany:
+- **1A, silnik:** [plans/2026-10-09-etap-1a-silnik.md](plans/2026-10-09-etap-1a-silnik.md). Silnik, dane 12 miejsc, research połączeń i sezonów, test wszystkich kombinacji. Kończy się raportem przykładowych tras i przeglądem z użytkownikiem.
+- **1B, strona na nowym silniku:** kopia `site2/`, polski jako baza, treść miejsc, pasek ustawień, link. Szczegółowy plan powstanie po przeglądzie tras, bo dopiero wtedy zamrażamy model modułu. Zarys jest na końcu planu 1A.

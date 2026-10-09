@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (9.10.2026):** wizja ustalona, kodu jeszcze nie ma. Następny krok: plan wdrożenia etapu 1, czyli fundamentu i silnika (zob. [notes/etapy.md](notes/etapy.md)).
+**Status (9.10.2026):** wizja ustalona, plan 1A (silnik) gotowy, kodu jeszcze nie ma. Następny krok: wykonanie [planu 1A](notes/plans/2026-10-09-etap-1a-silnik.md), zob. też [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
