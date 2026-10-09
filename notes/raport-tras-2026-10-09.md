@@ -32,12 +32,12 @@ Dzień 15: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 17 h, lotów krajo
 | Dni | Miejsce | Noce | Sezon | Dojazd |
 |---|---|---|---|---|
 | 1–2 | Hồ Chí Minh City | 2 | DD | SGN→saigon (0,5 h) |
-| 3–4 | Cát Tiên | 2 | DD | saigon→cattien (3,5 h) |
+| 3–4 | Cát Tiên | 2 | DD | saigon→cattien (3,75 h) |
 | 5–8 | Đà Lạt | 4 | DDDD | cattien→dalat (4,5 h) |
 | 9–10 | Ninh Bình | 2 | DD | dalat→DLI, ✈ DLI→HAN, HAN→ninhbinh (6,5 h) |
 | 11–14 | Cát Bà | 4 | SSSS | ninhbinh→catba (4,5 h) |
 
-Dzień 15: wylot, dojazd catba→HAN (4 h). Razem w drodze 23,5 h, lotów krajowych: 1.
+Dzień 15: wylot, dojazd catba→HAN (4 h). Razem w drodze 23,75 h, lotów krajowych: 1.
 
 ## 4. HCMC → Hà Nội, grudzień, 15 dni, kultura + jedzenie, aktywnie
 
@@ -57,10 +57,10 @@ Dzień 15: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 20 h, lotów krajo
 |---|---|---|---|---|
 | 1–1 | Hà Nội | 1 | D | HAN→hanoi (0,75 h) |
 | 2–3 | Pù Luông | 2 | DD | hanoi→puluong (4,25 h) |
-| 4–5 | Ninh Bình | 2 | DD | puluong→ninhbinh (3 h) |
+| 4–5 | Ninh Bình | 2 | DD | puluong→ninhbinh (3,5 h) |
 | 6–9 | Cát Bà | 4 | DDDD | ninhbinh→catba (4,5 h) |
 
-Dzień 10: wylot, dojazd catba→HAN (4 h). Razem w drodze 16,5 h, lotów krajowych: 0.
+Dzień 10: wylot, dojazd catba→HAN (4 h). Razem w drodze 17 h, lotów krajowych: 0.
 
 ## 6. Hà Nội → Hà Nội, kwiecień, 14 dni, po trochu wszystkiego, aktywnie
 
@@ -124,17 +124,17 @@ Dzień 5: wylot, dojazd hue→DAD (2,5 h). Razem w drodze 6,5 h, lotów krajowyc
 | 1–1 | Hà Nội | 1 | D | HAN→hanoi (0,75 h) |
 | 2–3 | Delta Mekongu | 2 | DD | hanoi→HAN, ✈ HAN→VCA, VCA→mekong (5,25 h) |
 | 4–6 | Hồ Chí Minh City | 3 | DDD | mekong→saigon (3,5 h) |
-| 7–8 | Cát Tiên | 2 | SS | saigon→cattien (3,5 h) |
+| 7–8 | Cát Tiên | 2 | SS | saigon→cattien (3,75 h) |
 | 9–12 | Đà Lạt | 4 | DDDD | cattien→dalat (4,5 h) |
-| 13–15 | Pù Luông | 3 | DDD | dalat→DLI, ✈ DLI→HAN, HAN→puluong (8,75 h) |
-| 16–17 | Ninh Bình | 2 | DD | puluong→ninhbinh (3 h) |
+| 13–15 | Pù Luông | 3 | DDD | dalat→DLI, ✈ DLI→HAN, HAN→hanoi, hanoi→puluong (9,25 h) |
+| 16–17 | Ninh Bình | 2 | DD | puluong→ninhbinh (3,5 h) |
 | 18–21 | Cát Bà | 4 | DDDD | ninhbinh→catba (4,5 h) |
 | 22–22 | Hà Nội (noc w drodze) | 1 | D | catba→hanoi (4 h) |
 | 23–25 | Ba Bể | 3 | DDD | hanoi→babe (5,25 h) |
 | 26–28 | Cao Bằng | 3 | DDD | babe→caobang (4,5 h) |
 | 29–29 | Hà Nội | 1 | D | caobang→hanoi (6,5 h) |
 
-Dzień 30: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 54,5 h, lotów krajowych: 2.
+Dzień 30: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 55,75 h, lotów krajowych: 2.
 
 ## 12. HCMC → Hà Nội, maj, 30 dni, po trochu wszystkiego, aktywnie
 
@@ -145,12 +145,12 @@ Dzień 30: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 54,5 h, lotów kra
 | 8–11 | Đà Lạt | 4 | SSSS | phuquoc→PQC, ✈ PQC→SGN, ✈ SGN→DLI, DLI→dalat (6,75 h) |
 | 12–13 | Hội An | 2 | DD | dalat→DLI, ✈ DLI→DAD, DAD→hoian (4 h) |
 | 14–16 | Huế | 3 | DDD | hoian→hue (3,25 h) |
-| 17–19 | Pù Luông | 3 | SSS | hue→HUI, ✈ HUI→HAN, HAN→puluong (7,75 h) |
-| 20–21 | Ninh Bình | 2 | DD | puluong→ninhbinh (3 h) |
+| 17–19 | Pù Luông | 3 | SSS | hue→HUI, ✈ HUI→HAN, HAN→hanoi, hanoi→puluong (8,25 h) |
+| 20–21 | Ninh Bình | 2 | DD | puluong→ninhbinh (3,5 h) |
 | 22–25 | Cát Bà | 4 | DDDD | ninhbinh→catba (4,5 h) |
 | 26–29 | Hà Nội | 4 | SSSS | catba→hanoi (4 h) |
 
-Dzień 30: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 38,75 h, lotów krajowych: 5.
+Dzień 30: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 39,75 h, lotów krajowych: 5.
 
 ## 13. Hà Nội → Đà Nẵng, wrzesień, 7 dni, morze, aktywnie
 
@@ -200,4 +200,4 @@ Dzień 19: wylot, dojazd hanoi→HAN (0,75 h). Razem w drodze 22,75 h, lotów kr
 
 ## Miejsca na trasach
 
-`places used: babe 2607, caobang 2429, catba 11674, cattien 5534, dalat 15712, hanoi 17197, hanoiStop 1615, hoian 20982, hue 11509, mekong 7228, ninhbinh 13658, phuquoc 6711, puluong 4550, saigon 19212`
+`places used: babe 2958, caobang 2682, catba 11922, cattien 5473, dalat 15665, hanoi 17490, hanoiStop 1904, hoian 20988, hue 11513, mekong 7294, ninhbinh 13616, phuquoc 6860, puluong 2966, saigon 19385`
