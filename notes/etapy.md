@@ -79,13 +79,14 @@ Każda partia kończy się pełnym testem kombinacji.
 
 - audyt jak 9.10 w pierwowzorze: kombinacje, treść, linki, telefon;
 - wersja offline: PDF z wydruku i lekki plik offline, z decyzją o formacie;
-- repo `wietnam` publiczne, README z „©”, GitHub Pages pod https://grzegorzfrskiba-hub.github.io/wietnam/;
+- przełączenie repo `wietnam` na publiczne, README z „©”, GitHub Pages pod https://grzegorzfrskiba-hub.github.io/wietnam/;
 - pierwsze linki dla znajomych.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
 ## Następny krok: sesja „plan etapu 1”
 
-1. `git init` i pierwszy commit (CLAUDE.md, `notes/`), za zgodą. Do decyzji: czy od razu zakładamy repo na GitHubie (prywatne do publikacji, jako kopia zapasowa), czy dopiero w etapie 4.
-2. Plan wdrożenia etapu 1 w `notes/plans/`: zadania po kolei, każde z testem. Pierwsze zadanie to prototyp silnika na 12 miejscach.
-3. Research sezonów (12 miejsc × 12 miesięcy) nie zależy od kodu, więc może iść równolegle.
+Zrobione 9.10.2026: `git init`, pierwszy commit i repo https://github.com/grzegorzfrskiba-hub/wietnam, prywatne do publikacji w etapie 4.
+
+1. Plan wdrożenia etapu 1 w `notes/plans/`: zadania po kolei, każde z testem. Pierwsze zadanie to prototyp silnika na 12 miejscach.
+2. Research sezonów (12 miejsc × 12 miesięcy) nie zależy od kodu, więc może iść równolegle.
