@@ -122,6 +122,7 @@ function placeWeight(place, interests) {
 function stayValue(place, season, weight, months, first, n, done) {
   var v = 0;
   for (var k = 1; k <= n; k++) {
+    if (months[first + k - 2] == null) return null;   // a night outside the trip
     var s = season.charAt(months[first + k - 2]), all = k + (done || 0);
     if (!SEASON_K[s]) return null;
     v += weight * SEASON_K[s] * (all <= place.nights[1] ? 1 : Math.pow(0.5, all - place.nights[1]));

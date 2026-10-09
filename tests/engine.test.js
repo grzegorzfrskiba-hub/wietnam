@@ -91,6 +91,7 @@ var march = [2, 2, 2, 2, 2];
 near(stayValue(FX_PLACES.a, ALL_D, 1, march, 1, 3, 0), 2.5, 'third night past the ideal of 2 is worth half');
 near(stayValue(FX_PLACES.a, 'DDSDDDDDDDDD', 1, march, 1, 3, 0), 1.75, 'a fair month (S) is worth 0.7');
 near(stayValue(FX_PLACES.a, ALL_D, 1, march, 1, 1, 2), 0.5, 'two nights already spent there earlier');
-near(stayValue(FX_PLACES.a, 'DSDDDDDDDDDD', 1, [0, 0, 1], 2, 2, 0), 1.7, 'a stay across a month end takes each night\'s month');
+near(stayValue(FX_PLACES.a, 'DSDDDDDDDDDD', 1, [0, 0, 1, 1], 2, 2, 0), 1.7, 'a stay across a month end takes each night\'s month');
+eq(stayValue(FX_PLACES.a, ALL_D, 1, [2, 2], 1, 3, 0), null, 'a night outside the trip is not valued');
 eq(stayValue(FX_PLACES.b, FX_SEASONS.b, 1, [6, 6], 1, 2, 0), null, 'closed in July');
 print('value ok');
