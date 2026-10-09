@@ -31,6 +31,9 @@
       if (again) need(r.stops[0].n + x.n <= p.nights[2], x.id + ' ' + (r.stops[0].n + x.n) + ' nights over two visits');
       seen[x.id] = true;
       need(i === 0 || node(r.stops[i - 1].id) !== node(x.id), x.id + ' right after a stay in the same place');
+      // a place with a node (the night in Hà Nội on the way) never opens or closes the trip, and goes when its node is removed
+      need(!p.node || (i > 0 && i < last), x.id + ' (node ' + p.node + ') is the ' + (i ? 'last' : 'first') + ' stop');
+      need(!p.node || (s.remove || []).indexOf(p.node) < 0, x.id + ' is on the trip though its node ' + p.node + ' is removed');
       need(p.level <= s.level, x.id + ' needs level ' + p.level);
       need(x.season.length === x.n && x.season.indexOf('X') < 0, x.id + ' season ' + x.season);
       need(x.leg && x.leg.segs.length > 0 && x.leg.total <= (i === 0 ? END_LEG_H : MAX_LEG_H), 'leg into ' + x.id + ': ' + (x.leg && x.leg.total) + ' h');

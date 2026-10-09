@@ -135,4 +135,61 @@ eq(brief(fxPlan({ from: 'XA', to: 'XA', month: 3, days: 8, interests: ['przyroda
 
 // the same settings always give the same trip
 eq(JSON.stringify(fxPlan(NATURE)), JSON.stringify(fxPlan(NATURE)), 'same settings, same trip');
+
+/* A place with a node shares another place's travel point (hanoiStop is a night in Hà Nội on the way): it goes between
+   two other places, never first or last, and goes with its node when that is removed. A separate map for it:
+   airports TS and TN; s, m, n lie south to north on one road (axis 1–3), s and n are the airports' cities, and m is
+   3.5 h by road from both airports. t is the twin of m (node m, axis 2, one night). For przyroda m is worth nothing and
+   t as much as n, so t is the best stop on the way: it would open or close a trip if it could. */
+var TW_ROADS = [['TS', 's', 0.5], ['s', 'm', 3], ['m', 'n', 3], ['n', 'TN', 0.5]];
+var TW_HUBS = { TS: 's', TN: 'n' };
+var TW_PLACES = {
+  s: { axis: 1, nights: [1, 2, 2], level: 1, fit: { przyroda: 1 } },
+  m: { axis: 2, nights: [2, 2, 2], level: 1, fit: { przyroda: 0 } },
+  t: { axis: 2, node: 'm', nights: [1, 1, 1], level: 1, fit: { przyroda: 3 } },
+  n: { axis: 3, nights: [1, 2, 3], level: 1, fit: { przyroda: 3 } }
+};
+var TW_SEASONS = { s: ALL_D, m: ALL_D, t: ALL_D, n: ALL_D };
+var TW = { places: TW_PLACES, seasons: TW_SEASONS, graph: travelGraph(TW_ROADS, []), hubs: TW_HUBS };
+// the same t as a place of its own, with the roads m has: nothing keeps it from the ends of a trip
+var TW_FREE_PLACES = JSON.parse(JSON.stringify(TW_PLACES)); delete TW_FREE_PLACES.t.node;
+var TW_FREE = { places: TW_FREE_PLACES, seasons: TW_SEASONS, hubs: TW_HUBS,
+  graph: travelGraph(TW_ROADS.concat([['s', 't', 3], ['t', 'n', 3]]), []) };
+function twTrip(data, from, to, extra) {   // 5 days in March for przyroda, unless extra says otherwise
+  var s = { from: from, to: to, month: 3, days: 5, interests: ['przyroda'] };
+  Object.keys(extra || {}).forEach(function (k) { s[k] = extra[k]; });
+  var st = normSettings(s, data.places, data.hubs);
+  ok(st.ok, 'settings ' + JSON.stringify(s));
+  return planRoute(st, data);
+}
+// as a place of its own t opens the trip going north and closes it coming back:
+// t1 n3 = 3.15 + (3.15 + 3.15 + 1.575) − 0.35 (t is 3.5 h from the airport) − (0.75 + 0.3) (t to n, 3 h) − 0.05 = 9.575
+var free = twTrip(TW_FREE, 'TS', 'TN');
+eq(brief(free), 't1 n3', 'a twin without a node opens the trip');
+near(free.score, 9.575, 'its score');
+eq(brief(twTrip(TW_FREE, 'TN', 'TS')), 'n3 t1', 'and closes it');
+// with its node t stays between two other places, though that scores less:
+// s1 t1 n2 = 1.05 + 3.15 + 2 × 3.15 − 0.05 − (0.75 + 0.3) − (0.75 + 0.3) − 0.05 = 8.3
+var tw1 = twTrip(TW, 'TS', 'TN');
+eq(brief(tw1), 's1 t1 n2', 'a twin with a node does not open the trip');
+near(tw1.score, 8.3, 'its score');
+eq(brief(twTrip(TW, 'TN', 'TS')), 'n2 t1 s1', 'and does not close it');
+// whatever the length, direction or removed city: never first or last, and sometimes between two others
+var between = 0;
+[5, 6, 7].forEach(function (days) {
+  [['TS', 'TN'], ['TN', 'TS'], ['TS', 'TS'], ['TN', 'TN']].forEach(function (p) {
+    [[], ['s'], ['n']].forEach(function (remove) {
+      var r = twTrip(TW, p[0], p[1], { days: days, remove: remove });
+      if (!r.ok) return;
+      var order = r.stops.map(function (x) { return x.id; });
+      ok(order[0] !== 't' && order[order.length - 1] !== 't', 'the twin opens or closes ' + order.join(' ') + ' (' + days + ' days ' + p.join('>') + ', removed: ' + (remove.join(', ') || 'nothing') + ')');
+      if (order.indexOf('t') > -1) between++;
+    });
+  });
+});
+ok(between > 0, 'the twin is used between two other places');
+// removing m removes t with it: s1 n3 = 1.05 + 3.15 + 3.15 + 1.575 − 0.05 − (0.75 + 0.6 + 0.15) − 0.05 = 7.325
+var rm = twTrip(TW, 'TS', 'TN', { remove: ['m'] });
+eq(brief(rm), 's1 n3', 'removing m takes its twin off the trip');
+near(rm.score, 7.325, 'its score');
 print('planning ok');

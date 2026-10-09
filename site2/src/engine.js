@@ -140,7 +140,9 @@ var FORCE_BONUS = 1000;   // a place added by hand outweighs everything else
    so no place comes twice. The arrival airport's city (hubs) may open the trip and the departure airport's
    city may close it, both out of the axis order; on a round trip the one city may do both, splitting its nights.
    The first place lies within END_LEG_H by road of the arrival airport, the last within END_LEG_H of the
-   departure airport. Returns { ok: true, days, stops: [{ id, n, start, end, season, leg }], home, missing, score }
+   departure airport. A place with a node (a night on the way, as in Hà Nội) is never the first or last stop and
+   goes when its node is removed.
+   Returns { ok: true, days, stops: [{ id, n, start, end, season, leg }], home, missing, score }
    or { ok: false, error: 'no_route' }. */
 function planRoute(st, data) {
   var P = data.places, G = data.graph, N = st.days - 1;
@@ -148,7 +150,8 @@ function planRoute(st, data) {
   var ids = Object.keys(P).sort();
   var usable = {}, weight = {}, bonus = {}, table = {};
   ids.forEach(function (id) {
-    usable[id] = st.remove.indexOf(id) < 0 && P[id].level <= st.level;
+    // a place with a node (a night on the way) goes when its node is removed
+    usable[id] = st.remove.indexOf(id) < 0 && st.remove.indexOf(node(id)) < 0 && P[id].level <= st.level;
     if (!usable[id]) return;
     weight[id] = placeWeight(P[id], st.interests);
     bonus[id] = st.add.indexOf(id) > -1 ? FORCE_BONUS : 0;
@@ -168,8 +171,9 @@ function planRoute(st, data) {
     var h = G.h[node(a)][node(b)];
     return h <= MAX_LEG_H ? MOVE_COST + legCost(h) : null;
   }
-  function arrive(id) { var h = G.road[st.from][node(id)]; return h <= END_LEG_H ? legCost(h) : null; }
-  function depart(id) { var h = G.road[node(id)][st.to]; return h <= END_LEG_H ? legCost(h) : null; }
+  // a place with a node (a night on the way) never opens or closes a trip, so it has no arrival or departure leg
+  function arrive(id) { var h = G.road[st.from][node(id)]; return !P[id].node && h <= END_LEG_H ? legCost(h) : null; }
+  function depart(id) { var h = G.road[node(id)][st.to]; return !P[id].node && h <= END_LEG_H ? legCost(h) : null; }
   function nightsOf(id) { var out = []; for (var n = P[id].nights[0]; n <= P[id].nights[2]; n++) out.push(n); return out; }
 
   /* One sweep. first: the city opening the trip out of order, or null; last: the city closing it, or null;
