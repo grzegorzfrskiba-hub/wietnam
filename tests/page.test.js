@@ -37,6 +37,14 @@ var g5 = opened('#od=SGN&do=HAN&dodaj=hanoiStop,phuquoc&usun=hanoiStop');
 eq([g5.settings.add, g5.settings.remove, g5.st.add, g5.dropped], [['phuquoc'], [], ['phuquoc'], []], 'a night on the way gets no Dodaj or Usuń, also from a link');
 var g6 = opened('#miesiac=1999-05');
 eq([g6.st.year, g6.st.month, g6.dropped], [2026, 5, ['year']], 'a year the engine refuses: the default year, the month stays');
+var g7 = opened('#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=kultura,xyz&dodaj=xyz,phuquoc&usun=nieznane');
+eq([g7.settings.interests, g7.settings.add, g7.settings.remove, g7.dropped.slice().sort()], [['kultura'], ['phuquoc'], [], ['add', 'interests', 'remove']],
+  'unknown interests and places are taken out of the settings and reported');
+eq(linkHash(g7.settings), '#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=kultura&poziom=2&dodaj=phuquoc', 'and the address no longer carries them');
+var g8 = opened('#od=SGN&do=HAN&co=morze,kultura,kultura');
+eq([g8.settings.interests, g8.dropped], [['kultura', 'morze'], []], 'order and repeats are no error');
+var g9 = opened('#od=SGN&do=HAN&dodaj=hoian&usun=hoian');
+eq([g9.settings.add, g9.settings.remove, g9.dropped], [[], ['hoian'], ['add']], 'a place both added and removed: removing wins, Dodaj is reported');
 eq([DEF.add, DEF.days], [[], 15], 'the defaults stay as they were');
 var mc = monthChoices('2026-10-10', 2030);
 eq([mc.length, mc[0], mc[mc.length - 1]], [51, { year: 2026, month: 10 }, { year: 2030, month: 12 }], 'the months: from this one to December 2030');

@@ -60,7 +60,8 @@ var ERROR_FIELDS = { airport: ['from', 'to'], date: ['start', 'end'], month: ['y
 
 /* The settings a link opens: its fields over the defaults, checked with normSettings. A field the engine refuses goes back
    to its default (an airport only when it is no known one), one error at a time, until the settings pass. Places with a
-   node (a night on the way) are taken out of add and remove: the page has no buttons for them.
+   node (a night on the way) are taken out of add and remove: the page has no buttons for them. Unknown or refused values
+   in interests, add and remove are dropped too, and their field is reported in dropped.
    Returns { settings, st, dropped }: the settings to show, normSettings' result, and the link fields not used. */
 function settingsFromLink(link, defaults, places, hubs) {
   var s = copySettings(defaults), dropped = [];
@@ -68,7 +69,14 @@ function settingsFromLink(link, defaults, places, hubs) {
   ['add', 'remove'].forEach(function (k) { s[k] = s[k].filter(function (id) { return !(places[id] && places[id].node); }); });
   for (var tries = 0; tries < 12; tries++) {
     var st = normSettings(s, places, hubs), fields;
-    if (st.ok) return { settings: s, st: st, dropped: dropped };
+    if (st.ok) {
+      // the list fields keep only what the engine took; an unknown or refused value counts as a dropped link field
+      ['interests', 'add', 'remove'].forEach(function (k) {
+        if (k in link && dropped.indexOf(k) < 0 && s[k].some(function (v) { return st[k].indexOf(v) < 0; })) dropped.push(k);
+        s[k] = st[k].slice();
+      });
+      return { settings: s, st: st, dropped: dropped };
+    }
     fields = ERROR_FIELDS[st.error];
     if (st.error === 'airport') fields = fields.filter(function (k) { return !(typeof s[k] === 'string' && hubs.hasOwnProperty(s[k])); });
     fields.forEach(function (k) {
