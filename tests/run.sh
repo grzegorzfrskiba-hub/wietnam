@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 J=/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc
-SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js"
+SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/photos.js"
 TESTS="tests/engine.test.js tests/data.test.js tests/combos.test.js"
 MODE=""
 if [ $# -eq 1 ] && [ "$1" = "--full" ]; then

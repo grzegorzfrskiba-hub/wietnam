@@ -80,3 +80,14 @@ dataCheck('holidays', function (need) {
   need(isoDay(HOLIDAYS_UNTIL) - isoDay(PLAN_LAST_YEAR + '-12-31') >= MAX_DAYS - 1, 'HOLIDAYS_UNTIL covers a trip of ' + MAX_DAYS + ' days from 31.12.' + PLAN_LAST_YEAR);
   need(TET_MARGIN_DAYS === 7, 'the week before and after Tết counts');
 });
+
+dataCheck('photos', function (need) {
+  Object.keys(PHOTO_META).forEach(function (ph) {
+    var m = PHOTO_META[ph];
+    need(/^[a-z]+_\d+$/.test(ph), ph + ': id is place_number');
+    need(typeof m.cap === 'string' && m.cap.trim() !== '' && typeof m.artist === 'string' && m.artist.trim() !== '', ph + ': caption and author');
+    need(/^(CC0|Public domain|CC BY(-SA)? \d\.\d( [a-z]{2})?)$/.test(m.license), ph + ': licence ' + m.license + ' is not CC0, CC BY, CC BY-SA or public domain');
+    need(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(m.page), ph + ': its page on Wikimedia Commons');
+  });
+  need(PHOTO_META[HERO_PHOTO], 'the hero photo ' + HERO_PHOTO + ' has its credits');
+});
