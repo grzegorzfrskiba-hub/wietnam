@@ -10,7 +10,7 @@
   - Źródła: `~/Desktop/CLAUDE roboczy plik/vietnam-planner/`. Jej `CLAUDE.md` opisuje budowę, testy i publikację.
   - Publicznie: https://grzegorzfrskiba-hub.github.io/vietnam-december/
 - **Ten projekt: ogólny planer po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
-  - Kod ma być wzięty z pierwowzoru (`site2/`, `tests/`, `site2/build.py`) jako kopia.
+  - Kod został wzięty z pierwowzoru (`site2/`, `tests/`, `site2/build.py`) jako kopia w planach 1A i 1B.
   - Repo: https://github.com/grzegorzfrskiba-hub/wietnam, prywatne do publikacji w etapie 4.
   - Adres strony po publikacji: https://grzegorzfrskiba-hub.github.io/wietnam/
 - **Strony grudniowej nie zmieniaj.** Jej linki krążą w WhatsAppie i grupa z niej korzysta.
