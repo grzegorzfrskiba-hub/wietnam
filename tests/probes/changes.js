@@ -21,4 +21,11 @@ setTimeout(function () {
   console.log('P:end before start → message: ' + q('#settings-msg') + ' · address still: ' + location.hash);
   t.apply({ from: 'SGN', to: 'SGN', year: 2027, month: 3, days: 12, interests: [], level: 2, add: [], remove: [] });
   console.log('P:round trip SGN→SGN, 12 days: Usuń on Hồ Chí Minh City ' + (document.querySelector('[data-remove="saigon"]') ? 'shown' : 'hidden') + ' · on other stays ' + document.querySelectorAll('.stop-remove').length);
+  // Dodaj says which places left the trip: 21 days in the mountains, then Phú Quốc; one more change clears the sentence
+  t.apply({ from: 'SGN', to: 'HAN', year: 2027, month: 12, days: 21, interests: ['gory'], level: 2, add: [], remove: [] });
+  document.querySelector('[data-add="phuquoc"]').click();
+  console.log('P:Dodaj Phú Quốc on the 21-day mountain trip: ' + q('#dropped'));
+  f.days.value = '20';   // Dodaj has put the form back to month mode, on this trip
+  f.days.dispatchEvent(new Event('change', { bubbles: true }));
+  console.log('P:after one more change (20 days): ' + (q('#dropped') === '' ? 'the sentence is gone' : q('#dropped')));
 }, 1500);

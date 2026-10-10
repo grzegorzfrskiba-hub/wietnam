@@ -103,6 +103,7 @@ UI.pl = {
   'm.scale': 'Obie mapy w skali', 'm.zoom': 'Kliknij mapę, żeby ją powiększyć', 'm.close': 'Zamknij dużą mapę', 'm.dialog': 'Mapa trasy, powiększona', 'm.title': 'Mapa trasy: ',
   'off.h3': 'Poza trasą', 'off.p': 'Dodaj miejsce, a trasa ułoży się na nowo razem z nim. Usunięte miejsca też tu są.',
   'off.add': 'Dodaj', 'off.add.aria': 'Dodaj {x} do trasy', 'off.removed': 'usunięte', 'off.missing': 'nie zmieściło się', 'off.reset': 'Wróć do trasy bez zmian',
+  'off.dropped': 'Żeby zmieścić {x}, z trasy wypadło: {list}.',
   'stop.remove': 'Usuń', 'stop.remove.aria': 'Usuń {x} z trasy', 'tag.added': 'Dodane',
 
   'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',

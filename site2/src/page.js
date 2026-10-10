@@ -226,6 +226,20 @@ function offRoute(route, st, places) {
     .map(function (id) { return { id: id, removed: st.remove.indexOf(id) > -1, added: st.add.indexOf(id) > -1 }; });
 }
 
+/* The places that left the trip when Dodaj changed it, in the order of the old trip, for the sentence after Dodaj: on the
+   old trip, not on the new one. before, after: the stops of the two trips ({ id }); places: PLACES. A night on the way
+   is no place to report, and a city twice on a round trip counts once. */
+function droppedPlaces(before, after, places) {
+  var now = {}, seen = {}, out = [];
+  after.forEach(function (s) { now[s.id] = true; });
+  before.forEach(function (s) {
+    if (places[s.id].node || now[s.id] || seen[s.id]) return;
+    seen[s.id] = true;
+    out.push(s.id);
+  });
+  return out;
+}
+
 /* Dodaj and Usuń on a copy of the settings: adding takes the place off the removed list, removing off the added one;
    withoutChanges clears both. */
 function withAdded(s, id) {

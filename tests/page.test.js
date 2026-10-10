@@ -164,6 +164,15 @@ eq([withoutChanges(base).add, withoutChanges(base).remove, base.add, base.remove
 var FL = { stops: [{ leg: { total: 3.75 } }, { leg: { total: 7.5 } }, { leg: { total: 2 } }], home: { total: 3.5 } };
 eq([legAfter(FL, 0), legAfter(FL, 1), legAfter(FL, 2)], [{ home: false, h: 7.5 }, { home: false, h: 2 }, { home: true, h: 3.5 }],
   'the leg after a stay: the leg into the next stay, or the way home after the last one');
+function stopsOf(ids) { return ids.map(function (id) { return { id: id }; }); }
+eq(droppedPlaces(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), PLACES), ['hue'], 'dropped: on the old trip, not on the new one');
+eq(droppedPlaces(stopsOf(['babe', 'caobang', 'hanoi', 'dalat']), stopsOf(['dalat', 'phuquoc']), PLACES), ['babe', 'caobang', 'hanoi'], 'dropped: in the order of the old trip');
+eq(droppedPlaces(stopsOf(['saigon', 'hanoiStop', 'babe']), stopsOf(['saigon', 'babe']), PLACES), [], 'dropped: a night on the way is no place to report');
+eq(droppedPlaces(stopsOf(['saigon', 'dalat', 'saigon']), stopsOf(['dalat', 'phuquoc']), PLACES), ['saigon'], 'dropped: a city twice on a round trip counts once');
+eq(droppedPlaces(stopsOf(['saigon', 'dalat', 'saigon']), stopsOf(['saigon', 'phuquoc']), PLACES), ['dalat'], 'dropped: a city that is still there, once, is not dropped');
+eq(droppedPlaces(stopsOf(['hanoi', 'babe']), stopsOf(['hanoiStop', 'babe']), PLACES), ['hanoi'], 'dropped: a city that became a night on the way is off the route, as "Poza trasą" lists it');
+eq(droppedPlaces(stopsOf(['saigon', 'dalat']), stopsOf(['saigon', 'dalat', 'phuquoc']), PLACES), [], 'dropped: nothing, the new place only added');
+eq(droppedPlaces([], stopsOf(['saigon']), PLACES), [], 'dropped: no old trip');
 print('trip ok');
 
 /* ---------- travel texts ---------- */

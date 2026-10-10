@@ -141,6 +141,8 @@ ul, ol { padding: 0; list-style: none; }
 .facts ul.alerts li { border-left: 3px solid var(--warm); padding: 8px 12px; }
 .missing { margin-top: 16px; font-size: 15px; color: var(--wet); }
 .missing:empty { display: none; }
+.dropped { font-size: 15px; color: var(--ink); }
+.dropped:not(:empty) { margin-top: 16px; }
 footer .ft-copy { margin-top: 18px; }
 
 /* Changes to the trip: Dodaj, Usuń */
@@ -351,7 +353,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   .map-col { position: static; break-inside: avoid; }
@@ -445,6 +447,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="strip" id="strip"></div>
     <ul class="strip-legend" id="strip-legend"></ul>
     <p class="missing" id="missing" role="status"></p>
+    <p class="dropped" id="dropped" role="status"></p>
     <div class="offroute">
       <h3 class="h-sub" data-i18n="off.h3"></h3>
       <p class="off-p" data-i18n="off.p"></p>

@@ -72,6 +72,7 @@
       return days;
     });
     msg('');
+    $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
     var h = linkHash(s);
     if (location.hash !== h) {
       try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
@@ -593,15 +594,24 @@
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
   }
+  /* After Dodaj: which places left the trip to make room for the added one. Its own status line, so "Nie zmieściło się" stays;
+     the next change of the trip clears it (apply). Nothing is said when no place left. */
+  function reportDropped(added, before) {
+    var ids = droppedPlaces(before, state.route.stops, PLACES);
+    if (!ids.length) return;
+    $('#dropped').textContent = tieShort(T('off.dropped', { x: C(added).short, list: ids.map(function (id) { return C(id).short; }).join(', ') }));
+  }
   function bindChanges() {
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-add], [data-remove], #reset-changes') : null;
       if (!b) return;
+      var added = b.hasAttribute('data-add') ? b.getAttribute('data-add') : null, before = state.route.stops;
       var s = b.id === 'reset-changes' ? withoutChanges(state.settings)
-        : b.hasAttribute('data-add') ? withAdded(state.settings, b.getAttribute('data-add'))
+        : added ? withAdded(state.settings, added)
         : withRemoved(state.settings, b.getAttribute('data-remove'));
       if (apply(s)) {
         syncForm();
+        if (added) reportDropped(added, before);
         $('#shape-h2').focus({ preventScroll: true });   // the button is gone with the old trip; the trip's heading takes the focus
       } else {
         $('#missing').textContent = $('#settings-msg').textContent;   // the message also next to the buttons that caused it
