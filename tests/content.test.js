@@ -100,6 +100,7 @@ contentCheck('photos in use', function (need) {
 
 contentCheck('typography', function (need) {
   var all = strings(CONTENT, 'CONTENT', []);
+  strings(UI.pl, 'UI.pl', all);
   Object.keys(PHOTO_META).forEach(function (ph) { all.push(['PHOTO_META.' + ph + '.cap', PHOTO_META[ph].cap]); });
   HOLIDAYS.forEach(function (h, i) { all.push(['HOLIDAYS[' + i + ']', h[3]]); });
   all.forEach(function (x) {
@@ -128,7 +129,36 @@ function styleOk(need, list) {
   });
 }
 contentCheck('style', function (need) {
+  styleOk(need, strings(UI.pl, 'UI.pl', []));
   Object.keys(CONTENT).forEach(function (id) { styleOk(need, strings(CONTENT[id], 'CONTENT.' + id, [])); });
   need(Object.keys(CONTENT).some(function (id) { return CONTENT[id].days.some(function (d) { return d.hard; }); }),
     'at least one hard day: level 3 must change something (research/trudne-dni-2026-10.md)');
+});
+
+/* The interface texts (ui.js): none empty; every key the code asks for exists; every key is used. */
+contentCheck('ui', function (need) {
+  var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js');
+  var code = [app, page, readFile('site2/src/content.js'), tpl].join('\n'), used = {};
+  Object.keys(pl).forEach(function (k) { need(typeof pl[k] === 'string' && pl[k].trim() !== '', 'UI.pl[\'' + k + '\'] is empty'); });
+  // T('…'), countWord('…', n) with its three forms, data-i18n…="…", the travel texts of page.js; a key ending in a dot is a prefix
+  function wants(k, where) { if (!/\.$/.test(k)) need(k in pl, where + ' asks for the missing key ' + k); }
+  (app.match(/\bT\('[^']+'/g) || []).forEach(function (m) { wants(m.slice(3, -1), 'app.js'); });
+  (app.match(/countWord\('[^']+'/g) || []).forEach(function (m) {
+    ['one', 'few', 'many'].forEach(function (f) { wants(m.slice(11, -1) + '.' + f, 'app.js'); used[m.slice(11, -1) + '.' + f] = true; });
+  });
+  (tpl.match(/data-i18n(?:-html|-alt|-aria)?="[^"]+"/g) || []).forEach(function (m) { wants(m.split('"')[1], 'template.html'); });
+  (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
+  // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
+  var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard'],
+    'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'alert.': ['tet', 'holiday', 'nodata'],
+    'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
+  Object.keys(FAMILIES).forEach(function (pre) {
+    need(app.indexOf("T('" + pre + "' + ") > -1, 'app.js never builds a key ' + pre + '…');
+    FAMILIES[pre].forEach(function (v) { wants(pre + v, 'the family ' + pre); used[pre + v] = true; });
+  });
+  // used: part of a family or a counted word, or quoted somewhere in the code or the template ('key' or "key")
+  Object.keys(pl).forEach(function (k) {
+    need(used[k] || code.indexOf("'" + k + "'") > -1 || code.indexOf('"' + k + '"') > -1, 'UI.pl[\'' + k + '\'] is never used');
+  });
+  need(pl['fmt.hm'].indexOf('{h}') > -1 && pl['fmt.hm'].indexOf('{m}') > -1, 'fmt.hm needs {h} and {m}');
 });

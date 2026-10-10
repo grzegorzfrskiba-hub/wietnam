@@ -1,0 +1,538 @@
+/* Page logic: reads the settings (the link or the form), plans the trip with the engine (engine.js) and renders the facts,
+   the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js. */
+(function () {
+  'use strict';
+
+  var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var esc = function (s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+
+  /* ---------- texts ---------- */
+  var lang = 'pl';   // the only language for now; UI keeps its keys, so another one can come later as UI.<code>
+  function T(k, vars) {
+    var v = UI[lang][k];
+    if (v == null) return k;
+    if (vars) Object.keys(vars).forEach(function (n) { v = v.split('{' + n + '}').join(vars[n]); });
+    return v;
+  }
+  function countWord(key, n) { return T(key + '.' + nightForm(n)); }
+  function C(id) { return CONTENT[id]; }
+  function caption(id) { return PHOTO_META[id].cap; }
+  function nodeOf(id) { return PLACES[id].node || id; }
+  function stopColor(id) { return 'var(--c-' + nodeOf(id) + ')'; }
+
+  /* ---------- formatting ---------- */
+  function fmtH(h) {
+    var mins = Math.round(h * 60 / 5) * 5;
+    if (mins < 60) return mins + ' ' + T('min');
+    var hh = Math.floor(mins / 60), mm = mins % 60;
+    return mm ? T('fmt.hm', { h: hh, m: mm }) : hh + ' ' + T('h');
+  }
+  function approx(h) {
+    var r = Math.round(h * 2) / 2, whole = Math.floor(r);
+    return '≈ ' + (r % 1 ? (whole ? whole : '') + '½' : whole) + ' ' + T('h');
+  }
+  function dayRange(a, b) { return a === b ? T('day') + ' ' + a : T('days') + ' ' + a + '–' + b; }
+  // the weekday and date of trip day n, only when the trip has dates
+  function dateLabel(day) {
+    var iso = tripDate(state.st.start, day);
+    if (!iso) return '';
+    var p = iso.split('-').map(Number);
+    return new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  }
+  function termText(st) {
+    return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
+  }
+
+  /* ---------- state ---------- */
+  var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
+  var TODAY = new Date().toISOString().slice(0, 10);
+  var DEFAULTS = defaultSettings(TODAY);
+  // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay
+  var state = { settings: null, st: null, route: null, plans: null };
+
+  function msg(text) { $('#settings-msg').textContent = text; }
+
+  /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
+     last trip and say why under the settings. Returns whether the trip changed. */
+  function apply(s) {
+    var st = normSettings(s, PLACES, HUBS), r = st.ok ? planRoute(st, DATA) : null;
+    if (!st.ok || !r.ok) {
+      msg(T('set.err.' + (st.ok ? r.error : st.error), { min: MIN_DAYS, max: MAX_DAYS }) + (state.route ? T('set.err.keep') : ''));
+      return false;
+    }
+    var done = {};
+    state.settings = s; state.st = st; state.route = r;
+    state.plans = r.stops.map(function (x) {
+      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months);
+      done[x.id] = (done[x.id] || 0) + x.n;
+      return days;
+    });
+    msg('');
+    var h = linkHash(s);
+    if (location.hash !== h) {
+      try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
+    }
+    render();
+    return true;
+  }
+
+  /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
+     without them. */
+  function fromLink() {
+    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad), dropped = got.dropped.length > 0;
+    if (!apply(got.settings)) { apply(withoutChanges(got.settings)); dropped = true; }
+    if (dropped) msg(T('set.dropped'));
+    syncForm();
+  }
+
+  /* ---------- the settings form ---------- */
+  var F = null;
+  function buildForm() {
+    F = $('#settings-form');
+    var days = [];
+    for (var d = MIN_DAYS; d <= MAX_DAYS; d++) days.push('<option value="' + d + '">' + d + '</option>');
+    F.days.innerHTML = days.join('');
+    var airports = Object.keys(HUBS).map(function (code) { return '<option value="' + code + '">' + esc(AIRPORTS[code].name) + '</option>'; }).join('');
+    F.from.innerHTML = airports;
+    F.to.innerHTML = airports;
+    $('#interest-list').innerHTML = INTERESTS.map(function (k) {
+      return '<label class="chip"><input type="checkbox" name="interest" value="' + k + '"><span>' + T('int.' + k) + '</span></label>';
+    }).join('');
+    $('#level-list').innerHTML = LEVELS.map(function (n) {
+      return '<label class="chip chip-wide"><input type="radio" name="level" value="' + n + '"><span><b>' + T('lvl.' + n) + '</b>' + T('lvlp.' + n) + '</span></label>';
+    }).join('');
+    F.start.min = TODAY;
+    F.start.max = PLAN_LAST_YEAR + '-12-31';
+    F.addEventListener('submit', function (e) { e.preventDefault(); });
+    F.addEventListener('change', onFormChange);
+  }
+  // the months on offer, plus the month of a link from outside that range, so the form always shows the settings
+  function monthOptions(s) {
+    var list = monthChoices(TODAY, PLAN_LAST_YEAR);
+    if (s.year && !list.some(function (m) { return m.year === s.year && m.month === s.month; })) list.unshift({ year: s.year, month: s.month });
+    F.month.innerHTML = list.map(function (m) {
+      return '<option value="' + m.year + '-' + m.month + '">' + T('mon.' + m.month) + ' ' + m.year + '</option>';
+    }).join('');
+  }
+  /* The form shows state.settings. Once two interests are chosen, the other three are greyed out. */
+  function syncForm() {
+    var s = state.settings, dates = !!s.start;
+    monthOptions(s);
+    F.mode.value = dates ? 'dates' : 'month';
+    $('#term-month').hidden = dates;
+    $('#term-dates').hidden = !dates;
+    if (dates) { F.start.value = s.start; F.end.value = s.end; F.end.min = s.start; }
+    else { F.month.value = s.year + '-' + s.month; F.days.value = String(s.days); }
+    F.from.value = s.from;
+    F.to.value = s.to;
+    F.level.value = String(s.level);
+    var two = s.interests.length >= 2;
+    Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) {
+      b.checked = s.interests.indexOf(b.value) > -1;
+      b.disabled = two && !b.checked;
+    });
+  }
+  function readForm() {
+    var s = { from: F.from.value, to: F.to.value, interests: [], level: +F.level.value,
+      add: state.settings.add.slice(), remove: state.settings.remove.slice() };
+    if (F.mode.value === 'dates') { s.start = F.start.value; s.end = F.end.value; }
+    else {
+      var ym = F.month.value.split('-');
+      s.year = +ym[0]; s.month = +ym[1]; s.days = +F.days.value;
+    }
+    Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) { if (b.checked) s.interests.push(b.value); });
+    return s;
+  }
+  /* A change in the form. Switching between the month and the dates keeps the trip: the first of the month (or today)
+     and the same length, or the month of the arrival day and the same number of days. */
+  function onFormChange(e) {
+    var s, st = state.st;
+    if (e.target.name === 'mode') {
+      s = copySettings(state.settings);
+      if (e.target.value === 'dates' && !s.start) {
+        var first = st.year + '-' + (st.month < 10 ? '0' : '') + st.month + '-01';
+        if (first < TODAY) first = TODAY;
+        s.start = first;
+        s.end = tripDate(first, st.days);
+      } else if (e.target.value === 'month' && s.start) {
+        s.year = +s.start.slice(0, 4); s.month = +s.start.slice(5, 7); s.days = st.days;
+        delete s.start; delete s.end;
+      }
+    } else {
+      s = readForm();
+    }
+    if (apply(s)) syncForm();
+  }
+
+  /* Links inside the page (a day in the strip, the menu, back to the top) scroll without changing the address, which
+     holds the settings; smoothly or not as the CSS says (scroll-behavior, off for reduced motion). A link pasted into the
+     address bar opens its settings. */
+  function bindAnchors() {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      var el = a && document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ block: 'start' });
+      if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
+    });
+    window.addEventListener('hashchange', function () {
+      if (state.settings && location.hash === linkHash(state.settings)) return;
+      var bad = [];
+      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length) {   // an anchor typed by hand: put the settings back
+        try { history.replaceState(null, '', linkHash(state.settings)); } catch (e) { /* the address keeps the anchor */ }
+        return;
+      }
+      fromLink();
+    });
+  }
+
+  /* ---------- rendering ---------- */
+  var ICON = {
+    fly: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>',
+    road: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v7h-2v-2H7v2H5zm2.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM7 11h10l-1-3.5H8z"/></svg>',
+    prev: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>',
+    next: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>',
+    expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+  };
+
+  function render() {
+    renderFacts();
+    renderShape();
+    renderStops();
+    $('#copy-status').textContent = '';
+    $('#copy-fallback').hidden = true;
+    tieShortWords(document.body);
+  }
+
+  function renderFacts() {
+    var r = state.route, st = state.st, k = routeStats(r, state.plans, PLACES), n = r.days - 1;
+    $('#facts-for').textContent = T('f.for', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name, term: termText(st) });
+    $('#facts').innerHTML =
+      '<li><b>' + r.days + '</b><span>' + T('f.days', { nights: n + ' ' + countWord('nights', n) }) + '</span></li>' +
+      '<li><b>' + k.places + '</b><span>' + countWord('f.places', k.places) + '</span></li>' +
+      '<li><b>' + k.flights + '</b><span>' + countWord('f.flights', k.flights) + '</span></li>' +
+      '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
+      '<li><b>' + approx(k.longest).replace('≈ ', '') + '</b><span>' + T('f.longest') + '</span></li>';
+    var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS);
+    var lines = a.hits.map(function (h) { return T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) }); });
+    if (a.unknown) lines.push(T('alert.nodata'));
+    $('#alerts').innerHTML = lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    $('#alerts').hidden = !lines.length;
+  }
+
+  function renderShape() {
+    var r = state.route, cells = [];
+    $('#shape-h2').textContent = T('shape.h2', { days: r.days });
+    r.stops.forEach(function (s, i) {
+      state.plans[i].forEach(function (d, k) {
+        var label = T('day') + ' ' + d.day + ': ' + C(s.id).short + ', ' + d.t + (dateLabel(d.day) ? ' (' + dateLabel(d.day) + ')' : '');
+        cells.push('<a class="cell' + (k === 0 ? ' arrive' : '') + '" href="#day-' + d.day + '" style="--c:' + stopColor(s.id) +
+          '" aria-label="' + esc(label) + '"><span>' + d.day + '</span></a>');
+      });
+    });
+    cells.push('<a class="cell home" href="#day-' + r.days + '" aria-label="' + esc(T('flyhome.aria', { days: r.days, airport: AIRPORTS[state.st.to].name })) +
+      '"><span>' + r.days + '</span>' + ICON.fly + '</a>');
+    $('#strip').innerHTML = cells.join('');
+    $('#strip').style.setProperty('--cols', Math.min(r.days, 16));
+    $('#strip-legend').innerHTML = r.stops.map(function (s) {
+      return '<li><span class="dot" style="--c:' + stopColor(s.id) + '"></span>' + esc(C(s.id).short) + ' <span class="mono">' + dayRange(s.start, s.end) + '</span></li>';
+    }).join('') + '<li><span class="dot home-dot"></span>' + T('flyhome') + ' <span class="mono">' + T('day') + ' ' + r.days + '</span></li>';
+    $('#missing').textContent = r.missing.length ? T('missing', { x: r.missing.map(function (id) { return C(id).short; }).join(', ') }) : '';
+  }
+
+  function dayItem(d) {
+    return '<li class="day" id="day-' + d.day + '"><div class="day-n mono">' + T('day') + ' <b>' + d.day + '</b>' +
+      (dateLabel(d.day) ? '<span class="day-date">' + esc(dateLabel(d.day)) + '</span>' : '') + '</div>' +
+      '<div class="day-body"><h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
+      (d.variant ? ' <span class="pace pace-' + d.variant + '">' + T('badge.' + d.variant) + '</span>' : '') +
+      (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>' +
+      '<p>' + esc(d.d) + '</p>' + (d.rain ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : '') + '</div></li>';
+  }
+  function tips(c) {
+    var t = '';
+    if (c.gem) t += '<p class="tip"><b>' + T('t.gem') + '</b>' + esc(c.gem) + '</p>';
+    if (c.skip) t += '<p class="tip tip-skip"><b>' + T('t.skip') + '</b>' + esc(c.skip) + ' <span class="instead">' + T('t.instead') + esc(c.instead) + '</span></p>';
+    return t ? '<div class="tips">' + t + '</div>' : '';
+  }
+  // sizes: how wide the photo is drawn, so the browser picks the smallest copy from srcset (the offline file has none)
+  function img(id, cls, sizes) {
+    var p = PHOTOS[id];
+    return '<img class="' + (cls || '') + '" src="' + p.src + '" alt="' + esc(caption(id)) + '" width="' + p.w + '" height="' + p.h +
+      '" loading="lazy" decoding="async"' + (p.srcset && sizes ? ' srcset="' + p.srcset + '" sizes="' + sizes + '"' : '') + '>';
+  }
+  // the photos of a place; keyboard stops: the photo strip (arrow keys), previous, next and full screen
+  function gallery(id) {
+    var ids = C(id).photos;
+    if (!ids.length) return '';
+    var slides = ids.map(function (ph, i) {
+      return '<figure class="gal-slide"><button type="button" class="gal-open" tabindex="-1" data-i="' + i + '" aria-label="' + esc(T('g.open', { i: i + 1, n: ids.length })) + '">' +
+        img(ph, '', '(max-width: 900px) calc(100vw - 64px), 760px') + '</button></figure>';
+    }).join('');
+    var thumbs = ids.map(function (ph, i) {
+      return '<button type="button" class="gal-thumb" tabindex="-1" data-i="' + i + '" aria-label="' + esc(T('g.show', { i: i + 1 })) + '"' + (i === 0 ? ' aria-current="true"' : '') + '>' +
+        img(ph, '', '56px') + '</button>';
+    }).join('');
+    return '<div class="gal" data-photos="' + ids.join(',') + '">' +
+      '<div class="gal-view"><div class="gal-track" tabindex="0" aria-label="' + esc(T('g.photos', { x: C(id).name })) + '">' + slides + '</div>' +
+      '<button type="button" class="gal-btn gal-prev" aria-label="' + esc(T('g.prev')) + '" disabled>' + ICON.prev + '</button>' +
+      '<button type="button" class="gal-btn gal-next" aria-label="' + esc(T('g.next')) + '">' + ICON.next + '</button>' +
+      '<span class="gal-count mono" aria-live="polite">1 / ' + ids.length + '</span>' +
+      '<button type="button" class="gal-full" data-i="0" aria-label="' + esc(T('g.full')) + '">' + ICON.expand + '</button></div>' +
+      '<div class="gal-under"><p class="gal-cap">' + esc(caption(ids[0])) + '</p><div class="gal-thumbs">' + thumbs + '</div></div></div>';
+  }
+
+  /* The journey on a given day: L is a stay's leg from planRoute, or the way home (toId null). prev: the stay before. */
+  function legCard(L, day, prev, toId) {
+    var from = AIRPORTS[L.from] ? T('leg.airport', { x: AIRPORTS[L.from].name }) : C(L.from).short;
+    var to = toId ? C(toId).short : T('leg.airport', { x: AIRPORTS[L.to].name });
+    var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; })));
+    var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to);
+    return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
+      '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
+      '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
+      '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
+      '<ul class="leg-segs">' + L.segs.map(function (g) {
+        var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS));
+        return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
+      }).join('') + '</ul>' +
+      (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
+        esc(notes.map(function (k) { return T(k); }).join(' ')) +
+        (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
+      '</div>';
+  }
+  function mapsLink(a, b) {
+    function where(n) { return AIRPORTS[n] ? AIRPORTS[n].maps : C(n).maps; }
+    return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(where(a)) + '&destination=' + encodeURIComponent(where(b)) + '&travelmode=driving';
+  }
+
+  // the last day: the way to the departure airport and the flight home, without a time
+  function homeCard() {
+    var r = state.route, d = T('home.d') + (r.home.total >= 2 ? ' ' + T('home.far', { time: approx(r.home.total) }) : '');
+    return '<section class="stop stop-compact stop-home" id="stop-home"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
+      '<div class="stop-title"><p class="eyebrow">' + T('day') + ' ' + r.days + '</p><h3>' + esc(T('home.h3', { airport: AIRPORTS[state.st.to].name })) + '</h3></div></header>' +
+      '<ol class="days"><li class="day" id="day-' + r.days + '"><div class="day-n mono">' + T('day') + ' <b>' + r.days + '</b>' +
+      (dateLabel(r.days) ? '<span class="day-date">' + esc(dateLabel(r.days)) + '</span>' : '') + '</div><div class="day-body">' +
+      '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4><p>' + esc(d) + '</p></div></li></ol></section>';
+  }
+
+  /* The stays in order, each after the journey that leads to it; a second stay in the same city (a round trip) without
+     its photos and tips, which the first one showed. */
+  function renderStops() {
+    var r = state.route, html = '';
+    r.stops.forEach(function (s, i) {
+      var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; });
+      html += legCard(s.leg, s.start, i ? r.stops[i - 1] : null, s.id) +
+        '<section class="stop' + (c.photos.length && !again ? '' : ' stop-compact') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
+        '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
+        '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
+        '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div></header>' +
+        (again ? '' : gallery(s.id)) + '<ol class="days">' + state.plans[i].map(dayItem).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
+    });
+    html += legCard(r.home, r.days, r.stops[r.stops.length - 1], null) + homeCard();
+    $('#stops').innerHTML = html;
+    initGalleries();
+    observeStops();
+  }
+
+  /* ---------- the plan as text, for WhatsApp ---------- */
+  function planText() {
+    var r = state.route, st = state.st, lines = [], flights = [];
+    lines.push(T('pt.title', { days: r.days, term: termText(st) }));
+    lines.push(T('pt.route', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name }));
+    lines.push(T('pt.profile', { x: st.interests.length ? st.interests.map(function (k) { return T('int.' + k); }).join(', ') : T('pt.any'), lvl: T('lvl.' + st.level) }));
+    lines.push(T('pt.arrive', { airport: AIRPORTS[st.from].name }));
+    r.stops.forEach(function (s) { lines.push(dayRange(s.start, s.end) + ': ' + C(s.id).name); });
+    lines.push(T('pt.home', { days: r.days, airport: AIRPORTS[st.to].name }));
+    r.stops.forEach(function (s) {
+      s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
+    });
+    if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
+    lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
+    return lines.join('\n');
+  }
+  function bindCopy() {
+    var btn = $('#copy-plan'), status = $('#copy-status'), box = $('#copy-fallback');
+    btn.addEventListener('click', function () {
+      var text = planText();
+      box.hidden = true;
+      var done = function () { status.textContent = T('copy.ok'); };
+      var fail = function () {
+        box.hidden = false; box.value = text; box.focus(); box.select();
+        status.textContent = T('copy.fail');
+      };
+      try {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } catch (e) { fail(); }
+    });
+  }
+
+  /* ---------- galleries & lightbox ---------- */
+  function initGalleries() {
+    document.querySelectorAll('.gal').forEach(function (gal) {
+      var track = $('.gal-track', gal), count = $('.gal-count', gal), cap = $('.gal-cap', gal);
+      var prev = $('.gal-prev', gal), next = $('.gal-next', gal), full = $('.gal-full', gal);
+      var ids = gal.getAttribute('data-photos').split(','), idx = 0;
+      var thumbs = gal.querySelectorAll('.gal-thumb');
+      function update(i) {
+        idx = i;
+        count.textContent = (i + 1) + ' / ' + ids.length;
+        cap.textContent = caption(ids[i]);
+        prev.disabled = i === 0; next.disabled = i === ids.length - 1;
+        full.setAttribute('data-i', i);
+        thumbs.forEach(function (t, k) { if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
+      }
+      var target = null, release = null;
+      function go(i) {
+        i = Math.max(0, Math.min(ids.length - 1, i));
+        target = i;
+        clearTimeout(release);
+        release = setTimeout(function () { target = null; }, 700);
+        track.scrollTo({ left: i * track.clientWidth, behavior: 'auto' });
+        update(i);
+      }
+      var tick = null;
+      track.addEventListener('scroll', function () {
+        if (tick) return;
+        tick = requestAnimationFrame(function () {
+          tick = null;
+          var w = Math.max(1, track.clientWidth);
+          if (target !== null) {
+            if (Math.abs(track.scrollLeft - target * w) < 2) target = null;
+            return;
+          }
+          var i = Math.round(track.scrollLeft / w);
+          if (i !== idx) update(i);
+        });
+      });
+      prev.addEventListener('click', function () { go(idx - 1); });
+      next.addEventListener('click', function () { go(idx + 1); });
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
+      });
+      thumbs.forEach(function (t) { t.addEventListener('click', function () { go(+t.getAttribute('data-i')); }); });
+      gal.querySelectorAll('.gal-open, .gal-full').forEach(function (b) {
+        b.addEventListener('click', function () { openLightbox(ids, +b.getAttribute('data-i'), b); });
+      });
+    });
+  }
+
+  var lb = { ids: [], i: 0, opener: null };
+  function lbShow() {
+    var p = PHOTOS[lb.ids[lb.i]];
+    var im = $('#lb-img');
+    im.src = p.src; im.alt = caption(lb.ids[lb.i]); im.width = p.w; im.height = p.h;
+    $('#lb-cap').textContent = caption(lb.ids[lb.i]);
+    $('#lb-credit').textContent = T('lb.photo') + PHOTO_META[lb.ids[lb.i]].artist + ' · ' + PHOTO_META[lb.ids[lb.i]].license;
+    $('#lb-count').textContent = (lb.i + 1) + ' / ' + lb.ids.length;
+    $('#lb-prev').disabled = lb.i === 0;
+    $('#lb-next').disabled = lb.i === lb.ids.length - 1;
+  }
+  function openLightbox(ids, i, opener) {
+    lb.ids = ids; lb.i = i; lb.opener = opener;
+    $('#lightbox').hidden = false;
+    document.body.classList.add('lb-open');
+    lbShow();
+    $('#lb-close').focus();
+  }
+  function closeLightbox() {
+    $('#lightbox').hidden = true;
+    document.body.classList.remove('lb-open');
+    if (lb.opener) lb.opener.focus();
+  }
+  function bindLightbox() {
+    $('#lb-close').addEventListener('click', closeLightbox);
+    $('#lb-prev').addEventListener('click', function () { if (lb.i > 0) { lb.i--; lbShow(); } });
+    $('#lb-next').addEventListener('click', function () { if (lb.i < lb.ids.length - 1) { lb.i++; lbShow(); } });
+    $('#lightbox').addEventListener('click', function (e) { if (e.target.id === 'lightbox' || e.target.classList.contains('lb-stage')) closeLightbox(); });
+    document.addEventListener('keydown', function (e) {
+      if ($('#lightbox').hidden) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight' && lb.i < lb.ids.length - 1) { lb.i++; lbShow(); }
+      if (e.key === 'ArrowLeft' && lb.i > 0) { lb.i--; lbShow(); }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.slice.call($('#lightbox').querySelectorAll('button:not([disabled])'));
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    var x0 = null;
+    $('#lightbox').addEventListener('touchstart', function (e) { if (e.touches.length === 1) x0 = e.touches[0].clientX; }, { passive: true });
+    $('#lightbox').addEventListener('touchend', function (e) {
+      if (x0 == null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) < 50) return;
+      if (dx < 0 && lb.i < lb.ids.length - 1) { lb.i++; lbShow(); }
+      if (dx > 0 && lb.i > 0) { lb.i--; lbShow(); }
+    });
+  }
+
+  /* ---------- scroll-linked map highlight ---------- */
+  var io = null;
+  function observeStops() {
+    if (io) io.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var key = e.target.getAttribute('data-pin');
+        document.querySelectorAll('#map .pin').forEach(function (p) { p.classList.toggle('on', p.getAttribute('data-pin') === key); });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('#stops .stop').forEach(function (s) { io.observe(s); });
+  }
+
+  // Polish: no line may end on a one-letter word, so each gets a no-break space after it (the text rule is tieShort in page.js)
+  function tieShortWords(root) {
+    if (lang !== 'pl') return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), node;
+    while ((node = walker.nextNode())) {
+      if (/^(SCRIPT|STYLE|TEXTAREA)$/i.test(node.parentNode.nodeName)) continue;
+      var tied = tieShort(node.nodeValue);
+      if (tied !== node.nodeValue) node.nodeValue = tied;
+    }
+  }
+
+  /* ---------- the footer and the texts in the template ---------- */
+  function renderCredits() {
+    var used = {};
+    used[HERO_PHOTO] = true;
+    Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
+    $('#credits').innerHTML = Object.keys(used).map(function (ph) {
+      var m = PHOTO_META[ph];
+      return '<li>' + esc(m.cap) + ': ' + esc(m.artist) + ', <a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.license) + '</a></li>';
+    }).join('');
+  }
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.title = T('doc.title');
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = T(el.getAttribute('data-i18n')); });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) { el.innerHTML = T(el.getAttribute('data-i18n-html')); });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = T(el.getAttribute('data-i18n-alt')); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.getAttribute('data-i18n-aria'))); });
+  }
+
+  /* ---------- wiring ---------- */
+  applyStatic();
+  buildForm();
+  renderCredits();
+  bindLightbox();
+  bindCopy();
+  bindAnchors();
+  fromLink();
+  /* back-to-top button: shown once the photo opener has scrolled away */
+  var totop = $('#totop'), hero = $('.hero');
+  if (totop && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
+  }
+  /* for the probes in tests/probes/ */
+  window.__trip = { state: state, apply: apply };
+})();

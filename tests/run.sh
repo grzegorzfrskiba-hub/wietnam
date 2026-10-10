@@ -9,7 +9,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 J=/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc
 CONTENT_FILES=$(ls site2/src/content/*.js)
-SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/content.js $CONTENT_FILES site2/src/photos.js site2/src/page.js"
+SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/content.js $CONTENT_FILES site2/src/photos.js site2/src/ui.js site2/src/page.js"
 TESTS="tests/engine.test.js tests/page.test.js tests/data.test.js tests/content.test.js tests/combos.test.js"
 MODE=""
 if [ $# -eq 1 ] && [ "$1" = "--full" ]; then
@@ -34,4 +34,8 @@ for t in $TESTS; do
   echo "== $t"
   "$J" $SOURCES tests/assert.js $MODE "$t"
 done
+echo "== lint: no words in CSS content (texts come from UI.pl)"
+if grep -nE "content: *\"[^\"]*[A-Za-z]{3,}" site2/src/template.html; then echo "FAIL: put the text in UI.pl" >&2; exit 1; fi
+echo "== lint: counted words only through countWord(key, n)"
+if grep -nE "T\('(nights|f\.places|f\.flights|f\.hikes)\.(one|few|many)'" site2/src/app.js; then echo "FAIL: use countWord(key, n)" >&2; exit 1; fi
 echo "ALL PASS"
