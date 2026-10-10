@@ -107,6 +107,7 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
   - Bidoup 2 dni/1 noc 1 950 000 VND (z namiotem) i Hòn Giao 2 dni/1 noc 1 590 000 VND to wyprawy wielodniowe (BNB-ceny).
 - **Tà Năng:** operator TropiAd sprzedaje wyłącznie wyjścia 2 dni/1 noc i 2 dni/2 noce (ok. 31 km na pełną trasę), jednodniowej wersji nie ma (TROP). Wielodniowe odcinki to moduł etapu 3. Dzień `p` 3 w planach zostaje z ustaleniem z `research/ta-nang-2026-10.md`.
 - **Lang Biang:** oferta całodniowa z przewodnikiem, ok. 7 godzin, od 49 USD (LB†). Moja ocena: wysiłek podobny do `p` 2, a źródła nie podają wymogu uprawnień.
+- Zmiana z przeglądu zadania 7: dzień `p` 3 w Đà Lạt to teraz Lang Biang zamiast Tà Năng, z zastrzeżeniem, że szlak bywa zamknięty (zob. `research/plany-dni-2026-10.md`).
 - **Canyoning w Datanla** (liny, skoki do wody, ok. 7 godzin): zbadałem dodatkowo i **nie wpisuję**. 26.2.2016 zginęło tam trzech turystów na wycieczce prywatnej firmy, którą zarządca wodospadu nazwał prowadzoną „na dziko”, bez biletów i sprzętu ośrodka (TT-2016). 22.9.2018 zginął jeden turysta na wycieczce licencjonowanej firmy, po czym Lâm Đồng, według powiązanego artykułu, zawiesił tury przygodowe w Datanla (TN-2018). Aktualnego rejestru operatorów nie znalazłem. To sport, nie wyprawa, i wymaga osobnej decyzji (etap 2 albo 3).
 
 ## hoian: Hội An
@@ -151,6 +152,8 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
 **Werdykt: nie.** Plan to rejs łodzią wiosłową w Tràng An o 7:00, rowery i Hoa Lư. Najbliższy „trudny” punkt to Hang Múa: 500 stromych kamiennych schodów na szczyt, czyli schody, nie wspinaczka (NB-NBTC). Wspinaczki skałkowej z operatorem w Ninh Bình nie znalazłem. Trekking w dżungli z naczelnymi to Cúc Phương, moduł partii A (`notes/etapy.md`).
 
 ## catba: Cát Bà i zatoka Lan Hạ
+
+**Decyzja z przeglądu (10.10.2026):** na razie bez trudnego dnia na Cát Bà, bo licencje operatorów wspinaczki i DWS są tylko deklarowane; do ponownego sprawdzenia w etapie 3.
 
 **Werdykt: tak.** Dzień wspinaczki skałkowej albo deep water soloing (DWS, wspinaczka nad wodą ze skokiem do morza) z operatorem z miasta Cát Bà. **Warunek:** operator ma certyfikat na ten rodzaj działalności, o numer którego pytasz przed rezerwacją. To najsłabiej udokumentowany z trzech trudnych dni: uprawnienia operatorów znam tylko z ich własnych stron (poniżej).
 

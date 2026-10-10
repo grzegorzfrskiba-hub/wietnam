@@ -52,6 +52,7 @@ contentCheck('content', function (need) {
       if (d.easy) plan(w + ' easy', d.easy, ['pace', 't', 'd', 'early']);
       if (d.hard) {
         plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off']);
+        need(/przewodnik|operator/i.test(d.hard.d), w + ' hard: say who leads (przewodnik or operator)');
         if (d.hard.off != null) {
           need(Array.isArray(d.hard.off) && d.hard.off.length < 12 && d.hard.off.every(function (m) { return typeof m === 'number' && m % 1 === 0 && m >= 1 && m <= 12; }),
             w + ' hard: off lists months 1–12, not all of them');
@@ -112,7 +113,8 @@ contentCheck('typography', function (need) {
 /* The style of plan 1B: to one reader (ty), no gendered forms, nothing tied to December. list: [path, text] pairs. */
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
 var NOT_PLURAL = ['mieście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
-  'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie'];
+  'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
+  'porcie', 'świecie'];
 function styleOk(need, list) {
   list.forEach(function (x) {
     var t = x[1];
@@ -125,11 +127,8 @@ function styleOk(need, list) {
     need(!/z powrotem w\s/i.test(t), x[0] + ': „z powrotem w…” assumes where the trip comes from; the place may open or close the trip');
   });
 }
-// the places whose texts are rewritten for plan 1B; tasks 7 and 8 add theirs, and after task 8 every place is checked
-var REWRITTEN = ['hoian', 'hue', 'saigon', 'mekong', 'phuquoc', 'cattien', 'dalat'];
 contentCheck('style', function (need) {
-  REWRITTEN.forEach(function (id) {
-    need(CONTENT[id], 'REWRITTEN: no texts for ' + id);
-    styleOk(need, strings(CONTENT[id], 'CONTENT.' + id, []));
-  });
+  Object.keys(CONTENT).forEach(function (id) { styleOk(need, strings(CONTENT[id], 'CONTENT.' + id, [])); });
+  need(Object.keys(CONTENT).some(function (id) { return CONTENT[id].days.some(function (d) { return d.hard; }); }),
+    'at least one hard day: level 3 must change something (research/trudne-dni-2026-10.md)');
 });
