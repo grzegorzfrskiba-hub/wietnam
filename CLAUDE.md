@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (10.10.2026):** plan 1A (silnik) zrobiony: silnik tras, dane 12 miejsc, research połączeń i sezonów, test wszystkich kombinacji, raport tras. Następny krok: plan 1B (strona na nowym silniku), zob. [notes/etapy.md](notes/etapy.md).
+**Status (11.10.2026):** plan 1A (silnik) i plan 1B (strona) zrobione; punkt kontrolny etapu 1 czeka na przegląd użytkownika. Następny krok: decyzje z przeglądu, potem etap 2 (interfejs), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -36,3 +36,9 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 
 - `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie (ok. pół minuty).
 - `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
+- `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
+- Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
+  - `bash tests/shot.sh '<ustawienia z linku>' <szerokość> <plik.png> [wysokość]`: zrzut, domyślnie 2600 px wysokości;
+  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`;
+  - `bash tests/print.sh '<ustawienia>' <plik.pdf>`: wydruk do PDF; podaje liczbę stron, prawie puste strony i linie zakryte ramkami.
+- Pułapki: wbudowana przeglądarka nie otwiera `file://`; w nowym worktree podlinkuj `photos/` z głównej kopii.
