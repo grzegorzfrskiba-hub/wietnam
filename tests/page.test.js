@@ -137,9 +137,13 @@ function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRP
 eq(road('HAN', 'hanoi'), ['r.taxi_from', { x: 'Hà Nội' }], 'from an airport');
 eq(road('dalat', 'DLI'), ['r.taxi_to', { x: 'Đà Lạt' }], 'to an airport');
 eq([road('hue', 'hoian'), road('hoian', 'hue')], [['r.haivan', {}], ['r.haivan', {}]], 'the Hải Vân pass, either way');
-eq(road('cattien', 'dalat'), ['r.car_baoloc', {}], 'a road with its own text wins over the rule for Cát Tiên');
+eq([road('cattien', 'dalat'), road('dalat', 'cattien')], [['r.car_baoloc', {}], ['r.car_baoloc', {}]], 'a road with its own text wins over the rule for Cát Tiên, either way');
 eq([road('ninhbinh', 'catba'), road('saigon', 'cattien'), road('saigon', 'mekong'), road('hanoi', 'ninhbinh')],
   [['r.van_ferry', {}], ['r.car_cattien', {}], ['r.bus_mekong', {}], ['r.van_car', {}]], 'Cát Bà, Cát Tiên, the Mekong, any other road');
+// one text serves both directions where it names none (content.test.js checks the words); the Mekong text names Phong Điền, so it has a form for each
+eq([road('catba', 'ninhbinh'), road('cattien', 'saigon')], [['r.van_ferry', {}], ['r.car_cattien', {}]], 'the ferry and the Cát Tiên road read the same both ways');
+eq([road('saigon', 'mekong'), road('mekong', 'saigon')], [['r.bus_mekong', {}], ['r.bus_mekong_from', {}]], 'the Mekong road: to Phong Điền and from Phong Điền');
+eq([road('SGN', 'mekong'), road('mekong', 'SGN')], [['r.taxi_from', { x: AIRPORTS.SGN.name }], ['r.taxi_to', { x: AIRPORTS.SGN.name }]], 'an airport at either end wins over the Mekong text');
 function L(total, segs, flights) { return { flights: flights || 0, total: total, segs: segs }; }
 eq(legNotes(L(6.5, [{ mode: 'road', h: 2.5 }, { mode: 'fly', h: 1 }, { mode: 'road', h: 1.5 }], 1), { n: 2 }, false), ['n.afternoon'], 'a flight after 2.5 h of road');
 eq(legNotes(L(4, [{ mode: 'road', h: 0.5 }, { mode: 'fly', h: 1 }, { mode: 'road', h: 1 }], 1), null, false), [], 'a short ride to the airport');

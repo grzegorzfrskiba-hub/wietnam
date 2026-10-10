@@ -140,6 +140,11 @@ contentCheck('ui', function (need) {
   var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js');
   var code = [app, page, readFile('site2/src/content.js'), tpl].join('\n'), used = {};
   Object.keys(pl).forEach(function (k) { need(typeof pl[k] === 'string' && pl[k].trim() !== '', 'UI.pl[\'' + k + '\'] is empty'); });
+  // a road text is picked by the two places alone (segKey in page.js), so it must read right in both directions of travel:
+  // no uphill or downhill, no "at the end"; only the airport texts and the Mekong pair differ by direction, and they say to or from
+  Object.keys(pl).filter(function (k) { return /^r\./.test(k); }).forEach(function (k) {
+    need(!/w górę|w dół|pod górę|na koniec|na początek|na początku|z powrotem/i.test(pl[k]), 'UI.pl[\'' + k + '\'] names a direction (' + pl[k] + '): a road text must read right both ways');
+  });
   // T('…'), countWord('…', n) with its three forms, data-i18n…="…", the travel texts of page.js; a key ending in a dot is a prefix
   function wants(k, where) { if (!/\.$/.test(k)) need(k in pl, where + ' asks for the missing key ' + k); }
   (app.match(/\bT\('[^']+'/g) || []).forEach(function (m) { wants(m.slice(3, -1), 'app.js'); });

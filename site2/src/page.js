@@ -237,7 +237,9 @@ function withoutChanges(s) {
 /* ---------- travel texts ---------- */
 /* The text of one road segment as [UI key, values]: from or to an airport; a road with a text of its own (roadKeys, by
    its two places in alphabetical order); Cát Bà with the ferry; Cát Tiên with the river crossing; the Mekong buses; else
-   a limousine van or a car. g: a segment of planRoute's legs; airports: AIRPORTS. */
+   a limousine van or a car. The key is picked by the two places and the airport end, so every text reads right in both
+   directions of travel (tests/content.test.js bans direction words); only the Mekong text names Phong Điền, so it has one
+   form for going there and one for leaving. g: a segment of planRoute's legs; airports: AIRPORTS. */
 function segKey(g, airports, roadKeys) {
   if (airports[g.from]) return ['r.taxi_from', { x: airports[g.from].name }];
   if (airports[g.to]) return ['r.taxi_to', { x: airports[g.to].name }];
@@ -245,7 +247,8 @@ function segKey(g, airports, roadKeys) {
   if (roadKeys[pair]) return [roadKeys[pair], {}];
   if (g.from === 'catba' || g.to === 'catba') return ['r.van_ferry', {}];
   if (g.from === 'cattien' || g.to === 'cattien') return ['r.car_cattien', {}];
-  if (g.from === 'mekong' || g.to === 'mekong') return ['r.bus_mekong', {}];
+  if (g.to === 'mekong') return ['r.bus_mekong', {}];
+  if (g.from === 'mekong') return ['r.bus_mekong_from', {}];
   return ['r.van_car', {}];
 }
 
