@@ -86,6 +86,37 @@ eq(titles(stopDays(FC, { n: 1, start: 9 }, 2, 2, JAN)), ['9:B1'], 'a second stay
 eq(stopDays(FC, { n: 4, start: 1 }, 0, 2, JAN), null, 'more nights than plans');
 eq(stopDays(FC, { n: 3, start: 5 }, 2, 2, JAN), null, 'a second stay past the plans');
 eq(stopDays({ days: FC.days }, { n: 1, start: 5 }, 2, 2, JAN), null, 'a second stay needs again');
+
+/* A hard version that ends away from the stay (late) stays off the stay's last day when the way home or a long leg follows:
+   its next morning goes on the walk out, so the journey would start around noon. next: { home, h }, see stopDays. */
+var HOME = { home: true, h: 3.5 }, LONG = { home: false, h: 7.5 }, SHORT = { home: false, h: 4 };
+function nightCT(next) { return stopDays(CONTENT.cattien, { n: 2, start: 5 }, 0, 3, JAN, next).map(function (d) { return d.variant; }); }
+eq(nightCT(undefined), [null, 'hard'], 'Cát Tiên, two nights, level 3, January, no leg given: the night at the lake, as before');
+eq(nightCT(null), [null, 'hard'], 'a null leg is no restriction either');
+eq(nightCT(SHORT), [null, 'hard'], 'a short leg after the stay: the night at the lake');
+eq(nightCT(HOME), [null, null], 'the way home after the stay: the usual day');
+eq(nightCT(LONG), [null, null], 'a long leg after the stay: the usual day');
+eq([nightCT({ home: false, h: LONG_LEG_H })[1], nightCT({ home: false, h: LONG_LEG_H - 0.25 })[1]], [null, 'hard'],
+  'a leg of LONG_LEG_H hours counts as long, a quarter of an hour less does not');
+eq(stopDays(CONTENT.cattien, { n: 2, start: 5 }, 0, 3, JAN, HOME), stopDays(CONTENT.cattien, { n: 2, start: 5 }, 0, 2, JAN),
+  'level 3 before the way home reads as the usual level: the usual day with its own early start and rain plan');
+var FLATE = {
+  days: [
+    { p: 1, o: 1, pace: 'travel', t: 'L1', d: 'l1' },
+    { p: 3, o: 3, pace: 'culture', t: 'L3', d: 'l3' },
+    { p: 2, o: 2, pace: 'hike', t: 'L2', d: 'l2', early: true, rain: 'rl',
+      easy: { pace: 'nature', t: 'L2e', d: 'l2e', early: false }, hard: { pace: 'hike', t: 'L2h', d: 'l2h', late: true } }
+  ],
+  again: { pace: 'travel', t: 'LB', d: 'lb' }
+};
+eq(titles(stopDays(FLATE, { n: 3, start: 1 }, 0, 3, JAN, HOME)), ['1:L1', '2:L2h', '3:L3'], 'a late hard day that is not the last day of the stay stays, also before the way home');
+eq(titles(stopDays(FLATE, { n: 2, start: 1 }, 0, 3, JAN, HOME)), ['1:L1', '2:L2'], 'the same day as the last day of a two-night stay goes before the way home');
+eq(titles(stopDays(FLATE, { n: 2, start: 8 }, 1, 3, JAN, HOME)), ['8:LB', '9:L2'], 'a second stay: its last day too');
+eq(titles(stopDays(FLATE, { n: 2, start: 8 }, 1, 3, JAN, SHORT)), ['8:LB', '9:L2h'], 'a second stay before a short leg: the hard day');
+eq([stopDays(FLATE, { n: 2, start: 1 }, 0, 1, JAN, HOME)[1].t, stopDays(FLATE, { n: 2, start: 1 }, 0, 2, JAN, HOME)[1].t], ['L2e', 'L2'], 'levels 1 and 2 do not change before the way home');
+eq(titles(stopDays(FC, { n: 2, start: 1 }, 0, 3, JAN, HOME)), ['1:A1', '2:A2h'], 'a hard version that is not late is kept before the way home');
+eq([variantOf(FLATE.days[2], 3, 1, true).variant, variantOf(FLATE.days[2], 3, 1, false).variant, variantOf(FLATE.days[2], 3, 1).variant, variantOf(FLATE.days[2], 1, 1, true).variant],
+  [null, 'hard', 'hard', 'easy'], 'variantOf: a late hard version is left out only when asked');
 print('day plans ok');
 
 /* ---------- dates and holidays ---------- */
@@ -130,6 +161,9 @@ eq([withAdded(base, 'hoian').add, withAdded(base, 'hoian').remove], [['catba', '
 eq([withRemoved(base, 'catba').add, withRemoved(base, 'catba').remove], [[], ['hoian', 'catba']], 'Usuń takes a place off the added list');
 eq([withoutChanges(base).add, withoutChanges(base).remove, base.add, base.remove], [[], [], ['catba'], ['hoian']],
   'back to the trip without changes; the settings given stay as they were');
+var FL = { stops: [{ leg: { total: 3.75 } }, { leg: { total: 7.5 } }, { leg: { total: 2 } }], home: { total: 3.5 } };
+eq([legAfter(FL, 0), legAfter(FL, 1), legAfter(FL, 2)], [{ home: false, h: 7.5 }, { home: false, h: 2 }, { home: true, h: 3.5 }],
+  'the leg after a stay: the leg into the next stay, or the way home after the last one');
 print('trip ok');
 
 /* ---------- travel texts ---------- */

@@ -10,6 +10,11 @@
   var airports = Object.keys(HUBS).sort(), ids = Object.keys(PLACES).sort();
   var count = 0, k = 0, fails = [], used = {};
   function node(id) { return PLACES[id].node || id; }
+  // a day of a stay that is the hard version marked late in the texts (the day carries the version's own title)
+  function isLate(id, d) {
+    return d.variant === 'hard' && CONTENT[id].days.some(function (cd) { return cd.hard && cd.hard.late && cd.hard.t === d.t; });
+  }
+  var held = 0;   // stays at level 3 where that rule kept a late hard night off the last day
 
   // extra: a label for a changed setting; then no route is allowed (e.g. the only city near the airport removed),
   // unless strict (after an added place the base trip still exists, so no route is a failure)
@@ -41,12 +46,19 @@
       nights += x.n; day += x.n;
       used[x.id] = (used[x.id] || 0) + 1;
     });
-    // the page's day plans (page.js): one per night of every stay at the level set, and no hike at level 1
+    // the page's day plans (page.js), planned as app.js does: one per night of every stay at the level set, no hike at level 1,
+    // and a hard version that ends away from the stay (late) never on the last day of a stay that the way home or a leg of
+    // LONG_LEG_H hours or more follows
     var done = {};
-    r.stops.forEach(function (x) {
-      var days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months);
+    r.stops.forEach(function (x, i) {
+      var next = legAfter(r, i), days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months, next);
       need(days && days.length === x.n, x.id + ': ' + (days ? days.length : 'no') + ' day plans for ' + x.n + ' nights' + (done[x.id] ? ' (second stay)' : ''));
       if (days && s.level === 1) need(days.every(function (d) { return d.pace !== 'hike'; }), x.id + ': a hike at level 1');
+      if (days && days.length === x.n && s.level === 3 && (next.home || next.h >= LONG_LEG_H)) {
+        need(!isLate(x.id, days[x.n - 1]), x.id + ': a late hard night on the last day of the stay, before ' + (next.home ? 'the way home' : 'a leg of ' + next.h + ' h'));
+        // the rule had work to do: without the leg the same stay would have ended with that night
+        if (isLate(x.id, stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months)[x.n - 1])) held++;
+      }
       done[x.id] = (done[x.id] || 0) + x.n;
     });
     need(nights === s.days - 1, nights + ' nights, want ' + (s.days - 1));
@@ -95,6 +107,8 @@
   });
   print('combos: ' + count + (all ? ' (all)' : ' (every 7th; tests/run.sh --full checks all)'));
   print('places used: ' + ids.map(function (id) { return id + ' ' + (used[id] || 0); }).join(', '));
+  print('late hard nights kept off the last day of a stay: ' + held);
+  ok(held > 0, 'no checked stay had a late hard night to keep off its last day: the rule is not tested');
   if (fails.length) throw new Error(fails.length + ' failures:\n' + fails.slice(0, 40).join('\n'));
   print('combos ok');
 })();

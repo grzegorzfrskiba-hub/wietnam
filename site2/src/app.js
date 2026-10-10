@@ -66,8 +66,8 @@
     }
     var done = {};
     state.settings = s; state.st = st; state.route = r;
-    state.plans = r.stops.map(function (x) {
-      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months);
+    state.plans = r.stops.map(function (x, i) {
+      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i));
       done[x.id] = (done[x.id] || 0) + x.n;
       return days;
     });

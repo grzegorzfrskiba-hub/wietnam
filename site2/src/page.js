@@ -113,10 +113,12 @@ function monthChoices(today, lastYear) {
 
 /* ---------- day plans ---------- */
 /* One day at an adventure level: level 1 takes the easy version, level 3 the hard one unless month (1–12) is one of its
-   months off; otherwise the usual day. A version keeps the day's early start unless it sets its own, and the day's rain
-   plan. Returns { pace, t, d, early, rain, variant }, variant 'easy', 'hard' or null. */
-function variantOf(day, level, month) {
-  var v = level === 1 && day.easy ? 'easy' : level === 3 && day.hard && (day.hard.off || []).indexOf(month) < 0 ? 'hard' : null;
+   months off, or unless it is late (its night ends away from the stay) and notLate is true; otherwise the usual day. A
+   version keeps the day's early start unless it sets its own, and the day's rain plan.
+   Returns { pace, t, d, early, rain, variant }, variant 'easy', 'hard' or null. */
+function variantOf(day, level, month, notLate) {
+  var hard = level === 3 && day.hard && (day.hard.off || []).indexOf(month) < 0 && !(notLate && day.hard.late);
+  var v = level === 1 && day.easy ? 'easy' : hard ? 'hard' : null;
   var src = v ? day[v] : day;
   return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v };
 }
@@ -127,9 +129,13 @@ function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, 
    c: the place's content; stop: { n, start } from planRoute; done: nights spent there earlier in the trip (on a round trip
    the airport's city comes back at the end); level: 1–3; months: st.months, the month (0–11) of each trip day.
    A first stay takes the n plans with the lowest p, in their order o; a one-night stay the solo version of the p 1 plan
-   when it has one. A second stay starts with c.again and goes on with the next plans by p. null when there are too few. */
-function stopDays(c, stop, done, level, months) {
+   when it has one. A second stay starts with c.again and goes on with the next plans by p. null when there are too few.
+   next: the leg after the stay, { home, h } (the way home or not, its hours; see legAfter), or none: no restriction. On
+   the stay's last day, when the way home or a leg of LONG_LEG_H hours or more follows, a late hard version (its next
+   morning goes on the walk out, so the journey would start around noon) gives way to the usual day. */
+function stopDays(c, stop, done, level, months, next) {
   var byP = c.days.slice().sort(function (a, b) { return a.p - b.p; }), out = [], picked;
+  var notLate = !!next && (next.home || next.h >= LONG_LEG_H);
   if (done) {
     if (!c.again) return null;
     picked = byP.slice(done, done + stop.n - 1);
@@ -140,7 +146,7 @@ function stopDays(c, stop, done, level, months) {
     if (picked.length !== stop.n) return null;
   }
   picked.sort(function (a, b) { return a.o - b.o; }).forEach(function (d) {
-    out.push(stop.n === 1 && d.solo ? plainDay(d.solo) : variantOf(d, level, months[stop.start - 1 + out.length] + 1));
+    out.push(stop.n === 1 && d.solo ? plainDay(d.solo) : variantOf(d, level, months[stop.start - 1 + out.length] + 1, notLate && out.length === stop.n - 1));
   });
   out.forEach(function (d, k) { d.day = stop.start + k; });
   return out;
@@ -188,6 +194,13 @@ function fmtSpan(a, b) {
 }
 
 /* ---------- the trip ---------- */
+/* The leg after stay i of a trip, as stopDays wants it (its next): { home, h }, h the hours of the journey. A stop's leg
+   in planRoute leads into it, so the leg after a stay is the next stop's; after the last stay it is the way home. */
+function legAfter(route, i) {
+  var last = i === route.stops.length - 1, leg = last ? route.home : route.stops[i + 1].leg;
+  return { home: last, h: leg.total };
+}
+
 /* The figures of the facts row: places (each once, nights on the way not counted), domestic flights, hiking days at the
    chosen level, the longest travel day and all hours on the road, the way to the departure airport included.
    route: planRoute's trip; plans: stopDays of each stay; places: PLACES. */

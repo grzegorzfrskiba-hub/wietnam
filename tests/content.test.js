@@ -51,8 +51,9 @@ contentCheck('content', function (need) {
       if (d.rain != null) need(isText(d.rain), w + ': rain is a text');
       if (d.easy) plan(w + ' easy', d.easy, ['pace', 't', 'd', 'early']);
       if (d.hard) {
-        plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off']);
+        plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off', 'late']);
         need(/przewodnik|operator/i.test(d.hard.d), w + ' hard: say who leads (przewodnik or operator)');
+        if (d.hard.late != null) need(typeof d.hard.late === 'boolean', w + ' hard: late is true or false');
         if (d.hard.off != null) {
           need(Array.isArray(d.hard.off) && d.hard.off.length < 12 && d.hard.off.every(function (m) { return typeof m === 'number' && m % 1 === 0 && m >= 1 && m <= 12; }),
             w + ' hard: off lists months 1–12, not all of them');
