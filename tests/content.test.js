@@ -3,7 +3,11 @@
    every photo is shown once, and the Polish typography holds. Every problem is listed by name. */
 function contentCheck(label, body) {
   var fails = [];
-  body(function need(c, what) { if (!c) fails.push(what); });
+  try {
+    body(function need(c, what) { if (!c) fails.push(what); });
+  } catch (e) {
+    fails.push('the check stopped: ' + e);
+  }
   fails.forEach(function (f) { print('  ' + label + ': ' + f); });
   ok(!fails.length, fails.length + ' problem(s) in ' + label + ', listed above');
   print(label + ' ok');
@@ -49,7 +53,7 @@ contentCheck('content', function (need) {
       if (d.hard) {
         plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off']);
         if (d.hard.off != null) {
-          need(Array.isArray(d.hard.off) && d.hard.off.length < 12 && d.hard.off.every(function (m) { return m % 1 === 0 && m >= 1 && m <= 12; }),
+          need(Array.isArray(d.hard.off) && d.hard.off.length < 12 && d.hard.off.every(function (m) { return typeof m === 'number' && m % 1 === 0 && m >= 1 && m <= 12; }),
             w + ' hard: off lists months 1–12, not all of them');
         }
       }
@@ -108,20 +112,24 @@ contentCheck('typography', function (need) {
 /* The style of plan 1B: to one reader (ty), no gendered forms, nothing tied to December. list: [path, text] pairs. */
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
 var NOT_PLURAL = ['mieście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
-  'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie'];
+  'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie'];
 function styleOk(need, list) {
   list.forEach(function (x) {
     var t = x[1];
-    need(!/(^|[^\p{L}])(wy|was|wam|wasz\p{L}*)(?=[^\p{L}]|$)/iu.test(t), x[0] + ': plural address (wy, was, wam, wasz…): write to one reader');
+    need(!/(^|[^\p{L}])(wy|was|wam|wami|wasz\p{L}*)(?=[^\p{L}]|$)/iu.test(t), x[0] + ': plural address (wy, was, wam, wasz…): write to one reader');
     (t.match(/\p{L}+cie(?=[^\p{L}]|$)/giu) || []).forEach(function (w) {
       need(NOT_PLURAL.indexOf(w.toLowerCase()) > -1, x[0] + ': „' + w + '” looks like a plural form: write to one reader (a noun goes on NOT_PLURAL)');
     });
     need(!/\p{L}+(łeś|łaś|łbyś|łabyś)(?=[^\p{L}]|$)/iu.test(t), x[0] + ': a gendered form (-łeś, -łaś)');
-    need(!/w grudniu|grudniow|wigili|bożego narodzenia/i.test(t), x[0] + ': tied to December: texts are written for any month');
+    need(!/w grudniu|grudniow|grudzień to|wigili|bożego narodzenia|boże narodzenie/i.test(t), x[0] + ': tied to December: texts are written for any month');
+    need(!/z powrotem w\s/i.test(t), x[0] + ': „z powrotem w…” assumes where the trip comes from; the place may open or close the trip');
   });
 }
 // the places whose texts are rewritten for plan 1B; tasks 7 and 8 add theirs, and after task 8 every place is checked
-var REWRITTEN = ['hoian', 'hue'];
+var REWRITTEN = ['hoian', 'hue', 'saigon', 'mekong', 'phuquoc', 'cattien', 'dalat'];
 contentCheck('style', function (need) {
-  REWRITTEN.forEach(function (id) { styleOk(need, strings(CONTENT[id], 'CONTENT.' + id, [])); });
+  REWRITTEN.forEach(function (id) {
+    need(CONTENT[id], 'REWRITTEN: no texts for ' + id);
+    styleOk(need, strings(CONTENT[id], 'CONTENT.' + id, []));
+  });
 });

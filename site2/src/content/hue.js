@@ -5,7 +5,7 @@ CONTENT.hue = {
   region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59],
   photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
   days: [
-    { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',
+    { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Zwiedzanie kończy się ok. 17:00, latem ok. 17:30. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',
       rain: 'kryte galerie Cesarskiego Miasta i Muzeum Królewskich Antyków.' },
     { p: 2, o: 2, pace: 'culture', t: 'Huế na rowerze', d: 'Rowerem wzdłuż Rzeki Perfumowej do grobowców Minh Mạng i Tự Đức, a późnym popołudniem do pagody Thiên Mụ.',
       rain: 'grobowce samochodem zamiast rowerem, a potem długi obiad z bún bò Huế.',
