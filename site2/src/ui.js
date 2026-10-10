@@ -97,6 +97,12 @@ UI.pl = {
   'g.open': 'Otwórz zdjęcie {i} z {n} na pełnym ekranie', 'g.show': 'Pokaż zdjęcie {i}', 'g.photos': 'Zdjęcia: {x}',
   'g.prev': 'Poprzednie zdjęcie', 'g.next': 'Następne zdjęcie', 'g.full': 'Pełny ekran',
   'lb.aria': 'Przeglądarka zdjęć', 'lb.close': 'Zamknij przeglądarkę zdjęć', 'lb.photo': 'Fot. ',
+  'm.north': 'Północ', 'm.whole': 'Cała trasa', 'm.panel': 'Mapa północy', 'm.china': 'Chiny', 'm.laos': 'Laos', 'm.cambodia': 'Kambodża',
+  'm.sea': 'Morze Południowochińskie', 'm.tonkin': 'Zatoka Tonkińska', 'm.road': 'Droga', 'm.flight': 'Lot', 'm.airports': 'Lotnisko przylotu i wylotu',
+  'm.scale': 'Obie mapy w skali', 'm.zoom': 'Kliknij mapę, żeby ją powiększyć', 'm.close': 'Zamknij dużą mapę', 'm.dialog': 'Mapa trasy, powiększona', 'm.title': 'Mapa trasy: ',
+  'off.h3': 'Poza trasą', 'off.p': 'Dodaj miejsce, a trasa ułoży się na nowo razem z nim. Usunięte miejsca też tu są.',
+  'off.add': 'Dodaj', 'off.add.aria': 'Dodaj {x} do trasy', 'off.removed': 'usunięte', 'off.missing': 'nie zmieściło się', 'off.reset': 'Wróć do trasy bez zmian',
+  'stop.remove': 'Usuń', 'stop.remove.aria': 'Usuń {x} z trasy', 'tag.added': 'Dodane',
 
   'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',
   'ft.notes.p': 'Czasy przejazdów to szacunki od drzwi do drzwi, z ok. 1½ godz. na lotnisku przy każdym locie. Połączenia sprawdzono w październiku 2026. Rozkłady lotów, godziny otwarcia, zasady na szlakach i stan morza sprawdź przed wyjazdem u przewoźnika i na miejscu. Trudne dni tylko z licencjonowanym przewodnikiem albo operatorem.',

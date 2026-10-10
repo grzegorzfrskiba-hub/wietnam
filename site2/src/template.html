@@ -119,6 +119,7 @@ ul, ol { padding: 0; list-style: none; }
 .set-group { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 10px; }
 .set-group legend { font-weight: 600; font-size: 17px; padding: 0; margin-bottom: 10px; }
 .set-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
+#level-list { align-items: stretch; }
 .field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
 .field select, .field input { font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 44px; }
 .chip { position: relative; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 15px; }
@@ -141,6 +142,18 @@ ul, ol { padding: 0; list-style: none; }
 .missing { margin-top: 16px; font-size: 15px; color: var(--wet); }
 .missing:empty { display: none; }
 footer .ft-copy { margin-top: 18px; }
+
+/* Changes to the trip: Dodaj, Usuń */
+.offroute { margin-top: 22px; display: grid; gap: 8px; justify-items: start; }
+.off-p { color: var(--muted); font-size: 14px; max-width: 64ch; }
+.off-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.off-list li { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 4px 4px 12px; font-size: 14px; }
+.off-tag { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; padding-right: 8px; }
+.btn-small { font: 500 13px var(--body); color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 999px; padding: 6px 12px; min-height: 40px; cursor: pointer; }
+.btn-ghost { font: 500 14px var(--body); color: var(--accent); background: none; border: 1px solid var(--accent); border-radius: 6px; padding: 8px 14px; min-height: 44px; cursor: pointer; }
+.stop-remove { margin-left: auto; font: 500 13px var(--body); color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; min-height: 40px; cursor: pointer; }
+.stop-remove:hover { color: var(--wet); border-color: var(--wet); }
+.tag-added { margin-top: 8px; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 4px; }
 
 /* Strip */
 .strip { display: grid; grid-template-columns: repeat(var(--cols, 16), minmax(0, 1fr)); gap: 4px; }
@@ -337,7 +350,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 @media print {
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, .settings, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, .settings, .offroute, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   .map-col { position: static; break-inside: avoid; }
@@ -396,6 +409,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
         </div>
         <p class="set-note" data-i18n="set.days.note"></p>
       </fieldset>
+      <p class="set-msg" id="settings-msg" role="status"></p>
       <fieldset class="set-group">
         <legend data-i18n="set.airports"></legend>
         <div class="set-row">
@@ -412,7 +426,6 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
         <legend data-i18n="set.level"></legend>
         <div class="set-row" id="level-list"></div>
       </fieldset>
-      <p class="set-msg" id="settings-msg" role="status"></p>
     </form>
   </section>
 
@@ -425,6 +438,12 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="strip" id="strip"></div>
     <ul class="strip-legend" id="strip-legend"></ul>
     <p class="missing" id="missing" role="status"></p>
+    <div class="offroute">
+      <h3 class="h-sub" data-i18n="off.h3"></h3>
+      <p class="off-p" data-i18n="off.p"></p>
+      <ul class="off-list" id="offroute-list"></ul>
+      <button type="button" class="btn-ghost" id="reset-changes" data-i18n="off.reset" hidden></button>
+    </div>
     <div class="copy">
       <button type="button" class="btn" id="copy-plan" data-i18n="copy.btn"></button>
       <span id="copy-status" role="status"></span>
@@ -454,6 +473,8 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <p class="ft-copy" data-i18n="ft.copy"></p>
   </div>
 </footer>
+
+<div class="mapzoom" id="mapzoom" role="dialog" aria-modal="true" data-i18n-aria="m.dialog" hidden><button type="button" class="mz-close" id="mz-close"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg><span data-i18n="m.close"></span></button></div>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" data-i18n-aria="lb.aria" hidden>
   <div class="lb-bar"><span id="lb-count"></span><button type="button" class="lb-btn" id="lb-close" data-i18n-aria="lb.close"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button></div>

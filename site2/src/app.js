@@ -204,6 +204,8 @@
   function render() {
     renderFacts();
     renderShape();
+    renderOffRoute();
+    renderMap();
     renderStops();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
@@ -331,13 +333,273 @@
         '<section class="stop' + (c.photos.length && !again ? '' : ' stop-compact') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
         '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
-        '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div></header>' +
+        '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
         (again ? '' : gallery(s.id)) + '<ol class="days">' + state.plans[i].map(dayItem).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
     });
     html += legCard(r.home, r.days, r.stops[r.stops.length - 1], null) + homeCard();
     $('#stops').innerHTML = html;
     initGalleries();
     observeStops();
+  }
+
+  /* ---------- the map: the North panel above the whole country, as in the December planner (stage 2 draws new panels) ---------- */
+  var NF = { lon0: 104.85, lat0: 23.05, s: 104, x: 0, y: 0, w: 270, h: 322 };
+  var CF = { lon0: 103.6, lat0: 23.4, s: 22, x: 0, y: 352, w: 270, h: 322 };
+  // label offsets [dx, dy, anchor]: the places of the North panel, then the places labelled on the whole-country panel
+  var NLAB = { hanoi: [-14, 4, 'end'], ninhbinh: [14, 4, 'start'], puluong: [0, 26, 'middle'], catba: [0, 26, 'middle'], caobang: [14, 4, 'start'], babe: [-14, 4, 'end'] };
+  var CLAB = { saigon: [10, 18, 'start'], dalat: [10, 4, 'start'], cattien: [10, 15, 'start'], mekong: [8, 17, 'start'], phuquoc: [-4, 19, 'start'],
+    hoian: [10, 10, 'start'], hue: [-10, -6, 'end'] };
+  var BANGIOC = [22.85, 106.72];
+  /* place names on the basemap: [UI key, lat, lon, class, anchor] */
+  var GEO = {
+    north: [['m.china', 22.25, 107.25, 'm-country', 'middle'], ['m.tonkin', 20.12, 107.0, 'm-water', 'middle']],
+    whole: [['m.china', 21.9, 111.6, 'm-country', 'middle'], ['m.laos', 17.6, 103.9, 'm-country', 'start'],
+      ['m.cambodia', 12.9, 103.9, 'm-country', 'start'], ['m.sea', 14.6, 112.4, 'm-water', 'middle']]
+  };
+  function basemap(key) {
+    var b = BASEMAP[key];
+    return '<path class="m-land-o" d="' + b.other + '"/><path class="m-land" d="' + b.vn + '"/><path class="m-river" d="' + b.rivers + '"/>';
+  }
+  function geoLabels(key, f) {
+    return GEO[key].map(function (g) {
+      var p = proj(f, [g[1], g[2]]);
+      return '<text class="' + g[3] + '" x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) + '" text-anchor="' + g[4] + '">' + T(g[0]) + '</text>';
+    }).join('');
+  }
+  function proj(f, p) { return [f.x + (p[1] - f.lon0) * f.s, f.y + (f.lat0 - p[0]) * f.s]; }
+  function curve(a, b) {
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1];
+    var len = Math.sqrt(dx * dx + dy * dy) || 1, k = 0.16 * len;
+    var cx = mx - dy / len * k, cy = my + dx / len * k;
+    return 'M' + a[0].toFixed(1) + ' ' + a[1].toFixed(1) + ' Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + b[0].toFixed(1) + ' ' + b[1].toFixed(1);
+  }
+  // a point of the travel data on the map: an airport or a place
+  function where(n) { return AIRPORTS[n] ? AIRPORTS[n].pt : C(n).pt; }
+
+  function renderMap() {
+    var route = state.route, st = state.st, n = [], c = [], groups = {};
+    var r = function (v) { return v.toFixed(1); };
+    route.stops.forEach(function (s, i) {
+      var key = nodeOf(s.id);
+      (groups[key] = groups[key] || []).push({ num: i + 1, start: s.start, end: s.end });
+    });
+    var legs = route.stops.map(function (s) { return s.leg; }).concat([route.home]);
+    var ends = st.from === st.to ? [st.from] : [st.from, st.to];
+    function seg(f, g, cls) {
+      var a = proj(f, where(g.from)), b = proj(f, where(g.to));
+      if (g.mode === 'fly') return '<path class="m-fly ' + cls + '" d="' + curve(a, b) + '"/>';
+      return '<line class="m-road ' + cls + '" x1="' + r(a[0]) + '" y1="' + r(a[1]) + '" x2="' + r(b[0]) + '" y2="' + r(b[1]) + '"/>';
+    }
+    function subsFor(key) {
+      var parts = groups[key].map(function (v) { return v.start === v.end ? '' + v.start : v.start + '–' + v.end; });
+      return (parts.length > 1 || parts[0].indexOf('–') > -1 ? T('days') : T('day')) + ' ' + parts.join(', ');
+    }
+    function pill(p, key, big) {
+      var nums = groups[key].map(function (v) { return v.num; }).join('·');
+      var h = big ? 20 : 15, w = Math.max(h, (big ? 10 : 8) + nums.length * (big ? 6.5 : 5));
+      return '<rect x="' + r(p[0] - w / 2) + '" y="' + r(p[1] - h / 2) + '" width="' + r(w) + '" height="' + h + '" rx="' + h / 2 + '"/>' +
+        '<text class="pin-num' + (big ? '' : ' pin-num-s') + '" x="' + r(p[0]) + '" y="' + r(p[1] + (big ? 4 : 3.2)) + '" text-anchor="middle">' + nums + '</text>';
+    }
+    function airportBox(f, code) {
+      var p = proj(f, AIRPORTS[code].pt);
+      return '<rect class="m-startbox" x="' + r(p[0] - 5) + '" y="' + r(p[1] - 5) + '" width="10" height="10" rx="2"/>';
+    }
+    function inside(f, code) {
+      var p = proj(f, AIRPORTS[code].pt);
+      return p[0] >= f.x && p[0] <= f.x + f.w && p[1] >= f.y && p[1] <= f.y + f.h;
+    }
+
+    /* the North panel */
+    n.push('<rect class="m-frame" x="0" y="0" width="' + NF.w + '" height="' + NF.h + '" rx="8"/>' + basemap('north') + geoLabels('north', NF));
+    [21, 22].forEach(function (lat) {
+      var y = r((NF.lat0 - lat) * NF.s);
+      n.push('<line class="m-grid" x1="0" x2="' + NF.w + '" y1="' + y + '" y2="' + y + '"/><text class="m-gridlabel" x="' + (NF.w - 6) + '" y="' + (y - 4) + '" text-anchor="end">' + lat + '°N</text>');
+    });
+    [105, 106, 107].forEach(function (lon) {
+      var x = r((lon - NF.lon0) * NF.s);
+      n.push('<line class="m-grid m-grid-v" x1="' + x + '" x2="' + x + '" y1="0" y2="' + NF.h + '"/>');
+    });
+    Object.keys(NLAB).forEach(function (id) {
+      if (groups[id]) return;
+      var p = proj(NF, C(id).pt);
+      n.push('<circle class="m-faint" cx="' + r(p[0]) + '" cy="' + r(p[1]) + '" r="4"/>');
+    });
+    legs.forEach(function (L) { L.segs.forEach(function (g) { n.push(seg(NF, g, '')); }); });
+    ends.forEach(function (code) { if (inside(NF, code)) n.push(airportBox(NF, code)); });
+    if (groups.caobang) {
+      var cb = proj(NF, C('caobang').pt), bg = proj(NF, BANGIOC);
+      n.push('<line class="m-road m-local" x1="' + r(cb[0]) + '" y1="' + r(cb[1]) + '" x2="' + r(bg[0]) + '" y2="' + r(bg[1]) + '"/>' +
+        '<circle class="m-poi" cx="' + r(bg[0]) + '" cy="' + r(bg[1]) + '" r="4"/>' +
+        '<text class="m-sub" x="' + r(bg[0] + 8) + '" y="' + r(bg[1] - 6) + '">Bản Giốc</text>');
+    }
+    Object.keys(groups).forEach(function (key) {
+      if (!NLAB[key]) return;
+      var p = proj(NF, C(key).pt), L = NLAB[key];
+      n.push('<g class="pin" data-pin="' + key + '" style="--c:' + stopColor(key) + '">' + pill(p, key, true) +
+        '<text class="m-label" x="' + r(p[0] + L[0]) + '" y="' + r(p[1] + L[1]) + '" text-anchor="' + L[2] + '">' + esc(C(key).short) + '</text>' +
+        '<text class="m-sub" x="' + r(p[0] + L[0]) + '" y="' + r(p[1] + L[1] + 12) + '" text-anchor="' + L[2] + '">' + subsFor(key) + '</text></g>');
+    });
+    n.push('<text class="m-title" x="10" y="18">' + T('m.north') + '</text>');
+
+    /* the whole-country panel */
+    c.push('<rect class="m-frame" x="0" y="' + CF.y + '" width="' + CF.w + '" height="' + CF.h + '" rx="8"/>' +
+      '<g clip-path="url(#clip-whole)">' + basemap('whole') + '</g>' + geoLabels('whole', CF));
+    [10, 15, 20].forEach(function (lat) {
+      var y = r(CF.y + (CF.lat0 - lat) * CF.s);
+      c.push('<line class="m-grid" x1="0" x2="' + CF.w + '" y1="' + y + '" y2="' + y + '"/><text class="m-gridlabel" x="' + (CF.w - 6) + '" y="' + (y - 4) + '" text-anchor="end">' + lat + '°N</text>');
+    });
+    var i0 = proj(CF, [NF.lat0, NF.lon0]), i1 = proj(CF, [NF.lat0 - NF.h / NF.s, NF.lon0 + NF.w / NF.s]);
+    c.push('<rect class="m-inset" x="' + r(i0[0]) + '" y="' + r(i0[1]) + '" width="' + r(i1[0] - i0[0]) + '" height="' + r(i1[1] - i0[1]) + '"/>' +
+      '<text class="m-sub" x="' + r(i1[0] + 6) + '" y="' + r(i0[1] + 12) + '">' + T('m.panel') + '</text>');
+    Object.keys(CLAB).forEach(function (id) {
+      if (groups[id]) return;
+      var p = proj(CF, C(id).pt);
+      c.push('<circle class="m-faint" cx="' + r(p[0]) + '" cy="' + r(p[1]) + '" r="3"/>');
+    });
+    legs.forEach(function (L) { L.segs.forEach(function (g) { c.push(seg(CF, g, 'm-thin')); }); });
+    ends.forEach(function (code) { c.push(airportBox(CF, code)); });
+    var lab = Object.assign({}, CLAB);
+    if (groups.phuquoc) lab.saigon = [10, -9, 'start'];   // with Phú Quốc on the trip, Hồ Chí Minh City's label goes above it
+    Object.keys(groups).forEach(function (key) {
+      var p = proj(CF, C(key).pt), L = lab[key];
+      if (NLAB[key]) { c.push('<circle class="m-dot" cx="' + r(p[0]) + '" cy="' + r(p[1]) + '" r="2.6" style="--c:' + stopColor(key) + '"/>'); return; }
+      c.push('<g class="pin" data-pin="' + key + '" style="--c:' + stopColor(key) + '">' + pill(p, key, false) +
+        '<text class="m-label m-label-s" x="' + r(p[0] + L[0]) + '" y="' + r(p[1] + L[1]) + '" text-anchor="' + L[2] + '">' + esc(C(key).short) +
+        ' <tspan class="m-sub">' + subsFor(key) + '</tspan></text></g>');
+    });
+    c.push('<text class="m-title" x="' + (CF.w - 10) + '" y="' + (CF.y + 18) + '" text-anchor="end">' + T('m.whole') + '</text>');
+
+    $('#map').innerHTML = '<svg viewBox="-6 -6 282 686" role="img" aria-labelledby="map-title"><title id="map-title">' + T('m.title') +
+      esc(route.stops.map(function (s) { return C(s.id).short; }).join(', ')) + '</title>' +
+      '<defs><clipPath id="clip-north"><rect x="0" y="0" width="' + NF.w + '" height="' + NF.h + '" rx="8"/></clipPath>' +
+      '<clipPath id="clip-whole"><rect x="0" y="' + CF.y + '" width="' + CF.w + '" height="' + CF.h + '" rx="8"/></clipPath></defs>' +
+      '<g clip-path="url(#clip-north)">' + n.join('') + '</g>' + c.join('') +
+      '<rect class="m-edge" x="0" y="0" width="' + NF.w + '" height="' + NF.h + '" rx="8"/>' +
+      '<rect class="m-edge" x="0" y="' + CF.y + '" width="' + CF.w + '" height="' + CF.h + '" rx="8"/></svg>' +
+      '<p class="map-legend"><span><svg width="24" height="6" aria-hidden="true"><line class="m-road" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.road') + '</span>' +
+      '<span><svg width="24" height="6" aria-hidden="true"><line class="m-fly" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.flight') + '</span>' +
+      '<span><svg width="10" height="10" aria-hidden="true"><rect class="m-startbox" x="0" y="0" width="10" height="10" rx="2"/></svg>' + T('m.airports') + '</span>' +
+      '<span class="map-note">' + T('m.scale') + '</span><button type="button" class="map-hint">' + T('m.zoom') + '</button></p>';
+  }
+
+  /* ---------- map zoom (desktop): the two panels grow out of the sidebar into a side-by-side view ---------- */
+  var MZ_MS = 480;
+  var mz = { open: false, busy: false, opener: null, kb: false };
+  function mzWide() { return window.matchMedia('(min-width: 901px)').matches; }
+  function mzSource() {
+    // on-screen boxes of the two panels inside the sidebar map (viewBox is -6 -6 282 686)
+    var r = $('#map svg').getBoundingClientRect(), k = r.width / 282;
+    return [
+      { x: r.left, y: r.top, w: r.width, h: 334 * k },
+      { x: r.left, y: r.top + 352 * k, w: r.width, h: 334 * k }
+    ];
+  }
+  function mzTarget() {
+    var pad = 28, gap = 24, top = 64;
+    var h = Math.min(window.innerHeight - top - pad, ((window.innerWidth - 2 * pad - gap) / 2) * 334 / 282);
+    var w = h * 282 / 334, x0 = (window.innerWidth - (2 * w + gap)) / 2, y0 = top + (window.innerHeight - top - pad - h) / 2;
+    return [{ x: x0, y: y0, w: w, h: h }, { x: x0 + w + gap, y: y0, w: w, h: h }];
+  }
+  function mzPlace(el, t, from) {
+    el.style.left = t.x + 'px'; el.style.top = t.y + 'px'; el.style.width = t.w + 'px'; el.style.height = t.h + 'px';
+    el.style.transform = from ? 'translate(' + (from.x - t.x) + 'px,' + (from.y - t.y) + 'px) scale(' + (from.w / t.w) + ')' : 'none';
+  }
+  function openMapZoom(kb) {
+    if (mz.open || mz.busy || !mzWide()) return;
+    var src = mzSource(), dst = mzTarget(), box = $('#mapzoom'), svg = $('#map svg').outerHTML;
+    var panels = ['-6 -6 282 334', '-6 346 282 334'].map(function (vb, i) {
+      var d = document.createElement('div');
+      d.className = 'mz-panel';
+      // own ids so the copies never borrow the sidebar map's clip paths
+      d.innerHTML = svg.replace(/(clip-(?:north|whole)|map-title)/g, '$1-z' + i).replace(/viewBox="[^"]*"/, 'viewBox="' + vb + '"');
+      return d;
+    });
+    box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
+    panels.forEach(function (d, i) { box.appendChild(d); mzPlace(d, dst[i], src[i]); });
+    mz.open = mz.busy = true;
+    mz.opener = document.activeElement;
+    mz.kb = !!kb;
+    box.hidden = false;
+    document.body.classList.add('mz-open');
+    $('#map').classList.add('mz-hide');
+    void box.offsetWidth;
+    box.classList.add('on');
+    panels.forEach(function (d, i) { mzPlace(d, dst[i]); });
+    $('#mz-close').focus({ preventScroll: true });
+    setTimeout(function () { mz.busy = false; }, MZ_MS);
+  }
+  function closeMapZoom() {
+    if (!mz.open || mz.busy) return;
+    var box = $('#mapzoom'), src = mzSource(), dst = mzTarget();
+    mz.busy = true;
+    box.classList.remove('on');
+    box.querySelectorAll('.mz-panel').forEach(function (d, i) { mzPlace(d, dst[i], src[i]); });
+    setTimeout(function () {
+      box.hidden = true;
+      box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
+      $('#map').classList.remove('mz-hide');
+      document.body.classList.remove('mz-open');
+      mz.open = mz.busy = false;
+      // keyboard users get their focus back; mouse users get no leftover focus ring
+      if (mz.kb && mz.opener && mz.opener.focus) mz.opener.focus({ preventScroll: true });
+      else if (document.activeElement) document.activeElement.blur();
+    }, MZ_MS);
+  }
+  function bindMapZoom() {
+    var m = $('#map');
+    // the whole map opens on a mouse click; the hint is the real button (Enter/Space give a click with detail 0)
+    m.addEventListener('click', function (e) {
+      var hint = e.target.closest('.map-hint');
+      if (hint) openMapZoom(e.detail === 0);
+      else if (!e.target.closest('.map-legend')) openMapZoom(false);
+    });
+    $('#mapzoom').addEventListener('click', closeMapZoom);
+    document.addEventListener('keydown', function (e) {
+      if (!mz.open) return;
+      if (e.key === 'Escape') closeMapZoom();
+      if (e.key === 'Tab') { e.preventDefault(); $('#mz-close').focus(); }
+    });
+    window.addEventListener('resize', function () {
+      if (!mz.open || mz.busy) return;
+      if (!mzWide()) { closeMapZoom(); return; }
+      var dst = mzTarget();
+      $('#mapzoom').querySelectorAll('.mz-panel').forEach(function (d, i) { mzPlace(d, dst[i]); });
+    });
+  }
+
+  /* ---------- Dodaj and Usuń ---------- */
+  // the Usuń button of a stay and "Dodane" when Dodaj put it there; a night on the way has neither
+  function stopTools(s) {
+    if (PLACES[s.id].node) return '';
+    return (state.st.add.indexOf(s.id) > -1 ? '<span class="tag-added">' + T('tag.added') + '</span>' : '') +
+      '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>';
+  }
+  // the places off the trip, each with Dodaj, unless Dodaj already asked for it and it did not fit
+  function renderOffRoute() {
+    var s = state.settings;
+    $('#offroute-list').innerHTML = offRoute(state.route, state.st, PLACES).map(function (x) {
+      var c = C(x.id);
+      return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><span>' + esc(c.short) + '</span>' +
+        (x.removed ? '<span class="off-tag">' + T('off.removed') + '</span>' : '') +
+        (x.added ? '<span class="off-tag">' + T('off.missing') + '</span>'
+          : '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>') + '</li>';
+    }).join('');
+    $('#reset-changes').hidden = !(s.add.length || s.remove.length);
+  }
+  function bindChanges() {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-add], [data-remove], #reset-changes') : null;
+      if (!b) return;
+      var s = b.id === 'reset-changes' ? withoutChanges(state.settings)
+        : b.hasAttribute('data-add') ? withAdded(state.settings, b.getAttribute('data-add'))
+        : withRemoved(state.settings, b.getAttribute('data-remove'));
+      if (apply(s)) {
+        syncForm();
+        $('#shape-h2').focus({ preventScroll: true });   // the button is gone with the old trip; the trip's heading takes the focus
+      } else {
+        $('#missing').textContent = $('#settings-msg').textContent;   // the message also next to the buttons that caused it
+      }
+    });
   }
 
   /* ---------- the plan as text, for WhatsApp ---------- */
@@ -527,6 +789,8 @@
   bindLightbox();
   bindCopy();
   bindAnchors();
+  bindMapZoom();
+  bindChanges();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');

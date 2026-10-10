@@ -148,6 +148,7 @@ contentCheck('ui', function (need) {
   });
   (tpl.match(/data-i18n(?:-html|-alt|-aria)?="[^"]+"/g) || []).forEach(function (m) { wants(m.split('"')[1], 'template.html'); });
   (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
+  Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
   var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard'],
     'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'alert.': ['tet', 'holiday', 'nodata'],
