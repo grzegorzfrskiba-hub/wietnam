@@ -6,7 +6,7 @@ CONTENT.hoian = {
   photos: ['hoian_0', 'hoian_1', 'hoian_3', 'hoian_4', 'hoian_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Bocznymi drogami Hội An', d: 'Po przyjeździe weź rower i jedź do warzywnej wioski Trà Quế, a potem nad kanały wśród wodnych palm kokosowych w Cẩm Thanh.',
-      rain: 'lekcja gotowania albo warsztaty robienia lampionów, a do tego kryty targ.',
+      rain: 'warsztaty robienia lampionów, a do tego kryty targ.',
       easy: { pace: 'travel', t: 'Hội An bez pośpiechu', d: 'Lekcja gotowania w warzywnej wiosce Trà Quế (dojazd taksówką), potem stare miasto o zmierzchu, gdy zapalają się lampiony, rejs sampanem po rzece Thu Bồn i kolacja, zanim ok. 19:00 tłum będzie największy. Turystycznie, a mimo to pięknie.' },
       solo: { pace: 'travel', early: true, t: 'Hội An wieczorem i o świcie', d: 'Wieczorem stare miasto w świetle lampionów, najlepiej przed 19:00, zanim tłum będzie największy, i kolacja nad rzeką Thu Bồn. Rano o 6:00 te same uliczki są prawie puste, potem śniadanie i dalej w drogę.' } },
     { p: 2, o: 2, pace: 'culture', early: true, t: 'Stare miasto o 6:00', d: 'Zobacz stare miasto, zanim zjadą się jednodniowi turyści: domy kupieckie i domy zgromadzeń w porannym świetle (do środka wejdziesz od ok. 8:00, z biletem na stare miasto). Po południu wolny czas: krawiec, kawiarnia nad rzeką albo rowerem na plażę An Bàng, 3–4 km od starego miasta.',
