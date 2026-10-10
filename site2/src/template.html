@@ -350,15 +350,22 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 @media print {
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, .settings, .offroute, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
+  /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   .map-col { position: static; break-inside: avoid; }
   .map svg { max-width: 220px; }
-  /* a stop may run over a page break; its days, journeys and boxes stay whole */
-  .stop { break-inside: auto; }
+  /* a stop may run over a page break; its days, journeys and boxes stay whole. Chrome prints a grid that breaks across
+     pages with its later rows over the earlier ones (the tip boxes covered the last day's text), so a stop is a plain
+     block here and the grid gap becomes a margin */
+  .stop { display: block !important; break-inside: auto; }
+  .stop > * + * { margin-top: 18px; }
+  .stop-compact > * + * { margin-top: 10px; }
   .gal { max-width: 360px; break-inside: avoid; }
-  .stop-head, h2, h3, .block-head { break-after: avoid; }
+  /* a heading never stays alone at the bottom of a page: the eyebrow goes with its title, the title with what follows */
+  .eyebrow, .facts-for, .stop-head, h2, h3, .block-head { break-after: avoid; }
+  .block-head, .stop-head, .stop-title { break-inside: avoid; }
   .leg, .day, .tip { break-inside: avoid; }
   .credits { columns: 3; column-gap: 20px; font-size: 9px; line-height: 1.35; }
   .credits li { margin-bottom: 1px; }
