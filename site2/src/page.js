@@ -12,21 +12,25 @@ var SETTINGS_ORDER = ['from', 'to', 'start', 'end', 'year', 'month', 'days', 'in
    #od=SGN&do=HAN&miesiac=2027-02&dni=15&co=przyroda,gory&poziom=2&dodaj=phuquoc&usun=hoian, or with dates
    #od=SGN&do=HAN&start=2027-02-01&koniec=2027-02-15&co=&poziom=2. Returns the well-formed fields typed for normSettings:
    from, to, start, end as texts; year, month, days, level as numbers; interests, add, remove as lists. A malformed field is
-   left out, so the page uses its default; unknown keys (an anchor such as #day-5) are ignored. */
-function parseLink(hash) {
+   left out, so the page uses its default; unknown keys (an anchor such as #day-5, or a name such as constructor) are ignored.
+   rejected, an optional array, gets the settings field name of each malformed field, once. */
+function parseLink(hash, rejected) {
   var got = {}, out = {};
+  function reject(field) { if (rejected && rejected.indexOf(field) < 0) rejected.push(field); }
   String(hash || '').replace(/^#/, '').split('&').forEach(function (part) {
-    var i = part.indexOf('='), field = i < 0 ? null : LINK_KEYS[part.slice(0, i)], v, m, list;
-    if (!field) return;
-    try { v = decodeURIComponent(part.slice(i + 1)); } catch (e) { return; }
-    if (field === 'from' || field === 'to') { if (/^[A-Z]{3}$/.test(v)) got[field] = v; }
-    else if (field === 'start' || field === 'end') { if (/^\d{4}-\d{2}-\d{2}$/.test(v)) got[field] = v; }
-    else if (field === 'month') { if ((m = /^(\d{4})-(\d{2})$/.exec(v))) { got.year = +m[1]; got.month = +m[2]; } }
-    else if (field === 'days') { if (/^\d{1,2}$/.test(v)) got.days = +v; }
-    else if (field === 'level') { if (/^\d$/.test(v)) got.level = +v; }
+    var i = part.indexOf('='), key = i < 0 ? null : part.slice(0, i), v, m, list;
+    var field = key !== null && LINK_KEYS.hasOwnProperty(key) ? LINK_KEYS[key] : null;   // no own key: an object property is no field
+    if (!field) return;   // an anchor (no =) or an unknown key is not a link field
+    try { v = decodeURIComponent(part.slice(i + 1)); } catch (e) { reject(field); return; }
+    if (field === 'from' || field === 'to') { if (/^[A-Z]{3}$/.test(v)) got[field] = v; else reject(field); }
+    else if (field === 'start' || field === 'end') { if (/^\d{4}-\d{2}-\d{2}$/.test(v)) got[field] = v; else reject(field); }
+    else if (field === 'month') { if ((m = /^(\d{4})-(\d{2})$/.exec(v))) { got.year = +m[1]; got.month = +m[2]; } else reject(field); }
+    else if (field === 'days') { if (/^\d{1,2}$/.test(v)) got.days = +v; else reject(field); }
+    else if (field === 'level') { if (/^\d$/.test(v)) got.level = +v; else reject(field); }
     else {
       list = v === '' ? [] : v.split(',');
       if (list.every(function (x) { return (field === 'interests' ? /^[a-z]+$/ : /^[A-Za-z]+$/).test(x); })) got[field] = list;
+      else reject(field);
     }
   });
   SETTINGS_ORDER.forEach(function (k) { if (k in got) out[k] = got[k]; });
@@ -62,9 +66,10 @@ var ERROR_FIELDS = { airport: ['from', 'to'], date: ['start', 'end'], month: ['y
    to its default (an airport only when it is no known one), one error at a time, until the settings pass. Places with a
    node (a night on the way) are taken out of add and remove: the page has no buttons for them. Unknown or refused values
    in interests, add and remove are dropped too, and their field is reported in dropped.
-   Returns { settings, st, dropped }: the settings to show, normSettings' result, and the link fields not used. */
-function settingsFromLink(link, defaults, places, hubs) {
-  var s = copySettings(defaults), dropped = [];
+   Returns { settings, st, dropped }: the settings to show, normSettings' result, and the link fields not used.
+   The optional rejected (the malformed fields from parseLink) starts dropped, so they are reported too. */
+function settingsFromLink(link, defaults, places, hubs, rejected) {
+  var s = copySettings(defaults), dropped = rejected ? rejected.slice() : [];
   Object.keys(link).forEach(function (k) { s[k] = Array.isArray(link[k]) ? link[k].slice() : link[k]; });
   ['add', 'remove'].forEach(function (k) { s[k] = s[k].filter(function (id) { return !(places[id] && places[id].node); }); });
   for (var tries = 0; tries < 12; tries++) {
