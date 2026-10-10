@@ -19,4 +19,6 @@ setTimeout(function () {
   f.end.value = '2026-01-01';
   f.end.dispatchEvent(new Event('change', { bubbles: true }));
   console.log('P:end before start → message: ' + q('#settings-msg') + ' · address still: ' + location.hash);
+  t.apply({ from: 'SGN', to: 'SGN', year: 2027, month: 3, days: 12, interests: [], level: 2, add: [], remove: [] });
+  console.log('P:round trip SGN→SGN, 12 days: Usuń on Hồ Chí Minh City ' + (document.querySelector('[data-remove="saigon"]') ? 'shown' : 'hidden') + ' · on other stays ' + document.querySelectorAll('.stop-remove').length);
 }, 1500);

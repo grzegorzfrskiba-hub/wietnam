@@ -400,9 +400,11 @@
       return '<rect x="' + r(p[0] - w / 2) + '" y="' + r(p[1] - h / 2) + '" width="' + r(w) + '" height="' + h + '" rx="' + h / 2 + '"/>' +
         '<text class="pin-num' + (big ? '' : ' pin-num-s') + '" x="' + r(p[0]) + '" y="' + r(p[1] + (big ? 4 : 3.2)) + '" text-anchor="middle">' + nums + '</text>';
     }
+    // an outline square around the airport point, drawn before the pins: the pin of the airport's city sits a few pixels
+    // away and would cover a solid square, so the outline frames it instead
     function airportBox(f, code) {
       var p = proj(f, AIRPORTS[code].pt);
-      return '<rect class="m-startbox" x="' + r(p[0] - 5) + '" y="' + r(p[1] - 5) + '" width="10" height="10" rx="2"/>';
+      return '<rect class="m-airport" x="' + r(p[0] - 9.5) + '" y="' + r(p[1] - 9.5) + '" width="19" height="19" rx="2"/>';
     }
     function inside(f, code) {
       var p = proj(f, AIRPORTS[code].pt);
@@ -478,7 +480,7 @@
       '<rect class="m-edge" x="0" y="' + CF.y + '" width="' + CF.w + '" height="' + CF.h + '" rx="8"/></svg>' +
       '<p class="map-legend"><span><svg width="24" height="6" aria-hidden="true"><line class="m-road" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.road') + '</span>' +
       '<span><svg width="24" height="6" aria-hidden="true"><line class="m-fly" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.flight') + '</span>' +
-      '<span><svg width="10" height="10" aria-hidden="true"><rect class="m-startbox" x="0" y="0" width="10" height="10" rx="2"/></svg>' + T('m.airports') + '</span>' +
+      '<span><svg width="12" height="12" aria-hidden="true"><rect class="m-airport" x="0.8" y="0.8" width="10.4" height="10.4" rx="2"/></svg>' + T('m.airports') + '</span>' +
       '<span class="map-note">' + T('m.scale') + '</span><button type="button" class="map-hint">' + T('m.zoom') + '</button></p>';
   }
 
@@ -568,11 +570,16 @@
   }
 
   /* ---------- Dodaj and Usuń ---------- */
-  // the Usuń button of a stay and "Dodane" when Dodaj put it there; a night on the way has neither
+  // Usuń only where the trip can go on without that place (the airport's city of a round trip often cannot)
+  function canRemove(id) {
+    var st = normSettings(withRemoved(state.settings, id), PLACES, HUBS);
+    return st.ok && planRoute(st, DATA).ok;
+  }
+  // "Dodane" when Dodaj put the stay there and the Usuń button where the stay can go; a night on the way has neither
   function stopTools(s) {
     if (PLACES[s.id].node) return '';
     return (state.st.add.indexOf(s.id) > -1 ? '<span class="tag-added">' + T('tag.added') + '</span>' : '') +
-      '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>';
+      (canRemove(s.id) ? '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>' : '');
   }
   // the places off the trip, each with Dodaj, unless Dodaj already asked for it and it did not fit
   function renderOffRoute() {
