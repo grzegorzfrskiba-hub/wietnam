@@ -1,0 +1,35 @@
+/* The texts of the places: one file per place in site2/src/content/, CONTENT.<id> = { … }, loaded after this one.
+   Written once for every month, in Polish, to one reader (ty), without gendered forms (notes/wizja.md).
+   The fields of a place:
+   - name, short, sub: the full name; the short name for the strip, the map and lists; one line under the name;
+   - region: one of REGIONS; maps: where Google Maps directions start or end; pt: [lat, lon] on the map;
+   - photos: ids from photos.js, 3–5 (none for a night on the way);
+   - days: one plan per night of the longest stay (nights[2] in places.js),
+     { p, o, pace, t, d, early?, rain?, easy?, hard?, solo? }:
+     p: priority, the lowest kept when the stay is short; p 1 is the arrival day (pace travel or rest);
+     o: the order within the stay; pace: one of PACES; t: title; d: text; early: starts before 6:00;
+     rain: what to do on a wet day (shown after "Gdy pada: ", so it starts with a small letter);
+     easy: the plan at level 1 (spokojnie), { pace, t, d, early? }, required on a hiking day;
+     hard: the plan at level 3 (ekstremalnie), { pace, t, d, early?, off? }; off: the months 1–12 it is not offered;
+     solo: on the p 1 day only, the plan of a one-night stay: that evening and the next morning before moving on;
+   - again: on an airport's city (HUBS) only: the arrival day of its second stay on a round trip;
+   - gem, skip, instead: tips (skip and instead together). */
+var CONTENT = {};
+var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
+var REGIONS = ['south', 'centre', 'north'];
+
+/* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]. */
+var AIRPORTS = {
+  SGN: { name: 'Hồ Chí Minh City', maps: 'Tan Son Nhat International Airport', pt: [10.82, 106.66] },
+  HAN: { name: 'Hà Nội', maps: 'Noi Bai International Airport', pt: [21.22, 105.80] },
+  DAD: { name: 'Đà Nẵng', maps: 'Da Nang International Airport', pt: [16.04, 108.20] },
+  HUI: { name: 'Huế', maps: 'Phu Bai International Airport', pt: [16.40, 107.70] },
+  DLI: { name: 'Đà Lạt', maps: 'Lien Khuong Airport', pt: [11.75, 108.37] },
+  PQC: { name: 'Phú Quốc', maps: 'Phu Quoc International Airport', pt: [10.17, 103.99] },
+  VCA: { name: 'Cần Thơ', maps: 'Can Tho International Airport', pt: [10.08, 105.71] },
+  HPH: { name: 'Hải Phòng (Cát Bi)', maps: 'Cat Bi International Airport', pt: [20.82, 106.72] },
+  THD: { name: 'Thanh Hóa (Thọ Xuân)', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] }
+};
+
+/* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */
+var ROAD_KEYS = { 'cattien-dalat': 'r.car_baoloc', 'hoian-hue': 'r.haivan' };

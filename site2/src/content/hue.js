@@ -1,0 +1,17 @@
+/* Huế: texts of the place (plan 1B; the December planner had Hội An and Huế as one place). Fields: see site2/src/content.js. */
+CONTENT.hue = {
+  name: 'Huế', short: 'Huế',
+  sub: 'Cesarskie Miasto, grobowce nad Rzeką Perfumową i pola ryżowe wokół',
+  region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59],
+  photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
+  days: [
+    { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',
+      rain: 'kryte galerie Cesarskiego Miasta i Muzeum Królewskich Antyków.' },
+    { p: 2, o: 2, pace: 'culture', t: 'Huế na rowerze', d: 'Rowerem wzdłuż Rzeki Perfumowej do grobowców Minh Mạng i Tự Đức, a późnym popołudniem do pagody Thiên Mụ.',
+      rain: 'grobowce samochodem zamiast rowerem, a potem długi obiad z bún bò Huế.',
+      easy: { pace: 'culture', t: 'Huế łodzią i samochodem', d: 'Smoczą łodzią w górę Rzeki Perfumowej do pagody Thiên Mụ, potem samochodem do grobowców Minh Mạng i Tự Đức.' } },
+    { p: 3, o: 3, pace: 'nature', t: 'Okolice Huế', d: 'Kryty dachówką most w Thanh Toàn wśród pól ryżowych, potem laguna Tam Giang o zachodzie słońca.',
+      rain: 'lekcja gotowania w Huế albo samochodem do starych domów z ogrodami w Kim Long.' }
+  ],
+  gem: 'Thanh Toàn, kryty most z lat 70. XVIII wieku wśród pól ryżowych na wschód od Huế.'
+};

@@ -1,14 +1,16 @@
 #!/bin/bash
-# Runs the engine and data tests in JavaScriptCore (node is not installed on this Mac). Exit 0 = all pass.
+# Runs every test in JavaScriptCore (node is not installed on this Mac). Exit 0 = all pass.
 #   bash tests/run.sh          every test; the combination test checks every 7th combination
 #   bash tests/run.sh --full   the combination test checks every combination (about half a minute)
-# Strict on purpose: every source and test file is listed here, and a missing or renamed one stops the run
-# instead of being skipped. Any other argument prints the usage and stops too.
+# Strict on purpose: every source and test file is listed here (the texts of the places as site2/src/content/*.js),
+# a missing or renamed one stops the run instead of being skipped, and every tests/*.test.js must be in TESTS.
+# Any other argument prints the usage and stops too.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 J=/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc
-SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/photos.js"
-TESTS="tests/engine.test.js tests/data.test.js tests/combos.test.js"
+CONTENT_FILES=$(ls site2/src/content/*.js)
+SOURCES="site2/src/places.js site2/src/seasons.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/content.js $CONTENT_FILES site2/src/photos.js"
+TESTS="tests/engine.test.js tests/data.test.js tests/content.test.js tests/combos.test.js"
 MODE=""
 if [ $# -eq 1 ] && [ "$1" = "--full" ]; then
   MODE="tests/full.js"
@@ -21,6 +23,12 @@ for f in $SOURCES tests/assert.js $MODE $TESTS; do
     echo "tests/run.sh: missing file $f" >&2
     exit 1
   fi
+done
+for t in tests/*.test.js; do
+  case " $TESTS " in
+    *" $t "*) ;;
+    *) echo "tests/run.sh: $t is not in TESTS" >&2; exit 1 ;;
+  esac
 done
 for t in $TESTS; do
   echo "== $t"
