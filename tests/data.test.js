@@ -56,3 +56,27 @@ dataCheck('seasons', function (need) {
   Object.keys(SEASONS).forEach(function (id) { need(PLACES[id], 'season for an unknown place: ' + id); });
   need(SEASONS.hanoiStop === SEASONS.hanoi, 'a night in Hà Nội on the way has Hà Nội\'s season');
 });
+
+dataCheck('holidays', function (need) {
+  var prev = '';
+  HOLIDAYS.forEach(function (h, i) {
+    var w = 'HOLIDAYS[' + i + '] ' + JSON.stringify(h);
+    need(h.length === 4 && isoDay(h[0]) !== null && isoDay(h[1]) !== null && h[0] <= h[1], w + ': [first day, last day, kind, name] with real dates');
+    need(['tet', 'holiday'].indexOf(h[2]) > -1, w + ': kind tet or holiday');
+    need(typeof h[3] === 'string' && h[3].trim() !== '', w + ': a name');
+    need(h[0] >= HOLIDAYS_FROM && h[1] <= HOLIDAYS_UNTIL, w + ': inside ' + HOLIDAYS_FROM + '…' + HOLIDAYS_UNTIL);
+    need(h[0] >= prev, w + ': sorted by date');
+    prev = h[0];
+  });
+  function has(day, kind) { return HOLIDAYS.some(function (h) { return h[0] <= day && day <= h[1] && (!kind || h[2] === kind); }); }
+  for (var y = 2027; y <= 2031; y++) {
+    need(HOLIDAYS.some(function (h) { return h[2] === 'tet' && h[0].slice(0, 4) === String(y); }), 'Tết ' + y);
+    need(has(y + '-01-01'), 'New Year ' + y);
+  }
+  for (var z = 2027; z <= 2030; z++) {
+    [z + '-04-30', z + '-05-01', z + '-09-02'].forEach(function (day) { need(has(day, 'holiday'), 'holiday on ' + day); });
+  }
+  // a trip that starts on the last day the page offers still ends inside the list
+  need(isoDay(HOLIDAYS_UNTIL) - isoDay(PLAN_LAST_YEAR + '-12-31') >= MAX_DAYS - 1, 'HOLIDAYS_UNTIL covers a trip of ' + MAX_DAYS + ' days from 31.12.' + PLAN_LAST_YEAR);
+  need(TET_MARGIN_DAYS === 7, 'the week before and after Tết counts');
+});
