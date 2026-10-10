@@ -41,6 +41,14 @@
       nights += x.n; day += x.n;
       used[x.id] = (used[x.id] || 0) + 1;
     });
+    // the page's day plans (page.js): one per night of every stay at the level set, and no hike at level 1
+    var done = {};
+    r.stops.forEach(function (x) {
+      var days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months);
+      need(days && days.length === x.n, x.id + ': ' + (days ? days.length : 'no') + ' day plans for ' + x.n + ' nights' + (done[x.id] ? ' (second stay)' : ''));
+      if (days && s.level === 1) need(days.every(function (d) { return d.pace !== 'hike'; }), x.id + ': a hike at level 1');
+      done[x.id] = (done[x.id] || 0) + x.n;
+    });
     need(nights === s.days - 1, nights + ' nights, want ' + (s.days - 1));
     need(r.days === s.days, 'days ' + r.days);
     need(r.stops[0].leg.from === s.from && r.stops[0].leg.flights === 0, 'arrival day: by road from ' + s.from);
