@@ -174,7 +174,7 @@ Zmiany zadania 7:
 
 | pole | zdanie w tekście | fakt i zmiana | źródło (data) |
 |---|---|---|---|
-| `days` p 2 | „Łodzią do jaskini Puông, wodospadu Đầu Đẳng i na wyspę Ba Góa.” | Było „Łodzią albo kajakiem”. Zawiadomienie 120/TB-UBND gminy Ba Bể (lipiec 2026) zakazuje na jeziorze kajaków, SUP, pontonów, samodzielnych tratw i kąpieli bez zabezpieczeń. Legalne łodzie pasażerskie i turystyczne pływają normalnie. | SEZ: P2 (14.7.2026, otwarte znowu 10.10.2026); TD: BB-P2 |
+| `days` p 2 | „Łodzią do jaskini Puông, wodospadu Đầu Đẳng i na wyspę Bà Góa.” | Było „Łodzią albo kajakiem”. Zawiadomienie 120/TB-UBND gminy Ba Bể (lipiec 2026) zakazuje na jeziorze kajaków, SUP, pontonów, samodzielnych tratw i kąpieli bez zabezpieczeń. Legalne łodzie pasażerskie i turystyczne pływają normalnie. | SEZ: P2 (14.7.2026, otwarte znowu 10.10.2026); TD: BB-P2 |
 | `days` p 2 `easy` | „Po południu odpoczynek u gospodarzy i niespieszny spacer po wiosce.” | Było „wysiłek zostawcie przewoźnikowi” i spacer brzegiem jeziora. Zwykły dzień też płynie teraz łodzią, więc wersja łatwa różni się tylko popołudniem. Brzegiem jeziora idzie się już o zmierzchu w dniu p 1, stąd spacer po wiosce. Bez nowego faktu. | — |
 | `solo` | „a rano śniadanie i dalej w drogę” | Nowe zakończenie poranka, jak w innych wersjach na jedną noc. Bez nowego faktu. | — |
 
