@@ -2,7 +2,8 @@
 # Usage: tests/probe.sh <probe.js> <width> [hash] [pixel-ratio]
 #   e.g. tests/probe.sh tests/probes/link.js 1400 'od=HAN&do=DAD&miesiac=2027-03&dni=12&co=kultura&poziom=3' 2
 #        tests/probe.sh my-check.js 390 'od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2'
-# Runs the built page (site2/out/web) in headless Chrome inside an iframe of <width> px, with probe.js appended as a script,
+# Runs the built page (site2/out/pages/index.html, the full document: doctype, no body margin) in headless Chrome inside an
+# iframe of <width> px, with probe.js appended as a script after the document (the parser puts it at the end of the body),
 # and prints every console.log line that starts with "P:". A probe reads or clicks the page and logs what it finds.
 # Also saves a screenshot of the last state to $TMPDIR/vn-probe/shot.png.
 # Pitfalls: the page scrolls smoothly, so set document.documentElement.style.scrollBehavior = 'auto' before scrollTo;
@@ -10,10 +11,10 @@
 # in zsh, loop over pairs with `for w d in 390 2 1400 1` (an unquoted "$a" is not split into words).
 set -uo pipefail
 cd "$(dirname "$0")/.."
-[ -s site2/out/web/index.html ] || { echo "probe.sh: run python3 site2/build.py first" >&2; exit 1; }
+[ -s site2/out/pages/index.html ] || { echo "probe.sh: run python3 site2/build.py first" >&2; exit 1; }
 D="${TMPDIR:-/tmp}/vn-probe"; rm -rf "$D"; mkdir -p "$D"
-ln -s "$PWD/site2/out/web/img" "$D/img"
-{ cat site2/out/web/index.html; echo "<script>"; cat "$1"; echo "</script>"; } > "$D/index.html"
+ln -s "$PWD/site2/out/pages/img" "$D/img"
+{ cat site2/out/pages/index.html; echo "<script>"; cat "$1"; echo "</script>"; } > "$D/index.html"
 printf '<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style><iframe src="index.html#%s" width="%s" height="900"></iframe>' "${3:-}" "$2" > "$D/wrap.html"
 U=$(mktemp -d)
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --user-data-dir="$U" --allow-file-access-from-files \

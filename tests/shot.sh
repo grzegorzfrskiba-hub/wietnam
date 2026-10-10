@@ -1,14 +1,17 @@
 #!/bin/bash
 # Usage: tests/shot.sh <settings> <width> <out.png> [height]   e.g. tests/shot.sh 'od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2' 390 /tmp/a.png
 # <settings>: the part of a settings link after # (an empty string opens the defaults).
-# [height]: capture height in px; the default is 2600 (measure the page first to shoot all of it).
+# [height]: capture height in px; the default is 2600 (measure the page first to shoot all of it; heights past 16000 px work).
+# Shoots site2/out/pages/index.html, the full document a visitor gets (doctype, no body margin). The fragment in site2/out/web
+# has no doctype, so Chrome opens it in quirks mode with an 8 px margin around the page.
 # Headless Chrome writes the PNG but never exits here, so we poll for the file and kill Chrome.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+[ -s site2/out/pages/index.html ] || { echo "shot.sh: run python3 site2/build.py first" >&2; exit 1; }
 C="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 TMP=$(mktemp -d)
 rm -f "$3"
-URL="file://$PWD/site2/out/web/index.html#$1"
+URL="file://$PWD/site2/out/pages/index.html#$1"
 WIN="$2"
 H="${4:-2600}"
 # Headless Chrome clamps the window to ~500 px wide, so narrow shots go through an iframe wrapper.
