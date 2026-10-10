@@ -70,24 +70,28 @@ function isoDay(iso) {
   return dt.getUTCFullYear() === +m[1] && dt.getUTCMonth() === +m[2] - 1 && dt.getUTCDate() === +m[3] ? t / 864e5 : null;
 }
 
-/* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days;
-   with dates, month and days are not read. Month, days and level must be numbers, interests, add and remove lists
-   (null counts as missing: a missing level is 2, a missing list is empty). The page turns the text of a link into
-   those first: a text would be read as digits or by substring ('gorykultura' holds two interests), so any other
-   type is refused.
-   Returns { ok: true, from, to, days, start, month, months, interests, level, add, remove } or { ok: false, error },
-   error being the field refused: airport, date, month, days, interests, level, add or remove.
+/* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days,
+   with an optional year (2000–2100) in the month mode; with dates, month, year and days are not read. Airports and dates
+   must be texts; month, year, days and level numbers; interests, add and remove lists (null counts as missing: a missing
+   level is 2, a missing list is empty). The page turns the text of a link into those first: a text would be read as digits
+   or by substring ('gorykultura' holds two interests), and a list as its text (['XA'] as 'XA'), so any other type is refused.
+   Returns { ok: true, from, to, days, start, month, year, months, interests, level, add, remove } or { ok: false, error },
+   error being the field refused: airport, date, month, year, days, interests, level, add or remove.
    months[d - 1] is the month (0–11) of trip day d: day 1 is the arrival day, the last day the flight home. */
 function normSettings(s, places, hubs) {
-  if (!hubs.hasOwnProperty(s.from) || !hubs.hasOwnProperty(s.to)) return { ok: false, error: 'airport' };
-  var out = { ok: true, from: s.from, to: s.to, start: null, month: null, months: [] };
+  if (typeof s.from !== 'string' || typeof s.to !== 'string' || !hubs.hasOwnProperty(s.from) || !hubs.hasOwnProperty(s.to)) {
+    return { ok: false, error: 'airport' };
+  }
+  var out = { ok: true, from: s.from, to: s.to, start: null, month: null, year: null, months: [] };
   if (s.start != null) {
+    if (typeof s.start !== 'string' || typeof s.end !== 'string') return { ok: false, error: 'date' };
     var a = isoDay(s.start), b = isoDay(s.end);
     if (a === null || b === null) return { ok: false, error: 'date' };
     out.start = s.start; out.days = b - a + 1;
   } else {
     if (!(typeof s.month === 'number' && s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
-    out.month = s.month; out.days = s.days;
+    if (s.year != null && !(typeof s.year === 'number' && s.year >= 2000 && s.year <= 2100 && s.year % 1 === 0)) return { ok: false, error: 'year' };
+    out.month = s.month; out.year = s.year == null ? null : s.year; out.days = s.days;
   }
   // the days check comes before any loop, so a huge span is refused without building months
   if (!(typeof out.days === 'number' && out.days >= MIN_DAYS && out.days <= MAX_DAYS && out.days % 1 === 0)) return { ok: false, error: 'days' };

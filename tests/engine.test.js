@@ -221,3 +221,20 @@ var rm = twTrip(TW, 'TS', 'TN', { remove: ['m'] });
 eq(brief(rm), 's1 n3', 'removing m takes its twin off the trip');
 near(rm.score, 7.325, 'its score');
 print('planning ok');
+
+/* ---------- settings: the year and the types of airports and dates (plan 1B) ---------- */
+eq([fxSet({ from: 'XA', to: 'XD', month: 2, year: 2027, days: 6 }).year, fxSet({ from: 'XA', to: 'XD', month: 2, days: 6 }).year],
+  [2027, null], 'the year in the month mode, optional');
+eq(fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03', year: 'x' }).year, null, 'with dates, the year is not read');
+[
+  [{ from: 'XA', to: 'XD', month: 2, year: '2027', days: 6 }, 'year'],
+  [{ from: 'XA', to: 'XD', month: 2, year: 2027.5, days: 6 }, 'year'],
+  [{ from: 'XA', to: 'XD', month: 2, year: 1999, days: 6 }, 'year'],
+  [{ from: 'XA', to: 'XD', month: 2, year: 2101, days: 6 }, 'year'],
+  // a list or an object would pass as its text: ['XA'] is 'XA' to hasOwnProperty and to a regular expression
+  [{ from: ['XA'], to: 'XD', month: 2, days: 6 }, 'airport'],
+  [{ from: 'XA', to: { toString: function () { return 'XD'; } }, month: 2, days: 6 }, 'airport'],
+  [{ from: 'XA', to: 'XD', start: ['2027-01-30'], end: '2027-02-03' }, 'date'],
+  [{ from: 'XA', to: 'XD', start: '2027-01-30', end: 20270203 }, 'date']
+].forEach(function (c) { eq(fxSet(c[0]), { ok: false, error: c[1] }, 'error ' + c[1] + ' for ' + JSON.stringify(c[0])); });
+print('year and types ok');
