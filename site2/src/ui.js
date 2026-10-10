@@ -48,6 +48,7 @@ UI.pl = {
   'f.hikes.one': 'dzień z wędrówką', 'f.hikes.few': 'dni z wędrówką', 'f.hikes.many': 'dni z wędrówką',
   'f.longest': 'najdłuższy dzień w drodze',
   'term.month': '{month} {year}',
+  'alert.past': 'Ten termin już minął. Wybierz nowy miesiąc albo daty, a trasa ułoży się na nowo.',
   'alert.tet': 'Tết, dni wolne ok. {span}: część miejsc jest zamknięta, a transport i noclegi wyprzedają się i drożeją, także tydzień przed i po. Rezerwuj wcześnie.',
   'alert.holiday': '{name} (ok. {span}): wolne w całym kraju, więc w drodze i w popularnych miejscach jest tłoczniej. Transport i noclegi rezerwuj wcześniej.',
   'alert.nodata': 'Dla części terminu strona nie ma dat świąt. Sprawdź daty Tết i świąt państwowych.',

@@ -49,7 +49,7 @@
 
   /* ---------- state ---------- */
   var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
-  var TODAY = new Date().toISOString().slice(0, 10);
+  var TODAY = clampToday(new Date().toISOString().slice(0, 10), HOLIDAYS_FROM, PLAN_LAST_YEAR);   // the device clock, held inside the days the page plans for
   var DEFAULTS = defaultSettings(TODAY);
   // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay
   var state = { settings: null, st: null, route: null, plans: null };
@@ -225,6 +225,7 @@
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS);
     var lines = a.hits.map(function (h) { return T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) }); });
     if (a.unknown) lines.push(T('alert.nodata'));
+    if (termPassed(st, TODAY)) lines.unshift(T('alert.past'));   // an old link keeps its trip, and says so
     $('#alerts').innerHTML = lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     $('#alerts').hidden = !lines.length;
   }

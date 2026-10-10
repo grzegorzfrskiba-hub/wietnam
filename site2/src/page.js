@@ -101,6 +101,13 @@ function defaultSettings(today) {
   return { from: 'SGN', to: 'HAN', year: y, month: m, days: 15, interests: [], level: 2, add: [], remove: [] };
 }
 
+/* Today (YYYY-MM-DD) held inside the days the page plans for: not before fromISO and not after December 1 of lastYear. A
+   wrong device clock then still gives defaults the engine accepts and a short list of months. */
+function clampToday(todayISO, fromISO, lastYear) {
+  var last = lastYear + '-12-01';
+  return todayISO < fromISO ? fromISO : todayISO > last ? last : todayISO;
+}
+
 /* The months the page offers, [{ year, month }]: from this month to December of lastYear, and always a year ahead. */
 function monthChoices(today, lastYear) {
   var y = +today.slice(0, 4), m = +today.slice(5, 7), end = Math.max(lastYear, y + 1), out = [];
@@ -167,6 +174,13 @@ function tripSpan(st) {
   if (!st.year) return null;
   var mm = (st.month < 10 ? '0' : '') + st.month, last = new Date(Date.UTC(st.year, st.month, 0)).getUTCDate();
   return [st.year + '-' + mm + '-01', st.year + '-' + mm + '-' + last];
+}
+
+/* Whether the term is over: the trip's last day (tripSpan: the month's last day in the month mode, the end date with dates)
+   is before todayISO (YYYY-MM-DD). False without a span (a month without a year). */
+function termPassed(st, todayISO) {
+  var span = tripSpan(st);
+  return !!span && span[1] < todayISO;
 }
 
 /* The holidays that touch the trip: rows [first, last, kind, name] of list (HOLIDAYS) that overlap tripSpan, Tết from

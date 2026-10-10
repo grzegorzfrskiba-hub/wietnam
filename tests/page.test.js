@@ -57,6 +57,15 @@ eq([DEF.add, DEF.days], [[], 15], 'the defaults stay as they were');
 var mc = monthChoices('2026-10-10', 2030);
 eq([mc.length, mc[0], mc[mc.length - 1]], [51, { year: 2026, month: 10 }, { year: 2030, month: 12 }], 'the months: from this one to December 2030');
 eq(monthChoices('2031-03-01', 2030).pop(), { year: 2032, month: 12 }, 'past the holiday list: still a year ahead');
+eq([clampToday('1970-01-01', '2026-10-01', 2030), clampToday('2101-05-05', '2026-10-01', 2030), clampToday('2027-03-15', '2026-10-01', 2030)],
+  ['2026-10-01', '2030-12-01', '2027-03-15'], 'today: a clock before the list starts goes to its first day, one past the last year to December 1 of it, a good one stays');
+eq([clampToday('2026-10-01', '2026-10-01', 2030), clampToday('2030-12-01', '2026-10-01', 2030), clampToday('2030-12-02', '2026-10-01', 2030), clampToday('2026-09-30', '2026-10-01', 2030)],
+  ['2026-10-01', '2030-12-01', '2030-12-01', '2026-10-01'], 'today: the two edges stay, a day outside goes to the edge');
+['1970-01-01', '1999-12-31', '2026-09-30', '2030-12-31', '2101-05-05', '9999-12-31'].forEach(function (t) {
+  var d = defaultSettings(clampToday(t, '2026-10-01', 2030)), got = settingsFromLink({}, d, PLACES, HUBS);
+  ok(normSettings(d, PLACES, HUBS).ok && got.st.ok && got.dropped.length === 0, 'a device clock of ' + t + ' still gives defaults the engine accepts');
+  ok(monthChoices(clampToday(t, '2026-10-01', 2030), 2030).length <= 51 + 12, 'a device clock of ' + t + ' still gives a short list of months');
+});
 print('settings ok');
 
 /* ---------- day plans ---------- */
@@ -146,6 +155,15 @@ eq(fmtSpan('2027-02-06', '2027-02-12'), '6–12.02.2027', 'a span in one month')
 eq(fmtSpan('2027-04-30', '2027-05-03'), '30.04–3.05.2027', 'a span over two months');
 eq(fmtSpan('2030-12-28', '2031-01-02'), '28.12.2030–2.01.2031', 'a span over two years');
 eq(fmtSpan('2027-01-01', '2027-01-01'), '1.01.2027', 'one day');
+var TODAY_T = '2026-10-11';
+eq([termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 9, days: 10 }), TODAY_T), termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 10, days: 10 }), TODAY_T),
+  termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2027, month: 3, days: 10 }), TODAY_T)], [true, false, false], 'term passed, the month mode: an earlier month yes, this month and a later one no');
+eq([termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 10, days: 10 }), '2026-10-31'), termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 10, days: 10 }), '2026-11-01')],
+  [false, true], 'term passed, the month mode: the last day of the month still counts, the next day does not');
+eq([termPassed(stOf({ from: 'SGN', to: 'HAN', start: '2026-08-01', end: '2026-08-10' }), TODAY_T), termPassed(stOf({ from: 'SGN', to: 'HAN', start: '2026-10-05', end: '2026-10-11' }), TODAY_T),
+  termPassed(stOf({ from: 'SGN', to: 'HAN', start: '2026-10-05', end: '2026-10-10' }), TODAY_T), termPassed(stOf({ from: 'SGN', to: 'HAN', start: '2027-01-30', end: '2027-02-03' }), TODAY_T)],
+  [true, false, true, false], 'term passed, dates: the end date decides (today is still in the trip), a later trip no');
+eq(termPassed(stOf({ from: 'SGN', to: 'HAN', month: 2, days: 10 }), TODAY_T), false, 'term passed: a month without a year has no span, so no');
 print('dates and holidays ok');
 
 /* ---------- the trip ---------- */
