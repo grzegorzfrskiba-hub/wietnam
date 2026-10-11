@@ -10,5 +10,8 @@ CONTENT.caobang = {
     { p: 3, o: 2, pace: 'nature', t: 'Oko Anioła i Pác Bó', d: 'Núi Mắt Thần – góra z otworem na wylot w szczycie, wznosząca się nad trawiastą doliną – i czysty, zielony strumień w Pác Bó przy granicy.' },
     { p: 2, o: 3, pace: 'nature', t: 'Jeziora, przełęcz, wodospad i jaskinia', d: 'Rano łańcuch krasowych jezior Thang Hen i serpentyny przełęczy Mã Phục, w środku dnia wodospad Bản Giốc, a po południu jaskinia Ngườm Ngao. Wodospad jest w środku dnia, bo w porze suchej, od końca listopada do początku maja, elektrownie powyżej niego potrafią rano zatrzymywać wodę i najwięcej jej spada ok. 11:00–14:30. Nocleg w Khuổi Ky, wiosce ludu Tày z kamiennymi domami.' }
   ],
-  gem: 'Kamienne domy Khuổi Ky i jeziora Thang Hen.'
+  gem: 'Kamienne domy Khuổi Ky i jeziora Thang Hen.',
+  events: [
+    { from: [9, 20], to: [10, 10], t: 'Najlepszy czas na Bản Giốc: pod koniec września i na początku października wodospad jest szeroki, a pora deszczowa się kończy.' }
+  ]
 };

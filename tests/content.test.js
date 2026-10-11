@@ -23,7 +23,8 @@ var CITIES = {};   // the airports' cities: on a round trip they come twice
 Object.keys(HUBS).forEach(function (code) { CITIES[HUBS[code]] = true; });
 
 contentCheck('content', function (need) {
-  var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'photos', 'days', 'again', 'gem', 'skip', 'instead'];
+  var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
+  function monthDay(v) { return Array.isArray(v) && v.length === 2 && v[0] % 1 === 0 && v[0] >= 1 && v[0] <= 12 && v[1] % 1 === 0 && v[1] >= 1 && v[1] <= 31; }
   var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'easy', 'hard', 'solo'];
   // a plan or a version of one: pace, title, text, maybe an early start
   function plan(w, d, keys) {
@@ -79,6 +80,14 @@ contentCheck('content', function (need) {
     }
     ['gem', 'skip', 'instead'].forEach(function (k) { if (c[k] != null) need(isText(c[k]), id + ': ' + k); });
     need((c.skip == null) === (c.instead == null), id + ': skip and instead go together');
+    if (c.events != null) need(Array.isArray(c.events) && c.events.length > 0, id + ': events is a list with entries');
+    (Array.isArray(c.events) ? c.events : []).forEach(function (e, i) {
+      var w = id + ' event ' + (i + 1);
+      Object.keys(e).forEach(function (k) { need(['from', 'to', 't', 'warn'].indexOf(k) > -1, w + ': unknown field ' + k); });
+      need(monthDay(e.from) && monthDay(e.to), w + ': from and to as [month, day]');
+      need(isText(e.t), w + ': text t');
+      if (e.warn != null) need(e.warn === true, w + ': warn is true or left out');
+    });
   });
   Object.keys(CONTENT).forEach(function (id) { need(PLACES[id], 'texts for an unknown place: ' + id); });
   // every airport of the travel data has its name, place for Google Maps and point on the map

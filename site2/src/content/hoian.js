@@ -15,5 +15,8 @@ CONTENT.hoian = {
   again: { pace: 'travel', t: 'Powrót do Hội An', d: 'Spokojny wieczór nad morzem: taksówką albo rowerem przez pola ryżowe na plażę An Bàng, 3–4 km od starego miasta, spacer brzegiem i kolacja z owocami morza w jednej z knajpek przy plaży.' },
   gem: 'Cẩm Thanh: kanały wśród wodnych palm kokosowych, kilka kilometrów od starego miasta.',
   skip: 'Stare miasto w Hội An o 19:00, gdy tłumy wśród lampionów są największe.',
-  instead: 'stare miasto o 6:00 i okoliczne wioski.'
+  instead: 'stare miasto o 6:00 i okoliczne wioski.',
+  events: [
+    { from: [10, 1], to: [11, 30], warn: true, t: 'Szczyt pory powodzi: po ulewach rzeka Thu Bồn potrafi zalać stare miasto i na kilka dni wstrzymać zwiedzanie. Sprawdzaj prognozy i miej plan w zapasie.' }
+  ]
 };

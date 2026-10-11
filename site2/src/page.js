@@ -214,6 +214,64 @@ function fmtSpan(a, b) {
   return +p[2] + '–' + dm(q) + '.' + q[0];
 }
 
+/* ---------- weather, events and the season of an interest ---------- */
+var RAIN_PLAN_DAYS = 10;   // a day's rain plan shows in a month with this many days of rain or more (climate.js, as the page rounds it)
+
+/* The weather of one stay, month by month: [{ month: 1–12, season: 'D'|'S'|'Z'|'X', t: [min, max], mm, days, why: [codes] }],
+   one entry for each month the stay's days (start…end) fall in, in order, the numbers rounded as the page shows them.
+   stop: { id, start, n }; months: st.months (0–11 for each trip day); climate: CLIMATE; seasons: SEASONS. */
+function stayWeather(stop, months, climate, seasons) {
+  var c = climate[stop.id], out = [];
+  for (var d = stop.start; d < stop.start + stop.n; d++) {
+    var m = months[d - 1] + 1;
+    if (out.length && out[out.length - 1].month === m) continue;
+    out.push({ month: m, season: seasons[stop.id].charAt(m - 1), t: [Math.round(c.t[m - 1][0]), Math.round(c.t[m - 1][1])],
+      mm: Math.round(c.rain[m - 1][0]), days: Math.round(c.rain[m - 1][1]), why: (c.why[m] || []).slice() });
+  }
+  return out;
+}
+
+/* Whether a day's rain plan shows: in month (1–12) the place has RAIN_PLAN_DAYS days of rain or more. placeClimate: CLIMATE[id]. */
+function rainyMonth(placeClimate, month) { return Math.round(placeClimate.rain[month - 1][1]) >= RAIN_PLAN_DAYS; }
+
+/* The events and seasonal notes of a place that a stay meets: the entries of c.events ({ from, to, t, warn }; from and to
+   as [month, day], every year, and a window may run over the new year) that touch the stay's days (start…end). With dates
+   the days themselves count; in the month mode, as for the holidays, the whole month of the trip.
+   c: the place's content; stop: { start, n }; st: normSettings' result. */
+function stayEvents(c, stop, st) {
+  var days = [], d, iso;   // each day as month × 100 + day
+  if (st.start) for (d = stop.start; d < stop.start + stop.n; d++) { iso = tripDate(st.start, d); days.push(+iso.slice(5, 7) * 100 + +iso.slice(8)); }
+  else for (d = 1; d <= 31; d++) days.push(st.month * 100 + d);
+  return (c.events || []).filter(function (e) {
+    var a = e.from[0] * 100 + e.from[1], b = e.to[0] * 100 + e.to[1];
+    return days.some(function (x) { return a <= b ? x >= a && x <= b : x >= a || x <= b; });
+  });
+}
+
+/* The chosen interests that the trip serves badly. For each chosen interest, the stays that serve it (fit 2 or more; a
+   night on the way does not count): when there is none, { interest, none: true }; when each of them has only poor nights
+   (Z), { interest, ids: their places, each once, why: the reasons of those months, each once, months: those months (1–12),
+   each once, in order }. Otherwise nothing. route: planRoute's trip; st: normSettings' result; climate: CLIMATE. */
+function interestAlerts(route, st, places, climate) {
+  var out = [];
+  st.interests.forEach(function (k) {
+    var serving = route.stops.filter(function (s) { return !places[s.id].node && (places[s.id].fit[k] || 0) >= 2; });
+    if (!serving.length) { out.push({ interest: k, none: true }); return; }
+    if (!serving.every(function (s) { return /^Z+$/.test(s.season); })) return;
+    var a = { interest: k, ids: [], why: [], months: [] };
+    serving.forEach(function (s) {
+      if (a.ids.indexOf(s.id) < 0) a.ids.push(s.id);
+      for (var d = s.start; d < s.start + s.n; d++) {
+        var m = st.months[d - 1] + 1;
+        if (a.months.indexOf(m) < 0) a.months.push(m);
+        (climate[s.id].why[m] || []).forEach(function (w) { if (a.why.indexOf(w) < 0) a.why.push(w); });
+      }
+    });
+    out.push(a);
+  });
+  return out;
+}
+
 /* ---------- the trip ---------- */
 /* The leg after stay i of a trip, as stopDays wants it (its next): { home, h }, h the hours of the journey. A stop's leg
    in planRoute leads into it, so the leg after a stay is the next stop's; after the last stay it is the way home. */

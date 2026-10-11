@@ -17,6 +17,9 @@
      solo: on the p 1 day only, the plan of a one-night stay: that evening and the next morning before moving on;
    - again: on an airport's city (HUBS) only: the arrival day of its second stay on a round trip;
      a second stay starts with again and goes on with the plans after the first stay's, by p;
+   - events: what happens at the place in some weeks of every year, shown in its card when a stay meets them:
+     [{ from, to, t, warn? }], from and to as [month, day] (a window may run over the new year); t: what to know, in a sentence or
+     two; warn: true for a caution (high water, floods, leeches) rather than an event; sources in research/sezony-2026-10.md;
    - gem, skip, instead: tips (skip and instead together). */
 var CONTENT = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];

@@ -13,5 +13,8 @@ CONTENT.hue = {
     { p: 3, o: 3, pace: 'nature', t: 'Okolice Huế', d: 'Kryty dachówką most w Thanh Toàn wśród pól ryżowych, potem laguna Tam Giang o zachodzie słońca.',
       rain: 'lekcja gotowania w Huế albo samochodem do starych domów z ogrodami w Kim Long.' }
   ],
-  gem: 'Thanh Toàn, kryty most z lat 70. XVIII wieku wśród pól ryżowych na wschód od Huế.'
+  gem: 'Thanh Toàn, kryty most z lat 70. XVIII wieku wśród pól ryżowych na wschód od Huế.',
+  events: [
+    { from: [10, 1], to: [11, 30], warn: true, t: 'Szczyt pory powodzi: po ulewach woda potrafi zalać Cytadelę i zamknąć Đại Nội na kilka dni. Sprawdzaj prognozy i komunikaty przed zwiedzaniem.' }
+  ]
 };

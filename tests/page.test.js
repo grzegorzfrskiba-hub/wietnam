@@ -1,4 +1,5 @@
 /* The page's pure helpers (page.js), on made-up content and the real places. */
+var DATA_T = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };   // the real data, as app.js plans with it
 
 /* ---------- the settings link ---------- */
 eq(parseLink('#od=SGN&do=HAN&miesiac=2027-02&dni=15&co=przyroda,gory&poziom=2&dodaj=phuquoc&usun=hoian'),
@@ -179,6 +180,33 @@ eq([termPassed(stOf({ from: 'SGN', to: 'HAN', start: '2026-08-01', end: '2026-08
   [true, false, true, false], 'term passed, dates: the end date decides (today is still in the trip), a later trip no');
 eq(termPassed(stOf({ from: 'SGN', to: 'HAN', month: 2, days: 10 }), TODAY_T), false, 'term passed: a month without a year has no span, so no');
 print('dates and holidays ok');
+
+/* ---------- weather, events and the season of an interest ---------- */
+var MAR = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2], MARAPR = [2, 2, 3, 3, 3, 3, 3, 3, 3, 3];
+eq(stayWeather({ id: 'hue', start: 3, n: 2 }, MAR, CLIMATE, SEASONS), [{ month: 3, season: 'D', t: [20, 28], mm: 51, days: 10, why: [] }],
+  'the weather of a stay: its month, rounded as the page shows it');
+eq(stayWeather({ id: 'saigon', start: 2, n: 2 }, MARAPR, CLIMATE, SEASONS).map(function (w) { return [w.month, w.season, w.t, w.why]; }),
+  [[3, 'D', [25, 34], []], [4, 'S', [26, 35], ['upal']]], 'a stay over two months: both, each with its reasons');
+var FCL = { rain: [[90, 10], [80, 9.4], [70, 9.6]] };
+eq([rainyMonth(FCL, 1), rainyMonth(FCL, 2), rainyMonth(FCL, 3), RAIN_PLAN_DAYS], [true, false, true, 10],
+  'the rain plan from 10 days of rain, counted as the page rounds them (9.6 shows as 10)');
+eq([rainyMonth(CLIMATE.saigon, 2), rainyMonth(CLIMATE.saigon, 9)], [false, true], 'Hồ Chí Minh City: no rain plan in February, one in September');
+var FEV = { events: [{ from: [5, 25], to: [6, 15], t: 'A' }, { from: [11, 1], to: [4, 30], t: 'B' }, { from: [12, 24], to: [12, 26], t: 'C', warn: true }] };
+function evs(st, stop) { return stayEvents(FEV, stop, st).map(function (e) { return e.t; }); }
+var stJun = stOf({ from: 'SGN', to: 'HAN', start: '2027-06-13', end: '2027-06-20' });
+eq([evs(stJun, { start: 2, n: 2 }), evs(stJun, { start: 4, n: 2 })], [['A'], []], 'dates: an event on the last day of its window counts, the day after not');
+eq(evs(stOf({ from: 'SGN', to: 'HAN', start: '2027-12-29', end: '2028-01-05' }), { start: 1, n: 5 }), ['B'], 'a window over the new year, and a stay over it');
+eq([evs(stOf({ from: 'SGN', to: 'HAN', year: 2027, month: 12, days: 10 }), { start: 1, n: 3 }), evs(stOf({ from: 'SGN', to: 'HAN', year: 2027, month: 7, days: 10 }), { start: 1, n: 3 })],
+  [['B', 'C'], []], 'the month mode: the whole month counts, as for the holidays');
+eq(stayEvents({ days: [] }, { start: 1, n: 2 }, stJun), [], 'a place without events');
+function alertsOf(s) { var st = stOf(s); return interestAlerts(planRoute(st, DATA_T), st, PLACES, CLIMATE); }
+eq(alertsOf({ from: 'HAN', to: 'DAD', year: 2027, month: 9, days: 7, interests: ['morze'], level: 2 }), [{ interest: 'morze', ids: ['catba'], why: ['tajfuny'], months: [9] }],
+  'the sea in September: Cát Bà, the only sea on the trip, in its typhoon season');
+eq(alertsOf({ from: 'DAD', to: 'DAD', year: 2027, month: 7, days: 5, interests: ['morze', 'kultura'], level: 2 }), [{ interest: 'morze', none: true }],
+  'five days from Đà Nẵng in July: no place on the trip for the sea; culture is served');
+eq(alertsOf({ from: 'SGN', to: 'HAN', year: 2027, month: 3, days: 15, interests: ['morze'], level: 2 }), [], 'the sea in March: Phú Quốc in a good season, no alert');
+eq(alertsOf({ from: 'HAN', to: 'DAD', year: 2027, month: 9, days: 7, interests: [], level: 2 }), [], 'no interest chosen: no alert');
+print('weather and events ok');
 
 /* ---------- the trip ---------- */
 var FR = { stops: [{ id: 'saigon', leg: { flights: 0, total: 0.5 } }, { id: 'dalat', leg: { flights: 1, total: 3.75 } },

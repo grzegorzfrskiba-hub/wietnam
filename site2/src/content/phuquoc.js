@@ -12,5 +12,8 @@ CONTENT.phuquoc = {
   ],
   gem: 'Płycizny z rozgwiazdami w Rạch Vẹm na północnym wybrzeżu.',
   skip: 'Sunset Town, kolejka linowa na Hòn Thơm i VinWonders na południu.',
-  instead: 'północne wybrzeże i park narodowy.'
+  instead: 'północne wybrzeże i park narodowy.',
+  events: [
+    { from: [11, 1], to: [4, 30], t: 'Pora rozgwiazd: od listopada do kwietnia morze przy Rạch Vẹm jest spokojne, a woda czysta, więc rozgwiazdy dobrze widać. Patrz, nie podnoś.' }
+  ]
 };
