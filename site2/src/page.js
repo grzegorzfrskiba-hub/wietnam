@@ -100,12 +100,22 @@ function settingsFromLink(link, defaults, places, hubs, rejected) {
   throw new Error('settingsFromLink: the defaults do not pass normSettings');
 }
 
-/* The settings without a link, for now (stage 2 sets the real ones): Hồ Chí Minh City → Hà Nội, the next month, 15 days,
-   no interest, level 2. today: YYYY-MM-DD. */
-function defaultSettings(today) {
-  var y = +today.slice(0, 4), m = +today.slice(5, 7) + 1;
-  if (m > 12) { m = 1; y++; }
-  return { from: 'SGN', to: 'HAN', year: y, month: m, days: 15, interests: [], level: 2, add: [], remove: [] };
+/* The settings without a link: Hồ Chí Minh City → Hà Nội, 15 days, no interest, level 2, in the best of the 12 months
+   after today's: the month whose trip scores highest; a tie goes to the month with fewer holidays (tripAlerts), then to
+   the earlier one. today: YYYY-MM-DD; data: planRoute's data; holidays: { list, from, until, tetMargin } for tripAlerts. */
+function defaultSettings(today, data, holidays) {
+  var y = +today.slice(0, 4), m = +today.slice(5, 7), best = null;
+  for (var k = 1; k <= 12; k++) {
+    var mm = m + k, yy = y;
+    while (mm > 12) { mm -= 12; yy++; }
+    var s = { from: 'SGN', to: 'HAN', year: yy, month: mm, days: 15, interests: [], level: 2, add: [], remove: [] };
+    var st = normSettings(s, data.places, data.hubs), r = planRoute(st, data);
+    if (!r.ok) continue;
+    var hol = tripAlerts(st, holidays.list, holidays.from, holidays.until, holidays.tetMargin).hits.length;
+    if (!best || r.score > best.score + 1e-9 || (Math.abs(r.score - best.score) <= 1e-9 && hol < best.hol)) best = { s: s, score: r.score, hol: hol };
+  }
+  if (!best) throw new Error('defaultSettings: no month gives a trip');
+  return best.s;
 }
 
 /* Today (YYYY-MM-DD) held inside the days the page plans for: not before fromISO and not after December 1 of lastYear. A

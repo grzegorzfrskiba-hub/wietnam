@@ -29,9 +29,29 @@ eq(parseLink(linkHash(roundD)), { from: 'HAN', to: 'HAN', start: '2027-01-30', e
 print('link ok');
 
 /* ---------- the defaults and the settings a link opens ---------- */
-var DEF = defaultSettings('2026-10-10');
-eq(DEF, { from: 'SGN', to: 'HAN', year: 2026, month: 11, days: 15, interests: [], level: 2, add: [], remove: [] }, 'the defaults: the next month');
-eq([defaultSettings('2026-12-31').year, defaultSettings('2026-12-31').month], [2027, 1], 'after December: January of the next year');
+var HOL = { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS };
+var DEF = defaultSettings('2026-10-10', DATA_T, HOL);
+eq([DEF.from, DEF.to, DEF.days, DEF.interests, DEF.level, DEF.add, DEF.remove], ['SGN', 'HAN', 15, [], 2, [], []],
+  'the defaults: Hồ Chí Minh City → Hà Nội, 15 days, no interest, level 2');
+/* The month of the defaults: the best of the 12 after today's by the trip's score; a tie goes to the month with fewer
+   holidays, then to the earlier one. The test checks the rule, not a month: the best month moves with the data. */
+function bestMonthOk(today) {
+  var d = defaultSettings(today, DATA_T, HOL), y = +today.slice(0, 4), m = +today.slice(5, 7), rated = [];
+  for (var k = 1; k <= 12; k++) {
+    var mm = m + k, yy = y;
+    while (mm > 12) { mm -= 12; yy++; }
+    var st = normSettings(Object.assign({}, d, { year: yy, month: mm }), PLACES, HUBS);
+    rated.push({ year: yy, month: mm, score: planRoute(st, DATA_T).score, hol: tripAlerts(st, HOL.list, HOL.from, HOL.until, HOL.tetMargin).hits.length });
+  }
+  var me = rated.filter(function (x) { return x.year === d.year && x.month === d.month; })[0];
+  ok(me, today + ': the default month is one of the 12 after it');
+  rated.forEach(function (x) {
+    var tie = Math.abs(x.score - me.score) <= 1e-9;
+    ok(!(x.score > me.score + 1e-9 || (tie && x.hol < me.hol) || (tie && x.hol === me.hol && x.year * 12 + x.month < me.year * 12 + me.month)),
+      today + ': ' + x.year + '-' + x.month + ' should be the default month, not ' + d.year + '-' + d.month);
+  });
+}
+['2026-10-10', '2027-02-15', '2027-06-30', '2027-12-31'].forEach(bestMonthOk);
 function opened(hash) { return settingsFromLink(parseLink(hash), DEF, PLACES, HUBS); }
 var g1 = opened('#od=HAN&do=DAD&miesiac=2027-03&dni=12&co=kultura&poziom=3');
 eq([g1.settings.from, g1.settings.to, g1.settings.year, g1.settings.month, g1.settings.days, g1.settings.interests, g1.settings.level, g1.dropped, g1.st.ok],
@@ -40,14 +60,14 @@ var g2 = opened('#od=XYZ&do=DAD&dni=40&co=kultura,jedzenie,morze&poziom=7');
 eq([g2.settings.from, g2.settings.to, g2.settings.days, g2.settings.interests, g2.settings.level, g2.dropped.slice().sort()],
   ['SGN', 'DAD', 15, [], 2, ['days', 'from', 'interests', 'level']], 'refused fields go back to the defaults, the good ones stay');
 var g3 = opened('#od=SGN&do=HAN&start=2027-01-01&koniec=2027-03-01');
-eq(['start' in g3.settings, g3.st.start, g3.st.month, g3.st.days, g3.dropped.slice().sort()], [false, null, 11, 15, ['end', 'start']],
+eq(['start' in g3.settings, g3.st.start, g3.st.month, g3.st.days, g3.dropped.slice().sort()], [false, null, DEF.month, 15, ['end', 'start']],
   'dates over 30 days: back to the month of the defaults');
 var g4 = opened('#od=SGN&do=HAN&start=2027-01-30');
 eq([g4.st.start, g4.dropped], [null, ['start']], 'a start without an end: back to the month');
 var g5 = opened('#od=SGN&do=HAN&dodaj=hanoiStop,phuquoc&usun=hanoiStop');
 eq([g5.settings.add, g5.settings.remove, g5.st.add, g5.dropped], [['phuquoc'], [], ['phuquoc'], []], 'a night on the way gets no Dodaj or Usuń, also from a link');
 var g6 = opened('#miesiac=1999-05');
-eq([g6.st.year, g6.st.month, g6.dropped], [2026, 5, ['year']], 'a year the engine refuses: the default year, the month stays');
+eq([g6.st.year, g6.st.month, g6.dropped], [DEF.year, 5, ['year']], 'a year the engine refuses: the default year, the month stays');
 var g7 = opened('#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=kultura,xyz&dodaj=xyz,phuquoc&usun=nieznane');
 eq([g7.settings.interests, g7.settings.add, g7.settings.remove, g7.dropped.slice().sort()], [['kultura'], ['phuquoc'], [], ['add', 'interests', 'remove']],
   'unknown interests and places are taken out of the settings and reported');
@@ -74,7 +94,7 @@ eq([clampToday('1970-01-01', '2026-10-01', 2030), clampToday('2101-05-05', '2026
 eq([clampToday('2026-10-01', '2026-10-01', 2030), clampToday('2030-12-01', '2026-10-01', 2030), clampToday('2030-12-02', '2026-10-01', 2030), clampToday('2026-09-30', '2026-10-01', 2030)],
   ['2026-10-01', '2030-12-01', '2030-12-01', '2026-10-01'], 'today: the two edges stay, a day outside goes to the edge');
 ['1970-01-01', '1999-12-31', '2026-09-30', '2030-12-31', '2101-05-05', '9999-12-31'].forEach(function (t) {
-  var d = defaultSettings(clampToday(t, '2026-10-01', 2030)), got = settingsFromLink({}, d, PLACES, HUBS);
+  var d = defaultSettings(clampToday(t, '2026-10-01', 2030), DATA_T, HOL), got = settingsFromLink({}, d, PLACES, HUBS);
   ok(normSettings(d, PLACES, HUBS).ok && got.st.ok && got.dropped.length === 0, 'a device clock of ' + t + ' still gives defaults the engine accepts');
   ok(monthChoices(clampToday(t, '2026-10-01', 2030), 2030).length <= 51 + 12, 'a device clock of ' + t + ' still gives a short list of months');
 });

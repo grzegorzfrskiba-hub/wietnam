@@ -51,7 +51,7 @@
   /* ---------- state ---------- */
   var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
   var TODAY = clampToday(new Date().toISOString().slice(0, 10), HOLIDAYS_FROM, PLAN_LAST_YEAR);   // the device clock, held inside the days the page plans for
-  var DEFAULTS = defaultSettings(TODAY);
+  var DEFAULTS = defaultSettings(TODAY, DATA, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
   // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay
   var state = { settings: null, st: null, route: null, plans: null };
 
