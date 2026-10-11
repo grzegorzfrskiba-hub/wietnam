@@ -207,6 +207,7 @@ contentCheck('ui', function (need) {
     'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'mon3.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'monl.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     'season.': ['D', 'S', 'Z'], 'why.': ['from', 'to'], 'wx.': WEATHER_WHY,
     'off.r.': ['removed', 'level', 'closed', 'season', 'profile', 'far', 'beaten'],
+    'm.': Object.keys(MAP_PANELS),
     'alert.': ['tet', 'holiday', 'nodata'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
   Object.keys(FAMILIES).forEach(function (pre) {
