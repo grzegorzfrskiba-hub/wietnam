@@ -91,3 +91,50 @@ dataCheck('photos', function (need) {
   });
   need(PHOTO_META[HERO_PHOTO], 'the hero photo ' + HERO_PHOTO + ' has its credits');
 });
+
+/* The climate (climate.js) against its research note: the numbers and the season letters are those of the tables in
+   research/sezony-2026-10.md, every fair or poor month has a reason, and a reason that is a threshold of the note
+   (section „Progi”) holds for the month's numbers. EXCEPT: the note's exception, Cát Tiên in November, whose park counts
+   its rainy season to November although the station in the city gets less rain. */
+dataCheck('climate', function (need) {
+  var MONTHS = ['styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'];
+  var EXCEPT = { cattien: { 11: ['deszcz'] } }, notes = {};
+  function n(s) { return +s.replace(',', '.'); }
+  readFile('research/sezony-2026-10.md').split('\n## ').forEach(function (sec) {
+    var m = /^([a-z]+): /.exec(sec), sun = /Słońce, h \(I–XII[^)]*\): ([\d, ]+)/.exec(sec), same = /Słońce jak w `([a-z]+)`/.exec(sec);
+    if (!m || !SEASONS[m[1]]) return;
+    var r = notes[m[1]] = { t: [], rain: [], letters: '', sun: sun ? sun[1].split(',').map(Number) : null, sunOf: same ? same[1] : null };
+    sec.split('\n').forEach(function (line) {
+      var c = line.split('|').map(function (x) { return x.trim(); }), t, w;
+      if (c.length < 7 || MONTHS.indexOf(c[1]) < 0) return;
+      t = /(-?[\d,]+)–(-?[\d,]+)/.exec(c[4]); w = /([\d,]+)\s*mm,\s*([\d,]+)\s*d/.exec(c[5]);
+      r.letters += c[2];
+      r.t.push(t ? [n(t[1]), n(t[2])] : null);
+      r.rain.push(w ? [n(w[1]), n(w[2])] : null);
+    });
+  });
+  need(CLIMATE.hanoiStop === CLIMATE.hanoi, 'a night in Hà Nội on the way has Hà Nội\'s climate');
+  Object.keys(PLACES).forEach(function (id) {
+    var c = CLIMATE[id], r = notes[PLACES[id].node || id];
+    need(c && r, id + ': climate and its table in the research note');
+    if (!c || !r) return;
+    var sun = r.sun || (r.sunOf && notes[r.sunOf].sun);
+    need(r.letters === SEASONS[id], id + ': the letters of the note, ' + r.letters + ', are the season in seasons.js');
+    need(JSON.stringify(c.t) === JSON.stringify(r.t), id + ': t as in the note');
+    need(JSON.stringify(c.rain) === JSON.stringify(r.rain), id + ': rain as in the note');
+    Object.keys(c.why).forEach(function (k) { need(+k >= 1 && +k <= 12, id + ': why for month ' + k); });
+    for (var mo = 1; mo <= 12; mo++) {
+      var why = c.why[mo] || [], letter = SEASONS[id].charAt(mo - 1), t = c.t[mo - 1], w = c.rain[mo - 1], h = sun ? sun[mo - 1] : null, w2 = id + ' month ' + mo;
+      need(letter === 'D' ? why.length === 0 : why.length > 0, w2 + ': ' + (letter === 'D' ? 'a good month has no reason' : 'season ' + letter + ' needs a reason'));
+      why.forEach(function (code) {
+        need(WEATHER_WHY.indexOf(code) > -1, w2 + ': unknown reason ' + code);
+        if ((EXCEPT[id] && EXCEPT[id][mo] || []).indexOf(code) > -1) return;
+        if (code === 'upal') need(t[1] >= 34, w2 + ': heat needs a mean high of 34 °C or more');
+        if (code === 'deszcz') need(w[0] >= 160 && w[1] >= 13, w2 + ': rainy season needs 160 mm and 13 days with rain');
+        if (code === 'ulewy') need(w[0] >= 300 && w[1] >= 16 && h !== null && h <= 150, w2 + ': downpours need 300 mm, 16 days with rain and at most 150 h of sun');
+        if (code === 'szaro') need(h !== null && h <= 80, w2 + ': grey needs at most 80 h of sun');
+        if (code === 'chlod') need(t[0] < 15 && h !== null && h <= 150, w2 + ': cold nights need a mean low under 15 °C and at most 150 h of sun');
+      });
+    }
+  });
+});

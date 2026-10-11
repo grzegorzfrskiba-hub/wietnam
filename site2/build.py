@@ -11,7 +11,7 @@ OUT_PAGES = os.path.join(ROOT, "out", "pages")
 OUT_OFF = os.path.join(ROOT, "out", "offline")
 OFFLINE_NAME = "Wietnam-po-swojemu.html"
 # the page's scripts in load order; the photo list (PHOTOS) and app.js come after them
-SCRIPTS = (["places.js", "seasons.js", "travel.js", "engine.js", "holidays.js", "content.js"]
+SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
            + sorted("content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "content", "*.js")))
            + ["photos.js", "ui.js", "page.js", "basemap.js"])
 # Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo.
