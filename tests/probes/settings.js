@@ -2,6 +2,8 @@
 // of the trip right under the form and following each change, the interests greyed out after two also when a change gives
 // no trip, the changes building on the form, the level's words, the summary for the bar, and a link that was partly wrong.
 // tests/probe.sh tests/probes/settings.js 390 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
+// and at 360 px, the narrowest common phone (the two date fields side by side must fit):
+// tests/probe.sh tests/probes/settings.js 360 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
 setTimeout(function () {
   var f = document.getElementById('settings-form'), box = function (el) { return el.getBoundingClientRect(); };
   var top = document.documentElement.getBoundingClientRect().top;   // the page is at its top: positions are page positions
@@ -23,6 +25,8 @@ setTimeout(function () {
   check('two interests: the other three are greyed out', f.querySelectorAll('input[name=interest]:disabled').length === 3);
   // a term that is no trip, then more changes: the form keeps them, and Dodaj builds on them
   f.querySelector('input[name=mode][value=dates]').click();
+  var doc = document.documentElement;
+  check('the dates fit the screen: the page does not scroll sideways', doc.scrollWidth <= doc.clientWidth, doc.scrollWidth + ' > ' + doc.clientWidth);
   setField('end', '2026-01-01');
   check('an end before the start: a message under the form', /od 5 do 30 dni/.test(textOf('#settings-msg')), textOf('#settings-msg'));
   f.querySelector('input[name=interest][value=jedzenie]').click();

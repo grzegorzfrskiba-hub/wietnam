@@ -132,7 +132,8 @@ ul, ol { padding: 0; list-style: none; }
 .field-grow { flex: 1 1 0; min-width: 0; }
 .set-arrow { padding-bottom: 10px; color: var(--muted); }
 .field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
-.field select, .field input { width: 100%; font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 44px; }
+/* min-width 0: a date field's own minimum would push two of them past a 360 px phone (tests/probes/settings.js) */
+.field select, .field input { width: 100%; min-width: 0; font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 44px; }
 /* a choice of one as buttons in a row: the term mode and the level */
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; padding: 3px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; max-width: 560px; }
 .seg label { position: relative; display: grid; place-items: center; min-height: 44px; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 15px; text-align: center; line-height: 1.25; }
