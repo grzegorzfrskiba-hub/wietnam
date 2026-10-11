@@ -233,9 +233,6 @@ var FR = { stops: [{ id: 'saigon', leg: { flights: 0, total: 0.5 } }, { id: 'dal
   { id: 'hanoiStop', leg: { flights: 1, total: 6 } }, { id: 'saigon', leg: { flights: 1, total: 5 } }], home: { flights: 0, total: 0.5 } };
 var FP = [[{ pace: 'travel' }], [{ pace: 'travel' }, { pace: 'hike' }, { pace: 'hike' }], [{ pace: 'travel' }], [{ pace: 'rest' }]];
 eq(routeStats(FR, FP, PLACES), { places: 2, flights: 3, hikes: 2, longest: 6, road: 15.75 }, 'places once each, no night on the way; every leg and the way home');
-var stO = stOf({ from: 'SGN', to: 'HAN', month: 3, days: 10, add: ['phuquoc'], remove: ['mekong'] });
-eq(offRoute({ stops: [{ id: 'saigon' }, { id: 'dalat' }, { id: 'hanoi' }] }, stO, PLACES).map(function (x) { return x.id + (x.removed ? '-' : '') + (x.added ? '+' : ''); }),
-  ['mekong-', 'phuquoc+', 'cattien', 'hoian', 'hue', 'puluong', 'ninhbinh', 'catba', 'babe', 'caobang'], 'off the trip, south to north, no night on the way');
 var base = { from: 'SGN', to: 'HAN', year: 2027, month: 3, days: 15, interests: [], level: 2, add: ['catba'], remove: ['hoian'] };
 eq([withAdded(base, 'hoian').add, withAdded(base, 'hoian').remove], [['catba', 'hoian'], []], 'Dodaj takes a place off the removed list');
 eq([withRemoved(base, 'catba').add, withRemoved(base, 'catba').remove], [[], ['hoian', 'catba']], 'Usuń takes a place off the added list');

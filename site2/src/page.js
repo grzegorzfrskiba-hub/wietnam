@@ -305,16 +305,6 @@ function routeStats(route, plans, places) {
   return out;
 }
 
-/* The places that could be on the trip but are not, south to north, for the list with "Dodaj": every place up to the
-   chosen level, without nights on the way. removed: Usuń took it off; added: Dodaj asked for it, but it did not fit. */
-function offRoute(route, st, places) {
-  var on = {};
-  route.stops.forEach(function (s) { on[s.id] = true; });
-  return Object.keys(places).filter(function (id) { return !places[id].node && !on[id] && places[id].level <= st.level; })
-    .sort(function (a, b) { return places[a].axis - places[b].axis || (a < b ? -1 : 1); })
-    .map(function (id) { return { id: id, removed: st.remove.indexOf(id) > -1, added: st.add.indexOf(id) > -1 }; });
-}
-
 /* The places that left the trip when Dodaj changed it, in the order of the old trip, for the sentence after Dodaj: on the
    old trip, not on the new one. before, after: the stops of the two trips ({ id }); places: PLACES. A night on the way
    is no place to report, and a city twice on a round trip counts once. */

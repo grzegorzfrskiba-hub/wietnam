@@ -44,6 +44,11 @@
     var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', timeZone: 'UTC' });
     return wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
   }
+  // "w marcu", "we wrześniu" (we before w and a consonant)
+  function inMonth(m) { var noun = T('monl.' + m); return (/^w[^aeiouyąęó]/i.test(noun) ? 'we ' : 'w ') + noun; }
+  // the short names of places, for a sentence
+  function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
+  function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
   function termText(st) {
     return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
   }
@@ -242,6 +247,13 @@
     if (state.linkWarn) lines.push(T('set.dropped'));
     if (passed) lines.push(T('alert.past'));
     a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) })); });
+    // a chosen interest whose places on the trip are all in a poor season, or that no place on the trip serves
+    interestAlerts(r, st, PLACES, CLIMATE).forEach(function (x) {
+      var what = T('int.' + x.interest);
+      lines.push(x.none ? T('alert.int_none', { x: what }) : T(x.ids.length > 1 ? 'alert.int_bad_many' : 'alert.int_bad',
+        { x: what, when: x.months.map(inMonth).join(' i '), places: x.ids.map(function (id) { return C(id).short; }).join(' i '),
+          why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') }));
+    });
     if (a.unknown && !passed) lines.push(T('alert.nodata'));
     $('#alerts').innerHTML = lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     $('#alerts').hidden = !lines.length;
@@ -267,13 +279,45 @@
     $('#missing').textContent = r.missing.length ? T('missing', { x: r.missing.map(function (id) { return C(id).short; }).join(', ') }) : '';
   }
 
-  function dayItem(d) {
+  /* Why stay i is on the trip ("Wybrane, bo…"), and, on a full card, its weather in the month or months of its days and the
+     events of the place that it meets. */
+  function seasonPhrase(months) {
+    if (months.every(function (m) { return m.season === months[0].season; })) {
+      return inMonth(months[0].month) + months.slice(1).map(function (m) { return ' i ' + T('monl.' + m.month); }).join('') + ' ' + T('season.' + months[0].season);
+    }
+    return months.map(function (m) { return inMonth(m.month) + ' ' + T('season.' + m.season); }).join(', ');
+  }
+  function weatherLine(list) {
+    return T('wx.first', { when: inMonth(list[0].month), x: list.map(function (w, k) {
+      return (k ? inMonth(w.month) + ': ' : '') + T('wx.month', { t: w.t[0] + '–' + w.t[1], mm: w.mm, days: w.days + ' ' + countWord('wx.days', w.days) }) +
+        (w.why.length ? ' (' + w.why.map(function (c) { return T('wx.' + c); }).join(', ') + ')' : '');
+    }).join('; ') });
+  }
+  function stayFacts(i, compact) {
+    var s = state.route.stops[i], w = whyOn(state.route, i, state.st, PLACES, HUBS), parts = [], html;
+    if (w.night) return '<p class="why-on">' + esc(T('why.night', { a: C(w.night[0]).short, b: C(w.night[1]).short })) + '</p>';
+    if (w.added) parts.push(T('why.added'));
+    if (w.airport) parts.push(T('why.' + w.airport));
+    w.interests.forEach(function (k) { parts.push(T('int.' + k).toLowerCase()); });
+    if (w.way) parts.push(T('why.way'));
+    parts.push(seasonPhrase(w.months));
+    html = '<p class="why-on">' + esc(T('why.on', { x: parts.join(', ') })) + '</p>';
+    if (compact) return html;
+    html += '<p class="why-wx">' + esc(weatherLine(stayWeather(s, state.st.months, CLIMATE, SEASONS))) + '</p>';
+    stayEvents(C(s.id), s, state.st).forEach(function (e) {
+      html += '<p class="event' + (e.warn ? ' event-warn' : '') + '"><b>' + T(e.warn ? 'ev.warn' : 'ev.event') + '</b>' + esc(e.t) + '</p>';
+    });
+    return html;
+  }
+
+  // one day of a stay; its rain plan only when wet: in a month with many days of rain (rainyMonth in page.js)
+  function dayItem(d, wet) {
     return '<li class="day" id="day-' + d.day + '"><div class="day-n mono">' + T('day') + ' <b>' + d.day + '</b>' +
       (dateLabel(d.day) ? '<span class="day-date">' + esc(dateLabel(d.day)) + '</span>' : '') + '</div>' +
       '<div class="day-body"><h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
       (d.variant ? ' <span class="pace pace-' + d.variant + '">' + T('badge.' + d.variant) + '</span>' : '') +
       (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>' +
-      '<p>' + esc(d.d) + '</p>' + (d.rain ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : '') + '</div></li>';
+      '<p>' + esc(d.d) + '</p>' + (d.rain && wet ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : '') + '</div></li>';
   }
   function tips(c) {
     var t = '';
@@ -347,13 +391,16 @@
   function renderStops() {
     var r = state.route, html = '';
     r.stops.forEach(function (s, i) {
-      var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; });
+      var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; }), compact = !c.photos.length || again;
       html += legCard(s.leg, s.start, i ? r.stops[i - 1] : null, s.id) +
-        '<section class="stop' + (c.photos.length && !again ? '' : ' stop-compact') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
+        '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
         '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
         '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
-        (again ? '' : gallery(s.id)) + '<ol class="days">' + state.plans[i].map(dayItem).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
+        '<div class="why">' + stayFacts(i, compact) + '</div>' +
+        (again ? '' : gallery(s.id)) + '<ol class="days">' + state.plans[i].map(function (d) {
+          return dayItem(d, rainyMonth(CLIMATE[s.id], state.st.months[d.day - 1] + 1));
+        }).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
     });
     html += legCard(r.home, r.days, r.stops[r.stops.length - 1], null) + homeCard();
     $('#stops').innerHTML = html;
@@ -600,24 +647,33 @@
     return (state.st.add.indexOf(s.id) > -1 ? '<span class="tag-added">' + T('tag.added') + '</span>' : '') +
       (canRemove(s.id) ? '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>' : '');
   }
-  // the places off the trip, each with Dodaj, unless Dodaj already asked for it and it did not fit
+  /* "Nie ma na twojej trasie, bo…": every place off the trip with why it is not on it (whyOff in page.js), and Dodaj where it
+     can put the place on the trip, with what would leave the trip for it. */
+  function offReason(r, x) {
+    if (r === 'level') return T('off.r.level', { lvl: T('lvl.' + PLACES[x.id].level) });
+    if (r === 'season') return T('off.r.season', { why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') });
+    if (r === 'beaten') return T('off.r.beaten', { days: state.st.days });
+    return T('off.r.' + r);
+  }
   function renderOffRoute() {
     var s = state.settings;
-    $('#offroute-list').innerHTML = offRoute(state.route, state.st, PLACES).map(function (x) {
+    $('#offroute-list').innerHTML = whyOff(state.route, s, state.st, DATA, CLIMATE).map(function (x) {
       var c = C(x.id);
-      return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><span>' + esc(c.short) + '</span>' +
-        (x.removed ? '<span class="off-tag">' + T('off.removed') + '</span>' : '') +
-        (x.added ? '<span class="off-tag">' + T('off.missing') + '</span>'
-          : '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>') + '</li>';
+      return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><div class="off-body"><b>' + esc(c.short) + '</b>' +
+        (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') +
+        '<p class="off-why">' + esc(capFirst(x.reasons.map(function (r) { return offReason(r, x); }).join('; '))) + '.</p>' +
+        (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) }) : T('off.nodrops')) + '</p>' : '') + '</div>' +
+        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
   }
-  /* After Dodaj: which places left the trip to make room for the added one. Its own status line, so "Nie zmieściło się" stays;
-     the next change of the trip clears it (apply). Nothing is said when no place left. */
-  function reportDropped(added, before) {
-    var ids = droppedPlaces(before, state.route.stops, PLACES);
-    if (!ids.length) return;
-    $('#dropped').textContent = tied(T('off.dropped', { x: C(added).short, list: ids.map(function (id) { return C(id).short; }).join(', ') }));
+  /* After Dodaj: which places left the trip and which came besides the added one (addReport). Its own status line, so
+     "Nie zmieściło się" stays; the next change of the trip clears it (apply). Nothing is said when nothing else changed. */
+  function reportAdd(added, before) {
+    var rep = addReport(before, state.route.stops, added, PLACES), x = C(added).short, text = '';
+    if (rep.left.length) text = T('off.dropped', { x: x, list: names(rep.left) });
+    if (rep.came.length) text += (text ? ' ' : '') + T(rep.left.length ? 'off.came' : 'off.came_only', { x: x, list: names(rep.came) });
+    $('#dropped').textContent = tied(text);
   }
   function bindChanges() {
     document.addEventListener('click', function (e) {
@@ -630,7 +686,7 @@
         : withRemoved(base, b.getAttribute('data-remove'));
       if (apply(s)) {
         syncForm();
-        if (added) reportDropped(added, before);
+        if (added) reportAdd(added, before);
         $('#shape-h2').focus({ preventScroll: true });   // the button is gone with the old trip; the trip's heading takes the focus
       } else {
         $('#missing').textContent = $('#settings-msg').textContent;   // the message also next to the buttons that caused it
