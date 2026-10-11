@@ -2,7 +2,7 @@
 CONTENT.cattien = {
   name: 'Park Narodowy Cát Tiên', short: 'Cát Tiên',
   sub: 'Nizinna dżungla, gibony i nocne safari',
-  region: 'south', maps: 'Cat Tien National Park, Vietnam', pt: [11.43, 107.43],
+  region: 'south', maps: 'Cat Tien National Park, Vietnam', pt: [11.43, 107.43], color: 4,
   photos: ['cattien_0', 'cattien_1', 'cattien_3', 'cattien_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'W głąb dżungli', d: 'Przepraw się małym promem przez rzekę Đồng Nai do siedziby parku i nocuj na jego terenie. Po zmroku nocna przejażdżka w poszukiwaniu jeleni i cywet.',

@@ -2,7 +2,7 @@
 CONTENT.phuquoc = {
   name: 'Cicha północ Phú Quốc', short: 'Phú Quốc',
   sub: 'Rybackie wioski, płycizny z rozgwiazdami i park narodowy',
-  region: 'south', maps: 'Ganh Dau, Phu Quoc, Vietnam', pt: [10.33, 103.97],
+  region: 'south', maps: 'Ganh Dau, Phu Quoc, Vietnam', pt: [10.33, 103.97], color: 3,
   photos: ['phuquoc_0', 'phuquoc_1', 'phuquoc_2', 'phuquoc_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Wyspiarskie tempo', d: 'Nocleg na północnym wybrzeżu koło Gành Dầu, z dala od pasa resortów na południu. Zachód słońca nad Zatoką Tajlandzką.' },

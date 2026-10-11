@@ -2,7 +2,7 @@
 CONTENT.ninhbinh = {
   name: 'Ninh Bình', short: 'Ninh Bình',
   sub: 'Łodzie wiosłowe wśród wapiennych turni',
-  region: 'north', maps: 'Tam Coc, Ninh Binh, Vietnam', pt: [20.25, 105.9],
+  region: 'north', maps: 'Tam Coc, Ninh Binh, Vietnam', pt: [20.25, 105.9], color: 9,
   photos: ['ninhbinh_0', 'ninhbinh_3', 'ninhbinh_4', 'ninhbinh_5', 'ninhbinh_6'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Między krasowe wzgórza', d: 'Nocleg w uliczkach za Tam Cốc. Jeśli dotrzesz najpóźniej w połowie popołudnia, wybierz się jeszcze na przejażdżkę łodzią wiosłową po mokradłach Vân Long; ostatnie łodzie odpływają późnym popołudniem.',

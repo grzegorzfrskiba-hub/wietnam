@@ -463,3 +463,212 @@ function tieNames(text, names) {
   names.forEach(function (n) { if (text.indexOf(n) > -1) text = text.split(n).join(n.replace(/ /g, '\u00a0')); });
   return text;
 }
+
+/* ---------- the map: three panels, the markers and the labels ---------- */
+var PANEL_GAP = 16;                               // between two panels, px
+/* A panel's scale (px per degree) and height from its corners (panels.js): MAP_WIDTH px wide. geo/make_basemap.py works
+   them out the same way, rounding the height half up. */
+function panelSize(c) {
+  var s = MAP_WIDTH / (c.lon1 - c.lon0);
+  return { lon0: c.lon0, lat0: c.lat0, s: s, w: MAP_WIDTH, h: Math.round((c.lat0 - c.lat1) * s), bar: c.bar };
+}
+var PIN_H = 20, POINT_R = 4, AIRPORT_BOX = 12, STUB = 30;
+var NAME_PX = 11.5, SUB_PX = 10, SMALL_PX = 10;   // the label fonts: .m-label, .m-sub and .m-faint-label in template.html
+// the boxes of labels: a stay's name over its days, a line of 10 px. Chrome draws the glyphs of a line 1.3 em high (IBM Plex:
+// 1.025 em above the baseline, 0.275 em below), so a box leaves half a pixel above and below them (app.js: labelText)
+var STAY_LABEL_H = 28, LINE_H = 14;
+
+/* A text's width in px, a little more than it takes: IBM Plex Sans semibold by the kind of each letter (measured in
+   Chrome, 11.10.2026: 0.47–0.62 em a letter over the names of the places), IBM Plex Mono 0.6 em a letter. */
+function textWidth(text, px, mono) {
+  if (mono) return String(text).length * px * 0.61;
+  var em = 0;
+  String(text).split('').forEach(function (ch) {
+    em += ch === ' ' ? 0.26 : /[iljI.,:;'!|()]/.test(ch) ? 0.3 : /[ftr]/.test(ch) ? 0.4 : /[mwMW]/.test(ch) ? 0.9 : /[A-ZĐ]/.test(ch) ? 0.68 : 0.58;
+  });
+  return em * px + 2;
+}
+function overlapArea(a, b) {
+  return Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+}
+
+/* Labels on one panel, each where it covers no other label, no marker and stays inside the panel, when it can.
+   items: [{ x, y (the point), w, h (the label), gx, gy (the gap from the point sideways and up or down), drop, toward,
+   alts }], in the order of placing; alts: other points [x, y] the label may stand by instead, tried after the first; obstacles: [{ x, y, w, h, k }] that no label should cover, k the weight of covering it: 1 when
+   left out; an obstacle with k under 1 (a faint dot) may be covered when nothing better is free; bounds: { w, h }. Each item tries twelve places around its point (right, left, above, below, then shifted
+   up, down or sideways), those on the side of toward ([dx, dy], a direction) first; the first that covers nothing wins,
+   else the one that covers least (weighted), or none for an item with drop: true. Returns, in the items' order,
+   { x, y (the text's anchor point, at the box's top), anchor, box, clear, cost, alt (0 for the first point, then the
+   number of the alts point + 1) } or null. */
+function placeLabels(items, obstacles, bounds) {
+  var placed = [];
+  return items.map(function (it) {
+    var w = it.w, h = it.h, gx = it.gx, gy = it.gy, best = null;
+    [[it.x, it.y]].concat(it.alts || []).forEach(function (pt, alt) {
+      var x = pt[0], y = pt[1];
+      var tries = [[x + gx, y - h / 2, 'start'], [x - gx - w, y - h / 2, 'end'], [x - w / 2, y - gy - h, 'middle'], [x - w / 2, y + gy, 'middle'],
+        [x + gx, y - h + 4, 'start'], [x + gx, y - 4, 'start'], [x - gx - w, y - h + 4, 'end'], [x - gx - w, y - 4, 'end'],
+        [x - 6, y - gy - h, 'start'], [x + 6 - w, y - gy - h, 'end'], [x - 6, y + gy, 'start'], [x + 6 - w, y + gy, 'end']];
+      if (it.toward) {   // the places whose centre lies most in that direction first (a stable sort keeps the rest in order)
+        var t = it.toward;
+        tries = tries.map(function (p, i) { return { p: p, i: i, d: (p[0] + w / 2 - x) * t[0] + (p[1] + h / 2 - y) * t[1] }; })
+          .sort(function (a, b) { return b.d - a.d || a.i - b.i; }).map(function (o) { return o.p; });
+      }
+      tries.forEach(function (p) {
+        var box = { x: p[0], y: p[1], w: w, h: h }, hard = box.w * box.h - overlapArea(box, { x: 0, y: 0, w: bounds.w, h: bounds.h }), soft = 0;
+        placed.forEach(function (o) { hard += overlapArea(box, o); });
+        obstacles.forEach(function (o) { if (o.k == null) hard += overlapArea(box, o); else soft += overlapArea(box, o) * o.k; });
+        if (!best || hard + soft < best.cost - 1e-9) best = { cost: hard + soft, hard: hard, box: box, anchor: p[2], alt: alt };
+      });
+    });
+    var clear = best.hard < 0.01;   // sums of floating point areas: less than 0.01 px² is nothing
+    if (!clear && it.drop) return null;
+    placed.push(best.box);
+    var b = best.box;
+    return { x: best.anchor === 'start' ? b.x : best.anchor === 'end' ? b.x + b.w : b.x + b.w / 2, y: b.y, anchor: best.anchor, box: b,
+      clear: clear, cost: best.cost, alt: best.alt };
+  });
+}
+
+/* Everything the map draws, in px, for one trip. The panels stand one under another, PANEL_GAP apart (MAP_PANELS in
+   panels.js, sized by panelSize). Each panel gets: its stays as pins with the stay numbers (a city twice on a round trip is
+   one pin); the legs inside it; a stub for the legs to another panel, one per point, toward where they go, with the names
+   of the other ends; the trip's airports; a stay's point of interest (content poi); the places off the trip as faint dots;
+   and the labels. The airports' boxes come first: on their point, or moved straight off a pin that would hide them. Then
+   the labels of the stays (the most crowded first), the stubs and the points of interest, placed by placeLabels so that
+   none covers another, a marker or the edge (a stub gets longer or turns when its label finds no room); a label that
+   finds none starts the placing again in front, up to ten times, and the try with the fewest such labels wins. Last, the
+   names of the faint dots, only where they fit.
+   The names on the basemap (the panel's names) are drawn first; a label may cover one when nothing better is free.
+   route: planRoute's trip; st: normSettings' result; m: { panels, places, content, airports, say }: MAP_PANELS, PLACES,
+   CONTENT, AIRPORTS and say(key) giving an interface text (the names on the basemap; 'day' and 'days' before day numbers).
+   Returns { height, panels: [{ key, y, p (panelSize), names, segs, stubs, pins, airports, pois, faint, labels }] }; a name
+   is { text, kind, x, y, anchor }, a label { kind: 'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
+// a stub's length (× STUB) and turn in degrees, in the order tried
+var STUB_TIPS = [[1, 0], [1.5, 0], [2, 0], [1.5, 35], [1.5, -35], [2, 60], [2, -60], [2.5, 0]];
+function mapLayout(route, st, m) {
+  var groups = {}, order = [], out = [], top = 0;
+  function node(id) { return m.places[id].node || id; }
+  function where(n) { return m.airports[n] ? m.airports[n].pt : m.content[n].pt; }
+  function nameOf(n) { return m.airports[n] ? m.airports[n].short || m.airports[n].name : m.content[n].short; }
+  route.stops.forEach(function (s, i) {
+    var k = node(s.id);
+    if (!groups[k]) { groups[k] = []; order.push(k); }
+    groups[k].push({ num: i + 1, start: s.start, end: s.end });
+  });
+  var legs = route.stops.map(function (s) { return s.leg; }).concat([route.home]);
+  var ends = st.from === st.to ? [st.from] : [st.from, st.to];
+  Object.keys(m.panels).forEach(function (key) {
+    var p = panelSize(m.panels[key]), P = { key: key, y: top, p: p, names: [], segs: [], stubs: [], pins: [], airports: [], pois: [], faint: [], labels: [] };
+    function proj(pt) { return [(pt[1] - p.lon0) * p.s, (p.lat0 - pt[0]) * p.s]; }
+    function inside(q) { return q[0] >= 0 && q[0] <= p.w && q[1] >= 0 && q[1] <= p.h; }
+    function pinBox(pn) { return { x: pn.x - pn.w / 2, y: pn.y - PIN_H / 2, w: pn.w, h: PIN_H }; }
+    function dot(q, k) { return { x: q[0] - POINT_R, y: q[1] - POINT_R, w: 2 * POINT_R, h: 2 * POINT_R, k: k }; }
+    // the panel's title (top left) and scale bar (bottom left or right) take their corners
+    var obstacles = [{ x: 0, y: 0, w: 84, h: 24 }, { x: p.bar === 'left' ? 0 : p.w - 80, y: p.h - 18, w: 80, h: 18 }], items = [], faint = [];
+    (m.panels[key].names || []).forEach(function (n) {   // the names on the basemap: countries in 9 px capitals, water in 11 px italics
+      var q = proj([n[1], n[2]]), text = m.say(n[0]), w = n[3] === 'country' ? text.length * 9 * 0.78 : textWidth(text, 11) * 0.9;
+      P.names.push({ text: text, kind: n[3], x: q[0], y: q[1], anchor: n[4] });
+      obstacles.push({ x: n[4] === 'start' ? q[0] : n[4] === 'end' ? q[0] - w : q[0] - w / 2, y: q[1] - 10, w: w, h: 13, k: 0.5 });
+    });
+    order.forEach(function (k) {
+      var q = proj(m.content[k].pt);
+      if (!inside(q)) return;
+      var nums = groups[k].map(function (v) { return v.num; }).join('·'), w = Math.max(PIN_H, 10 + nums.length * 6.5);
+      var parts = groups[k].map(function (v) { return v.start === v.end ? '' + v.start : v.start + '–' + v.end; });
+      var sub = m.say(parts.length > 1 || parts[0].indexOf('–') > -1 ? 'days' : 'day') + ' ' + parts.join(', ');
+      P.pins.push({ key: k, x: q[0], y: q[1], w: w, nums: nums });
+      items.push({ x: q[0], y: q[1], w: Math.max(textWidth(m.content[k].short, NAME_PX), textWidth(sub, SUB_PX, true)), h: STAY_LABEL_H, gx: w / 2 + 3, gy: PIN_H / 2 + 2,
+        toward: q[0] > p.w - 70 ? [-1, 0] : q[0] < 70 ? [1, 0] : null,   // near a side of the panel, the label tries inward first
+        what: { kind: 'stop', key: k, lines: [m.content[k].short, sub] } });
+    });
+    P.pins.forEach(function (pn) { obstacles.push(pinBox(pn)); });
+    // the stays in crowded places first: the more pins within 70 px, the earlier, then in the order of the trip
+    function crowd(it) { return P.pins.filter(function (pn) { return Math.abs(pn.x - it.x) < 70 && Math.abs(pn.y - it.y) < 70; }).length; }
+    items = items.map(function (it, i) { return { it: it, i: i, c: crowd(it) }; }).sort(function (a, b) { return b.c - a.c || a.i - b.i; }).map(function (x) { return x.it; });
+    // the airports' boxes: on their point, or moved straight off a pin that would hide them, as little as it takes
+    ends.forEach(function (code) {
+      var q = proj(m.airports[code].pt), half = AIRPORT_BOX / 2, box = { x: q[0] - half, y: q[1] - half, w: AIRPORT_BOX, h: AIRPORT_BOX };
+      if (!inside(q)) return;
+      function hit() { return P.pins.filter(function (pn) { return overlapArea(box, pinBox(pn)) > 0; })[0]; }
+      var pin = hit();
+      if (pin) {
+        var vx = q[0] - pin.x, vy = q[1] - pin.y, vl = Math.sqrt(vx * vx + vy * vy);
+        if (vl < 1) { vx = 0; vy = -1; vl = 1; }   // the point under the middle of the pin: up
+        for (var step = 1; step <= 40 && hit(); step++) { box.x = q[0] - half + vx / vl * step; box.y = q[1] - half + vy / vl * step; }
+      }
+      P.airports.push({ code: code, x: q[0], y: q[1], bx: box.x + half, by: box.y + half });
+      obstacles.push(box, { x: q[0] - 3, y: q[1] - 3, w: 6, h: 6 });   // the box, and the point where the road starts
+    });
+    // the legs inside the panel; the legs from one point here to another panel make one stub
+    var stubAt = {}, stubs = [];
+    legs.forEach(function (L) {
+      L.segs.forEach(function (g) {
+        var a = proj(where(g.from)), b = proj(where(g.to)), ia = inside(a), ib = inside(b);
+        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] }); return; }
+        if (!ia && !ib) return;
+        var here = ia ? g.from : g.to, from = ia ? a : b, to = ia ? b : a, dx = to[0] - from[0], dy = to[1] - from[1], len = Math.sqrt(dx * dx + dy * dy) || 1;
+        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [] });
+        if (!s.names.length) stubs.push(s);
+        s.vx += dx / len; s.vy += dy / len;
+        if (s.names.indexOf(nameOf(ia ? g.to : g.from)) < 0) s.names.push(nameOf(ia ? g.to : g.from));
+      });
+    });
+    // a stub's tip: len px from its point toward its way, turned by deg degrees, held 4 px inside the panel
+    function tipOf(s, len, deg) {
+      var a = (deg || 0) * Math.PI / 180, ux = s.ux * Math.cos(a) - s.uy * Math.sin(a), uy = s.ux * Math.sin(a) + s.uy * Math.cos(a), k = len;
+      [[ux, s.x1, p.w], [uy, s.y1, p.h]].forEach(function (v) {
+        if (v[0] > 0) k = Math.min(k, (v[2] - 4 - v[1]) / v[0]);
+        if (v[0] < 0) k = Math.min(k, (4 - v[1]) / v[0]);
+      });
+      k = Math.max(k, 0);
+      return [s.x1 + ux * k, s.y1 + uy * k];
+    }
+    stubs.forEach(function (s) {
+      var vl = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      if (vl < 0.1) { s.vx = 0; s.vy = 1; vl = 1; }   // two ways that cancel out (there and back): straight down
+      s.ux = s.vx / vl; s.uy = s.vy / vl;
+      var lines = s.names.map(function (n) { return '✈ ' + n; }), tips = STUB_TIPS.map(function (v) { return tipOf(s, STUB * v[0], v[1]); });
+      items.push({ x: tips[0][0], y: tips[0][1], alts: tips.slice(1), w: Math.max.apply(null, lines.map(function (l) { return textWidth(l, SUB_PX, true); })),
+        h: LINE_H * lines.length, gx: 3, gy: 3, toward: [s.ux, s.uy], stub: s, what: { kind: 'stub', key: s.names.join(', '), lines: lines } });
+    });
+    route.stops.forEach(function (s) {
+      var poi = m.content[s.id].poi, q = poi && proj(poi.pt);
+      if (!q || !inside(q) || P.pois.some(function (o) { return o.name === poi.name; })) return;
+      P.pois.push({ name: poi.name, x: q[0], y: q[1], from: proj(m.content[s.id].pt) });
+      obstacles.push(dot(q));
+      items.push({ x: q[0], y: q[1], w: textWidth(poi.name, SUB_PX, true), h: LINE_H, gx: POINT_R + 3, gy: POINT_R + 2, what: { kind: 'poi', key: poi.name, lines: [poi.name] } });
+    });
+    Object.keys(m.places).forEach(function (id) {
+      var q = proj(m.content[id].pt);
+      if (m.places[id].node || groups[id] || !inside(q)) return;
+      P.faint.push({ id: id, x: q[0], y: q[1] });
+      obstacles.push(dot(q, 0.3));   // a label may cover a faint dot when nothing better is free
+      faint.push({ x: q[0], y: q[1], w: textWidth(m.content[id].short, SMALL_PX), h: LINE_H, gx: POINT_R + 3, gy: POINT_R + 2, drop: true,
+        what: { kind: 'faint', key: id, lines: [m.content[id].short] } });
+    });
+    var best = null, list = items;
+    for (var tryNo = 0; tryNo < 10 && list.length; tryNo++) {
+      var got = placeLabels(list, obstacles, p), stuck = got.filter(function (l) { return !l.clear; }).length;
+      var cost = got.reduce(function (a, l) { return a + l.cost; }, 0);
+      if (!best || stuck < best.stuck || (stuck === best.stuck && cost < best.cost - 1e-9)) best = { got: got, list: list, stuck: stuck, cost: cost };
+      if (!stuck) break;
+      var bad = got.map(function (l, i) { return l.clear ? -1 : i; }).filter(function (i) { return i > -1; })[0];
+      list = [list[bad]].concat(list.slice(0, bad), list.slice(bad + 1));
+    }
+    var taken = obstacles.slice();
+    (best ? best.got : []).forEach(function (l, i) {
+      var it = best.list[i];
+      if (it.stub) {
+        var v = STUB_TIPS[l.alt], tip = tipOf(it.stub, STUB * v[0], v[1]);
+        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1] });
+      }
+      P.labels.push(Object.assign({}, it.what, l));
+      taken.push(l.box);
+    });
+    placeLabels(faint, taken, p).forEach(function (l, i) { if (l) P.labels.push(Object.assign({}, faint[i].what, l)); });
+    out.push(P);
+    top += p.h + PANEL_GAP;
+  });
+  return { height: top - PANEL_GAP, panels: out };
+}

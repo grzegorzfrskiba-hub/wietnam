@@ -2,7 +2,7 @@
 CONTENT.hue = {
   name: 'Huế', short: 'Huế',
   sub: 'Cesarskie Miasto, grobowce nad Rzeką Perfumową i pola ryżowe wokół',
-  region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59],
+  region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59], color: 7,
   photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Zwiedzanie kończy się ok. 17:00, latem ok. 17:30. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',

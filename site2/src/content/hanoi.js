@@ -2,7 +2,7 @@
 CONTENT.hanoi = {
   name: 'Hà Nội', short: 'Hà Nội',
   sub: 'Stolica: Stare Miasto, świątynie i wioski rzemieślników',
-  region: 'north', maps: 'Hanoi, Vietnam', pt: [21.03, 105.85],
+  region: 'north', maps: 'Hanoi, Vietnam', pt: [21.03, 105.85], color: 11,
   photos: ['hanoi_0', 'hanoi_1', 'hanoi_3', 'hanoi_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Stare Miasto i jezioro Hoàn Kiếm', d: 'Spacer wokół jeziora Hoàn Kiếm i uliczkami Starego Miasta.',

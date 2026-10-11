@@ -2,7 +2,7 @@
 CONTENT.mekong = {
   name: 'Delta Mekongu', short: 'Mekong',
   sub: 'Kanały, sady i pływający targ z pokładu małej łodzi',
-  region: 'south', maps: 'Phong Dien, Can Tho, Vietnam', pt: [10.03, 105.78],
+  region: 'south', maps: 'Phong Dien, Can Tho, Vietnam', pt: [10.03, 105.78], color: 2,
   photos: ['mekong_0', 'mekong_2', 'mekong_3', 'mekong_1'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Kanały Phong Điền', d: 'Zamelduj się u gospodarzy nad kanałem w Phong Điền, tuż za Cần Thơ. Późnym popołudniem małym sampanem przez kanały wśród sadów owocowych.', solo: { pace: 'boat', t: 'Delta o zmierzchu i o świcie', d: 'Najpóźniej w połowie popołudnia dotrzyj do gospodarzy nad kanałem w Phong Điền, tuż za Cần Thơ, i popłyń sampanem przez kanały wśród sadów. Następnego ranka o 5:30 małą łodzią na pływający targ Cái Răng, a przed 9:00 wróć do gospodarzy, w porę na dalszą drogę.', early: true } },

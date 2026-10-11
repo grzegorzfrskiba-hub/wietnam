@@ -22,7 +22,7 @@
   function C(id) { return CONTENT[id]; }
   function caption(id) { return PHOTO_META[id].cap; }
   function nodeOf(id) { return PLACES[id].node || id; }
-  function stopColor(id) { return 'var(--c-' + nodeOf(id) + ')'; }
+  function stopColor(id) { return 'var(--pal-' + C(nodeOf(id)).color + ')'; }
 
   /* ---------- formatting ---------- */
   function fmtH(h) {
@@ -497,7 +497,7 @@
     if (groups.caobang) {
       var cb = proj(NF, C('caobang').pt), bg = proj(NF, BANGIOC);
       n.push('<line class="m-road m-local" x1="' + r(cb[0]) + '" y1="' + r(cb[1]) + '" x2="' + r(bg[0]) + '" y2="' + r(bg[1]) + '"/>' +
-        '<circle class="m-poi" cx="' + r(bg[0]) + '" cy="' + r(bg[1]) + '" r="4"/>' +
+        '<circle class="m-poi" cx="' + r(bg[0]) + '" cy="' + r(bg[1]) + '" r="4" style="--c:' + stopColor('caobang') + '"/>' +
         '<text class="m-sub" x="' + r(bg[0] + 8) + '" y="' + r(bg[1] - 6) + '">Bản Giốc</text>');
     }
     Object.keys(groups).forEach(function (key) {

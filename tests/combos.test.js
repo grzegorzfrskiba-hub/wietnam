@@ -15,6 +15,7 @@
     return d.variant === 'hard' && CONTENT[id].days.some(function (cd) { return cd.hard && cd.hard.late && cd.hard.t === d.t; });
   }
   var held = 0;   // stays at level 3 where that rule kept a late hard night off the last day
+  var MAP_WORDS = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
 
   // extra: a label for a changed setting; then no route is allowed (e.g. the only city near the airport removed),
   // unless strict (after an added place the base trip still exists, so no route is a failure)
@@ -60,6 +61,15 @@
         if (isLate(x.id, stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months)[x.n - 1])) held++;
       }
       done[x.id] = (done[x.id] || 0) + x.n;
+    });
+    // the map (mapLayout in page.js): every stay has its label on a panel, and no label covers another one, a marker or the
+    // edge of its panel (a faint dot's name is left out when it does not fit)
+    var lay = mapLayout(r, st, MAP_WORDS);
+    lay.panels.forEach(function (P) {
+      P.labels.forEach(function (l) { need(l.kind === 'faint' || l.clear, 'map ' + P.key + ': the label of ' + l.kind + ' ' + l.key + ' covers another label, a marker or the edge'); });
+    });
+    r.stops.forEach(function (x) {
+      need(lay.panels.some(function (P) { return P.labels.some(function (l) { return l.kind === 'stop' && l.key === node(x.id); }); }), 'map: ' + x.id + ' has no label on any panel');
     });
     need(nights === s.days - 1, nights + ' nights, want ' + (s.days - 1));
     need(r.days === s.days, 'days ' + r.days);

@@ -2,7 +2,7 @@
 CONTENT.puluong = {
   name: 'Pù Luông', short: 'Pù Luông',
   sub: 'Bambusowe domy gospodarzy, ryżowe doliny i wędrówki grzbietami',
-  region: 'north', maps: 'Pu Luong Nature Reserve, Vietnam', pt: [20.45, 105.18],
+  region: 'north', maps: 'Pu Luong Nature Reserve, Vietnam', pt: [20.45, 105.18], color: 8,
   photos: ['puluong_1', 'puluong_2', 'puluong_3', 'puluong_0', 'puluong_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'W głąb dolin', d: 'Zamelduj się u gospodarzy w bambusowym domu nad tarasami ryżowymi w Bản Đôn albo Kho Mường. Wieczorem spacer po wiosce.' },

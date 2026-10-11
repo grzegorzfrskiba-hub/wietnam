@@ -27,8 +27,10 @@
   --ctl-bg: rgba(250, 252, 251, 0.92); --ctl-ink: #13221f; --badge-bg: rgba(10, 20, 18, 0.72); --lb-bg: rgba(6, 12, 11, 0.95); --lb-ink: #f2f5f4;
   --stop-gap: 18px; --stop-gap-compact: 10px;
   --sea: #dbe8ef; --land: #fbfaf5; --land-o: #e9ebe4; --border: #a8b4ae; --river: #8fb8cf; --water-ink: #5a7f96;
-  --c-saigon: #4b5a66; --c-dalat: #2d7552; --c-cattien: #4a7426; --c-mekong: #82552c; --c-phuquoc: #12707e; --c-hoian: #a1443a; --c-hue: #3f4a9e;
-  --c-puluong: #5c7520; --c-ninhbinh: #23676a; --c-catba: #2b5f9b; --c-caobang: #946000; --c-babe: #6e4fa0; --c-hanoi: #9a3f6e;
+  /* the colours of the places (palette numbers in content/<id>.js, field color); 14–20 wait for new places */
+  --pal-1: #4b5a66; --pal-2: #82552c; --pal-3: #12707e; --pal-4: #4a7426; --pal-5: #2d7552; --pal-6: #a1443a; --pal-7: #3f4a9e;
+  --pal-8: #5c7520; --pal-9: #23676a; --pal-10: #2b5f9b; --pal-11: #9a3f6e; --pal-12: #6e4fa0; --pal-13: #946000; --pal-14: #b0305a;
+  --pal-15: #5146a8; --pal-16: #2f6b3a; --pal-17: #a3500f; --pal-18: #7a3d8a; --pal-19: #1f6286; --pal-20: #646419;
   --display: "Newsreader", "Iowan Old Style", Georgia, serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -40,8 +42,9 @@
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
     --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
-    --c-saigon: #b2c1cc; --c-dalat: #6fcf9d; --c-cattien: #a2d16f; --c-mekong: #d9a874; --c-phuquoc: #5fcad8; --c-hoian: #ee8f80; --c-hue: #a9b1f0;
-    --c-puluong: #c3d975; --c-ninhbinh: #6cc6c0; --c-catba: #86b4ee; --c-caobang: #f0bb4f; --c-babe: #bba0ec; --c-hanoi: #ec96c3;
+    --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
+    --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
+    --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
     color-scheme: dark;
   }
 }
@@ -50,8 +53,9 @@
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
     --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
-    --c-saigon: #b2c1cc; --c-dalat: #6fcf9d; --c-cattien: #a2d16f; --c-mekong: #d9a874; --c-phuquoc: #5fcad8; --c-hoian: #ee8f80; --c-hue: #a9b1f0;
-    --c-puluong: #c3d975; --c-ninhbinh: #6cc6c0; --c-catba: #86b4ee; --c-caobang: #f0bb4f; --c-babe: #bba0ec; --c-hanoi: #ec96c3;
+    --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
+    --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
+    --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
     color-scheme: dark;
   }
 }
@@ -228,7 +232,7 @@ footer .ft-copy { margin-top: 18px; }
 .m-thin.m-fly { stroke-width: 1; stroke-dasharray: 3 3; }
 .m-local { stroke-dasharray: 2 3; stroke-width: 1.6; }
 .m-dot { fill: var(--c); }
-.m-poi { fill: var(--surface); stroke: var(--c-caobang); stroke-width: 2; }
+.m-poi { fill: var(--surface); stroke: var(--c); stroke-width: 2; }
 .m-label { fill: var(--ink); font: 600 12.5px var(--body); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .m-label-s { font-size: 11.5px; }
 .m-sub { fill: var(--muted); font: 400 10px var(--mono); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }

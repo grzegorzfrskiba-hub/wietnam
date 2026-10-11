@@ -23,7 +23,8 @@ var CITIES = {};   // the airports' cities: on a round trip they come twice
 Object.keys(HUBS).forEach(function (code) { CITIES[HUBS[code]] = true; });
 
 contentCheck('content', function (need) {
-  var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
+  var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'color', 'poi', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
+  var PALETTE = (readFile('site2/src/template.html').match(/--pal-\d+:/g) || []).length / 3, colours = {};   // light, dark, dark again
   function monthDay(v) { return Array.isArray(v) && v.length === 2 && v[0] % 1 === 0 && v[0] >= 1 && v[0] <= 12 && v[1] % 1 === 0 && v[1] >= 1 && v[1] <= 31; }
   var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'easy', 'hard', 'solo'];
   // a plan or a version of one: pace, title, text, maybe an early start
@@ -41,6 +42,13 @@ contentCheck('content', function (need) {
     ['name', 'short', 'sub', 'maps'].forEach(function (k) { need(isText(c[k]), id + ': ' + k); });
     need(REGIONS.indexOf(c.region) > -1, id + ': region one of ' + REGIONS.join(', '));
     need(Array.isArray(c.pt) && c.pt.length === 2 && c.pt[0] > 8 && c.pt[0] < 24 && c.pt[1] > 102 && c.pt[1] < 110, id + ': pt is [lat, lon] in Vietnam');
+    if (p.node) need(c.color == null, id + ': a night on the way takes the colour of ' + p.node + ', so it has none');
+    else {
+      need(c.color % 1 === 0 && c.color >= 1 && c.color <= PALETTE, id + ': color, a number of the palette, 1–' + PALETTE);
+      need(!colours[c.color], id + ': color ' + c.color + ' is ' + colours[c.color] + '\'s too');
+      colours[c.color] = id;
+    }
+    if (c.poi != null) need(c.poi && isText(c.poi.name) && Array.isArray(c.poi.pt) && c.poi.pt.length === 2, id + ': poi is { name, pt }');
     var range = p.node ? [0, 0] : [3, 5];
     need(Array.isArray(c.photos) && c.photos.length >= range[0] && c.photos.length <= range[1], id + ': ' + range.join('–') + ' photos');
     (c.photos || []).forEach(function (ph) { need(PHOTO_META[ph], id + ': photo ' + ph + ' is not in photos.js'); });
@@ -152,10 +160,31 @@ contentCheck('css colours', function (need) {
   (css.match(/#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d[^)]*\)/g) || []).forEach(function (m) { need(false, 'a colour outside :root: ' + m + ' (put it in a variable)'); });
 });
 
+/* The palette of the places (--pal-N in template.html): 20 colours in each of the three blocks, light and dark, and the
+   number of a day on each colour (--on-c) has a contrast of at least 4.5:1 (WCAG AA), in both themes. */
+contentCheck('palette', function (need) {
+  var css = readFile('site2/src/template.html').split('<style>')[1].split('</style>')[0];
+  var light = /:root \{([^}]*)\}/.exec(css)[1], dark = /:root:not\(\[data-theme="light"\]\) \{([^}]*)\}/.exec(css)[1];
+  function vars(block) { var o = {}; block.replace(/--([a-z0-9-]+): (#[0-9a-f]{6});/g, function (m, k, v) { o[k] = v; }); return o; }
+  function lum(hex) {
+    return [1, 3, 5].map(function (i) { var c = parseInt(hex.slice(i, i + 2), 16) / 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); })
+      .reduce(function (a, c, i) { return a + c * [0.2126, 0.7152, 0.0722][i]; }, 0);
+  }
+  function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  [['light', vars(light)], ['dark', vars(dark)]].forEach(function (theme) {
+    var v = theme[1];
+    for (var n = 1; n <= 20; n++) {
+      need(v['pal-' + n], theme[0] + ': --pal-' + n + ' is missing');
+      if (v['pal-' + n]) need(ratio(v['pal-' + n], v['on-c']) >= 4.5, theme[0] + ': --pal-' + n + ' ' + v['pal-' + n] + ' and the number on it ' + v['on-c'] + ': contrast ' + ratio(v['pal-' + n], v['on-c']).toFixed(2) + ' < 4.5');
+    }
+  });
+  need(css.split('--pal-1:').length - 1 === 3, 'the palette in all three blocks: light, dark by the system, dark chosen');
+});
+
 /* The interface texts (ui.js): none empty; every key the code asks for exists; every key is used. */
 contentCheck('ui', function (need) {
-  var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js');
-  var code = [app, page, readFile('site2/src/content.js'), tpl].join('\n'), used = {};
+  var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js'), panels = readFile('site2/src/panels.js');
+  var code = [app, page, readFile('site2/src/content.js'), panels, tpl].join('\n'), used = {};
   Object.keys(pl).forEach(function (k) { need(typeof pl[k] === 'string' && pl[k].trim() !== '', 'UI.pl[\'' + k + '\'] is empty'); });
   // a road text is picked by the two places alone (segKey in page.js), so it must read right in both directions of travel:
   // no uphill or downhill, no "at the end"; only the airport texts and the Mekong pair differ by direction, and they say to or from
@@ -172,6 +201,7 @@ contentCheck('ui', function (need) {
   (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
   Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
+  (panels.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'panels.js (names on the basemap)'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
   var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard'],
     'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'mon3.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'monl.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],

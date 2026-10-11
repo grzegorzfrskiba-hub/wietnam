@@ -304,6 +304,53 @@ eq(addReport(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'p
 eq(addReport(stopsOf(['saigon', 'dalat', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), 'phuquoc', PLACES), { left: [], came: [] }, 'only the added place came');
 print('why ok');
 
+/* ---------- the map ---------- */
+eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 233, 177],
+  'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');
+eq(textWidth('Dni 1–3', 10, true), 7 * 10 * 0.61, 'a monospaced text: 0.61 em a letter');
+ok(textWidth('Hồ Chí Minh City', 11.5) > 0.47 * 11.5 * 16 && textWidth('Huế', 11.5) > 0.62 * 11.5 * 3, 'a name: no narrower than Chrome draws it (0.47–0.62 em a letter)');
+var B = { w: 300, h: 100 };
+function spots(list) { return list.map(function (l) { return l ? [l.anchor, l.box.x, l.box.y, l.clear] : null; }); }
+eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }, { x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [], B)),
+  [['start', 110, 40, true], ['end', 50, 40, true]], 'labels: the first to the right of its point, the next one, which would cover it, to the left');
+eq(spots(placeLabels([{ x: 290, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [], B)), [['end', 240, 40, true]], 'by the edge: on the side that stays inside');
+eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10, toward: [0, 1] }], [], B)), [['middle', 80, 60, true]], 'toward: below the point first');
+eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10, drop: true }, { x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [{ x: 0, y: 0, w: 300, h: 100 }], B)),
+  [null, ['start', 110, 40, false]], 'nothing free: a label that may drop is left out, any other takes the place that covers least');
+var withAlt = placeLabels([{ x: 20, y: 20, alts: [[200, 50]], w: 30, h: 10, gx: 3, gy: 3 }], [{ x: 0, y: 0, w: 100, h: 100 }], B)[0];
+eq([withAlt.alt, withAlt.clear], [1, true], 'when the first point has no room, a label stands by its other point');
+eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [{ x: 0, y: 0, w: 300, h: 100, k: 0.3 }], B)), [['start', 110, 40, true]],
+  'an obstacle with k under 1 (a faint dot) may be covered: the label is still clear');
+eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [{ x: 112, y: 45, w: 8, h: 8, k: 0.3 }], B)), [['end', 50, 40, true]],
+  'but a free place wins over one that covers a faint dot');
+
+var MAPW = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
+function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.pins.map(function (p) { return p.key + '(' + p.nums + ')'; }).join(','); }); }
+function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
+var mA = mapLayout(tA.r, tA.st, MAPW);   // saigon, dalat, hoian, hue, hanoi: flights Đà Lạt → Đà Nẵng and Huế → Hà Nội
+eq(pinsOf(mA), ['north:hanoi(5)', 'centre:hoian(3),hue(4)', 'south:saigon(1),dalat(2)'], 'each stay on its panel, with its number');
+eq([mA.panels[1].y, mA.panels[2].y, mA.height], [266, 515, 692], 'the panels one under another, 16 px apart');
+eq([labelsOf(mA.panels[0], 'stub'), labelsOf(mA.panels[1], 'stub').sort(), labelsOf(mA.panels[2], 'stub')], [['✈ Huế'], ['✈ Hà Nội', '✈ Đà Lạt'], ['✈ Đà Nẵng']],
+  'a flight to another panel: a stub at each end, named after the other end');
+eq([labelsOf(mA.panels[2], 'stop'), labelsOf(mA.panels[2], 'faint').sort()], [['Hồ Chí Minh City/Dni 1–3', 'Đà Lạt/Dni 4–6'], ['Cát Tiên', 'Mekong', 'Phú Quốc']],
+  'the south: the stays named with their days, the places off the trip by name');
+eq([mA.panels[0].airports.length, mA.panels[2].airports.length, mA.panels[1].airports.length], [1, 1, 0], 'the airports of the trip: Hà Nội in the north, Hồ Chí Minh City in the south');
+var han = mA.panels[0].airports[0], hanoiPin = mA.panels[0].pins[0];
+ok(overlapArea({ x: han.bx - AIRPORT_BOX / 2, y: han.by - AIRPORT_BOX / 2, w: AIRPORT_BOX, h: AIRPORT_BOX }, { x: hanoiPin.x - hanoiPin.w / 2, y: hanoiPin.y - PIN_H / 2, w: hanoiPin.w, h: PIN_H }) === 0 &&
+  (han.bx !== han.x || han.by !== han.y), 'the box of Hà Nội airport moves off the pin of the city');
+var mH = mapLayout(tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 12, interests: [], level: 2 }).r,
+  tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 12, interests: [], level: 2 }).st, MAPW);
+eq([pinsOf(mH)[0], labelsOf(mH.panels[0], 'stop'), labelsOf(mH.panels[0], 'stub')], ['north:hanoi(1·6)', ['Hà Nội/Dni 1, 11'], ['✈ HCMC/✈ Huế']],
+  'a round trip: one pin for the city with both numbers; two flights from one airport make one stub, short names of airports');
+var mD = mapLayout(tD.r, tD.st, MAPW);   // Cao Bằng on the trip: Bản Giốc
+eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0], 'poi')], [['Bản Giốc'], ['Bản Giốc']], 'a point of interest with its stay');
+[mA, mH, mD].forEach(function (L, n) {
+  L.panels.forEach(function (P) {
+    P.labels.forEach(function (l) { ok(l.clear, 'map ' + n + ' ' + P.key + ': ' + l.kind + ' ' + l.key + ' covers another label, a marker or the edge'); });
+  });
+});
+print('map ok');
+
 /* ---------- travel texts ---------- */
 function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRPORTS, ROAD_KEYS); }
 eq(road('HAN', 'hanoi'), ['r.taxi_from', { x: 'Hà Nội' }], 'from an airport');

@@ -3,6 +3,8 @@
    The fields of a place:
    - name, short, sub: the full name; the short name for the strip, the map and lists; one line under the name;
    - region: one of REGIONS; maps: where Google Maps directions start or end; pt: [lat, lon] on the map;
+   - color: the place's colour, a number of the palette in template.html (--pal-1…); a night on the way has none, it takes
+     the colour of its node; poi: { name, pt } a point of interest the map shows next to the stay (Bản Giốc by Cao Bằng);
    - photos: ids from photos.js, 3–5 (none for a night on the way);
    - days: one plan per night of the longest stay (nights[2] in places.js),
      { p, o, pace, t, d, early?, rain?, easy?, hard?, solo? }:
@@ -25,17 +27,18 @@ var CONTENT = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
 var REGIONS = ['south', 'centre', 'north'];
 
-/* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]. */
+/* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
+   the name on the map's arrows to another panel, where it differs. */
 var AIRPORTS = {
-  SGN: { name: 'Hồ Chí Minh City', maps: 'Tan Son Nhat International Airport', pt: [10.82, 106.66] },
+  SGN: { name: 'Hồ Chí Minh City', short: 'HCMC', maps: 'Tan Son Nhat International Airport', pt: [10.82, 106.66] },
   HAN: { name: 'Hà Nội', maps: 'Noi Bai International Airport', pt: [21.22, 105.80] },
   DAD: { name: 'Đà Nẵng', maps: 'Da Nang International Airport', pt: [16.04, 108.20] },
   HUI: { name: 'Huế', maps: 'Phu Bai International Airport', pt: [16.40, 107.70] },
   DLI: { name: 'Đà Lạt', maps: 'Lien Khuong Airport', pt: [11.75, 108.37] },
   PQC: { name: 'Phú Quốc', maps: 'Phu Quoc International Airport', pt: [10.17, 103.99] },
   VCA: { name: 'Cần Thơ', maps: 'Can Tho International Airport', pt: [10.08, 105.71] },
-  HPH: { name: 'Hải Phòng (Cát Bi)', maps: 'Cat Bi International Airport', pt: [20.82, 106.72] },
-  THD: { name: 'Thanh Hóa (Thọ Xuân)', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] }
+  HPH: { name: 'Hải Phòng (Cát Bi)', short: 'Hải Phòng', maps: 'Cat Bi International Airport', pt: [20.82, 106.72] },
+  THD: { name: 'Thanh Hóa (Thọ Xuân)', short: 'Thanh Hóa', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] }
 };
 
 /* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */

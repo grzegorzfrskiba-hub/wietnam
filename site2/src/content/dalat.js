@@ -2,7 +2,7 @@
 CONTENT.dalat = {
   name: 'Wyżyna wokół Đà Lạt', short: 'Đà Lạt',
   sub: 'Sosnowe wzgórza, ciche pensjonaty i chłodne noce',
-  region: 'south', maps: 'Da Lat, Vietnam', pt: [11.94, 108.44],
+  region: 'south', maps: 'Da Lat, Vietnam', pt: [11.94, 108.44], color: 5,
   photos: ['dalat_4', 'dalat_1', 'dalat_2', 'dalat_0', 'dalat_3'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Sosnowe wzgórza o zmierzchu', d: 'Omiń centrum i jedź na zachód, na grzbiety nad doliną Tà Nung, by o zmierzchu patrzeć na sosnowe wzgórza i plantacje kawy. Nocleg w pensjonacie za miastem, gdzie noce są ciche i chłodne, a w porze suchej rozgwieżdżone.' },

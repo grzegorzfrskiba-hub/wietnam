@@ -2,7 +2,7 @@
 CONTENT.saigon = {
   name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
   sub: 'Namorzyny Cần Giờ, Chợ Lớn i Sajgon od kuchni',
-  region: 'south', maps: 'Ho Chi Minh City, Vietnam', pt: [10.78, 106.7],
+  region: 'south', maps: 'Ho Chi Minh City, Vietnam', pt: [10.78, 106.7], color: 1,
   photos: ['saigon_0', 'saigon_1', 'saigon_2', 'saigon_3', 'saigon_4'],
   days: [
     { p: 1, o: 1, pace: 'rest', t: 'Chwila oddechu', d: 'Celowo bez planu: odpocznij po podróży, potem kawa w pobliskiej kawiarni, masaż i basen. O zachodzie słońca tramwaj wodny Saigon Waterbus (jeśli akurat kursuje) z przystani Bạch Đằng w górę rzeki do Thảo Điền i kolacja nad wodą.', solo: { pace: 'rest', t: 'Wieczór nad rzeką Sajgon', d: 'Jedna noc bez planu na siłę: kawa w jednej z kawiarni w starych blokach, masaż, a o zachodzie słońca tramwaj wodny Saigon Waterbus (jeśli akurat kursuje) z przystani Bạch Đằng do Thảo Điền i kolacja nad wodą. Rano śniadanie i dalej w drogę.' } },

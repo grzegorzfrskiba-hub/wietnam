@@ -2,7 +2,7 @@
 CONTENT.hoian = {
   name: 'Hội An', short: 'Hội An',
   sub: 'Stare miasto o świcie, wioski warzywników i kanały wśród wodnych palm',
-  region: 'centre', maps: 'Hoi An, Quang Nam, Vietnam', pt: [15.88, 108.34],
+  region: 'centre', maps: 'Hoi An, Quang Nam, Vietnam', pt: [15.88, 108.34], color: 6,
   photos: ['hoian_0', 'hoian_1', 'hoian_3', 'hoian_4', 'hoian_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Bocznymi drogami Hội An', d: 'Po przyjeździe weź rower i jedź do warzywnej wioski Trà Quế, a potem nad kanały wśród wodnych palm kokosowych w Cẩm Thanh.',

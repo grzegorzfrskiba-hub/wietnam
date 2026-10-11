@@ -2,7 +2,7 @@
 CONTENT.babe = {
   name: 'Ba Bể', short: 'Ba Bể',
   sub: 'Górskie jezioro otoczone wioskami ludu Tày',
-  region: 'north', maps: 'Ba Be National Park, Vietnam', pt: [22.41, 105.62],
+  region: 'north', maps: 'Ba Be National Park, Vietnam', pt: [22.41, 105.62], color: 12,
   photos: ['babe_0', 'babe_1', 'babe_2', 'babe_3', 'babe_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Przyjazd nad jezioro', d: 'Zamelduj się u gospodarzy w domu na palach ludu Tày w Pác Ngòi, a o zmierzchu przejdź się brzegiem jeziora.',
