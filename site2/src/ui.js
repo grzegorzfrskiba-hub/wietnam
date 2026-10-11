@@ -24,7 +24,7 @@ UI.pl = {
   'lvl.1': 'Spokojnie', 'lvl.2': 'Aktywnie', 'lvl.3': 'Ekstremalnie',
   'lvlp.1': 'Spacery, wycieczki jednodniowe i łatwe wersje dni.',
   'lvlp.2': 'Całodniowe wędrówki, rowery i łodzie, noce u gospodarzy.',
-  'lvlp.3': 'Trudne dni z licencjonowanym przewodnikiem: dłuższe trasy i noce w terenie.',
+  'lvlp.3': 'Gdzie się da, trudne dni z licencjonowanym przewodnikiem: dłuższe trasy i noce w terenie. W pozostałych miejscach dni jak przy „Aktywnie”.',
   'mon.1': 'styczeń', 'mon.2': 'luty', 'mon.3': 'marzec', 'mon.4': 'kwiecień', 'mon.5': 'maj', 'mon.6': 'czerwiec',
   'mon.7': 'lipiec', 'mon.8': 'sierpień', 'mon.9': 'wrzesień', 'mon.10': 'październik', 'mon.11': 'listopad', 'mon.12': 'grudzień',
   'set.err.airport': 'Wybierz lotniska z listy.',

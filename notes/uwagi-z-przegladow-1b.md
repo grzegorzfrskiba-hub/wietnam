@@ -13,6 +13,9 @@ Strona i jej wygląd:
 - `site2/src/template.html`: kolor `.day-rain` nie działa (przebija go `.day p`), a reguły `.strip-note`, `.tip-warn`, `.m-start rect` i `.m-start .m-label` nie są nigdzie używane.
 - `site2/src/template.html`: przyciski „Dodaj” i „Usuń” (`.btn-small`, `.stop-remove`) mają ok. 40 px wysokości, poniżej celu dotyku 44 px.
 - `site2/src/template.html`: odstępy w druku (18 px i 10 px) powtarzają wartości ekranowe z innego miejsca pliku.
+- `site2/src/app.js` (ostrzeżenia): termin sprzed 1.10.2026 pokazuje naraz „Ten termin już minął…” i „Dla części terminu strona nie ma dat świąt…”; przy minionym terminie wystarczy pierwsze.
+- Wielowyrazowe nazwy miejsc łamią się na telefonie w środku nazwy („Ba / Bể”), także w komunikacie „Nie zmieściło się” i po „Dodaj”; wiązać je twardą spacją, razem z liczbą i jednostką (lista w [etapy.md](etapy.md)).
+- Komunikat po „Dodaj” („Żeby zmieścić …, z trasy wypadło: …”) upraszcza przyczynę, bo przebudowa trasy bywa też dokłada inne miejsca; wrócić do niego przy „Wybrane, bo…”.
 - Mapa, przy nowych kadrach: podpis z numerami dni pod nazwą miejsca bywa ucięty na trasie Hà Nội → Hà Nội.
 - Mapa, przy nowych kadrach: ramka lotniska (19 px) jest przy Đà Nẵng częściowo zasłonięta (znacznik Hội An ok. 3 px od punktu lotniska, znacznik Huế dotyka rogu) i węższa niż znacznik „1·6” na trasie tam i z powrotem (23 px); przy Đà Nẵng → Đà Nẵng, na poziomie 1 i przy 30 dniach, widać z niej tylko ok. 25%.
 
@@ -43,7 +46,7 @@ Treść miejsc:
 - `site2/src/content/dalat.js`, galeria: dwa zdjęcia z Tà Năng, których żaden plan dnia nie odwiedza; pierwsze zdjęcie (Lang Biang) pasuje do dnia p 3, a ten jest dopiero od trzech nocy; rozstrzygnąć przy module Tà Năng–Phan Dũng.
 - `tests/content.test.js`: kontrola tekstu trudnego dnia szuka słowa „przewodnik” albo „operator”, więc przyjmie też „bez przewodnika”; zaostrzyć.
 - `site2/src/app.js` (`renderMap`): miejsce bez wpisu w `NLAB` albo `CLAB` wywraca rysowanie mapy (dziś są wszystkie); dopisywanie wpisów jest na liście w [etapy.md](etapy.md), tu chodzi o to, żeby brak wpisu nie zabijał strony.
-- `site2/src/travel.js`, `site2/src/content/caobang.js`: czasy dojazdu z Cao Bằng są liczone z miasta, a plan drugiego dnia kończy się w Khuổi Ky; sprawdzić względem tego, gdzie jest nocleg.
+- `site2/src/travel.js`, `site2/src/content/caobang.js`: czasy dojazdu z Cao Bằng są liczone z miasta, a ostatni dzień pobytu (plan p 2) kończy się w Khuổi Ky; sprawdzić względem tego, gdzie jest nocleg.
 
 ## Do etapu 4 (audyt przed publikacją)
 
@@ -66,3 +69,7 @@ Treść miejsc:
 - Wydruk: zdanie „Kliknij dzień, żeby do niego przejść” (`shape.p`) nadal się drukuje.
 - Wydruk: ostatnia strona PDF bywa prawie pusta (sama linia ©, albo koniec „Uwag” i ©); do decyzji o formacie wersji offline.
 - `tests/print.sh`: nagłówek mówi „A4”, a headless Chrome drukuje na US Letter (brak reguły `@page`); skrypt kończy się kodem 0 także przy zakrytych liniach tekstu, bo tylko raportuje.
+
+## Utrzymanie danych
+
+- `site2/src/app.js` (`TODAY`, `clampToday` w `site2/src/page.js`): dzisiejsza data jest przycinana do zakresu danych, najpóźniej do 1.12.2030; po tej dacie lista miesięcy i ostrzeżenie o minionym terminie przestają się zgadzać. Przed końcem 2030 dopisać święta na kolejne lata i przesunąć `PLAN_LAST_YEAR` w `site2/src/holidays.js`.

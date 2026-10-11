@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (11.10.2026):** plan 1A (silnik) i plan 1B (strona) zrobione; punkt kontrolny etapu 1 czeka na przegląd użytkownika. Następny krok: decyzje z przeglądu, potem etap 2 (interfejs), zob. [notes/etapy.md](notes/etapy.md).
+**Status (11.10.2026):** etap 1 zamknięty: plan 1A (silnik) i plan 1B (strona) zrobione, punkt kontrolny przeszedł. Następny krok: etap 2 (interfejs), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 

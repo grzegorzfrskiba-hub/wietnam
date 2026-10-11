@@ -5,7 +5,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | Etap | Status |
 |---|---|
 | 0. Wizja | zrobione 9.10.2026 |
-| 1. Fundament i silnik na 12 miejscach | w toku: 1A (silnik) zrobione 10.10.2026, 1B (strona) zrobione 11.10.2026; punkt kontrolny: przegląd użytkownika po zakończeniu planu 1B; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
+| 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
 | 2. Interfejs | |
 | 3. Nowe miejsca, partiami | |
 | 4. Audyt i publikacja (po partii A) | |
@@ -85,11 +85,16 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Następny krok: punkt kontrolny etapu 1, potem etap 2 (interfejs)
+## Następny krok: etap 2 (interfejs)
 
 Zrobione 11.10.2026: plan 1B ([plans/2026-10-10-etap-1b-strona.md](plans/2026-10-10-etap-1b-strona.md)), prace 10–11.10.2026. Strona działa na nowym silniku: ustawienia są w linku, a trasa przelicza się od razu. Plany dni zależą od poziomu przygody, łącznie z trudnymi dniami na poziomie 3 (dziś tylko w Cát Tiên i Pù Luông). Strona ostrzega o Tết i świętach państwowych, a przy terminie, który już minął, o tym, że minął. Ma też mapę, przyciski „Dodaj” i „Usuń” (po „Dodaj” mówi, co wypadło z trasy), listę „Poza trasą” i kopiowanie planu z linkiem.
 
-Punkt kontrolny etapu 1 to przegląd strony przez użytkownika: zrzuty i strona zbudowana lokalnie. Decyzje z przeglądu dopisz pod tym akapitem, potem zacznij etap 2. Drobniejsze uwagi z przeglądów planu 1B są w [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md).
+Punkt kontrolny etapu 1 (11.10.2026): przegląd zrzutów pięciu ustawień i strony zbudowanej lokalnie. Decyzje:
+- trasy są sensowne, etap 1 zamknięty;
+- opis poziomu 3 mówi uczciwie, że trudne dni są tam, gdzie się da, a w pozostałych miejscach dni są jak przy „Aktywnie”;
+- link z terminem, który już minął, dalej pokazuje swoją trasę, a pierwsze ostrzeżenie mówi, że termin minął (plan zakładał powrót do terminu domyślnego).
+
+Drobniejsze uwagi z przeglądów planu 1B są w [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md).
 
 **Do etapu 2 (interfejs):**
 - komunikat, gdy wybrane zainteresowanie ma na trasie zły sezon, np. morze we wrześniu (raport, trasa 13);
