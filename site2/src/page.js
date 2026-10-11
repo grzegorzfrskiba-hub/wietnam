@@ -319,6 +319,72 @@ function droppedPlaces(before, after, places) {
   return out;
 }
 
+/* ---------- why a place is on the trip or not ---------- */
+/* Why stay i of the trip is on it, for "Wybrane, bo…". A night on the way: { night: [the place before, the place after] }.
+   Otherwise { added, airport, interests, way, months }: added: Dodaj asked for it; airport: 'from' when it opens the trip
+   as the city of the arrival airport, 'to' when it closes the trip as the city of the departure airport, else null;
+   interests: the chosen interests it serves (fit 2 or more), or, with none chosen, its two strongest of fit 2 or more
+   (by fit, then in the order of INTERESTS); way: interests are chosen, it serves none and is no airport's city (it fills
+   the days on the way); months: [{ month: 1–12, season }] of its days, each month once, in order.
+   route: planRoute's trip; st: normSettings' result; hubs: HUBS. */
+function whyOn(route, i, st, places, hubs) {
+  var s = route.stops[i], p = places[s.id], last = route.stops.length - 1, months = [];
+  if (p.node) return { night: [route.stops[i - 1].id, route.stops[i + 1].id] };
+  var chosen = st.interests.filter(function (k) { return (p.fit[k] || 0) >= 2; });
+  var strongest = INTERESTS.filter(function (k) { return (p.fit[k] || 0) >= 2; })
+    .sort(function (a, b) { return p.fit[b] - p.fit[a] || INTERESTS.indexOf(a) - INTERESTS.indexOf(b); }).slice(0, 2);
+  var airport = i === 0 && s.id === hubs[st.from] ? 'from' : i === last && s.id === hubs[st.to] ? 'to' : null;
+  for (var d = s.start; d < s.start + s.n; d++) {
+    var m = st.months[d - 1] + 1;
+    if (!months.length || months[months.length - 1].month !== m) months.push({ month: m, season: s.season.charAt(d - s.start) });
+  }
+  return { added: st.add.indexOf(s.id) > -1, airport: airport, interests: st.interests.length ? chosen : strongest,
+    way: st.interests.length > 0 && !chosen.length && !airport, months: months };
+}
+
+/* Why each place off the trip is not on it, south to north: every place without a node that is no stay of the trip.
+   reasons, each one that holds, in this order: 'removed' (Usuń took it off); 'level' (it needs a higher level); 'closed'
+   (closed, X, in every month of the trip); 'season' (poor, Z, in every month of the trip); 'profile' (interests are chosen
+   and it serves none of them, fit under 2); 'far' (it does not fit in: with it added, the trip leaves it missing). When
+   none holds: 'beaten' (with this many days, other places scored more). why: the reasons of its poor months (CLIMATE),
+   each once. canAdd: Dodaj can put it on the trip (not when it needs a higher level, is closed or does not fit). drops:
+   the places that would leave the trip if it were added (droppedPlaces). added: Dodaj asked for it.
+   Returns [{ id, reasons, why, canAdd, drops, added }]. settings: as in the link (Dodaj builds on them); st: their
+   normSettings' result; route: planRoute's trip for them; data: planRoute's data; climate: CLIMATE. */
+function whyOff(route, settings, st, data, climate) {
+  var P = data.places, on = {}, seen = {}, months = [];
+  route.stops.forEach(function (s) { on[s.id] = true; });
+  st.months.forEach(function (m) { if (!seen[m]) { seen[m] = true; months.push(m + 1); } });
+  return Object.keys(P).filter(function (id) { return !P[id].node && !on[id]; })
+    .sort(function (a, b) { return P[a].axis - P[b].axis || (a < b ? -1 : 1); })
+    .map(function (id) {
+      var p = P[id], code = data.seasons[id], x = { id: id, reasons: [], why: [], canAdd: true, drops: [], added: st.add.indexOf(id) > -1 };
+      function every(letter) { return months.every(function (m) { return code.charAt(m - 1) === letter; }); }
+      if (st.remove.indexOf(id) > -1) x.reasons.push('removed');
+      if (p.level > st.level) x.reasons.push('level');
+      if (every('X')) x.reasons.push('closed');
+      if (every('Z')) {
+        x.reasons.push('season');
+        months.forEach(function (m) { (climate[id].why[m] || []).forEach(function (w) { if (x.why.indexOf(w) < 0) x.why.push(w); }); });
+      }
+      if (st.interests.length && st.interests.every(function (k) { return (p.fit[k] || 0) < 2; })) x.reasons.push('profile');
+      if (p.level > st.level || every('X')) { x.canAdd = false; return x; }
+      var withIt = normSettings(withAdded(settings, id), P, data.hubs), r = withIt.ok ? planRoute(withIt, data) : null;
+      if (!r || !r.ok || r.missing.indexOf(id) > -1) { x.reasons.push('far'); x.canAdd = false; }
+      else x.drops = droppedPlaces(route.stops, r.stops, P);
+      if (!x.reasons.length) x.reasons.push('beaten');
+      return x;
+    });
+}
+
+/* What Dodaj changed besides the added place: left, the places on the old trip that the new one has not; came, the places
+   on the new trip that the old one had not, the added place left out; each in the order of its trip (droppedPlaces:
+   a night on the way is no place to report, a city twice on a round trip counts once). */
+function addReport(before, after, added, places) {
+  return { left: droppedPlaces(before, after, places),
+    came: droppedPlaces(after, before, places).filter(function (id) { return id !== added; }) };
+}
+
 /* Dodaj and Usuń on a copy of the settings: adding takes the place off the removed list, removing off the added one;
    withoutChanges clears both. */
 function withAdded(s, id) {

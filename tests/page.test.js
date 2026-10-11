@@ -235,6 +235,58 @@ eq(droppedPlaces(stopsOf(['saigon', 'dalat']), stopsOf(['saigon', 'dalat', 'phuq
 eq(droppedPlaces([], stopsOf(['saigon']), PLACES), [], 'dropped: no old trip');
 print('trip ok');
 
+/* ---------- why a place is on the trip or not ---------- */
+function tripOf(s, data) { var st = stOf(s); return { st: st, r: planRoute(st, data || DATA_T) }; }
+var MARCH = { from: 'SGN', to: 'HAN', year: 2027, month: 3, days: 15, interests: [], level: 2, add: [], remove: [] };
+var tA = tripOf(MARCH);   // saigon 3, dalat 3, hoian 2, hue 3, hanoi 3, all D
+eq(tA.r.stops.map(function (s) { return s.id; }), ['saigon', 'dalat', 'hoian', 'hue', 'hanoi'], 'the trip the next checks read');
+eq(whyOn(tA.r, 0, tA.st, PLACES, HUBS), { added: false, airport: 'from', interests: ['jedzenie', 'kultura'], way: false, months: [{ month: 3, season: 'D' }] },
+  'the arrival city, no interest chosen: its two strongest interests, the strongest first');
+eq([whyOn(tA.r, 4, tA.st, PLACES, HUBS).airport, whyOn(tA.r, 4, tA.st, PLACES, HUBS).interests, whyOn(tA.r, 1, tA.st, PLACES, HUBS).airport],
+  ['to', ['kultura', 'jedzenie'], null], 'the departure city; a tie goes in the order of INTERESTS; a stay in the middle is no airport\'s city');
+var tB = tripOf(Object.assign({}, MARCH, { interests: ['przyroda'] }));   // saigon 2, cattien 2, dalat 4, ninhbinh 2, catba 4
+eq([whyOn(tB.r, 0, tB.st, PLACES, HUBS).interests, whyOn(tB.r, 0, tB.st, PLACES, HUBS).way, whyOn(tB.r, 1, tB.st, PLACES, HUBS).interests, whyOn(tB.r, 1, tB.st, PLACES, HUBS).way],
+  [[], false, ['przyroda'], false], 'nature chosen: the arrival city serves it not, but it is the airport\'s city (no "po drodze"); Cát Tiên serves it');
+var tC = tripOf(Object.assign({}, MARCH, { interests: ['gory'] }));   // cattien, dalat, ninhbinh, babe, caobang, hanoi 1
+eq([whyOn(tC.r, 0, tC.st, PLACES, HUBS).way, whyOn(tC.r, 0, tC.st, PLACES, HUBS).interests], [true, []], 'mountains chosen: Cát Tiên (fit 1) fills the days on the way');
+var tD = tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['przyroda', 'gory'], level: 2 });   // ninhbinh, catba, hanoiStop, babe, caobang, hanoi
+eq(whyOn(tD.r, 2, tD.st, PLACES, HUBS), { night: ['catba', 'babe'] }, 'a night on the way: the places before and after it');
+eq([whyOn(tD.r, 4, tD.st, PLACES, HUBS).interests, whyOn(tD.r, 1, tD.st, PLACES, HUBS).interests], [['przyroda', 'gory'], ['przyroda']],
+  'Cao Bằng serves both chosen interests, Cát Bà (mountains 1) one');
+var tG = tripOf({ from: 'SGN', to: 'HAN', start: '2027-03-28', end: '2027-04-12', interests: [], level: 2 });   // saigon 3, dalat 3, hoian 2, catba 4, hanoi 3
+eq([whyOn(tG.r, 0, tG.st, PLACES, HUBS).months, whyOn(tG.r, 1, tG.st, PLACES, HUBS).months], [[{ month: 3, season: 'D' }], [{ month: 3, season: 'D' }, { month: 4, season: 'D' }]],
+  'dates: Hồ Chí Minh City on 28–30 March, Đà Lạt from 31 March into April, each month once');
+var tI = tripOf(Object.assign({}, MARCH, { add: ['mekong'] }));
+eq(whyOn(tI.r, 1, tI.st, PLACES, HUBS).added, true, 'a place Dodaj asked for');
+
+function offOf(t, settings, data) { return whyOff(t.r, settings, t.st, data || DATA_T, CLIMATE); }
+var oA = offOf(tA, MARCH), byId = function (list) { var o = {}; list.forEach(function (x) { o[x.id] = x; }); return o; };
+eq(oA.map(function (x) { return x.id; }), ['mekong', 'phuquoc', 'cattien', 'puluong', 'ninhbinh', 'catba', 'babe', 'caobang'], 'off the trip: south to north, no night on the way');
+eq([byId(oA).mekong.reasons, byId(oA).mekong.canAdd, byId(oA).mekong.drops], [['beaten'], true, droppedPlaces(tA.r.stops, tI.r.stops, PLACES)],
+  'the Mekong in March: nothing against it, other places won; Dodaj, and what it would push off the trip');
+var tF = tripOf(Object.assign({}, MARCH, { month: 7 })), oF = byId(offOf(tF, Object.assign({}, MARCH, { month: 7 })));
+eq([oF.phuquoc.reasons, oF.phuquoc.why, oF.phuquoc.canAdd], [['season'], ['ulewy', 'fale'], true], 'Phú Quốc in July: out of season, with the reasons of July');
+var oB = byId(offOf(tB, Object.assign({}, MARCH, { interests: ['przyroda'] })));
+eq([oB.hoian.reasons.indexOf('profile') > -1, oB.puluong.reasons.indexOf('profile') > -1], [true, false], 'nature chosen: Hội An (fit 0) is no match, Pù Luông (fit 2) is');
+var E5 = { from: 'SGN', to: 'SGN', year: 2027, month: 3, days: 5, interests: [], level: 2, add: [], remove: [] }, oE = byId(offOf(tripOf(E5), E5));
+eq([oE.caobang.reasons, oE.caobang.canAdd, oE.caobang.drops], [['far'], false, []], 'Cao Bằng on five days from Hồ Chí Minh City: too far, no Dodaj');
+var E5add = Object.assign({}, E5, { add: ['caobang'] }), oE2 = byId(offOf(tripOf(E5add), E5add));
+eq([oE2.caobang.added, oE2.caobang.reasons, oE2.caobang.canAdd], [true, ['far'], false], 'asked for with Dodaj and not fitted: still too far, marked as added');
+var H = Object.assign({}, MARCH, { remove: ['hoian'] }), oH = byId(offOf(tripOf(H), H));
+eq([oH.hoian.reasons, oH.hoian.canAdd], [['removed'], true], 'removed with Usuń: said so, and Dodaj brings it back');
+// a place that needs a higher level, and one closed all the trip: made up, since none of the 12 places is either yet
+var P3 = JSON.parse(JSON.stringify(PLACES)), S3 = JSON.parse(JSON.stringify(SEASONS));
+P3.catba.level = 3; S3.babe = 'XXXXXXXXXXXX';
+var D3 = { places: P3, seasons: S3, graph: DATA_T.graph, hubs: HUBS }, st3 = normSettings(MARCH, P3, HUBS), o3 = byId(whyOff(planRoute(st3, D3), MARCH, st3, D3, CLIMATE));
+eq([o3.catba.reasons, o3.catba.canAdd, o3.babe.reasons, o3.babe.canAdd], [['level'], false, ['closed'], false], 'a higher level and a closed place: no Dodaj');
+eq(whyOff(planRoute(normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3), Object.assign({}, MARCH, { level: 3 }), normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3, CLIMATE)
+  .filter(function (x) { return x.id === 'catba'; })[0].reasons.indexOf('level'), -1, 'at the level it needs, the level is no reason');
+
+eq(addReport(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hoian', 'hanoi']), 'phuquoc', PLACES), { left: ['hue'], came: ['hoian'] },
+  'after Dodaj: what left the trip and what came besides the added place');
+eq(addReport(stopsOf(['saigon', 'dalat', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), 'phuquoc', PLACES), { left: [], came: [] }, 'only the added place came');
+print('why ok');
+
 /* ---------- travel texts ---------- */
 function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRPORTS, ROAD_KEYS); }
 eq(road('HAN', 'hanoi'), ['r.taxi_from', { x: 'Hà Nội' }], 'from an airport');
