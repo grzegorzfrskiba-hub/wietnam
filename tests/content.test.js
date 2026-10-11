@@ -174,7 +174,7 @@ contentCheck('ui', function (need) {
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
   var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard'],
-    'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'alert.': ['tet', 'holiday', 'nodata'],
+    'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'mon3.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'alert.': ['tet', 'holiday', 'nodata'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
   Object.keys(FAMILIES).forEach(function (pre) {
     need(app.indexOf("T('" + pre + "' + ") > -1, 'app.js never builds a key ' + pre + '…');

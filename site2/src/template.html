@@ -92,8 +92,8 @@ ul, ol { padding: 0; list-style: none; }
 .hero-cta .ghost { color: var(--on-photo); border: 1px solid rgba(var(--white), 0.6); }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
 
-/* Facts */
-.facts { background: var(--surface); border-bottom: 1px solid var(--line); }
+/* Facts: the trip in figures, right under the settings */
+.facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
 .facts ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .facts li { padding: 18px 0; display: grid; gap: 2px; min-width: 0; }
 .facts li + li { border-left: 1px solid var(--line); padding-left: 18px; }
@@ -118,25 +118,33 @@ ul, ol { padding: 0; list-style: none; }
 .pace-hard { background: transparent; color: var(--wet); border: 1px dashed var(--wet); }
 .pace-early { background: transparent; color: var(--warm); border: 1px dashed var(--warm); }
 
-/* Settings */
-.settings { display: grid; gap: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(16px, 2.4vw, 26px); }
-.set-group { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 10px; }
-.set-group legend { font-weight: 600; font-size: 17px; padding: 0; margin-bottom: 10px; }
+/* Settings: compact, so on a phone the form starts on the first screen and the figures of the trip follow it */
+.settings { display: grid; gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(16px, 2.4vw, 26px); }
+.set-group { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 10px; align-content: start; }
+.set-group legend { font-weight: 600; font-size: 17px; padding: 0; margin-bottom: 8px; }
 .set-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
-#level-list { align-items: stretch; }
+/* two fields in one row (month and days, the two dates, the two airports), each as wide as the row allows */
+.set-pair { display: flex; gap: 10px; align-items: flex-end; max-width: 560px; }
+.field-grow { flex: 1 1 0; min-width: 0; }
+.set-arrow { padding-bottom: 10px; color: var(--muted); }
 .field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
-.field select, .field input { font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 44px; }
+.field select, .field input { width: 100%; font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 44px; }
+/* a choice of one as buttons in a row: the term mode and the level */
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; padding: 3px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; max-width: 560px; }
+.seg label { position: relative; display: grid; place-items: center; min-height: 44px; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 15px; text-align: center; line-height: 1.25; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { background: var(--surface); box-shadow: 0 0 0 2px var(--accent); font-weight: 600; }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* on a wide screen the four groups of the form stand in two columns */
+@media (min-width: 900px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; } }
 .chip { position: relative; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 15px; }
 .chip input { position: absolute; opacity: 0; pointer-events: none; }
 .chip:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); background: var(--accent-soft); }
 .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .chip:has(input:disabled) { opacity: 0.45; cursor: default; }
-.chip-wide { flex: 1 1 220px; align-items: flex-start; border-radius: 8px; }
-.chip-wide span { display: grid; gap: 2px; font-size: 13.5px; color: var(--muted); }
-.chip-wide b { font-size: 15px; font-weight: 600; color: var(--ink); }
 .set-note { font-size: 13px; color: var(--muted); }
 .set-msg { font-size: 14.5px; color: var(--wet); }
-.set-msg:empty { display: none; }
+.set-msg:not(:empty) { margin-top: 14px; }
 /* Holiday warnings under the facts, and the places that did not fit */
 .alerts { display: grid; gap: 6px; padding-bottom: 14px; }
 .alerts li { font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
@@ -323,7 +331,18 @@ footer a { color: var(--muted); }
   .map svg { width: 100%; max-width: 360px; height: auto; max-height: none; }
 }
 @media (max-width: 640px) {
-  .hero-text { padding-top: 68px; }
+  /* a lower photo, so the form starts on the first screen (tests/probes/settings.js) */
+  .hero { min-height: 0; }
+  .hero-text { padding-block: 40px 24px; }
+  .hero-lede { margin-top: 10px; }
+  .hero-cta { margin-top: 16px; }
+  #settings.block { padding-top: 16px; }
+  #shape.block { padding-top: 20px; }
+  .block-head { gap: 6px; margin-bottom: 12px; }
+  /* "Hồ Chí Minh City" does not fit in half a phone's width, so the airports take a row each */
+  .set-airports { flex-wrap: wrap; }
+  .set-airports .field-grow { flex-basis: 100%; }
+  .set-arrow { display: none; }
   /* the figures in two columns, the last one across both when it is alone in its row */
   .facts ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #facts li:nth-child(odd) { border-left: 0; padding-left: 0; }
@@ -343,14 +362,24 @@ footer a { color: var(--muted); }
 }
 html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
-.secnav .wrap { display: flex; gap: 18px; overflow-x: auto; scrollbar-width: none; }
-.secnav .wrap::-webkit-scrollbar { display: none; }
+.secnav .wrap { display: flex; align-items: center; gap: 18px; }
+.secnav-links { display: flex; gap: 18px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.secnav-links::-webkit-scrollbar { display: none; }
 /* on narrow screens the links scroll, and the strip fades out at its end */
 @media (max-width: 900px) {
-  .secnav .wrap { -webkit-mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); }
+  .secnav-links { -webkit-mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); }
 }
 .secnav a { flex: none; padding: 12px 0; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .secnav a:hover { color: var(--ink); }
+/* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
+   on a phone the summary takes the place of the links */
+.secnav-sum { display: none; margin: 0 0 0 auto; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
+.secnav.away .secnav-sum { display: flex; }
+.secnav .sum-change { color: var(--accent); font-weight: 600; padding: 12px 0 12px 8px; }
+@media (max-width: 640px) {
+  .secnav.away .secnav-links { display: none; }
+  .secnav.away .secnav-sum { margin-left: 0; flex: 1; justify-content: space-between; }
+}
 .totop { position: fixed; z-index: 35; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 2px 10px rgba(var(--black), 0.18); }
 @media print {
   body { background: var(--surface); }
@@ -389,11 +418,13 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     </div>
   </div>
 </header>
-<div class="facts"><div class="wrap"><p class="facts-for" id="facts-for"></p><ul id="facts"></ul><ul class="alerts" id="alerts" hidden></ul></div></div>
-<nav class="secnav" data-i18n-aria="nav.aria"><div class="wrap">
-  <a href="#settings" data-i18n="nav.settings"></a>
-  <a href="#shape" data-i18n="nav.shape"></a>
-  <a href="#days" data-i18n="nav.days"></a>
+<nav class="secnav" id="secnav" data-i18n-aria="nav.aria"><div class="wrap">
+  <div class="secnav-links">
+    <a href="#settings" data-i18n="nav.settings"></a>
+    <a href="#shape" data-i18n="nav.shape"></a>
+    <a href="#days" data-i18n="nav.days"></a>
+  </div>
+  <p class="secnav-sum"><span id="sum-text"></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>
 <a class="totop" id="totop" href="#top" data-i18n-aria="nav.top" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg></a>
 
@@ -407,26 +438,26 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <form class="settings" id="settings-form" novalidate>
       <fieldset class="set-group">
         <legend data-i18n="set.term"></legend>
-        <div class="set-row">
-          <label class="chip"><input type="radio" name="mode" value="month"><span data-i18n="set.mode.month"></span></label>
-          <label class="chip"><input type="radio" name="mode" value="dates"><span data-i18n="set.mode.dates"></span></label>
+        <div class="seg">
+          <label><input type="radio" name="mode" value="month"><span data-i18n="set.mode.month"></span></label>
+          <label><input type="radio" name="mode" value="dates"><span data-i18n="set.mode.dates"></span></label>
         </div>
-        <div class="set-row" id="term-month">
-          <label class="field"><span data-i18n="set.month"></span><select name="month"></select></label>
+        <div class="set-pair" id="term-month">
+          <label class="field field-grow"><span data-i18n="set.month"></span><select name="month"></select></label>
           <label class="field"><span data-i18n="set.days"></span><select name="days"></select></label>
         </div>
-        <div class="set-row" id="term-dates" hidden>
-          <label class="field"><span data-i18n="set.start"></span><input type="date" name="start"></label>
-          <label class="field"><span data-i18n="set.end"></span><input type="date" name="end"></label>
+        <div class="set-pair" id="term-dates" hidden>
+          <label class="field field-grow"><span data-i18n="set.start"></span><input type="date" name="start"></label>
+          <label class="field field-grow"><span data-i18n="set.end"></span><input type="date" name="end"></label>
         </div>
         <p class="set-note" data-i18n="set.days.note"></p>
       </fieldset>
-      <p class="set-msg" id="settings-msg" role="status"></p>
       <fieldset class="set-group">
         <legend data-i18n="set.airports"></legend>
-        <div class="set-row">
-          <label class="field"><span data-i18n="set.from"></span><select name="from"></select></label>
-          <label class="field"><span data-i18n="set.to"></span><select name="to"></select></label>
+        <div class="set-pair set-airports">
+          <label class="field field-grow"><span data-i18n="set.from"></span><select name="from"></select></label>
+          <span class="set-arrow" aria-hidden="true">→</span>
+          <label class="field field-grow"><span data-i18n="set.to"></span><select name="to"></select></label>
         </div>
       </fieldset>
       <fieldset class="set-group">
@@ -436,12 +467,15 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       </fieldset>
       <fieldset class="set-group">
         <legend data-i18n="set.level"></legend>
-        <div class="set-row" id="level-list"></div>
+        <div class="seg" id="level-list"></div>
+        <p class="set-note" id="level-note"></p>
       </fieldset>
     </form>
+    <p class="set-msg" id="settings-msg" role="status"></p>
   </section>
 
   <section class="block wrap" id="shape">
+    <div class="facts"><p class="facts-for" id="facts-for"></p><ul id="facts"></ul><ul class="alerts" id="alerts" hidden></ul></div>
     <div class="block-head">
       <p class="eyebrow" data-i18n="shape.eyebrow"></p>
       <h2 id="shape-h2" tabindex="-1"></h2>

@@ -4,7 +4,8 @@
 var UI = {};
 UI.pl = {
   'doc.title': 'Wietnam po swojemu',
-  'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.top': 'Na górę',
+  'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.top': 'Na górę', 'nav.change': 'Zmień',
+  'sum': '{term} · {days} dni · {level}',
   'hero.alt': 'Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình',
   'hero.eyebrow': 'Planer podróży po Wietnamie',
   'hero.h1': 'Wietnam <em>po</em> swojemu',
@@ -12,7 +13,7 @@ UI.pl = {
   'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę',
 
   'set.eyebrow': 'Krok 1', 'set.h2': 'Twój wyjazd',
-  'set.p': 'Trasa przelicza się przy każdej zmianie. Ustawienia są w adresie strony, więc skopiowany adres to gotowy link.',
+  'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',
   'set.term': 'Termin', 'set.mode.month': 'Miesiąc i liczba dni', 'set.mode.dates': 'Dokładne daty',
   'set.month': 'Miesiąc', 'set.days': 'Liczba dni', 'set.start': 'Dzień przylotu', 'set.end': 'Dzień wylotu',
   'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.',
@@ -27,6 +28,8 @@ UI.pl = {
   'lvlp.3': 'Gdzie się da, trudne dni z licencjonowanym przewodnikiem: dłuższe trasy i noce w terenie. W pozostałych miejscach dni jak przy „Aktywnie”.',
   'mon.1': 'styczeń', 'mon.2': 'luty', 'mon.3': 'marzec', 'mon.4': 'kwiecień', 'mon.5': 'maj', 'mon.6': 'czerwiec',
   'mon.7': 'lipiec', 'mon.8': 'sierpień', 'mon.9': 'wrzesień', 'mon.10': 'październik', 'mon.11': 'listopad', 'mon.12': 'grudzień',
+  'mon3.1': 'sty', 'mon3.2': 'lut', 'mon3.3': 'mar', 'mon3.4': 'kwi', 'mon3.5': 'maj', 'mon3.6': 'cze',
+  'mon3.7': 'lip', 'mon3.8': 'sie', 'mon3.9': 'wrz', 'mon3.10': 'paź', 'mon3.11': 'lis', 'mon3.12': 'gru',
   'set.err.airport': 'Wybierz lotniska z listy.',
   'set.err.date': 'Podaj obie daty: przylotu i wylotu.',
   'set.err.month': 'Wybierz miesiąc z listy.',

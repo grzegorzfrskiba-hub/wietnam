@@ -52,21 +52,23 @@
   var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
   var TODAY = clampToday(new Date().toISOString().slice(0, 10), HOLIDAYS_FROM, PLAN_LAST_YEAR);   // the device clock, held inside the days the page plans for
   var DEFAULTS = defaultSettings(TODAY, DATA, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
-  // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay
-  var state = { settings: null, st: null, route: null, plans: null };
+  // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay;
+  // linkWarn: the link that opened the page was partly wrong (said in the warnings until the next change)
+  var state = { settings: null, st: null, route: null, plans: null, linkWarn: false };
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
   /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
-     last trip and say why under the settings. Returns whether the trip changed. */
-  function apply(s) {
+     last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong.
+     Returns whether the trip changed. */
+  function apply(s, linkWarn) {
     var st = normSettings(s, PLACES, HUBS), r = st.ok ? planRoute(st, DATA) : null;
     if (!st.ok || !r.ok) {
       msg(T('set.err.' + (st.ok ? r.error : st.error), { min: MIN_DAYS, max: MAX_DAYS }) + (state.route ? T('set.err.keep') : ''));
       return false;
     }
     var done = {};
-    state.settings = s; state.st = st; state.route = r;
+    state.settings = s; state.st = st; state.route = r; state.linkWarn = !!linkWarn;
     state.plans = r.stops.map(function (x, i) {
       var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i));
       done[x.id] = (done[x.id] || 0) + x.n;
@@ -83,11 +85,10 @@
   }
 
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
-     without them. */
+     without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. */
   function fromLink() {
-    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad), dropped = got.dropped.length > 0;
-    if (!apply(got.settings)) { apply(withoutChanges(got.settings)); dropped = true; }
-    if (dropped) msg(T('set.dropped'));
+    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad);
+    if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
   }
 
@@ -105,7 +106,7 @@
       return '<label class="chip"><input type="checkbox" name="interest" value="' + k + '"><span>' + T('int.' + k) + '</span></label>';
     }).join('');
     $('#level-list').innerHTML = LEVELS.map(function (n) {
-      return '<label class="chip chip-wide"><input type="radio" name="level" value="' + n + '"><span><b>' + T('lvl.' + n) + '</b>' + T('lvlp.' + n) + '</span></label>';
+      return '<label><input type="radio" name="level" value="' + n + '"><span>' + T('lvl.' + n) + '</span></label>';
     }).join('');
     F.start.min = TODAY;
     F.start.max = PLAN_LAST_YEAR + '-12-31';
@@ -120,7 +121,14 @@
       return '<option value="' + m.year + '-' + m.month + '">' + T('mon.' + m.month) + ' ' + m.year + '</option>';
     }).join('');
   }
-  /* The form shows state.settings. Once two interests are chosen, the other three are greyed out. */
+  /* What follows the form as it stands, also after a change that gave no trip: once two interests are chosen, the other
+     three are greyed out; under the levels, the words of the chosen one. */
+  function syncLocks() {
+    var two = F.querySelectorAll('input[name=interest]:checked').length >= 2;
+    Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) { b.disabled = two && !b.checked; });
+    $('#level-note').textContent = tied(T('lvlp.' + F.level.value));
+  }
+  /* The form shows state.settings. */
   function syncForm() {
     var s = state.settings, dates = !!s.start;
     monthOptions(s);
@@ -132,11 +140,8 @@
     F.from.value = s.from;
     F.to.value = s.to;
     F.level.value = String(s.level);
-    var two = s.interests.length >= 2;
-    Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) {
-      b.checked = s.interests.indexOf(b.value) > -1;
-      b.disabled = two && !b.checked;
-    });
+    Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) { b.checked = s.interests.indexOf(b.value) > -1; });
+    syncLocks();
   }
   function readForm() {
     var s = { from: F.from.value, to: F.to.value, interests: [], level: +F.level.value,
@@ -168,6 +173,7 @@
       s = readForm();
     }
     if (apply(s)) syncForm();
+    else syncLocks();
   }
 
   /* Links inside the page (a day in the strip, the menu, back to the top) scroll without changing the address, which
@@ -203,7 +209,14 @@
     expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
   };
 
+  /* The settings in short, for the bar at the top: "mar 2027 · 15 dni · Aktywnie", or with dates "28.01–14.02.2027 · …". */
+  function summaryText(st) {
+    var term = st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('mon3.' + st.month) + ' ' + st.year;
+    return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
+  }
+
   function render() {
+    $('#sum-text').textContent = summaryText(state.st);
     renderFacts();
     renderShape();
     renderOffRoute();
@@ -223,10 +236,13 @@
       '<li><b>' + k.flights + '</b><span>' + countWord('f.flights', k.flights) + '</span></li>' +
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       '<li><b>' + approx(k.longest).replace('≈ ', '') + '</b><span>' + T('f.longest') + '</span></li>';
-    var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS);
-    var lines = a.hits.map(function (h) { return T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) }); });
-    if (a.unknown) lines.push(T('alert.nodata'));
-    if (termPassed(st, TODAY)) lines.unshift(T('alert.past'));   // an old link keeps its trip, and says so
+    // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
+    // holidays; the missing holiday dates only for a term still ahead
+    var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
+    if (state.linkWarn) lines.push(T('set.dropped'));
+    if (passed) lines.push(T('alert.past'));
+    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) })); });
+    if (a.unknown && !passed) lines.push(T('alert.nodata'));
     $('#alerts').innerHTML = lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     $('#alerts').hidden = !lines.length;
   }
@@ -607,10 +623,11 @@
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-add], [data-remove], #reset-changes') : null;
       if (!b) return;
-      var added = b.hasAttribute('data-add') ? b.getAttribute('data-add') : null, before = state.route.stops;
-      var s = b.id === 'reset-changes' ? withoutChanges(state.settings)
-        : added ? withAdded(state.settings, added)
-        : withRemoved(state.settings, b.getAttribute('data-remove'));
+      // the changes build on the form as it stands, so a choice in it that gave no trip yet is not lost
+      var added = b.hasAttribute('data-add') ? b.getAttribute('data-add') : null, before = state.route.stops, base = readForm();
+      var s = b.id === 'reset-changes' ? withoutChanges(base)
+        : added ? withAdded(base, added)
+        : withRemoved(base, b.getAttribute('data-remove'));
       if (apply(s)) {
         syncForm();
         if (added) reportDropped(added, before);
@@ -789,6 +806,14 @@
     }
   }
 
+  /* The bar at the top sums up the settings once the form has gone up off the screen (class away on the bar). */
+  function bindSummary() {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      $('#secnav').classList.toggle('away', !es[0].isIntersecting && es[0].boundingClientRect.bottom < 0);
+    }).observe(F);
+  }
+
   /* ---------- the footer and the texts in the template ---------- */
   function renderCredits() {
     var used = {};
@@ -817,6 +842,7 @@
   bindAnchors();
   bindMapZoom();
   bindChanges();
+  bindSummary();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');
