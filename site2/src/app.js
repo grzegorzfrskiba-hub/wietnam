@@ -36,12 +36,13 @@
     return '≈ ' + (r % 1 ? (whole ? whole : '') + '½' : whole) + ' ' + T('h');
   }
   function dayRange(a, b) { return a === b ? T('day') + ' ' + a : T('days') + ' ' + a + '–' + b; }
-  // the weekday and date of trip day n, only when the trip has dates
+  // the weekday and date of trip day n, only when the trip has dates: "czw. 28.01", short enough for one line under the number
   function dateLabel(day) {
     var iso = tripDate(state.st.start, day);
     if (!iso) return '';
     var p = iso.split('-').map(Number);
-    return new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+    var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', timeZone: 'UTC' });
+    return wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
   }
   function termText(st) {
     return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
@@ -54,7 +55,7 @@
   // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay
   var state = { settings: null, st: null, route: null, plans: null };
 
-  function msg(text) { $('#settings-msg').textContent = text; }
+  function msg(text) { $('#settings-msg').textContent = tied(text); }
 
   /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
      last trip and say why under the settings. Returns whether the trip changed. */
@@ -600,7 +601,7 @@
   function reportDropped(added, before) {
     var ids = droppedPlaces(before, state.route.stops, PLACES);
     if (!ids.length) return;
-    $('#dropped').textContent = tieShort(T('off.dropped', { x: C(added).short, list: ids.map(function (id) { return C(id).short; }).join(', ') }));
+    $('#dropped').textContent = tied(T('off.dropped', { x: C(added).short, list: ids.map(function (id) { return C(id).short; }).join(', ') }));
   }
   function bindChanges() {
     document.addEventListener('click', function (e) {
@@ -770,14 +771,21 @@
     document.querySelectorAll('#stops .stop').forEach(function (s) { io.observe(s); });
   }
 
-  // Polish: no line may end on a one-letter word, so each gets a no-break space after it (the text rule is tieShort in page.js)
+  // the multi-word names a line may not break inside: the short names of the places and the names of the airports
+  var TIED_NAMES = Object.keys(CONTENT).map(function (id) { return CONTENT[id].short; })
+    .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }))
+    .filter(function (n, i, all) { return n.indexOf(' ') > -1 && all.indexOf(n) === i; })
+    .sort(function (a, b) { return b.length - a.length; });
+  // a text with the no-break spaces of Polish typography (tieShort) and of the names (tieNames), both in page.js
+  function tied(text) { return lang === 'pl' ? tieNames(tieShort(text), TIED_NAMES) : text; }
+  // every text in root, tied as above
   function tieShortWords(root) {
     if (lang !== 'pl') return;
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), node;
     while ((node = walker.nextNode())) {
       if (/^(SCRIPT|STYLE|TEXTAREA)$/i.test(node.parentNode.nodeName)) continue;
-      var tied = tieShort(node.nodeValue);
-      if (tied !== node.nodeValue) node.nodeValue = tied;
+      var t = tied(node.nodeValue);
+      if (t !== node.nodeValue) node.nodeValue = t;
     }
   }
 

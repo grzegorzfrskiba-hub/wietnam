@@ -244,6 +244,13 @@ eq(tieShort('W domu'), 'W' + NB + 'domu', 'capital at the start');
 eq(tieShort('i w domu'), 'i' + NB + 'w' + NB + 'domu', 'a run of one-letter words');
 eq(tieShort('Hà Nội, a potem Huế i Hội An'), 'Hà Nội, a' + NB + 'potem Huế i' + NB + 'Hội An', 'a and i');
 eq(tieShort('(w domu) i „o tym” oraz x–u nas'), '(w' + NB + 'domu) i' + NB + '„o' + NB + 'tym” oraz x–u' + NB + 'nas', 'after ( „ and –');
-['dla przyjaciół', 'Đà Lạt i', 'ok. 5 km', 'XVIII wieku', 'C w', 'z' + NB + 'południa'].forEach(function (s) { eq(tieShort(s), s, 'unchanged: ' + s); });
-eq(tieShort(tieShort('i w domu')), tieShort('i w domu'), 'idempotent');
+['dla przyjaciół', 'Đà Lạt i', 'XVIII wieku', 'C w', 'z' + NB + 'południa', '5 miejsc', '2 mosty', '15 dni'].forEach(function (s) { eq(tieShort(s), s, 'unchanged: ' + s); });
+eq([tieShort('ok. 3–4 km od'), tieShort('≈ 5½ godz. drogi'), tieShort('2 godz. 30 min'), tieShort('noce 13 °C, 64 mm deszczu, 1700 m n.p.m.')],
+  ['ok. 3–4' + NB + 'km od', '≈' + NB + '5½' + NB + 'godz. drogi', '2' + NB + 'godz. 30' + NB + 'min', 'noce 13' + NB + '°C, 64' + NB + 'mm deszczu, 1700' + NB + 'm n.p.m.'],
+  'a number keeps its unit, ≈ keeps its number');
+eq(tieShort(tieShort('i w domu, ≈ 4 godz.')), tieShort('i w domu, ≈ 4 godz.'), 'idempotent');
+var NAMES = ['Hồ Chí Minh City', 'Cát Tiên', 'Ba Bể'];
+eq(tieNames('Nie zmieściło się: Ba Bể, Cát Tiên. Lot z Hồ Chí Minh City.', NAMES),
+  'Nie zmieściło się: Ba' + NB + 'Bể, Cát' + NB + 'Tiên. Lot z Hồ' + NB + 'Chí' + NB + 'Minh' + NB + 'City.', 'names keep together, each place');
+eq(tieNames('Bez nazw.', NAMES), 'Bez nazw.', 'a text without names stays as it was');
 print('words ok');

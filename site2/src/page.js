@@ -322,12 +322,20 @@ function nightForm(n) {
 }
 
 /* Polish typography: a one-letter word (a i o u w z) gets a no-break space after it, so no line ends on it. It must start the text
-   or follow white space, ( „ or –. A run like "i w domu" needs several passes (a match uses up the space in front of the next word), so repeat. */
+   or follow white space, ( „ or –. A run like "i w domu" needs several passes (a match uses up the space in front of the next word), so repeat.
+   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm), and ≈ keeps its number. */
 function tieShort(text) {
   var before;
   do {
     before = text;
     text = text.replace(/(^|[\s(„–])([aiouwzAIOUWZ]) /g, '$1$2\u00a0');
   } while (text !== before);
+  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C)(?![\p{L}])/gu, '$1\u00a0$2');
+}
+
+/* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become
+   no-break spaces. names: the names that have a space, longest first, so a longer name is tied before a shorter one in it. */
+function tieNames(text, names) {
+  names.forEach(function (n) { if (text.indexOf(n) > -1) text = text.split(n).join(n.replace(/ /g, '\u00a0')); });
   return text;
 }

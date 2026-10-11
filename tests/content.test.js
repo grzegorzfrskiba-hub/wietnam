@@ -136,6 +136,13 @@ contentCheck('style', function (need) {
     'at least one hard day: level 3 must change something (research/trudne-dni-2026-10.md)');
 });
 
+/* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex
+   colour and no rgb() or rgba() with numbers (a triplet variable goes in as rgba(var(--black), 0.25)). */
+contentCheck('css colours', function (need) {
+  var css = readFile('site2/src/template.html').split('<style>')[1].split('</style>')[0].replace(/:root[^{]*\{[^}]*\}/g, '');
+  (css.match(/#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d[^)]*\)/g) || []).forEach(function (m) { need(false, 'a colour outside :root: ' + m + ' (put it in a variable)'); });
+});
+
 /* The interface texts (ui.js): none empty; every key the code asks for exists; every key is used. */
 contentCheck('ui', function (need) {
   var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js');
