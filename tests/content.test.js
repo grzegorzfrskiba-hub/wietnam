@@ -181,6 +181,16 @@ contentCheck('palette', function (need) {
   need(css.split('--pal-1:').length - 1 === 3, 'the palette in all three blocks: light, dark by the system, dark chosen');
 });
 
+/* The names kept together (KEEP_TOGETHER in content.js): each is a name of several words that a text of the places uses,
+   with no letter that tieVietnamese (page.js) would know it by, so the list is what keeps it on one line. */
+contentCheck('names kept together', function (need) {
+  var texts = JSON.stringify(CONTENT);
+  KEEP_TOGETHER.forEach(function (n) {
+    need(n.indexOf(' ') > -1 && texts.indexOf(n) > -1, n + ': a name of several words that a text of the places uses');
+    need(!VIET_LETTER.test(n), n + ': has a Vietnamese letter, so tieVietnamese keeps it together without the list');
+  });
+});
+
 /* The interface texts (ui.js): none empty; every key the code asks for exists; every key is used. */
 contentCheck('ui', function (need) {
   var pl = UI.pl, app = readFile('site2/src/app.js'), tpl = readFile('site2/src/template.html'), page = readFile('site2/src/page.js'), panels = readFile('site2/src/panels.js');

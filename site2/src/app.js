@@ -797,13 +797,14 @@
     document.querySelectorAll('#stops .stop').forEach(function (s) { io.observe(s); });
   }
 
-  // the multi-word names a line may not break inside: the short names of the places and the names of the airports
+  // the multi-word names a line may not break inside: the short names of the places, the names of the airports and the
+  // names without a Vietnamese letter that the texts use (KEEP_TOGETHER in content.js)
   var TIED_NAMES = Object.keys(CONTENT).map(function (id) { return CONTENT[id].short; })
-    .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }))
+    .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
     .filter(function (n, i, all) { return n.indexOf(' ') > -1 && all.indexOf(n) === i; })
     .sort(function (a, b) { return b.length - a.length; });
-  // a text with the no-break spaces of Polish typography (tieShort) and of the names (tieNames), both in page.js
-  function tied(text) { return lang === 'pl' ? tieNames(tieShort(text), TIED_NAMES) : text; }
+  // a text with the no-break spaces of Polish typography (tieShort) and of the names (tieVietnamese, tieNames), all in page.js
+  function tied(text) { return lang === 'pl' ? tieNames(tieVietnamese(tieShort(text)), TIED_NAMES) : text; }
   // every text in root, tied as above
   function tieShortWords(root) {
     if (lang !== 'pl') return;

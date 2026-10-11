@@ -6,6 +6,18 @@ setTimeout(function () {
   var ids = function () { return Array.prototype.map.call(document.querySelectorAll('#stops .stop[data-pin]'), function (s) { return s.getAttribute('data-pin'); }); };
   var at = soon(), month = at.year + '-' + at.month;
   check('the trip has stays', ids().length > 2, ids().join(','));
+  // Vietnamese names of several words keep together (tieVietnamese in page.js, KEEP_TOGETHER in content.js): no plain space
+  // inside a name, in each text of the cards of the stays and of the list of the places off the trip (a text node at a time:
+  // the space between two elements, as between a day's title and its badge, is no space inside a name)
+  var split = [];
+  ['stops', 'offroute-list'].forEach(function (id) {
+    var walk = document.createTreeWalker(document.getElementById(id), NodeFilter.SHOW_TEXT, null), node;
+    while ((node = walk.nextNode())) {
+      (node.nodeValue.match(/\p{Lu}[\p{L}\p{M}]* \p{Lu}[\p{L}\p{M}]*/gu) || []).forEach(function (pair) { if (VIET_LETTER.test(pair) && split.indexOf(pair) < 0) split.push(pair); });
+      KEEP_TOGETHER.forEach(function (n) { if (node.nodeValue.indexOf(n) > -1 && split.indexOf(n) < 0) split.push(n); });
+    }
+  });
+  check('Vietnamese names of several words keep together on a line', !split.length, split.join(', '));
   var whys = Array.prototype.map.call(document.querySelectorAll('#stops .stop:not(.stop-home) .why-on'), function (p) { return p.textContent; });
   check('each stay says why it is on the trip', whys.length === document.querySelectorAll('#stops .stop:not(.stop-home)').length &&
     whys.every(function (t) { return /^(Wybrane, bo: .+ sezon\.|Noc w drodze z .+ do .+\.)$/.test(t.replace(/\s+/g, ' ')); }), whys.join(' | '));

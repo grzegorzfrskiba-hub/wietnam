@@ -464,6 +464,20 @@ function tieNames(text, names) {
   return text;
 }
 
+/* Vietnamese names of several words (Thảo Điền, Hà Tôn Quyền) keep together too, without a list: a space between two
+   words that start with a capital, when one of them has a letter that Polish has not (ả, ề, ơ, đ…), becomes a no-break
+   space. A full stop or a comma between them ends the name. A name without such a letter (Lang Biang) needs the list
+   of tieNames. */
+var VIET_LETTER = /[àáảãạăằắẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]/iu;
+function tieVietnamese(text) {
+  var parts = String(text).split(/( )/);   // the words, each with its punctuation, and the spaces between them
+  for (var i = 1; i < parts.length - 1; i += 2) {
+    var a = /(?:^|[^\p{L}\p{M}])(\p{Lu}[\p{L}\p{M}]*)$/u.exec(parts[i - 1]), b = /^\p{Lu}[\p{L}\p{M}]*/u.exec(parts[i + 1]);
+    if (a && b && (VIET_LETTER.test(a[1]) || VIET_LETTER.test(b[0]))) parts[i] = '\u00a0';
+  }
+  return parts.join('');
+}
+
 /* ---------- the map: three panels, the markers and the labels ---------- */
 var PANEL_GAP = 16;                               // between two panels, px
 /* A panel's scale (px per degree) and height from its corners (panels.js): MAP_WIDTH px wide. geo/make_basemap.py works

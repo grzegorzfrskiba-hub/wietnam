@@ -397,4 +397,10 @@ var NAMES = ['Hồ Chí Minh City', 'Cát Tiên', 'Ba Bể'];
 eq(tieNames('Nie zmieściło się: Ba Bể, Cát Tiên. Lot z Hồ Chí Minh City.', NAMES),
   'Nie zmieściło się: Ba' + NB + 'Bể, Cát' + NB + 'Tiên. Lot z Hồ' + NB + 'Chí' + NB + 'Minh' + NB + 'City.', 'names keep together, each place');
 eq(tieNames('Bez nazw.', NAMES), 'Bez nazw.', 'a text without names stays as it was');
+eq(tieVietnamese('w górę rzeki do Thảo Điền, targ Bình Tây w Chợ Lớn i ulica Hà Tôn Quyền.'),
+  'w górę rzeki do Thảo' + NB + 'Điền, targ Bình' + NB + 'Tây w Chợ' + NB + 'Lớn i ulica Hà' + NB + 'Tôn' + NB + 'Quyền.', 'a Vietnamese name keeps together, also of three words');
+eq(tieVietnamese('plaża An Bàng nad Zatoką Lan Hạ'), 'plaża An' + NB + 'Bàng nad Zatoką Lan' + NB + 'Hạ',
+  'a word without a Vietnamese letter keeps with one that has it; two Polish words do not');
+eq(tieVietnamese('do Hội An. Potem Saigon Waterbus i Stare Miasto'), 'do Hội' + NB + 'An. Potem Saigon Waterbus i Stare Miasto', 'a full stop ends a name; words without Vietnamese letters stay apart');
+eq(tieVietnamese(tieVietnamese('Hà Tôn Quyền i Bến Thành')), tieVietnamese('Hà Tôn Quyền i Bến Thành'), 'idempotent');
 print('words ok');
