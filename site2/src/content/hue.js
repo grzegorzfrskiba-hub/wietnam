@@ -5,10 +5,10 @@ CONTENT.hue = {
   region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59], color: 7,
   photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
   days: [
-    { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Zwiedzanie kończy się ok. 17:00, latem ok. 17:30. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',
+    { p: 1, o: 1, pace: 'travel', t: 'Cesarskie Miasto', d: 'Po przyjeździe Cesarskie Miasto (Đại Nội): mury, bramy i dziedzińce dawnej stolicy dynastii Nguyễn. Kasy zamykają ok. 17:00, a od połowy marca do połowy października ok. 17:30. Pod wieczór spacer nad Rzeką Perfumową i kolacja z bún bò Huế.',
       rain: 'kryte galerie Cesarskiego Miasta i Muzeum Królewskich Antyków.' },
     { p: 2, o: 2, pace: 'culture', t: 'Huế na rowerze', d: 'Rowerem wzdłuż Rzeki Perfumowej do grobowców Minh Mạng i Tự Đức, a późnym popołudniem do pagody Thiên Mụ.',
-      rain: 'grobowce samochodem zamiast rowerem, a potem długi obiad z bún bò Huế.',
+      rain: 'hala targu Đông Ba nad Rzeką Perfumową i obiad z bún bò Huế przy jednym ze straganów z jedzeniem.',
       easy: { pace: 'culture', t: 'Huế łodzią i samochodem', d: 'Smoczą łodzią w górę Rzeki Perfumowej do pagody Thiên Mụ, potem samochodem do grobowców Minh Mạng i Tự Đức.' } },
     { p: 3, o: 3, pace: 'nature', t: 'Okolice Huế', d: 'Kryty dachówką most w Thanh Toàn wśród pól ryżowych, potem laguna Tam Giang o zachodzie słońca.',
       rain: 'lekcja gotowania w Huế albo samochodem do starych domów z ogrodami w Kim Long.' }

@@ -12,7 +12,7 @@ CONTENT.hoian = {
     { p: 2, o: 2, pace: 'culture', early: true, t: 'Stare miasto o 6:00', d: 'Zobacz stare miasto, zanim zjadą się jednodniowi turyści: domy kupieckie i domy zgromadzeń w porannym świetle (do środka wejdziesz od ok. 8:00, z biletem na stare miasto). Po południu wolny czas: krawiec, kawiarnia nad rzeką albo rowerem na plażę An Bàng, 3–4 km od starego miasta.',
       rain: 'domy zgromadzeń na starym mieście albo przymiarki u krawca.' }
   ],
-  again: { pace: 'travel', t: 'Powrót do Hội An', d: 'Spokojny wieczór nad morzem: taksówką albo rowerem przez pola ryżowe na plażę An Bàng, 3–4 km od starego miasta, spacer brzegiem i kolacja z owocami morza w jednej z knajpek przy plaży.' },
+  again: { pace: 'travel', t: 'Powrót do Hội An', d: 'Spokojny wieczór nad morzem: taksówką albo rowerem przez pola ryżowe na plażę An Bàng, spacer brzegiem i kolacja z owocami morza w jednej z knajpek przy plaży.' },
   gem: 'Cẩm Thanh: kanały wśród wodnych palm kokosowych, kilka kilometrów od starego miasta.',
   skip: 'Stare miasto w Hội An o 19:00, gdy tłumy wśród lampionów są największe.',
   instead: 'stare miasto o 6:00 i okoliczne wioski.',

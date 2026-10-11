@@ -11,7 +11,7 @@ CONTENT.hanoi = {
     { p: 3, o: 3, pace: 'culture', t: 'Wioska Đường Lâm', d: 'Jednodniowa wycieczka do Đường Lâm, ok. 1½ godz. w każdą stronę: uliczki z laterytu, XVII-wieczny dom wspólnoty i obiad u miejscowej rodziny.' },
     { p: 4, o: 4, pace: 'culture', t: 'Ceramika i rzeka', d: 'Wioska garncarzy Bát Tràng nad Rzeką Czerwoną, a w drodze do miasta, o zachodzie słońca, spacer przez most Long Biên.' }
   ],
-  again: { pace: 'travel', t: 'Powrót do Hà Nội', d: 'Wieczór na luzie: o zachodzie słońca spacer przez most Long Biên nad Rzeką Czerwoną, a na kolację phở cuốn, czyli wołowina zawinięta w płaty makaronu ryżowego, na ulicy Ngũ Xã nad jeziorem Trúc Bạch.' },
+  again: { pace: 'travel', t: 'Powrót do Hà Nội', d: 'Wieczór na luzie: o zachodzie słońca spacer przez most Long Biên nad Rzeką Czerwoną, a na kolację phở cuốn (wołowina zawinięta w płaty makaronu ryżowego) na ulicy Ngũ Xã nad jeziorem Trúc Bạch.' },
   gem: 'Đường Lâm, stara laterytowa wioska na zachód od miasta.',
   skip: 'Train Street: raz po raz zamykana dla turystów, a gdy jest otwarta – zatłoczona.',
   instead: 'most Long Biên o świcie.'

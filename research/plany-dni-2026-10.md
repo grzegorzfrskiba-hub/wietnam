@@ -19,6 +19,7 @@ Fakty, które plan 1B dopisał albo zmienił w tekstach miejsc (`site2/src/conte
     - Bản Giốc w środku dnia zamiast „w świetle późnego popołudnia”;
     - Vân Long „późnym popołudniem” zamiast „o złotej godzinie”, bo od kwietnia do sierpnia słońce zachodzi po zamknięciu;
   - nowe fakty: godzina otwarcia Tràng An w tekście, Muzeum Etnologii zamknięte w poniedziałki, phở cuốn na ulicy Ngũ Xã (nowy wieczór `again` w Hà Nội) i kaczka vịt quay 7 vị w Cao Bằng.
+- **Plan 2A (11.10.2026)** zmienił część tych zdań: zob. sekcję „Zmiany z planu 2A” przed listą „Do sprawdzenia”.
 - Adresy otwarto 10.10.2026, poza oznaczonymi † (zob. „Jak czytać”).
 
 ## Jak czytać
@@ -189,11 +190,35 @@ Zmiany zadania 7:
 | `days` p 2 | usunięte: „Grudzień to pora niskiej wody: węższe kaskady i czyste, turkusowe baseny.” | Zdanie było tylko o grudniu. | — |
 | `skip`, `instead` | usunięte: „Sapa i pętla Hà Giang: tłumy wycieczek grupowych i imprezowe hostele.”, „Cao Bằng i Ba Bể.” | Sa Pa i pętla Hà Giang dojdą w partii A, więc rada nie może ich odradzać. | `notes/etapy.md` |
 
+## Zmiany z planu 2A (11.10.2026)
+
+Zdania zmienione w planie 2A. Wiersze w sekcjach miejsc wyżej cytują teksty z planu 1B. Adresy nowych źródeł otwarto 11.10.2026.
+
+| miejsce i pole | zdanie teraz | co się zmieniło i dlaczego | źródło (data) |
+|---|---|---|---|
+| cattien p 1 i `solo`; mekong `solo` p 1, p 2 i jego `easy`; ninhbinh p 2 i jego `easy`; puluong p 3 | usunięte zdania o porze roku | Pijawki (IV–XI), wysoka woda w delcie (IX–XI), wysoka woda w Tràng An i złote tarasy przeszły do wydarzeń, które karta miejsca pokazuje tylko wtedy, gdy pobyt trafia w ich okno. W Pù Luông zostało „Po żniwach poranki bywają tu mgliste i ciche.” | SEZ, „Na stronie: wydarzenia i uwagi sezonowe” |
+| hue `days` p 1 | „Kasy zamykają ok. 17:00, a od połowy marca do połowy października ok. 17:30.” | Było „Zwiedzanie kończy się ok. 17:00, latem ok. 17:30.”: „latem” było niejasne. Okresy za Vinpearl: kasy do 17:30 od 16.3 do 15.10 i do 17:00 od 16.10 do 15.3. | HUE-VP†, HUE-VW (13.12.2025) |
+| hue `rain` dnia p 2 | „hala targu Đông Ba nad Rzeką Perfumową i obiad z bún bò Huế przy jednym ze straganów z jedzeniem” | Było „grobowce samochodem zamiast rowerem…”, czyli to samo co wersja spokojna dnia. Targ Đông Ba leży na północnym brzegu Rzeki Perfumowej, od mostu Trường Tiền do mostu Gia Hội, z wejściem od ulicy Trần Hưng Đạo. W środku stoi hala na trzech poziomach, a na targu jest część z jedzeniem, m.in. z bún bò Huế. Czynny codziennie ok. 5:00–19:00. | HUE-DB-VH, HUE-DB-AEON (23.8.2025), HUE-DB-WIKI (ostatnia edycja 10.10.2026) |
+| dalat `days` p 1, tytuł | „Zmierzch nad doliną Tà Nung” | Było „Sosnowe wzgórza o zmierzchu”, co powtarzało opis dnia i podtytuł miejsca. | — |
+| dalat `days` p 2 | „W porze suchej, od listopada do kwietnia, ścieżki są pewne pod nogami, a w porze deszczowej bywają śliskie.” | Było „od grudnia do kwietnia”. Źródła podają trzy granice pory suchej: XII–IV dla Bidoup (VNE-2025-02-18), XI–III dla Lang Biang (LB-VNE) i XI–IV w ocenach sezonu (SEZ, „dalat”). Tekst idzie za ocenami, które strona pokazuje w karcie miejsca: listopad jest graniczny (93,5 mm w 11,5 dnia), ale ma ocenę D. | SEZ: IBST-DL, VNE-2025-02-18 (18.2.2025); LB-VNE (26.7.2024) |
+| puluong `hard` | „…potem 8–9 godzin w drodze przez las, z obiadem na szczycie.” | Było „8–9 godzin marszu”. U Hanoi Eco Tour te godziny obejmują obiad, a Pu Luong Excursions podaje ok. 12 godzin całej wycieczki. | TD: PL-HET (10.9.2026), PL-PLE |
+| puluong `hard` | „Rezerwat sam organizuje wejścia na szczyt z przewodnikami z okolicznych wiosek i ogranicza liczbę uczestników, więc zapisz się u niego z wyprzedzeniem i dopytaj o wersję jednodniową.” | Fakty jak w wierszu z planu 1B, poprawiony styl: „prowadzi trasę” brzmiało jak „wytycza”, a „rezerwat… rezerwatu” i „zapytaj… zapytaj” się powtarzały. | jak w sekcji „puluong” |
+| puluong `events` | uwaga od 1.12 do 29.02: chłodna pora | Nowe, z przeglądu trudnego dnia: mgła i zimno zimą to ryzyko z TD, a trudny dzień strona pokazuje od X do IV. Zdanie dotyczy części roku, więc trafia do wydarzeń. | SEZ, „Na stronie: wydarzenia i uwagi sezonowe” |
+| cattien `hard` | „…i 5 km pieszo do samochodu, więc w dalszą podróż ruszysz koło południa” | Było „5 km pieszo do drogi, więc dalsza droga zaczyna się…”: powtórzenie. Fakty bez zmian. | jak w sekcji „cattien” |
+| mekong `solo` dnia p 1 | „a przed 9:00 wróć na nocleg, w porę na dalszą drogę” | Było „wróć do gospodarzy”, trzeci raz w jednym opisie. | — |
+| hoian `again` | usunięte: „3–4 km od starego miasta” | Odległość podaje dzień p 2, a w opisie wieczoru na plaży jest zbędna. | — |
+| caobang `days` p 2 | „Do wodospadu dojedziesz w środku dnia, bo w porze suchej, od końca listopada do początku maja, elektrownie w górze rzeki potrafią rano zatrzymywać wodę, a najwięcej jej spada ok. 11:00–14:30.” | Było „Wodospad jest w środku dnia, bo … i najwięcej jej spada…”: skrót myślowy, a „i” łączyło zdania o różnych podmiotach. Fakty bez zmian. | jak w sekcji „caobang” |
+| hanoi `again` | „a na kolację phở cuốn (wołowina zawinięta w płaty makaronu ryżowego) na ulicy Ngũ Xã nad jeziorem Trúc Bạch” | Było „phở cuốn, czyli …, na ulicy Ngũ Xã”: miejsce stało za objaśnieniem. | jak w sekcji „hanoi” |
+| catba `days` p 1 | „Wieczorem spacer nabrzeżem, przy którym cumują łodzie rybackie, i kolacja w jednej z knajpek.” | Było „…i kolacja w miasteczku”, drugi raz „w miasteczku” w dwóch zdaniach. | — |
+| catba `days` p 2 | „Między skały popłyniesz bambusową łodzią, którą wiosłują miejscowi, a zachód słońca obejrzysz z pokładu. Część rejsów zawija też do pływającej wioski.” | Było „Między skały bambusową łodzią…, potem pływająca wioska, zachód słońca z pokładu i noc na statku.”: niezręczna elipsa. Pływająca wioska jest tylko w części programów. | CB-VT2 (31.5.2026) |
+| catba `gem` | „…więc przy trzech nocach wybierz jeden z nich.” | Było „warto wybrać taki rejs”: powtórzenie „rejsy… rejs”. | — |
+
 ## Do sprawdzenia przed publikacją (etap 4)
 
 - **Lang Biang:** czy szlak na Núi Bà otwarto po zawieszeniu z 31.10.2024. Do tego: czy park Bidoup–Núi Bà wymaga zgody albo przewodnika na ścieżce na Núi Bà. Źródła z 2026 to przewodniki firm, nie urząd. Do sprawdzenia też godziny wejścia na szlak: jeden przewodnik podaje 7:00–13:00, a ośrodek u stóp góry jest czynny ok. 7:00–17:00.
 - **Đại Nội:** godziny na stronie Centrum Ochrony Zabytków Huế (Trung tâm Bảo tồn Di tích Cố đô Huế). Tu są tylko strony Vingroup.
 - **Cát Tiên:** cennik i rezerwacja noclegu nad Bàu Sấu po przejściu parku pod zarząd miasta Đồng Nai (TD, „Uwagi dla zadań 7 i 8”, pkt 7).
+- **Targ Đông Ba:** godziny i część z jedzeniem na stronie zarządu targu. Tu są tylko portal turystyczny Huế (bez daty) i strona centrum handlowego.
 - **Hội An:** zasady biletu na stare miasto. Źródła różnią się co do ważności: 24 godziny albo dłużej.
 - **Pù Luông:** czy rezerwat sprzedaje wejście na szczyt w jeden dzień i jak się na nie zapisać. VietnamPlus pisze o wersji jednodniowej, a Tuổi Trẻ i VietNamNet tylko o dwudniowej. Do tego wysokość szczytu: znak na szczycie podaje 1700 m, a Hanoi Eco Tour 1500 m.
 - **Tràng An:** godzina otwarcia latem. VinWonders podaje 6:00, a inne źródła 7:00.
@@ -237,6 +262,9 @@ Rodzaj źródła: urzędowe (organ państwa, park), prasa, Wikipedia, komercyjne
 | HUE-VW | VinWonders, „Đại Nội Huế ở đâu? Thông tin về giờ mở cửa…”: latem 6:30–17:30, zimą 7:00–17:00. | https://vinwonders.com/vi/wonderpedia/news/tham-quan-dai-noi-hue/ | komercyjne (Vingroup) | 13.12.2025 |
 | HUE-VP† | Vinpearl, „Đại Nội Huế: hướng dẫn tham quan”: od 16.3 do 15.10 6:30–18:00 (kasy do 17:30), od 16.10 do 15.3 7:00–17:30 (kasy do 17:00). Treść z wyników wyszukiwania. | https://vinpearl.com/vi/dai-noi-hue-huong-dan-tham-quan-tim-ve-dau-an-lich-su-co-do | komercyjne (Vingroup) | brak |
 | HUE-VOV | VOV, „Photo exhibition on Nguyen dynasty held in Hue”: w ciągu dziesięciu lat odbudowano 14 odcinków krytych galerii, ok. 760 m. | https://english.vov.vn/en/culture/photo-exhibition-on-nguyen-dynasty-held-in-hue-318487.vov | prasa (radio państwowe) | 29.4.2016 |
+| HUE-DB-VH | Visit Huế (portal turystyczny Huế), „Chợ Đông Ba: Điểm đến hấp dẫn của xứ Huế”: targ nad rzeką Hương, z frontem od ulicy Trần Hưng Đạo, od mostu Gia Hội do mostu Trường Tiền; na targu dania z Huế, m.in. bún bò, cơm hến i bánh lọc. | https://visithue.vn/cho-dong-ba-diem-den-hap-dan-cua-xu-hue/?pid=MjMzODF8Y3NkbGRs0 | urzędowe (portal turystyczny) | brak |
+| HUE-DB-AEON | AEON Mall Huế, „Khám phá chợ Đông Ba Huế & 5 kinh nghiệm không thể bỏ qua”: 2 Trần Hưng Đạo, nad rzeką Hương przy moście Trường Tiền; w środku budynek na trzech poziomach (suche produkty, rękodzieło, tkaniny); część z jedzeniem (bún bò Huế, bánh bèo, bánh lọc i inne); czynny codziennie 5:00–19:00. | https://hue.aeonmall-vietnam.com/cam-nang-aeon-mall-hue/cho-dong-ba-hue.html | komercyjne (centrum handlowe) | 23.8.2025 |
+| HUE-DB-WIKI | Wikipedia (wietnamska), „Chợ Đông Ba”: północny brzeg rzeki Hương, od mostu Trường Tiền do mostu Gia Hội, 47 614 m²; w 2020 ponad 2700 stoisk. | https://vi.wikipedia.org/wiki/Ch%E1%BB%A3_%C4%90%C3%B4ng_Ba | Wikipedia | ostatnia edycja 10.10.2026 |
 | NB-JB | Jungle Boss Tours, „Kinh nghiệm du lịch Di sản Tràng An – Ninh Bình chi tiết nhất”: „Từ 7h00 - 16h00 hàng ngày”. | https://junglebosstours.com/vi/kham-pha/blog-du-lich/di-san-trang-an-ninh-binh | operator | 2026 (bez dokładnej daty) |
 | NB-VW | VinWonders, „Trang An boat tour”: latem 6:00–16:45, zimą 7:00–16:30; kasy od 6:30 w dni robocze i od 6:00 w weekendy; trasa 1 przez dziewięć jaskiń, 3–4 godziny. | https://vinwonders.com/en/wonderpedia/news/trang-an-boat-tour/ | komercyjne (Vingroup) | 29.7.2024 |
 | NB-ZING | Znews, „Tràng An mở lại tuyến tham quan sau thời gian tạm dừng”: trasa 3 zamknięta od 31.7.2026, bo woda w jaskiniach przekroczyła poziom bezpieczny („mực nước tại các hang dâng cao, vượt ngưỡng an toàn”), goście płynęli trasami 1 i 2, a 2.8.2026 rano trasę otwarto znowu. Otwarte przez przekierowanie na lifestyle.zingnews.vn. | https://znews.vn/trang-an-mo-lai-tuyen-tham-quan-sau-thoi-gian-tam-dung-post1674246.html | prasa | 2.8.2026 |
