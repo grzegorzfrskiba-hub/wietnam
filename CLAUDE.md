@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (11.10.2026):** etap 1 zamknięty: plan 1A (silnik) i plan 1B (strona) zrobione, punkt kontrolny przeszedł. Następny krok: etap 2 (interfejs), zob. [notes/etapy.md](notes/etapy.md).
+**Status (11.10.2026):** etap 2 w toku: plan 2A (telefon, powody, pogoda, mapa) zrobiony. Następny krok: plan 2B (budżet, „Przed wyjazdem”, zamiany albo–albo, przejazdy z lotnisk), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -34,11 +34,13 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 
 ## Jak sprawdzać
 
-- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie (ok. pół minuty).
+- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie (ok. 40 s).
 - `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
 - `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
 - Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
   - `bash tests/shot.sh '<ustawienia z linku>' <szerokość> <plik.png> [wysokość]`: zrzut, domyślnie 2600 px wysokości;
-  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`;
-  - `bash tests/print.sh '<ustawienia>' <plik.pdf>`: wydruk do PDF; podaje liczbę stron, prawie puste strony i linie zakryte ramkami.
-- Pułapki: wbudowana przeglądarka nie otwiera `file://`; w nowym worktree podlinkuj `photos/` z głównej kopii.
+  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`, `settings.js`, `map.js`; sonda kończy się kodem 1, gdy któraś kontrola nie przejdzie;
+  - `bash tests/print.sh '<ustawienia>' <plik.pdf> [dark]`: wydruk do PDF; podaje liczbę stron, prawie puste strony i linie zakryte ramkami;
+  - słowo `MIESIAC` w ustawieniach zamienia się na miesiąc za pięć miesięcy od dziś.
+- `python3 -I geo/make_basemap.py <katalog z danymi Natural Earth>`: kontury mapy (`site2/src/basemap.js`) po zmianie kadrów w `site2/src/panels.js`. Dane (ok. 20 MB) leżą poza repo i pobiera się je za zgodą użytkownika (plan 2A, zadanie 11).
+- Pułapki: wbudowana przeglądarka nie otwiera `file://`; w nowym worktree podlinkuj `photos/` z głównej kopii; pasek u góry, „Na górę” i podświetlanie na mapie działają na IntersectionObserver, którego Chrome bez okna nie uruchamia, więc sprawdza się je ręcznie przez lokalny serwer (plan 2A, zadanie 13).

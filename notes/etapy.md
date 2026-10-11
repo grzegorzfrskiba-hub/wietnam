@@ -6,7 +6,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 |---|---|
 | 0. Wizja | zrobione 9.10.2026 |
 | 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
-| 2. Interfejs | |
+| 2. Interfejs | w toku: 2A (telefon, powody, pogoda, mapa) zrobione 11.10.2026, 2B do zaplanowania |
 | 3. Nowe miejsca, partiami | |
 | 4. Audyt i publikacja (po partii A) | |
 
@@ -43,15 +43,19 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 
 **Cel:** pełne doświadczenie na 12 miejscach, wygodne na telefonie.
 
-- panel ustawień pod telefon i właściwe ustawienia domyślne na pierwsze wejście (dziś robocze: Sajgon → Hà Nội, następny miesiąc, 15 dni, bez zainteresowań, poziom 2; `defaultSettings` w `site2/src/page.js`); od planu 1B trasa przelicza się od razu;
-- „Wybrane, bo…” przy miejscach trasy i „Nie ma na twojej trasie, bo…” w miejsce grudniowego „Celowo pominięte” (od planu 1B są proste przyciski „Dodaj” i „Usuń” oraz lista „Poza trasą”);
-- zamiany albo–albo wewnątrz modułów;
-- mapa z nowymi kadrami, od razu z miejscem na partię A: Sa Pa i Hà Giang leżą poza dzisiejszym panelem północy, a Phong Nha w środku kraju. Thọ Xuân leży tuż pod kadrem północy. W pierwowzorze nie ma skryptu `geo/make_basemap.py`, jest tylko jego wynik w `basemap.js`, więc skrypt trzeba napisać od nowa. Do tego paleta kolorów dla nowych miejsc;
-- sezon i pogoda dla dni trasy, ostrzeżenia o zamknięciach (o Tết i świętach strona ostrzega od planu 1B);
-- budżet: przedział w złotych, najdroższe pozycje, wyprzedzenie rezerwacji. Koszty z pierwowzoru (`pp` i `COSTS` w jego `site2/src/data.js`, źródła w jego `research/budget-2026-10.md`) są w EUR i na grudzień, więc etap 2 robi własny research cen;
-- sprawdzenie na szerokości telefonu narzędziami z planu 1B (`shot.sh`, `probe.sh`).
+Plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026-10-11-etap-2a-interfejs.md), zrobiony 11.10.2026):
+- formularz na górze strony, a po przewinięciu pasek z podsumowaniem i „Zmień”; na pierwsze wejście najlepszy miesiąc z 12 następnych;
+- „Wybrane, bo…”, „Nie ma na twojej trasie, bo…” i zapowiedź przy „Dodaj”;
+- pogoda w karcie miejsca, plan na deszcz zależny od miesiąca, wydarzenia i uwagi sezonowe, ostrzeżenie o złym sezonie zainteresowania;
+- mapa w trzech kadrach: kontury ze skryptu `geo/make_basemap.py`, rozmieszczanie etykiet i paleta 20 kolorów;
+- krój IBM Plex Sans, twarde spacje, uwagi z przeglądów planu 1B i sondy, które sprawdzają.
 
-Dalsze punkty etapu 2 (uwagi z przeglądów i rzeczy z planu 1B) są w sekcji „Następny krok”, w liście „Do etapu 2”.
+Plan 2B (zarys na końcu planu 2A):
+- budżet: przedział w złotych, najdroższe pozycje, wyprzedzenie rezerwacji; koszty pierwowzoru są w EUR i na grudzień, więc z własnym researchem cen;
+- „Przed wyjazdem”: rezerwacje według trasy, pakowanie według miesięcy, wjazd;
+- zamiany albo–albo w modułach, najpierw samodzielny motocykl;
+- przejazdy z lotnisk do Cát Bà, Cát Tiên i delty Mekongu;
+- punkt kontrolny etapu 2.
 
 **Punkt kontrolny:** zrzuty z telefonu dla kilku profili i terminów wyglądają dobrze, a test wszystkich kombinacji dalej przechodzi.
 
@@ -85,7 +89,45 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Następny krok: etap 2 (interfejs)
+## Następny krok: plan 2B
+
+Zrobione 11.10.2026: plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026-10-11-etap-2a-interfejs.md)). Strona jest wygodna na telefonie i tłumaczy swoją trasę. Formularz stoi na górze, a po przewinięciu pasek u góry pokazuje podsumowanie i „Zmień”. Przy każdym miejscu jest „Wybrane, bo…”, pogoda w miesiącu pobytu i wydarzenia, a pod trasą „Nie ma na twojej trasie, bo…” z zapowiedzią przy „Dodaj”. Mapa ma trzy kadry, a jej etykiety nie nachodzą na siebie.
+
+Przegląd zrzutów 2A (11.10.2026): poprawione od razu trzy rzeczy: na telefonie podpis zdjęcia nie dotyka przycisku „Zobacz trasę”, w pogodzie liczba dni z deszczem nie zostaje sama na końcu linii, a wielowyrazowe nazwy wietnamskie w opisach dni (Thảo Điền, Chợ Lớn, Hà Tôn Quyền) nie łamią się w środku: wiąże je reguła `tieVietnamese` w `site2/src/page.js`, a nazwy bez wietnamskich liter (Lang Biang) lista `KEEP_TOGETHER` w `site2/src/content.js`. Prywatnego artifactu do sprawdzenia na telefonie nie publikowano: stronę na prawdziwym telefonie sprawdzi punkt kontrolny etapu 2 na końcu planu 2B.
+
+**Plan 2B:** najpierw sesja decyzji (po jednym pytaniu, z rekomendacją), potem research i plan z suchą próbą. Zakres i pytania: „Zarys planu 2B” na końcu planu 2A.
+
+Uwagi z przeglądu zrzutów 2A na plan 2B:
+- zdanie przy „Dodaj”: „Przy 15 dniach wygrały inne miejsca” i zaraz pod nim „Zmieści się bez usuwania innych miejsc” brzmią sprzecznie; propozycja: „Zmieści się bez usuwania innych miejsc, ale skróci inne pobyty.” (`off.nodrops` w `site2/src/ui.js`);
+- przycisk „Na górę” na telefonie czasem zasłania „Dodaj” przy prawej krawędzi listy „Nie ma na twojej trasie”;
+- „ok.” przed liczbą zostaje w opisach dni na końcu linii („ok. / 2 godz.”);
+- karta nocy w drodze dwa razy mówi „Noc w drodze”: w podtytule i w powodzie „Noc w drodze z … do …”.
+
+**Do etapu 3 (nowe miejsca):**
+- włączyć testy, które dziś nie mają czego łapać, bo wszystkie miejsca mają poziom 1, a w sezonach nie ma X: niezależne przeliczenie sezonu każdej nocy, przegląd trybu dat, lista znanych lotnisk w danych i wymóg, żeby każde miejsce trafiło na jakąś trasę;
+- dwie drogi po korekcie silnik omija przez Hà Nội: lotnisko Hà Nội – Pù Luông (5,25 h w danych, efektywnie 5 h) i Ninh Bình – Cao Bằng (9,25 h w danych, efektywnie 8,5 h). Do decyzji przy przeglądzie danych: zostawić albo poprawić drogi przez Hà Nội;
+- nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają tylko Cát Tiên i Pù Luông);
+- Cát Bà: sprawdzić jeszcze raz trudny dzień (licencje operatorów i legalność deep-water soloingu); dziś Cát Bà celowo go nie ma;
+- każde nowe miejsce dostaje numer koloru (`color` w treści) i musi leżeć w kadrze mapy (`site2/src/panels.js`). Paleta ma 20 kolorów, a partie A i B dają razem 24 miejsca, więc paletę trzeba rozszerzyć. Pù Mát (partia B) leży poza kadrami: trzeba przesunąć kadr i wygenerować kontury od nowa (`geo/make_basemap.py`);
+- wielowyrazowe nazwy z nowych tekstów bez wietnamskich liter (jak Lang Biang) dopisać do `KEEP_TOGETHER` w `site2/src/content.js`; nazwy z takimi literami wiąże reguła `tieVietnamese`;
+- do obejrzenia po dodaniu nowych miejsc: zygzaki przy trasie tam i z powrotem i przy przylocie do Đà Nẵng (raport tras 1A, trasy 6, 8 i 11), dzień z dwoma lotami (ok. 9% tras, głównie Phú Quốc ↔ Đà Lạt przez Sajgon), Cát Bà często na 4 noce, Hà Nội trzy razy na 30-dniowej trasie z Hà Nội. Przykład zygzaka: `#od=DAD&do=SGN&start=2027-01-28&koniec=2027-02-14&co=kultura,jedzenie&poziom=1` (Hội An, lot do Hà Nội, lot do Huế, potem na południe).
+
+Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
+
+**Do audytu przed publikacją (etap 4):**
+- research połączeń: robocze dopiski, odwołania do audytu pierwowzoru (dokument spoza repo), twierdzenie bez źródła o autostradzie przed Tết 2027, nazwa firmy z imieniem;
+- research sezonów: tabelę zmian i „połówki” opisać jako historię metody, usunąć robocze dopiski;
+- źródła faktów w planach dni przeniesionych z pierwowzoru bez zmian są w jego audycie z 9.10.2026 (`notes/audyt-2026-10-09.md` w pierwowzorze), trzeba je przenieść do `research/`;
+- przy publikacji sprawdzić licencje nowych zdjęć: `hoian_4` i `hoian_5` (wymienione w planie 2A na ulicę Trần Phú i plażę An Bàng; `hue_6` to zdjęcie z pierwowzoru pod nową nazwą);
+- lista „Do sprawdzenia przed publikacją” w [research/plany-dni-2026-10.md](../research/plany-dni-2026-10.md): m.in. wznowienie szlaku na Lang Biang, godziny Đại Nội, ceny w Cát Tiên, bilety w Hội An;
+- robocze oznaczenia z procesu planu 1B w researchu (numery zadań i przeglądów, ok. 30 linii w `research/plany-dni-2026-10.md` i `research/trudne-dni-2026-10.md`) zastąpić opisem źródła albo usunąć;
+- wydruk: mapy drukują się małe (ok. 220 px) z pustym miejscem obok, a w środku stron zostają puste pasy; do decyzji o formacie wersji offline;
+- plik offline bez internetu dostaje krój zastępczy, więc etykiety mapy mogą się w nim zetknąć; rozstrzygnąć razem z czcionkami na własnym hostingu;
+- źródło konturów mapy (Natural Earth, domena publiczna) w stopce albo w README.
+
+Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
+
+### Z planu 1B
 
 Zrobione 11.10.2026: plan 1B ([plans/2026-10-10-etap-1b-strona.md](plans/2026-10-10-etap-1b-strona.md)), prace 10–11.10.2026. Strona działa na nowym silniku: ustawienia są w linku, a trasa przelicza się od razu. Plany dni zależą od poziomu przygody, łącznie z trudnymi dniami na poziomie 3 (dziś tylko w Cát Tiên i Pù Luông). Strona ostrzega o Tết i świętach państwowych, a przy terminie, który już minął, o tym, że minął. Ma też mapę, przyciski „Dodaj” i „Usuń” (po „Dodaj” mówi, co wypadło z trasy), listę „Poza trasą” i kopiowanie planu z linkiem.
 
@@ -95,42 +137,6 @@ Punkt kontrolny etapu 1 (11.10.2026): przegląd zrzutów pięciu ustawień i str
 - link z terminem, który już minął, dalej pokazuje swoją trasę, a pierwsze ostrzeżenie mówi, że termin minął (plan zakładał powrót do terminu domyślnego).
 
 Drobniejsze uwagi z przeglądów planu 1B są w [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md).
-
-**Do etapu 2 (interfejs):**
-- komunikat, gdy wybrane zainteresowanie ma na trasie zły sezon, np. morze we wrześniu (raport, trasa 13);
-- do obejrzenia po dodaniu nowych miejsc: zygzaki przy trasie tam i z powrotem i przy przylocie do Đà Nẵng (raport, trasy 6, 8 i 11), dzień z dwoma lotami (ok. 9% tras, głównie Phú Quốc ↔ Đà Lạt przez Sajgon), Cát Bà często na 4 noce, Hà Nội trzy razy na 30-dniowej trasie z Hà Nội. Przykład zygzaka: `#od=DAD&do=SGN&start=2027-01-28&koniec=2027-02-14&co=kultura,jedzenie&poziom=1` (Hội An, lot do Hà Nội, lot do Huế, potem na południe);
-- sekcja „Przed wyjazdem” (rezerwacje, pakowanie): przebudować pod dowolny termin i bez konkretnych lotów z pierwowzoru;
-- etykiety na mapie nachodzą na siebie przy dłuższych trasach, głównie na południu (w próbce ok. 40% tras), a etykieta Hà Nội chowa się pod znacznikiem z kilkoma numerami; nowe kadry mapy w etapie 2 dostaną rozmieszczanie etykiet;
-- wydarzenia przypięte do miesięcy, np. złote tarasy w Pù Luông (dwa okna rocznie: koniec maja–połowa czerwca i koniec września–początek października; zob. `research/sezony-2026-10.md`, „Do planów dni i zdarzeń”);
-- plan na deszcz zależny od miesiąca;
-- przejazdy między lotniskiem a Cát Bà, Cát Tiên i deltą Mekongu strona opisuje tylko jako taksówkę albo transfer z lotniska lub na lotnisko, bez promu i autobusu; do opisania przy researchu przejazdów (dotyczy wielu tras);
-- uwagi o wyglądzie ze zrzutów:
-  - liczba i jednostka rozdzielone na końcu wiersza („≈ 4 / godz.”, „12 / km”): wiązać twardą spacją;
-  - na telefonie rząd liczb trasy łamie „5½ godz.” na dwa wiersze, a piąta komórka („najdłuższy dzień w drodze”) ma cztery wiersze;
-  - data pod numerem dnia łamie się na komputerze („czw., 28 / sty”);
-  - w kroju Be Vietnam Pro „ą” przy skali 1x wygląda jak „q” (na ekranach 2x jest dobrze); sprawdzić przy wyborze kroju.
-
-Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
-
-**Do etapu 3 (nowe miejsca):**
-- włączyć testy, które dziś nie mają czego łapać, bo wszystkie miejsca mają poziom 1, a w sezonach nie ma X: niezależne przeliczenie sezonu każdej nocy, przegląd trybu dat, lista znanych lotnisk w danych i wymóg, żeby każde miejsce trafiło na jakąś trasę;
-- dwie drogi po korekcie silnik omija przez Hà Nội: lotnisko Hà Nội – Pù Luông (5,25 h w danych, efektywnie 5 h) i Ninh Bình – Cao Bằng (9,25 h w danych, efektywnie 8,5 h). Do decyzji przy przeglądzie danych: zostawić albo poprawić drogi przez Hà Nội;
-- nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają tylko Cát Tiên i Pù Luông);
-- Cát Bà: sprawdzić jeszcze raz trudny dzień (licencje operatorów i legalność deep-water soloingu); dziś Cát Bà celowo go nie ma;
-- etykiety mapy (`NLAB`, `CLAB` w `site2/src/app.js`) i kolory w szablonie (`site2/src/template.html`).
-
-Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
-
-**Do audytu przed publikacją (etap 4):**
-- research połączeń: robocze dopiski, odwołania do audytu pierwowzoru (dokument spoza repo), twierdzenie bez źródła o autostradzie przed Tết 2027, nazwa firmy z imieniem;
-- research sezonów: tabelę zmian i „połówki” opisać jako historię metody, usunąć robocze dopiski;
-- źródła faktów w planach dni przeniesionych z pierwowzoru bez zmian są w jego audycie z 9.10.2026 (`notes/audyt-2026-10-09.md` w pierwowzorze), trzeba je przenieść do `research/`;
-- przy publikacji sprawdzić licencje nowych zdjęć: `hoian_4` i `hoian_5` (`hue_6` to zdjęcie z pierwowzoru pod nową nazwą);
-- lista „Do sprawdzenia przed publikacją” w [research/plany-dni-2026-10.md](../research/plany-dni-2026-10.md): m.in. wznowienie szlaku na Lang Biang, godziny Đại Nội, ceny w Cát Tiên, bilety w Hội An;
-- robocze oznaczenia z procesu planu 1B w researchu (numery zadań i przeglądów, ok. 30 linii w `research/plany-dni-2026-10.md` i `research/trudne-dni-2026-10.md`) zastąpić opisem źródła albo usunąć;
-- wydruk: mapy drukują się małe (ok. 220 px) z pustym miejscem obok, a w środku stron zostają puste pasy; do decyzji o formacie wersji offline.
-
-Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 
 ### Z planu 1A
 
