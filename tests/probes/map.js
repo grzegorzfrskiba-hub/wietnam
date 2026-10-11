@@ -37,6 +37,12 @@ setTimeout(function () {
   setTimeout(function () {
     var box = document.getElementById('mapzoom');
     check('the enlarged map opens with the three panels side by side', !box.hidden && box.querySelectorAll('.mz-panel').length === 3, box.querySelectorAll('.mz-panel').length);
+    // each copy keeps the clip paths of its three panels, under ids of its own, so no land shows outside a panel's frame
+    var clipped = box.querySelectorAll('.mz-panel g[clip-path]'), ownIds = Array.prototype.every.call(clipped, function (g) {
+      var id = /url\(#([^)]+)\)/.exec(g.getAttribute('clip-path'));
+      return id && g.closest('.mz-panel').querySelector('clipPath[id="' + id[1] + '"]');
+    });
+    check('each copy in the enlarged map keeps the clip paths of its panels', clipped.length === 9 && ownIds, clipped.length + ' clipped groups');
     var p = box.querySelectorAll('.mz-panel');
     // the places they move to (headless Chrome does not run the move itself, so the boxes are read from their styles)
     var left = Array.prototype.map.call(p, function (d) { return parseFloat(d.style.left); });

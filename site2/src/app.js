@@ -531,8 +531,10 @@
     var panels = mapBoxes.map(function (b, i) {
       var d = document.createElement('div');
       d.className = 'mz-panel';
-      // own ids so the copies never borrow the sidebar map's clip paths; each copy shows one panel
-      d.innerHTML = svg.replace(/(clip-[a-z]+|map-title)/g, '$1-z' + i).replace(/viewBox="[^"]*"/, 'viewBox="-6 ' + (b.y - 6) + ' ' + (MAP_WIDTH + 12) + ' ' + (b.h + 12) + '"');
+      // own ids so the copies never borrow the sidebar map's clip paths (the ids clip-<panel>, never the attribute clip-path);
+      // each copy shows one panel
+      d.innerHTML = svg.replace(new RegExp('(clip-(?:' + Object.keys(MAP_PANELS).join('|') + ')|map-title)', 'g'), '$1-z' + i)
+        .replace(/viewBox="[^"]*"/, 'viewBox="-6 ' + (b.y - 6) + ' ' + (MAP_WIDTH + 12) + ' ' + (b.h + 12) + '"');
       return d;
     });
     box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
