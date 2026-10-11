@@ -11,6 +11,8 @@ setTimeout(function () {
     whys.every(function (t) { return /^(Wybrane, bo: .+ sezon\.|Noc w drodze z .+ do .+\.)$/.test(t.replace(/\s+/g, ' ')); }), whys.join(' | '));
   check('each full card has its weather', Array.prototype.every.call(document.querySelectorAll('#stops .stop:not(.stop-compact):not(.stop-home)'),
     function (s) { return /^Pogoda w/.test(s.querySelector('.why-wx').textContent); }));
+  check('the weather keeps each number with its days of rain on one line', Array.prototype.every.call(document.querySelectorAll('.why-wx'),
+    function (p) { return !/\d (dni|dzień)/.test(p.textContent); }), textOf('.why-wx'));
   var offs = document.querySelectorAll('#offroute-list li');
   check('each place off the trip says why', offs.length > 0 && Array.prototype.every.call(offs, function (li) { return li.querySelector('.off-why').textContent.length > 5; }));
   var said = document.querySelector('[data-add="phuquoc"]').closest('li').querySelector('.off-drops').textContent.replace(/\s+/g, ' ');

@@ -287,9 +287,10 @@
     }
     return months.map(function (m) { return inMonth(m.month) + ' ' + T('season.' + m.season); }).join(', ');
   }
+  // the weather of a stay, month by month; a number of days of rain keeps its words on its line ("12 dni z deszczem")
   function weatherLine(list) {
     return T('wx.first', { when: inMonth(list[0].month), x: list.map(function (w, k) {
-      return (k ? inMonth(w.month) + ': ' : '') + T('wx.month', { t: w.t[0] + '–' + w.t[1], mm: w.mm, days: w.days + ' ' + countWord('wx.days', w.days) }) +
+      return (k ? inMonth(w.month) + ': ' : '') + T('wx.month', { t: w.t[0] + '–' + w.t[1], mm: w.mm, days: w.days + '\u00a0' + countWord('wx.days', w.days) }) +
         (w.why.length ? ' (' + w.why.map(function (c) { return T('wx.' + c); }).join(', ') + ')' : '');
     }).join('; ') });
   }
