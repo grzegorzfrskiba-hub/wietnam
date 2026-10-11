@@ -95,13 +95,17 @@ Zrobione 11.10.2026: plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026
 
 Przegląd zrzutów 2A (11.10.2026): poprawione od razu trzy rzeczy: na telefonie podpis zdjęcia nie dotyka przycisku „Zobacz trasę”, w pogodzie liczba dni z deszczem nie zostaje sama na końcu linii, a wielowyrazowe nazwy wietnamskie w opisach dni (Thảo Điền, Chợ Lớn, Hà Tôn Quyền) nie łamią się w środku: wiąże je reguła `tieVietnamese` w `site2/src/page.js`, a nazwy bez wietnamskich liter (Lang Biang) lista `KEEP_TOGETHER` w `site2/src/content.js`. Prywatnego artifactu do sprawdzenia na telefonie nie publikowano: stronę na prawdziwym telefonie sprawdzi punkt kontrolny etapu 2 na końcu planu 2B.
 
+Końcowy przegląd 2A (11.10.2026, świeży recenzent): poprawione dwie rzeczy: powiększona mapa znów przycina kontury do ramek kadrów, a w trybie dat na telefonie 360 px dwa pola dat mieszczą się obok siebie i strona nie przewija się na boki (sonda `settings.js` jest teraz uruchamiana też przy 360 px).
+
 **Plan 2B:** najpierw sesja decyzji (po jednym pytaniu, z rekomendacją), potem research i plan z suchą próbą. Zakres i pytania: „Zarys planu 2B” na końcu planu 2A.
 
 Uwagi z przeglądu zrzutów 2A na plan 2B:
 - zdanie przy „Dodaj”: „Przy 15 dniach wygrały inne miejsca” i zaraz pod nim „Zmieści się bez usuwania innych miejsc” brzmią sprzecznie; propozycja: „Zmieści się bez usuwania innych miejsc, ale skróci inne pobyty.” (`off.nodrops` w `site2/src/ui.js`);
 - przycisk „Na górę” na telefonie czasem zasłania „Dodaj” przy prawej krawędzi listy „Nie ma na twojej trasie”;
 - „ok.” przed liczbą zostaje w opisach dni na końcu linii („ok. / 2 godz.”);
-- karta nocy w drodze dwa razy mówi „Noc w drodze”: w podtytule i w powodzie „Noc w drodze z … do …”.
+- karta nocy w drodze dwa razy mówi „Noc w drodze”: w podtytule i w powodzie „Noc w drodze z … do …”;
+- przy 320 px pasek z podsumowaniem (daty i „Ekstremalnie”) wystaje o 22 px, a „Zmień” jest częściowo poza ekranem;
+- etykiety siatki mapy („21°N”) nie są przeszkodami w `mapLayout` ani nie mierzy ich sonda `map.js`, więc etykieta przy prawej krawędzi może je zakryć.
 
 **Do etapu 3 (nowe miejsca):**
 - włączyć testy, które dziś nie mają czego łapać, bo wszystkie miejsca mają poziom 1, a w sezonach nie ma X: niezależne przeliczenie sezonu każdej nocy, przegląd trybu dat, lista znanych lotnisk w danych i wymóg, żeby każde miejsce trafiło na jakąś trasę;
@@ -109,7 +113,10 @@ Uwagi z przeglądu zrzutów 2A na plan 2B:
 - nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają tylko Cát Tiên i Pù Luông);
 - Cát Bà: sprawdzić jeszcze raz trudny dzień (licencje operatorów i legalność deep-water soloingu); dziś Cát Bà celowo go nie ma;
 - każde nowe miejsce dostaje numer koloru (`color` w treści) i musi leżeć w kadrze mapy (`site2/src/panels.js`). Paleta ma 20 kolorów, a partie A i B dają razem 24 miejsca, więc paletę trzeba rozszerzyć. Pù Mát (partia B) leży poza kadrami: trzeba przesunąć kadr i wygenerować kontury od nowa (`geo/make_basemap.py`);
-- wielowyrazowe nazwy z nowych tekstów bez wietnamskich liter (jak Lang Biang) dopisać do `KEEP_TOGETHER` w `site2/src/content.js`; nazwy z takimi literami wiąże reguła `tieVietnamese`;
+- wielowyrazowe nazwy z nowych tekstów bez wietnamskich liter (jak Lang Biang) dopisać do `KEEP_TOGETHER` w `site2/src/content.js`; nazwy z takimi literami wiąże reguła `tieVietnamese`. Sonda `changes.js` łapie tylko nazwy z literą wietnamską, więc nazwy bez niej trzeba wypatrzyć samemu;
+- przed dodaniem czwartego kadru: `site2/src/basemap.js` do testów (`SOURCES` w `tests/run.sh`) i test, że `BASEMAP` ma kontury każdego kadru z `MAP_PANELS`; bez nowych konturów strona by się wywróciła;
+- `textWidth` w `site2/src/page.js` liczy jako wielkie tylko `[A-ZĐ]`; nazwa zaczynająca się od wielkiej litery z diakrytykiem (Ố, Ứ) dostałaby za wąską ramkę etykiety;
+- miejsce zamknięte (X) tylko w części terminu dostałoby w „Nie ma na twojej trasie” powód „za daleko na tyle dni” zamiast „zamknięte”; poprawić razem z włączeniem testów X;
 - do obejrzenia po dodaniu nowych miejsc: zygzaki przy trasie tam i z powrotem i przy przylocie do Đà Nẵng (raport tras 1A, trasy 6, 8 i 11), dzień z dwoma lotami (ok. 9% tras, głównie Phú Quốc ↔ Đà Lạt przez Sajgon), Cát Bà często na 4 noce, Hà Nội trzy razy na 30-dniowej trasie z Hà Nội. Przykład zygzaka: `#od=DAD&do=SGN&start=2027-01-28&koniec=2027-02-14&co=kultura,jedzenie&poziom=1` (Hội An, lot do Hà Nội, lot do Huế, potem na południe).
 
 Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
