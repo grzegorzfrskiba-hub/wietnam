@@ -12,9 +12,13 @@ eq(parseLink('#co=&dodaj=hanoiStop'), { interests: [], add: ['hanoiStop'] }, 'no
 var bad1 = [];
 eq([parseLink('#od=sgn&do=HAN&dni=x&co=%zz&poziom=high', bad1), bad1], [{ to: 'HAN' }, ['from', 'days', 'interests', 'level']], 'malformed fields are left out and named');
 var bad2 = [];
-eq([parseLink('#day-5&foo=1&constructor=x&toString=y', bad2), bad2], [{}, []], 'anchors, unknown keys and object properties are no link fields');
+eq([parseLink('#day-5&foo=1&constructor=%zz&toString=%zz', bad2), bad2], [{}, []], 'anchors, unknown keys and object properties are no link fields (a broken escape would name them)');
 var bad3 = [];
 eq([parseLink('#usun=hue,hoian,&miesiac=2027-3', bad3), bad3], [{}, ['remove', 'month']], 'an empty list item and a one-digit month are malformed');
+var bad5 = [];
+eq([parseLink('#start=2027-1-30&koniec=x&dni=x&dni=y', bad5), bad5], [{}, ['start', 'end', 'days']], 'broken dates are malformed; a field malformed twice is named once');
+var bad6 = [];
+eq([parseLink('#od=SGN&do', bad6), bad6], [{ from: 'SGN' }, ['to']], 'a link cut short: a known key without = is malformed');
 var round = { from: 'DAD', to: 'SGN', year: 2027, month: 11, days: 21, interests: ['kultura'], level: 3, add: ['catba'], remove: ['hue', 'hoian'] };
 eq(linkHash(round), '#od=DAD&do=SGN&miesiac=2027-11&dni=21&co=kultura&poziom=3&dodaj=catba&usun=hue,hoian', 'linkHash: the month');
 eq(parseLink(linkHash(round)), round, 'linkHash, then parseLink: the same settings (the month)');
@@ -53,6 +57,13 @@ var g9 = opened('#od=SGN&do=HAN&dodaj=hoian&usun=hoian');
 eq([g9.settings.add, g9.settings.remove, g9.dropped], [[], ['hoian'], ['add']], 'a place both added and removed: removing wins, Dodaj is reported');
 var bad4 = [], g10 = settingsFromLink(parseLink('#od=SGN&do=HAN&dni=x', bad4), DEF, PLACES, HUBS, bad4);
 eq([g10.settings.days, g10.dropped], [15, ['days']], 'a malformed field counts as a dropped one');
+var g11 = opened('#od=SGN&do=HAN&koniec=2027-02-12');
+eq([g11.st.start, 'end' in g11.settings, g11.dropped], [null, false, ['end']], 'an end without a start: the month of the defaults, and the end is reported');
+var g12 = opened('#od=SGN&do=HAN&start=2027-01-30&koniec=2027-02-03&miesiac=2027-05&dni=9');
+eq([g12.st.start, g12.st.days, 'year' in g12.settings, 'month' in g12.settings, 'days' in g12.settings, g12.dropped],
+  ['2027-01-30', 5, false, false, false, ['year', 'month', 'days']], 'dates win: a month and days next to them are reported and left out');
+var g13 = opened('#od=SGN&do=HAN&miesiac=2026-05&dni=10');
+eq([g13.settings.year, g13.settings.month, g13.dropped], [2026, 5, []], 'a month already past stays in the settings (the page says the term has passed)');
 eq([DEF.add, DEF.days], [[], 15], 'the defaults stay as they were');
 var mc = monthChoices('2026-10-10', 2030);
 eq([mc.length, mc[0], mc[mc.length - 1]], [51, { year: 2026, month: 10 }, { year: 2030, month: 12 }], 'the months: from this one to December 2030');
@@ -86,6 +97,8 @@ eq(titles(stopDays(FC, { n: 1, start: 1 }, 0, 2, JAN)), ['1:A1s'], 'one night: t
 eq(titles(stopDays(FC, { n: 2, start: 1 }, 0, 1, JAN)), ['1:A1', '2:A2e'], 'level 1: the easy version');
 eq(titles(stopDays(FC, { n: 2, start: 1 }, 0, 3, JAN)), ['1:A1', '2:A2h'], 'level 3: the hard version');
 eq(titles(stopDays(FC, { n: 2, start: 1 }, 0, 3, JUL)), ['1:A1', '2:A2'], 'level 3 in July, a month off: the usual day');
+eq([titles(stopDays(FC, { n: 3, start: 1 }, 0, 3, [0, 0, 6, 6])), titles(stopDays(FC, { n: 3, start: 1 }, 0, 3, [6, 6, 0, 0]))],
+  [['1:A1', '2:A3', '3:A2'], ['1:A1', '2:A3', '3:A2h']], 'level 3 over two months: the month of each day decides (A2, on day 3, is off in July)');
 var dU = stopDays(FC, { n: 2, start: 1 }, 0, 2, JAN)[1], dE = stopDays(FC, { n: 2, start: 1 }, 0, 1, JAN)[1], dH = stopDays(FC, { n: 2, start: 1 }, 0, 3, JAN)[1];
 eq([dU.pace, dU.early, dU.rain, dU.variant], ['hike', true, 'r2', null], 'the usual day');
 eq([dE.pace, dE.early, dE.rain, dE.variant], ['nature', false, 'r2', 'easy'], 'the easy version: its own pace and early start, the day\'s rain plan');
@@ -150,6 +163,7 @@ eq(alerts({ from: 'SGN', to: 'HAN', start: '2026-12-27', end: '2027-01-05' }), [
 eq(alerts({ from: 'SGN', to: 'HAN', year: 2027, month: 5, days: 10 }), ['Dzień Zjednoczenia i Święto Pracy'], 'the month mode: the whole month');
 eq(alerts({ from: 'SGN', to: 'HAN', year: 2027, month: 12, days: 30 }), [], 'a month with nothing');
 eq(alerts({ from: 'SGN', to: 'HAN', start: '2027-12-20', end: '2028-01-10' }), ['?'], 'past the list: no data');
+eq(alerts({ from: 'SGN', to: 'HAN', start: '2026-09-25', end: '2026-10-03' }), ['?'], 'a trip that starts before the list: no data for part of it');
 eq(alerts({ from: 'SGN', to: 'HAN', month: 5, days: 10 }), ['?'], 'a month without a year: no data');
 eq(fmtSpan('2027-02-06', '2027-02-12'), '6–12.02.2027', 'a span in one month');
 eq(fmtSpan('2027-04-30', '2027-05-03'), '30.04–3.05.2027', 'a span over two months');
@@ -211,6 +225,12 @@ eq(legNotes(L(4, [{ mode: 'road', h: 0.5 }, { mode: 'fly', h: 1 }, { mode: 'road
 eq(legNotes(L(9.25, [{ mode: 'road', h: 9.25 }]), { n: 1 }, true), ['n.long', 'n.solo_long'], 'a long day after one night with a morning plan');
 eq(legNotes(L(9.25, [{ mode: 'road', h: 9.25 }]), { n: 2 }, true), ['n.long'], 'after two nights: no warning about the morning');
 eq(legNotes(L(6.5, [{ mode: 'road', h: 6.5 }]), { n: 1 }, false), [], 'one night without a morning plan');
+eq([legNotes(L(5, [{ mode: 'road', h: 2 }, { mode: 'fly', h: 1 }], 1), null, false), legNotes(L(5, [{ mode: 'road', h: 1.75 }, { mode: 'fly', h: 1 }], 1), null, false)],
+  [['n.afternoon'], []], 'the afternoon flight: from 2 h of road to the airport, not at 1¾ h');
+eq([legNotes(L(LONG_LEG_H, [{ mode: 'road', h: LONG_LEG_H }]), null, false), legNotes(L(LONG_LEG_H - 0.25, [{ mode: 'road', h: LONG_LEG_H - 0.25 }]), null, false)],
+  [['n.long'], []], 'a long day: from LONG_LEG_H hours, not a quarter of an hour less');
+eq([legNotes(L(6, [{ mode: 'road', h: 6 }]), { n: 1 }, true), legNotes(L(5.75, [{ mode: 'road', h: 5.75 }]), { n: 1 }, true)],
+  [['n.solo_long'], []], 'after one night with a morning plan: the warning from 6 h of travel, not at 5¾ h');
 print('travel texts ok');
 
 /* ---------- Polish words (as in the December planner) ---------- */

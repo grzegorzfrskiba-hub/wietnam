@@ -59,6 +59,7 @@ function legCost(hours) { return 0.1 * hours + 0.15 * Math.pow(Math.max(0, hours
 
 /* ---------- settings ---------- */
 var MIN_DAYS = 5, MAX_DAYS = 30;
+var MIN_YEAR = 2000, MAX_YEAR = 2100;   // the years a link in the month mode may name
 var INTERESTS = ['kultura', 'jedzenie', 'przyroda', 'gory', 'morze'];
 var LEVELS = [1, 2, 3];   // spokojnie, aktywnie, ekstremalnie
 
@@ -71,7 +72,7 @@ function isoDay(iso) {
 }
 
 /* Settings from the page or a link, checked. The term is either start + end dates (YYYY-MM-DD) or month (1–12) + days,
-   with an optional year (2000–2100) in the month mode; with dates, month, year and days are not read. Airports and dates
+   with an optional year (MIN_YEAR–MAX_YEAR) in the month mode; with dates, month, year and days are not read. Airports and dates
    must be texts; month, year, days and level numbers; interests, add and remove lists (null counts as missing: a missing
    level is 2, a missing list is empty). The page turns the text of a link into those first: a text would be read as digits
    or by substring ('gorykultura' holds two interests), and a list as its text (['XA'] as 'XA'), so any other type is refused.
@@ -90,7 +91,7 @@ function normSettings(s, places, hubs) {
     out.start = s.start; out.days = b - a + 1;
   } else {
     if (!(typeof s.month === 'number' && s.month >= 1 && s.month <= 12 && s.month % 1 === 0)) return { ok: false, error: 'month' };
-    if (s.year != null && !(typeof s.year === 'number' && s.year >= 2000 && s.year <= 2100 && s.year % 1 === 0)) return { ok: false, error: 'year' };
+    if (s.year != null && !(typeof s.year === 'number' && s.year >= MIN_YEAR && s.year <= MAX_YEAR && s.year % 1 === 0)) return { ok: false, error: 'year' };
     out.month = s.month; out.year = s.year == null ? null : s.year; out.days = s.days;
   }
   // the days check comes before any loop, so a huge span is refused without building months

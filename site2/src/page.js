@@ -1,6 +1,6 @@
 /* Pure helpers of the page, shared with the tests: the settings link, the defaults, the day plans of a stay, the holiday
    warnings, the figures of a trip, the places off the trip and the travel texts. No DOM here.
-   Uses engine.js (normSettings, isoDay), content.js (AIRPORTS, ROAD_KEYS through arguments) and holidays.js. */
+   Calls engine.js (normSettings, isoDay); the data (places, holidays, airports, road texts) comes in through arguments. */
 var SITE_URL = 'https://grzegorzfrskiba-hub.github.io/wietnam/';   // the public page: the copied plan links here
 
 /* ---------- the settings link ---------- */
@@ -13,14 +13,16 @@ var SETTINGS_ORDER = ['from', 'to', 'start', 'end', 'year', 'month', 'days', 'in
    #od=SGN&do=HAN&start=2027-02-01&koniec=2027-02-15&co=&poziom=2. Returns the well-formed fields typed for normSettings:
    from, to, start, end as texts; year, month, days, level as numbers; interests, add, remove as lists. A malformed field is
    left out, so the page uses its default; unknown keys (an anchor such as #day-5, or a name such as constructor) are ignored.
+   A known key without = (a link cut short, as in #od=SGN&do) is a malformed field too.
    rejected, an optional array, gets the settings field name of each malformed field, once. */
 function parseLink(hash, rejected) {
   var got = {}, out = {};
   function reject(field) { if (rejected && rejected.indexOf(field) < 0) rejected.push(field); }
   String(hash || '').replace(/^#/, '').split('&').forEach(function (part) {
-    var i = part.indexOf('='), key = i < 0 ? null : part.slice(0, i), v, m, list;
-    var field = key !== null && LINK_KEYS.hasOwnProperty(key) ? LINK_KEYS[key] : null;   // no own key: an object property is no field
-    if (!field) return;   // an anchor (no =) or an unknown key is not a link field
+    var i = part.indexOf('='), key = i < 0 ? part : part.slice(0, i), v, m, list;
+    var field = LINK_KEYS.hasOwnProperty(key) ? LINK_KEYS[key] : null;   // no own key: an object property is no field
+    if (!field) return;   // an anchor or an unknown key is not a link field
+    if (i < 0) { reject(field); return; }
     try { v = decodeURIComponent(part.slice(i + 1)); } catch (e) { reject(field); return; }
     if (field === 'from' || field === 'to') { if (/^[A-Z]{3}$/.test(v)) got[field] = v; else reject(field); }
     else if (field === 'start' || field === 'end') { if (/^\d{4}-\d{2}-\d{2}$/.test(v)) got[field] = v; else reject(field); }
@@ -65,7 +67,8 @@ var ERROR_FIELDS = { airport: ['from', 'to'], date: ['start', 'end'], month: ['y
 /* The settings a link opens: its fields over the defaults, checked with normSettings. A field the engine refuses goes back
    to its default (an airport only when it is no known one), one error at a time, until the settings pass. Places with a
    node (a night on the way) are taken out of add and remove: the page has no buttons for them. Unknown or refused values
-   in interests, add and remove are dropped too, and their field is reported in dropped.
+   in interests, add and remove are dropped too, and their field is reported in dropped. The settings keep only the fields
+   of their term: with dates no month, year or days, without dates no start or end; such a field from the link is reported.
    Returns { settings, st, dropped }: the settings to show, normSettings' result, and the link fields not used.
    The optional rejected (the malformed fields from parseLink) starts dropped, so they are reported too. */
 function settingsFromLink(link, defaults, places, hubs, rejected) {
@@ -79,6 +82,10 @@ function settingsFromLink(link, defaults, places, hubs, rejected) {
       ['interests', 'add', 'remove'].forEach(function (k) {
         if (k in link && dropped.indexOf(k) < 0 && s[k].some(function (v) { return st[k].indexOf(v) < 0; })) dropped.push(k);
         s[k] = st[k].slice();
+      });
+      (st.start ? ['year', 'month', 'days'] : ['start', 'end']).forEach(function (k) {
+        if (k in link && dropped.indexOf(k) < 0) dropped.push(k);
+        delete s[k];
       });
       return { settings: s, st: st, dropped: dropped };
     }

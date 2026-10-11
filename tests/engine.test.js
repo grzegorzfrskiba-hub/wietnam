@@ -223,9 +223,12 @@ near(rm.score, 7.325, 'its score');
 print('planning ok');
 
 /* ---------- settings: the year and the types of airports and dates (plan 1B) ---------- */
-eq([fxSet({ from: 'XA', to: 'XD', month: 2, year: 2027, days: 6 }).year, fxSet({ from: 'XA', to: 'XD', month: 2, days: 6 }).year],
-  [2027, null], 'the year in the month mode, optional');
-eq(fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03', year: 'x' }).year, null, 'with dates, the year is not read');
+eq(fxSet({ from: 'XA', to: 'XD', month: 2, year: 2027, days: 6 }).year, 2027, 'the year in the month mode');
+// ok(… === null), not eq: JSON.stringify writes undefined in a list as null, so eq would let a missing year through
+ok(fxSet({ from: 'XA', to: 'XD', month: 2, days: 6 }).year === null, 'the year is optional: none gives null');
+ok(fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03', year: 'x' }).year === null, 'with dates, the year is not read');
+eq([MIN_YEAR, MAX_YEAR, fxSet({ from: 'XA', to: 'XD', month: 2, year: MIN_YEAR, days: 6 }).ok, fxSet({ from: 'XA', to: 'XD', month: 2, year: MAX_YEAR, days: 6 }).ok],
+  [2000, 2100, true, true], 'the first and the last year allowed');
 [
   [{ from: 'XA', to: 'XD', month: 2, year: '2027', days: 6 }, 'year'],
   [{ from: 'XA', to: 'XD', month: 2, year: 2027.5, days: 6 }, 'year'],
@@ -235,6 +238,7 @@ eq(fxSet({ from: 'XA', to: 'XD', start: '2027-01-30', end: '2027-02-03', year: '
   [{ from: ['XA'], to: 'XD', month: 2, days: 6 }, 'airport'],
   [{ from: 'XA', to: { toString: function () { return 'XD'; } }, month: 2, days: 6 }, 'airport'],
   [{ from: 'XA', to: 'XD', start: ['2027-01-30'], end: '2027-02-03' }, 'date'],
-  [{ from: 'XA', to: 'XD', start: '2027-01-30', end: 20270203 }, 'date']
+  [{ from: 'XA', to: 'XD', start: '2027-01-30', end: 20270203 }, 'date'],
+  [{ from: 'XA', to: 'XD', start: '2027-01-30', end: ['2027-02-03'] }, 'date']
 ].forEach(function (c) { eq(fxSet(c[0]), { ok: false, error: c[1] }, 'error ' + c[1] + ' for ' + JSON.stringify(c[0])); });
 print('year and types ok');
