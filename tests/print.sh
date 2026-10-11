@@ -1,5 +1,6 @@
 #!/bin/bash
-# Usage: tests/print.sh <settings> <out.pdf> [dark]   e.g. tests/print.sh 'od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2' /tmp/a.pdf
+# Usage: tests/print.sh <settings> <out.pdf> [dark]   e.g. tests/print.sh 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2' /tmp/a.pdf
+# MIESIAC in the settings becomes the month five months from today (YYYY-MM).
 # Prints the built page to PDF through headless Chrome (A4, backgrounds on), then reports the page count,
 # the pages that are almost empty and the text lines covered by a box drawn over them (must be 0).
 # "dark" prints with the system set to dark mode.
@@ -8,6 +9,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 [ -s site2/out/pages/index.html ] || { echo "print.sh: run python3 site2/build.py first" >&2; exit 1; }
+head -c 15 site2/out/pages/index.html | grep -qi '^<!doctype html>' || { echo "print.sh: site2/out/pages/index.html has no doctype, so Chrome would use quirks mode" >&2; exit 1; }
 C="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 TMP=$(mktemp -d)
 rm -f "$2"
@@ -15,7 +17,7 @@ DARK=()
 [ "${3:-}" = dark ] && DARK=(--force-dark-mode --blink-settings=preferredColorScheme=0)
 "$C" --headless=new --disable-gpu --user-data-dir="$TMP" "${DARK[@]+"${DARK[@]}"}" \
   --virtual-time-budget=8000 --no-pdf-header-footer --print-to-pdf="$2" \
-  "file://$PWD/site2/out/pages/index.html#$1" >/dev/null 2>&1 &
+  "file://$PWD/site2/out/pages/index.html#${1//MIESIAC/$(date -v+5m +%Y-%m)}" >/dev/null 2>&1 &
 PID=$!
 for _ in $(seq 60); do
   [ -s "$2" ] && break

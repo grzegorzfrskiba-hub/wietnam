@@ -1,11 +1,21 @@
 // What a settings link opens and what the copied plan links to.
-// tests/probe.sh tests/probes/link.js 1400 'od=HAN&do=DAD&miesiac=2027-03&dni=12&co=kultura&poziom=3'
+// tests/probe.sh tests/probes/link.js 1400 'od=HAN&do=DAD&miesiac=MIESIAC&dni=12&co=kultura&poziom=3'
 setTimeout(function () {
-  var q = function (s) { var e = document.querySelector(s); return e ? e.textContent.replace(/\s+/g, ' ').trim() : '-'; };
-  console.log('P:hash ' + location.hash);
-  console.log('P:' + q('#facts-for') + ' · stays ' + document.querySelectorAll('#stops .stop:not(.stop-home)').length + ' · days in the strip ' + document.querySelectorAll('#strip .cell').length);
-  console.log('P:alerts ' + q('#alerts') + ' · message ' + q('#settings-msg'));
-  try { navigator.clipboard.writeText = function (t) { console.log('P:copied link line: ' + t.split('\n').pop()); return Promise.resolve(); }; } catch (e) { /* read the fallback box below */ }
+  var asked = window.__probeHash;
+  check('the address keeps the settings of the link', location.hash === asked, location.hash + ' vs ' + asked);
+  check('the facts name both airports', /Hà Nội/.test(textOf('#facts-for')) && /Đà Nẵng/.test(textOf('#facts-for')), textOf('#facts-for'));
+  var stays = document.querySelectorAll('#stops .stop:not(.stop-home)').length, cells = document.querySelectorAll('#strip .cell').length;
+  check('stays shown', stays > 1, stays);
+  check('one cell per day in the strip', cells === 12, cells);
+  check('no message under the settings', textOf('#settings-msg') === '', textOf('#settings-msg'));
+  var copied = null;
+  try { navigator.clipboard.writeText = function (t) { copied = t; return Promise.resolve(); }; } catch (e) { /* the fallback box below */ }
   document.getElementById('copy-plan').click();
-  setTimeout(function () { var b = document.getElementById('copy-fallback'); if (!b.hidden) console.log('P:copied link line: ' + b.value.split('\n').pop()); }, 300);
+  setTimeout(function () {
+    var b = document.getElementById('copy-fallback');
+    if (copied === null && !b.hidden) copied = b.value;
+    var line = (copied || '').split('\n').pop();
+    check('the copied plan ends with a link to the public page with these settings', line === 'Ten plan na stronie: ' + SITE_URL + asked, line);
+    done();
+  }, 300);
 }, 1500);

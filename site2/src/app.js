@@ -816,5 +816,5 @@
     new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
   }
   /* for the probes in tests/probes/ */
-  window.__trip = { state: state, apply: apply };
+  window.__trip = { state: state, apply: apply, today: TODAY };
 })();
