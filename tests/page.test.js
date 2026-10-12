@@ -103,10 +103,10 @@ print('settings ok');
 /* ---------- day plans ---------- */
 var FC = {
   days: [
-    { p: 1, o: 1, pace: 'travel', t: 'A1', d: 'a1', solo: { pace: 'boat', t: 'A1s', d: 'a1s', early: true } },
+    { p: 1, o: 1, pace: 'travel', t: 'A1', d: 'a1', cost: ['x.a1'], solo: { pace: 'boat', t: 'A1s', d: 'a1s', early: true } },
     { p: 3, o: 2, pace: 'rest', t: 'A3', d: 'a3' },
-    { p: 2, o: 3, pace: 'hike', t: 'A2', d: 'a2', early: true, rain: 'r2',
-      easy: { pace: 'nature', t: 'A2e', d: 'a2e', early: false }, hard: { pace: 'hike', t: 'A2h', d: 'a2h', off: [7, 8] } }
+    { p: 2, o: 3, pace: 'hike', t: 'A2', d: 'a2', early: true, rain: 'r2', cost: ['x.a2', ['x.car', 'x.rider']], pack: ['leeches'],
+      easy: { pace: 'nature', t: 'A2e', d: 'a2e', early: false, cost: ['x.a2e'] }, hard: { pace: 'hike', t: 'A2h', d: 'a2h', off: [7, 8], cost: [] } }
   ],
   again: { pace: 'travel', t: 'B1', d: 'b1' }
 };
@@ -124,6 +124,9 @@ var dU = stopDays(FC, { n: 2, start: 1 }, 0, 2, JAN)[1], dE = stopDays(FC, { n: 
 eq([dU.pace, dU.early, dU.rain, dU.variant], ['hike', true, 'r2', null], 'the usual day');
 eq([dE.pace, dE.early, dE.rain, dE.variant], ['nature', false, 'r2', 'easy'], 'the easy version: its own pace and early start, the day\'s rain plan');
 eq([dH.early, dH.rain, dH.variant], [true, 'r2', 'hard'], 'the hard version keeps the day\'s early start and rain plan');
+eq([dU.cost, dU.pack, dE.cost, dE.pack, dH.cost], [['x.a2', ['x.car', 'x.rider']], ['leeches'], ['x.a2e'], ['leeches'], []],
+  'cost and pack: the day\'s; a version\'s own cost wins, one without keeps the day\'s (pack too), [] means none');
+eq([stopDays(FC, { n: 1, start: 1 }, 0, 2, JAN)[0].cost, stopDays(FC, { n: 2, start: 8 }, 1, 2, JAN)[0].cost], [[], []], 'a solo plan and again: their own cost only');
 eq(titles(stopDays(FC, { n: 2, start: 8 }, 1, 2, JAN)), ['8:B1', '9:A2'], 'a second stay after one night: again, then the next plan by p');
 eq(titles(stopDays(FC, { n: 1, start: 9 }, 2, 2, JAN)), ['9:B1'], 'a second stay of one night: again only');
 eq(stopDays(FC, { n: 4, start: 1 }, 0, 2, JAN), null, 'more nights than plans');

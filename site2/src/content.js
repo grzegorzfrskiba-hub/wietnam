@@ -7,7 +7,7 @@
      the colour of its node; poi: { name, pt } a point of interest the map shows next to the stay (Bản Giốc by Cao Bằng);
    - photos: ids from photos.js, 3–5 (none for a night on the way);
    - days: one plan per night of the longest stay (nights[2] in places.js),
-     { p, o, pace, t, d, early?, rain?, easy?, hard?, solo? }:
+     { p, o, pace, t, d, early?, rain?, cost?, pack?, easy?, hard?, solo? }:
      p: priority, the lowest kept when the stay is short; p 1 is the arrival day (pace travel or rest);
      o: the order within the stay; pace: one of PACES; t: title; d: text; early: starts at 6:00 or earlier;
      rain: what to do on a wet day (shown after "Gdy pada: ", so it starts with a small letter);
@@ -16,15 +16,22 @@
      late: the version's night ends away from the stay, so the next morning goes on the walk out; not used on a stay's
      last day before the way home or a long leg;
      a version keeps the day's early start unless it sets its own, and the day's rain plan;
+     cost: the paid parts of the plan, keys of COSTS.items (costs.js), for the budget and the list of what to book; an entry
+     that is a list names things to pick from (a car with a driver or an easy rider): the budget takes the cheapest and the
+     dearest of them; a version keeps the day's cost unless it sets its own ([] for none); a solo plan has its own only;
+     pack: codes of PACK_CODES for the list of what to pack, as cost (also on an event);
      solo: on the p 1 day only, the plan of a one-night stay: that evening and the next morning before moving on;
    - again: on an airport's city (HUBS) only: the arrival day of its second stay on a round trip;
      a second stay starts with again and goes on with the plans after the first stay's, by p;
    - events: what happens at the place in some weeks of every year, shown in its card when a stay meets them:
-     [{ from, to, t, warn? }], from and to as [month, day] (a window may run over the new year); t: what to know, in a sentence or
-     two; warn: true for a caution (high water, floods, leeches) rather than an event; sources in research/sezony-2026-10.md;
+     [{ from, to, t, warn?, pack? }], from and to as [month, day] (a window may run over the new year); t: what to know, in a
+     sentence or two; warn: true for a caution (high water, floods, leeches) rather than an event; sources in
+     research/sezony-2026-10.md;
    - gem, skip, instead: tips (skip and instead together). */
 var CONTENT = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
+// what a day or an event adds to the list of what to pack (UI keys p.<code>): socks against leeches, a torch
+var PACK_CODES = ['leeches', 'torch'];
 var REGIONS = ['south', 'centre', 'north'];
 
 /* Names of several words in the texts of the places that have no letter Polish lacks, so tieVietnamese (page.js) cannot

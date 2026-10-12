@@ -6,11 +6,11 @@ CONTENT.babe = {
   photos: ['babe_0', 'babe_1', 'babe_2', 'babe_3', 'babe_5'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Przyjazd nad jezioro', d: 'Zamelduj się u gospodarzy w domu na palach ludu Tày w Pác Ngòi, a o zmierzchu przejdź się brzegiem jeziora.',
-      solo: { pace: 'boat', t: 'Jezioro w jedno popołudnie', d: 'Dotrzyj najpóźniej wczesnym popołudniem, zamelduj się u gospodarzy w domu na palach ludu Tày w Pác Ngòi i, póki jest jasno, popłyń łodzią do jaskini Puông i na wyspę Bà Góa. Zmierzch na brzegu jeziora, a rano śniadanie i dalej w drogę.' } },
-    { p: 2, o: 2, pace: 'boat', t: 'Na wodzie', d: 'Łodzią do jaskini Puông, wodospadu Đầu Đẳng i na wyspę Bà Góa. Po południu rowerem przez wioski.',
+      solo: { pace: 'boat', cost: ['babe.boat'], t: 'Jezioro w jedno popołudnie', d: 'Dotrzyj najpóźniej wczesnym popołudniem, zamelduj się u gospodarzy w domu na palach ludu Tày w Pác Ngòi i, póki jest jasno, popłyń łodzią do jaskini Puông i na wyspę Bà Góa. Zmierzch na brzegu jeziora, a rano śniadanie i dalej w drogę.' } },
+    { p: 2, o: 2, pace: 'boat', cost: ['babe.boat'], t: 'Na wodzie', d: 'Łodzią do jaskini Puông, wodospadu Đầu Đẳng i na wyspę Bà Góa. Po południu rowerem przez wioski.',
       easy: { pace: 'boat', t: 'Na wodzie', d: 'Łodzią do jaskini Puông, wodospadu Đầu Đẳng i na wyspę Bà Góa. Po południu odpoczynek u gospodarzy i niespieszny spacer po wiosce.' } },
-    { p: 3, o: 3, pace: 'hike', t: 'Wioski wysoko nad jeziorem', d: 'Półdniowa wędrówka z lokalnym przewodnikiem do wiosek Tày i Dao na zboczach nad jeziorem. Zapytaj gospodarzy o wieczorny śpiew Then.',
-      easy: { pace: 'culture', t: 'Spokojny poranek nad jeziorem', d: 'Krótka przejażdżka łodzią do sąsiedniej wioski Tày i lekcja gotowania z gospodarzami. Zapytaj o wieczorny śpiew Then.' } }
+    { p: 3, o: 3, pace: 'hike', cost: ['babe.guide'], t: 'Wioski wysoko nad jeziorem', d: 'Półdniowa wędrówka z lokalnym przewodnikiem do wiosek Tày i Dao na zboczach nad jeziorem. Zapytaj gospodarzy o wieczorny śpiew Then.',
+      easy: { pace: 'culture', cost: ['babe.cooking'], t: 'Spokojny poranek nad jeziorem', d: 'Krótka przejażdżka łodzią do sąsiedniej wioski Tày i lekcja gotowania z gospodarzami. Zapytaj o wieczorny śpiew Then.' } }
   ],
   gem: 'Noc w domu na palach ludu Tày nad brzegiem jeziora.'
 };

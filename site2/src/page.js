@@ -138,18 +138,19 @@ function monthChoices(today, lastYear) {
 /* ---------- day plans ---------- */
 /* One day at an adventure level: level 1 takes the easy version, level 3 the hard one unless month (1–12) is one of its
    months off, or unless it is late (its night ends away from the stay) and notLate is true; otherwise the usual day. A
-   version keeps the day's early start unless it sets its own, and the day's rain plan.
-   Returns { pace, t, d, early, rain, variant }, variant 'easy', 'hard' or null. */
+   version keeps the day's early start unless it sets its own, and the day's rain plan; its cost and pack, see content.js.
+   Returns { pace, t, d, early, rain, variant, cost, pack }, variant 'easy', 'hard' or null. */
 function variantOf(day, level, month, notLate) {
   var hard = level === 3 && day.hard && (day.hard.off || []).indexOf(month) < 0 && !(notLate && day.hard.late);
   var v = level === 1 && day.easy ? 'easy' : hard ? 'hard' : null;
   var src = v ? day[v] : day;
-  return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v };
+  return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v,
+    cost: (src.cost || day.cost || []).slice(), pack: (src.pack || day.pack || []).slice() };
 }
 // a plan that has no versions: the solo plan of one night, the arrival day of a second stay
-function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, rain: null, variant: null }; }
+function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, rain: null, variant: null, cost: (x.cost || []).slice(), pack: (x.pack || []).slice() }; }
 
-/* The day plans of one stay: [{ day, pace, t, d, early, rain, variant }], one per night, from the stay's first day.
+/* The day plans of one stay: [{ day, pace, t, d, early, rain, variant, cost, pack }], one per night, from the stay's first day.
    c: the place's content; stop: { n, start } from planRoute; done: nights spent there earlier in the trip (on a round trip
    the airport's city comes back at the end); level: 1–3; months: st.months, the month (0–11) of each trip day.
    A first stay takes the n plans with the lowest p, in their order o; a one-night stay the solo version of the p 1 plan

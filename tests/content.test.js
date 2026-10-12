@@ -26,13 +26,26 @@ contentCheck('content', function (need) {
   var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'color', 'poi', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
   var PALETTE = (readFile('site2/src/template.html').match(/--pal-\d+:/g) || []).length / 3, colours = {};   // light, dark, dark again
   function monthDay(v) { return Array.isArray(v) && v.length === 2 && v[0] % 1 === 0 && v[0] >= 1 && v[0] <= 12 && v[1] % 1 === 0 && v[1] >= 1 && v[1] <= 31; }
-  var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'easy', 'hard', 'solo'];
+  var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'cost', 'pack', 'easy', 'hard', 'solo'];
+  // the paid parts of a plan (keys of COSTS.items, or a list of two or more to pick from) and what it adds to the packing
+  function costAndPack(w, d) {
+    if (d.cost != null) {
+      need(Array.isArray(d.cost), w + ': cost is a list');
+      (Array.isArray(d.cost) ? d.cost : []).forEach(function (e) {
+        var keys = Array.isArray(e) ? e : [e];
+        need(!Array.isArray(e) || e.length >= 2, w + ': a choice in cost names two things or more');
+        keys.forEach(function (k) { need(COSTS.items[k], w + ': cost ' + k + ' is no item of COSTS'); });
+      });
+    }
+    if (d.pack != null) need(Array.isArray(d.pack) && d.pack.every(function (k) { return PACK_CODES.indexOf(k) > -1; }), w + ': pack lists codes of PACK_CODES');
+  }
   // a plan or a version of one: pace, title, text, maybe an early start
   function plan(w, d, keys) {
-    Object.keys(d).forEach(function (k) { need(keys.indexOf(k) > -1, w + ': unknown field ' + k); });
+    Object.keys(d).forEach(function (k) { need(keys.concat(['cost', 'pack']).indexOf(k) > -1, w + ': unknown field ' + k); });
     need(PACES.indexOf(d.pace) > -1, w + ': pace one of ' + PACES.join(', '));
     need(isText(d.t) && isText(d.d), w + ': title t and text d');
     if (d.early != null) need(typeof d.early === 'boolean', w + ': early is true or false');
+    costAndPack(w, d);
   }
   Object.keys(PLACES).forEach(function (id) {
     var c = CONTENT[id], p = PLACES[id];
@@ -91,7 +104,8 @@ contentCheck('content', function (need) {
     if (c.events != null) need(Array.isArray(c.events) && c.events.length > 0, id + ': events is a list with entries');
     (Array.isArray(c.events) ? c.events : []).forEach(function (e, i) {
       var w = id + ' event ' + (i + 1);
-      Object.keys(e).forEach(function (k) { need(['from', 'to', 't', 'warn'].indexOf(k) > -1, w + ': unknown field ' + k); });
+      Object.keys(e).forEach(function (k) { need(['from', 'to', 't', 'warn', 'pack'].indexOf(k) > -1, w + ': unknown field ' + k); });
+      costAndPack(w, { pack: e.pack });
       need(monthDay(e.from) && monthDay(e.to), w + ': from and to as [month, day]');
       need(isText(e.t), w + ': text t');
       if (e.warn != null) need(e.warn === true, w + ': warn is true or left out');
