@@ -2,7 +2,8 @@
 // parts; „Samodzielnie” in the Cao Bằng card and in the card of the road over the Hải Vân pass writes the link, changes the
 // days or the road's text and the budget, shows what it takes, keeps the trip, and leaves the focus on the choice; the plan
 // for WhatsApp says the budget; the widest budget and every other figure fit their tiles; a term with Tết warns in both
-// parts; on a phone a road's long text takes the width of its card, with its time under it.
+// parts; ends that round to one number say it once; on a phone a road's long text takes the width of its card, with its
+// time under it.
 // tests/probe.sh tests/probes/before.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
 // and at 641 and 768 px (a tablet in portrait: the budget on a row of its own), at 901 px, the narrowest screen with the
 // facts in one row, and at 1400 px
@@ -68,7 +69,13 @@ setTimeout(function () {
             setTimeout(function () {
               check('Tết: the budget warns that prices go up', /Tết/.test(textOf('#b-budget .b-warn')), textOf('#b-budget .b-warn'));
               check('Tết: the list of what to book says how far ahead', /Tết/.test(textOf('#b-book .b-warn')), textOf('#b-book .b-warn'));
-              done();
+              // ends that round to the same złoty say it once: 30 zł, never 30–30 zł (Đà Nẵng, 5 days: the Imperial City in Huế)
+              location.hash = '#od=DAD&do=DAD&miesiac=2027-01&dni=5&co=&poziom=2';
+              setTimeout(function () {
+                var same = (textOf('#facts') + ' ' + textOf('#before')).match(/(?<!\d)(\d(?:[\d ]*\d)?)–\u2060?\1 zł/);
+                check('no amount has the same number at both ends', !same, same && same[0]);
+                done();
+              }, 500);
             }, 500);
           }, 500);
         }, 300);

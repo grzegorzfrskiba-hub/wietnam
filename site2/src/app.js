@@ -49,11 +49,12 @@
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
-  // an amount in euros, [from, to], in złoty: rounded to 100 zł (or step), thousands apart: "2 600–5 900 zł"; nothing is "0 zł"
+  // an amount in euros, [from, to], in złoty: rounded to 100 zł (or step), thousands apart: "2 600–5 900 zł", or "30 zł" when
+  // both ends round alike; nothing is "0 zł"
   function zl(eur, step) {
     if (eur[1] <= 0) return '0\u00a0zł';
     var r = zlRange(eur, EUR_PLN, step || 100);
-    return T('zl', { a: money(r[0]), b: money(r[1]) });
+    return r[0] === r[1] ? T('zl.one', { a: money(r[0]) }) : T('zl', { a: money(r[0]), b: money(r[1]) });
   }
   // names for a sentence: "A", "A i B", "A, B i C"
   function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }

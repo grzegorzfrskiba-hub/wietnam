@@ -54,7 +54,7 @@ UI.pl = {
   'f.hikes.one': 'dzień z wędrówką', 'f.hikes.few': 'dni z wędrówką', 'f.hikes.many': 'dni z wędrówką',
   'f.longest': 'najdłuższy dzień w drodze',
   'f.budget': 'na osobę, orientacyjnie', 'f.budget.aria': 'Budżet: {x} na osobę, orientacyjnie. Szczegóły w części Przed wyjazdem',
-  'zl': '{a}–{b}\u00a0zł',
+  'zl': '{a}–{b}\u00a0zł', 'zl.one': '{a}\u00a0zł',
   'term.month': '{month} {year}',
   'alert.past': 'Ten termin już minął. Wybierz nowy miesiąc albo daty, a trasa ułoży się na nowo.',
   'alert.tet': 'Tết, dni wolne ok. {span}: część miejsc jest zamknięta, a transport i noclegi wyprzedają się i drożeją, także tydzień przed i po. Rezerwuj wcześnie.',
