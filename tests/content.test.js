@@ -179,7 +179,7 @@ contentCheck('typography', function (need) {
 
 /* The style of plan 1B: to one reader (ty), no gendered forms, nothing tied to December. list: [path, text] pairs. */
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
-var NOT_PLURAL = ['mieście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
+var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
   'porcie', 'świecie'];
 function styleOk(need, list) {
@@ -269,6 +269,10 @@ contentCheck('ui', function (need) {
     'off.r.': ['removed', 'level', 'closed', 'season', 'profile', 'far', 'beaten'],
     'm.': Object.keys(MAP_PANELS),
     'alert.': ['tet', 'holiday', 'nodata'],
+    'bud.': ['nights', 'day', 'travel', 'trips'], 'cost.': Object.keys(COSTS.items).concat(['flights']),
+    'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }),
+    'e.': ['visa', 'visa_end', 'passport', 'insurance', 'insurance_moto', 'doctor'],
+    'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
   Object.keys(FAMILIES).forEach(function (pre) {
     need(app.indexOf("T('" + pre + "' + ") > -1, 'app.js never builds a key ' + pre + '…');

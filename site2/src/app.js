@@ -49,17 +49,28 @@
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+  // an amount in euros, [from, to], in złoty: rounded to 100 zł (or step), thousands apart: "2 600–5 900 zł"; nothing is "0 zł"
+  function zl(eur, step) {
+    if (eur[1] <= 0) return '0\u00a0zł';
+    var r = zlRange(eur, EUR_PLN, step || 100);
+    return T('zl', { a: money(r[0]), b: money(r[1]) });
+  }
+  // names for a sentence: "A", "A i B", "A, B i C"
+  function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
   function termText(st) {
     return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
   }
 
   /* ---------- state ---------- */
   var DATA = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
+  var BUDGET_DATA = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
+  var BOOK_DATA = { costs: COSTS, book: BOOK, swaps: SWAPS, places: PLACES, airports: AIRPORTS, airKeys: AIR_KEYS, homestays: HOMESTAYS, shortFlightH: SHORT_FLIGHT_H };
+  var PACK_DATA = { climate: CLIMATE, seasons: SEASONS, content: CONTENT, places: PLACES, swaps: SWAPS };
   var TODAY = clampToday(new Date().toISOString().slice(0, 10), HOLIDAYS_FROM, PLAN_LAST_YEAR);   // the device clock, held inside the days the page plans for
   var DEFAULTS = defaultSettings(TODAY, DATA, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
   // settings: as in the link; st: checked by normSettings; route: planRoute's trip; plans: the day plans of each stay;
-  // linkWarn: the link that opened the page was partly wrong (said in the warnings until the next change)
-  var state = { settings: null, st: null, route: null, plans: null, linkWarn: false };
+  // budget: tripBudget of the trip; linkWarn: the link that opened the page was partly wrong (said in the warnings until the next change)
+  var state = { settings: null, st: null, route: null, plans: null, budget: null, linkWarn: false };
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
@@ -82,6 +93,7 @@
       done[x.id] = (done[x.id] || 0) + x.n;
       return days;
     });
+    state.budget = tripBudget(r, state.plans, s.moto, BUDGET_DATA);
     msg('');
     $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
     var h = linkHash(s);
@@ -230,6 +242,7 @@
     renderOffRoute();
     renderMap();
     renderStops();
+    renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
     tieShortWords(document.body);
@@ -243,7 +256,8 @@
       '<li><b>' + k.places + '</b><span>' + countWord('f.places', k.places) + '</span></li>' +
       '<li><b>' + k.flights + '</b><span>' + countWord('f.flights', k.flights) + '</span></li>' +
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
-      '<li><b>' + approx(k.longest).replace('≈ ', '') + '</b><span>' + T('f.longest') + '</span></li>';
+      '<li><b>' + approx(k.longest).replace('≈ ', '') + '</b><span>' + T('f.longest') + '</span></li>' +
+      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: zl(state.budget.two) })) + '"><b>' + zl(state.budget.two) + '</b><span>' + T('f.budget') + '</span></a></li>';
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -654,6 +668,40 @@
     });
   }
 
+  /* ---------- before the trip: the budget, what to book (bookList), entry and health (entryNotes), what to pack (packList) ---------- */
+  function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.name) + '</a>'; }).join(' · '); }
+  function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
+  function renderBefore() {
+    var b = state.budget, r = state.route, st = state.st, moto = state.settings.moto;
+    var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
+    var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return h.name; });
+    var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: zl(x.two, 10) }); });
+    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + zl(b.two) + '</b> ' + esc(T('bud.two')) + '</p>' +
+      '<p>' + esc(T('bud.one', { x: zl(b.one) })) + '</p>' +
+      '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
+        return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + zl(b.parts[k].two) + '</span></li>';
+      }).join('') + '</ul>' +
+      (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
+      (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T('bud.holiday', { x: holidays.join(', ') })) + '</p>' : '') +
+      '<p class="b-note">' + esc(T('bud.note')) + '</p>';
+    var books = bookList(r, state.plans, moto, BOOK_DATA);
+    $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
+      (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
+      (books.length ? '<ol class="b-book">' + books.map(function (e) {
+        var x = e.key === 'flights' ? e.list.map(function (f) { return AIRPORTS[f[0]].name + ' → ' + AIRPORTS[f[1]].name; }).join(', ')
+          : e.key === 'airport' ? e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short; }).join(', ')
+          : e.key === 'homestay' ? placesOf(e.list) : '';
+        var meta = [e.two ? esc(T('book.cost', { x: zl(e.two, 10) })) : '', linksOf(e.links)].filter(Boolean);
+        return '<li><p>' + esc(T('b.' + e.key, { x: x })) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
+      }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
+    $('#b-entry').innerHTML = '<h3>' + T('entry.h3') + '</h3><ul class="b-list">' + entryNotes(st, ridesOn(r, moto, SWAPS), ENTRY).map(function (e) {
+      return '<li>' + esc(T('e.' + e.code, e.vars)) + '</li>';
+    }).join('') + '</ul><p class="b-meta">' + T('entry.check') + linksOf(ENTRY.links) + '</p>';
+    $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
+      return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
+    }).join('') + '</ul>';
+  }
+
   /* ---------- the plan as text, for WhatsApp ---------- */
   function planText() {
     var r = state.route, st = state.st, lines = [], flights = [];
@@ -667,6 +715,7 @@
       s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
+    lines.push(T('pt.budget', { x: zl(state.budget.two) }));
     lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
     return lines.join('\n');
   }

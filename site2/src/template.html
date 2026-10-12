@@ -98,7 +98,7 @@ ul, ol { padding: 0; list-style: none; }
 
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
-.facts ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.facts ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.9fr); }
 .facts li { padding: 18px 0; display: grid; gap: 2px; min-width: 0; }
 .facts li + li { border-left: 1px solid var(--line); padding-left: 18px; }
 .facts b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 36px); line-height: 1; white-space: nowrap; }
@@ -162,6 +162,26 @@ ul, ol { padding: 0; list-style: none; }
 .dropped { font-size: 15px; color: var(--ink); }
 .dropped:not(:empty) { margin-top: 16px; }
 footer .ft-copy { margin-top: 18px; }
+
+/* The budget as the last figure of the facts, a link to its part of "Przed wyjazdem" */
+.facts .f-budget a { display: grid; gap: 2px; color: inherit; text-decoration: none; }
+.facts .f-budget b { font-size: clamp(24px, 2.5vw, 32px); }   /* the widest, 5 800–13 500 zł, fits its column (tests/probes/before.js) */
+.facts .f-budget span { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+/* Before the trip: the budget, what to book, entry and health, what to pack; two columns on a wide screen */
+.before { display: grid; gap: 28px; }
+@media (min-width: 900px) { .before { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 48px; } }
+.b-part { display: grid; gap: 10px; align-content: start; }
+.b-part h3 { font-size: 24px; }
+.b-sum b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 34px); white-space: nowrap; }
+.b-parts { display: grid; }
+.b-parts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding: 5px 0; font-size: 15px; }
+.b-note, .b-meta { font-size: 13.5px; color: var(--muted); }
+.b-warn { font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
+.b-book { display: grid; gap: 8px; }
+.b-book li { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 15px; }
+.b-list { display: grid; gap: 6px; }
+.b-list li { position: relative; padding-left: 18px; font-size: 15px; }
+.b-list li::before { content: ""; position: absolute; left: 4px; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
 /* Changes to the trip: Dodaj, Usuń; the places off the trip, each with why it is not on it */
 .offroute { margin-top: 22px; display: grid; gap: 8px; justify-items: start; }
@@ -362,11 +382,11 @@ footer a { color: var(--muted); }
   .set-airports { flex-wrap: wrap; }
   .set-airports .field-grow { flex-basis: 100%; }
   .set-arrow { display: none; }
-  /* the figures in two columns, the last one across both when it is alone in its row */
+  /* the figures in two columns; the budget, last, across both, and the one before it too when it would stand alone */
   .facts ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #facts li:nth-child(odd) { border-left: 0; padding-left: 0; }
+  #facts li:nth-child(odd), #facts .f-budget { border-left: 0; padding-left: 0; }
   #facts li:nth-child(n+3) { border-top: 1px solid var(--line); }
-  #facts li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  #facts li:nth-last-child(2):nth-child(odd), #facts .f-budget { grid-column: 1 / -1; }
   .strip { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   .cell { aspect-ratio: 1 / 1; }
   .day { grid-template-columns: minmax(0, 1fr); gap: 4px; }
@@ -425,6 +445,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   .eyebrow, .facts-for, .stop-head, h2, h3, .block-head { break-after: avoid; }
   .block-head, .stop-head, .stop-title { break-inside: avoid; }
   .leg, .day, .tip { break-inside: avoid; }
+  /* "Przed wyjazdem": blocks, not grids (as .stop above), and each of its items whole */
+  .before, .b-part, .b-book, .b-list, .b-parts { display: block !important; }
+  .before > * + * { margin-top: 24px; }
+  .b-part > * + *, .b-book li + li, .b-list li + li { margin-top: 8px; }
+  .b-book li, .b-list li, .b-parts li { break-inside: avoid; }
   .credits { columns: 3; column-gap: 20px; font-size: 9px; line-height: 1.35; }
   .credits li { margin-bottom: 1px; }
 }
@@ -447,6 +472,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <a href="#settings" data-i18n="nav.settings"></a>
     <a href="#shape" data-i18n="nav.shape"></a>
     <a href="#days" data-i18n="nav.days"></a>
+    <a href="#before" data-i18n="nav.before"></a>
   </div>
   <p class="secnav-sum"><span id="sum-text"></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>
@@ -531,6 +557,20 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="route">
       <aside class="map-col" data-i18n-aria="map.aria"><div class="map" id="map"></div></aside>
       <div class="stops" id="stops"></div>
+    </div>
+  </section>
+
+  <section class="block wrap" id="before">
+    <div class="block-head">
+      <p class="eyebrow" data-i18n="before.eyebrow"></p>
+      <h2 data-i18n="before.h2"></h2>
+      <p data-i18n="before.p"></p>
+    </div>
+    <div class="before">
+      <div class="b-part" id="b-budget"></div>
+      <div class="b-part" id="b-book"></div>
+      <div class="b-part" id="b-entry"></div>
+      <div class="b-part" id="b-pack"></div>
     </div>
   </section>
 </main>
