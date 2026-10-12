@@ -1,7 +1,8 @@
 // The budget and "Przed wyjazdem", and the motorbike swaps: the budget figure leads to its part; the section has its four
 // parts; „Samodzielnie” in the Cao Bằng card and in the card of the road over the Hải Vân pass writes the link, changes the
 // days or the road's text and the budget, shows what it takes, keeps the trip, and leaves the focus on the choice; the plan
-// for WhatsApp says the budget; the widest budget fits its figure; a term with Tết warns in both parts.
+// for WhatsApp says the budget; the widest budget fits its figure; a term with Tết warns in both parts; on a phone a road's
+// long text takes the width of its card, with its time under it.
 // tests/probe.sh tests/probes/before.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
 // and at 901 px, the narrowest screen with the facts in one row, and at 1400 px
 setTimeout(function () {
@@ -41,6 +42,10 @@ setTimeout(function () {
       setTimeout(function () {
         var leg = document.querySelector('input[name="swap-haivan"]').closest('.leg');
         check('the road is ridden yourself: its text says so, the link too', /Motocykl wypożyczony w jedną stronę/.test(leg.textContent.replace(/\s+/g, ' ')) && /motocykl=haivan/.test(location.hash), location.hash);
+        // on a phone (640 px or less) the road's text takes the width of the card and its time stands under it (template.html)
+        var seg = leg.querySelector('.leg-segs li'), segW = seg.getBoundingClientRect().width, txt = seg.children[1].getBoundingClientRect(), time = seg.children[2].getBoundingClientRect();
+        if (window.innerWidth <= 640) check('on a phone the road text takes the width of the card, its time under it', txt.width >= segW - 30 && time.top >= txt.bottom - 1,
+          Math.round(txt.width) + ' of ' + Math.round(segW) + ', the time at ' + Math.round(time.top) + ', the text ends at ' + Math.round(txt.bottom));
         document.getElementById('copy-plan').click();
         setTimeout(function () {
           var box = document.getElementById('copy-fallback');

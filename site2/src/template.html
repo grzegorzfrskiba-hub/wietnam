@@ -405,6 +405,9 @@ footer a { color: var(--muted); }
   .lb-stage { padding: 0 8px; }
   .lb-nav { top: auto; bottom: 74px; }
   .leg-total { margin-left: 0; width: 100%; }
+  /* a road's text takes the width of its card, and its time goes under it (the long texts of plan 2B) */
+  .leg-segs li { grid-template-columns: 18px minmax(0, 1fr); }
+  .leg-segs li > .mono { grid-column: 2; }
   /* Dodaj under its reason, at the left: the button "Na górę" (bottom right) cannot cover it */
   .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
   .off-list li > .btn-small { grid-column: 2; justify-self: start; }
