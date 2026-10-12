@@ -528,6 +528,123 @@ function tripBudget(route, plans, moto, data) {
   return { two: total.two, one: total.one, parts: parts, items: list };
 }
 
+/* ---------- before the trip ---------- */
+/* Whether a swap set to „Samodzielnie” is on the trip: its place is a stay, or its road a road of a leg. */
+function ridesOn(route, moto, swaps) {
+  var self = selfSwaps(moto, swaps), legs = route.stops.map(function (s) { return s.leg; }).concat([route.home]);
+  return route.stops.some(function (s) { return self.places[s.id]; }) ||
+    legs.some(function (L) { return L.segs.some(function (g) { return g.mode === 'road' && !!self.roads[[g.from, g.to].sort().join('-')]; }); });
+}
+
+/* What to book ahead on this trip, the most urgent first (by ahead in BOOK; a tie keeps the order of the trip):
+   [{ key, ahead, links, two, one, list }], key a key of BOOK with ahead over 0. two, one: what it costs a person, as
+   tripBudget counts it (a long road from an airport: the car), or null when its cost is part of the stays or the travel
+   (homestay, transfer); list: what it is about: the flights as [from, to] codes, the roads from airports as [code, place]
+   (each road once, though its cost counts every ride), the homestays as places. The keys: flights (any domestic flight);
+   airport (a road of AIR_KEYS with book); transfer (a road between two places, but the road of a swap); homestay (a stay
+   in a place of homestays); and the book key of each item of the plans and of a swap's road (item.book, or the item's own
+   key). route, plans, moto: as for tripBudget; data: { costs, book, swaps, places, airports, airKeys, homestays,
+   shortFlightH }. */
+function bookList(route, plans, moto, data) {
+  var C = data.costs, self = selfSwaps(moto, data.swaps), out = {}, order = [], roadOf = {};
+  Object.keys(data.swaps).forEach(function (id) { if (data.swaps[id].road) roadOf[data.swaps[id].road] = data.swaps[id].cost; });
+  function entry(key) {
+    var b = data.book[key];
+    if (!b || !(b.ahead > 0)) return null;
+    if (!out[key]) { out[key] = { key: key, ahead: b.ahead, links: b.links, two: null, one: null, list: [] }; order.push(key); }
+    return out[key];
+  }
+  function cost(e, c) {
+    if (!e) return;
+    if (!e.two) { e.two = [0, 0]; e.one = [0, 0]; }
+    [0, 1].forEach(function (i) { e.two[i] += c.two[i]; e.one[i] += c.one[i]; });
+  }
+  function leg(L) {
+    L.segs.forEach(function (g) {
+      var e, k;
+      if (g.mode === 'fly') {
+        var f = g.h <= data.shortFlightH ? C.flight.short : C.flight.long;
+        e = entry('flights');
+        cost(e, { two: f, one: f });
+        if (e) e.list.push([g.from, g.to]);
+        return;
+      }
+      var code = data.airports[g.from] ? g.from : data.airports[g.to] ? g.to : null, pair = [g.from, g.to].sort().join('-');
+      if (code) {
+        var place = code === g.from ? g.to : g.from, air = data.airKeys[code + '-' + place];
+        if (!air || !air.book) return;
+        e = entry('airport');
+        cost(e, { two: [C.car[0] * g.h / 2, C.car[1] * g.h / 2], one: [C.car[0] * g.h, C.car[1] * g.h] });
+        if (e && !e.list.some(function (x) { return x[0] === code && x[1] === place; })) e.list.push([code, place]);   // a road both ways: named once
+      } else if (roadOf[pair]) {
+        k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].driver;
+        cost(entry(C.items[k].book || k), itemCost(C.items[k]));
+      } else entry('transfer');
+    });
+  }
+  route.stops.forEach(function (s, i) {
+    var node = data.places[s.id].node || s.id, h;
+    leg(s.leg);
+    if (data.homestays.indexOf(node) > -1 && (h = entry('homestay')) && h.list.indexOf(node) < 0) h.list.push(node);
+    (plans[i] || []).forEach(function (d) {
+      d.cost.forEach(function (e) {
+        var k = [].concat(e)[0];
+        cost(entry(C.items[k].book || k), entryCost(e, C.items));
+      });
+    });
+  });
+  leg(route.home);
+  return order.map(function (k, i) { return { e: out[k], i: i }; })
+    .sort(function (a, b) { return b.e.ahead - a.e.ahead || a.i - b.i; }).map(function (x) { return x.e; });
+}
+
+var PACK_COLD_C = 15;   // a night this cold or colder (the mean low of a month, as the page rounds it) asks for a warm layer
+/* What to pack for this trip: [{ code, places, t }] for the UI keys p.<code>, in this order: warm, the stays with a month
+   whose nights are PACK_COLD_C °C or colder (t: the coldest); rain, the stays in a month of rain (rainyMonth); boots for a
+   trip with a hike, else shoes; leeches and torch, the stays whose plans or events met ask for them (pack, content.js);
+   swim, the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the trip; then sun, mosquito,
+   cash and apps on every trip. places: the places, each once, in the order of the trip (a night on the way as its node).
+   route, plans, moto: as for tripBudget; st: normSettings' result; data: { climate, seasons, content, places, swaps }. */
+function packList(route, plans, st, moto, data) {
+  var lists = { warm: [], rain: [], leeches: [], torch: [], swim: [] }, cold = null, hike = false, out = [];
+  function put(code, id) { if (lists[code].indexOf(id) < 0) lists[code].push(id); }
+  route.stops.forEach(function (s, i) {
+    var id = data.places[s.id].node || s.id;
+    stayWeather(s, st.months, data.climate, data.seasons).forEach(function (w) {
+      if (w.t[0] > PACK_COLD_C) return;
+      put('warm', id);
+      cold = cold === null ? w.t[0] : Math.min(cold, w.t[0]);
+    });
+    for (var d = s.start; d < s.start + s.n; d++) if (rainyMonth(data.climate[s.id], st.months[d - 1] + 1)) put('rain', id);
+    (plans[i] || []).forEach(function (p) {
+      if (p.pace === 'hike') hike = true;
+      p.pack.forEach(function (k) { put(k, id); });
+    });
+    stayEvents(data.content[s.id], s, st).forEach(function (e) { (e.pack || []).forEach(function (k) { put(k, id); }); });
+    if ((data.places[s.id].fit.morze || 0) >= 2) put('swim', id);
+  });
+  ['warm', 'rain'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: k === 'warm' ? cold : null }); });
+  out.push({ code: hike ? 'boots' : 'shoes', places: [], t: null });
+  ['leeches', 'torch', 'swim'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: null }); });
+  if (ridesOn(route, moto, data.swaps)) out.push({ code: 'moto', places: [], t: null });
+  ['sun', 'mosquito', 'cash', 'apps'].forEach(function (k) { out.push({ code: k, places: [], t: null }); });
+  return out;
+}
+
+/* Entry and health for this trip, from ENTRY (before.js): [{ code, vars }] for the UI keys e.<code>: visa (days without a
+   visa, the last day of the exemption); visa_end when the trip may end after it (the month mode counts the whole month);
+   passport; insurance, and insurance_moto when riding a motorbike yourself; doctor. st: normSettings' result; riding: a
+   swap ridden yourself is on the trip (ridesOn); entry: ENTRY. */
+function entryNotes(st, riding, entry) {
+  var span = tripSpan(st), until = fmtSpan(entry.visaFreeUntil, entry.visaFreeUntil);
+  var out = [{ code: 'visa', vars: { days: entry.visaFreeDays, until: until } }];
+  if (!span || span[1] > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
+  out.push({ code: 'passport', vars: {} }, { code: 'insurance', vars: {} });
+  if (riding) out.push({ code: 'insurance_moto', vars: {} });
+  out.push({ code: 'doctor', vars: {} });
+  return out;
+}
+
 /* An amount in euros, [from, to], in złoty: each end at rate and rounded to step złoty (100 for the budget, 10 for one
    item); a from that would round to 0 becomes step. */
 function zlRange(eur, rate, step) {

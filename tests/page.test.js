@@ -374,6 +374,36 @@ eq([bDriver.items.some(function (x) { return x.key === 'caobang.car'; }), bSelf.
   [true, true, true], 'Cao Bằng: a car with a driver or an easy rider, or the motorbike ridden yourself, which costs less');
 print('budget ok');
 
+/* ---------- before the trip ---------- */
+var BOOKD = { costs: COSTS, book: BOOK, swaps: SWAPS, places: PLACES, airports: AIRPORTS, airKeys: AIR_KEYS, homestays: HOMESTAYS, shortFlightH: SHORT_FLIGHT_H };
+var PACKD = { climate: CLIMATE, seasons: SEASONS, content: CONTENT, places: PLACES, swaps: SWAPS };
+function keysOf(list) { return list.map(function (e) { return e.key; }); }
+var kA = bookList(tA.r, plansOf(tA), [], BOOKD);
+eq([keysOf(kA), kA[0].list, kA[0].two], [['flights', 'dalat.bidoup', 'dalat.langbiang', 'haivan.car', 'saigon.cangio', 'hanoi.duonglam'],
+  [['SGN', 'DLI'], ['DLI', 'DAD'], ['HUI', 'HAN']], [102, 186]], 'the March trip: three short flights first (3 weeks ahead), then the guides, the car over the pass and the day trips');
+var tBk = tripOf(Object.assign({}, MARCH, { interests: ['przyroda'], level: 3 })), kB = bookList(tBk.r, plansOf(tBk), [], BOOKD);
+eq([keysOf(kB), kB.filter(function (e) { return e.key === 'airport'; })[0].list, kB.filter(function (e) { return e.key === 'transfer'; })[0].two],
+  [['cattien.bausau_night', 'flights', 'catba.cruise', 'transfer', 'dalat.bidoup', 'dalat.langbiang', 'airport', 'saigon.cangio', 'cattien.park'], [['HAN', 'ninhbinh'], ['HAN', 'catba']], null],
+  'nature at level 3: the night at Bàu Sấu first (4 weeks), the cruise; the cars from Nội Bài; vans between places, priced with the travel');
+var tCk = tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['przyroda', 'gory'], level: 2 }), kC = bookList(tCk.r, plansOf(tCk, ['caobang']), ['caobang'], BOOKD);
+eq([keysOf(kC), kC[1].list], [['catba.cruise', 'homestay', 'airport', 'transfer', 'caobang.moto'], ['babe', 'caobang']],
+  'Cao Bằng ridden yourself: the motorbike to rent; the hosts of Ba Bể and Khuổi Ky');
+var tDk = tripOf({ from: 'SGN', to: 'SGN', start: '2028-08-01', end: '2028-08-20', interests: ['morze'], level: 1 }), kD = bookList(tDk.r, plansOf(tDk), [], BOOKD);
+eq(kD.filter(function (e) { return e.key === 'airport'; })[0].list, [['SGN', 'mekong'], ['HPH', 'catba']], 'a road from an airport used both ways is named once');
+eq([packList(tA.r, plansOf(tA), tA.st, [], PACKD).map(function (p) { return p.code + (p.places.length ? ':' + p.places.join(',') : '') + (p.t !== null ? ':' + p.t : ''); }),
+  packList(tBk.r, plansOf(tBk), tBk.st, [], PACKD).map(function (p) { return p.code; }), packList(tCk.r, plansOf(tCk, ['caobang']), tCk.st, ['caobang'], PACKD).map(function (p) { return p.code; })],
+  [['warm:dalat:13', 'rain:hue,hanoi', 'boots', 'sun', 'mosquito', 'cash', 'apps'], ['warm', 'rain', 'boots', 'torch', 'swim', 'sun', 'mosquito', 'cash', 'apps'],
+   ['rain', 'boots', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps']],
+  'packing: cold nights in Đà Lạt (13 °C), rain in Huế and Hà Nội in March, boots for the hikes; a torch for the night at Bàu Sấu, swimming at Cát Bà; the motorbike');
+var tEk = tripOf({ from: 'DAD', to: 'HAN', year: 2027, month: 7, days: 12, interests: ['przyroda'], level: 3 });
+eq(packList(tEk.r, plansOf(tEk), tEk.st, [], PACKD).filter(function (p) { return p.code === 'leeches'; })[0].places, ['cattien'], 'July in Cát Tiên: the leeches of the rainy season (an event)');
+eq([entryNotes(tA.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tDk.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tA.st, true, ENTRY)[0].vars],
+  [['visa', 'passport', 'insurance', 'doctor'], ['visa', 'visa_end', 'passport', 'insurance', 'doctor'], { days: 45, until: '14.08.2028' }],
+  'entry: a trip that ends after the exemption is told to check the rules; the visa line names the days and the last day');
+eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), ridesOn(tA.r, ['haivan'], SWAPS), entryNotes(tA.st, true, ENTRY).map(function (e) { return e.code; }).indexOf('insurance_moto') > -1],
+  [true, false, true, true], 'riding yourself on the trip: Cao Bằng on the loop, the pass on the March trip (Hội An → Huế); the insurance line for it');
+print('before ok');
+
 /* ---------- the map ---------- */
 eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 233, 177],
   'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');
