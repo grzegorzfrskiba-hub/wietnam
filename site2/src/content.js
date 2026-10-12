@@ -56,6 +56,25 @@ var AIRPORTS = {
 /* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */
 var ROAD_KEYS = { 'cattien-dalat': 'r.car_baoloc', 'hoian-hue': 'r.haivan' };
 
+/* The roads between an airport and a place that need more than a taxi (plan 2B, research/lotniska-2026-10.md): two hours
+   or more, or a ferry. By the airport's code and the place: text, a UI key that reads right both ways (segKey in page.js;
+   the other roads of an airport keep the taxi); book: the car is booked ahead, so the road goes on the list of what to
+   book (not from Thọ Xuân to Ninh Bình, where taxis wait at the terminal). */
+var AIR_KEYS = {
+  'HAN-ninhbinh': { text: 'r.air_ninhbinh', book: true }, 'DAD-hue': { text: 'r.air_hue', book: true },
+  'HPH-catba': { text: 'r.air_catba', book: true }, 'HAN-catba': { text: 'r.air_catba', book: true },
+  'SGN-mekong': { text: 'r.air_mekong', book: true }, 'SGN-cattien': { text: 'r.air_cattien', book: true },
+  'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
+  'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true }
+};
+/* The places behind a ferry that runs by day (research/lotniska-2026-10.md): last, about when the last crossing toward the
+   place goes in the evening; land, by airport, the latest landing that still makes it by car; first, the first crossing
+   back in the morning; at, by airport, the earliest time there after it. The journey's card says so (ferryNotes in page.js). */
+var FERRY = {
+  catba: { last: '18:00', land: { HAN: '13:30', HPH: '16:00' }, first: '5:00', at: { HAN: '9:00', HPH: '6:30' } },
+  cattien: { last: '18:00', land: { SGN: '13:30' }, first: '6:00', at: { SGN: '10:00' } }
+};
+
 /* Either-or choices inside a trip (plan 2B): for now riding a motorbike yourself instead of being driven, on the loop around
    Cao Bằng and on the road over the Hải Vân pass. A link lists the swaps set to „Samodzielnie” (motocykl=caobang,haivan);
    the trip does not change. place: the place whose days take their self versions (the days of the loop); road: a road of

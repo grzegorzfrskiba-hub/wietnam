@@ -431,6 +431,14 @@ function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRP
 eq(road('HAN', 'hanoi'), ['r.taxi_from', { x: 'Hà Nội' }], 'from an airport');
 eq(road('dalat', 'DLI'), ['r.taxi_to', { x: 'Đà Lạt' }], 'to an airport');
 eq([road('hue', 'hoian'), road('hoian', 'hue')], [['r.haivan', {}], ['r.haivan', {}]], 'the Hải Vân pass, either way');
+function air(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 2 }, AIRPORTS, ROAD_KEYS, null, AIR_KEYS); }
+eq([air('HAN', 'catba'), air('catba', 'HPH'), air('SGN', 'cattien'), air('mekong', 'SGN'), air('HAN', 'hanoi'), air('dalat', 'DLI')],
+  [['r.air_catba', {}], ['r.air_catba', {}], ['r.air_cattien', {}], ['r.air_mekong', {}], ['r.taxi_from', { x: 'Hà Nội' }], ['r.taxi_to', { x: 'Đà Lạt' }]],
+  'a long road of an airport has its own text both ways (AIR_KEYS); a short one keeps the taxi');
+var arrive = { segs: [{ mode: 'road', from: 'HAN', to: 'catba', h: 4 }] }, leave = { segs: [{ mode: 'road', from: 'cattien', to: 'SGN', h: 3.75 }, { mode: 'fly', from: 'SGN', to: 'HAN', h: 2.2 }] };
+eq([ferryNotes(arrive, FERRY, AIRPORTS), ferryNotes(leave, FERRY, AIRPORTS), ferryNotes({ segs: [{ mode: 'road', from: 'ninhbinh', to: 'catba', h: 4.5 }] }, FERRY, AIRPORTS)],
+  [[{ key: 'n.ferry_in', place: 'catba', last: '18:00', land: '13:30' }], [{ key: 'n.ferry_out', place: 'cattien', first: '6:00', at: '10:00' }], []],
+  'the ferry: from an airport the latest landing, toward an airport the earliest time there; a road between places says nothing');
 var selfR = selfSwaps(['haivan'], SWAPS).roads;
 eq([segKey({ mode: 'road', from: 'hue', to: 'hoian', h: 3.25 }, AIRPORTS, ROAD_KEYS, selfR), segKey({ mode: 'road', from: 'hoian', to: 'hue', h: 3.25 }, AIRPORTS, ROAD_KEYS, selfR),
   segKey({ mode: 'road', from: 'cattien', to: 'dalat', h: 4.5 }, AIRPORTS, ROAD_KEYS, selfR)], [['r.haivan_self', {}], ['r.haivan_self', {}], ['r.car_baoloc', {}]],

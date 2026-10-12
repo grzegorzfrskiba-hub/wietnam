@@ -261,6 +261,18 @@ Wszędzie poniżej działa przynajmniej jedna oficjalna taksówka albo aplikacja
   - Hotele i gospodarze odbierają z lotniska na życzenie (MK-LVVCA).
   - Tekst karty: „Taksówka albo samochód od gospodarzy”.
 
+## Promy w danych strony (uzupełnienie 12.10.2026)
+
+Godziny do `FERRY` w `site2/src/content.js`. Karta przejazdu mówi z nich, do której wylądować i kiedy najwcześniej da się być na lotnisku. To rachuba z danych tego pliku, bez nowych źródeł:
+
+| miejsce | lotnisko | ostatnia przeprawa | najpóźniejsze lądowanie | pierwsza przeprawa | najwcześniej na lotnisku | rachuba |
+|---|---|---|---|---|---|---|
+| catba | HAN | 18:00 | 13:30 | 5:00 | 9:00 | Lądowanie z sekcji „HAN – catba”. W drugą stronę: prom z Cái Viềng ok. 5:00 (CB-MIA, CB-VW), przeprawa 15–35 min, czyli Đồng Bài ok. 5:20–5:35, potem 2 h 5 min–3 h 20 min do Nội Bài (CB-GAHAN): ok. 7:25–8:55, zaokrąglone do 9:00. |
+| catba | HPH | 18:00 | 16:00 | 5:00 | 6:30 | Lądowanie z sekcji „HPH – catba”. W drugą stronę: Đồng Bài ok. 5:20–5:35, potem 20–40 min do Cát Bi (CB-VT, CB-NVHP): ok. 5:40–6:15, zaokrąglone do 6:30. |
+| cattien | SGN | 18:00 | 13:30 | 6:00 | 10:00 | Z sekcji „SGN – cattien”: ostatnia przeprawa o 18:00–19:30 zależnie od źródła, więc liczę od 18:00; pierwsza o 6:00–6:30 i 3–3,5 h jazdy, czyli lotnisko najwcześniej ok. 10:00. |
+
+Strona podaje ostatnią przeprawę jako „ok. 18:00”, bo zimą przystań Đồng Bài kończy pracę o 18:00 (CB-MIA), a łódź w Cát Tiên według jednego źródła pływa tylko do ok. 18:00 (CT-VT).
+
 ## Zestawienie
 
 Jeden wiersz na drogę: najprostszy sposób, a po średniku drugi. Cena dotyczy najprostszego sposobu.

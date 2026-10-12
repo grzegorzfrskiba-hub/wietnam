@@ -542,8 +542,11 @@ function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
    a limousine van or a car. The key is picked by the two places and the airport end, so every text reads right in both
    directions of travel (tests/content.test.js bans direction words); only the Mekong text names Phong Điền, so it has one
    form for going there and one for leaving. g: a segment of planRoute's legs; airports: AIRPORTS; selfRoads: the roads
-   ridden yourself (selfSwaps(…).roads), whose own text wins. */
-function segKey(g, airports, roadKeys, selfRoads) {
+   ridden yourself (selfSwaps(…).roads), whose own text wins; airKeys: AIR_KEYS, the long roads of an airport with a text
+   of their own, which wins over the taxi. */
+function segKey(g, airports, roadKeys, selfRoads, airKeys) {
+  var code = airports[g.from] ? g.from : airports[g.to] ? g.to : null, air = code && airKeys && airKeys[code + '-' + (code === g.from ? g.to : g.from)];
+  if (air) return [air.text, {}];
   if (airports[g.from]) return ['r.taxi_from', { x: airports[g.from].name }];
   if (airports[g.to]) return ['r.taxi_to', { x: airports[g.to].name }];
   var pair = [g.from, g.to].sort().join('-');
@@ -554,6 +557,20 @@ function segKey(g, airports, roadKeys, selfRoads) {
   if (g.to === 'mekong') return ['r.bus_mekong', {}];
   if (g.from === 'mekong') return ['r.bus_mekong_from', {}];
   return ['r.van_car', {}];
+}
+
+/* The ferries of a journey (FERRY in content.js): a road from an airport to a place behind a ferry, with the last crossing
+   and the latest landing that makes it; a road from such a place to an airport, with the first crossing and the earliest
+   time at the airport. Returns [{ key: 'n.ferry_in', place, last, land } or { key: 'n.ferry_out', place, first, at }].
+   leg: a leg of planRoute; ferry: FERRY; airports: AIRPORTS. */
+function ferryNotes(leg, ferry, airports) {
+  var out = [];
+  leg.segs.forEach(function (g) {
+    if (g.mode !== 'road') return;
+    if (airports[g.from] && ferry[g.to] && ferry[g.to].land[g.from]) out.push({ key: 'n.ferry_in', place: g.to, last: ferry[g.to].last, land: ferry[g.to].land[g.from] });
+    if (airports[g.to] && ferry[g.from] && ferry[g.from].at[g.to]) out.push({ key: 'n.ferry_out', place: g.from, first: ferry[g.from].first, at: ferry[g.from].at[g.to] });
+  });
+  return out;
 }
 
 var LONG_LEG_H = 7;   // a travel day this long or longer gets the "long day" flag and a note

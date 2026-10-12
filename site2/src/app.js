@@ -360,18 +360,19 @@
   function legCard(L, day, prev, toId) {
     var from = AIRPORTS[L.from] ? T('leg.airport', { x: AIRPORTS[L.from].name }) : C(L.from).short;
     var to = toId ? C(toId).short : T('leg.airport', { x: AIRPORTS[L.to].name });
-    var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; })));
+    var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; }))).map(function (k) { return T(k); })
+      .concat(ferryNotes(L, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }));
     var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to);
     return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
       '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
       '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
       '<ul class="leg-segs">' + L.segs.map(function (g) {
-        var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads));
+        var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads, AIR_KEYS));
         return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
       }).join('') + '</ul>' +
       (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
-        esc(notes.map(function (k) { return T(k); }).join(' ')) +
+        esc(notes.join(' ')) +
         (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
       '</div>';
   }

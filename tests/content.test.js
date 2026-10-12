@@ -123,6 +123,20 @@ contentCheck('content', function (need) {
   Object.keys(ROAD_KEYS).forEach(function (k) {
     need(k === k.split('-').sort().join('-') && k.split('-').every(function (id) { return PLACES[id]; }), 'ROAD_KEYS ' + k + ': two places in alphabetical order');
   });
+  // the long roads of an airport: an airport's code and a place joined by a road of ROADS, each text a UI key; the ferries
+  Object.keys(AIR_KEYS).forEach(function (k) {
+    var p = k.split('-');
+    need(AIRPORTS[p[0]] && PLACES[p[1]] && ROADS.some(function (r) { return (r[0] === p[0] && r[1] === p[1]) || (r[0] === p[1] && r[1] === p[0]); }) &&
+      UI.pl[AIR_KEYS[k].text] && typeof AIR_KEYS[k].book === 'boolean', 'AIR_KEYS ' + k + ': an airport, a place, a road between them, a text and book');
+  });
+  Object.keys(FERRY).forEach(function (id) {
+    var f = FERRY[id], t = /^\d{1,2}:\d{2}$/;
+    need(PLACES[id] && t.test(f.last) && t.test(f.first), 'FERRY.' + id + ': a place and the times of its crossings');
+    Object.keys(f.land).concat(Object.keys(f.at)).forEach(function (code) {
+      need(AIRPORTS[code] && ROADS.some(function (r) { return (r[0] === code && r[1] === id) || (r[0] === id && r[1] === code); }), 'FERRY.' + id + ': ' + code + ' is an airport with a road to it');
+    });
+    Object.keys(f.land).forEach(function (code) { need(t.test(f.land[code]) && t.test(f.at[code] || ''), 'FERRY.' + id + ': the landing and the time at ' + code); });
+  });
   // the swaps: a place with self versions of its days, or a road of ROAD_KEYS with a self text and a cost for each way
   Object.keys(SWAPS).forEach(function (k) {
     var w = SWAPS[k];
@@ -245,6 +259,7 @@ contentCheck('ui', function (need) {
   (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
   Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
   Object.keys(SWAPS).forEach(function (k) { if (SWAPS[k].text) wants(SWAPS[k].text, 'SWAPS'); });
+  Object.keys(AIR_KEYS).forEach(function (k) { wants(AIR_KEYS[k].text, 'AIR_KEYS'); });
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
   (panels.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'panels.js (names on the basemap)'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
