@@ -270,6 +270,7 @@ contentCheck('ui', function (need) {
     'm.': Object.keys(MAP_PANELS),
     'alert.': ['tet', 'holiday', 'nodata'],
     'bud.': ['nights', 'day', 'travel', 'trips'], 'cost.': Object.keys(COSTS.items).concat(['flights']),
+    'sw.': Object.keys(SWAPS).concat(['driver', 'self']), 'sw.tips.': Object.keys(SWAPS),
     'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }),
     'e.': ['visa', 'visa_end', 'passport', 'insurance', 'insurance_moto', 'doctor'],
     'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],

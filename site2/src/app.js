@@ -370,13 +370,32 @@
       '<div class="gal-under"><p class="gal-cap">' + esc(caption(ids[0])) + '</p><div class="gal-thumbs">' + thumbs + '</div></div></div>';
   }
 
+  /* The either-or choice of a swap (SWAPS in content.js) inside a card: „Z kierowcą” or „Samodzielnie” as two radio buttons,
+     the legal condition under them and, when ridden yourself, what it takes, the risk and the advice. */
+  function swapBlock(id) {
+    var self = state.settings.moto.indexOf(id) > -1;
+    return '<div class="swap" data-swap="' + id + '"><p class="swap-h">' + T('sw.' + id) + '</p>' +
+      '<div class="seg swap-seg" role="radiogroup" aria-label="' + esc(T('sw.' + id)) + '">' + ['driver', 'self'].map(function (v) {
+        return '<label><input type="radio" name="swap-' + id + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + T('sw.' + v) + '</span></label>';
+      }).join('') + '</div><p class="swap-note">' + esc(T('sw.note')) + '</p>' +
+      (self ? '<div class="swap-box"><p><b>' + T('sw.req.h') + '</b>' + esc(T('sw.req')) + '</p><p><b>' + T('sw.risk.h') + '</b>' + esc(T('sw.risk')) + '</p>' +
+        '<p><b>' + T('sw.tips.h') + '</b>' + esc(T('sw.tips') + ' ' + T('sw.tips.' + id)) + '</p></div>' : '') + '</div>';
+  }
+  // the swap of a place (its days), or of a road of the leg L (SWAPS), or undefined
+  function swapOfPlace(id) { return Object.keys(SWAPS).filter(function (k) { return SWAPS[k].place === id; })[0]; }
+  function swapOfLeg(L) {
+    return Object.keys(SWAPS).filter(function (k) {
+      return SWAPS[k].road && L.segs.some(function (g) { return g.mode === 'road' && [g.from, g.to].sort().join('-') === SWAPS[k].road; });
+    })[0];
+  }
+
   /* The journey on a given day: L is a stay's leg from planRoute, or the way home (toId null). prev: the stay before. */
   function legCard(L, day, prev, toId) {
     var from = AIRPORTS[L.from] ? T('leg.airport', { x: AIRPORTS[L.from].name }) : C(L.from).short;
     var to = toId ? C(toId).short : T('leg.airport', { x: AIRPORTS[L.to].name });
     var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; }))).map(function (k) { return T(k); })
       .concat(ferryNotes(L, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }));
-    var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to);
+    var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to), sw = swapOfLeg(L);
     return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
       '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
@@ -388,7 +407,7 @@
       (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
         esc(notes.join(' ')) +
         (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
-      '</div>';
+      (sw ? swapBlock(sw) : '') + '</div>';
   }
   function mapsLink(a, b) {
     function where(n) { return AIRPORTS[n] ? AIRPORTS[n].maps : C(n).maps; }
@@ -410,14 +429,14 @@
   function renderStops() {
     var r = state.route, html = '';
     r.stops.forEach(function (s, i) {
-      var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; }), compact = !c.photos.length || again;
+      var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; }), compact = !c.photos.length || again, sw = swapOfPlace(s.id);
       html += legCard(s.leg, s.start, i ? r.stops[i - 1] : null, s.id) +
         '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
         '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
         '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
         '<div class="why">' + stayFacts(i, compact) + '</div>' +
-        (again ? '' : gallery(s.id)) + '<ol class="days">' + state.plans[i].map(function (d) {
+        (again ? '' : gallery(s.id)) + (sw ? swapBlock(sw) : '') + '<ol class="days">' + state.plans[i].map(function (d) {
           return dayItem(d, rainyMonth(CLIMATE[s.id], state.st.months[d.day - 1] + 1));
         }).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
     });
@@ -702,6 +721,21 @@
     }).join('') + '</ul>';
   }
 
+  /* „Z kierowcą” or „Samodzielnie” in a card: the trip stays, its days, texts and budget follow; the choice builds on the
+     form as it stands (as Dodaj does), and the focus goes back to the chosen button of the new card. */
+  function bindSwaps() {
+    document.addEventListener('change', function (e) {
+      var name = e.target.name || '';
+      if (name.indexOf('swap-') !== 0) return;
+      var id = name.slice(5);
+      if (apply(withSwap(readForm(), id, e.target.value === 'self'))) {
+        syncForm();
+        var again = document.querySelector('input[name="' + name + '"]:checked');
+        if (again) again.focus({ preventScroll: true });
+      }
+    });
+  }
+
   /* ---------- the plan as text, for WhatsApp ---------- */
   function planText() {
     var r = state.route, st = state.st, lines = [], flights = [];
@@ -908,6 +942,7 @@
   bindAnchors();
   bindMapZoom();
   bindChanges();
+  bindSwaps();
   bindSummary();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
