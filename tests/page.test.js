@@ -333,6 +333,47 @@ eq(addReport(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'p
 eq(addReport(stopsOf(['saigon', 'dalat', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), 'phuquoc', PLACES), { left: [], came: [] }, 'only the added place came');
 print('why ok');
 
+/* ---------- the budget ---------- */
+// made-up prices, places and a trip: two stays and three ways, a choice, an item with its own room, a road of a swap
+var COSTS_T = { night: { a: [10, 20], b: [30, 50] }, day: [10, 20], daySolo: [1, 2], shared: [2, 3], car: [10, 16], flight: { short: [30, 60], long: [40, 80] },
+  items: { 'a.boat': { pp: [0, 0], group: [10, 20] }, 'b.night': { pp: [8, 8], group: [20, 30], night: true }, 'x.car': { pp: [0, 0], group: [20, 40] },
+    'x.rider': { pp: [12, 18], group: [0, 0] }, 'r.car': { pp: [0, 0], group: [30, 50] }, 'r.moto': { pp: [15, 20], group: [0, 0] } } };
+var BUD = { costs: COSTS_T, places: { a: {}, b: {} }, swaps: { w: { road: 'a-b', text: 'r.t', cost: { driver: 'r.car', self: 'r.moto' } } }, shortFlightH: 1.5 };
+var RT = { days: 5, stops: [{ id: 'a', n: 2, leg: { segs: [{ mode: 'road', from: 'XA', to: 'a', h: 1 }] } }, { id: 'b', n: 2, leg: { segs: [{ mode: 'road', from: 'a', to: 'b', h: 3 }] } }],
+  home: { segs: [{ mode: 'road', from: 'b', to: 'XB', h: 0.5 }, { mode: 'fly', from: 'XB', to: 'XC', h: 2 }] } };
+var PL = [[{ cost: ['a.boat'] }, { cost: [] }], [{ cost: [['x.car', 'x.rider']] }, { cost: ['b.night'] }]];
+var bT = tripBudget(RT, PL, [], BUD);
+eq([bT.parts.nights, bT.parts.day], [{ two: [25, 45], one: [50, 90] }, { two: [50, 100], one: [55, 110] }],
+  'nights: a room shared by two or paid in full; the night with its own room is not paid twice; each day, a person alone pays more');
+eq(bT.parts.trips, { two: [33, 53], one: [50, 98] }, 'the paid parts: pp + group / 2 for two, pp + group for one; a choice from its cheapest to its dearest');
+eq(bT.parts.travel, { two: [58, 117], one: [73, 154] }, 'travel: a seat in a van to a car of one\'s own by the hour, the road of the swap by its item, a long flight');
+eq([bT.two, bT.one], [[166, 315], [228, 452]], 'the whole budget: the sum of the parts');
+eq(bT.items.map(function (x) { return x.key; }), ['flights', 'r.car', 'b.night', 'x.car', 'a.boat'], 'the paid things, dearest first; a choice under its first name');
+var bS = tripBudget(RT, PL, ['w'], BUD);
+eq([bS.two, bS.one, bS.items.map(function (x) { return x.key; })], [[166, 310], [213, 422], ['flights', 'b.night', 'r.moto', 'x.car', 'a.boat']],
+  'the swap ridden yourself: its road costs the motorbike; a tie keeps the order of the trip');
+eq([zlRange([166, 315], 4.3775, 100), zlRange([0.5, 2], 4.3775, 10), money(500), money(12400), money(1234567)],
+  [[700, 1400], [10, 10], '500', '12\u00a0400', '1\u00a0234\u00a0567'], 'złoty: rounded to the step, never 0; thousands apart (NB is set further down)');
+// the real data: the March trip (Hồ Chí Minh City, Đà Lạt, Hội An, Huế, Hà Nội) and the Cao Bằng loop ridden yourself
+var BUDR = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
+function plansOf(t, self) {
+  var done = {};
+  return t.r.stops.map(function (x, i) {
+    var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i), !!self);
+    done[x.id] = (done[x.id] || 0) + x.n;
+    return d;
+  });
+}
+var bA = tripBudget(tA.r, plansOf(tA), [], BUDR);
+eq(bA.items.map(function (x) { return x.key; }), ['flights', 'saigon.cangio', 'haivan.car', 'dalat.bidoup', 'dalat.langbiang', 'hanoi.duonglam', 'hue.lagoon', 'hue.tombs', 'hue.citadel'],
+  'the March trip: the two flights first, then the day in Cần Giờ and the car over the Hải Vân pass; three nights in Đà Lạt and Hà Nội leave out their fourth days');
+ok(bA.two[0] > 0 && bA.two[0] <= bA.two[1] && bA.one[0] >= bA.two[0] && bA.one[1] >= bA.two[1], 'the March trip: from up to to, alone no cheaper');
+var tCB = tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 10, interests: ['gory'], level: 3, add: ['caobang'] });
+var bDriver = tripBudget(tCB.r, plansOf(tCB, false), [], BUDR), bSelf = tripBudget(tCB.r, plansOf(tCB, true), ['caobang'], BUDR);
+eq([bDriver.items.some(function (x) { return x.key === 'caobang.car'; }), bSelf.items.some(function (x) { return x.key === 'caobang.moto'; }), bSelf.two[1] < bDriver.two[1]],
+  [true, true, true], 'Cao Bằng: a car with a driver or an easy rider, or the motorbike ridden yourself, which costs less');
+print('budget ok');
+
 /* ---------- the map ---------- */
 eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 233, 177],
   'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');

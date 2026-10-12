@@ -452,6 +452,90 @@ function withoutChanges(s) {
   return o;
 }
 
+/* ---------- the budget ---------- */
+/* A rough budget for a person, in euros, without the flights to Vietnam: { two, one, parts, items }. two is [from, to] for
+   each of two people who share a room, a car, a boat and a guide; one for a person alone, who pays all of them. parts: the
+   same split into nights, day (food, Grab, small tickets), travel (roads and domestic flights) and trips (the paid parts of
+   the plans); items: the paid things of the trip, each key once with its cost over the whole trip, the domestic flights as
+   'flights', dearest first (by to for two; a tie keeps the order of the trip). The rules:
+   - a stay's nights cost the room of its place (a night on the way: its node's); an item with night: true (the cruise, the
+     night at the rangers' station) has its own room, so its stay counts a night less;
+   - each day of the trip costs day, and a person alone pays daySolo more;
+   - a road segment costs from a seat in a van (shared) to a car with its driver (car) for its hours; the road of a swap
+     (SWAPS: the Hải Vân pass) costs the item of the chosen way instead;
+   - a flight costs flight.short up to shortFlightH hours in the air, else flight.long;
+   - a plan's cost entry: an item costs pp + group / 2 for two, pp + group for one; a choice (a list) from its cheapest to its
+     dearest, under the name of its first item.
+   route: planRoute's trip; plans: stopDays of each stay; moto: the swaps set to „Samodzielnie”; data: { costs: COSTS,
+   places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H }. */
+// what an item of COSTS costs a person: pp + group / 2 for each of two, pp + group for one alone
+function itemCost(it) { return { two: [it.pp[0] + it.group[0] / 2, it.pp[1] + it.group[1] / 2], one: [it.pp[0] + it.group[0], it.pp[1] + it.group[1]] }; }
+// a plan's cost entry (content.js): an item, or a choice (a list) from its cheapest to its dearest item; items: COSTS.items
+function entryCost(e, items) {
+  var cs = [].concat(e).map(function (k) { return itemCost(items[k]); });
+  function lo(w) { return Math.min.apply(null, cs.map(function (c) { return c[w][0]; })); }
+  function hi(w) { return Math.max.apply(null, cs.map(function (c) { return c[w][1]; })); }
+  return { two: [lo('two'), hi('two')], one: [lo('one'), hi('one')] };
+}
+function tripBudget(route, plans, moto, data) {
+  var C = data.costs, self = selfSwaps(moto, data.swaps), parts = {}, items = {}, order = [], total = { two: [0, 0], one: [0, 0] };
+  ['nights', 'day', 'travel', 'trips'].forEach(function (k) { parts[k] = { two: [0, 0], one: [0, 0] }; });
+  function add(part, c, key) {
+    [0, 1].forEach(function (i) {
+      parts[part].two[i] += c.two[i]; parts[part].one[i] += c.one[i];
+      total.two[i] += c.two[i]; total.one[i] += c.one[i];
+    });
+    if (!key) return;
+    if (!items[key]) { items[key] = { key: key, two: [0, 0], one: [0, 0] }; order.push(key); }
+    [0, 1].forEach(function (i) { items[key].two[i] += c.two[i]; items[key].one[i] += c.one[i]; });
+  }
+  var roadOf = {};   // the roads of the swaps: their cost each way
+  Object.keys(data.swaps).forEach(function (id) { if (data.swaps[id].road) roadOf[data.swaps[id].road] = data.swaps[id].cost; });
+  function leg(L) {
+    L.segs.forEach(function (g) {
+      if (g.mode === 'fly') {
+        var f = g.h <= data.shortFlightH ? C.flight.short : C.flight.long;
+        add('travel', { two: f.slice(), one: f.slice() }, 'flights');
+        return;
+      }
+      var pair = [g.from, g.to].sort().join('-');
+      if (roadOf[pair]) {
+        var k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].driver;
+        add('travel', itemCost(C.items[k]), k);
+        return;
+      }
+      add('travel', { two: [C.shared[0] * g.h, C.car[1] * g.h / 2], one: [C.shared[0] * g.h, C.car[1] * g.h] });
+    });
+  }
+  // in the order of the trip: each stay after the leg that leads to it, then the way home
+  route.stops.forEach(function (s, i) {
+    var nights = s.n, room = C.night[data.places[s.id].node || s.id];
+    leg(s.leg);
+    (plans[i] || []).forEach(function (d) {
+      d.cost.forEach(function (e) {
+        var list = [].concat(e);
+        add('trips', entryCost(e, C.items), list[0]);
+        if (list.length === 1 && C.items[list[0]].night) nights--;
+      });
+    });
+    add('nights', { two: [room[0] * nights / 2, room[1] * nights / 2], one: [room[0] * nights, room[1] * nights] });
+  });
+  leg(route.home);
+  add('day', { two: [C.day[0] * route.days, C.day[1] * route.days],
+    one: [(C.day[0] + C.daySolo[0]) * route.days, (C.day[1] + C.daySolo[1]) * route.days] });
+  var list = order.map(function (k, i) { return { k: items[k], i: i }; })
+    .sort(function (a, b) { return b.k.two[1] - a.k.two[1] || a.i - b.i; }).map(function (x) { return x.k; });
+  return { two: total.two, one: total.one, parts: parts, items: list };
+}
+
+/* An amount in euros, [from, to], in złoty: each end at rate and rounded to step złoty (100 for the budget, 10 for one
+   item); a from that would round to 0 becomes step. */
+function zlRange(eur, rate, step) {
+  return eur.map(function (v) { return Math.max(step, Math.round(v * rate / step) * step); });
+}
+/* A number with its thousands apart (no-break spaces), as Polish writes money: 12400 → '12 400'. */
+function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+
 /* ---------- travel texts ---------- */
 /* The text of one road segment as [UI key, values]: from or to an airport; a road with a text of its own (roadKeys, by
    its two places in alphabetical order); Cát Bà with the ferry; Cát Tiên with the river crossing; the Mekong buses; else

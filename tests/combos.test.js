@@ -16,6 +16,7 @@
   }
   var held = 0;   // stays at level 3 where that rule kept a late hard night off the last day
   var MAP_WORDS = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
+  var BUDGET_DATA = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
 
   // extra: a label for a changed setting; then no route is allowed (e.g. the only city near the airport removed),
   // unless strict (after an added place the base trip still exists, so no route is a failure)
@@ -50,9 +51,10 @@
     // the page's day plans (page.js), planned as app.js does: one per night of every stay at the level set, no hike at level 1,
     // and a hard version that ends away from the stay (late) never on the last day of a stay that the way home or a leg of
     // LONG_LEG_H hours or more follows
-    var done = {};
+    var done = {}, plans = [];
     r.stops.forEach(function (x, i) {
       var next = legAfter(r, i), days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months, next);
+      plans.push(days || []);
       need(days && days.length === x.n, x.id + ': ' + (days ? days.length : 'no') + ' day plans for ' + x.n + ' nights' + (done[x.id] ? ' (second stay)' : ''));
       if (days && s.level === 1) need(days.every(function (d) { return d.pace !== 'hike'; }), x.id + ': a hike at level 1');
       if (days && days.length === x.n && s.level === 3 && (next.home || next.h >= LONG_LEG_H)) {
@@ -70,6 +72,21 @@
     });
     r.stops.forEach(function (x) {
       need(lay.panels.some(function (P) { return P.labels.some(function (l) { return l.kind === 'stop' && l.key === node(x.id); }); }), 'map: ' + x.id + ' has no label on any panel');
+    });
+    // the budget (tripBudget in page.js), with a driver and with every swap ridden yourself: numbers, from up to to, a person
+    // alone pays no less, the parts add up to the whole, the paid things dearest first
+    [[], Object.keys(SWAPS)].forEach(function (moto) {
+      var self = selfSwaps(moto, SWAPS), donS = {}, pl = moto.length ? r.stops.map(function (x, i) {
+        var d = stopDays(CONTENT[x.id], x, donS[x.id] || 0, s.level, st.months, legAfter(r, i), !!self.places[x.id]);
+        donS[x.id] = (donS[x.id] || 0) + x.n;
+        return d || [];
+      }) : plans;
+      var b = tripBudget(r, pl, moto, BUDGET_DATA), sum = [0, 0];
+      Object.keys(b.parts).forEach(function (p) { sum[0] += b.parts[p].two[0]; sum[1] += b.parts[p].two[1]; });
+      need(isFinite(b.two[0]) && isFinite(b.one[1]) && b.two[0] > 0 && b.two[0] <= b.two[1] && b.one[0] >= b.two[0] && b.one[1] >= b.two[1],
+        'budget ' + (moto.length ? 'ridden yourself' : 'with a driver') + ': ' + JSON.stringify([b.two, b.one]));
+      need(Math.abs(sum[0] - b.two[0]) < 1e-6 && Math.abs(sum[1] - b.two[1]) < 1e-6, 'budget: the parts add up to the whole');
+      need(b.items.every(function (x, i) { return !i || b.items[i - 1].two[1] >= x.two[1]; }), 'budget: the paid things dearest first');
     });
     need(nights === s.days - 1, nights + ' nights, want ' + (s.days - 1));
     need(r.days === s.days, 'days ' + r.days);
