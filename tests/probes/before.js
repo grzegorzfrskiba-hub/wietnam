@@ -1,10 +1,11 @@
 // The budget and "Przed wyjazdem", and the motorbike swaps: the budget figure leads to its part; the section has its four
 // parts; „Samodzielnie” in the Cao Bằng card and in the card of the road over the Hải Vân pass writes the link, changes the
 // days or the road's text and the budget, shows what it takes, keeps the trip, and leaves the focus on the choice; the plan
-// for WhatsApp says the budget; the widest budget fits its figure; a term with Tết warns in both parts; on a phone a road's
-// long text takes the width of its card, with its time under it.
+// for WhatsApp says the budget; the widest budget and every other figure fit their tiles; a term with Tết warns in both
+// parts; on a phone a road's long text takes the width of its card, with its time under it.
 // tests/probe.sh tests/probes/before.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
-// and at 901 px, the narrowest screen with the facts in one row, and at 1400 px
+// and at 641 and 768 px (a tablet in portrait: the budget on a row of its own), at 901 px, the narrowest screen with the
+// facts in one row, and at 1400 px
 setTimeout(function () {
   var t = window.__trip;
   function ids() { return t.state.route.stops.map(function (s) { return s.id; }).join(','); }
@@ -56,6 +57,12 @@ setTimeout(function () {
             var b = document.querySelector('#facts .f-budget b'), li = document.querySelector('#facts .f-budget');
             check('the widest budget fits its figure: ' + textOf('#facts .f-budget b'), b.getBoundingClientRect().right <= document.getElementById('facts').getBoundingClientRect().right + 0.5 &&
               b.scrollWidth <= Math.ceil(li.getBoundingClientRect().width) + 1, Math.round(b.getBoundingClientRect().right) + ', ' + b.scrollWidth + ' of ' + Math.round(li.getBoundingClientRect().width));
+            // and every figure of the facts fits its tile (its box less its padding); here the longest day is 9 godz.
+            var tight = Array.prototype.filter.call(document.querySelectorAll('#facts li'), function (x) {
+              var fb = x.querySelector('b'), cs = getComputedStyle(x);
+              return fb && fb.scrollWidth > x.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) + 1;
+            }).map(function (x) { return x.querySelector('b').textContent; });
+            check('every figure of the facts fits its tile', !tight.length, tight.join(' | '));
             // a term with Tết (January 2028): the budget says prices go up, the list of what to book says how far ahead
             location.hash = '#od=SGN&do=HAN&miesiac=2028-01&dni=15&co=&poziom=2';
             setTimeout(function () {

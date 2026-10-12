@@ -375,6 +375,10 @@ footer a { color: var(--muted); }
   .route { grid-template-columns: minmax(0, 1fr); }
   .map-col { position: static; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; justify-items: center; }
   .map svg { width: 100%; max-width: 360px; height: auto; max-height: none; }
+  /* six figures do not fit one row (a tablet in portrait): the budget, the widest, gets a row of its own under the other
+     five (tests/probes/before.js at 641 and 768 px); a phone has its own grid below */
+  .facts ul { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  #facts .f-budget { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid var(--line); }
 }
 @media (max-width: 640px) {
   /* a lower photo, so the form starts on the first screen (tests/probes/settings.js) */
