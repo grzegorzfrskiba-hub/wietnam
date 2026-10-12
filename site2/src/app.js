@@ -64,9 +64,11 @@
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
   /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
-     last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong.
+     last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong. The settings
+     are copied with their lists (copySettings), so a caller may leave out add, remove and moto.
      Returns whether the trip changed. */
   function apply(s, linkWarn) {
+    s = copySettings(s);
     var st = normSettings(s, PLACES, HUBS), r = st.ok ? planRoute(st, DATA) : null;
     if (!st.ok || !r.ok) {
       msg(T('set.err.' + (st.ok ? r.error : st.error), { min: MIN_DAYS, max: MAX_DAYS }) + (state.route ? T('set.err.keep') : ''));
@@ -74,8 +76,9 @@
     }
     var done = {};
     state.settings = s; state.st = st; state.route = r; state.linkWarn = !!linkWarn;
+    var self = selfSwaps(s.moto, SWAPS);
     state.plans = r.stops.map(function (x, i) {
-      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i));
+      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i), !!self.places[x.id]);
       done[x.id] = (done[x.id] || 0) + x.n;
       return days;
     });
@@ -92,7 +95,7 @@
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
      without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. */
   function fromLink() {
-    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad);
+    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
   }
@@ -150,7 +153,7 @@
   }
   function readForm() {
     var s = { from: F.from.value, to: F.to.value, interests: [], level: +F.level.value,
-      add: state.settings.add.slice(), remove: state.settings.remove.slice() };
+      add: state.settings.add.slice(), remove: state.settings.remove.slice(), moto: state.settings.moto.slice() };
     if (F.mode.value === 'dates') { s.start = F.start.value; s.end = F.end.value; }
     else {
       var ym = F.month.value.split('-');
@@ -364,7 +367,7 @@
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
       '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
       '<ul class="leg-segs">' + L.segs.map(function (g) {
-        var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS));
+        var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads));
         return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
       }).join('') + '</ul>' +
       (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +

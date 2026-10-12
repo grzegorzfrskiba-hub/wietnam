@@ -26,6 +26,12 @@ eq(parseLink(linkHash(round)), round, 'linkHash, then parseLink: the same settin
 var roundD = { from: 'HAN', to: 'HAN', start: '2027-01-30', end: '2027-02-12', interests: [], level: 1, add: [], remove: [] };
 eq(linkHash(roundD), '#od=HAN&do=HAN&start=2027-01-30&koniec=2027-02-12&co=&poziom=1', 'linkHash: dates; no interest is written, empty Dodaj and Usuń are not');
 eq(parseLink(linkHash(roundD)), { from: 'HAN', to: 'HAN', start: '2027-01-30', end: '2027-02-12', interests: [], level: 1 }, 'linkHash, then parseLink (dates)');
+// the swaps set to „Samodzielnie”: a list of small letters, written only when there are any
+var badM = [];
+eq([parseLink('#od=SGN&motocykl=caobang,haivan').moto, parseLink('#motocykl=Cao', badM), badM], [['caobang', 'haivan'], {}, ['moto']], 'motocykl: the swaps, small letters only');
+var roundM = Object.assign({}, round, { moto: ['caobang'] });
+eq(linkHash(roundM), linkHash(round) + '&motocykl=caobang', 'linkHash: the swaps last, only when there are any');
+eq(parseLink(linkHash(roundM)), roundM, 'linkHash, then parseLink: the same settings (with a swap)');
 print('link ok');
 
 /* ---------- the defaults and the settings a link opens ---------- */
@@ -98,6 +104,13 @@ eq([clampToday('2026-10-01', '2026-10-01', 2030), clampToday('2030-12-01', '2026
   ok(normSettings(d, PLACES, HUBS).ok && got.st.ok && got.dropped.length === 0, 'a device clock of ' + t + ' still gives defaults the engine accepts');
   ok(monthChoices(clampToday(t, '2026-10-01', 2030), 2030).length <= 51 + 12, 'a device clock of ' + t + ' still gives a short list of months');
 });
+var gM = settingsFromLink(parseLink('#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2&motocykl=caobang,xyz,caobang'), DEF, PLACES, HUBS, [], SWAPS);
+eq([gM.settings.moto, gM.dropped], [['caobang'], ['moto']], 'a link: known swaps, each once; an unknown one is dropped and reported');
+eq([opened('#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2').settings.moto, DEF.moto], [[], []], 'no swap in the link or the defaults: none');
+eq([withSwap(DEF, 'caobang', true).moto, withSwap(withSwap(DEF, 'caobang', true), 'caobang', false).moto, withAdded(withSwap(DEF, 'haivan', true), 'mekong').moto,
+  withoutChanges(withSwap(DEF, 'haivan', true)).moto], [['caobang'], [], ['haivan'], ['haivan']], 'withSwap sets a swap and takes it back; Dodaj and „Wróć do trasy” keep it');
+eq(selfSwaps(['caobang', 'haivan'], SWAPS), { places: { caobang: true }, roads: { 'hoian-hue': { text: 'r.haivan_self', cost: 'haivan.moto' } } },
+  'selfSwaps: the place whose days go self, the road with its text and cost');
 print('settings ok');
 
 /* ---------- day plans ---------- */
@@ -129,6 +142,12 @@ eq([dU.cost, dU.pack, dE.cost, dE.pack, dH.cost], [['x.a2', ['x.car', 'x.rider']
 eq([stopDays(FC, { n: 1, start: 1 }, 0, 2, JAN)[0].cost, stopDays(FC, { n: 2, start: 8 }, 1, 2, JAN)[0].cost], [[], []], 'a solo plan and again: their own cost only');
 eq(titles(stopDays(FC, { n: 2, start: 8 }, 1, 2, JAN)), ['8:B1', '9:A2'], 'a second stay after one night: again, then the next plan by p');
 eq(titles(stopDays(FC, { n: 1, start: 9 }, 2, 2, JAN)), ['9:B1'], 'a second stay of one night: again only');
+function cb(level, self) { return stopDays(CONTENT.caobang, { n: 3, start: 1 }, 0, level, JAN, null, self).map(function (d) { return [d.variant, d.cost]; }); }
+eq([cb(2, false), cb(1, false), cb(1, true), cb(3, true)],
+  [[[null, []], [null, [['caobang.car', 'caobang.easyrider']]], [null, [['caobang.car', 'caobang.easyrider']]]],
+   [['easy', []], [null, [['caobang.car', 'caobang.easyrider']]], [null, [['caobang.car', 'caobang.easyrider']]]],
+   [['self', []], ['self', ['caobang.moto']], ['self', ['caobang.moto']]], [['self', []], ['self', ['caobang.moto']], ['self', ['caobang.moto']]]],
+  'Cao Bằng ridden yourself: every day of the loop takes its self version, at every level, with the motorbike as its cost');
 eq(stopDays(FC, { n: 4, start: 1 }, 0, 2, JAN), null, 'more nights than plans');
 eq(stopDays(FC, { n: 3, start: 5 }, 2, 2, JAN), null, 'a second stay past the plans');
 eq(stopDays({ days: FC.days }, { n: 1, start: 5 }, 2, 2, JAN), null, 'a second stay needs again');
@@ -371,6 +390,10 @@ function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRP
 eq(road('HAN', 'hanoi'), ['r.taxi_from', { x: 'Hà Nội' }], 'from an airport');
 eq(road('dalat', 'DLI'), ['r.taxi_to', { x: 'Đà Lạt' }], 'to an airport');
 eq([road('hue', 'hoian'), road('hoian', 'hue')], [['r.haivan', {}], ['r.haivan', {}]], 'the Hải Vân pass, either way');
+var selfR = selfSwaps(['haivan'], SWAPS).roads;
+eq([segKey({ mode: 'road', from: 'hue', to: 'hoian', h: 3.25 }, AIRPORTS, ROAD_KEYS, selfR), segKey({ mode: 'road', from: 'hoian', to: 'hue', h: 3.25 }, AIRPORTS, ROAD_KEYS, selfR),
+  segKey({ mode: 'road', from: 'cattien', to: 'dalat', h: 4.5 }, AIRPORTS, ROAD_KEYS, selfR)], [['r.haivan_self', {}], ['r.haivan_self', {}], ['r.car_baoloc', {}]],
+  'the Hải Vân pass ridden yourself, either way; other roads as before');
 eq([road('cattien', 'dalat'), road('dalat', 'cattien')], [['r.car_baoloc', {}], ['r.car_baoloc', {}]], 'a road with its own text wins over the rule for Cát Tiên, either way');
 eq([road('ninhbinh', 'catba'), road('saigon', 'cattien'), road('saigon', 'mekong'), road('hanoi', 'ninhbinh')],
   [['r.van_ferry', {}], ['r.car_cattien', {}], ['r.bus_mekong', {}], ['r.van_car', {}]], 'Cát Bà, Cát Tiên, the Mekong, any other road');

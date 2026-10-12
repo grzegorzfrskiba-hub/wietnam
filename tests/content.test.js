@@ -26,7 +26,7 @@ contentCheck('content', function (need) {
   var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'color', 'poi', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
   var PALETTE = (readFile('site2/src/template.html').match(/--pal-\d+:/g) || []).length / 3, colours = {};   // light, dark, dark again
   function monthDay(v) { return Array.isArray(v) && v.length === 2 && v[0] % 1 === 0 && v[0] >= 1 && v[0] <= 12 && v[1] % 1 === 0 && v[1] >= 1 && v[1] <= 31; }
-  var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'cost', 'pack', 'easy', 'hard', 'solo'];
+  var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'cost', 'pack', 'easy', 'hard', 'solo', 'self'];
   // the paid parts of a plan (keys of COSTS.items, or a list of two or more to pick from) and what it adds to the packing
   function costAndPack(w, d) {
     if (d.cost != null) {
@@ -85,6 +85,10 @@ contentCheck('content', function (need) {
         plan(w + ' solo', d.solo, ['pace', 't', 'd', 'early']);
         need(d.p === 1, w + ': solo only on the p 1 day');
       }
+      if (d.self) {
+        plan(w + ' self', d.self, ['pace', 't', 'd', 'early']);
+        need(Object.keys(SWAPS).some(function (k) { return SWAPS[k].place === id; }), w + ': a self version only in a place of SWAPS');
+      }
       need(d.pace !== 'hike' || (d.easy && d.easy.pace !== 'hike'), w + ': a hiking day needs an easy version without a hike, for level 1');
     });
     var want = days.map(function (d, i) { return i + 1; });
@@ -119,6 +123,22 @@ contentCheck('content', function (need) {
   Object.keys(ROAD_KEYS).forEach(function (k) {
     need(k === k.split('-').sort().join('-') && k.split('-').every(function (id) { return PLACES[id]; }), 'ROAD_KEYS ' + k + ': two places in alphabetical order');
   });
+  // the swaps: a place with self versions of its days, or a road of ROAD_KEYS with a self text and a cost for each way
+  Object.keys(SWAPS).forEach(function (k) {
+    var w = SWAPS[k];
+    if (w.place) need(CONTENT[w.place] && CONTENT[w.place].days.some(function (d) { return d.self; }), 'SWAPS.' + k + ': ' + w.place + ' has days with a self version');
+    if (w.road) need(ROAD_KEYS[w.road] && UI.pl[w.text] && COSTS.items[w.cost.driver] && COSTS.items[w.cost.self], 'SWAPS.' + k + ': a road of ROAD_KEYS, its self text and the cost of each way');
+    need(!!w.place !== !!w.road, 'SWAPS.' + k + ': a place or a road');
+  });
+  // every item of COSTS is the cost of some plan or of a swap's road
+  var paid = {};
+  Object.keys(CONTENT).forEach(function (id) {
+    CONTENT[id].days.forEach(function (d) {
+      [d, d.easy, d.hard, d.solo, d.self].forEach(function (v) { ((v && v.cost) || []).forEach(function (e) { [].concat(e).forEach(function (x) { paid[x] = true; }); }); });
+    });
+  });
+  Object.keys(SWAPS).forEach(function (k) { if (SWAPS[k].cost) { paid[SWAPS[k].cost.driver] = true; paid[SWAPS[k].cost.self] = true; } });
+  Object.keys(COSTS.items).forEach(function (k) { need(paid[k], 'COSTS.items ' + k + ' is no cost of any plan or swap'); });
 });
 
 contentCheck('photos in use', function (need) {
@@ -224,10 +244,11 @@ contentCheck('ui', function (need) {
   (tpl.match(/data-i18n(?:-html|-alt|-aria)?="[^"]+"/g) || []).forEach(function (m) { wants(m.split('"')[1], 'template.html'); });
   (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
   Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
+  Object.keys(SWAPS).forEach(function (k) { if (SWAPS[k].text) wants(SWAPS[k].text, 'SWAPS'); });
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
   (panels.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'panels.js (names on the basemap)'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key
-  var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard'],
+  var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard', 'self'],
     'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'mon3.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'monl.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     'season.': ['D', 'S', 'Z'], 'why.': ['from', 'to'], 'wx.': WEATHER_WHY,
     'off.r.': ['removed', 'level', 'closed', 'season', 'profile', 'far', 'beaten'],

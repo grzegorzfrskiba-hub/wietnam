@@ -5,13 +5,15 @@ var SITE_URL = 'https://grzegorzfrskiba-hub.github.io/wietnam/';   // the public
 
 /* ---------- the settings link ---------- */
 // the keys of a link (Polish, readable) and the settings field each fills; the order of the fields parseLink returns
-var LINK_KEYS = { od: 'from', 'do': 'to', start: 'start', koniec: 'end', miesiac: 'month', dni: 'days', co: 'interests', poziom: 'level', dodaj: 'add', usun: 'remove' };
-var SETTINGS_ORDER = ['from', 'to', 'start', 'end', 'year', 'month', 'days', 'interests', 'level', 'add', 'remove'];
+var LINK_KEYS = { od: 'from', 'do': 'to', start: 'start', koniec: 'end', miesiac: 'month', dni: 'days', co: 'interests', poziom: 'level', dodaj: 'add', usun: 'remove',
+  motocykl: 'moto' };
+var SETTINGS_ORDER = ['from', 'to', 'start', 'end', 'year', 'month', 'days', 'interests', 'level', 'add', 'remove', 'moto'];
 
 /* The settings in the part of the address after #:
-   #od=SGN&do=HAN&miesiac=2027-02&dni=15&co=przyroda,gory&poziom=2&dodaj=phuquoc&usun=hoian, or with dates
+   #od=SGN&do=HAN&miesiac=2027-02&dni=15&co=przyroda,gory&poziom=2&dodaj=phuquoc&usun=hoian&motocykl=caobang, or with dates
    #od=SGN&do=HAN&start=2027-02-01&koniec=2027-02-15&co=&poziom=2. Returns the well-formed fields typed for normSettings:
-   from, to, start, end as texts; year, month, days, level as numbers; interests, add, remove as lists. A malformed field is
+   from, to, start, end as texts; year, month, days, level as numbers; interests, add, remove, moto as lists (moto: the
+   swaps set to „Samodzielnie”, SWAPS in content.js). A malformed field is
    left out, so the page uses its default; unknown keys (an anchor such as #day-5, or a name such as constructor) are ignored.
    A known key without = (a link cut short, as in #od=SGN&do) is a malformed field too.
    rejected, an optional array, gets the settings field name of each malformed field, once. */
@@ -31,7 +33,7 @@ function parseLink(hash, rejected) {
     else if (field === 'level') { if (/^\d$/.test(v)) got.level = +v; else reject(field); }
     else {
       list = v === '' ? [] : v.split(',');
-      if (list.every(function (x) { return (field === 'interests' ? /^[a-z]+$/ : /^[A-Za-z]+$/).test(x); })) got[field] = list;
+      if (list.every(function (x) { return (field === 'add' || field === 'remove' ? /^[A-Za-z]+$/ : /^[a-z]+$/).test(x); })) got[field] = list;
       else reject(field);
     }
   });
@@ -40,7 +42,8 @@ function parseLink(hash, rejected) {
 }
 
 /* The settings as the part of the address after # (parseLink reads it back). The interests are always written, also
-   none (co=), so a link keeps meaning "no interest" if the defaults ever change; Dodaj and Usuń only when there are any. */
+   none (co=), so a link keeps meaning "no interest" if the defaults ever change; Dodaj, Usuń and the swaps only when there
+   are any. */
 function linkHash(s) {
   var parts = ['od=' + s.from, 'do=' + s.to];
   if (s.start) parts.push('start=' + s.start, 'koniec=' + s.end);
@@ -48,15 +51,17 @@ function linkHash(s) {
   parts.push('co=' + (s.interests || []).join(','), 'poziom=' + s.level);
   if (s.add && s.add.length) parts.push('dodaj=' + s.add.join(','));
   if (s.remove && s.remove.length) parts.push('usun=' + s.remove.join(','));
+  if (s.moto && s.moto.length) parts.push('motocykl=' + s.moto.join(','));
   return '#' + parts.join('&');
 }
 
-/* A copy of the settings with lists of its own; add and remove are never missing. */
+/* A copy of the settings with lists of its own; add, remove and moto are never missing. */
 function copySettings(s) {
   var o = {};
   Object.keys(s).forEach(function (k) { o[k] = Array.isArray(s[k]) ? s[k].slice() : s[k]; });
   o.add = o.add || [];
   o.remove = o.remove || [];
+  o.moto = o.moto || [];
   return o;
 }
 
@@ -69,9 +74,10 @@ var ERROR_FIELDS = { airport: ['from', 'to'], date: ['start', 'end'], month: ['y
    node (a night on the way) are taken out of add and remove: the page has no buttons for them. Unknown or refused values
    in interests, add and remove are dropped too, and their field is reported in dropped. The settings keep only the fields
    of their term: with dates no month, year or days, without dates no start or end; such a field from the link is reported.
+   The swaps (moto) keep the ids of swaps (SWAPS) only, each once; an unknown one is dropped and reported.
    Returns { settings, st, dropped }: the settings to show, normSettings' result, and the link fields not used.
    The optional rejected (the malformed fields from parseLink) starts dropped, so they are reported too. */
-function settingsFromLink(link, defaults, places, hubs, rejected) {
+function settingsFromLink(link, defaults, places, hubs, rejected, swaps) {
   var s = copySettings(defaults), dropped = rejected ? rejected.slice() : [];
   Object.keys(link).forEach(function (k) { s[k] = Array.isArray(link[k]) ? link[k].slice() : link[k]; });
   ['add', 'remove'].forEach(function (k) { s[k] = s[k].filter(function (id) { return !(places[id] && places[id].node); }); });
@@ -87,6 +93,9 @@ function settingsFromLink(link, defaults, places, hubs, rejected) {
         if (k in link && dropped.indexOf(k) < 0) dropped.push(k);
         delete s[k];
       });
+      var moto = s.moto.filter(function (id, i) { return swaps && swaps.hasOwnProperty(id) && s.moto.indexOf(id) === i; });
+      if (moto.length !== s.moto.length && dropped.indexOf('moto') < 0) dropped.push('moto');
+      s.moto = moto;
       return { settings: s, st: st, dropped: dropped };
     }
     fields = ERROR_FIELDS[st.error];
@@ -108,7 +117,7 @@ function defaultSettings(today, data, holidays) {
   for (var k = 1; k <= 12; k++) {
     var mm = m + k, yy = y;
     while (mm > 12) { mm -= 12; yy++; }
-    var s = { from: 'SGN', to: 'HAN', year: yy, month: mm, days: 15, interests: [], level: 2, add: [], remove: [] };
+    var s = { from: 'SGN', to: 'HAN', year: yy, month: mm, days: 15, interests: [], level: 2, add: [], remove: [], moto: [] };
     var st = normSettings(s, data.places, data.hubs), r = planRoute(st, data);
     if (!r.ok) continue;
     var hol = tripAlerts(st, holidays.list, holidays.from, holidays.until, holidays.tetMargin).hits.length;
@@ -136,13 +145,14 @@ function monthChoices(today, lastYear) {
 }
 
 /* ---------- day plans ---------- */
-/* One day at an adventure level: level 1 takes the easy version, level 3 the hard one unless month (1–12) is one of its
-   months off, or unless it is late (its night ends away from the stay) and notLate is true; otherwise the usual day. A
-   version keeps the day's early start unless it sets its own, and the day's rain plan; its cost and pack, see content.js.
-   Returns { pace, t, d, early, rain, variant, cost, pack }, variant 'easy', 'hard' or null. */
-function variantOf(day, level, month, notLate) {
+/* One day at an adventure level: with self (the place's swap set to „Samodzielnie”) the self version, at every level;
+   else level 1 takes the easy version, level 3 the hard one unless month (1–12) is one of its months off, or unless it is
+   late (its night ends away from the stay) and notLate is true; otherwise the usual day. A version keeps the day's early
+   start unless it sets its own, and the day's rain plan; its cost and pack, see content.js.
+   Returns { pace, t, d, early, rain, variant, cost, pack }, variant 'self', 'easy', 'hard' or null. */
+function variantOf(day, level, month, notLate, self) {
   var hard = level === 3 && day.hard && (day.hard.off || []).indexOf(month) < 0 && !(notLate && day.hard.late);
-  var v = level === 1 && day.easy ? 'easy' : hard ? 'hard' : null;
+  var v = self && day.self ? 'self' : level === 1 && day.easy ? 'easy' : hard ? 'hard' : null;
   var src = v ? day[v] : day;
   return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v,
     cost: (src.cost || day.cost || []).slice(), pack: (src.pack || day.pack || []).slice() };
@@ -157,8 +167,9 @@ function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, 
    when it has one. A second stay starts with c.again and goes on with the next plans by p. null when there are too few.
    next: the leg after the stay, { home, h } (the way home or not, its hours; see legAfter), or none: no restriction. On
    the stay's last day, when the way home or a leg of LONG_LEG_H hours or more follows, a late hard version (its next
-   morning goes on the walk out, so the journey would start around noon) gives way to the usual day. */
-function stopDays(c, stop, done, level, months, next) {
+   morning goes on the walk out, so the journey would start around noon) gives way to the usual day.
+   self: the place's swap is set to „Samodzielnie”, so the days with a self version take it (selfSwaps). */
+function stopDays(c, stop, done, level, months, next, self) {
   var byP = c.days.slice().sort(function (a, b) { return a.p - b.p; }), out = [], picked;
   var notLate = !!next && (next.home || next.h >= LONG_LEG_H);
   if (done) {
@@ -171,7 +182,7 @@ function stopDays(c, stop, done, level, months, next) {
     if (picked.length !== stop.n) return null;
   }
   picked.sort(function (a, b) { return a.o - b.o; }).forEach(function (d) {
-    out.push(stop.n === 1 && d.solo ? plainDay(d.solo) : variantOf(d, level, months[stop.start - 1 + out.length] + 1, notLate && out.length === stop.n - 1));
+    out.push(stop.n === 1 && d.solo ? plainDay(d.solo) : variantOf(d, level, months[stop.start - 1 + out.length] + 1, notLate && out.length === stop.n - 1, self));
   });
   out.forEach(function (d, k) { d.day = stop.start + k; });
   return out;
@@ -400,6 +411,26 @@ function addReport(before, after, added, places) {
     came: droppedPlaces(after, before, places).filter(function (id) { return id !== added; }) };
 }
 
+/* The swaps (SWAPS in content.js) set to „Samodzielnie” in the settings, as the other functions take them: places, the
+   places whose days take their self versions (stopDays); roads, by the two places in alphabetical order, the road's self
+   text and the item of its cost (segKey, tripBudget). moto: the settings' list of swap ids. */
+function selfSwaps(moto, swaps) {
+  var out = { places: {}, roads: {} };
+  (moto || []).forEach(function (id) {
+    var w = swaps[id];
+    if (w && w.place) out.places[w.place] = true;
+    if (w && w.road) out.roads[w.road] = { text: w.text, cost: w.cost.self };
+  });
+  return out;
+}
+/* A copy of the settings with swap id set to „Samodzielnie” (self true) or back to the usual way with a driver. */
+function withSwap(s, id, self) {
+  var o = copySettings(s);
+  o.moto = o.moto.filter(function (x) { return x !== id; });
+  if (self) o.moto.push(id);
+  return o;
+}
+
 /* Dodaj and Usuń on a copy of the settings: adding takes the place off the removed list, removing off the added one;
    withoutChanges clears both. */
 function withAdded(s, id) {
@@ -426,11 +457,13 @@ function withoutChanges(s) {
    its two places in alphabetical order); Cát Bà with the ferry; Cát Tiên with the river crossing; the Mekong buses; else
    a limousine van or a car. The key is picked by the two places and the airport end, so every text reads right in both
    directions of travel (tests/content.test.js bans direction words); only the Mekong text names Phong Điền, so it has one
-   form for going there and one for leaving. g: a segment of planRoute's legs; airports: AIRPORTS. */
-function segKey(g, airports, roadKeys) {
+   form for going there and one for leaving. g: a segment of planRoute's legs; airports: AIRPORTS; selfRoads: the roads
+   ridden yourself (selfSwaps(…).roads), whose own text wins. */
+function segKey(g, airports, roadKeys, selfRoads) {
   if (airports[g.from]) return ['r.taxi_from', { x: airports[g.from].name }];
   if (airports[g.to]) return ['r.taxi_to', { x: airports[g.to].name }];
   var pair = [g.from, g.to].sort().join('-');
+  if (selfRoads && selfRoads[pair]) return [selfRoads[pair].text, {}];
   if (roadKeys[pair]) return [roadKeys[pair], {}];
   if (g.from === 'catba' || g.to === 'catba') return ['r.van_ferry', {}];
   if (g.from === 'cattien' || g.to === 'cattien') return ['r.car_cattien', {}];
