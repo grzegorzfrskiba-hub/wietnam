@@ -723,7 +723,8 @@
   }
 
   /* „Z kierowcą” or „Samodzielnie” in a card: the trip stays, its days, texts and budget follow; the choice builds on the
-     form as it stands (as Dodaj does), and the focus goes back to the chosen button of the new card. */
+     form as it stands (as Dodaj does), and the focus goes back to the chosen button of the new card. When the form gives
+     no trip, nothing changes: the choice goes back to the trip's, and the form's message also stands in the card. */
   function bindSwaps() {
     document.addEventListener('change', function (e) {
       var name = e.target.name || '';
@@ -733,6 +734,11 @@
         syncForm();
         var again = document.querySelector('input[name="' + name + '"]:checked');
         if (again) again.focus({ preventScroll: true });
+      } else {
+        var box = e.target.closest('.swap'), was = state.settings.moto.indexOf(id) > -1 ? 'self' : 'driver', p = box.querySelector('.swap-msg');
+        Array.prototype.forEach.call(box.querySelectorAll('input[name="' + name + '"]'), function (x) { x.checked = x.value === was; if (x.checked) x.focus({ preventScroll: true }); });
+        if (!p) { p = document.createElement('p'); p.className = 'swap-msg'; p.setAttribute('role', 'status'); box.appendChild(p); }
+        p.textContent = $('#settings-msg').textContent;
       }
     });
   }

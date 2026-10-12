@@ -3,7 +3,7 @@
 // days or the road's text and the budget, shows what it takes, keeps the trip, and leaves the focus on the choice; the plan
 // for WhatsApp says the budget; the widest budget and every other figure fit their tiles; a term with Tết warns in both
 // parts; ends that round to one number say it once; on a phone a road's long text takes the width of its card, with its
-// time under it.
+// time under it; a swap on a form that gives no trip goes back and says why next to it.
 // tests/probe.sh tests/probes/before.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
 // and at 641 and 768 px (a tablet in portrait: the budget on a row of its own), at 901 px, the narrowest screen with the
 // facts in one row, and at 1400 px
@@ -74,7 +74,24 @@ setTimeout(function () {
               setTimeout(function () {
                 var same = (textOf('#facts') + ' ' + textOf('#before')).match(/(?<!\d)(\d(?:[\d ]*\d)?)–\u2060?\1 zł/);
                 check('no amount has the same number at both ends', !same, same && same[0]);
-                done();
+                // a swap on a form that gives no trip (the end before the start) changes nothing: the choice goes back, and the
+                // form's message stands next to it, as next to Dodaj
+                var at2 = soon();
+                location.hash = '#od=SGN&do=HAN&miesiac=' + at2.year + '-' + (at2.month < 10 ? '0' : '') + at2.month + '&dni=15&co=&poziom=2';
+                setTimeout(function () {
+                  document.querySelector('#settings-form input[name=mode][value=dates]').click();
+                  setField('end', '2026-01-01');
+                  var sw = document.querySelector('input[name="swap-haivan"][value="self"]');
+                  check('the road over the Hải Vân pass is on the trip', !!sw);
+                  if (!sw) { done(); return; }
+                  sw.click();
+                  setTimeout(function () {
+                    var on = document.querySelector('input[name="swap-haivan"]:checked'), said = textOf('#settings-msg');
+                    check('a swap on a form that gives no trip goes back to „Z kierowcą” and says why next to it', !!on && on.value === 'driver' &&
+                      !/motocykl=/.test(location.hash) && said !== '' && textOf('.swap[data-swap="haivan"]').indexOf(said) > -1, (on && on.value) + ' | ' + said);
+                    done();
+                  }, 400);
+                }, 500);
               }, 500);
             }, 500);
           }, 500);
