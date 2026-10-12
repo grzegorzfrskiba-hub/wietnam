@@ -2,18 +2,24 @@
 // of the trip right under the form and following each change, the interests greyed out after two also when a change gives
 // no trip, the changes building on the form, the level's words, the summary for the bar, and a link that was partly wrong.
 // tests/probe.sh tests/probes/settings.js 390 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
-// and at 360 px, the narrowest common phone (the two date fields side by side must fit):
+// and at 360 px, the narrowest common phone (the two date fields side by side must fit), and at 320 px (the bar at the top):
 // tests/probe.sh tests/probes/settings.js 360 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
+// tests/probe.sh tests/probes/settings.js 320 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
 setTimeout(function () {
   var f = document.getElementById('settings-form'), box = function (el) { return el.getBoundingClientRect(); };
   var top = document.documentElement.getBoundingClientRect().top;   // the page is at its top: positions are page positions
-  check('the month field ends on the first screen of a 390 × 844 phone (bottom at most 760 px)', box(f.month).bottom - top <= 760, Math.round(box(f.month).bottom - top));
+  // a phone of 360 px or more is at least 640 px high; the first screen of a 390 × 844 phone is the goal
+  if (window.innerWidth >= 360) check('the month field ends on the first screen of a 390 × 844 phone (bottom at most 760 px)', box(f.month).bottom - top <= 760, Math.round(box(f.month).bottom - top));
   // the place of the photo, in the photo's bottom right corner, stays clear of the buttons on the photo
   var where = box(document.querySelector('.hero-where'));
   check('the photo credit keeps 4 px or more from the buttons on the photo', Array.prototype.every.call(document.querySelectorAll('.hero-cta a'), function (a) {
     var b = box(a);
     return where.top >= b.bottom + 4 || where.bottom <= b.top - 4 || where.left >= b.right + 4 || where.right <= b.left - 4;
   }), Math.round(where.top) + ' vs ' + Array.prototype.map.call(document.querySelectorAll('.hero-cta a'), function (a) { return Math.round(box(a).bottom); }).join(', '));
+  // Dodaj in the list of places off the trip stands at the left, clear of the button „Na górę” (44 px, 16 px from the right edge)
+  var adds = document.querySelectorAll('#offroute-list [data-add]'), right = Math.max.apply(null, Array.prototype.map.call(adds, function (b) { return box(b).right; }));
+  check('Dodaj stays clear of the button „Na górę” (right edge at most the screen width less 60 px)', adds.length > 0 && right <= document.documentElement.clientWidth - 60,
+    Math.round(right) + ' of ' + document.documentElement.clientWidth);
   var gap = box(document.querySelector('.facts')).top - box(document.getElementById('settings-msg')).bottom;
   check('the figures of the trip come right under the form (gap under 80 px)', gap >= 0 && gap < 80, Math.round(gap));
   setField('days', '10');
@@ -42,6 +48,16 @@ setTimeout(function () {
     var first = document.querySelector('#alerts li');
     check('a partly wrong link: the first warning above the figures says so', first && /Część linku była błędna/.test(first.textContent), first && first.textContent);
     check('and the message under the form is empty', textOf('#settings-msg') === '', textOf('#settings-msg'));
+    // the bar at the top with its longest summary (dates, Ekstremalnie): headless Chrome runs IntersectionObserver only
+    // once, so the bar gets its class here; the summary may be cut short (…), and „Zmień” stays whole on the screen
+    var at = soon(), start = new Date(Date.UTC(at.year, at.month - 1, 28)), end = new Date(start.getTime() + 17 * 864e5);
+    window.__trip.apply({ from: 'SGN', to: 'HAN', start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10), interests: [], level: 3, add: [], remove: [] });
+    var nav = document.getElementById('secnav'), W = document.documentElement.clientWidth;
+    nav.classList.add('away');
+    var change = nav.querySelector('.sum-change').getBoundingClientRect();
+    check('the bar with the summary fits: „Zmień” whole on the screen, nothing sticks out', change.left >= 0 && change.right <= W + 0.5 && nav.scrollWidth <= W,
+      Math.round(change.left) + '–' + Math.round(change.right) + ' of ' + W + ', bar ' + nav.scrollWidth);
+    nav.classList.remove('away');
     done();
   }, 500);
 }, 1500);

@@ -20,7 +20,7 @@ setTimeout(function () {
   check('Vietnamese names of several words keep together on a line', !split.length, split.join(', '));
   var whys = Array.prototype.map.call(document.querySelectorAll('#stops .stop:not(.stop-home) .why-on'), function (p) { return p.textContent; });
   check('each stay says why it is on the trip', whys.length === document.querySelectorAll('#stops .stop:not(.stop-home)').length &&
-    whys.every(function (t) { return /^(Wybrane, bo: .+ sezon\.|Noc w drodze z .+ do .+\.)$/.test(t.replace(/\s+/g, ' ')); }), whys.join(' | '));
+    whys.every(function (t) { return /^(Wybrane, bo: .+ sezon\.|Dzieli drogę z .+ do .+ na dwa krótsze dni\.)$/.test(t.replace(/\s+/g, ' ')); }), whys.join(' | '));
   check('each full card has its weather', Array.prototype.every.call(document.querySelectorAll('#stops .stop:not(.stop-compact):not(.stop-home)'),
     function (s) { return /^Pogoda w/.test(s.querySelector('.why-wx').textContent); }));
   check('the weather keeps each number with its days of rain on one line', Array.prototype.every.call(document.querySelectorAll('.why-wx'),
@@ -30,7 +30,8 @@ setTimeout(function () {
   var said = document.querySelector('[data-add="phuquoc"]').closest('li').querySelector('.off-drops').textContent.replace(/\s+/g, ' ');
   document.querySelector('[data-add="phuquoc"]').click();
   var left = /z trasy wypadło: ([^.]+)\./.exec(textOf('#dropped'));
-  check('Dodaj does what its line said would leave the trip', said === 'Zmieści się bez usuwania innych miejsc.' ? !left : !!left && said === 'Po dodaniu wypadnie: ' + left[1] + '.',
+  // „Zmieści się bez usuwania innych miejsc” (maybe „…, ale skróci pobyt w: …”) and nothing left; or „Po dodaniu wypadnie: X” and X left
+  check('Dodaj does what its line said would leave the trip', /^Zmieści się bez usuwania innych miejsc[.,]/.test(said) ? !left : !!left && said === 'Po dodaniu wypadnie: ' + left[1] + '.',
     said + ' | ' + textOf('#dropped'));
   check('Dodaj Phú Quốc: on the trip and in the address', ids().indexOf('phuquoc') > -1 && /dodaj=phuquoc/.test(location.hash), ids().join(',') + ' ' + location.hash);
   document.querySelector('[data-remove="phuquoc"]').click();

@@ -319,6 +319,19 @@ function droppedPlaces(before, after, places) {
   return out;
 }
 
+/* The places that stay on the trip after Dodaj, but with fewer nights, in the order of the old trip: the nights of a place
+   are summed (a city twice on a round trip), and a night on the way is no place to report. before, after: the stops of
+   the two trips ({ id, n }); places: PLACES. */
+function shortenedPlaces(before, after, places) {
+  function nights(stops) { var o = {}; stops.forEach(function (s) { if (!places[s.id].node) o[s.id] = (o[s.id] || 0) + s.n; }); return o; }
+  var a = nights(before), b = nights(after), seen = {};
+  return before.filter(function (s) {
+    if (places[s.id].node || seen[s.id] || !(s.id in b) || b[s.id] >= a[s.id]) return false;
+    seen[s.id] = true;
+    return true;
+  }).map(function (s) { return s.id; });
+}
+
 /* ---------- why a place is on the trip or not ---------- */
 /* Why stay i of the trip is on it, for "Wybrane, bo…". A night on the way: { night: [the place before, the place after] }.
    Otherwise { added, airport, interests, way, months }: added: Dodaj asked for it; airport: 'from' when it opens the trip
@@ -348,8 +361,9 @@ function whyOn(route, i, st, places, hubs) {
    and it serves none of them, fit under 2); 'far' (it does not fit in: with it added, the trip leaves it missing). When
    none holds: 'beaten' (with this many days, other places scored more). why: the reasons of its poor months (CLIMATE),
    each once. canAdd: Dodaj can put it on the trip (not when it needs a higher level, is closed or does not fit). drops:
-   the places that would leave the trip if it were added (droppedPlaces). added: Dodaj asked for it.
-   Returns [{ id, reasons, why, canAdd, drops, added }]. settings: as in the link (Dodaj builds on them); st: their
+   the places that would leave the trip if it were added (droppedPlaces); shorter: those that would stay with fewer nights
+   (shortenedPlaces). added: Dodaj asked for it.
+   Returns [{ id, reasons, why, canAdd, drops, shorter, added }]. settings: as in the link (Dodaj builds on them); st: their
    normSettings' result; route: planRoute's trip for them; data: planRoute's data; climate: CLIMATE. */
 function whyOff(route, settings, st, data, climate) {
   var P = data.places, on = {}, seen = {}, months = [];
@@ -358,7 +372,7 @@ function whyOff(route, settings, st, data, climate) {
   return Object.keys(P).filter(function (id) { return !P[id].node && !on[id]; })
     .sort(function (a, b) { return P[a].axis - P[b].axis || (a < b ? -1 : 1); })
     .map(function (id) {
-      var p = P[id], code = data.seasons[id], x = { id: id, reasons: [], why: [], canAdd: true, drops: [], added: st.add.indexOf(id) > -1 };
+      var p = P[id], code = data.seasons[id], x = { id: id, reasons: [], why: [], canAdd: true, drops: [], shorter: [], added: st.add.indexOf(id) > -1 };
       function every(letter) { return months.every(function (m) { return code.charAt(m - 1) === letter; }); }
       if (st.remove.indexOf(id) > -1) x.reasons.push('removed');
       if (p.level > st.level) x.reasons.push('level');
@@ -371,7 +385,7 @@ function whyOff(route, settings, st, data, climate) {
       if (p.level > st.level || every('X')) { x.canAdd = false; return x; }
       var withIt = normSettings(withAdded(settings, id), P, data.hubs), r = withIt.ok ? planRoute(withIt, data) : null;
       if (!r || !r.ok || r.missing.indexOf(id) > -1) { x.reasons.push('far'); x.canAdd = false; }
-      else x.drops = droppedPlaces(route.stops, r.stops, P);
+      else { x.drops = droppedPlaces(route.stops, r.stops, P); x.shorter = shortenedPlaces(route.stops, r.stops, P); }
       if (!x.reasons.length) x.reasons.push('beaten');
       return x;
     });
@@ -447,14 +461,14 @@ function nightForm(n) {
 
 /* Polish typography: a one-letter word (a i o u w z) gets a no-break space after it, so no line ends on it. It must start the text
    or follow white space, ( „ or –. A run like "i w domu" needs several passes (a match uses up the space in front of the next word), so repeat.
-   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm), and ≈ keeps its number. */
+   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm), and ≈ and „ok.” keep their number. */
 function tieShort(text) {
   var before;
   do {
     before = text;
     text = text.replace(/(^|[\s(„–])([aiouwzAIOUWZ]) /g, '$1$2\u00a0');
   } while (text !== before);
-  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C)(?![\p{L}])/gu, '$1\u00a0$2');
+  return text.replace(/≈ /g, '≈\u00a0').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C)(?![\p{L}])/gu, '$1\u00a0$2');
 }
 
 /* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become
@@ -556,8 +570,16 @@ function placeLabels(items, obstacles, bounds) {
    The names on the basemap (the panel's names) are drawn first; a label may cover one when nothing better is free.
    route: planRoute's trip; st: normSettings' result; m: { panels, places, content, airports, say }: MAP_PANELS, PLACES,
    CONTENT, AIRPORTS and say(key) giving an interface text (the names on the basemap; 'day' and 'days' before day numbers).
-   Returns { height, panels: [{ key, y, p (panelSize), names, segs, stubs, pins, airports, pois, faint, labels }] }; a name
-   is { text, kind, x, y, anchor }, a label { kind: 'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
+   The whole degrees of latitude come last: each line is drawn, and its label at the right edge (gridBox) only where it
+   covers no label and no marker.
+   Returns { height, panels: [{ key, y, p (panelSize), grid, names, segs, stubs, pins, airports, pois, faint, labels }] };
+   grid is [{ lat, y, label }] (label: its text is drawn), a name { text, kind, x, y, anchor }, a label { kind:
+   'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
+// the box of a degree's label: "21°N" in 10 px monospace, ending 6 px from the panel's right edge, 4 px over its line (app.js)
+function gridBox(g, p) {
+  var w = textWidth(g.lat + '°N', SMALL_PX, true);
+  return { x: p.w - 6 - w, y: g.y - 14.5, w: w, h: 13.5 };
+}
 // a stub's length (× STUB) and turn in degrees, in the order tried
 var STUB_TIPS = [[1, 0], [1.5, 0], [2, 0], [1.5, 35], [1.5, -35], [2, 60], [2, -60], [2.5, 0]];
 function mapLayout(route, st, m) {
@@ -573,7 +595,7 @@ function mapLayout(route, st, m) {
   var legs = route.stops.map(function (s) { return s.leg; }).concat([route.home]);
   var ends = st.from === st.to ? [st.from] : [st.from, st.to];
   Object.keys(m.panels).forEach(function (key) {
-    var p = panelSize(m.panels[key]), P = { key: key, y: top, p: p, names: [], segs: [], stubs: [], pins: [], airports: [], pois: [], faint: [], labels: [] };
+    var p = panelSize(m.panels[key]), P = { key: key, y: top, p: p, grid: [], names: [], segs: [], stubs: [], pins: [], airports: [], pois: [], faint: [], labels: [] };
     function proj(pt) { return [(pt[1] - p.lon0) * p.s, (p.lat0 - pt[0]) * p.s]; }
     function inside(q) { return q[0] >= 0 && q[0] <= p.w && q[1] >= 0 && q[1] <= p.h; }
     function pinBox(pn) { return { x: pn.x - pn.w / 2, y: pn.y - PIN_H / 2, w: pn.w, h: PIN_H }; }
@@ -680,7 +702,12 @@ function mapLayout(route, st, m) {
       P.labels.push(Object.assign({}, it.what, l));
       taken.push(l.box);
     });
-    placeLabels(faint, taken, p).forEach(function (l, i) { if (l) P.labels.push(Object.assign({}, faint[i].what, l)); });
+    placeLabels(faint, taken, p).forEach(function (l, i) { if (l) { P.labels.push(Object.assign({}, faint[i].what, l)); taken.push(l.box); } });
+    for (var lat = Math.ceil(p.lat0 - p.h / p.s); lat <= Math.floor(p.lat0); lat++) {
+      var g = { lat: lat, y: (p.lat0 - lat) * p.s }, gb = gridBox(g, p);
+      g.label = !taken.some(function (o) { return overlapArea(gb, o) > 0; });
+      P.grid.push(g);
+    }
     out.push(P);
     top += p.h + PANEL_GAP;
   });

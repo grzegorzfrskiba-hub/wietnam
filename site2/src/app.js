@@ -445,11 +445,11 @@
       defs.push('<clipPath id="clip-' + P.key + '"><rect x="0" y="0" width="' + p.w + '" height="' + p.h + '" rx="8"/></clipPath>');
       g.push('<rect class="m-frame" x="0" y="0" width="' + p.w + '" height="' + p.h + '" rx="8"/>',
         '<path class="m-land-o" d="' + b.other + '"/><path class="m-land" d="' + b.vn + '"/><path class="m-river" d="' + b.rivers + '"/>');
-      // whole degrees: the latitudes across, labelled on the right, the longitudes dashed
-      for (var lat = Math.ceil(p.lat0 - p.h / p.s); lat <= Math.floor(p.lat0); lat++) {
-        var gy = r1((p.lat0 - lat) * p.s);
-        grid.push('<line class="m-grid" x1="0" x2="' + p.w + '" y1="' + gy + '" y2="' + gy + '"/><text class="m-gridlabel" x="' + (p.w - 6) + '" y="' + r1(gy - 4) + '" text-anchor="end">' + lat + '°N</text>');
-      }
+      // whole degrees: the latitudes across, labelled on the right where no label of the trip stands (mapLayout), the longitudes dashed
+      P.grid.forEach(function (q) {
+        grid.push('<line class="m-grid" x1="0" x2="' + p.w + '" y1="' + r1(q.y) + '" y2="' + r1(q.y) + '"/>' +
+          (q.label ? '<text class="m-gridlabel" x="' + (p.w - 6) + '" y="' + r1(q.y - 4) + '" text-anchor="end">' + q.lat + '°N</text>' : ''));
+      });
       for (var lon = Math.ceil(p.lon0); lon <= Math.floor(p.lon0 + p.w / p.s); lon++) {
         var gx = r1((lon - p.lon0) * p.s);
         grid.push('<line class="m-grid m-grid-v" x1="' + gx + '" x2="' + gx + '" y1="0" y2="' + p.h + '"/>');
@@ -617,7 +617,8 @@
       return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><div class="off-body"><b>' + esc(c.short) + '</b>' +
         (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') +
         '<p class="off-why">' + esc(capFirst(x.reasons.map(function (r) { return offReason(r, x); }).join('; '))) + '.</p>' +
-        (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) }) : T('off.nodrops')) + '</p>' : '') + '</div>' +
+        (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) })
+          : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') + '</div>' +
         (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);

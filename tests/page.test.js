@@ -281,6 +281,8 @@ var oA = offOf(tA, MARCH), byId = function (list) { var o = {}; list.forEach(fun
 eq(oA.map(function (x) { return x.id; }), ['mekong', 'phuquoc', 'cattien', 'puluong', 'ninhbinh', 'catba', 'babe', 'caobang'], 'off the trip: south to north, no night on the way');
 eq([byId(oA).mekong.reasons, byId(oA).mekong.canAdd, byId(oA).mekong.drops], [['beaten'], true, droppedPlaces(tA.r.stops, tI.r.stops, PLACES)],
   'the Mekong in March: nothing against it, other places won; Dodaj, and what it would push off the trip');
+eq([byId(oA).mekong.shorter, byId(oA).catba.drops, byId(oA).catba.shorter], [['saigon', 'hue'], ['hue'], []],
+  'the Mekong fits without pushing a place off, but shortens the stays in Hồ Chí Minh City and Huế; Cát Bà pushes Huế off');
 var tF = tripOf(Object.assign({}, MARCH, { month: 7 })), oF = byId(offOf(tF, Object.assign({}, MARCH, { month: 7 })));
 eq([oF.phuquoc.reasons, oF.phuquoc.why, oF.phuquoc.canAdd], [['season'], ['ulewy', 'fale'], true], 'Phú Quốc in July: out of season, with the reasons of July');
 var oB = byId(offOf(tB, Object.assign({}, MARCH, { interests: ['przyroda'] })));
@@ -299,6 +301,11 @@ eq([o3.catba.reasons, o3.catba.canAdd, o3.babe.reasons, o3.babe.canAdd], [['leve
 eq(whyOff(planRoute(normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3), Object.assign({}, MARCH, { level: 3 }), normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3, CLIMATE)
   .filter(function (x) { return x.id === 'catba'; })[0].reasons.indexOf('level'), -1, 'at the level it needs, the level is no reason');
 
+function nightsOf(list) { return list.map(function (x) { return { id: x[0], n: x[1] }; }); }
+eq(shortenedPlaces(nightsOf([['saigon', 3], ['hue', 3], ['hanoi', 3]]), nightsOf([['saigon', 2], ['mekong', 2], ['hue', 2], ['hanoi', 3]]), PLACES), ['saigon', 'hue'],
+  'shortened: the places that stay with fewer nights, in the order of the old trip');
+eq(shortenedPlaces(nightsOf([['hanoi', 2], ['catba', 3], ['hanoiStop', 1], ['babe', 2], ['hanoi', 2]]), nightsOf([['hanoi', 1], ['ninhbinh', 2], ['catba', 3], ['babe', 2], ['hanoi', 2]]), PLACES),
+  ['hanoi'], 'a city twice counts its nights together and is named once; a night on the way is no place');
 eq(addReport(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hoian', 'hanoi']), 'phuquoc', PLACES), { left: ['hue'], came: ['hoian'] },
   'after Dodaj: what left the trip and what came besides the added place');
 eq(addReport(stopsOf(['saigon', 'dalat', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), 'phuquoc', PLACES), { left: [], came: [] }, 'only the added place came');
@@ -342,11 +349,16 @@ var mH = mapLayout(tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 
   tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 12, interests: [], level: 2 }).st, MAPW);
 eq([pinsOf(mH)[0], labelsOf(mH.panels[0], 'stop'), labelsOf(mH.panels[0], 'stub')], ['north:hanoi(1·6)', ['Hà Nội/Dni 1, 11'], ['✈ HCMC/✈ Huế']],
   'a round trip: one pin for the city with both numbers; two flights from one airport make one stub, short names of airports');
+eq(mA.panels.map(function (P) { return P.grid.map(function (g) { return g.lat + (g.label ? '' : '-'); }).join(' '); }), ['20 21 22 23', '16 17', '10 11- 12- 13'],
+  'the degrees of latitude: every line, but no label where a label of the trip stands (11° and 12° N by Hồ Chí Minh City and Đà Lạt)');
 var mD = mapLayout(tD.r, tD.st, MAPW);   // Cao Bằng on the trip: Bản Giốc
 eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0], 'poi')], [['Bản Giốc'], ['Bản Giốc']], 'a point of interest with its stay');
 [mA, mH, mD].forEach(function (L, n) {
   L.panels.forEach(function (P) {
     P.labels.forEach(function (l) { ok(l.clear, 'map ' + n + ' ' + P.key + ': ' + l.kind + ' ' + l.key + ' covers another label, a marker or the edge'); });
+    P.grid.filter(function (g) { return g.label; }).forEach(function (g) {
+      ok(P.labels.every(function (l) { return overlapArea(l.box, gridBox(g, P.p)) === 0; }), 'map ' + n + ' ' + P.key + ': a label covers ' + g.lat + '°N');
+    });
   });
 });
 print('map ok');
@@ -390,8 +402,10 @@ eq(tieShort('Hà Nội, a potem Huế i Hội An'), 'Hà Nội, a' + NB + 'potem
 eq(tieShort('(w domu) i „o tym” oraz x–u nas'), '(w' + NB + 'domu) i' + NB + '„o' + NB + 'tym” oraz x–u' + NB + 'nas', 'after ( „ and –');
 ['dla przyjaciół', 'Đà Lạt i', 'XVIII wieku', 'C w', 'z' + NB + 'południa', '5 miejsc', '2 mosty', '15 dni'].forEach(function (s) { eq(tieShort(s), s, 'unchanged: ' + s); });
 eq([tieShort('ok. 3–4 km od'), tieShort('≈ 5½ godz. drogi'), tieShort('2 godz. 30 min'), tieShort('noce 13 °C, 64 mm deszczu, 1700 m n.p.m.')],
-  ['ok. 3–4' + NB + 'km od', '≈' + NB + '5½' + NB + 'godz. drogi', '2' + NB + 'godz. 30' + NB + 'min', 'noce 13' + NB + '°C, 64' + NB + 'mm deszczu, 1700' + NB + 'm n.p.m.'],
-  'a number keeps its unit, ≈ keeps its number');
+  ['ok.' + NB + '3–4' + NB + 'km od', '≈' + NB + '5½' + NB + 'godz. drogi', '2' + NB + 'godz. 30' + NB + 'min', 'noce 13' + NB + '°C, 64' + NB + 'mm deszczu, 1700' + NB + 'm n.p.m.'],
+  'a number keeps its unit, ≈ and „ok.” keep their number');
+eq([tieShort('jedzie ok. ½ godz.'), tieShort('Ok. 2 h'), tieShort('ok. godziny'), tieShort('bok. 5')],
+  ['jedzie ok.' + NB + '½' + NB + 'godz.', 'Ok.' + NB + '2 h', 'ok. godziny', 'bok. 5'], '„ok.” only before a number, and only as a word of its own');
 eq(tieShort(tieShort('i w domu, ≈ 4 godz.')), tieShort('i w domu, ≈ 4 godz.'), 'idempotent');
 var NAMES = ['Hồ Chí Minh City', 'Cát Tiên', 'Ba Bể'];
 eq(tieNames('Nie zmieściło się: Ba Bể, Cát Tiên. Lot z Hồ Chí Minh City.', NAMES),

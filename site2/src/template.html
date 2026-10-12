@@ -378,6 +378,9 @@ footer a { color: var(--muted); }
   .lb-stage { padding: 0 8px; }
   .lb-nav { top: auto; bottom: 74px; }
   .leg-total { margin-left: 0; width: 100%; }
+  /* Dodaj under its reason, at the left: the button "Na górę" (bottom right) cannot cover it */
+  .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
+  .off-list li > .btn-small { grid-column: 2; justify-self: start; }
 }
 html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
@@ -392,9 +395,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav a:hover { color: var(--ink); }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
-.secnav-sum { display: none; margin: 0 0 0 auto; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
+.secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
+/* on the narrowest phones the summary is cut short (…), and "Zmień" stays whole */
+#sum-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .secnav.away .secnav-sum { display: flex; }
-.secnav .sum-change { color: var(--accent); font-weight: 600; padding: 12px 0 12px 8px; }
+.secnav .sum-change { flex: none; color: var(--accent); font-weight: 600; padding: 12px 0 12px 8px; }
 @media (max-width: 640px) {
   .secnav.away .secnav-links { display: none; }
   .secnav.away .secnav-sum { margin-left: 0; flex: 1; justify-content: space-between; }
