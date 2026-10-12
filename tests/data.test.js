@@ -138,3 +138,67 @@ dataCheck('climate', function (need) {
     }
   });
 });
+
+/* The prices (costs.js) and what to book ahead (before.js) against their research notes. Every number of COSTS stands in
+   the tables „Zestawienie” and „Zestawienie wycieczek” of research/ceny-2026-10.md or „Zestawienie” of
+   research/motocykl-2026-10.md (there a car is the group's part, a person or a motorbike the person's); every entry of
+   BOOK in „Zestawienie” of research/rezerwacje-2026-10.md; ENTRY in „Zestawienie” of research/wjazd-2026-10.md. An item
+   costs no less at to than at from, for two people (pp + group / 2) and for one (pp + group). */
+function researchRows(path, head) {
+  var s = readFile(path), i = s.indexOf(head), out = [];
+  if (i < 0) return out;
+  s.slice(i).split('\n').slice(1).some(function (line) {
+    if (/^#/.test(line)) return true;
+    if (/^\|/.test(line) && !/^\|-/.test(line)) out.push(line.replace(/^\||\|$/g, '').split('|').map(function (c) { return c.trim(); }));
+    return false;
+  });
+  return out.slice(1);   // without the row of the column names
+}
+dataCheck('costs', function (need) {
+  function n(c) { return c === '' ? 0 : +c.replace(',', '.'); }
+  var base = {}, items = {};
+  researchRows('research/ceny-2026-10.md', '## Zestawienie\n').forEach(function (r) { base[r[0]] = [n(r[2]), n(r[3])]; });
+  researchRows('research/ceny-2026-10.md', '### Zestawienie wycieczek').forEach(function (r) {
+    items[r[0].replace(/`/g, '')] = { pp: [n(r[2]), n(r[3])], group: [n(r[4]), n(r[5])] };
+  });
+  researchRows('research/motocykl-2026-10.md', '## Zestawienie\n').forEach(function (r) {
+    var v = [n(r[2]), n(r[3])], car = /^auto/.test(r[1]);
+    items[r[0]] = { pp: car ? [0, 0] : v, group: car ? v : [0, 0] };
+  });
+  function same(a, b, what) { need(JSON.stringify(a) === JSON.stringify(b), what + ': ' + JSON.stringify(a) + ' in costs.js, ' + JSON.stringify(b) + ' in the research'); }
+  Object.keys(PLACES).forEach(function (id) { if (!PLACES[id].node) same(COSTS.night[id], base['night.' + id], 'night.' + id); });
+  Object.keys(COSTS.night).forEach(function (id) { need(PLACES[id] && !PLACES[id].node, 'a night price for no place: ' + id); });
+  [['day', 'day'], ['daySolo', 'day.solo'], ['shared', 'road.shared'], ['car', 'road.private']].forEach(function (k) { same(COSTS[k[0]], base[k[1]], k[1]); });
+  same(COSTS.flight.short, base['flight.short'], 'flight.short');
+  same(COSTS.flight.long, base['flight.long'], 'flight.long');
+  Object.keys(COSTS.items).forEach(function (k) {
+    var it = COSTS.items[k], r = items[k];
+    need(r, k + ': no row in the research');
+    if (r) { same(it.pp, r.pp, k + ' pp'); same(it.group, r.group, k + ' group'); }
+    need(it.pp[0] + it.group[0] / 2 <= it.pp[1] + it.group[1] / 2 && it.pp[0] + it.group[0] <= it.pp[1] + it.group[1], k + ': from costs more than to');
+    need(it.night === undefined || it.night === true, k + ': night is true or left out');
+    need(it.book === undefined || BOOK[it.book], k + ': book ' + it.book + ' is no key of BOOK');
+  });
+  need(EUR_PLN === 4.3775 && /^\d{4}-\d{2}-\d{2}$/.test(COSTS_CHECKED), 'the NBP rate of 9.10.2026 and the day the prices were checked');
+});
+dataCheck('booking', function (need) {
+  var rows = {};
+  researchRows('research/rezerwacje-2026-10.md', '## Zestawienie\n').forEach(function (r) { rows[r[0]] = r; });
+  Object.keys(BOOK).forEach(function (k) {
+    var b = BOOK[k], r = rows[k];
+    need(r, k + ': no row in the research');
+    if (!r) return;
+    need(b.ahead === +r[4], k + ': ahead ' + b.ahead + ' days, the research says ' + r[4]);
+    var links = /^—/.test(r[5]) ? [] : r[5].split('; ').map(function (p) { var i = p.lastIndexOf(': http'); return { name: p.slice(0, i), url: p.slice(i + 2) }; });
+    need(JSON.stringify(b.links) === JSON.stringify(links), k + ': the links as in the research');
+    b.links.forEach(function (l) { need(/^https:\/\//.test(l.url) && !/[?&](utm_|ref=|aff|partner)/i.test(l.url), k + ': ' + l.url + ' is https and has no tracking'); });
+  });
+  Object.keys(rows).forEach(function (k) { need(BOOK[k], k + ': in the research, not in BOOK'); });
+  var entry = {};
+  researchRows('research/wjazd-2026-10.md', '## Zestawienie\n').forEach(function (r) { entry[r[0]] = r[1]; });
+  need(/^45 dni/.test(entry.bez_wizy_dni || '') && ENTRY.visaFreeDays === 45, 'ENTRY: 45 days without a visa');
+  need(/14\.8\.2028/.test(entry.bez_wizy_do || '') && ENTRY.visaFreeUntil === '2028-08-14', 'ENTRY: the exemption ends on 14.8.2028');
+  var wjazd = readFile('research/wjazd-2026-10.md');
+  ENTRY.links.forEach(function (l) { need(/^https:\/\//.test(l.url) && wjazd.indexOf(l.url) > -1, 'ENTRY: ' + l.url + ' is a source of research/wjazd-2026-10.md'); });
+  HOMESTAYS.forEach(function (id) { need(PLACES[id] && /gospodarzy|Khuổi Ky/.test(JSON.stringify(CONTENT[id].days)), 'HOMESTAYS: ' + id + ' is a place whose plans sleep with hosts'); });
+});
