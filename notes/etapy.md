@@ -6,7 +6,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 |---|---|
 | 0. Wizja | zrobione 9.10.2026 |
 | 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
-| 2. Interfejs | w toku: 2A (telefon, powody, pogoda, mapa) zrobione 11.10.2026, 2B do zaplanowania |
+| 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
 | 3. Nowe miejsca, partiami | |
 | 4. Audyt i publikacja (po partii A) | |
 
@@ -50,12 +50,12 @@ Plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026-10-11-etap-2a-interf
 - mapa w trzech kadrach: kontury ze skryptu `geo/make_basemap.py`, rozmieszczanie etykiet i paleta 20 kolorów;
 - krój IBM Plex Sans, twarde spacje, uwagi z przeglądów planu 1B i sondy, które sprawdzają.
 
-Plan 2B (zarys na końcu planu 2A):
-- budżet: przedział w złotych, najdroższe pozycje, wyprzedzenie rezerwacji; koszty pierwowzoru są w EUR i na grudzień, więc z własnym researchem cen;
-- „Przed wyjazdem”: rezerwacje według trasy, pakowanie według miesięcy, wjazd;
-- zamiany albo–albo w modułach, najpierw samodzielny motocykl;
-- przejazdy z lotnisk do Cát Bà, Cát Tiên i delty Mekongu;
-- punkt kontrolny etapu 2.
+Plan 2B ([plans/2026-10-12-etap-2b-budzet.md](plans/2026-10-12-etap-2b-budzet.md), zrobiony 12.10.2026):
+- budżet na osobę w złotych jako szósta liczba trasy, a w nowej sekcji „Przed wyjazdem” z podziałem, kwotą w pojedynkę i największymi pozycjami; ceny w `costs.js` z researchu z 11–12.10.2026, sprawdzane testem z tabelami researchu;
+- „Przed wyjazdem”: rezerwacje od najpilniejszej z linkami (`before.js`), wjazd i zdrowie, lista rzeczy do spakowania z klimatu, dni i wydarzeń;
+- zamiana „Z kierowcą / Samodzielnie” na motocyklu w Cao Bằng i na przełęczy Hải Vân, z warunkiem prawnym, wymaganiami i ryzykiem;
+- własne teksty dalekich dróg z lotnisk i uwagi o promie na Cát Bà i do Cát Tiên;
+- poprawki z przeglądu 2A, treść poprawiona po researchu i punkt kontrolny etapu 2.
 
 **Punkt kontrolny:** zrzuty z telefonu dla kilku profili i terminów wyglądają dobrze, a test wszystkich kombinacji dalej przechodzi.
 
@@ -89,25 +89,19 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Następny krok: plan 2B
+## Następny krok: etap 3, partia A
 
-Zrobione 11.10.2026: plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026-10-11-etap-2a-interfejs.md)). Strona jest wygodna na telefonie i tłumaczy swoją trasę. Formularz stoi na górze, a po przewinięciu pasek u góry pokazuje podsumowanie i „Zmień”. Przy każdym miejscu jest „Wybrane, bo…”, pogoda w miesiącu pobytu i wydarzenia, a pod trasą „Nie ma na twojej trasie, bo…” z zapowiedzią przy „Dodaj”. Mapa ma trzy kadry, a jej etykiety nie nachodzą na siebie.
+Zrobione 12.10.2026: plan 2B ([plans/2026-10-12-etap-2b-budzet.md](plans/2026-10-12-etap-2b-budzet.md)). Strona mówi, ile mniej więcej kosztuje wyjazd: szósta liczba trasy to budżet na osobę w złotych, a sekcja „Przed wyjazdem” na końcu strony ma budżet z podziałem i kwotą w pojedynkę, rezerwacje od najpilniejszej z linkami, wjazd i zdrowie oraz listę rzeczy do spakowania. W karcie Cao Bằng i w karcie przejazdu przez przełęcz Hải Vân jest przełącznik „Z kierowcą / Samodzielnie”. Dalekie drogi z lotnisk mają własne teksty, a karty przejazdu mówią, do której wylądować przed ostatnim promem. Poprawione są też wszystkie uwagi z przeglądu zrzutów 2A.
 
-Przegląd zrzutów 2A (11.10.2026): poprawione od razu trzy rzeczy: na telefonie podpis zdjęcia nie dotyka przycisku „Zobacz trasę”, w pogodzie liczba dni z deszczem nie zostaje sama na końcu linii, a wielowyrazowe nazwy wietnamskie w opisach dni (Thảo Điền, Chợ Lớn, Hà Tôn Quyền) nie łamią się w środku: wiąże je reguła `tieVietnamese` w `site2/src/page.js`, a nazwy bez wietnamskich liter (Lang Biang) lista `KEEP_TOGETHER` w `site2/src/content.js`. Prywatnego artifactu do sprawdzenia na telefonie nie publikowano: stronę na prawdziwym telefonie sprawdzi punkt kontrolny etapu 2 na końcu planu 2B.
+Punkt kontrolny etapu 2 (12.10.2026): pełny test (134 784 kombinacje), 12 sond, 34 linki z kodem 200 i wydruk czterech tras w obu motywach (0 zakrytych linii) przeszły; ręcznie w przeglądarce działają pasek u góry, „Na górę”, podświetlanie na mapie, odnośnik kwoty i przełącznik z klawiatury, a na prawdziwym telefonie w domowej sieci Wi-Fi kwota i stuknięcie w nią, sekcja „Przed wyjazdem”, przełącznik dotykiem, link rezerwacji i „Kopiuj plan na WhatsApp” z linią budżetu. Po obejrzeniu zrzutów sześciu tras (kwota w „W skrócie”, sekcja „Przed wyjazdem”, Cao Bằng na motocyklu, promy, najszersza kwota, Tết) wybrano dwie poprawki, zrobione od razu: zakresy liczb („1–3 dni”, „140–260 zł”, „11:00–14:30”) nie łamią się po półpauzie, a na telefonie tekst drogi w karcie przejazdu ma całą szerokość karty, z czasem jazdy pod nim. Do etapu 3 przeszły: ucięty odnośnik „Przed wyjazdem” w pasku na telefonie (działa przez przesunięcie paska w bok; ścisnąć pasek albo skrócić nazwy) i zbyt ogólne zdania w „Zarezerwuj wcześniej” (dopisek o Pù Luông w linii noclegów u gospodarzy także bez Pù Luông na trasie, trzy rzeczy naraz w linii parku Cát Tiên). Ostatnia strona wydruku niektórych tras, z samą stopką, zostaje bez zmian.
 
-Końcowy przegląd 2A (11.10.2026, świeży recenzent): poprawione dwie rzeczy: powiększona mapa znów przycina kontury do ramek kadrów, a w trybie dat na telefonie 360 px dwa pola dat mieszczą się obok siebie i strona nie przewija się na boki (sonda `settings.js` jest teraz uruchamiana też przy 360 px).
-
-**Plan 2B:** najpierw sesja decyzji (po jednym pytaniu, z rekomendacją), potem research i plan z suchą próbą. Zakres i pytania: „Zarys planu 2B” na końcu planu 2A.
-
-Uwagi z przeglądu zrzutów 2A na plan 2B:
-- zdanie przy „Dodaj”: „Przy 15 dniach wygrały inne miejsca” i zaraz pod nim „Zmieści się bez usuwania innych miejsc” brzmią sprzecznie; propozycja: „Zmieści się bez usuwania innych miejsc, ale skróci inne pobyty.” (`off.nodrops` w `site2/src/ui.js`);
-- przycisk „Na górę” na telefonie czasem zasłania „Dodaj” przy prawej krawędzi listy „Nie ma na twojej trasie”;
-- „ok.” przed liczbą zostaje w opisach dni na końcu linii („ok. / 2 godz.”);
-- karta nocy w drodze dwa razy mówi „Noc w drodze”: w podtytule i w powodzie „Noc w drodze z … do …”;
-- przy 320 px pasek z podsumowaniem (daty i „Ekstremalnie”) wystaje o 22 px, a „Zmień” jest częściowo poza ekranem;
-- etykiety siatki mapy („21°N”) nie są przeszkodami w `mapLayout` ani nie mierzy ich sonda `map.js`, więc etykieta przy prawej krawędzi może je zakryć.
+**Etap 3, partia A:** najpierw sesja decyzji (po jednym pytaniu, z rekomendacją), potem research i plan z suchą próbą, jak w 2A i 2B. Zakres: „Partia A” w sekcji „Etap 3” wyżej i lista „Do etapu 3” niżej.
 
 **Do etapu 3 (nowe miejsca):**
+- każde nowe miejsce dostaje też dane z planu 2B: cenę noclegu w `research/ceny-2026-10.md` i w `COSTS.night` (test danych tego pilnuje), płatne części dni jako pozycje `COSTS.items` wskazane polem `cost` w dniach, wpisy w `BOOK` z wyprzedzeniem i linkami, miejsce w `HOMESTAYS`, gdy nocuje się u gospodarzy, i teksty dalekich dróg z lotnisk w `AIR_KEYS`;
+- Hà Giang: zamiana motocykla w `SWAPS`, z przeglądem kontroli policji na pętli (`research/motocykl-2026-10.md`);
+- droga Thọ Xuân – Pù Luông: w danych 2,5 h, jedno źródło podaje ok. 3 h (`research/lotniska-2026-10.md`); do decyzji przy przeglądzie danych;
+- najszerszy budżet (30 dni z Hồ Chí Minh City i z powrotem, przyroda, listopad: 5 800–13 500 zł) mieści się w kafelku; nowe miejsca mogą go poszerzyć, więc po każdej partii sonda `before.js` także przy 901 px;
 - włączyć testy, które dziś nie mają czego łapać, bo wszystkie miejsca mają poziom 1, a w sezonach nie ma X: niezależne przeliczenie sezonu każdej nocy, przegląd trybu dat, lista znanych lotnisk w danych i wymóg, żeby każde miejsce trafiło na jakąś trasę;
 - dwie drogi po korekcie silnik omija przez Hà Nội: lotnisko Hà Nội – Pù Luông (5,25 h w danych, efektywnie 5 h) i Ninh Bình – Cao Bằng (9,25 h w danych, efektywnie 8,5 h). Do decyzji przy przeglądzie danych: zostawić albo poprawić drogi przez Hà Nội;
 - nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają tylko Cát Tiên i Pù Luông);
@@ -122,6 +116,9 @@ Uwagi z przeglądu zrzutów 2A na plan 2B:
 Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 
 **Do audytu przed publikacją (etap 4):**
+- research planu 2B, punkty niepewne i „Do sprawdzenia”: poziom ostrzeżenia MSZ dla Wietnamu (serwis Odyseusz trzeba otworzyć w przeglądarce), stan szlaku na Lang Biang, liczba wyjść do gibonów w Cát Tiên, most przy Cát Tiên, cena Hidden Land (widoczna tylko w wynikach wyszukiwania), autobus z lotniska Cát Bi;
+- ceny sprawdzone 11–12.10.2026: przed publikacją odświeżyć kurs NBP w `costs.js` i największe pozycje (rejs, auta, loty), razem z tabelami researchu;
+- `bash tools/links.sh`: wszystkie linki rezerwacji i wjazdu odpowiadają 2xx;
 - research połączeń: robocze dopiski, odwołania do audytu pierwowzoru (dokument spoza repo), twierdzenie bez źródła o autostradzie przed Tết 2027, nazwa firmy z imieniem;
 - research sezonów: tabelę zmian i „połówki” opisać jako historię metody, usunąć robocze dopiski;
 - źródła faktów w planach dni przeniesionych z pierwowzoru bez zmian są w jego audycie z 9.10.2026 (`notes/audyt-2026-10-09.md` w pierwowzorze), trzeba je przenieść do `research/`;
@@ -133,6 +130,16 @@ Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 - źródło konturów mapy (Natural Earth, domena publiczna) w stopce albo w README.
 
 Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
+
+### Z planu 2A
+
+Zrobione 11.10.2026: plan 2A ([plans/2026-10-11-etap-2a-interfejs.md](plans/2026-10-11-etap-2a-interfejs.md)). Strona jest wygodna na telefonie i tłumaczy swoją trasę. Formularz stoi na górze, a po przewinięciu pasek u góry pokazuje podsumowanie i „Zmień”. Przy każdym miejscu jest „Wybrane, bo…”, pogoda w miesiącu pobytu i wydarzenia, a pod trasą „Nie ma na twojej trasie, bo…” z zapowiedzią przy „Dodaj”. Mapa ma trzy kadry, a jej etykiety nie nachodzą na siebie.
+
+Przegląd zrzutów 2A (11.10.2026): poprawione od razu trzy rzeczy: na telefonie podpis zdjęcia nie dotyka przycisku „Zobacz trasę”, w pogodzie liczba dni z deszczem nie zostaje sama na końcu linii, a wielowyrazowe nazwy wietnamskie w opisach dni (Thảo Điền, Chợ Lớn, Hà Tôn Quyền) nie łamią się w środku: wiąże je reguła `tieVietnamese` w `site2/src/page.js`, a nazwy bez wietnamskich liter (Lang Biang) lista `KEEP_TOGETHER` w `site2/src/content.js`. Prywatnego artifactu do sprawdzenia na telefonie nie publikowano: stronę na prawdziwym telefonie sprawdzi punkt kontrolny etapu 2 na końcu planu 2B.
+
+Końcowy przegląd 2A (11.10.2026, świeży recenzent): poprawione dwie rzeczy: powiększona mapa znów przycina kontury do ramek kadrów, a w trybie dat na telefonie 360 px dwa pola dat mieszczą się obok siebie i strona nie przewija się na boki (sonda `settings.js` jest teraz uruchamiana też przy 360 px).
+
+Uwagi z przeglądu zrzutów 2A poprawił plan 2B (zadanie 1).
 
 ### Z planu 1B
 
