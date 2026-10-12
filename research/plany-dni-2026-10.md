@@ -19,7 +19,7 @@ Fakty, które plan 1B dopisał albo zmienił w tekstach miejsc (`site2/src/conte
     - Bản Giốc w środku dnia zamiast „w świetle późnego popołudnia”;
     - Vân Long „późnym popołudniem” zamiast „o złotej godzinie”, bo od kwietnia do sierpnia słońce zachodzi po zamknięciu;
   - nowe fakty: godzina otwarcia Tràng An w tekście, Muzeum Etnologii zamknięte w poniedziałki, phở cuốn na ulicy Ngũ Xã (nowy wieczór `again` w Hà Nội) i kaczka vịt quay 7 vị w Cao Bằng.
-- **Plan 2A (11.10.2026)** zmienił część tych zdań: zob. sekcję „Zmiany z planu 2A” przed listą „Do sprawdzenia”.
+- **Plany 2A (11.10.2026) i 2B (12.10.2026)** zmieniły część tych zdań: zob. sekcje „Zmiany z planu 2A” i „Zmiany z planu 2B” przed listą „Do sprawdzenia”.
 - Adresy otwarto 10.10.2026, poza oznaczonymi † (zob. „Jak czytać”).
 
 ## Jak czytać
@@ -212,6 +212,18 @@ Zdania zmienione w planie 2A. Wiersze w sekcjach miejsc wyżej cytują teksty z 
 | catba `days` p 1 | „Wieczorem spacer nabrzeżem, przy którym cumują łodzie rybackie, i kolacja w jednej z knajpek.” | Było „…i kolacja w miasteczku”, drugi raz „w miasteczku” w dwóch zdaniach. | — |
 | catba `days` p 2 | „Między skały popłyniesz bambusową łodzią, którą wiosłują miejscowi, a zachód słońca obejrzysz z pokładu. Część rejsów zawija też do pływającej wioski.” | Było „Między skały bambusową łodzią…, potem pływająca wioska, zachód słońca z pokładu i noc na statku.”: niezręczna elipsa. Pływająca wioska jest tylko w części programów. | CB-VT2 (31.5.2026) |
 | catba `gem` | „…więc przy trzech nocach wybierz jeden z nich.” | Było „warto wybrać taki rejs”: powtórzenie „rejsy… rejs”. | — |
+
+## Zmiany z planu 2B (12.10.2026)
+
+Zdania zmienione w planie 2B po researchu z 11–12.10.2026. Źródła są w plikach researchu planu 2B, pod podanymi etykietami.
+
+| miejsce i pole | zdanie teraz | co się zmieniło i dlaczego | źródło (data) |
+|---|---|---|---|
+| cattien p 2, wersja `easy` | „Rano spacer z przewodnikiem parku do olbrzymich drzew Tung i Gõ, ok. 2 godzin leśną ścieżką. Po południu muzeum przyrody i ośrodek ratowania dzikich zwierząt tuż obok siedziby parku.” | Było: spacer do drzew i łodzią do ośrodka ratowania naczelnych „Dao Tiến”. Ośrodek Đảo Tiên (tak brzmi poprawna nazwa) jest zamknięty bez daty otwarcia. Spacer do drzew Tung i Gõ to usługa parku (A1, 2–2,5 h), a muzeum przyrody i ośrodek ratowania zwierząt leżą 100–150 m od siedziby parku. | `research/rezerwacje-2026-10.md`, „Cát Tiên: Đảo Tiên i gibony”: CT-VNE (aktualizacja 25.5.2026); `research/ceny-2026-10.md`, „Wycieczki i przewodnicy”: W-CT-zał |
+| cattien p 1 `solo` i p 2 | „spacer o świcie do gibonów zarezerwuj w parku przed przyjazdem, bo miejsc jest niewiele”; „Wyjście do gibonów zarezerwuj w parku przed przyjazdem, bo miejsc jest niewiele, a wędrówkę do Bàu Sấu i pozwolenie najpóźniej dzień wcześniej w siedzibie parku.” | Było: rezerwacja przy zameldowaniu albo dzień wcześniej. Cennik parku podaje dwa wyjścia dziennie po pięć osób, a przewodniki z 2026 jedno wyjście o 4:45. | `research/ceny-2026-10.md`: W-CT-zał; `research/rezerwacje-2026-10.md`: CT-VT (18.9.2026), CT-POTOO (1.5.2026) |
+| puluong p 2 | „…wioska Kho Mường i grzbiety między dolinami.” | Było „wioska Kho Mường z jaskinią”. Jaskinię Hang Dơi zamknięto 12.9.2026 z powodu spadających skał, a wizyty i wcześniej nie miały zgody władz. | `research/rezerwacje-2026-10.md`: PL-HD (12.9.2026), „Pù Luông: Hang Dơi” |
+| dalat p 3 | dopisane: „Gdy jest zamknięty, park prowadzi własną całodniową trasę z przewodnikiem i obiadem: 10 km od wodospadu Thiên Thai do stacji strażników Đưng Jar Giêng.” | Szlak na szczyt park zawiesił 31.10.2024 i nie ogłosił otwarcia, choć gazeta prowincji opisuje wejścia w 2026. Trasa Thiên Thai – Đưng Jar Giêng jest w cenniku parku: 1 dzień, 10 km, z przewodnikiem i obiadem. | `research/rezerwacje-2026-10.md`, „Lang Biang: stan szlaku”: LB-BLD (6.3.2026), LB-CENY, LB-PARK |
+| caobang p 1 i jego `easy` | dopisane: „Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao i w Khuổi Ky, w obszarze turystycznym, zezwolenie nie jest potrzebne. Gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji, więc nie zbaczaj w boczne drogi ku granicy.” | Od 17.11.2025 cudzoziemiec nie potrzebuje zezwolenia w obszarach turystycznych strefy przygranicznej; Bản Giốc, Ngườm Ngao i kamienne domy w Khuổi Ky należą do obszaru turystycznego wodospadu. Poza nim zezwolenie jest wymagane: 22.9.2026 policja spisała wykroczenie turyście bez zezwolenia. | `research/motocykl-2026-10.md`, „Strefa przygraniczna w Cao Bằng”: SP-LSVN, SP-QD248 (26.2.2025), SP-VNS (22.9.2026) |
 
 ## Do sprawdzenia przed publikacją (etap 4)
 
