@@ -262,9 +262,13 @@ contentCheck('ui', function (need) {
   Object.keys(pl).filter(function (k) { return /^r\./.test(k); }).forEach(function (k) {
     need(!/w górę|w dół|pod górę|na koniec|na początek|na początku|z powrotem/i.test(pl[k]), 'UI.pl[\'' + k + '\'] names a direction (' + pl[k] + '): a road text must read right both ways');
   });
-  // T('…'), countWord('…', n) with its three forms, data-i18n…="…", the travel texts of page.js; a key ending in a dot is a prefix
+  // T('…'), both keys of T(condition ? '…' : '…'), countWord('…', n) with its three forms, data-i18n…="…", the travel texts
+  // of page.js; a key ending in a dot is a prefix
   function wants(k, where) { if (!/\.$/.test(k)) need(k in pl, where + ' asks for the missing key ' + k); }
   (app.match(/\bT\('[^']+'/g) || []).forEach(function (m) { wants(m.slice(3, -1), 'app.js'); });
+  (app.match(/\bT\([^'()]{1,80}\? *'[^']+' *: *'[^']+'/g) || []).forEach(function (m) {
+    m.match(/'[^']+'/g).forEach(function (q) { wants(q.slice(1, -1), 'app.js (a key picked by a condition)'); });
+  });
   (app.match(/countWord\('[^']+'/g) || []).forEach(function (m) {
     ['one', 'few', 'many'].forEach(function (f) { wants(m.slice(11, -1) + '.' + f, 'app.js'); used[m.slice(11, -1) + '.' + f] = true; });
   });
