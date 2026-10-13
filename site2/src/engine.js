@@ -5,7 +5,8 @@
 var AIRPORT_H = 1.5;      // hours at the airports for each flight, as in the December planner
 
 /* All-pairs travel between places and airports (Floyd–Warshall). Roads and flights are two-way; a flight costs
-   its hours in the air plus AIRPORT_H. h: fastest door-to-door hours; road: fastest by road only. */
+   its hours in the air plus AIRPORT_H. h: fastest door-to-door hours; road: fastest by road only; fly: whether the
+   fastest way takes a plane (as legBetween walks it). */
 function travelGraph(roads, flights) {
   var nodes = [], seen = {};
   function add(n) { if (!seen[n]) { seen[n] = true; nodes.push(n); } }
@@ -35,7 +36,12 @@ function travelGraph(roads, flights) {
       });
     });
   });
-  return { nodes: nodes, h: h, road: road, next: next, nextRoad: nextRoad, edge: edge };
+  var g = { nodes: nodes, h: h, road: road, next: next, nextRoad: nextRoad, edge: edge, fly: {} };
+  nodes.forEach(function (a) {
+    g.fly[a] = {};
+    nodes.forEach(function (b) { var l = legBetween(g, a, b); g.fly[a][b] = !!l && l.flights > 0; });
+  });
+  return g;
 }
 
 /* The trip from node a to node b along the fastest path (by road only with roadOnly):
@@ -149,6 +155,7 @@ var END_LEG_H = 4;        // arrival and departure day: by road only, at most th
 var MOVE_COST = 0.75;     // what each change of place costs, in the units of one good night
 var FORCE_BONUS = 1000;   // a place added by hand outweighs everything else
 var NEAR_H = 1;           // a place this close by road to an airport's city (Đà Nẵng to Hội An) goes right next to it
+var REGION_H = 6.5;       // an airport's region: the places this close to it by road (from Đà Nẵng: Hội An, Huế, Phong Nha)
 
 /* The best trip for checked settings (normSettings). data: { places, seasons, graph, hubs }.
    A trip sweeps the country one way along the places' axis (south→north and north→south are both tried),
@@ -158,7 +165,10 @@ var NEAR_H = 1;           // a place this close by road to an airport's city (Đ
    departure airport. A place with a node (a night on the way, as in Hà Nội) is never the first or last stop and
    goes when its node is removed. A place within NEAR_H by road of the city that opens the trip comes right after it,
    and one near the city that closes it right before it, so a trip never comes back to the airport's neighbourhood
-   (Hội An, a flight away, then Đà Nẵng).
+   (Hội An, a flight away, then Đà Nẵng). Nor does a trip zigzag by plane around its airports' regions (the places
+   within REGION_H by road of an airport): it never flies back into the region of its arrival airport, nor out of the
+   region of its departure airport to come back to it (Hội An, a flight to Hà Nội, a flight back to Huế), and a round
+   trip that came home by plane does not fly out again (Hội An, a flight south, a flight back to Huế, a flight north).
    Returns { ok: true, days, stops: [{ id, n, start, end, season, leg }], home, missing, score }
    or { ok: false, error: 'no_route' }. */
 function planRoute(st, data) {
@@ -194,6 +204,17 @@ function planRoute(st, data) {
   // two places within NEAR_H by road of each other (a city of an airport and its neighbour), a and b both set
   function near(a, b) { return !!a && !!b && node(a) !== node(b) && G.road[node(a)][node(b)] <= NEAR_H; }
   function nightsOf(id) { var out = []; for (var n = P[id].nights[0]; n <= P[id].nights[2]; n++) out.push(n); return out; }
+  function flies(a, b) { return G.fly[node(a)][node(b)]; }   // the fastest way from a to b takes a plane
+  function inRegion(id, airport) { return G.road[airport][node(id)] <= REGION_H; }
+  // a move from a to b that flies back into the arrival airport's region or out of the departure airport's region
+  // (never on a round trip, whose two regions are one: see homeBy and awayBy)
+  function zigzag(a, b) {
+    return flies(a, b) && (inRegion(b, st.from) && !inRegion(b, st.to) || inRegion(a, st.to) && !inRegion(a, st.from));
+  }
+  // on a round trip: a flight from outside into the home region (the airport's), and a flight out of it
+  var round = st.from === st.to;
+  function homeBy(a, b) { return round && flies(a, b) && inRegion(b, st.from) && !inRegion(a, st.from); }
+  function awayBy(a, b) { return round && flies(a, b) && inRegion(a, st.from) && !inRegion(b, st.from); }
 
   /* One sweep. first: the city opening the trip out of order, or null; last: the city closing it, or null;
      n1: on a round trip with first === last, the nights of the first visit (the second gets what is left). */
@@ -201,34 +222,43 @@ function planRoute(st, data) {
     var order = ids.filter(function (id) { return usable[id] && id !== hubA && id !== hubB; })
       .sort(function (a, b) { return P[a].axis - P[b].axis || (a < b ? -1 : 1); });
     if (dir === 'NS') order.reverse();
-    var m = order.length, score = [], back = [], i, j, t, k;
-    for (i = 0; i < m; i++) { score.push([]); back.push([]); for (t = 0; t <= N; t++) { score[i].push(-Infinity); back[i].push(null); } }
+    // score[L][i][t]: the best trip to the stop at order[i] that ends its night t; L is 1 once a round trip came home by plane
+    var m = order.length, layers = round ? 2 : 1, score = [[], []], back = [[], []], i, j, t, k, L;
+    for (L = 0; L < layers; L++) for (i = 0; i < m; i++) {
+      score[L].push([]); back[L].push([]);
+      for (t = 0; t <= N; t++) { score[L][i].push(-Infinity); back[L][i].push(null); }
+    }
     var open = [];   // open[k]: value of k nights in the opening city, arrival included
     if (first && arrive(first) !== null) nightsOf(first).forEach(function (k) {
       var g = val(first, 1, k);
       if (g !== null && (!n1 || k === n1)) open[k] = g - arrive(first);
     });
-    function better(i, t, v, how) { if (v > score[i][t] + 1e-9) { score[i][t] = v; back[i][t] = how; } }
+    function better(L, i, t, v, how) { if (v > score[L][i][t] + 1e-9) { score[L][i][t] = v; back[L][i][t] = how; } }
     for (j = 0; j < m; j++) {
       var id = order[j], nj = nightsOf(id), aj = arrive(id), hj = first ? hop(first, id) : null;
       nj.forEach(function (n) {
         var g1 = val(id, 1, n);
-        if (aj !== null && g1 !== null) better(j, n, g1 - aj, { kind: 'start' });
+        if (aj !== null && g1 !== null) better(0, j, n, g1 - aj, { kind: 'start' });
         if (hj !== null) open.forEach(function (ov, k) {
           var g = val(id, k + 1, n);
-          if (g !== null) better(j, k + n, ov + g - hj, { kind: 'open', k: k });
+          if (g !== null) better(0, j, k + n, ov + g - hj, { kind: 'open', k: k });
         });
       });
       for (i = 0; i < j; i++) {
         // a place near the city that opens the trip comes right after it, one near the city that closes it right before it
         if (near(first, id) || near(last, order[i])) continue;
+        if (zigzag(order[i], id)) continue;
         var c = hop(order[i], id);
         if (c === null) continue;
-        for (t = 1; t < N; t++) {
-          if (score[i][t] === -Infinity) continue;
-          for (k = 0; k < nj.length; k++) {
-            var g2 = val(id, t + 1, nj[k]);
-            if (g2 !== null) better(j, t + nj[k], score[i][t] + g2 - c, { kind: 'stop', i: i, t: t });
+        for (L = 0; L < layers; L++) {
+          if (L && awayBy(order[i], id)) continue;   // a round trip that came home by plane does not fly out again
+          var L2 = L || homeBy(order[i], id) ? 1 : 0;
+          for (t = 1; t < N; t++) {
+            if (score[L][i][t] === -Infinity) continue;
+            for (k = 0; k < nj.length; k++) {
+              var g2 = val(id, t + 1, nj[k]);
+              if (g2 !== null) better(L2, j, t + nj[k], score[L][i][t] + g2 - c, { kind: 'stop', i: i, t: t, L: L });
+            }
           }
         }
       }
@@ -242,13 +272,13 @@ function planRoute(st, data) {
     }
     var best = null;
     function end(v, how) { if (!best || v > best.score + 1e-9) best = { score: v, how: how }; }
-    for (i = 0; i < m; i++) {
-      if (score[i][N] > -Infinity && depart(order[i]) !== null) end(score[i][N] - depart(order[i]), { i: i, t: N });
+    for (L = 0; L < layers; L++) for (i = 0; i < m; i++) {
+      if (score[L][i][N] > -Infinity && depart(order[i]) !== null) end(score[L][i][N] - depart(order[i]), { L: L, i: i, t: N });
       var cl = last ? hop(order[i], last) : null;
       if (cl !== null) for (t = 1; t < N; t++) {
-        if (score[i][t] === -Infinity) continue;
+        if (score[L][i][t] === -Infinity) continue;
         var vl = close(t);
-        if (vl !== null) end(score[i][t] + vl - cl, { i: i, t: t, last: N - t });
+        if (vl !== null) end(score[L][i][t] + vl - cl, { L: L, i: i, t: t, last: N - t });
       }
     }
     open.forEach(function (ov, k) {
@@ -261,13 +291,13 @@ function planRoute(st, data) {
     if (how.last) stops.push({ id: last, n: how.last });
     if (how.open) stops.unshift({ id: first, n: how.open });
     else {
-      i = how.i; t = how.t;
+      L = how.L; i = how.i; t = how.t;
       while (true) {
-        var b = back[i][t], prevT = b.kind === 'stop' ? b.t : b.kind === 'open' ? b.k : 0;
+        var b = back[L][i][t], prevT = b.kind === 'stop' ? b.t : b.kind === 'open' ? b.k : 0;
         stops.unshift({ id: order[i], n: t - prevT });
         if (b.kind === 'open') { stops.unshift({ id: first, n: b.k }); break; }
         if (b.kind === 'start') break;
-        i = b.i; t = b.t;
+        L = b.L; i = b.i; t = b.t;
       }
     }
     return { score: best.score, stops: stops };

@@ -102,6 +102,20 @@
       need(Math.abs(sum[0] - b.two[0]) < 1e-6 && Math.abs(sum[1] - b.two[1]) < 1e-6, 'budget: the parts add up to the whole');
       need(b.items.every(function (x, i) { return !i || b.items[i - 1].two[1] >= x.two[1]; }), 'budget: the paid things dearest first');
     });
+    // no zigzag by plane around the airports' regions (REGION_H by road, see planRoute): no flight back into the region of
+    // the arrival airport or out of the region of the departure airport, and on a round trip no flight out of the home
+    // region after a flight back into it
+    var homeAgain = false;
+    function inRegion(x, airport) { return DATA.graph.road[airport][node(x.id)] <= REGION_H; }
+    r.stops.forEach(function (x, i) {
+      if (!i || !x.leg.flights) return;
+      var y = r.stops[i - 1];
+      need(!(inRegion(x, s.from) && !inRegion(x, s.to)), x.id + ': a flight back into the region of ' + s.from);
+      need(!(inRegion(y, s.to) && !inRegion(y, s.from)), y.id + ': a flight out of the region of ' + s.to);
+      if (s.from !== s.to) return;
+      need(!(homeAgain && inRegion(y, s.from) && !inRegion(x, s.from)), y.id + ': a flight out of the home region after coming home by plane');
+      if (inRegion(x, s.from) && !inRegion(y, s.from)) homeAgain = true;
+    });
     need(nights === st.days - 1, nights + ' nights, want ' + (st.days - 1));
     need(r.days === st.days, 'days ' + r.days);
     // before the trip (page.js): what to book (keys of BOOK, the most urgent first), what to pack, entry and health

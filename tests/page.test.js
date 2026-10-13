@@ -549,6 +549,29 @@ var pDH = [stopDays(CONTENT.danang, rDH.stops[0], 0, 2, [3, 3, 3, 3, 3]), stopDa
 function keysOfB(b) { return b.items.map(function (x) { return x.key; }).filter(function (k) { return /^haivan/.test(k); }); }
 eq([keysOfB(tripBudget(rDH, pDH, [], BUDR)), keysOfB(tripBudget(rDH, pDH, ['haivan'], BUDR)), keysOf(bookList(rDH, pDH, [], BOOKD)).indexOf('haivan.car_dn') > -1],
   [['haivan.car_dn'], ['haivan.moto_dn'], true], 'Đà Nẵng to Huế: the car over the pass from Đà Nẵng, or the motorbike ridden yourself; the car on the list of what to book');
+// no zigzag by plane around the airports' regions (REGION_H, plan 2): the zigzag from the list after plan 1 (Đà Nẵng to
+// Hồ Chí Minh City, 28.01–14.02.2027, culture and food, level 1: Hội An, ✈ Hà Nội, ✈ Huế) and a round trip from Đà Nẵng
+// that came home by plane in the middle and flew out again (January, 18 days: ✈ Đà Lạt, ✈ Huế, Phong Nha, ✈ Hà Nội)
+function inRegionAll(id, airport) { return DATA_ALL.graph.road[airport][id] <= REGION_H; }
+// the stops reached by a flight into the airport's region, and those left by a flight out of it after one came in
+function flownInto(t, airport) {
+  return t.r.stops.filter(function (x, i) { return i > 0 && x.leg.flights && inRegionAll(x.id, airport) && !inRegionAll(t.r.stops[i - 1].id, airport); })
+    .map(function (x) { return x.id; });
+}
+function flownOutAgain(t, airport) {
+  var home = false, out = [];
+  t.r.stops.forEach(function (x, i) {
+    if (!i || !x.leg.flights) return;
+    var y = t.r.stops[i - 1].id;
+    if (home && inRegionAll(y, airport) && !inRegionAll(x.id, airport)) out.push(y);
+    if (inRegionAll(x.id, airport) && !inRegionAll(y, airport)) home = true;
+  });
+  return out;
+}
+var tZZ = tripAll({ from: 'DAD', to: 'SGN', start: '2027-01-28', end: '2027-02-14', interests: ['kultura', 'jedzenie'], level: 1 });
+var tRT = tripAll({ from: 'DAD', to: 'DAD', month: 1, days: 18, interests: [], level: 1 });
+eq([tZZ.r.stops[0].id, flownInto(tZZ, 'DAD'), flownInto(tRT, 'DAD').length > 0, flownOutAgain(tRT, 'DAD')], ['hoian', [], true, []],
+  'Đà Nẵng to Hồ Chí Minh City: Hội An first, no flight back near Đà Nẵng; a round trip from Đà Nẵng comes home by plane and flies out no more');
 print('stage 3 ok');
 
 /* ---------- travel texts ---------- */

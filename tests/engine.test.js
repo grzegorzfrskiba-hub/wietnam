@@ -240,6 +240,34 @@ function nbPlan(days, rule) {
 }
 eq([nbPlan(8, false), nbPlan(8, true), nbPlan(5, true)], ['h2 s3 n2', 'h1 s2 t3 h1', 'h2 n2'],
   'a round trip from XH: no way back to n after a flight south (with the rule); n right after h when it fits');
+
+/* An airport's region (REGION_H by road) keeps a trip from zigzagging by plane: it never flies back into the region of
+   its arrival airport nor out of the region of its departure airport to come back, and a round trip that came home by
+   plane does not fly out again; by road it may (REGION_H 0 turns the rule off). a is the city of airport XA, b lies
+   3 h from it by road; c lies far north by airport XC, e and d far south by airport XD, d its city; road: a road
+   from c to b, 5 h, shorter than the way by plane. */
+var ZG_D = 'DDDDDDDDDDDD';
+var ZG_PLACES = {
+  a: { axis: 5, nights: [1, 2, 2], level: 1, fit: { kultura: 3 } },
+  b: { axis: 5.5, nights: [1, 2, 2], level: 1, fit: { przyroda: 3 } },
+  c: { axis: 9, nights: [2, 3, 3], level: 1, fit: { przyroda: 3 } },
+  e: { axis: 2, nights: [2, 2, 3], level: 1, fit: { przyroda: 3 } },
+  d: { axis: 1, nights: [1, 2, 2], level: 1, fit: { kultura: 1 } }
+};
+function zgPlan(to, rule, road) {
+  var roads = [['XA', 'a', 0.5], ['a', 'b', 3], ['XC', 'c', 0.5], ['XD', 'e', 1], ['XD', 'd', 0.5]].concat(road ? [['b', 'c', 5]] : []);
+  var data = { places: ZG_PLACES, seasons: { a: ZG_D, b: ZG_D, c: ZG_D, e: ZG_D, d: ZG_D }, hubs: { XA: 'a', XD: 'd' },
+    graph: travelGraph(roads, [['XA', 'XC', 1], ['XC', 'XD', 1.5], ['XA', 'XD', 1]]) };
+  var keep = REGION_H, st = normSettings({ from: 'XA', to: to, month: 3, days: 10, interests: ['przyroda'] }, data.places, data.hubs);
+  if (!rule) REGION_H = 0;
+  var r = planRoute(st, data);
+  REGION_H = keep;
+  return r.ok ? r.stops.map(function (x) { return (x.leg.flights ? '✈' : '') + x.id + x.n; }).join(' ') : r.error;
+}
+eq([zgPlan('XD', false), zgPlan('XD', true), zgPlan('XD', true, true)], ['a1 ✈c3 ✈b2 ✈e3', 'a2 ✈c3 ✈e3 d1', 'a1 ✈c3 b2 ✈e3'],
+  'from XA to XD: without the rule a flight from c back to b, by XA; with it b stays off, or comes by road');
+eq([zgPlan('XA', false), zgPlan('XA', true), zgPlan('XA', true, true)], ['a1 ✈e2 ✈b2 ✈c3 ✈a1', 'a1 ✈d1 e3 ✈c3 ✈a1', 'a1 ✈e2 ✈b2 c3 ✈a1'],
+  'a round trip from XA: without the rule home to b by plane and out again to c by plane; with it not, but out by road');
 print('planning ok');
 
 /* ---------- settings: the year and the types of airports and dates (plan 1B) ---------- */
