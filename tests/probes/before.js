@@ -17,7 +17,7 @@ setTimeout(function () {
   check('the figure and the budget part say the same amount', textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), textOf('#b-budget .b-sum b'));
   check('the list of what to book has its items, each with a sentence', document.querySelectorAll('#b-book .b-book li').length > 0);
   // Cao Bằng ridden yourself
-  var before = ids(), money = fig.querySelector('b').textContent, self = document.querySelector('input[name="swap-caobang"][value="self"]');
+  var before = ids(), money = fig.querySelector('b').textContent, self = document.querySelector('.swap[data-swap="caobang"] input[value="self"]');
   check('the Cao Bằng card offers „Z kierowcą” and „Samodzielnie”, with the legal condition', self && /A1, A2 albo A/.test(textOf('#stops .swap[data-swap="caobang"] .swap-note')));
   self.click();
   setTimeout(function () {
@@ -27,9 +27,10 @@ setTimeout(function () {
     check('the days of the loop ride the motorbike', Array.prototype.some.call(card.querySelectorAll('.day h4'), function (h) { return /motocyklem/.test(h.textContent); }));
     check('what it takes, the risk and the advice show', !!card.querySelector('.swap-box') && /starostwo/.test(card.querySelector('.swap-box').textContent));
     check('the budget follows', document.querySelector('#facts .f-budget b').textContent !== money, money + ' → ' + document.querySelector('#facts .f-budget b').textContent);
-    check('the focus stays on the choice', document.activeElement && document.activeElement.name === 'swap-caobang' && document.activeElement.value === 'self');
+    check('the focus stays on the choice', document.activeElement && /^swap-caobang-\d+$/.test(document.activeElement.name) && document.activeElement.value === 'self',
+      document.activeElement && document.activeElement.name);
     check('„Przed wyjazdem” books the motorbike', /Motocykl na pętlę Cao Bằng/.test(textOf('#b-book')));
-    document.querySelector('input[name="swap-caobang"][value="driver"]').click();
+    document.querySelector('.swap[data-swap="caobang"] input[value="driver"]').click();
     setTimeout(function () {
       check('„Z kierowcą” takes it back: no swap in the link, no box', !/motocykl=/.test(location.hash) && !document.querySelector('#stops .swap-box'), location.hash);
       // the road over the Hải Vân pass, on a trip from Hồ Chí Minh City to Hà Nội: a new link, so the form follows (a swap
@@ -37,12 +38,15 @@ setTimeout(function () {
       var at = soon();
       location.hash = '#od=SGN&do=HAN&miesiac=' + at.year + '-' + (at.month < 10 ? '0' : '') + at.month + '&dni=15&co=&poziom=2';
       setTimeout(function () {
-      var road = document.querySelector('input[name="swap-haivan"][value="self"]');
+      var road = document.querySelector('.swap[data-swap="haivan"] input[value="self"]');
+      // each card's swap is a radio group of its own: the day of the card is in its name
+      var names = Array.prototype.map.call(document.querySelectorAll('.swap'), function (b) { return b.querySelector('input').name; });
+      check('each swap in a card is a radio group of its own', names.every(function (n, i) { return /^swap-[a-z]+-\d+$/.test(n) && names.indexOf(n) === i; }), names.join(', '));
       check('the card of the road between Hội An and Huế offers the swap', !!road && !!road.closest('.leg'));
       if (!road) { done(); return; }
       road.click();
       setTimeout(function () {
-        var leg = document.querySelector('input[name="swap-haivan"]').closest('.leg');
+        var leg = document.querySelector('.swap[data-swap="haivan"]').closest('.leg');
         check('the road is ridden yourself: its text says so, the link too', /Motocykl wypożyczony w jedną stronę/.test(leg.textContent.replace(/\s+/g, ' ')) && /motocykl=haivan/.test(location.hash), location.hash);
         // on a phone (640 px or less) the road's text takes the width of the card and its time stands under it (template.html)
         var seg = leg.querySelector('.leg-segs li'), segW = seg.getBoundingClientRect().width, txt = seg.children[1].getBoundingClientRect(), time = seg.children[2].getBoundingClientRect();
@@ -81,12 +85,12 @@ setTimeout(function () {
                 setTimeout(function () {
                   document.querySelector('#settings-form input[name=mode][value=dates]').click();
                   setField('end', '2026-01-01');
-                  var sw = document.querySelector('input[name="swap-haivan"][value="self"]');
+                  var sw = document.querySelector('.swap[data-swap="haivan"] input[value="self"]');
                   check('the road over the Hải Vân pass is on the trip', !!sw);
                   if (!sw) { done(); return; }
                   sw.click();
                   setTimeout(function () {
-                    var on = document.querySelector('input[name="swap-haivan"]:checked'), said = textOf('#settings-msg');
+                    var on = document.querySelector('.swap[data-swap="haivan"] input:checked'), said = textOf('#settings-msg');
                     check('a swap on a form that gives no trip goes back to „Z kierowcą” and says why next to it', !!on && on.value === 'driver' &&
                       !/motocykl=/.test(location.hash) && said !== '' && textOf('.swap[data-swap="haivan"]').indexOf(said) > -1, (on && on.value) + ' | ' + said);
                     done();

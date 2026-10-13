@@ -433,7 +433,15 @@ function selfSwaps(moto, swaps) {
   (moto || []).forEach(function (id) {
     var w = swaps[id];
     if (w && w.place) out.places[w.place] = true;
-    if (w && w.road) out.roads[w.road] = { text: w.text, cost: w.cost.self };
+    if (w && w.roads) Object.keys(w.roads).forEach(function (pair) { out.roads[pair] = { text: w.roads[pair].text, cost: w.roads[pair].cost.self }; });
+  });
+  return out;
+}
+/* The roads of all swaps, by their two places in alphabetical order: { swap: its id, cost: { driver, self } }. */
+function swapRoads(swaps) {
+  var out = {};
+  Object.keys(swaps).forEach(function (id) {
+    Object.keys(swaps[id].roads || {}).forEach(function (pair) { out[pair] = { swap: id, cost: swaps[id].roads[pair].cost }; });
   });
   return out;
 }
@@ -503,8 +511,7 @@ function tripBudget(route, plans, moto, data) {
     if (!items[key]) { items[key] = { key: key, two: [0, 0], one: [0, 0] }; order.push(key); }
     [0, 1].forEach(function (i) { items[key].two[i] += c.two[i]; items[key].one[i] += c.one[i]; });
   }
-  var roadOf = {};   // the roads of the swaps: their cost each way
-  Object.keys(data.swaps).forEach(function (id) { if (data.swaps[id].road) roadOf[data.swaps[id].road] = data.swaps[id].cost; });
+  var roadOf = swapRoads(data.swaps);   // the roads of the swaps: their cost each way
   function leg(L) {
     L.segs.forEach(function (g) {
       if (g.mode === 'fly') {
@@ -514,7 +521,7 @@ function tripBudget(route, plans, moto, data) {
       }
       var pair = [g.from, g.to].sort().join('-');
       if (roadOf[pair]) {
-        var k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].driver;
+        var k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].cost.driver;
         add('travel', itemCost(C.items[k]), k);
         return;
       }
@@ -560,8 +567,7 @@ function ridesOn(route, moto, swaps) {
    key). route, plans, moto: as for tripBudget; data: { costs, book, swaps, places, airports, airKeys, homestays,
    shortFlightH }. */
 function bookList(route, plans, moto, data) {
-  var C = data.costs, self = selfSwaps(moto, data.swaps), out = {}, order = [], roadOf = {};
-  Object.keys(data.swaps).forEach(function (id) { if (data.swaps[id].road) roadOf[data.swaps[id].road] = data.swaps[id].cost; });
+  var C = data.costs, self = selfSwaps(moto, data.swaps), out = {}, order = [], roadOf = swapRoads(data.swaps);
   function entry(key) {
     var b = data.book[key];
     if (!b || !(b.ahead > 0)) return null;
@@ -591,7 +597,7 @@ function bookList(route, plans, moto, data) {
         cost(e, { two: [C.car[0] * g.h / 2, C.car[1] * g.h / 2], one: [C.car[0] * g.h, C.car[1] * g.h] });
         if (e && !e.list.some(function (x) { return x[0] === code && x[1] === place; })) e.list.push([code, place]);   // a road both ways: named once
       } else if (roadOf[pair]) {
-        k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].driver;
+        k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].cost.driver;
         cost(entry(C.items[k].book || k), itemCost(C.items[k]));
       } else entry('transfer');
     });

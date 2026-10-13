@@ -362,7 +362,7 @@ print('why ok');
 var COSTS_T = { night: { a: [10, 20], b: [30, 50] }, day: [10, 20], daySolo: [1, 2], shared: [2, 3], car: [10, 16], flight: { short: [30, 60], long: [40, 80] },
   items: { 'a.boat': { pp: [0, 0], group: [10, 20] }, 'b.night': { pp: [8, 8], group: [20, 30], night: true }, 'x.car': { pp: [0, 0], group: [20, 40] },
     'x.rider': { pp: [12, 18], group: [0, 0] }, 'r.car': { pp: [0, 0], group: [30, 50] }, 'r.moto': { pp: [15, 20], group: [0, 0] } } };
-var BUD = { costs: COSTS_T, places: { a: {}, b: {} }, swaps: { w: { road: 'a-b', text: 'r.t', cost: { driver: 'r.car', self: 'r.moto' } } }, shortFlightH: 1.5 };
+var BUD = { costs: COSTS_T, places: { a: {}, b: {} }, swaps: { w: { roads: { 'a-b': { text: 'r.t', cost: { driver: 'r.car', self: 'r.moto' } } } } }, shortFlightH: 1.5 };
 var RT = { days: 5, stops: [{ id: 'a', n: 2, leg: { segs: [{ mode: 'road', from: 'XA', to: 'a', h: 1 }] } }, { id: 'b', n: 2, leg: { segs: [{ mode: 'road', from: 'a', to: 'b', h: 3 }] } }],
   home: { segs: [{ mode: 'road', from: 'b', to: 'XB', h: 0.5 }, { mode: 'fly', from: 'XB', to: 'XC', h: 2 }] } };
 var PL = [[{ cost: ['a.boat'] }, { cost: [] }], [{ cost: [['x.car', 'x.rider']] }, { cost: ['b.night'] }]];

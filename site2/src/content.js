@@ -79,11 +79,11 @@ var FERRY = {
 };
 
 /* Either-or choices inside a trip (plan 2B): for now riding a motorbike yourself instead of being driven, on the loop around
-   Cao Bằng and on the road over the Hải Vân pass. A link lists the swaps set to „Samodzielnie” (motocykl=caobang,haivan);
-   the trip does not change. place: the place whose days take their self versions (the days of the loop); road: a road of
-   ROAD_KEYS, with text, its UI key when ridden yourself, and cost, the item of COSTS (costs.js) for each way: driver (with
-   a driver, the usual) and self. */
+   Cao Bằng and on the roads over the Hải Vân pass. A link lists the swaps set to „Samodzielnie” (motocykl=caobang,haivan);
+   the trip does not change. place: the place whose days take their self versions (the days of the loop); roads: the roads
+   of ROAD_KEYS the swap rides, by their two places in alphabetical order, each with text, its UI key when ridden yourself,
+   and cost, the item of COSTS (costs.js) for each way: driver (with a driver, the usual) and self. */
 var SWAPS = {
   caobang: { place: 'caobang' },
-  haivan: { road: 'hoian-hue', text: 'r.haivan_self', cost: { driver: 'haivan.car', self: 'haivan.moto' } }
+  haivan: { roads: { 'hoian-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car', self: 'haivan.moto' } } } }
 };

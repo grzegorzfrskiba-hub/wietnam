@@ -372,12 +372,13 @@
   }
 
   /* The either-or choice of a swap (SWAPS in content.js) inside a card: „Z kierowcą” or „Samodzielnie” as two radio buttons,
-     the legal condition under them and, when ridden yourself, what it takes, the risk and the advice. */
-  function swapBlock(id) {
+     the legal condition under them and, when ridden yourself, what it takes, the risk and the advice. day: the card's day,
+     in the name of the radio group, so a swap met twice on a trip (there and back over a pass) makes two groups. */
+  function swapBlock(id, day) {
     var self = state.settings.moto.indexOf(id) > -1;
     return '<div class="swap" data-swap="' + id + '"><p class="swap-h">' + T('sw.' + id) + '</p>' +
       '<div class="seg swap-seg" role="radiogroup" aria-label="' + esc(T('sw.' + id)) + '">' + ['driver', 'self'].map(function (v) {
-        return '<label><input type="radio" name="swap-' + id + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + T('sw.' + v) + '</span></label>';
+        return '<label><input type="radio" name="swap-' + id + '-' + day + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + T('sw.' + v) + '</span></label>';
       }).join('') + '</div><p class="swap-note">' + esc(T('sw.note')) + '</p>' +
       (self ? '<div class="swap-box"><p><b>' + T('sw.req.h') + '</b>' + esc(T('sw.req')) + '</p><p><b>' + T('sw.risk.h') + '</b>' + esc(T('sw.risk')) + '</p>' +
         '<p><b>' + T('sw.tips.h') + '</b>' + esc(T('sw.tips') + ' ' + T('sw.tips.' + id)) + '</p></div>' : '') + '</div>';
@@ -385,9 +386,8 @@
   // the swap of a place (its days), or of a road of the leg L (SWAPS), or undefined
   function swapOfPlace(id) { return Object.keys(SWAPS).filter(function (k) { return SWAPS[k].place === id; })[0]; }
   function swapOfLeg(L) {
-    return Object.keys(SWAPS).filter(function (k) {
-      return SWAPS[k].road && L.segs.some(function (g) { return g.mode === 'road' && [g.from, g.to].sort().join('-') === SWAPS[k].road; });
-    })[0];
+    var roads = swapRoads(SWAPS), g = L.segs.filter(function (g) { return g.mode === 'road' && roads[[g.from, g.to].sort().join('-')]; })[0];
+    return g ? roads[[g.from, g.to].sort().join('-')].swap : undefined;
   }
 
   /* The journey on a given day: L is a stay's leg from planRoute, or the way home (toId null). prev: the stay before. */
@@ -408,7 +408,7 @@
       (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
         esc(notes.join(' ')) +
         (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
-      (sw ? swapBlock(sw) : '') + '</div>';
+      (sw ? swapBlock(sw, day) : '') + '</div>';
   }
   function mapsLink(a, b) {
     function where(n) { return AIRPORTS[n] ? AIRPORTS[n].maps : C(n).maps; }
@@ -437,7 +437,7 @@
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
         '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
         '<div class="why">' + stayFacts(i, compact) + '</div>' +
-        (again ? '' : gallery(s.id)) + (sw ? swapBlock(sw) : '') + '<ol class="days">' + state.plans[i].map(function (d) {
+        (again ? '' : gallery(s.id)) + (sw ? swapBlock(sw, s.start) : '') + '<ol class="days">' + state.plans[i].map(function (d) {
           return dayItem(d, rainyMonth(CLIMATE[s.id], state.st.months[d.day - 1] + 1));
         }).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
     });
@@ -729,7 +729,7 @@
     document.addEventListener('change', function (e) {
       var name = e.target.name || '';
       if (name.indexOf('swap-') !== 0) return;
-      var id = name.slice(5);
+      var id = e.target.closest('.swap').getAttribute('data-swap');
       if (apply(withSwap(readForm(), id, e.target.value === 'self'))) {
         syncForm();
         var again = document.querySelector('input[name="' + name + '"]:checked');

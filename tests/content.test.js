@@ -141,12 +141,19 @@ contentCheck('content', function (need) {
     });
     Object.keys(f.land).forEach(function (code) { need(t.test(f.land[code]) && t.test(f.at[code] || ''), 'FERRY.' + id + ': the landing and the time at ' + code); });
   });
-  // the swaps: a place with self versions of its days, or a road of ROAD_KEYS with a self text and a cost for each way
+  // the swaps: a place with self versions of its days, or roads of ROAD_KEYS, each with a self text and a cost for each way;
+  // a road belongs to one swap only
+  var swapOfRoad = {};
   Object.keys(SWAPS).forEach(function (k) {
     var w = SWAPS[k];
     if (w.place) need(CONTENT[w.place] && CONTENT[w.place].days.some(function (d) { return d.self; }), 'SWAPS.' + k + ': ' + w.place + ' has days with a self version');
-    if (w.road) need(ROAD_KEYS[w.road] && UI.pl[w.text] && COSTS.items[w.cost.driver] && COSTS.items[w.cost.self], 'SWAPS.' + k + ': a road of ROAD_KEYS, its self text and the cost of each way');
-    need(!!w.place !== !!w.road, 'SWAPS.' + k + ': a place or a road');
+    Object.keys(w.roads || {}).forEach(function (pair) {
+      var r = w.roads[pair];
+      need(ROAD_KEYS[pair] && UI.pl[r.text] && COSTS.items[r.cost.driver] && COSTS.items[r.cost.self], 'SWAPS.' + k + ': ' + pair + ' is a road of ROAD_KEYS with its self text and the cost of each way');
+      need(!swapOfRoad[pair], 'SWAPS.' + k + ': ' + pair + ' is a road of ' + swapOfRoad[pair] + ' too');
+      swapOfRoad[pair] = k;
+    });
+    need(!!w.place !== !!(w.roads && Object.keys(w.roads).length), 'SWAPS.' + k + ': a place or roads');
   });
   // every item of COSTS is the cost of some plan or of a swap's road
   var paid = {};
@@ -155,7 +162,9 @@ contentCheck('content', function (need) {
       [d, d.easy, d.hard, d.solo, d.self].forEach(function (v) { ((v && v.cost) || []).forEach(function (e) { [].concat(e).forEach(function (x) { paid[x] = true; }); }); });
     });
   });
-  Object.keys(SWAPS).forEach(function (k) { if (SWAPS[k].cost) { paid[SWAPS[k].cost.driver] = true; paid[SWAPS[k].cost.self] = true; } });
+  Object.keys(SWAPS).forEach(function (k) {
+    Object.keys(SWAPS[k].roads || {}).forEach(function (pair) { var c = SWAPS[k].roads[pair].cost; paid[c.driver] = true; paid[c.self] = true; });
+  });
   Object.keys(COSTS.items).forEach(function (k) { need(paid[k], 'COSTS.items ' + k + ' is no cost of any plan or swap'); });
 });
 
@@ -262,7 +271,7 @@ contentCheck('ui', function (need) {
   (tpl.match(/data-i18n(?:-html|-alt|-aria)?="[^"]+"/g) || []).forEach(function (m) { wants(m.split('"')[1], 'template.html'); });
   (page.match(/'[rn]\.[a-z_]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'page.js'); });
   Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
-  Object.keys(SWAPS).forEach(function (k) { if (SWAPS[k].text) wants(SWAPS[k].text, 'SWAPS'); });
+  Object.keys(SWAPS).forEach(function (k) { Object.keys(SWAPS[k].roads || {}).forEach(function (pair) { wants(SWAPS[k].roads[pair].text, 'SWAPS'); }); });
   Object.keys(AIR_KEYS).forEach(function (k) { wants(AIR_KEYS[k].text, 'AIR_KEYS'); });
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
   (panels.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'panels.js (names on the basemap)'); });
