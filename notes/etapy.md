@@ -83,6 +83,7 @@ Każda partia kończy się pełnym testem kombinacji.
 ## Etap 4: audyt i publikacja (po partii A)
 
 - audyt jak 9.10 w pierwowzorze: kombinacje, treść, linki, telefon;
+- przegląd [wizja.md](wizja.md) z tym, co jest na stronie: „Kryteria sukcesu”, „Jak działa strona”, „Poza zakresem” i decyzje (budżet, „Przed wyjazdem”, przełącznik motocykla doszły po 9.10.2026). Rozbieżności poprawić w wizji, z datą aktualizacji. Osobnego PRD nie ma i nie piszemy go: jego rolę pełni wizja;
 - wersja offline: PDF z wydruku i lekki plik offline, z decyzją o formacie;
 - przełączenie repo `wietnam` na publiczne, README z „©”, GitHub Pages pod https://grzegorzfrskiba-hub.github.io/wietnam/;
 - pierwsze linki dla znajomych.
