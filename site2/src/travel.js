@@ -1,4 +1,6 @@
-/* Roads and direct domestic flights. Every value has its source and date in research/polaczenia-2026-10.md.
+/* Roads and direct domestic flights. Every value has its source and date in research/polaczenia-2026-10.md (two roads
+   shortened on 13.10.2026 to the way through Hà Nội: its „Uzupełnienie 13.10.2026”), a road of a place added in stage 3 in
+   that place's research note (research/<id>-2026-10.md). No road is longer than the way over the other roads.
    ROADS: [a, b, hours door to door], two-way; ends are places or airport codes.
    FLIGHTS: [a, b, hours in the air], two-way; the engine adds AIRPORT_H at the airports for each flight. */
 var ROADS = [
@@ -8,9 +10,9 @@ var ROADS = [
   // the centre
   ['DAD', 'hoian', 0.75], ['DAD', 'hue', 2.5], ['HUI', 'hue', 0.5], ['hoian', 'hue', 3.25],
   // the north
-  ['HAN', 'hanoi', 0.75], ['HAN', 'ninhbinh', 2.25], ['HAN', 'catba', 4], ['HAN', 'puluong', 5.25], ['HAN', 'babe', 5], ['HAN', 'caobang', 6.25],
+  ['HAN', 'hanoi', 0.75], ['HAN', 'ninhbinh', 2.25], ['HAN', 'catba', 4], ['HAN', 'puluong', 5], ['HAN', 'babe', 5], ['HAN', 'caobang', 6.25],
   ['hanoi', 'ninhbinh', 2], ['hanoi', 'catba', 4], ['hanoi', 'caobang', 6.5], ['hanoi', 'babe', 5.25], ['hanoi', 'puluong', 4.25],
-  ['puluong', 'ninhbinh', 3.5], ['puluong', 'catba', 7.5], ['ninhbinh', 'catba', 4.5], ['ninhbinh', 'caobang', 9.25], ['ninhbinh', 'babe', 7],
+  ['puluong', 'ninhbinh', 3.5], ['puluong', 'catba', 7.5], ['ninhbinh', 'catba', 4.5], ['ninhbinh', 'caobang', 8.5], ['ninhbinh', 'babe', 7],
   ['catba', 'caobang', 9.5], ['caobang', 'babe', 4.5],
   // the extra airports: Cát Bi (HPH) near Cát Bà, Thọ Xuân (THD) near Pù Luông and Ninh Bình
   ['HPH', 'catba', 1.75], ['THD', 'puluong', 2.5], ['THD', 'ninhbinh', 2]

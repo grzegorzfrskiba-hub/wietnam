@@ -44,6 +44,12 @@ dataCheck('travel', function (need) {
     seen[k] = true;
   });
   Object.keys(PLACES).forEach(function (id) { need(G.h[node(id)], id + ': no road or flight reaches it'); });
+  // a road is no longer than the shortest way between its ends over the other roads, or the engine never takes it
+  // (research/polaczenia-2026-10.md, „Uzupełnienie 13.10.2026”)
+  ROADS.forEach(function (r, i) {
+    var other = travelGraph(ROADS.filter(function (x, j) { return j !== i; }), []).road, d = other[r[0]] && other[r[0]][r[1]];
+    need(!(d < r[2] - 1e-9), 'road ' + r.join(' ') + ': the other roads take ' + d + ' h');
+  });
   // every airport code is a known airport (AIRPORTS in content.js), so a typo makes no airport of its own
   ROADS.concat(FLIGHTS).forEach(function (r) {
     [r[0], r[1]].forEach(function (e) { if (/^[A-Z]{3}$/.test(e)) need(AIRPORTS[e], (r.length && FLIGHTS.indexOf(r) > -1 ? 'flight ' : 'road ') + r.join(' ') + ': ' + e + ' is no airport of AIRPORTS'); });
