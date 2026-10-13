@@ -202,7 +202,7 @@ UI.pl = {
   'b.phongnha.paradise7': '7 km w Paradise Cave: w ośrodku Paradise Cave 3–7 dni wcześniej, w szczycie 1–2 tygodnie.',
   'b.sapa.fansipan': 'Fansipan pieszo w dwa dni, z firmą, która załatwi zgodę parku: 3–7 dni wcześniej, w szczycie 1–2 tygodnie. Zapytaj o numer licencji firmy i o to, czy przewodnik ma kartę wejścia wydaną przez park.',
   'b.sapa.trek': 'Przewodnik na wędrówkę przez Lao Chải i Tả Van: 1–2 dni wcześniej, w porze złotych tarasów i w święta ok. tygodnia.',
-  'b.sapa.car': 'Samochód z kierowcą na dzień w okolicy Sa Pa: dzień wcześniej, przez hotel.',
+  'b.sapa.car': 'Samochód z kierowcą na dzień w okolicy Sa Pa: dzień wcześniej przez hotel, w szczycie 2–3 dni wcześniej.',
   'b.flights': 'Loty krajowe: {x}. Kupuj ok. 3 tygodnie wcześniej.',
   'b.cattien.bausau_night': 'Noc nad Bàu Sấu: telefonem, przez Zalo albo e-mailem w parku Cát Tiên, 2–4 tygodnie wcześniej, w święta co najmniej miesiąc; miejsc jest ok. 19.',
   'b.catba.cruise': 'Rejs po Zatoce Lan Hạ z noclegiem na statku, z wypłynięciem z Cát Bà: 1–2 tygodnie wcześniej, od października do kwietnia 2–4 tygodnie.',
