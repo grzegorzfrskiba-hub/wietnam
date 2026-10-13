@@ -154,7 +154,7 @@ function variantOf(day, level, month, notLate, self) {
   var hard = level === 3 && day.hard && (day.hard.off || []).indexOf(month) < 0 && !(notLate && day.hard.late);
   var v = self && day.self ? 'self' : level === 1 && day.easy ? 'easy' : hard ? 'hard' : null;
   var src = v ? day[v] : day;
-  return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v,
+  return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: (v === 'hard' && day.hard.rain ? day.hard.rain : day.rain) || null, variant: v,
     cost: (src.cost || day.cost || []).slice(), pack: (src.pack || day.pack || []).slice() };
 }
 // a plan that has no versions: the solo plan of one night, the arrival day of a second stay, the second day of a two-day

@@ -73,12 +73,15 @@ contentCheck('content', function (need) {
       if (d.rain != null) need(isText(d.rain), w + ': rain is a text');
       if (d.easy) plan(w + ' easy', d.easy, ['pace', 't', 'd', 'early']);
       if (d.hard) {
-        plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off', 'late', 'next']);
+        plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off', 'late', 'next', 'rain']);
+        if (d.hard.rain != null) need(isText(d.hard.rain), w + ' hard: rain is a text');
         need(/przewodnik|operator/i.test(d.hard.d) && !/bez (przewodnik|operator)/i.test(d.hard.d), w + ' hard: say who leads (przewodnik or operator, not „bez przewodnika”)');
         if (d.hard.late != null) need(typeof d.hard.late === 'boolean', w + ' hard: late is true or false');
         if (d.hard.next != null) {
           plan(w + ' hard next', d.hard.next, ['pace', 't', 'd', 'early']);
           need(d.hard.late === true, w + ' hard: a version over two days spends its night away (late: true)');
+          // the day's rain plan is for another day: an expedition says what its operator does in heavy rain
+          need(isText(d.hard.rain), w + ' hard: a version over two days has its own rain plan (hard.rain)');
         }
         if (d.hard.off != null) {
           need(Array.isArray(d.hard.off) && d.hard.off.length < 12 && d.hard.off.every(function (m) { return typeof m === 'number' && m % 1 === 0 && m >= 1 && m <= 12; }),

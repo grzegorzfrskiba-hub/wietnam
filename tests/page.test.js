@@ -526,6 +526,10 @@ function plansAll(t) {
 function pn(level, months) { return stopDays(CONTENT.phongnha, { n: 3, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
 eq([pn(3, [2, 2, 2]), pn(3, [9, 9, 9]), pn(2, [2, 2, 2]), pn(1, [2, 2, 2])], [['-', 'hard', 'hard'], ['-', '-', '-'], ['-', '-', '-'], ['-', 'easy', 'easy']],
   'Phong Nha, three nights: Hang Én on days 2 and 3 at level 3 in March, not in October (no expeditions); the usual and the easy days at levels 2 and 1');
+// an expedition has its own rain plan, not that of the day it replaces; its second day has none; the usual day keeps its own
+var rainPN = function (level) { return stopDays(CONTENT.phongnha, { n: 3, start: 1 }, 0, level, [2, 2, 2]).map(function (d) { return d.rain; }); };
+eq([rainPN(3)[1] === CONTENT.phongnha.days[1].hard.rain, rainPN(3)[2], rainPN(2)[1] === CONTENT.phongnha.days[1].rain], [true, null, true],
+  'Phong Nha in March: Hang Én with its own rain plan, none on its second day; at level 2 the day of Paradise Cave keeps its own');
 // a stay of a place on a trip found with Dodaj (the place asked for), so that later places do not move the check
 function stayOf(t, id) { var i = t.r.stops.map(function (x) { return x.id; }).indexOf(id); return { n: t.r.stops[i].n, days: plansAll(t)[i].map(function (d) { return d.variant || '-'; }) }; }
 var tPN = tripAll({ from: 'DAD', to: 'DAD', year: 2027, month: 3, days: 8, interests: ['gory'], level: 3, add: ['phongnha'] }), sPN = stayOf(tPN, 'phongnha');
