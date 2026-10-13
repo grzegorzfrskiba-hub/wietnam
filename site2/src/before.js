@@ -33,3 +33,5 @@ var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-1
     { name: 'GIS: szczepienia dla podróżujących', url: 'https://www.gov.pl/web/gis/zalecane-szczepienia-dla-podrozujacych' }] };
 // the places where a stay sleeps with hosts (the plans of their first day say so): their rooms go on the list of what to book
 var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang'];
+// the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)
+var HOMESTAY_NOTES = ['puluong'];

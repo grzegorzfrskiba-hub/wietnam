@@ -38,7 +38,7 @@ SCENARIOS.forEach(function (s, n) {
   out.push('| Dni | Miejsce | Noce | Sezon | Dojazd |', '|---|---|---|---|---|');
   var road = r.home.total, flights = 0;
   r.stops.forEach(function (x) {
-    out.push('| ' + x.start + '–' + x.end + ' | ' + PLACES[x.id].name + ' | ' + x.n + ' | ' + x.season + ' | ' + legText(x.leg) + ' |');
+    out.push('| ' + x.start + '–' + x.end + ' | ' + CONTENT[x.id].short + ' | ' + x.n + ' | ' + x.season + ' | ' + legText(x.leg) + ' |');
     road += x.leg.total; flights += x.leg.flights;
   });
   out.push('', 'Dzień ' + r.days + ': wylot, dojazd ' + legText(r.home) + '. Razem w drodze ' + hours(road) + ', lotów krajowych: ' + flights + '.' +

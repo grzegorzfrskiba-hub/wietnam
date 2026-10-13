@@ -560,10 +560,11 @@ function ridesOn(route, moto, swaps) {
 }
 
 /* What to book ahead on this trip, the most urgent first (by ahead in BOOK; a tie keeps the order of the trip):
-   [{ key, ahead, links, two, one, list }], key a key of BOOK with ahead over 0. two, one: what it costs a person, as
+   [{ key, ahead, links, two, one, list, items }], key a key of BOOK with ahead over 0. two, one: what it costs a person, as
    tripBudget counts it (a long road from an airport: the car), or null when its cost is part of the stays or the travel
-   (homestay, transfer); list: what it is about: the flights as [from, to] codes, the roads from airports as [code, place]
-   (each road once, though its cost counts every ride), the homestays as places. The keys: flights (any domestic flight);
+   (homestay, transfer); list: what it is about: the flights as [from, to] codes, the roads from airports as [code, place,
+   rides] (each road once, rides 2 when the trip takes it both ways, and its cost counts every ride), the homestays as
+   places; items: the items of COSTS booked under the key, each once, in the order of the trip. The keys: flights (any domestic flight);
    airport (a road of AIR_KEYS with book); transfer (a road between two places, but the road of a swap); homestay (a stay
    in a place of homestays); and the book key of each item of the plans and of a swap's road (item.book, or the item's own
    key). route, plans, moto: as for tripBudget; data: { costs, book, swaps, places, airports, airKeys, homestays,
@@ -573,13 +574,18 @@ function bookList(route, plans, moto, data) {
   function entry(key) {
     var b = data.book[key];
     if (!b || !(b.ahead > 0)) return null;
-    if (!out[key]) { out[key] = { key: key, ahead: b.ahead, links: b.links, two: null, one: null, list: [] }; order.push(key); }
+    if (!out[key]) { out[key] = { key: key, ahead: b.ahead, links: b.links, two: null, one: null, list: [], items: [] }; order.push(key); }
     return out[key];
   }
   function cost(e, c) {
     if (!e) return;
     if (!e.two) { e.two = [0, 0]; e.one = [0, 0]; }
     [0, 1].forEach(function (i) { e.two[i] += c.two[i]; e.one[i] += c.one[i]; });
+  }
+  // an item of COSTS booked under entry e: its cost, and its name once
+  function item(e, k, c) {
+    cost(e, c);
+    if (e && e.items.indexOf(k) < 0) e.items.push(k);
   }
   function leg(L) {
     L.segs.forEach(function (g) {
@@ -597,10 +603,12 @@ function bookList(route, plans, moto, data) {
         if (!air || !air.book) return;
         e = entry('airport');
         cost(e, { two: [C.car[0] * g.h / 2, C.car[1] * g.h / 2], one: [C.car[0] * g.h, C.car[1] * g.h] });
-        if (e && !e.list.some(function (x) { return x[0] === code && x[1] === place; })) e.list.push([code, place]);   // a road both ways: named once
+        var seen = e && e.list.filter(function (x) { return x[0] === code && x[1] === place; })[0];
+        if (seen) seen[2]++;   // a road both ways: named once, with its rides
+        else if (e) e.list.push([code, place, 1]);
       } else if (roadOf[pair]) {
         k = self.roads[pair] ? self.roads[pair].cost : roadOf[pair].cost.driver;
-        cost(entry(C.items[k].book || k), itemCost(C.items[k]));
+        item(entry(C.items[k].book || k), k, itemCost(C.items[k]));
       } else entry('transfer');
     });
   }
@@ -611,7 +619,7 @@ function bookList(route, plans, moto, data) {
     (plans[i] || []).forEach(function (d) {
       d.cost.forEach(function (e) {
         var k = [].concat(e)[0];
-        cost(entry(C.items[k].book || k), entryCost(e, C.items));
+        item(entry(C.items[k].book || k), k, entryCost(e, C.items));
       });
     });
   });
@@ -787,7 +795,7 @@ function textWidth(text, px, mono) {
   if (mono) return String(text).length * px * 0.61;
   var em = 0;
   String(text).split('').forEach(function (ch) {
-    em += ch === ' ' ? 0.26 : /[iljI.,:;'!|()]/.test(ch) ? 0.3 : /[ftr]/.test(ch) ? 0.4 : /[mwMW]/.test(ch) ? 0.9 : /[A-ZĐ]/.test(ch) ? 0.68 : 0.58;
+    em += ch === ' ' ? 0.26 : /[iljI.,:;'!|()]/.test(ch) ? 0.3 : /[ftr]/.test(ch) ? 0.4 : /[mwMW]/.test(ch) ? 0.9 : ch !== ch.toLowerCase() ? 0.68 : 0.58;
   });
   return em * px + 2;
 }

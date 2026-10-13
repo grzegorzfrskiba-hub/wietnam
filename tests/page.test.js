@@ -415,13 +415,15 @@ eq([keysOf(kA), kA[0].list, kA[0].two], [['flights', 'dalat.bidoup', 'dalat.lang
   [['SGN', 'DLI'], ['DLI', 'DAD'], ['HUI', 'HAN']], [102, 186]], 'the March trip: three short flights first (3 weeks ahead), then the guides, the car over the pass and the day trips');
 var tBk = tripOf(Object.assign({}, MARCH, { interests: ['przyroda'], level: 3 })), kB = bookList(tBk.r, plansOf(tBk), [], BOOKD);
 eq([keysOf(kB), kB.filter(function (e) { return e.key === 'airport'; })[0].list, kB.filter(function (e) { return e.key === 'transfer'; })[0].two],
-  [['cattien.bausau_night', 'flights', 'catba.cruise', 'transfer', 'dalat.bidoup', 'dalat.langbiang', 'airport', 'saigon.cangio', 'cattien.park'], [['HAN', 'ninhbinh'], ['HAN', 'catba']], null],
+  [['cattien.bausau_night', 'flights', 'catba.cruise', 'transfer', 'dalat.bidoup', 'dalat.langbiang', 'airport', 'saigon.cangio', 'cattien.park'], [['HAN', 'ninhbinh', 1], ['HAN', 'catba', 1]], null],
   'nature at level 3: the night at Bàu Sấu first (4 weeks), the cruise; the cars from Nội Bài; vans between places, priced with the travel');
 var tCk = tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['przyroda', 'gory'], level: 2 }), kC = bookList(tCk.r, plansOf(tCk, ['caobang']), ['caobang'], BOOKD);
 eq([keysOf(kC), kC[1].list], [['catba.cruise', 'homestay', 'airport', 'transfer', 'caobang.moto'], ['babe', 'caobang']],
   'Cao Bằng ridden yourself: the motorbike to rent; the hosts of Ba Bể and Khuổi Ky');
 var tDk = tripOf({ from: 'SGN', to: 'SGN', start: '2028-08-01', end: '2028-08-20', interests: ['morze'], level: 1 }), kD = bookList(tDk.r, plansOf(tDk), [], BOOKD);
-eq(kD.filter(function (e) { return e.key === 'airport'; })[0].list, [['SGN', 'mekong'], ['HPH', 'catba']], 'a road from an airport used both ways is named once');
+eq(kD.filter(function (e) { return e.key === 'airport'; })[0].list, [['SGN', 'mekong', 2], ['HPH', 'catba', 1]], 'a road from an airport used both ways is named once, with its two rides');
+eq([kB.filter(function (e) { return e.key === 'cattien.park'; })[0].items, kB.filter(function (e) { return e.key === 'cattien.bausau_night'; })[0].items, kB[0].list],
+  [['cattien.safari'], ['cattien.bausau_night'], []], 'the items booked under a key: Cát Tiên at level 3, the night safari only (the night at the lake replaces the walk)');
 eq([packList(tA.r, plansOf(tA), tA.st, [], PACKD).map(function (p) { return p.code + (p.places.length ? ':' + p.places.join(',') : '') + (p.t !== null ? ':' + p.t : ''); }),
   packList(tBk.r, plansOf(tBk), tBk.st, [], PACKD).map(function (p) { return p.code; }), packList(tCk.r, plansOf(tCk, ['caobang']), tCk.st, ['caobang'], PACKD).map(function (p) { return p.code; })],
   [['warm:dalat:13', 'rain:hue,hanoi', 'boots', 'sun', 'mosquito', 'cash', 'apps'], ['warm', 'rain', 'boots', 'torch', 'swim', 'sun', 'mosquito', 'cash', 'apps'],
@@ -441,6 +443,8 @@ eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_
   'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');
 eq(textWidth('Dni 1–3', 10, true), 7 * 10 * 0.61, 'a monospaced text: 0.61 em a letter');
 ok(textWidth('Hồ Chí Minh City', 11.5) > 0.47 * 11.5 * 16 && textWidth('Huế', 11.5) > 0.62 * 11.5 * 3, 'a name: no narrower than Chrome draws it (0.47–0.62 em a letter)');
+eq([textWidth('Ố', 10), textWidth('Ứ', 10), textWidth('Đ', 10), textWidth('Ł', 10)], [textWidth('O', 10), textWidth('U', 10), textWidth('D', 10), textWidth('L', 10)],
+  'a capital with a diacritic is as wide as a capital without one');
 var B = { w: 300, h: 100 };
 function spots(list) { return list.map(function (l) { return l ? [l.anchor, l.box.x, l.box.y, l.clear] : null; }); }
 eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }, { x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [], B)),

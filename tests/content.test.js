@@ -74,7 +74,7 @@ contentCheck('content', function (need) {
       if (d.easy) plan(w + ' easy', d.easy, ['pace', 't', 'd', 'early']);
       if (d.hard) {
         plan(w + ' hard', d.hard, ['pace', 't', 'd', 'early', 'off', 'late', 'next']);
-        need(/przewodnik|operator/i.test(d.hard.d), w + ' hard: say who leads (przewodnik or operator)');
+        need(/przewodnik|operator/i.test(d.hard.d) && !/bez (przewodnik|operator)/i.test(d.hard.d), w + ' hard: say who leads (przewodnik or operator, not „bez przewodnika”)');
         if (d.hard.late != null) need(typeof d.hard.late === 'boolean', w + ' hard: late is true or false');
         if (d.hard.next != null) {
           plan(w + ' hard next', d.hard.next, ['pace', 't', 'd', 'early']);
@@ -284,7 +284,7 @@ contentCheck('ui', function (need) {
     'alert.': ['tet', 'holiday', 'nodata'],
     'bud.': ['nights', 'day', 'travel', 'trips'], 'cost.': Object.keys(COSTS.items).concat(['flights']),
     'sw.': Object.keys(SWAPS).concat(['driver', 'self']), 'sw.tips.': Object.keys(SWAPS),
-    'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }),
+    'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }), 'b.homestay.': HOMESTAY_NOTES,
     'e.': ['visa', 'visa_end', 'passport', 'insurance', 'insurance_moto', 'doctor'],
     'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };

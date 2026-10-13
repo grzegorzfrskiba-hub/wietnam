@@ -702,17 +702,20 @@
         return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + zl(b.parts[k].two) + '</span></li>';
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
-      (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T('bud.holiday', { x: holidays.join(', ') })) + '</p>' : '') +
+      (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
       '<p class="b-note">' + esc(T('bud.note')) + '</p>';
     var books = bookList(r, state.plans, moto, BOOK_DATA);
     $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
       (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
       (books.length ? '<ol class="b-book">' + books.map(function (e) {
+        // what the line is about: the flights, the roads from airports (both ways said so), the hosts' places, the things
+        // booked under the key (a park's services); a place with a peak of its own for its hosts adds its sentence
         var x = e.key === 'flights' ? e.list.map(function (f) { return AIRPORTS[f[0]].name + ' → ' + AIRPORTS[f[1]].name; }).join(', ')
-          : e.key === 'airport' ? e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short; }).join(', ')
-          : e.key === 'homestay' ? placesOf(e.list) : '';
+          : e.key === 'airport' ? andList(e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short + (a[2] > 1 ? ' ' + T('book.both') : ''); }))
+          : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
+        var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
         var meta = [e.two ? esc(T('book.cost', { x: zl(e.two, 10) })) : '', linksOf(e.links)].filter(Boolean);
-        return '<li><p>' + esc(T('b.' + e.key, { x: x })) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
+        return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
     $('#b-entry').innerHTML = '<h3>' + T('entry.h3') + '</h3><ul class="b-list">' + entryNotes(st, ridesOn(r, moto, SWAPS), ENTRY).map(function (e) {
       return '<li>' + esc(T('e.' + e.code, e.vars)) + '</li>';

@@ -10,7 +10,6 @@ function dataCheck(label, body) {
 dataCheck('places', function (need) {
   Object.keys(PLACES).forEach(function (id) {
     var p = PLACES[id];
-    need(typeof p.name === 'string' && p.name.trim(), id + ': name');
     need(typeof p.axis === 'number' && p.axis > 8 && p.axis < 24, id + ': axis between 8 and 24');
     need(Array.isArray(p.nights) && p.nights.length === 3 && p.nights.every(function (n) { return typeof n === 'number' && n % 1 === 0; }) && p.nights[0] >= 1 &&
       p.nights[0] <= p.nights[1] && p.nights[1] <= p.nights[2] && p.nights[2] <= 6, id + ': nights [min, ideal, max]: whole numbers with 1 ≤ min ≤ ideal ≤ max ≤ 6');

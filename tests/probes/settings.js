@@ -58,6 +58,10 @@ setTimeout(function () {
     check('the bar with the summary fits: „Zmień” whole on the screen, nothing sticks out', change.left >= 0 && change.right <= W + 0.5 && nav.scrollWidth <= W,
       Math.round(change.left) + '–' + Math.round(change.right) + ' of ' + W + ', bar ' + nav.scrollWidth);
     nav.classList.remove('away');
+    // before the form goes off the screen the bar shows its links, all of them whole (on a phone without „Ustawienia”)
+    var links = nav.querySelector('.secnav-links'), shown = Array.prototype.filter.call(links.querySelectorAll('a'), function (a) { return a.offsetWidth > 0; });
+    check('the links of the bar fit, none cut short', links.scrollWidth <= links.clientWidth + 0.5 && shown.length === (W <= 640 ? 3 : 4),
+      links.scrollWidth + ' of ' + links.clientWidth + ', ' + shown.length + ' links');
     done();
   }, 500);
 }, 1500);

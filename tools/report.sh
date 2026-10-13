@@ -4,4 +4,4 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 J=/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc
 S=site2/src
-"$J" $S/places.js $S/seasons.js $S/travel.js $S/engine.js tools/report.js
+"$J" $S/places.js $S/seasons.js $S/travel.js $S/engine.js $S/content.js $S/content/*.js tools/report.js

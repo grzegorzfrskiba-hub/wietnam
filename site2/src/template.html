@@ -422,9 +422,15 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav .wrap { display: flex; align-items: center; gap: 18px; }
 .secnav-links { display: flex; gap: 18px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .secnav-links::-webkit-scrollbar { display: none; }
-/* on narrow screens the links scroll, and the strip fades out at its end */
-@media (max-width: 900px) {
+/* on a tablet the links share the bar with the summary, so they scroll, and the strip fades out at its end */
+@media (min-width: 641px) and (max-width: 900px) {
   .secnav-links { -webkit-mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); mask-image: linear-gradient(90deg, rgb(var(--black)) 85%, transparent); }
+}
+/* on a phone the links show only while the form is on the screen (class away hides them), so "Ustawienia" goes, and the
+   other three fit down to 320 px */
+@media (max-width: 640px) {
+  .secnav-links { gap: 14px; }
+  .secnav-links a[href="#settings"] { display: none; }
 }
 .secnav a { flex: none; padding: 12px 0; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .secnav a:hover { color: var(--ink); }
