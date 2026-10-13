@@ -83,6 +83,13 @@
     var lay = mapLayout(r, st, MAP_WORDS);
     lay.panels.forEach(function (P) {
       P.labels.forEach(function (l) { need(l.kind === 'faint' || l.clear, 'map ' + P.key + ': the label of ' + l.kind + ' ' + l.key + ' covers another label, a marker or the edge'); });
+      // no two pins overlap (spreadPins)
+      P.pins.forEach(function (a, i) {
+        P.pins.slice(i + 1).forEach(function (b) {
+          need(overlapArea({ x: a.x - a.w / 2, y: a.y - PIN_H / 2, w: a.w, h: PIN_H }, { x: b.x - b.w / 2, y: b.y - PIN_H / 2, w: b.w, h: PIN_H }) === 0,
+            'map ' + P.key + ': the pins of ' + a.key + ' and ' + b.key + ' overlap');
+        });
+      });
     });
     r.stops.forEach(function (x) {
       need(lay.panels.some(function (P) { return P.labels.some(function (l) { return l.kind === 'stop' && l.key === node(x.id); }); }), 'map: ' + x.id + ' has no label on any panel');

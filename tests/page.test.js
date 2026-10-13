@@ -474,6 +474,15 @@ var one = placeLabels([{ x: 100, y: 50, w: 40, h: 28, gx: 10, gy: 10, oneLine: {
 eq([spots(one), one[0].oneLine, one[1].oneLine], [[['start', 110, 43, true], ['start', 110, 36, false]], true, false],
   'a stay with no free place for its two lines: its name alone where one line is free; a label without oneLine keeps its size');
 
+// pins that overlap move apart along the line between them, just enough for PIN_GAP px, and keep their points
+function spread(pins) {
+  return spreadPins(pins.map(function (q) { return { x: q[0], y: q[1], w: q[2] || PIN_H }; }), { w: 270, h: 270 })
+    .map(function (pn) { return [Math.round(pn.x * 100) / 100, Math.round(pn.y * 100) / 100, pn.px, pn.py]; });
+}
+eq([spread([[100, 100], [112, 100]]), spread([[100, 100], [100, 110]]), spread([[100, 100], [130, 100]]), spread([[100, 100], [100, 100]]), spread([[5, 100], [10, 100]])],
+  [[[95, 100, 100, 100], [117, 100, 112, 100]], [[100, 94, 100, 100], [100, 116, 100, 110]], [[100, 100, 100, 100], [130, 100, 130, 100]],
+   [[89, 100, 100, 100], [111, 100, 100, 100]], [[10, 100, 5, 100], [32, 100, 10, 100]]],
+  'pins 12 px apart in a row move to 22 px, one above the other to 22 px; pins apart stay; two on one point go sideways; at the edge the other pin moves');
 var MAPW = { panels: MAP_PANELS, places: OLD_PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
 function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.pins.map(function (p) { return p.key + '(' + p.nums + ')'; }).join(','); }); }
 function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
@@ -572,6 +581,15 @@ var tZZ = tripAll({ from: 'DAD', to: 'SGN', start: '2027-01-28', end: '2027-02-1
 var tRT = tripAll({ from: 'DAD', to: 'DAD', month: 1, days: 18, interests: [], level: 1 });
 eq([tZZ.r.stops[0].id, flownInto(tZZ, 'DAD'), flownInto(tRT, 'DAD').length > 0, flownOutAgain(tRT, 'DAD')], ['hoian', [], true, []],
   'Đà Nẵng to Hồ Chí Minh City: Hội An first, no flight back near Đà Nẵng; a round trip from Đà Nẵng comes home by plane and flies out no more');
+// Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
+var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
+var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });
+function pinBoxOf(pn) { return { x: pn.x - pn.w / 2, y: pn.y - PIN_H / 2, w: pn.w, h: PIN_H }; }
+var nP = panelSize(MAP_PANELS.north);
+eq([pCN.length, overlapArea(pinBoxOf(pCN[0]), pinBoxOf(pCN[1])), pCN.map(function (pn) { return [pn.px, pn.py]; }),
+  pCN.every(function (pn) { return pn.x !== pn.px; })],
+  [2, 0, pCN.map(function (pn) { var c = CONTENT[pn.key].pt; return [(c[1] - nP.lon0) * nP.s, (nP.lat0 - c[0]) * nP.s]; }), true],
+  'Cúc Phương and Ninh Bình: two pins apart, each moved off its point, which it keeps');
 print('stage 3 ok');
 
 /* ---------- travel texts ---------- */

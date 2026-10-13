@@ -523,6 +523,11 @@
       P.labels.forEach(function (l) {
         if (l.kind !== 'stop') g.push(labelText(l, l.kind === 'faint' ? 'm-faint-label' : 'm-sub'));
       });
+      // a pin moved off its point (spreadPins in page.js): a line to the point
+      P.pins.forEach(function (pn) {
+        if (Math.abs(pn.x - pn.px) + Math.abs(pn.y - pn.py) <= 0.5) return;
+        g.push('<line class="m-lead" x1="' + r1(pn.px) + '" y1="' + r1(pn.py) + '" x2="' + r1(pn.x) + '" y2="' + r1(pn.y) + '"/><circle class="m-pin-dot" cx="' + r1(pn.px) + '" cy="' + r1(pn.py) + '" r="2"/>');
+      });
       // the pins last, each with its label in one group, so the stay being read lights up both (observeStops)
       P.pins.forEach(function (pn) {
         var l = P.labels.filter(function (x) { return x.kind === 'stop' && x.key === pn.key; })[0];

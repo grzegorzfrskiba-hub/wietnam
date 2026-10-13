@@ -33,6 +33,13 @@ setTimeout(function () {
       });
     });
     check(x.from + '→' + x.to + ', ' + x.days + ' days, ' + (x.interests.join('+') || 'no interest') + ': no label covers another, a marker, a degree, the title or the edge', !bad.length, bad.join('; '));
+    // no two pins overlap as Chrome draws them (pins that would overlap move apart: spreadPins in page.js)
+    var touch = [];
+    Array.prototype.forEach.call(panels, function (g) {
+      var pins = Array.prototype.map.call(g.querySelectorAll('.pin'), function (p) { return { key: p.getAttribute('data-pin'), r: p.querySelector('rect').getBoundingClientRect() }; });
+      pins.forEach(function (a, i) { pins.slice(i + 1).forEach(function (b) { if (inter(a.r, b.r) > 1) touch.push(a.key + ' / ' + b.key); }); });
+    });
+    check(x.from + '→' + x.to + ', ' + x.days + ' days: no two pins overlap', !touch.length, touch.join('; '));
   });
   var hint = document.querySelector('.map-hint');
   hint.click();

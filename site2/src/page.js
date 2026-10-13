@@ -802,6 +802,36 @@ function textWidth(text, px, mono) {
 /* The width of a panel's title as Chrome draws it (.m-title in template.html, from x 10 in app.js): 10 px monospace capitals,
    0.6 em a letter and letter-spacing 0.1 em; measured at 0.700 em a letter (13.10.2026). */
 function titleWidth(text) { return String(text).length * SMALL_PX * 0.7; }
+/* Pins that overlap move apart along the line between them, each half the way, just enough to leave PIN_GAP px between
+   them (Cúc Phương and Ninh Bình lie 12 px apart on the map, a pin is 20 px wide): each keeps its point as px, py, for a
+   line to it. A pin moves only inside the panel, and what one cannot move the other does. Pins in a cluster are pushed
+   pair by pair, a few rounds. pins: [{ x, y, w }] (mapLayout's), changed in place; p: the panel (panelSize). */
+var PIN_GAP = 2;
+function spreadPins(pins, p) {
+  function shift(pn, dx, dy) {   // moves a pin, kept inside the panel; returns the move it made
+    var x = Math.min(Math.max(pn.x + dx, pn.w / 2), p.w - pn.w / 2), y = Math.min(Math.max(pn.y + dy, PIN_H / 2), p.h - PIN_H / 2);
+    var made = [x - pn.x, y - pn.y];
+    pn.x = x; pn.y = y;
+    return made;
+  }
+  pins.forEach(function (pn) { pn.px = pn.x; pn.py = pn.y; });
+  for (var round = 0; round < 10; round++) {
+    var moved = false;
+    pins.forEach(function (a, i) {
+      pins.slice(i + 1).forEach(function (b) {
+        var dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy), W = (a.w + b.w) / 2 + PIN_GAP, H = PIN_H + PIN_GAP;
+        if (Math.abs(dx) >= W - 1e-9 || Math.abs(dy) >= H - 1e-9) return;   // apart already
+        var ux = d < 0.5 ? 1 : dx / d, uy = d < 0.5 ? 0 : dy / d;
+        var need = Math.min(Math.abs(ux) > 1e-9 ? W / Math.abs(ux) : Infinity, Math.abs(uy) > 1e-9 ? H / Math.abs(uy) : Infinity) - (d < 0.5 ? 0 : d);
+        var made = shift(a, -ux * need / 2, -uy * need / 2);
+        shift(b, ux * need + made[0], uy * need + made[1]);
+        moved = true;
+      });
+    });
+    if (!moved) break;
+  }
+  return pins;
+}
 function overlapArea(a, b) {
   return Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
 }
@@ -854,7 +884,7 @@ function placeLabels(items, obstacles, bounds) {
 
 /* Everything the map draws, in px, for one trip. The panels stand one under another, PANEL_GAP apart (MAP_PANELS in
    panels.js, sized by panelSize). Each panel gets: its stays as pins with the stay numbers (a city twice on a round trip is
-   one pin); the legs inside it; a stub for the legs to another panel, one per point, toward where they go, with the names
+   one pin; pins that would overlap move apart, spreadPins); the legs inside it; a stub for the legs to another panel, one per point, toward where they go, with the names
    of the other ends; the trip's airports; a stay's point of interest (content poi); the places off the trip as faint dots;
    and the labels. The airports' boxes come first: on their point, or moved straight off a pin that would hide them. Then
    the labels of the stays (the most crowded first), the stubs and the points of interest, placed by placeLabels so that
@@ -868,6 +898,7 @@ function placeLabels(items, obstacles, bounds) {
    The whole degrees of latitude come last: each line is drawn, and its label at the right edge (gridBox) only where it
    covers no label and no marker.
    Returns { height, panels: [{ key, y, p (panelSize), grid, names, segs, stubs, pins, airports, pois, faint, labels }] };
+   a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
    grid is [{ lat, y, label }] (label: its text is drawn), a name { text, kind, x, y, anchor }, a label { kind:
    'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
 // the box of a degree's label: "21°N" in 10 px monospace, ending 6 px from the panel's right edge, 4 px over its line (app.js)
@@ -914,6 +945,8 @@ function mapLayout(route, st, m) {
         oneLine: { w: textWidth(m.content[k].short, NAME_PX), h: LINE_H },   // in a crowded place: the name alone, the days stay on the pin
         what: { kind: 'stop', key: k, lines: [m.content[k].short, sub] } });
     });
+    spreadPins(P.pins, p);   // pins that would overlap move apart, and their labels with them
+    P.pins.forEach(function (pn, i) { items[i].x = pn.x; items[i].y = pn.y; });
     P.pins.forEach(function (pn) { obstacles.push(pinBox(pn)); });
     // the stays in crowded places first: the more pins within 70 px, the earlier, then in the order of the trip
     function crowd(it) { return P.pins.filter(function (pn) { return Math.abs(pn.x - it.x) < 70 && Math.abs(pn.y - it.y) < 70; }).length; }
