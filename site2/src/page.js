@@ -808,13 +808,15 @@ function overlapArea(a, b) {
    alts }], in the order of placing; alts: other points [x, y] the label may stand by instead, tried after the first; obstacles: [{ x, y, w, h, k }] that no label should cover, k the weight of covering it: 1 when
    left out; an obstacle with k under 1 (a faint dot) may be covered when nothing better is free; bounds: { w, h }. Each item tries twelve places around its point (right, left, above, below, then shifted
    up, down or sideways), those on the side of toward ([dx, dy], a direction) first; the first that covers nothing wins,
-   else the one that covers least (weighted), or none for an item with drop: true. Returns, in the items' order,
-   { x, y (the text's anchor point, at the box's top), anchor, box, clear, cost, alt (0 for the first point, then the
-   number of the alts point + 1) } or null. */
+   else the one that covers least (weighted), or none for an item with drop: true. An item with oneLine ({ w, h }, a
+   stay's name alone) that finds no free place tries that smaller box too, and takes it when it is free. Returns, in the
+   items' order, { x, y (the text's anchor point, at the box's top), anchor, box, clear, cost, alt (0 for the first point,
+   then the number of the alts point + 1), oneLine (the smaller box was taken) } or null. */
 function placeLabels(items, obstacles, bounds) {
   var placed = [];
-  return items.map(function (it) {
-    var w = it.w, h = it.h, gx = it.gx, gy = it.gy, best = null;
+  // the best place for a box of w × h by the item's points: the first free one, else the one that covers least
+  function spot(it, w, h) {
+    var gx = it.gx, gy = it.gy, best = null;
     [[it.x, it.y]].concat(it.alts || []).forEach(function (pt, alt) {
       var x = pt[0], y = pt[1];
       var tries = [[x + gx, y - h / 2, 'start'], [x - gx - w, y - h / 2, 'end'], [x - w / 2, y - gy - h, 'middle'], [x - w / 2, y + gy, 'middle'],
@@ -832,12 +834,18 @@ function placeLabels(items, obstacles, bounds) {
         if (!best || hard + soft < best.cost - 1e-9) best = { cost: hard + soft, hard: hard, box: box, anchor: p[2], alt: alt };
       });
     });
+    return best;
+  }
+  return items.map(function (it) {
+    var best = spot(it, it.w, it.h), one = null;
+    if (best.hard >= 0.01 && it.oneLine) one = spot(it, it.oneLine.w, it.oneLine.h);
+    if (one && one.hard < 0.01) best = one;
     var clear = best.hard < 0.01;   // sums of floating point areas: less than 0.01 px² is nothing
     if (!clear && it.drop) return null;
     placed.push(best.box);
     var b = best.box;
     return { x: best.anchor === 'start' ? b.x : best.anchor === 'end' ? b.x + b.w : b.x + b.w / 2, y: b.y, anchor: best.anchor, box: b,
-      clear: clear, cost: best.cost, alt: best.alt };
+      clear: clear, cost: best.cost, alt: best.alt, oneLine: best === one };
   });
 }
 
@@ -847,7 +855,8 @@ function placeLabels(items, obstacles, bounds) {
    of the other ends; the trip's airports; a stay's point of interest (content poi); the places off the trip as faint dots;
    and the labels. The airports' boxes come first: on their point, or moved straight off a pin that would hide them. Then
    the labels of the stays (the most crowded first), the stubs and the points of interest, placed by placeLabels so that
-   none covers another, a marker or the edge (a stub gets longer or turns when its label finds no room); a label that
+   none covers another, a marker or the edge (a stub gets longer or turns when its label finds no room, a stay's label
+   keeps its name alone when its two lines find none); a label that
    finds none starts the placing again in front, up to ten times, and the try with the fewest such labels wins. Last, the
    names of the faint dots, only where they fit.
    The names on the basemap (the panel's names) are drawn first; a label may cover one when nothing better is free.
@@ -901,6 +910,7 @@ function mapLayout(route, st, m) {
       P.pins.push({ key: k, x: q[0], y: q[1], w: w, nums: nums });
       items.push({ x: q[0], y: q[1], w: Math.max(textWidth(m.content[k].short, NAME_PX), textWidth(sub, SUB_PX, true)), h: STAY_LABEL_H, gx: w / 2 + 3, gy: PIN_H / 2 + 2,
         toward: q[0] > p.w - 70 ? [-1, 0] : q[0] < 70 ? [1, 0] : null,   // near a side of the panel, the label tries inward first
+        oneLine: { w: textWidth(m.content[k].short, NAME_PX), h: LINE_H },   // in a crowded place: the name alone, the days stay on the pin
         what: { kind: 'stop', key: k, lines: [m.content[k].short, sub] } });
     });
     P.pins.forEach(function (pn) { obstacles.push(pinBox(pn)); });
@@ -986,7 +996,7 @@ function mapLayout(route, st, m) {
         var v = STUB_TIPS[l.alt], tip = tipOf(it.stub, STUB * v[0], v[1]);
         P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1] });
       }
-      P.labels.push(Object.assign({}, it.what, l));
+      P.labels.push(Object.assign({}, it.what, l, l.oneLine ? { lines: it.what.lines.slice(0, 1) } : {}));
       taken.push(l.box);
     });
     placeLabels(faint, taken, p).forEach(function (l, i) { if (l) { P.labels.push(Object.assign({}, faint[i].what, l)); taken.push(l.box); } });

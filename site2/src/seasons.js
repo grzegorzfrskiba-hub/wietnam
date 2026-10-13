@@ -4,6 +4,6 @@ var SEASONS = {
   saigon: 'DDDSSSSSSSDD', mekong: 'DDDDSSSSSSDD', phuquoc: 'DDDDSZZZZSSD', cattien: 'DDDSSSSZZZSD', dalat: 'DDDDSSSSSSDD',
   hoian: 'DDDDDSSDSZZS', hue: 'DDDDDSSSSZZZ', puluong: 'SSSDSSSSSDDS', ninhbinh: 'SSSDDDSSSDDD', catba: 'SSSDDSZZZDDS',
   hanoi: 'DDDDSSSSSDDD', babe: 'SSSDSSSSDDDS', caobang: 'SSDDSSSSDDDS',
-  phongnha: 'DSDDDSDDZZZS'
+  phongnha: 'DSDDDSDDZZZS', cucphuong: 'SSSDSSSSSDDS'
 };
 SEASONS.hanoiStop = SEASONS.hanoi;   // a night in Hà Nội on the way

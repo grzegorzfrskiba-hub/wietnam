@@ -70,7 +70,9 @@ var AIR_KEYS = {
   'HPH-catba': { text: 'r.air_catba', book: true }, 'HAN-catba': { text: 'r.air_catba', book: true },
   'SGN-mekong': { text: 'r.air_mekong', book: true }, 'SGN-cattien': { text: 'r.air_cattien', book: true },
   'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
-  'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true }
+  'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true },
+  // Cúc Phương: a car from Nội Bài; from Thọ Xuân a taxi, but the way back is booked through the park
+  'HAN-cucphuong': { text: 'r.air_car', book: true }, 'THD-cucphuong': { text: 'r.air_thd', book: true }
 };
 /* The places behind a ferry that runs by day (research/lotniska-2026-10.md): last, about when the last crossing toward the
    place goes in the evening; land, by airport, the latest landing that still makes it by car; first, the first crossing

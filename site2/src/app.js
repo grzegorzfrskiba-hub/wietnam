@@ -257,7 +257,8 @@
       '<li><b>' + k.places + '</b><span>' + countWord('f.places', k.places) + '</span></li>' +
       '<li><b>' + k.flights + '</b><span>' + countWord('f.flights', k.flights) + '</span></li>' +
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
-      '<li><b>' + approx(k.longest).replace('≈ ', '') + '</b><span>' + T('f.longest') + '</span></li>' +
+      // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
+      '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
       '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: zl(state.budget.two) })) + '"><b>' + zl(state.budget.two) + '</b><span>' + T('f.budget') + '</span></a></li>';
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
@@ -468,7 +469,7 @@
   function labelText(l, cls) {
     if (l.kind === 'stop') {
       return '<text class="m-label" x="' + r1(l.x) + '" y="' + r1(l.y + 12.5) + '" text-anchor="' + l.anchor + '">' + esc(l.lines[0]) + '</text>' +
-        '<text class="m-sub" x="' + r1(l.x) + '" y="' + r1(l.y + 24.75) + '" text-anchor="' + l.anchor + '">' + esc(l.lines[1]) + '</text>';
+        (l.lines[1] ? '<text class="m-sub" x="' + r1(l.x) + '" y="' + r1(l.y + 24.75) + '" text-anchor="' + l.anchor + '">' + esc(l.lines[1]) + '</text>' : '');
     }
     return '<g class="m-lab">' + l.lines.map(function (line, i) {
       return '<text class="' + cls + '" x="' + r1(l.x) + '" y="' + r1(l.y + 10.75 + LINE_H * i) + '" text-anchor="' + l.anchor + '">' + esc(line) + '</text>';

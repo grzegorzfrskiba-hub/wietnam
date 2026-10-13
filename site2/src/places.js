@@ -1,6 +1,6 @@
 /* The places (modules) the engine plans with: only what the engine needs; the names, texts and photos are in the texts of
    the places (content.js, content/<id>.js). axis: position on the south–north line that trips sweep along, close to the latitude
-   (Pù Luông sits before Ninh Bình so trips run Pù Luông → Ninh Bình → Cát Bà). nights: [min, ideal, max]; the
+   (Pù Luông sits before Ninh Bình so trips run Pù Luông → Ninh Bình → Cát Bà, and Cúc Phương between them). nights: [min, ideal, max]; the
    minimum is 1 only where a one-night plan exists or the place is an airport's city (HUBS). level: the lowest
    adventure level the place is offered at (1 spokojnie, 2 aktywnie, 3 ekstremalnie). fit: 0–3 for each
    interest. node: the travel point it shares with another place (hanoiStop is a night in Hà Nội on the way,
@@ -14,6 +14,7 @@ var PLACES = {
   hoian:     { axis: 15.88, nights: [1, 2, 2], level: 1, fit: { kultura: 3, jedzenie: 3, przyroda: 0, gory: 0, morze: 1 } },
   hue:       { axis: 16.46, nights: [2, 2, 3], level: 1, fit: { kultura: 3, jedzenie: 2, przyroda: 1, gory: 0, morze: 0 } },
   phongnha:  { axis: 17.6, nights: [2, 3, 4], level: 1, fit: { kultura: 0, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } },
+  cucphuong: { axis: 20.25, nights: [1, 2, 2], level: 1, fit: { kultura: 0, jedzenie: 0, przyroda: 3, gory: 1, morze: 0 } },
   puluong:   { axis: 20.2, nights: [2, 2, 3], level: 1, fit: { kultura: 1, jedzenie: 0, przyroda: 2, gory: 2, morze: 0 } },
   ninhbinh:  { axis: 20.3, nights: [1, 2, 2], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 1, morze: 0 } },
   catba:     { axis: 20.73, nights: [3, 3, 4], level: 1, fit: { kultura: 0, jedzenie: 1, przyroda: 2, gory: 1, morze: 2 } },

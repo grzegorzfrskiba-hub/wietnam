@@ -16,6 +16,9 @@ var ROADS = [
   ['hanoi', 'ninhbinh', 2], ['hanoi', 'catba', 4], ['hanoi', 'caobang', 6.5], ['hanoi', 'babe', 5.25], ['hanoi', 'puluong', 4.25],
   ['puluong', 'ninhbinh', 3.5], ['puluong', 'catba', 7.5], ['ninhbinh', 'catba', 4.5], ['ninhbinh', 'caobang', 8.5], ['ninhbinh', 'babe', 7],
   ['catba', 'caobang', 9.5], ['caobang', 'babe', 4.5],
+  // Cúc Phương, between Pù Luông and Ninh Bình
+  ['ninhbinh', 'cucphuong', 1.25], ['hanoi', 'cucphuong', 2.75], ['HAN', 'cucphuong', 3], ['puluong', 'cucphuong', 2.75], ['THD', 'cucphuong', 2],
+  ['catba', 'cucphuong', 5.5], ['babe', 'cucphuong', 7.75],
   // the extra airports: Cát Bi (HPH) near Cát Bà, Thọ Xuân (THD) near Pù Luông and Ninh Bình
   ['HPH', 'catba', 1.75], ['THD', 'puluong', 2.5], ['THD', 'ninhbinh', 2]
 ];

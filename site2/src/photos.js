@@ -68,6 +68,11 @@ var PHOTO_META = {
   phongnha_1: { cap: 'Nacieki w Paradise Cave (Động Thiên Đường)', artist: 'Bùi Thụy Đào Nguyên', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:%C4%90%E1%BB%99ng_Thi%C3%AAn_%C4%90%C6%B0%E1%BB%9Dng.jpg' },
   phongnha_2: { cap: 'Wejście do jaskini Hang Én', artist: 'Jérémie B.', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Hang_%C3%89n_Cave_-_201505_-_JB.jpg' },
   phongnha_3: { cap: 'Rzeka Son i miasteczko Phong Nha z lotu ptaka', artist: 'Preparetavalise.com', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Phong_Nha_Drone.jpg' },
-  phongnha_4: { cap: 'Łodzie na rzece Son w Phong Nha', artist: 'Preparetavalise.com', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Phong_Nha_fleuve.jpg' }
+  phongnha_4: { cap: 'Łodzie na rzece Son w Phong Nha', artist: 'Preparetavalise.com', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Phong_Nha_fleuve.jpg' },
+  cucphuong_0: { cap: 'Duk szarołydkowy w ośrodku ratowania naczelnych w Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-28-Pygathrix_cinerea_-3122.jpg' },
+  cucphuong_1: { cap: 'Leśna ścieżka w parku Cúc Phương', artist: 'hds', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Forest_in_Cuc_Phuong_National_Park_(15706323528).jpg' },
+  cucphuong_2: { cap: 'Tysiącletnie drzewo Chò w głębi lasu Cúc Phương', artist: 'TomFitzhenry', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Thousand_year_old_tree_in_Cuc_Phuong_National_Park,_Vietnam.jpg' },
+  cucphuong_3: { cap: 'Łuskowiec z młodym w ośrodku ratowania łuskowców w Cúc Phương', artist: 'U.S. Government Accountability Office from Washington, DC, United States', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mother_Pangolin_and_baby_pangolin_-_Pangolin_Rescue_Center,_Cuc_Phuong_National_Park,_Vietnam_(37627416742).jpg' },
+  cucphuong_4: { cap: 'Żółw brunatny w ośrodku ratowania żółwi w Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-29-Manouria_emys-167A3610.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview

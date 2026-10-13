@@ -3,12 +3,12 @@
    the basemap, [UI key, lat, lon, kind ('country' or 'water'), anchor ('start', 'middle' or 'end')].
    Every panel is MAP_WIDTH px wide, so its scale and height follow (panelSize in page.js). geo/make_basemap.py
    reads this file to cut the contours (basemap.js); after a change here, run it again. North: Sa Pa, Hà Giang and Bản Giốc
-   to Thọ Xuân airport; centre: Phong Nha to Hội An and Mỹ Sơn, with room above Phong Nha for the labels of the ways north
+   to Thọ Xuân airport, with room under Ninh Bình and Cúc Phương for their labels (stage 3: 19.3° N instead of 19.6); centre: Phong Nha to Hội An and Mỹ Sơn, with room above Phong Nha for the labels of the ways north
    (stage 3: 18.4° N instead of 17.95); south: Phú Quốc and the Mekong delta to Đà Lạt, Yok Đôn and
    Nha Trang. */
 var MAP_WIDTH = 270;
 var MAP_PANELS = {
-  north: { lon0: 103.45, lat0: 23.45, lon1: 107.6, lat1: 19.6, bar: 'left',
+  north: { lon0: 103.45, lat0: 23.45, lon1: 107.6, lat1: 19.3, bar: 'left',
     names: [['m.china', 23.25, 106.0, 'country', 'middle'], ['m.laos', 20.55, 103.55, 'country', 'start'], ['m.tonkin', 19.75, 107.5, 'water', 'end']] },
   centre: { lon0: 105.6, lat0: 18.4, lon1: 108.9, lat1: 15.1, bar: 'left',
     names: [['m.laos', 16.3, 106.3, 'country', 'middle'], ['m.sea', 17.6, 108.8, 'water', 'end']] },

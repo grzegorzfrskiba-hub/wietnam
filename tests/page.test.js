@@ -448,7 +448,7 @@ eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), rides
 print('before ok');
 
 /* ---------- the map ---------- */
-eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 270, 177],
+eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 270, 270, 177],
   'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');
 eq(textWidth('Dni 1–3', 10, true), 7 * 10 * 0.61, 'a monospaced text: 0.61 em a letter');
 ok(textWidth('Hồ Chí Minh City', 11.5) > 0.47 * 11.5 * 16 && textWidth('Huế', 11.5) > 0.62 * 11.5 * 3, 'a name: no narrower than Chrome draws it (0.47–0.62 em a letter)');
@@ -468,13 +468,17 @@ eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [{ x: 0,
   'an obstacle with k under 1 (a faint dot) may be covered: the label is still clear');
 eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [{ x: 112, y: 45, w: 8, h: 8, k: 0.3 }], B)), [['end', 50, 40, true]],
   'but a free place wins over one that covers a faint dot');
+var BAND = [{ x: 0, y: 0, w: 300, h: 43 }, { x: 0, y: 57, w: 300, h: 43 }, { x: 0, y: 43, w: 100, h: 14 }];
+var one = placeLabels([{ x: 100, y: 50, w: 40, h: 28, gx: 10, gy: 10, oneLine: { w: 40, h: 14 } }, { x: 100, y: 50, w: 40, h: 28, gx: 10, gy: 10 }], BAND, B);
+eq([spots(one), one[0].oneLine, one[1].oneLine], [[['start', 110, 43, true], ['start', 110, 36, false]], true, false],
+  'a stay with no free place for its two lines: its name alone where one line is free; a label without oneLine keeps its size');
 
 var MAPW = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
 function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.pins.map(function (p) { return p.key + '(' + p.nums + ')'; }).join(','); }); }
 function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
 var mA = mapLayout(tA.r, tA.st, MAPW);   // saigon, dalat, hoian, hue, hanoi: flights Đà Lạt → Đà Nẵng and Huế → Hà Nội
 eq(pinsOf(mA), ['north:hanoi(5)', 'centre:hoian(3),hue(4)', 'south:saigon(1),dalat(2)'], 'each stay on its panel, with its number');
-eq([mA.panels[1].y, mA.panels[2].y, mA.height], [266, 552, 729], 'the panels one under another, 16 px apart');
+eq([mA.panels[1].y, mA.panels[2].y, mA.height], [286, 572, 749], 'the panels one under another, 16 px apart');
 eq([labelsOf(mA.panels[0], 'stub'), labelsOf(mA.panels[1], 'stub').sort(), labelsOf(mA.panels[2], 'stub')], [['✈ Huế'], ['✈ Hà Nội', '✈ Đà Lạt'], ['✈ Đà Nẵng']],
   'a flight to another panel: a stub at each end, named after the other end');
 eq([labelsOf(mA.panels[2], 'stop'), labelsOf(mA.panels[2], 'faint').sort()], [['Hồ Chí Minh City/Dni 1–3', 'Đà Lạt/Dni 4–6'], ['Cát Tiên', 'Mekong', 'Phú Quốc']],
@@ -523,6 +527,16 @@ var rPR = { days: 9, stops: [{ id: 'hanoi', n: 1, start: 1, end: 1, leg: legAll(
   { id: 'puluong', n: 3, start: 6, end: 8, leg: legAll('phongnha', 'puluong') }], home: legAll('puluong', 'HAN', true) };
 eq(labelsOf(mapLayout(rPR, stOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 9, interests: [], level: 2 }), MAPW).panels[1], 'stub').sort(), ['→ Pù Luông', '✈ Hà Nội'],
   'a way to another panel: a road with an arrow (Phong Nha to Pù Luông), a flight with ✈ (Đồng Hới to Hà Nội)');
+// Cúc Phương: one night has its own plan; Mây Bạc with a park guide at level 3, outside the rainy season; the park's
+// rooms are booked with the night drive
+function cp(n, level, months) { return stopDays(CONTENT.cucphuong, { n: n, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
+eq([cp(1, 2, [10, 10]).length, cp(2, 3, [10, 10]), cp(2, 3, [6, 6]), cp(2, 1, [10, 10])], [1, ['-', 'hard'], ['-', '-'], ['-', 'easy']],
+  'Cúc Phương: one night, its own plan; Mây Bạc at level 3 in November, not in July (the rainy season); the short paths at level 1');
+var tCP = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 11, days: 8, interests: ['przyroda'], level: 3, add: ['cucphuong'] }), kCP = bookList(tCP.r, plansAll(tCP), [], BOOKD);
+eq([stayOf(tCP, 'cucphuong'), kCP.map(function (e) { return e.key; }).filter(function (k) { return /^cucphuong/.test(k); }),
+  kCP.filter(function (e) { return e.key === 'cucphuong.stay'; })[0].items],
+  [{ n: 2, days: ['-', 'hard'] }, ['cucphuong.stay', 'cucphuong.maybac', 'cucphuong.car'], ['cucphuong.night']],
+  'nature in November at level 3: two nights in Cúc Phương; the rooms of the park are booked with the night drive (a week), then the guide to Mây Bạc and the car to Bống');
 print('stage 3 ok');
 
 /* ---------- travel texts ---------- */

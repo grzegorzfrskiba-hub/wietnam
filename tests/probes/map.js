@@ -18,9 +18,10 @@ setTimeout(function () {
     var bad = [], panels = document.querySelectorAll('#map svg > g');
     Array.prototype.forEach.call(panels, function (g) {
       var frame = g.querySelector('.m-edge').getBoundingClientRect();
-      // a label: a stay's name with its days (the two lines as one box), or the text of a stub, a point of interest, a faint dot
+      // a label: a stay's name with its days (the two lines as one box; in a tight spot the name alone), or the text of a stub,
+      // a point of interest, a faint dot
       var labels = Array.prototype.map.call(g.querySelectorAll('.pin'), function (p) {
-        var a = p.querySelector('.m-label').getBoundingClientRect(), b = p.querySelector('.m-sub').getBoundingClientRect();
+        var a = p.querySelector('.m-label').getBoundingClientRect(), sub = p.querySelector('.m-sub'), b = sub ? sub.getBoundingClientRect() : a;
         return { name: p.querySelector('.m-label').textContent, r: { left: Math.min(a.left, b.left), right: Math.max(a.right, b.right), top: a.top, bottom: b.bottom } };
       }).concat(Array.prototype.map.call(g.querySelectorAll('.m-lab'), function (e) { return { name: e.textContent, r: e.getBoundingClientRect() }; }));
       var marks = Array.prototype.map.call(g.querySelectorAll('.pin rect, .m-airport, .m-gridlabel'), function (e) { return e.getBoundingClientRect(); });
