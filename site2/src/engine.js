@@ -206,8 +206,9 @@ function planRoute(st, data) {
   function nightsOf(id) { var out = []; for (var n = P[id].nights[0]; n <= P[id].nights[2]; n++) out.push(n); return out; }
   function flies(a, b) { return G.fly[node(a)][node(b)]; }   // the fastest way from a to b takes a plane
   function inRegion(id, airport) { return G.road[airport][node(id)] <= REGION_H; }
-  // a move from a to b that flies back into the arrival airport's region or out of the departure airport's region
-  // (never on a round trip, whose two regions are one: see homeBy and awayBy)
+  // a move from a to b by plane that lands in the arrival airport's region (where the trip began, so a flight back; a
+  // flight inside the region counts too) or takes off in the departure airport's region (where the trip ends); a place
+  // in both regions is free, so never on a round trip, whose two regions are one (see homeBy and awayBy)
   function zigzag(a, b) {
     return flies(a, b) && (inRegion(b, st.from) && !inRegion(b, st.to) || inRegion(a, st.to) && !inRegion(a, st.from));
   }
