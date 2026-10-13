@@ -232,7 +232,7 @@ Uzupełnia `research/motocykl-2026-10.md` (dalej MOTO): prawo, kary, ubezpieczen
 
 **Co powiedzieć w ramce „Samodzielnie” (propozycja, do MOTO dochodzi):**
 - wymagania: jak w MOTO, plus: „Paszport, prawo jazdy i międzynarodowe prawo jazdy miej przy sobie przez całą pętlę. Zapytaj w wypożyczalni o pozwolenie na wjazd w strefę przygraniczną.” (HG-ZH3, sekcja „Bezpieczeństwo i przepisy”);
-- ryzyko: „Od 12 kwietnia 2026 policja prowincji Tuyên Quang wzmocniła kontrole na drodze do Đồng Văn, zwłaszcza cudzoziemców na wypożyczonych motocyklach, a wypożyczalnie zobowiązały się nie wydawać motocykla bez wymaganych uprawnień.” (HG-ND-0415); „W 2026 na pętli zginęły dwie turystki, obie na tylnym siodełku: wybieraj biuro z licencją i umową, a jadąc samemu, nie wyprzedzaj na zakrętach i zjazdach.” (HG-VNS-0528, HG-BVH-0731);
+- ryzyko: „Od 12 kwietnia 2026 policja prowincji Tuyên Quang wzmocniła kontrole na drodze do Đồng Văn, zwłaszcza cudzoziemców na wypożyczonych motocyklach, a część wypożyczalni i biur (ok. 30) zobowiązała się nie wydawać motocykla bez wymaganych uprawnień.” (HG-ND-0415; motocykle wynajmuje w prowincji 111 firm i osób, HG-DDK-0424, a czy reszta odmawia bez kategorii A, nie ustaliłem); „W 2026 na pętli zginęły dwie turystki, obie na tylnym siodełku: wybieraj biuro z licencją i umową, a jadąc samemu, nie wyprzedzaj na zakrętach i zjazdach.” (HG-VNS-0528, HG-BVH-0731);
 - rady: „Wypożycz motocykl w mieście Hà Giang i tam go oddaj. Jedź 100–150 km dziennie, ruszaj rano i nie jedź po zmroku. W deszczu i mgle na przełęczach Bắc Sum i Mã Pí Lèng zwolnij, a po ulewie zapytaj o osuwiska na QL4C.” (HG-COR, HG-SA, tabela sezonu); „Nie zbaczaj w drogi ku granicy.” (HG-COR).
 
 ## Bezpieczeństwo i przepisy
