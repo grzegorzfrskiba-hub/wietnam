@@ -29,6 +29,18 @@ dataCheck('places', function (need) {
     need(/^[A-Z]{3}$/.test(code), 'airport code ' + code);
     need(PLACES[HUBS[code]] && !PLACES[HUBS[code]].node, code + ': its city ' + HUBS[code] + ' is a place');
   });
+  // a place of stage 3 has the fit its own note gives: a row „fit” with every interest, or a row „fit.<interest>” for each
+  OWN_NOTES.forEach(function (path) {
+    var id = path.replace(/^research\/|-2026-10\.md$/g, ''), fit = {};
+    readFile(path).split('\n').forEach(function (line) {
+      var m = /^\| *fit(?:\.([a-z]+))? *\|([^|]*)\|/.exec(line);
+      if (!m) return;
+      if (m[1]) fit[m[1]] = +m[2].replace(/[`\s]/g, '');
+      else m[2].replace(/(kultura|jedzenie|przyroda|gory|morze):? *(\d)/g, function (all, k, n) { fit[k] = +n; });
+    });
+    need(INTERESTS.every(function (k) { return fit[k] === PLACES[id].fit[k]; }),
+      id + ': fit ' + JSON.stringify(PLACES[id].fit) + ' in places.js, ' + JSON.stringify(fit) + ' in ' + path);
+  });
 });
 
 dataCheck('travel', function (need) {
