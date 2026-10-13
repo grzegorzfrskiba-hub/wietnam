@@ -454,6 +454,7 @@ eq(textWidth('Dni 1–3', 10, true), 7 * 10 * 0.61, 'a monospaced text: 0.61 em 
 ok(textWidth('Hồ Chí Minh City', 11.5) > 0.47 * 11.5 * 16 && textWidth('Huế', 11.5) > 0.62 * 11.5 * 3, 'a name: no narrower than Chrome draws it (0.47–0.62 em a letter)');
 eq([textWidth('Ố', 10), textWidth('Ứ', 10), textWidth('Đ', 10), textWidth('Ł', 10)], [textWidth('O', 10), textWidth('U', 10), textWidth('D', 10), textWidth('L', 10)],
   'a capital with a diacritic is as wide as a capital without one');
+eq([titleWidth('Północ'), titleWidth('Południe')], [42, 56], 'a panel title: 0.7 em a letter at 10 px (monospace 0.6 em and letter-spacing 0.1 em), as Chrome draws it');
 var B = { w: 300, h: 100 };
 function spots(list) { return list.map(function (l) { return l ? [l.anchor, l.box.x, l.box.y, l.clear] : null; }); }
 eq(spots(placeLabels([{ x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }, { x: 100, y: 50, w: 40, h: 20, gx: 10, gy: 10 }], [], B)),

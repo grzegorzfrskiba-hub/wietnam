@@ -799,6 +799,9 @@ function textWidth(text, px, mono) {
   });
   return em * px + 2;
 }
+/* The width of a panel's title as Chrome draws it (.m-title in template.html, from x 10 in app.js): 10 px monospace capitals,
+   0.6 em a letter and letter-spacing 0.1 em; measured at 0.700 em a letter (13.10.2026). */
+function titleWidth(text) { return String(text).length * SMALL_PX * 0.7; }
 function overlapArea(a, b) {
   return Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
 }
@@ -892,10 +895,8 @@ function mapLayout(route, st, m) {
     function inside(q) { return q[0] >= 0 && q[0] <= p.w && q[1] >= 0 && q[1] <= p.h; }
     function pinBox(pn) { return { x: pn.x - pn.w / 2, y: pn.y - PIN_H / 2, w: pn.w, h: PIN_H }; }
     function dot(q, k) { return { x: q[0] - POINT_R, y: q[1] - POINT_R, w: 2 * POINT_R, h: 2 * POINT_R, k: k }; }
-    // the panel's title (top left: 10 px monospace capitals from x 10, letter-spacing 0.1 em, app.js) and scale bar (bottom
-    // left or right) take their corners
-    var title = textWidth(m.say('m.' + key), SMALL_PX, true) * 1.1;
-    var obstacles = [{ x: 0, y: 0, w: 10 + title + 6, h: 24 }, { x: p.bar === 'left' ? 0 : p.w - 80, y: p.h - 18, w: 80, h: 18 }], items = [], faint = [];
+    // the panel's title (top left, from x 10: titleWidth) and scale bar (bottom left or right) take their corners
+    var obstacles = [{ x: 0, y: 0, w: 10 + titleWidth(m.say('m.' + key)) + 6, h: 24 }, { x: p.bar === 'left' ? 0 : p.w - 80, y: p.h - 18, w: 80, h: 18 }], items = [], faint = [];
     (m.panels[key].names || []).forEach(function (n) {   // the names on the basemap: countries in 9 px capitals, water in 11 px italics
       var q = proj([n[1], n[2]]), text = m.say(n[0]), w = n[3] === 'country' ? text.length * 9 * 0.78 : textWidth(text, 11) * 0.9;
       P.names.push({ text: text, kind: n[3], x: q[0], y: q[1], anchor: n[4] });
