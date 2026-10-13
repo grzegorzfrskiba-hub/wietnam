@@ -605,6 +605,9 @@ function air(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 2 }, AIRPO
 eq([air('HAN', 'catba'), air('catba', 'HPH'), air('SGN', 'cattien'), air('mekong', 'SGN'), air('HAN', 'hanoi'), air('dalat', 'DLI')],
   [['r.air_catba', {}], ['r.air_catba', {}], ['r.air_cattien', {}], ['r.air_mekong', {}], ['r.taxi_from', { x: 'Hà Nội' }], ['r.taxi_to', { x: 'Đà Lạt' }]],
   'a long road of an airport has its own text both ways (AIR_KEYS); a short one keeps the taxi');
+// Phong Nha from the airports of Đà Nẵng and Huế (plan 2): its own roads, on the expressway, each with its text
+eq([air('DAD', 'phongnha'), air('phongnha', 'HUI'), legBetween(DATA_ALL.graph, 'DAD', 'phongnha', true).total, legBetween(DATA_ALL.graph, 'HUI', 'phongnha', true).total],
+  [['r.air_phongnha_dad', {}], ['r.air_phongnha_hui', {}], 5.5, 3.75], 'Phong Nha from Đà Nẵng airport (5½ h) and from Huế airport (3¾ h): roads of their own, with their texts');
 var arrive = { segs: [{ mode: 'road', from: 'HAN', to: 'catba', h: 4 }] }, leave = { segs: [{ mode: 'road', from: 'cattien', to: 'SGN', h: 3.75 }, { mode: 'fly', from: 'SGN', to: 'HAN', h: 2.2 }] };
 eq([ferryNotes(arrive, FERRY, AIRPORTS), ferryNotes(leave, FERRY, AIRPORTS), ferryNotes({ segs: [{ mode: 'road', from: 'ninhbinh', to: 'catba', h: 4.5 }] }, FERRY, AIRPORTS)],
   [[{ key: 'n.ferry_in', place: 'catba', last: '18:00', land: '13:30' }], [{ key: 'n.ferry_out', place: 'cattien', first: '6:00', at: '10:00' }], []],

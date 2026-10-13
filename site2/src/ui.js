@@ -102,6 +102,8 @@ UI.pl = {
   'r.air_car': 'Samochód z kierowcą zamówiony wcześniej',
   'r.air_thd': 'Taksówka albo samochód z kierowcą zamówiony wcześniej',
   'r.air_puluong': 'Samochód z kierowcą zamówiony wcześniej, najlepiej przez gospodarzy w Pù Luông',
+  'r.air_phongnha_dad': 'Samochód z kierowcą zamówiony wcześniej, autostradą, bez przełęczy Hải Vân',
+  'r.air_phongnha_hui': 'Samochód z kierowcą zamówiony wcześniej, autostradą na północ',
   'r.haivan_self': 'Motocykl wypożyczony w jedną stronę, przez przełęcz Hải Vân z postojem nad laguną Lăng Cô; bagaż jedzie autem, a do tunelu motocykle nie wjeżdżają, więc we mgle zwolnij albo przeczekaj',
   'n.afternoon': 'Najpierw długa droga na lotnisko: wybierz lot po południu.',
   'n.long': 'Podróż zajmie cały dzień: wyrusz wcześnie.',

@@ -72,6 +72,8 @@ var AIR_KEYS = {
   'SGN-mekong': { text: 'r.air_mekong', book: true }, 'SGN-cattien': { text: 'r.air_cattien', book: true },
   'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
   'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true },
+  // Phong Nha: a car from the airports of Đà Nẵng and Huế, on the expressway
+  'DAD-phongnha': { text: 'r.air_phongnha_dad', book: true }, 'HUI-phongnha': { text: 'r.air_phongnha_hui', book: true },
   // Cúc Phương: a car from Nội Bài; from Thọ Xuân a taxi, but the way back is booked through the park
   'HAN-cucphuong': { text: 'r.air_car', book: true }, 'THD-cucphuong': { text: 'r.air_thd', book: true }
 };
