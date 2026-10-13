@@ -298,3 +298,13 @@ contentCheck('ui', function (need) {
   });
   need(pl['fmt.hm'].indexOf('{h}') > -1 && pl['fmt.hm'].indexOf('{m}') > -1, 'fmt.hm needs {h} and {m}');
 });
+
+/* What the parks allow today (research/<id>-2026-10.md): every plan that drives to Sơn Trà says to check the notice of its
+   management the day before, as the roads close in heavy rain (closed from 8.10.2026 until further notice). */
+contentCheck('safety', function (need) {
+  CONTENT.danang.days.forEach(function (d) {
+    [['', d], [' solo', d.solo], [' easy', d.easy], [' hard', d.hard]].forEach(function (v) {
+      if (v[1] && /Sơn Trà/.test(v[1].d)) need(/sprawdź[^.]*komunikat/.test(v[1].d), 'danang day ' + d.p + v[0] + ': a plan on Sơn Trà says to check the notice of the management (sprawdź … komunikat)');
+    });
+  });
+});
