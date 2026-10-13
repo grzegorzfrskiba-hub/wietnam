@@ -7,7 +7,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | 0. Wizja | zrobione 9.10.2026 |
 | 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
 | 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
-| 3. Nowe miejsca, partiami | w toku: partia A, plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) zrobiony 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) do zaplanowania |
+| 3. Nowe miejsca, partiami | w toku: partia A, plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) zrobiony 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) zaplanowany 13.10.2026: [plans/2026-10-13-etap-3a2-miejsca.md](plans/2026-10-13-etap-3a2-miejsca.md), do wykonania |
 | 4. Audyt i publikacja (po partii A) | |
 
 ## Etap 1: fundament i silnik na 12 dzisiejszych miejscach
@@ -76,7 +76,7 @@ Każda partia kończy się pełnym testem kombinacji.
     - Phong Nha: łatwe jaskinie, 7 km w Paradise Cave i Tú Làn na jeden dzień, a na „Ekstremalnie” Hang Én na dwa dni;
     - Cúc Phương: naczelne, żółwie i stary las, nocleg w parku (Vân Long zostaje w Ninh Bình);
     - Đà Nẵng z Sơn Trà: duki czerwononogie z dróg półwyspu, plaża Mỹ Khê, Marmurowe Góry;
-  - plan 2: Hà Giang (pętla z kierowcą albo samodzielnie, z researchem przepisów o motocyklach) i Sa Pa z Fansipanem.
+  - plan 2 ([plans/2026-10-13-etap-3a2-miejsca.md](plans/2026-10-13-etap-3a2-miejsca.md), zaplanowany 13.10.2026): Hà Giang (pętla z kierowcą albo samodzielnie, z researchem przepisów o motocyklach) i Sa Pa z Fansipanem.
 - **Partia B:** Bạch Mã, Pù Mát, Yok Đôn, Tà Năng–Phan Dũng, Mù Cang Chải, Mỹ Sơn (np. jako dzień w module Hội An).
 - **Kolejne partie** według potrzeb, np. morze (Côn Đảo).
 
@@ -98,7 +98,7 @@ Punkt kontrolny planu 1 (13.10.2026): pełny test (134 784 kombinacje miesięcy 
 
 Końcowy przegląd planu 1 (13.10.2026, świeży recenzent): bez uwag krytycznych. Poprawione od razu: plany na Sơn Trà (dzień 2 i plan na jedną noc) każą dzień wcześniej sprawdzić komunikat zarządu, a test treści tego pilnuje; test tekstów interfejsu sprawdza też klucze wybierane warunkiem (`T(warunek ? 'a' : 'b')`); ramka tytułu kadru mapy ma szerokość, jaką rysuje Chrome (0,7 em litery), a sonda `map.js` sprawdza, że żadna etykieta nie zakrywa tytułu. Reguła `NEAR_H` zostaje do decyzji w planie 2, razem z zygzakiem, bo obie to kolejność miejsc w silniku i obie ruszają te same liczby: reguła zmienia 39 765 tras (29,5%), na 34 968 z nich Đà Nẵng znika, a tylko na 4 797 staje tuż przy Hội An (trasa traci średnio 1,2 punktu oceny silnika, 7 443 trasy ponad 2). Dziś Đà Nẵng jest na 34% tras (41% bez zainteresowań, 55% z morzem); reguła zawężona do powrotu samolotem (droga z Huế przez Hải Vân dozwolona) dałaby 49% (57%, 72%), czyli więcej niż przed obniżeniem oceny przyrody, a bez reguły 60% (65%, 84%) i 38 277 tras z lotem między Hội An a Đà Nẵng. Przykład: `#od=DAD&do=SGN&miesiac=2027-05&dni=28&co=morze&poziom=1`: bez reguły po Huế 2 noce w Đà Nẵng drogą przez Hải Vân, z regułą zamiast nich Đà Lạt. Drobniejsze uwagi recenzenta są na liście niżej.
 
-**Plan 2 partii A: Hà Giang i Sa Pa.** Research jest gotowy ([research/hagiang-2026-10.md](../research/hagiang-2026-10.md), [research/sapa-2026-10.md](../research/sapa-2026-10.md), 13.10.2026). Najpierw krótka sesja decyzji o tym, co research zostawił otwarte, potem plan z suchą próbą na kodzie planu 1, jak w planie 1:
+**Plan 2 partii A: Hà Giang i Sa Pa.** Sesja decyzji 13.10.2026 rozstrzygnęła sprawy niżej, a plan z suchą próbą jest gotowy: [plans/2026-10-13-etap-3a2-miejsca.md](plans/2026-10-13-etap-3a2-miejsca.md) (decyzje w sekcji „Decyzje z sesji 13.10.2026”). Research uzupełniono o stan z 2026 ([research/hagiang-2026-10.md](../research/hagiang-2026-10.md), [research/sapa-2026-10.md](../research/sapa-2026-10.md)). Następny krok: wykonanie planu w świeżej sesji. Sprawy rozstrzygnięte w sesji:
 - **Hà Giang:**
   - sezon ze stacji w mieście (`SSSDSZSSSDDS`) albo z modelu dla płaskowyżu (`ZSSSDSSSDSSZ`, z mrozem w styczniu i grudniu);
   - noce [4, 4, 5]: pętla na 3 albo 4 dni (ustalenie 20), bez trudnego dnia;
