@@ -350,3 +350,50 @@ Adresy sprawdzone 10.10.2026: 54 otwiera się, a cztery oznaczone † zwracają 
 | hanoi | nie | — | — | TT-0507, TT-0518 |
 | babe | nie | — | — (kajaki zakazane od lipca 2026) | BB-P2, BB-ML, BB-HV, BB-TC, BB-0722, BB-1010 |
 | caobang | nie | — | — | CAO-wetrek, CAO-bao, CAO-loop, CAO-viator |
+
+## Uzupełnienie 13.10.2026: Cát Bà, trudny dzień
+
+Ponowne sprawdzenie z listy „Do etapu 3” w `notes/etapy.md`: czy Cát Bà dostaje w 2026 roku trudny dzień (wspinaczka albo DWS z operatorem, jak w sekcji „catba” wyżej). Adresy otwarto 13.10.2026. Wyszukiwanie: WebSearch najpierw w trybie „standard”, potem „extended”, po wietnamsku i angielsku; strony miasta Hải Phòng i strefy Cát Hải, parku narodowego, operatorów i prasy. Limit wyszukiwań się nie skończył. Kurs: 1 EUR = 29 055 VND, 1 USD = 25 901 VND (KURS-NBP).
+
+**Werdykt: nie.** Decyzja z 10.10.2026 zostaje: Cát Bà nie ma trudnego dnia, a `p` 4 „Việt Hải i park narodowy” zostaje bez zmian. Ten werdykt zastępuje „tak” z sekcji „catba” i z „Podsumowania” (stan z 10.10.2026). Warunku „operator z uprawnieniami” (sekcja „Jak czytać”) dalej nie da się udokumentować, a przepisy z 2026 roku dopuszczają usługi na zatokach tylko w miejscach dozwolonych przez władze. Czy miejsca do DWS są wśród nich, nie ustaliłem.
+
+- **Uprawnienia operatorów** (strony z 13.10.2026):
+  - Cat Ba Climbing: dalej „Fully licensed” bez numeru i organu, ubezpieczenie do 100 mln VND na przypadek (CB-CBC);
+  - Asia Outdoors działa (© 2026, jesienne wyjazdy DWS) i pisze, że ma licencję parku narodowego Cát Bà na DWS, bez numeru i daty (CB-AO);
+  - Cat Ba Ventures Co., Ltd. sprzedaje cały dzień DWS bez słowa o licencji (CB-CBV);
+  - przewodnik komercyjny z 29.8.2026 nazywa Asia Outdoors i Cat Ba Climbing głównymi operatorami, ale nie podaje żadnej licencji (CB-VTCL);
+  - **numeru certyfikatu na „leo núi thể thao” (procedura Hải Phòng, CB-GCN), organu ani urzędowej listy firm dalej nie znalazłem.**
+- **Przepisy na zatokach od 12.1.2026:** Quyết định 253/2025/QĐ-UBND z 31.12.2025 (CB-253, BHP-0108). Według streszczeń usługi turystyczne na zatokach, także „vui chơi giải trí, thể thao”, wolno prowadzić tylko na trasach, w punktach i obszarach dozwolonych przez władze, a firma musi być legalnie zarejestrowana i spełniać warunki danej usługi. Nadzór ma Ban Quản lý các vịnh thuộc quần đảo Cát Bà (BHP-0108). Przepisy z 2018 roku zaliczały wspinaczkę („leo núi”) i kajaki do usług sportowych na zatokach (CB-QD32).
+  - Tekstu decyzji nie przeczytałem: załącznik na portalu Cát Hải ma ponad 10 MB i narzędzie go nie otworzyło (CB-253PDF), thuvienphapluat.vn zwraca 403, a luatvietnam.vn pokazuje treść dopiero po zalogowaniu.
+  - Zakazu DWS ani listy miejsc dozwolonych do wspinaczki nie znalazłem.
+- **Przewodnik wspinaczkowy:** na prawie wszystkie rejony wokół Cát Bà trzeba mieć przepustkę (1–3 USD od osoby dziennie), a wspinaczka „nie zawsze jest dozwolona” (CB-TOPO).
+- **Park narodowy** na swojej stronie nie wymienia wspinaczki ani DWS. Jego długie trasy, np. Mây Bầu – Ao Ếch – Áng Phay – Việt Hải, to 4–5 h marszu (CB-VQG), czyli mniej niż 6–10 h z kryteriów i mniej więcej tyle, co dzisiejszy `p` 4.
+- **TCVN 14602:2026** dotyczy tylko hikingu i trekkingu (VNS-0504), więc o wspinaczce i DWS nic nie mówi.
+- **Kajaki (zawieszenie od 15.11.2024):**
+  - urzędowego komunikatu o zniesieniu dalej nie znalazłem. W wątku „chèo thuyền kayak” w Tuổi Trẻ ostatni tekst o Cát Bà jest z 21.11.2024 (TT-KAYAK). Park zaproponował jesienią 2024 trzy strefy na wodzie dla kajaków i innych usług (Cửa Cái – Minh Tự, Vạn Tà, Ba Đình; BHP-1206), a ich zatwierdzenia nie znalazłem;
+  - Indochina Sails dalej pisze, że zawieszenie obowiązuje „od 1.2.2026 do odwołania” na podstawie pisma 483/TB-UBND urzędu powiatu Cát Hải (CB-IS). Powiatu w 2026 roku już nie ma, bo od 2025 roku jest specjalna strefa Cát Hải (uchwała 1669/NQ-UBTVQH15 z 16.6.2025; CB-DK), więc pismo mógł wydać tylko jej urząd. Numeru u źródła urzędowego dalej nie potwierdziłem;
+  - operatorzy mimo to sprzedają kajaki: Cat Ba Climbing ma dzień z kajakiem na Lan Hạ i planktonem za 1 500 000 VND (52 EUR; CB-CBC), a Cat Ba Ventures kajak w dniu DWS (CB-CBV). Przewodnik z 11.5.2026 pisze bez źródła, że na Lan Hạ wolno pływać kajakiem samemu (CB-DTV), a wideo z czerwca 2026 pokazuje na zatoce kajaki i SUP, bez słowa o zawieszeniu (AF-0616);
+  - **wniosek:** o ile mogę to ustalić, zawieszenie formalnie trwa, a oferty operatorów mu przeczą. To osłabia też ich deklaracje o licencjach. Dzień `p` 2 w `site2/src/content/catba.js` nie obiecuje już kajaka (bambusowa łódź z wioślarzem), więc może zostać.
+- **Co zmieniłoby werdykt na „tak”:** operator pokazuje certyfikat miasta Hải Phòng na „leo núi thể thao” z miejscem w Cát Bà (CB-GCN) albo pisemną zgodę parku lub zarządu zatok na miejsca DWS, a tekst decyzji 253/2025 te miejsca dopuszcza. Dzień wyglądałby wtedy jak w sekcji „catba” wyżej: zastępuje `p` 4, więc wchodzi tylko przy 4 nocach, z `off` VII–IX (zakazy wypłynięć, SEZ).
+  - Ceny od osoby w 2026 roku: półdniowe DWS 1 150 000 VND (40 EUR) i cały dzień wspinaczki na wyspie 2 585 000 VND (89 EUR) (CB-CBC). Cały dzień DWS obaj operatorzy sprzedają tylko z kajakiem: 2 000 000 VND (69 EUR; CB-CBC) albo 98 USD (87 EUR; CB-CBV).
+  - Do ryzyk z sekcji „catba” dochodzą kask przy DWS, minimalny wiek (14 lat według CB-VTCL, 18 albo z rodzicem według CB-LS) i to, że większość zwykłych polis nie obejmuje wspinaczki (CB-VTCL).
+- **Przy okazji:** 14.6.2026 na Lan Hạ, w rejonie Vạn Bội, stalowy statek wycieczkowy zderzył się z małą drewnianą łodzią. Jedna osoba zginęła, a obie jednostki miały ważne przeglądy (VNE-0615). To ryzyko każdego dnia na łodzi, także rejsu `p` 2.
+
+Etykiety CB-CBC, CB-CBV, CB-AO, CB-IS i CB-253 są w tabeli „Cát Bà” wyżej. Te strony otworzyłem ponownie 13.10.2026 (strona CB-253 ma datę 10.1.2026). CB-GCN, CB-LS i SEZ są tam bez zmian. Nowe źródła:
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| KURS-NBP | Kurs NBP z zadania: 1 EUR = 29 055 VND, 1 USD = 25 901 VND (etykieta KURS w tamtym pliku). | `research/lotniska-2026-10.md` | własne badanie | 11.10.2026 |
+| BHP-0108 | Báo Hải Phòng: nowe zasady turystyki na zatokach Cát Bà od 12.1.2026: usługi tylko w ogłoszonych obszarach i punktach, legalna rejestracja i warunki każdej usługi, nadzór Ban Quản lý các vịnh. | https://baohaiphong.vn/tang-cuong-bao-dam-an-toan-bao-ve-moi-truong-tai-di-san-thien-nhien-the-gioi-cat-ba-532789.html | prasa | 8.1.2026 |
+| CB-253PDF | Załącznik do strony CB-253 „QUYET DINH (Ban hanh Quy che quan ly hoat dong du lich tren vinh) 2026-01-06”, prawdopodobnie tekst decyzji 253/2025; plik ma ponad 10 MB i narzędzie go nie otworzyło. | https://cdn.haiphong.gov.vn/gov-hpg/5889/tintuc/2026/1/quyet-dinh-ban-hanh-quy-che-quan-ly-hoat-dong-du-lich-tren-vinh-2026-01-06-41-.signed639036577419825053.pdf | urzędowe | 6.1.2026 (w nazwie załącznika) |
+| CB-QD32 | Caselaw.vn, tekst Quyết định 32/2018/QĐ-UBND (zasady turystyki na zatokach Cát Bà): art. 3 ust. 4 zalicza „chèo thuyền kayak, leo núi” do usług sportowych. | https://caselaw.vn/van-ban-phap-luat/319800-quyet-dinh-32-2018-qd-ubnd-ve-quy-che-quan-ly-hoat-dong-du-lich-tren-cac-vinh-thuoc-quan-dao-cat-ba-huyen-cat-hai-thanh-pho-hai-phong | komercyjne (baza przepisów) | 2018, nie obowiązuje od 15.10.2020 |
+| BHP-1206 | Báo Hải Phòng: kajaki zawieszone; trzy proponowane strefy na wodzie (Cửa Cái – Minh Tự, Vạn Tà, Ba Đình), wniosek parku w ocenie; bez słowa o wspinaczce. | https://baohaiphong.vn/quan-ly-hoat-dong-vui-choi-giai-tri-duoi-nuoc-tai-khu-du-lich-cat-ba-bao-dam-an-toan-du-khach-507382.html | prasa | 6.12.2024 |
+| TT-KAYAK | Tuổi Trẻ, wątek „chèo thuyền kayak”: ostatni tekst o kajakach na Cát Bà z 21.11.2024. | https://tuoitre.vn/cheo-thuyen-kayak.html | prasa | stan z 13.10.2026 |
+| CB-DK | Portal Cát Hải, „Giới thiệu đặc khu Cát Hải”: specjalna strefa utworzona uchwałą 1669/NQ-UBTVQH15 z 16.6.2025. | https://cathai.haiphong.gov.vn/dac-khu-cat-hai/gioi-thieu-dac-khu-cat-hai-767181 | urzędowe | 28.7.2025 |
+| CB-DTV | Day Trips Vietnam, kajaki na Lan Hạ: „Lan Ha allows independent kayaking”, bez źródła. | https://daytripsvietnam.com/destinations/cat-ba/day-trips/lan-ha-bay-kayaking/ | komercyjne | 11.5.2026 |
+| AF-0616 | Afamily (za Đời sống Pháp luật): wideo z tłumem kajaków i SUP na zatoce Lan Hạ, bez słowa o zawieszeniu. | https://afamily.vn/canh-tuong-o-vinh-lan-ha-cat-ba-khien-nhieu-nguoi-bat-ngo-thot-len-khong-tin-vao-mat-minh-236260616161347516.chn | prasa | 16.6.2026 |
+| CB-VTCL | Vietnamtourism.com, wspinaczka w Hạ Long i na Cát Bà: operatorzy, ceny, sezon XI–IV, kask przy DWS, DWS od 14 lat, większość zwykłych polis nie obejmuje wspinaczki; bez licencji. | https://www.vietnamtourism.com/en/rock-climbing-in-vietnam-ha-long-bay-cat-ba-and-where-to-book | komercyjne | 29.8.2026 |
+| CB-TOPO | TheTopo (dawniej 27Crags), Butterfly Valley: przepustki na prawie wszystkie rejony wokół Cát Bà, 1–3 USD dziennie, „Climbing is dangerous and not always permitted”. | https://www.thetopo.com/crags/butterfly-valley-cat-ba-vietnam | przewodnik wspinaczkowy (serwis społeczności) | brak (© 2026) |
+| CB-VQG | Park Narodowy Cát Bà, „Các hoạt động du lịch”: trasy 1–2 h i 4–5 h (Mây Bầu – Ao Ếch – Áng Phay – Việt Hải); bez wspinaczki, DWS i kajaków. | https://vuonquocgiacatba.com.vn/cac-hoat-dong-du-lich | urzędowe (park) | 23.4.2026 |
+| VNS-0504 | Viet Nam News: norma TCVN 14602:2026 „Adventure tourism – Hiking and trekking activities – Requirements and recommendations”. | https://vietnamnews.vn/life-style/1780612/new-national-standard-aims-to-rein-in-risks-in-adventure-tourism.html | prasa | 4.5.2026 |
+| VNE-0615 | VnExpress: zderzenie statku Minh Anh z łodzią Bảy Hoa w rejonie Vạn Bội 14.6.2026, jedna ofiara, obie jednostki z ważnymi przeglądami. | https://vnexpress.net/nhan-chung-vu-tau-chim-o-vinh-lan-ha-chi-kip-nghe-coi-canh-bao-hai-giay-5085991.html | prasa | 15.6.2026 |

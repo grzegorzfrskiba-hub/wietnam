@@ -393,3 +393,40 @@ Adresy sprawdzone 11.10.2026: 57 z 58 zwraca kod 200. Rome2Rio (MK-R2R) zwraca 4
 | PQC-PQIG | Phu Quoc Island Guide, lotnisko Phú Quốc: brak cennika kursów, Grab, Xanh SM, VinBus płatny od 2026. | https://www.phuquocislandguide.com/phu-quoc-airport/ | przewodnik | VIII 2026 (sprawdzone przez autora 11.08.2026) |
 | PQC-VPQ | Visit Phu Quoc, Gành Dầu: z lotniska ok. 40 km, ok. 1 h. | https://visitphuquoc.com.vn/en/ganh-dau-phu-quoc-super-hot-photo-spot-on-pearl-island-5847 | przewodnik | 8.11.2025 |
 | PQC-GD | Phu Quoc Island Guide, Gành Dầu: 30 km od Dương Đông, darmowe busy resortów Vinpearl do ich parków. | https://phuquocislandguide.com/regions/ganh-dau/ | przewodnik | X 2026 |
+
+## Uzupełnienie 13.10.2026: Thọ Xuân – Pù Luông
+
+Rozbieżność z sekcji „THD – puluong”: w danych 2,5 h, a PL-PLE podaje ok. 3 h. Wartość typowa według reguły z `research/polaczenia-2026-10.md` („Jak czytać”): mediana środków przedziałów z kilku niezależnych źródeł, zaokrąglona do 0,25 h; czasy Rome2Rio to dolna granica. Adresy otwarto 13.10.2026 (poza †). Wyszukiwanie: WebSearch „standard” i „extended”, po wietnamsku i angielsku. Kurs jak w „Jak czytać” (KURS).
+
+- **Odległość:** 90–100 km drogą: ok. 90 km (THD-RET, THD-TC), ok. 100 km (PL-MT, THD-PLX, PL-VTS). Rome2Rio podaje 69 km (THD-R2R). Szacunek: to raczej odległość w linii prostej, bo jego czas 1 h 27 min przy średniej 70–85 km/h (PR) odpowiada ok. 100–125 km drogi.
+- **Czas samochodem albo busem od drzwi do drzwi:**
+
+  | źródło | czas | środek (h) |
+  |---|---|---|
+  | Travelcar, wypożyczalnia aut (THD-TC, 12.8.2026) | 1 h 40 min–2 h | 1,83 |
+  | Pu Luong Retreat w Bản Đôn (THD-RET) | 2 h | 2 |
+  | VisitThanhHoa (THD-VTH, 22.10.2025) | 2–2,5 h | 2,25 |
+  | MyTour, drogą krajową 15 (PL-MT, 15.9.2026) | 2–3 h | 2,5 |
+  | Pu Luong Express Bus, bus z lotniska (THD-PLX) | ok. 2 h 30 min | 2,5 |
+  | Pu Luong Excursions, taksówka albo transfer (PL-PLE) | ok. 3 h | 3 |
+
+- **Nie liczę:**
+  - Eco Travel (ok. 3 h; THD-ECO): jego akapit to przeredagowany tekst PL-PLE, więc to nie jest niezależne źródło;
+  - Rome2Rio (1 h 27 min–1 h 30 min; THD-R2R): dolna granica;
+  - autobus, 4–5 h (VNA-PL†): inny sposób jazdy.
+- **Kontrolnie:** bus THD-PLX zbiera gości w Pù Luông o 13:00–13:45 i jest na lotnisku o 15:30–15:45, czyli jedzie 1 h 45 min–2 h 45 min razem z objazdem noclegów. W jego tabeli kurs o 9:30 spod lotniska albo z przystanku Ngã năm Sấu (przy BigC) dojeżdża ok. 12:30, czyli ok. 3 h, ale nie wiadomo, od którego przystanku to liczyć.
+- **Wioski:** żadne źródło nie podaje czasu osobno dla Bản Đôn, Kho Mường i Bản Hiêu. Pu Luong Retreat (2 h) leży w Bản Đôn, a bus THD-PLX dowozi do bramy Bản Đôn, do Bản Hiêu i do Pu Luong Retreat.
+- **Wartość typowa:** mediana sześciu środków (1,83; 2; 2,25; 2,5; 2,5; 3) to 2,375 h, dokładnie między 2,25 a 2,5. Zaokrąglam w górę, do 2,5, bo reguła każe brać wartość typową, a nie optymistyczną. Bez najkrótszego źródła (THD-TC) albo z Eco Travel liczonym osobno mediana to równo 2,5.
+- **Wniosek: zostaje 2,5 h.** Typowy czas nie jest bliżej 2,75–3 h, jak przypuszczała sekcja „THD – puluong”: ok. 3 h podaje tylko PL-PLE (i kopia jego tekstu), a pięć pozostałych źródeł ma środki 1,83–2,5 h.
+- **Ceny (luka „Nie ustaliłem” z sekcji „THD – puluong”):** auto z kierowcą 900 000–1 200 000 VND (31–41 EUR; THD-TC) albo 1 000 000–1 800 000 VND zależnie od auta i miejsca odbioru (34–62 EUR; THD-PLX). Z Pù Luông na lotnisko: od 1 400 000 VND autem na 7 osób, od 1 700 000 VND busem na 16 i od 2 000 000 VND limuzyną na 11 (48, 59 i 69 EUR), bez VAT i dopłat weekendowych i świątecznych (THD-VXR, cennik z 10.2026). Szacunek z „Zestawienia” (34–55 EUR za auto) mieści się w tych cenach.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| THD-PLX | Pu Luong Express Bus: bus z lotniska Thọ Xuân do Pù Luông ok. 2 h 30 min i 100 km, odbiór na lotnisku o 15:30, z Pù Luông o 13:00–13:45 na lotnisko o 15:30–15:45; przystanki: brama Bản Đôn, Bản Hiêu, Pu Luong Retreat; auto z lotniska 1 000 000–1 800 000 VND. | https://puluongexpressbus.com/lich-trinh-xe-limousine-thanh-hoa-di-pu-luong-chay-hang-ngay/ | przewoźnik | brak (linia lotniskowa od 1.5.2022) |
+| THD-RET | Pu Luong Retreat w Bản Đôn: lotnisko Thọ Xuân 90 km, 2 h jazdy. | https://puluongretreat.com/en/discover/84-tinh-ket-noi | nocleg | brak (© 2015–2023) |
+| THD-VTH | VisitThanhHoa, lotnisko Thọ Xuân: Pù Luông 2–2,5 h jazdy od lotniska. | https://visitthanhhoa.com/vi/san-bay-tho-xuan-thong-tin-chi-tiet-cap-nhat-quy-hoach | przewodnik (portal) | 22.10.2025 |
+| THD-TC | Travelcar, transfery z lotniska Thọ Xuân: Pù Luông ok. 90 km, 1 h 40 min–2 h, prawie tylko auto prywatne za 900 000–1 200 000 VND. | https://travelcar.vn/blog/xe-dua-don-san-bay-tho-xuan-thanh-hoa-10915.html | wypożyczalnia aut | 12.8.2026 |
+| THD-ECO | Eco Travel: przylot na lotnisko Thanh Hóa, „z Thanh Hóa” ok. 3 h; akapit prawie taki sam jak w PL-PLE. | https://ecotravel.vn/shuttle-bus-to-pu-luong-nature-reserve/ | biuro podróży | brak (© 2026) |
+| THD-R2R | Rome2Rio, lotnisko Thọ Xuân – Pu Luong Natura i – Puluong Retreat: 69 km, taksówką 1 h 27 min–1 h 30 min. | https://www.rome2rio.com/s/Nearby-Airports/Pu-Luong-Natura ; https://www.rome2rio.com/s/Nearby-Airports/Puluong-Retreat-Pu-Luong | agregator | brak |
+| THD-VXR | Vexere, wynajem aut z gminy Pù Luông na lotnisko Thọ Xuân: od 1 400 000 VND (7 miejsc), 1 700 000 VND (16 miejsc), 2 000 000 VND (limuzyna na 11), bez VAT i dopłat. | https://vexere.com/vn/thue-xe/di-san-bay-tho-xuan-tu-pu-luong.vi | serwis rezerwacji | cennik z 10.2026 |
+| VNA-PL† | Vietnam Airlines, przewodnik po Pù Luông: z lotniska autobusem ok. 4–5 h (wyniki wyszukiwania; strona zwraca 404 dla narzędzia). | https://www.vietnamairlines.com/us/vi/plan-book/travel/travel-guide/pu-luong | przewoźnik (linia lotnicza) | brak |

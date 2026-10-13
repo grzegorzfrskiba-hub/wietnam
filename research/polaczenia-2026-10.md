@@ -161,3 +161,14 @@ Brak. DAD – PQC lata tylko Vietjet (VN nie ma bezpośredniego), DAD – DLI je
 
 - Drogi: HPH – catba 1,75; THD – puluong 2,5; THD – ninhbinh 2.
 - Loty: HPH – SGN 2; HPH – DAD 1,3; THD – SGN 2.
+
+## Uzupełnienie 13.10.2026: dwie drogi krótsze przez Hà Nội
+
+Decyzja z sesji 13.10.2026 (etap 3, partia A, lista ustaleń, pkt 12). Dwie drogi z tabel wyżej były dłuższe niż objazd złożony z innych wierszy, więc silnik ich nie używał: liczył przejazd przez Hà Nội, a droga z lotniska do Pù Luông traciła przez to swój tekst w karcie.
+
+| Odcinek | Było | Jest | Dlaczego |
+|---|---|---|---|
+| HAN – puluong | 5,25 | 5 | HAN – hanoi (0,75) + hanoi – puluong (4,25) = 5. **Szacunek:** suma dwóch wierszy tej tabeli, bo przejazd z lotniska nie musi wjeżdżać do centrum. Jedyne źródło dla samej pary podaje 5–5,5 h (wiersz HAN – puluong wyżej), więc 5 mieści się w jego przedziale. |
+| ninhbinh – caobang | 9,25 | 8,5 | ninhbinh – hanoi (2) + hanoi – caobang (6,5) = 8,5, tak samo przez lotnisko (2,25 + 6,25). Oba źródła z wiersza wyżej liczą tę drogę przez Hà Nội (7–9 h i 9–12 h). **Szacunek:** suma dwóch wierszy tej tabeli. |
+
+Od 13.10.2026 droga bezpośrednia w danych nie jest dłuższa niż najkrótsza droga przez inne wiersze. Pilnuje tego test danych (`tests/data.test.js`, część „travel”).
