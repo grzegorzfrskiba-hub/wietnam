@@ -401,10 +401,10 @@ Kwoty w EUR. Puste pole = 0. Kwota dnia: dwie osoby = na osobę + za grupę / 2,
 
 | droga | godziny | sposób | cena | za co (auto/osoba) | gdzie kupić | tekst karty |
 |---|---|---|---|---|---|---|
-| HAN – hagiang | 5,75 | samochód z kierowcą zamówiony wcześniej; minibus typu limousine prosto z lotniska (Truly Hagiang o 7:15, od 19 USD, 17 EUR/os.) | 132–189 (szacunek) | auto | hotel albo biuro w Hà Giang, Baolau | Samochód z kierowcą zamówiony wcześniej albo minibus typu limousine prosto z lotniska |
+| HAN – hagiang | 5,75 | samochód z kierowcą zamówiony wcześniej; minibus typu limousine prosto z lotniska (Truly Hagiang o 7:15, od 19 USD, 17 EUR/os.) | 132–189 (szacunek) | auto | hotel albo biuro w Hà Giang, Baolau | Samochód z kierowcą albo minibus typu limousine, oba do zamówienia wcześniej |
 
 - **Cena:** od: Hanoi Eco Tour, auto 4-miejscowe z Hà Nội 148 USD (132 EUR), z lotniska „według zapytania”, więc **szacunek:** ta sama cena (HG-HET); do: Baolau, transfer prywatny Hà Giang – Hà Nội 5 500 000 VND (189 EUR) (HG-BL). Limuzyna: 19 USD = 17 EUR za osobę (HG-NV-HN).
-- **Klucz tekstu:** jak przy Cao Bằng i Ba Bể, `'HAN-hagiang': { text: 'r.air_car', book: true }`.
+- **Klucz tekstu:** jak przy Ninh Bình, `'HAN-hagiang': { text: 'r.air_ninhbinh', book: true }`, bo z lotniska jedzie też minibus typu limousine (Truly Hagiang); tekst Cao Bằng i Ba Bể (`r.air_car`) mówi tylko o samochodzie.
 
 ## Do sprawdzenia przed publikacją (etap 4)
 
