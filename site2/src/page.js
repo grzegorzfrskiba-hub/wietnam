@@ -631,8 +631,8 @@ function bookList(route, plans, moto, data) {
 var PACK_COLD_C = 15;   // a night this cold or colder (the mean low of a month, as the page rounds it) asks for a warm layer
 /* What to pack for this trip: [{ code, places, t }] for the UI keys p.<code>, in this order: warm, the stays with a month
    whose nights are PACK_COLD_C °C or colder (t: the coldest); rain, the stays in a month of rain (rainyMonth); boots for a
-   trip with a hike, else shoes; leeches and torch, the stays whose plans or events met ask for them (pack, content.js);
-   swim, the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the trip; then sun, mosquito,
+   trip with a hike, else shoes; leeches, torch and swim, the stays whose plans or events met ask for them (pack, content.js),
+   and swim also the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the trip; then sun, mosquito,
    cash and apps on every trip. places: the places, each once, in the order of the trip (a night on the way as its node).
    route, plans, moto: as for tripBudget; st: normSettings' result; data: { climate, seasons, content, places, swaps }. */
 function packList(route, plans, st, moto, data) {
@@ -883,8 +883,10 @@ function mapLayout(route, st, m) {
     function inside(q) { return q[0] >= 0 && q[0] <= p.w && q[1] >= 0 && q[1] <= p.h; }
     function pinBox(pn) { return { x: pn.x - pn.w / 2, y: pn.y - PIN_H / 2, w: pn.w, h: PIN_H }; }
     function dot(q, k) { return { x: q[0] - POINT_R, y: q[1] - POINT_R, w: 2 * POINT_R, h: 2 * POINT_R, k: k }; }
-    // the panel's title (top left) and scale bar (bottom left or right) take their corners
-    var obstacles = [{ x: 0, y: 0, w: 84, h: 24 }, { x: p.bar === 'left' ? 0 : p.w - 80, y: p.h - 18, w: 80, h: 18 }], items = [], faint = [];
+    // the panel's title (top left: 10 px monospace capitals from x 10, letter-spacing 0.1 em, app.js) and scale bar (bottom
+    // left or right) take their corners
+    var title = textWidth(m.say('m.' + key), SMALL_PX, true) * 1.1;
+    var obstacles = [{ x: 0, y: 0, w: 10 + title + 6, h: 24 }, { x: p.bar === 'left' ? 0 : p.w - 80, y: p.h - 18, w: 80, h: 18 }], items = [], faint = [];
     (m.panels[key].names || []).forEach(function (n) {   // the names on the basemap: countries in 9 px capitals, water in 11 px italics
       var q = proj([n[1], n[2]]), text = m.say(n[0]), w = n[3] === 'country' ? text.length * 9 * 0.78 : textWidth(text, 11) * 0.9;
       P.names.push({ text: text, kind: n[3], x: q[0], y: q[1], anchor: n[4] });
@@ -930,7 +932,9 @@ function mapLayout(route, st, m) {
         var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [] });
         if (!s.names.length) stubs.push(s);
         s.vx += dx / len; s.vy += dy / len;
-        if (s.names.indexOf(nameOf(ia ? g.to : g.from)) < 0) s.names.push(nameOf(ia ? g.to : g.from));
+        // the other end by name, a flight with ✈ and a road with an arrow (stage 3: Phong Nha has roads to the north panel)
+        var name = (g.mode === 'fly' ? '✈ ' : '→ ') + nameOf(ia ? g.to : g.from);
+        if (s.names.indexOf(name) < 0) s.names.push(name);
       });
     });
     // a stub's tip: len px from its point toward its way, turned by deg degrees, held 4 px inside the panel
@@ -947,7 +951,7 @@ function mapLayout(route, st, m) {
       var vl = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
       if (vl < 0.1) { s.vx = 0; s.vy = 1; vl = 1; }   // two ways that cancel out (there and back): straight down
       s.ux = s.vx / vl; s.uy = s.vy / vl;
-      var lines = s.names.map(function (n) { return '✈ ' + n; }), tips = STUB_TIPS.map(function (v) { return tipOf(s, STUB * v[0], v[1]); });
+      var lines = s.names, tips = STUB_TIPS.map(function (v) { return tipOf(s, STUB * v[0], v[1]); });
       items.push({ x: tips[0][0], y: tips[0][1], alts: tips.slice(1), w: Math.max.apply(null, lines.map(function (l) { return textWidth(l, SUB_PX, true); })),
         h: LINE_H * lines.length, gx: 3, gy: 3, toward: [s.ux, s.uy], stub: s, what: { kind: 'stub', key: s.names.join(', '), lines: lines } });
     });

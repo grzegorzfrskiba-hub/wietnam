@@ -7,6 +7,13 @@ function dataCheck(label, body) {
   print(label + ' ok');
 }
 
+/* The places added in stage 3 keep their research in a note of their own, research/<id>-2026-10.md (each place without a
+   section in research/sezony-2026-10.md): a season section like those of that note and the tables „Zestawienie: ceny”,
+   „wycieczki”, „rezerwacje”, „drogi” and „loty”, with the columns of the notes of the topics. */
+var SEASON_NOTE = readFile('research/sezony-2026-10.md');
+var OWN_NOTES = Object.keys(PLACES).filter(function (id) { return !PLACES[id].node && SEASON_NOTE.indexOf('\n## ' + id + ': ') < 0; })
+  .map(function (id) { return 'research/' + id + '-2026-10.md'; });
+
 dataCheck('places', function (need) {
   Object.keys(PLACES).forEach(function (id) {
     var p = PLACES[id];
@@ -55,6 +62,23 @@ dataCheck('travel', function (need) {
     [r[0], r[1]].forEach(function (e) { if (/^[A-Z]{3}$/.test(e)) need(AIRPORTS[e], (r.length && FLIGHTS.indexOf(r) > -1 ? 'flight ' : 'road ') + r.join(' ') + ': ' + e + ' is no airport of AIRPORTS'); });
   });
   Object.keys(HUBS).forEach(function (code) { need(AIRPORTS[code], 'HUBS: ' + code + ' is no airport of AIRPORTS'); });
+  // every road and flight has its hours in a research table: research/polaczenia-2026-10.md or the note of a place of
+  // stage 3 („Zestawienie: drogi”, „Zestawienie: loty”); a later row of the same two ends wins (the column „Jest” of an
+  // „Uzupełnienie” table)
+  var hours = {};
+  ['research/polaczenia-2026-10.md'].concat(OWN_NOTES).forEach(function (path) {
+    var col = 1;
+    readFile(path).split('\n').forEach(function (line) {
+      if (!/^\|/.test(line) || /^\|-/.test(line)) return;
+      var c = line.replace(/^\||\|$/g, '').split('|').map(function (x) { return x.trim(); }), m = /^([A-Za-z]+) – ([A-Za-z]+)$/.exec(c[0]);
+      if (/^(odcinek|trasa)$/i.test(c[0])) col = c.indexOf('Jest') > -1 ? c.indexOf('Jest') : 1;
+      else if (m && /^\d+(,\d+)?$/.test(c[col] || '')) hours[[m[1], m[2]].sort().join('-')] = +c[col].replace(',', '.');
+    });
+  });
+  ROADS.concat(FLIGHTS).forEach(function (r) {
+    var k = [r[0], r[1]].sort().join('-');
+    need(hours[k] === r[2], r.join(' ') + ': the research says ' + hours[k] + ' h');
+  });
   Object.keys(HUBS).forEach(function (code) {
     need(G.road[code] && G.road[code][HUBS[code]] <= END_LEG_H, code + ': its city ' + HUBS[code] + ' within ' + END_LEG_H + ' h by road');
     Object.keys(PLACES).forEach(function (id) { need(G.h[code] && G.h[code][node(id)] < Infinity, id + ' cannot be reached from ' + code); });
@@ -103,14 +127,14 @@ dataCheck('photos', function (need) {
 });
 
 /* The climate (climate.js) against its research note: the numbers and the season letters are those of the tables in
-   research/sezony-2026-10.md, every fair or poor month has a reason, and a reason that is a threshold of the note
+   research/sezony-2026-10.md (a place of stage 3: its own note), every fair or poor month has a reason, and a reason that is a threshold of the note
    (section „Progi”) holds for the month's numbers. EXCEPT: the note's exception, Cát Tiên in November, whose park counts
    its rainy season to November although the station in the city gets less rain. */
 dataCheck('climate', function (need) {
   var MONTHS = ['styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'];
   var EXCEPT = { cattien: { 11: ['deszcz'] } }, notes = {};
   function n(s) { return +s.replace(',', '.'); }
-  readFile('research/sezony-2026-10.md').split('\n## ').forEach(function (sec) {
+  [SEASON_NOTE].concat(OWN_NOTES.map(function (p) { return readFile(p); })).join('\n').split('\n## ').forEach(function (sec) {
     var m = /^([a-z]+): /.exec(sec), sun = /Słońce, h \(I–XII[^)]*\): ([\d, ]+)/.exec(sec), same = /Słońce jak w `([a-z]+)`/.exec(sec);
     if (!m || !SEASONS[m[1]]) return;
     var r = notes[m[1]] = { t: [], rain: [], letters: '', sun: sun ? sun[1].split(',').map(Number) : null, sunOf: same ? same[1] : null };
@@ -152,7 +176,8 @@ dataCheck('climate', function (need) {
 /* The prices (costs.js) and what to book ahead (before.js) against their research notes. Every number of COSTS stands in
    the tables „Zestawienie” and „Zestawienie wycieczek” of research/ceny-2026-10.md or „Zestawienie” of
    research/motocykl-2026-10.md (there a car is the group's part, a person or a motorbike the person's); every entry of
-   BOOK in „Zestawienie” of research/rezerwacje-2026-10.md; ENTRY in „Zestawienie” of research/wjazd-2026-10.md. An item
+   BOOK in „Zestawienie” of research/rezerwacje-2026-10.md; ENTRY in „Zestawienie” of research/wjazd-2026-10.md. A place of
+   stage 3: the tables „Zestawienie: ceny”, „Zestawienie: wycieczki” and „Zestawienie: rezerwacje” of its own note. An item
    costs no less at to than at from, for two people (pp + group / 2) and for one (pp + group). */
 function researchRows(path, head) {
   var s = readFile(path), i = s.indexOf(head), out = [];
@@ -175,6 +200,12 @@ dataCheck('costs', function (need) {
     var v = [n(r[2]), n(r[3])], car = /^auto/.test(r[1]);
     items[r[0]] = { pp: car ? [0, 0] : v, group: car ? v : [0, 0] };
   });
+  OWN_NOTES.forEach(function (p) {
+    researchRows(p, '### Zestawienie: ceny').forEach(function (r) { base[r[0]] = [n(r[2]), n(r[3])]; });
+    researchRows(p, '### Zestawienie: wycieczki').forEach(function (r) {
+      items[r[0].replace(/`/g, '')] = { pp: [n(r[2]), n(r[3])], group: [n(r[4]), n(r[5])] };
+    });
+  });
   function same(a, b, what) { need(JSON.stringify(a) === JSON.stringify(b), what + ': ' + JSON.stringify(a) + ' in costs.js, ' + JSON.stringify(b) + ' in the research'); }
   Object.keys(PLACES).forEach(function (id) { if (!PLACES[id].node) same(COSTS.night[id], base['night.' + id], 'night.' + id); });
   Object.keys(COSTS.night).forEach(function (id) { need(PLACES[id] && !PLACES[id].node, 'a night price for no place: ' + id); });
@@ -194,6 +225,7 @@ dataCheck('costs', function (need) {
 dataCheck('booking', function (need) {
   var rows = {};
   researchRows('research/rezerwacje-2026-10.md', '## Zestawienie\n').forEach(function (r) { rows[r[0]] = r; });
+  OWN_NOTES.forEach(function (p) { researchRows(p, '### Zestawienie: rezerwacje').forEach(function (r) { rows[r[0]] = r; }); });
   Object.keys(BOOK).forEach(function (k) {
     var b = BOOK[k], r = rows[k];
     need(r, k + ': no row in the research');

@@ -1,5 +1,5 @@
 /* The climate of each place by month, January first, from the tables in research/sezony-2026-10.md (the station named
-   there for the place): t: [lowest, highest] mean daily temperature in °C; rain: [mm, days with rain]. why: by month 1–12,
+   there for the place; a place of stage 3: the table of its own note, research/<id>-2026-10.md): t: [lowest, highest] mean daily temperature in °C; rain: [mm, days with rain]. why: by month 1–12,
    the reasons of a fair or poor month (S or Z in seasons.js), as codes of WEATHER_WHY; a good month has none.
    tests/data.test.js checks the numbers and the letters against the research tables and the reasons against its thresholds. */
 // upal: heat; deszcz: rainy season; szaro: grey, little sun; chlod: cold nights under cloud; morze: cold sea; fale: rough sea;
@@ -40,6 +40,11 @@ var CLIMATE = {
     t: [[17.5, 23.5], [18.2, 24.5], [20.2, 27.5], [22.7, 31.1], [24.5, 33.5], [25.3, 34.7], [25.2, 34.7], [25.1, 34.2], [24.1, 31.7], [22.8, 29], [21, 26.5], [18.6, 23.8]],
     rain: [[129, 15.5], [63.3, 11.6], [51.3, 10.2], [58.9, 9.2], [111, 11.7], [103, 9.3], [94.6, 8.5], [139, 10.7], [411, 16.3], [773, 20.8], [642, 20.9], [350, 20.2]],
     why: { 6: ['upal'], 7: ['upal'], 8: ['upal'], 9: ['deszcz'], 10: ['ulewy', 'powodzie'], 11: ['ulewy', 'powodzie'], 12: ['ulewy'] }
+  },
+  phongnha: {
+    t: [[16.6, 21.7], [17.6, 22.3], [19.7, 24.9], [22.4, 28.8], [25, 32.4], [26.8, 34], [26.7, 33.9], [26, 33.1], [24.3, 30.9], [22.5, 28.2], [20.3, 25.5], [17.6, 22.6]],
+    rain: [[59.4, 11.8], [39.9, 11.2], [43.2, 11.3], [60.8, 9.2], [115.6, 10.1], [78.9, 7.3], [75.5, 7.2], [166.1, 11], [472.5, 15.8], [649.1, 19.3], [318.7, 17.4], [125.1, 14.2]],
+    why: { 2: ['szaro'], 6: ['upal'], 9: ['deszcz', 'powodzie'], 10: ['ulewy', 'powodzie'], 11: ['ulewy', 'powodzie'], 12: ['szaro'] }
   },
   puluong: {
     t: [[14, 20.6], [15.6, 21.9], [18.4, 24.9], [21.8, 29.4], [24, 32.9], [25.4, 33.9], [25.5, 33.6], [25.2, 32.8], [24.1, 31.7], [21.4, 29.2], [18.1, 26.1], [14.8, 22.6]],

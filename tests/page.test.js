@@ -1,5 +1,14 @@
 /* The page's pure helpers (page.js), on made-up content and the real places. */
-var DATA_T = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };   // the real data, as app.js plans with it
+/* The trips pinned below plan with the 14 places of stages 1–2 and their roads and flights, so a place added later does
+   not move them; the combination test (combos.test.js) plans with every place, and the places of stage 3 have checks of
+   their own further down. */
+var OLD_IDS = ['saigon', 'mekong', 'phuquoc', 'cattien', 'dalat', 'hoian', 'hue', 'puluong', 'ninhbinh', 'catba', 'hanoi', 'hanoiStop', 'babe', 'caobang'];
+var OLD_AIRPORTS = ['SGN', 'HAN', 'DAD', 'HUI', 'DLI', 'PQC', 'VCA', 'HPH', 'THD'];
+var OLD_PLACES = {};
+OLD_IDS.forEach(function (id) { OLD_PLACES[id] = PLACES[id]; });
+function oldEnd(e) { return OLD_IDS.indexOf(e) > -1 || OLD_AIRPORTS.indexOf(e) > -1; }
+var DATA_T = { places: OLD_PLACES, seasons: SEASONS, hubs: HUBS,
+  graph: travelGraph(ROADS.filter(function (r) { return oldEnd(r[0]) && oldEnd(r[1]); }), FLIGHTS.filter(function (f) { return oldEnd(f[0]) && oldEnd(f[1]); })) };
 
 /* ---------- the settings link ---------- */
 eq(parseLink('#od=SGN&do=HAN&miesiac=2027-02&dni=15&co=przyroda,gory&poziom=2&dodaj=phuquoc&usun=hoian'),
@@ -340,7 +349,7 @@ eq([oE2.caobang.added, oE2.caobang.reasons, oE2.caobang.canAdd], [true, ['far'],
 var H = Object.assign({}, MARCH, { remove: ['hoian'] }), oH = byId(offOf(tripOf(H), H));
 eq([oH.hoian.reasons, oH.hoian.canAdd], [['removed'], true], 'removed with Usuń: said so, and Dodaj brings it back');
 // a place that needs a higher level, and one closed all the trip: made up, since none of the 12 places is either yet
-var P3 = JSON.parse(JSON.stringify(PLACES)), S3 = JSON.parse(JSON.stringify(SEASONS));
+var P3 = JSON.parse(JSON.stringify(OLD_PLACES)), S3 = JSON.parse(JSON.stringify(SEASONS));
 P3.catba.level = 3; S3.babe = 'XXXXXXXXXXXX';
 var D3 = { places: P3, seasons: S3, graph: DATA_T.graph, hubs: HUBS }, st3 = normSettings(MARCH, P3, HUBS), o3 = byId(whyOff(planRoute(st3, D3), MARCH, st3, D3, CLIMATE));
 eq([o3.catba.reasons, o3.catba.canAdd, o3.babe.reasons, o3.babe.canAdd], [['level'], false, ['closed'], false], 'a higher level and a closed place: no Dodaj');
@@ -350,7 +359,7 @@ eq(whyOff(planRoute(normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUB
 // in April, on a trip from 28 March that cannot reach it in March)
 var S4 = JSON.parse(JSON.stringify(SEASONS));
 S4.caobang = 'SSSXSSSSDDDS';
-var D4 = { places: PLACES, seasons: S4, graph: DATA_T.graph, hubs: HUBS }, M4 = { from: 'SGN', to: 'HAN', start: '2027-03-28', end: '2027-04-11', interests: [], level: 2, add: [], remove: [] };
+var D4 = { places: OLD_PLACES, seasons: S4, graph: DATA_T.graph, hubs: HUBS }, M4 = { from: 'SGN', to: 'HAN', start: '2027-03-28', end: '2027-04-11', interests: [], level: 2, add: [], remove: [] };
 var st4 = normSettings(M4, PLACES, HUBS), o4 = byId(whyOff(planRoute(st4, D4), M4, st4, D4, CLIMATE)), o4s = byId(whyOff(planRoute(st4, DATA_T), M4, st4, DATA_T, CLIMATE));
 eq([o4.caobang.reasons, o4.caobang.canAdd, o4s.caobang.reasons, o4s.caobang.canAdd], [['closed_part'], false, ['beaten'], true],
   'closed in part of the term and not fitted around it: said so, no Dodaj; open all the term, the same trip could take it');
@@ -439,7 +448,7 @@ eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), rides
 print('before ok');
 
 /* ---------- the map ---------- */
-eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 233, 177],
+eq([panelSize(MAP_PANELS.north).w, panelSize(MAP_PANELS.north).h, panelSize(MAP_PANELS.centre).h, panelSize(MAP_PANELS.south).h], [270, 250, 270, 177],
   'the panels: MAP_WIDTH wide, as high as their latitudes at that scale');
 eq(textWidth('Dni 1–3', 10, true), 7 * 10 * 0.61, 'a monospaced text: 0.61 em a letter');
 ok(textWidth('Hồ Chí Minh City', 11.5) > 0.47 * 11.5 * 16 && textWidth('Huế', 11.5) > 0.62 * 11.5 * 3, 'a name: no narrower than Chrome draws it (0.47–0.62 em a letter)');
@@ -465,7 +474,7 @@ function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.p
 function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
 var mA = mapLayout(tA.r, tA.st, MAPW);   // saigon, dalat, hoian, hue, hanoi: flights Đà Lạt → Đà Nẵng and Huế → Hà Nội
 eq(pinsOf(mA), ['north:hanoi(5)', 'centre:hoian(3),hue(4)', 'south:saigon(1),dalat(2)'], 'each stay on its panel, with its number');
-eq([mA.panels[1].y, mA.panels[2].y, mA.height], [266, 515, 692], 'the panels one under another, 16 px apart');
+eq([mA.panels[1].y, mA.panels[2].y, mA.height], [266, 552, 729], 'the panels one under another, 16 px apart');
 eq([labelsOf(mA.panels[0], 'stub'), labelsOf(mA.panels[1], 'stub').sort(), labelsOf(mA.panels[2], 'stub')], [['✈ Huế'], ['✈ Hà Nội', '✈ Đà Lạt'], ['✈ Đà Nẵng']],
   'a flight to another panel: a stub at each end, named after the other end');
 eq([labelsOf(mA.panels[2], 'stop'), labelsOf(mA.panels[2], 'faint').sort()], [['Hồ Chí Minh City/Dni 1–3', 'Đà Lạt/Dni 4–6'], ['Cát Tiên', 'Mekong', 'Phú Quốc']],
@@ -478,7 +487,7 @@ var mH = mapLayout(tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 
   tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 12, interests: [], level: 2 }).st, MAPW);
 eq([pinsOf(mH)[0], labelsOf(mH.panels[0], 'stop'), labelsOf(mH.panels[0], 'stub')], ['north:hanoi(1·6)', ['Hà Nội/Dni 1, 11'], ['✈ HCMC/✈ Huế']],
   'a round trip: one pin for the city with both numbers; two flights from one airport make one stub, short names of airports');
-eq(mA.panels.map(function (P) { return P.grid.map(function (g) { return g.lat + (g.label ? '' : '-'); }).join(' '); }), ['20 21 22 23', '16 17', '10 11- 12- 13'],
+eq(mA.panels.map(function (P) { return P.grid.map(function (g) { return g.lat + (g.label ? '' : '-'); }).join(' '); }), ['20 21 22 23', '16 17 18', '10 11- 12- 13'],
   'the degrees of latitude: every line, but no label where a label of the trip stands (11° and 12° N by Hồ Chí Minh City and Đà Lạt)');
 var mD = mapLayout(tD.r, tD.st, MAPW);   // Cao Bằng on the trip: Bản Giốc
 eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0], 'poi')], [['Bản Giốc'], ['Bản Giốc']], 'a point of interest with its stay');
@@ -491,6 +500,30 @@ eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0
   });
 });
 print('map ok');
+
+/* ---------- the places of stage 3, on the real data ---------- */
+var DATA_ALL = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS };
+function tripAll(s) { var st = stOf(s); return { st: st, r: planRoute(st, DATA_ALL) }; }
+function plansAll(t) {
+  var done = {};
+  return t.r.stops.map(function (x, i) { var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i)); done[x.id] = (done[x.id] || 0) + x.n; return d; });
+}
+// Phong Nha: Hang Én over two days at level 3 in its season, the usual and the easy days otherwise
+function pn(level, months) { return stopDays(CONTENT.phongnha, { n: 3, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
+eq([pn(3, [2, 2, 2]), pn(3, [9, 9, 9]), pn(2, [2, 2, 2]), pn(1, [2, 2, 2])], [['-', 'hard', 'hard'], ['-', '-', '-'], ['-', '-', '-'], ['-', 'easy', 'easy']],
+  'Phong Nha, three nights: Hang Én on days 2 and 3 at level 3 in March, not in October (no expeditions); the usual and the easy days at levels 2 and 1');
+// a stay of a place on a trip found with Dodaj (the place asked for), so that later places do not move the check
+function stayOf(t, id) { var i = t.r.stops.map(function (x) { return x.id; }).indexOf(id); return { n: t.r.stops[i].n, days: plansAll(t)[i].map(function (d) { return d.variant || '-'; }) }; }
+var tPN = tripAll({ from: 'DAD', to: 'DAD', year: 2027, month: 3, days: 8, interests: ['gory'], level: 3, add: ['phongnha'] }), sPN = stayOf(tPN, 'phongnha');
+eq([sPN.n >= 3, sPN.days.slice(0, 3), bookList(tPN.r, plansAll(tPN), [], BOOKD)[0].key], [true, ['-', 'hard', 'hard'], 'phongnha.hangen'],
+  'mountains and caves at level 3 in March: Phong Nha with Hang Én on days 2 and 3; the expedition is the first thing to book (2 months)');
+// a way to another panel on a trip put together leg by leg: Hà Nội, Phong Nha (a flight to Đồng Hới), Pù Luông (a road)
+function legAll(a, b, road) { return legBetween(DATA_ALL.graph, a, b, road); }
+var rPR = { days: 9, stops: [{ id: 'hanoi', n: 1, start: 1, end: 1, leg: legAll('HAN', 'hanoi', true) }, { id: 'phongnha', n: 4, start: 2, end: 5, leg: legAll('hanoi', 'phongnha') },
+  { id: 'puluong', n: 3, start: 6, end: 8, leg: legAll('phongnha', 'puluong') }], home: legAll('puluong', 'HAN', true) };
+eq(labelsOf(mapLayout(rPR, stOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 9, interests: [], level: 2 }), MAPW).panels[1], 'stub').sort(), ['→ Pù Luông', '✈ Hà Nội'],
+  'a way to another panel: a road with an arrow (Phong Nha to Pù Luông), a flight with ✈ (Đồng Hới to Hà Nội)');
+print('stage 3 ok');
 
 /* ---------- travel texts ---------- */
 function road(a, b) { return segKey({ mode: 'road', from: a, to: b, h: 1 }, AIRPORTS, ROAD_KEYS); }

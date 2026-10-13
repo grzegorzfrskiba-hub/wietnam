@@ -34,13 +34,14 @@
    - gem, skip, instead: tips (skip and instead together). */
 var CONTENT = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
-// what a day or an event adds to the list of what to pack (UI keys p.<code>): socks against leeches, a torch
-var PACK_CODES = ['leeches', 'torch'];
+// what a day or an event adds to the list of what to pack (UI keys p.<code>): socks against leeches, a torch, swimwear for a
+// river or a cave swum through
+var PACK_CODES = ['leeches', 'torch', 'swim'];
 var REGIONS = ['south', 'centre', 'north'];
 
 /* Names of several words in the texts of the places that have no letter Polish lacks, so tieVietnamese (page.js) cannot
    tell them from Polish words: the page keeps each on one line, as it does the names of the places and the airports. */
-var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long'];
+var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'Hang Va'];
 
 /* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
    the name on the map's arrows to another panel, where it differs. */
@@ -53,7 +54,8 @@ var AIRPORTS = {
   PQC: { name: 'Phú Quốc', maps: 'Phu Quoc International Airport', pt: [10.17, 103.99] },
   VCA: { name: 'Cần Thơ', maps: 'Can Tho International Airport', pt: [10.08, 105.71] },
   HPH: { name: 'Hải Phòng (Cát Bi)', short: 'Hải Phòng', maps: 'Cat Bi International Airport', pt: [20.82, 106.72] },
-  THD: { name: 'Thanh Hóa (Thọ Xuân)', short: 'Thanh Hóa', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] }
+  THD: { name: 'Thanh Hóa (Thọ Xuân)', short: 'Thanh Hóa', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] },
+  VDH: { name: 'Đồng Hới', maps: 'Dong Hoi Airport', pt: [17.52, 106.59] }
 };
 
 /* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */

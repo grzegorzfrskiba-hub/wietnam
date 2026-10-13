@@ -9,6 +9,8 @@ var ROADS = [
   ['cattien', 'dalat', 4.5], ['VCA', 'mekong', 0.75], ['PQC', 'phuquoc', 1], ['DLI', 'dalat', 0.75],
   // the centre
   ['DAD', 'hoian', 0.75], ['DAD', 'hue', 2.5], ['HUI', 'hue', 0.5], ['hoian', 'hue', 3.25],
+  // Phong Nha with Đồng Hới airport (VDH), the far roads to the north on the expressway
+  ['VDH', 'phongnha', 1], ['hue', 'phongnha', 3.5], ['hoian', 'phongnha', 6.25], ['ninhbinh', 'phongnha', 6.5], ['puluong', 'phongnha', 8.25],
   // the north
   ['HAN', 'hanoi', 0.75], ['HAN', 'ninhbinh', 2.25], ['HAN', 'catba', 4], ['HAN', 'puluong', 5], ['HAN', 'babe', 5], ['HAN', 'caobang', 6.25],
   ['hanoi', 'ninhbinh', 2], ['hanoi', 'catba', 4], ['hanoi', 'caobang', 6.5], ['hanoi', 'babe', 5.25], ['hanoi', 'puluong', 4.25],
@@ -21,6 +23,8 @@ var FLIGHTS = [
   ['SGN', 'HAN', 2.2], ['SGN', 'DAD', 1.4], ['SGN', 'HUI', 1.4], ['SGN', 'DLI', 0.9], ['SGN', 'PQC', 1.1],
   ['HAN', 'DAD', 1.4], ['HAN', 'HUI', 1.3], ['HAN', 'DLI', 1.9], ['HAN', 'PQC', 2.1], ['HAN', 'VCA', 2.2],
   ['DAD', 'DLI', 1.1], ['DAD', 'VCA', 1.5], ['DAD', 'PQC', 1.8],
+  // Đồng Hới (Phong Nha)
+  ['HAN', 'VDH', 1.1], ['SGN', 'VDH', 1.6],
   // Cát Bi and Thọ Xuân
   ['HPH', 'SGN', 2], ['HPH', 'DAD', 1.3], ['THD', 'SGN', 2]
 ];

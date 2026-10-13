@@ -1,16 +1,20 @@
 /* Before the trip (plan 2B). BOOK: what to book ahead and where, by key: ahead, the days ahead outside the peak (0: on the
    spot, not on the list), and the links, official pages and checked operators without tracking or partner parameters.
-   From the table „Zestawienie” in research/rezerwacje-2026-10.md (tests/data.test.js checks them against it); tools/links.sh
+   From the table „Zestawienie” in research/rezerwacje-2026-10.md, for a place of stage 3 the table „Zestawienie: rezerwacje”
+   of its own note (tests/data.test.js checks them against both); tools/links.sh
    checks that the links answer. ENTRY: entry for Polish citizens, from research/wjazd-2026-10.md: days without a visa and
    the last day of the exemption (Nghị quyết 229/NQ-CP; a trip that ends later is told to check the rules), and the official
    pages to check before the trip. */
 var BOOK = {
+  'phongnha.hangen': { ahead: 60, links: [{ name: 'Oxalis, Hang Én', url: 'https://oxalisadventure.com/tour/hang-en-adventure-cave-camp/' }, { name: 'Oxalis, wszystkie wyprawy', url: 'https://oxalisadventure.com/tours/' }] },
   'cattien.bausau_night': { ahead: 28, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, cennik', url: 'https://cattiennationalpark.com.vn/bang-gia-dich-vu/' }] },
   'flights': { ahead: 21, links: [{ name: 'Vietnam Airlines', url: 'https://www.vietnamairlines.com/' }, { name: 'Vietjet', url: 'https://www.vietjetair.com/' }, { name: 'Vietravel Airlines', url: 'https://www.vietravelairlines.com/' }] },
   'catba.cruise': { ahead: 14, links: [{ name: 'Full Moon Travel Asia', url: 'https://fullmoontravelasia.com/cat-ba-overnight-cruise-lan-ha-bay-viet-hai-village/' }, { name: 'Cat Ba Ventures', url: 'https://catbaventures.com/cat-ba-tours/lan-ha-bay-ha-long-bay-bai-tu-long-bay-boat-trip-kayaking-2-days-1-night.html' }] },
   'homestay': { ahead: 14, links: [] },
+  'phongnha.tulan': { ahead: 14, links: [{ name: 'Oxalis, Tú Làn w jeden dzień', url: 'https://oxalisadventure.com/tour/tu-lan-1-day-experience/' }] },
   'puluong.summit': { ahead: 7, links: [{ name: 'Rezerwat Pù Luông, formularz', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeXxg-Spbz74V5wBPSBBRXaZpF4PMsFcX22Oxh2XfuYdcBeiA/viewform' }] },
   'caobang.car': { ahead: 7, links: [{ name: 'Cao Bang Eco Travel', url: 'https://caobangecotravel.com/3-days-2-nights-tour/' }, { name: 'Cao Bang Green Riders', url: 'https://caobanggreenriders.com/' }] },
+  'phongnha.paradise7': { ahead: 7, links: [{ name: 'Park Phong Nha–Kẻ Bàng, Paradise Cave', url: 'https://phongnhakebang.vn/du-lich/dong-thien-duong13' }, { name: 'Paradise Cave', url: 'https://dongthienduong.com/' }] },
   'caobang.easyrider': { ahead: 7, links: [{ name: 'Cao Bang Eco Travel', url: 'https://caobangecotravel.com/3-days-2-nights-tour/' }, { name: 'Cao Bang Green Riders', url: 'https://caobanggreenriders.com/tours' }] },
   'transfer': { ahead: 3, links: [{ name: 'Baolau', url: 'https://www.baolau.com/en/destinations/vietnam' }, { name: 'Vexere', url: 'https://vexere.com/en-US' }, { name: 'FUTA (Phương Trang)', url: 'https://futabus.vn/' }] },
   'airport': { ahead: 3, links: [{ name: 'Baolau', url: 'https://www.baolau.com/en/destinations/vietnam' }, { name: 'Green SM Liên Tỉnh', url: 'https://www.greensm.com/vn-vi/green-lien-tinh' }] },

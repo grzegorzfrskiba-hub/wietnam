@@ -63,6 +63,11 @@ var PHOTO_META = {
   caobang_6: { cap: 'Núi Mắt Thần, czyli góra Oko Anioła', artist: 'Fogylands', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Angels_Eye_Mountain_and_Suroundings.jpg' },
   caobang_1: { cap: 'Bản Giốc nad polami ryżowymi', artist: 'Ekrem Canli', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:Ban_Gioc_Waterfalls_I.jpg' },
   caobang_2: { cap: 'We wnętrzu jaskini Ngườm Ngao', artist: 'Bùi Thụy Đào Nguyên', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:%C4%90%E1%BB%99ng_Ng%C6%B0%E1%BB%9Dm_Ngao.jpg' },
-  caobang_3: { cap: 'Krasowe wzgórza odbite w polu ryżowym koło Bản Giốc', artist: 'Adam Jones from Kelowna, BC, Canada', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Scenery_around_Ban_Gioc_Waterfall_-_Trung_Kanh_District_-_Cao_Bang_Province_-_Vietnam_-_01_(48119879587).jpg' }
+  caobang_3: { cap: 'Krasowe wzgórza odbite w polu ryżowym koło Bản Giốc', artist: 'Adam Jones from Kelowna, BC, Canada', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Scenery_around_Ban_Gioc_Waterfall_-_Trung_Kanh_District_-_Cao_Bang_Province_-_Vietnam_-_01_(48119879587).jpg' },
+  phongnha_0: { cap: 'Rzeka Son płynie w głąb jaskini Phong Nha', artist: 'Bùi Thụy Đào Nguyên', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:S%C3%B4ng_Son_ch%E1%BA%A3y_trong_hang.jpg' },
+  phongnha_1: { cap: 'Nacieki w Paradise Cave (Động Thiên Đường)', artist: 'Bùi Thụy Đào Nguyên', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:%C4%90%E1%BB%99ng_Thi%C3%AAn_%C4%90%C6%B0%E1%BB%9Dng.jpg' },
+  phongnha_2: { cap: 'Wejście do jaskini Hang Én', artist: 'Jérémie B.', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Hang_%C3%89n_Cave_-_201505_-_JB.jpg' },
+  phongnha_3: { cap: 'Rzeka Son i miasteczko Phong Nha z lotu ptaka', artist: 'Preparetavalise.com', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Phong_Nha_Drone.jpg' },
+  phongnha_4: { cap: 'Łodzie na rzece Son w Phong Nha', artist: 'Preparetavalise.com', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Phong_Nha_fleuve.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview

@@ -1,6 +1,7 @@
 /* The prices of the budget (plan 2B), in euros, each as [from, to]: from is the thrifty end of the middle range, to the
    comfortable end. Sources and dates: the tables „Zestawienie” and „Zestawienie wycieczek” in research/ceny-2026-10.md
-   and „Zestawienie” in research/motocykl-2026-10.md; tests/data.test.js checks every number against them.
+   and „Zestawienie” in research/motocykl-2026-10.md, for a place of stage 3 the tables „Zestawienie: ceny” and
+   „Zestawienie: wycieczki” of its own note (research/<id>-2026-10.md); tests/data.test.js checks every number against them.
    EUR_PLN: the NBP rate the page converts with (table A, 9.10.2026). */
 var EUR_PLN = 4.3775;
 var COSTS_CHECKED = '2026-10-12';   // the day the prices were checked last (11–12.10.2026)
@@ -8,7 +9,8 @@ var SHORT_FLIGHT_H = 1.5;           // a flight with at most this many hours in 
 var COSTS = {
   // a double room for a night: two people share it, one person alone pays all of it
   night: { saigon: [28, 69], mekong: [20, 42], phuquoc: [28, 80], cattien: [14, 40], dalat: [17, 53], hoian: [17, 52], hue: [14, 52],
-    puluong: [14, 62], ninhbinh: [15, 62], catba: [14, 52], hanoi: [21, 69], babe: [12, 64], caobang: [14, 48] },
+    puluong: [14, 62], ninhbinh: [15, 62], catba: [14, 52], hanoi: [21, 69], babe: [12, 64], caobang: [14, 48],
+    phongnha: [21, 55] },
   day: [13, 28],         // a person a day, two travelling together: food, Grab, water and coffee, tickets up to about 5 EUR
   daySolo: [2, 5],       // more a day for one person alone, who pays each Grab ride in full
   shared: [2.5, 3.5],    // a seat in a limousine van or a bus, a person an hour on the road
@@ -60,6 +62,14 @@ var COSTS = {
     'caobang.easyrider': { pp: [17, 28], group: [0, 0], book: 'caobang.car' },
     'caobang.moto': { pp: [7, 13], group: [0, 0] },
     'haivan.car': { pp: [0, 0], group: [50, 98] },
-    'haivan.moto': { pp: [22, 29], group: [0, 0] }
+    'haivan.moto': { pp: [22, 29], group: [0, 0] },
+    'phongnha.cave': { pp: [5, 8], group: [24, 26] },
+    'phongnha.paradise': { pp: [9, 9], group: [14, 17] },
+    'phongnha.paradise7': { pp: [69, 69], group: [14, 17] },
+    'phongnha.darkcave': { pp: [15, 15], group: [7, 14] },
+    'phongnha.tulan': { pp: [69, 69], group: [0, 0] },
+    'phongnha.hangen': { pp: [327, 327], group: [0, 0], night: true },
+    'phongnha.botanic': { pp: [3, 4], group: [0, 7] },
+    'phongnha.mooc': { pp: [6, 8], group: [7, 14] }
   }
 };
