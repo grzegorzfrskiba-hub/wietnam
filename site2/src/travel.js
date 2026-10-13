@@ -9,6 +9,8 @@ var ROADS = [
   ['cattien', 'dalat', 4.5], ['VCA', 'mekong', 0.75], ['PQC', 'phuquoc', 1], ['DLI', 'dalat', 0.75],
   // the centre
   ['DAD', 'hoian', 0.75], ['DAD', 'hue', 2.5], ['HUI', 'hue', 0.5], ['hoian', 'hue', 3.25],
+  // Đà Nẵng with Sơn Trà, between Hội An and Huế (its road to Huế goes over the Hải Vân pass)
+  ['DAD', 'danang', 0.25], ['hoian', 'danang', 0.75], ['danang', 'hue', 2.75], ['danang', 'phongnha', 5.75],
   // Phong Nha with Đồng Hới airport (VDH), the far roads to the north on the expressway
   ['VDH', 'phongnha', 1], ['hue', 'phongnha', 3.5], ['hoian', 'phongnha', 6.25], ['ninhbinh', 'phongnha', 6.5], ['puluong', 'phongnha', 8.25],
   // the north

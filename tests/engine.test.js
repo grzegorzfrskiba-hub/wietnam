@@ -220,6 +220,26 @@ ok(between > 0, 'the twin is used between two other places');
 var rm = twTrip(TW, 'TS', 'TN', { remove: ['m'] });
 eq(brief(rm), 's1 n3', 'removing m takes its twin off the trip');
 near(rm.score, 7.325, 'its score');
+
+/* A place near an airport's city (n, 0.75 h from h, as Đà Nẵng from Hội An) goes right after it on arrival or right
+   before it on departure: without the rule (NEAR_H 0) a round trip flies away from h and comes back to n. */
+var NB_D = 'DDDDDDDDDDDD';
+var NB = { places: {
+    h: { axis: 5, nights: [1, 2, 2], level: 1, fit: { kultura: 3, jedzenie: 3 } },
+    n: { axis: 5.2, nights: [1, 2, 2], level: 1, fit: { przyroda: 3, morze: 3 } },
+    s: { axis: 1, nights: [2, 3, 3], level: 1, fit: { przyroda: 3, gory: 3 } },
+    t: { axis: 9, nights: [2, 3, 3], level: 1, fit: { przyroda: 3, gory: 3 } } },
+  seasons: { h: NB_D, n: NB_D, s: NB_D, t: NB_D }, hubs: { XH: 'h', XS: 's', XT: 't' },
+  graph: travelGraph([['XH', 'h', 0.5], ['XH', 'n', 0.25], ['h', 'n', 0.75], ['XS', 's', 0.5], ['XT', 't', 0.5], ['n', 't', 6]], [['XH', 'XS', 1], ['XH', 'XT', 1], ['XS', 'XT', 1.5]]) };
+function nbPlan(days, rule) {
+  var keep = NEAR_H, st = normSettings({ from: 'XH', to: 'XH', month: 3, days: days, interests: ['przyroda'] }, NB.places, NB.hubs);
+  if (!rule) NEAR_H = 0;
+  var r = planRoute(st, NB);
+  NEAR_H = keep;
+  return brief(r);
+}
+eq([nbPlan(8, false), nbPlan(8, true), nbPlan(5, true)], ['h2 s3 n2', 'h1 s2 t3 h1', 'h2 n2'],
+  'a round trip from XH: no way back to n after a flight south (with the rule); n right after h when it fits');
 print('planning ok');
 
 /* ---------- settings: the year and the types of airports and dates (plan 1B) ---------- */

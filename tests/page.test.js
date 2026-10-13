@@ -118,7 +118,7 @@ eq([gM.settings.moto, gM.dropped], [['caobang'], ['moto']], 'a link: known swaps
 eq([opened('#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2').settings.moto, DEF.moto], [[], []], 'no swap in the link or the defaults: none');
 eq([withSwap(DEF, 'caobang', true).moto, withSwap(withSwap(DEF, 'caobang', true), 'caobang', false).moto, withAdded(withSwap(DEF, 'haivan', true), 'mekong').moto,
   withoutChanges(withSwap(DEF, 'haivan', true)).moto], [['caobang'], [], ['haivan'], ['haivan']], 'withSwap sets a swap and takes it back; Dodaj and „Wróć do trasy” keep it');
-eq(selfSwaps(['caobang', 'haivan'], SWAPS), { places: { caobang: true }, roads: { 'hoian-hue': { text: 'r.haivan_self', cost: 'haivan.moto' } } },
+eq(selfSwaps(['caobang', 'haivan'], SWAPS), { places: { caobang: true }, roads: { 'hoian-hue': { text: 'r.haivan_self', cost: 'haivan.moto' }, 'danang-hue': { text: 'r.haivan_self', cost: 'haivan.moto_dn' } } },
   'selfSwaps: the place whose days go self, the road with its text and cost');
 print('settings ok');
 
@@ -473,7 +473,7 @@ var one = placeLabels([{ x: 100, y: 50, w: 40, h: 28, gx: 10, gy: 10, oneLine: {
 eq([spots(one), one[0].oneLine, one[1].oneLine], [[['start', 110, 43, true], ['start', 110, 36, false]], true, false],
   'a stay with no free place for its two lines: its name alone where one line is free; a label without oneLine keeps its size');
 
-var MAPW = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
+var MAPW = { panels: MAP_PANELS, places: OLD_PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
 function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.pins.map(function (p) { return p.key + '(' + p.nums + ')'; }).join(','); }); }
 function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
 var mA = mapLayout(tA.r, tA.st, MAPW);   // saigon, dalat, hoian, hue, hanoi: flights Đà Lạt → Đà Nẵng and Huế → Hà Nội
@@ -525,7 +525,8 @@ eq([sPN.n >= 3, sPN.days.slice(0, 3), bookList(tPN.r, plansAll(tPN), [], BOOKD)[
 function legAll(a, b, road) { return legBetween(DATA_ALL.graph, a, b, road); }
 var rPR = { days: 9, stops: [{ id: 'hanoi', n: 1, start: 1, end: 1, leg: legAll('HAN', 'hanoi', true) }, { id: 'phongnha', n: 4, start: 2, end: 5, leg: legAll('hanoi', 'phongnha') },
   { id: 'puluong', n: 3, start: 6, end: 8, leg: legAll('phongnha', 'puluong') }], home: legAll('puluong', 'HAN', true) };
-eq(labelsOf(mapLayout(rPR, stOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 9, interests: [], level: 2 }), MAPW).panels[1], 'stub').sort(), ['→ Pù Luông', '✈ Hà Nội'],
+var MAPW_ALL = Object.assign({}, MAPW, { places: PLACES });
+eq(labelsOf(mapLayout(rPR, stOf({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 9, interests: [], level: 2 }), MAPW_ALL).panels[1], 'stub').sort(), ['→ Pù Luông', '✈ Hà Nội'],
   'a way to another panel: a road with an arrow (Phong Nha to Pù Luông), a flight with ✈ (Đồng Hới to Hà Nội)');
 // Cúc Phương: one night has its own plan; Mây Bạc with a park guide at level 3, outside the rainy season; the park's
 // rooms are booked with the night drive
@@ -537,6 +538,16 @@ eq([stayOf(tCP, 'cucphuong'), kCP.map(function (e) { return e.key; }).filter(fun
   kCP.filter(function (e) { return e.key === 'cucphuong.stay'; })[0].items],
   [{ n: 2, days: ['-', 'hard'] }, ['cucphuong.stay', 'cucphuong.maybac', 'cucphuong.car'], ['cucphuong.night']],
   'nature in November at level 3: two nights in Cúc Phương; the rooms of the park are booked with the night drive (a week), then the guide to Mây Bạc and the car to Bống');
+// Đà Nẵng: one night has its own early plan; the road to Huế goes over the Hải Vân pass, with a driver or ridden yourself
+eq([stopDays(CONTENT.danang, { n: 1, start: 1 }, 0, 2, [3]).map(function (d) { return [d.early, d.cost]; }), segKey({ mode: 'road', from: 'danang', to: 'hue', h: 2.75 }, AIRPORTS, ROAD_KEYS),
+  segKey({ mode: 'road', from: 'hue', to: 'danang', h: 2.75 }, AIRPORTS, ROAD_KEYS, selfSwaps(['haivan'], SWAPS).roads)],
+  [[[true, ['danang.sontra']]], ['r.haivan', {}], ['r.haivan_self', {}]], 'Đà Nẵng: the one-night plan starts at dawn; Đà Nẵng to Huế over the pass, ridden yourself either way');
+var rDH = { days: 5, stops: [{ id: 'danang', n: 2, start: 1, end: 2, leg: legAll('DAD', 'danang', true) }, { id: 'hue', n: 2, start: 3, end: 4, leg: legAll('danang', 'hue') }],
+  home: legAll('hue', 'DAD', true) };
+var pDH = [stopDays(CONTENT.danang, rDH.stops[0], 0, 2, [3, 3, 3, 3, 3]), stopDays(CONTENT.hue, rDH.stops[1], 0, 2, [3, 3, 3, 3, 3])];
+function keysOfB(b) { return b.items.map(function (x) { return x.key; }).filter(function (k) { return /^haivan/.test(k); }); }
+eq([keysOfB(tripBudget(rDH, pDH, [], BUDR)), keysOfB(tripBudget(rDH, pDH, ['haivan'], BUDR)), keysOf(bookList(rDH, pDH, [], BOOKD)).indexOf('haivan.car_dn') > -1],
+  [['haivan.car_dn'], ['haivan.moto_dn'], true], 'Đà Nẵng to Huế: the car over the pass from Đà Nẵng, or the motorbike ridden yourself; the car on the list of what to book');
 print('stage 3 ok');
 
 /* ---------- travel texts ---------- */

@@ -192,7 +192,7 @@ contentCheck('typography', function (need) {
 
 /* The style of plan 1B: to one reader (ty), no gendered forms, nothing tied to December. list: [path, text] pairs. */
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
-var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
+var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
   'porcie', 'świecie'];
 function styleOk(need, list) {

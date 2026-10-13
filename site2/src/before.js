@@ -24,6 +24,8 @@ var BOOK = {
   'cucphuong.maybac': { ahead: 3, links: [{ name: 'Du lịch Cúc Phương, kontakt', url: 'https://dulichcucphuong.com.vn/contact-us/' }, { name: 'Du lịch Cúc Phương, combo z Mây Bạc', url: 'https://dulichcucphuong.com.vn/combo-mot-ngay/' }] },
   'caobang.moto': { ahead: 3, links: [{ name: 'Cao Bang Green Riders, cennik', url: 'https://caobanggreenriders.com/rental' }, { name: 'Cao Bang Eco Travel, cennik', url: 'https://caobangecotravel.com/motorbike/' }] },
   'haivan.car': { ahead: 3, links: [{ name: 'Hoi An Transport Service', url: 'https://hoiantransportservice.com/hoi-an-hue-private-car/' }, { name: 'Hoi An Day Trip', url: 'https://hoiandaytrip.com/da-nang-to-hue-private-transfer/' }] },
+  'haivan.car_dn': { ahead: 3, links: [{ name: 'Hoi An Transport Service', url: 'https://hoiantransportservice.com/da-nang-to-hue-private-car-hai-van-pass/' }, { name: 'Hoi An Day Trip', url: 'https://hoiandaytrip.com/da-nang-to-hue-private-transfer/' }] },
+  'haivan.moto_dn': { ahead: 3, links: [{ name: 'Hidden Land Travel', url: 'https://hiddenlandtravel.com/rental/da-nang-to-hue-motorbike-rental/' }, { name: 'Tigit Motorbikes', url: 'https://www.tigitmotorbikes.com/blogs/one-way-motorbike-rental-hai-van-pass-by-motorbike' }] },
   'haivan.moto': { ahead: 3, links: [{ name: 'Hidden Land Travel', url: 'https://hiddenlandtravel.com/rental/hoi-an-to-hue-motorbike-rental/' }, { name: 'Tigit Motorbikes (start w Đà Nẵng)', url: 'https://www.tigitmotorbikes.com/blogs/one-way-motorbike-rental-hai-van-pass-by-motorbike' }] },
   'saigon.cangio': { ahead: 2, links: [{ name: 'Green SM Green Tour', url: 'https://www.greensm.com/vn-vi/green-tour' }, { name: 'Saigontourist', url: 'https://xedulich.saigontourist.net/' }, { name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }] },
   'hanoi.duonglam': { ahead: 2, links: [{ name: 'Green SM Green Tour', url: 'https://www.greensm.com/vn-vi/green-tour' }] },
@@ -32,6 +34,7 @@ var BOOK = {
   'puluong.guide': { ahead: 1, links: [] },
   'cucphuong.car': { ahead: 1, links: [] },
   'babe.boat': { ahead: 0, links: [] },
+  'danang.sontra': { ahead: 0, links: [{ name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }, { name: 'Hoi An Transport Service, przejazdy z Đà Nẵng', url: 'https://hoiantransportservice.com/private-car-with-driver-from-da-nang/' }] },
   'hue.citadel': { ahead: 0, links: [{ name: 'Bilety elektroniczne', url: 'https://eticket.hueworldheritage.org.vn/' }, { name: 'Cennik', url: 'https://hueworldheritage.org.vn/Thong-tin-tham-quan/Gia-ve' }] }
 };
 var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-12',

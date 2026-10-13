@@ -59,7 +59,7 @@ var AIRPORTS = {
 };
 
 /* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */
-var ROAD_KEYS = { 'cattien-dalat': 'r.car_baoloc', 'hoian-hue': 'r.haivan' };
+var ROAD_KEYS = { 'cattien-dalat': 'r.car_baoloc', 'hoian-hue': 'r.haivan', 'danang-hue': 'r.haivan' };
 
 /* The roads between an airport and a place that need more than a taxi (plan 2B, research/lotniska-2026-10.md): two hours
    or more, or a ferry. By the airport's code and the place: text, a UI key that reads right both ways (segKey in page.js;
@@ -89,5 +89,6 @@ var FERRY = {
    and cost, the item of COSTS (costs.js) for each way: driver (with a driver, the usual) and self. */
 var SWAPS = {
   caobang: { place: 'caobang' },
-  haivan: { roads: { 'hoian-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car', self: 'haivan.moto' } } } }
+  haivan: { roads: { 'hoian-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car', self: 'haivan.moto' } },
+    'danang-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car_dn', self: 'haivan.moto_dn' } } } }
 };

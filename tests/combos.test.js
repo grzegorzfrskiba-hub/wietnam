@@ -40,6 +40,10 @@
       if (again) need(r.stops[0].n + x.n <= p.nights[2], x.id + ' ' + (r.stops[0].n + x.n) + ' nights over two visits');
       seen[x.id] = true;
       need(i === 0 || node(r.stops[i - 1].id) !== node(x.id), x.id + ' right after a stay in the same place');
+      // a place near another one on the trip (within NEAR_H by road: Hội An and Đà Nẵng) stands right next to it
+      r.stops.forEach(function (y, j) {
+        if (j > i + 1 && node(y.id) !== node(x.id) && DATA.graph.road[node(x.id)][node(y.id)] <= NEAR_H) need(false, x.id + ' and ' + y.id + ' are near each other, but not next to each other');
+      });
       // a place with a node (the night in Hà Nội on the way) never opens or closes the trip, and goes when its node is removed
       need(!p.node || (i > 0 && i < last), x.id + ' (node ' + p.node + ') is the ' + (i ? 'last' : 'first') + ' stop');
       need(!p.node || (s.remove || []).indexOf(p.node) < 0, x.id + ' is on the trip though its node ' + p.node + ' is removed');

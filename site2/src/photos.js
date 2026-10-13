@@ -73,6 +73,11 @@ var PHOTO_META = {
   cucphuong_1: { cap: 'Leśna ścieżka w parku Cúc Phương', artist: 'hds', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Forest_in_Cuc_Phuong_National_Park_(15706323528).jpg' },
   cucphuong_2: { cap: 'Tysiącletnie drzewo Chò w głębi lasu Cúc Phương', artist: 'TomFitzhenry', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Thousand_year_old_tree_in_Cuc_Phuong_National_Park,_Vietnam.jpg' },
   cucphuong_3: { cap: 'Łuskowiec z młodym w ośrodku ratowania łuskowców w Cúc Phương', artist: 'U.S. Government Accountability Office from Washington, DC, United States', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mother_Pangolin_and_baby_pangolin_-_Pangolin_Rescue_Center,_Cuc_Phuong_National_Park,_Vietnam_(37627416742).jpg' },
-  cucphuong_4: { cap: 'Żółw brunatny w ośrodku ratowania żółwi w Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-29-Manouria_emys-167A3610.jpg' }
+  cucphuong_4: { cap: 'Żółw brunatny w ośrodku ratowania żółwi w Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-29-Manouria_emys-167A3610.jpg' },
+  danang_0: { cap: 'Samica duka czerwononogiego z młodym na półwyspie Sơn Trà', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Red-shanked_douc_langur_(Pygathrix_nemaeus)_female_and_juvenile_Son_Tra.jpg' },
+  danang_1: { cap: 'Łódki-kosze na plaży Mỹ Khê', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Coracles_in_Da_Nang_1.jpg' },
+  danang_2: { cap: 'Jaskinia Huyền Không w Marmurowych Górach', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Huyen_Khong_Cave_1.jpg' },
+  danang_3: { cap: 'Droga Hoàng Sa na półwyspie Sơn Trà', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Ho%C3%A0ng_Sa_Road,_Son_Tra_Peninsula.jpg' },
+  danang_4: { cap: 'Sala Muzeum Rzeźby Czamskiej w Đà Nẵng', artist: 'Daderot', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Interior_view_-_Museum_of_Cham_Sculpture_-_Danang,_Vietnam_-_DSC01931.JPG' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview

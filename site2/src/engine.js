@@ -148,6 +148,7 @@ var MAX_LEG_H = 10;       // longest travel day allowed, door to door
 var END_LEG_H = 4;        // arrival and departure day: by road only, at most this long to or from the airport
 var MOVE_COST = 0.75;     // what each change of place costs, in the units of one good night
 var FORCE_BONUS = 1000;   // a place added by hand outweighs everything else
+var NEAR_H = 1;           // a place this close by road to an airport's city (Đà Nẵng to Hội An) goes right next to it
 
 /* The best trip for checked settings (normSettings). data: { places, seasons, graph, hubs }.
    A trip sweeps the country one way along the places' axis (south→north and north→south are both tried),
@@ -155,7 +156,9 @@ var FORCE_BONUS = 1000;   // a place added by hand outweighs everything else
    city may close it, both out of the axis order; on a round trip the one city may do both, splitting its nights.
    The first place lies within END_LEG_H by road of the arrival airport, the last within END_LEG_H of the
    departure airport. A place with a node (a night on the way, as in Hà Nội) is never the first or last stop and
-   goes when its node is removed.
+   goes when its node is removed. A place within NEAR_H by road of the city that opens the trip comes right after it,
+   and one near the city that closes it right before it, so a trip never comes back to the airport's neighbourhood
+   (Hội An, a flight away, then Đà Nẵng).
    Returns { ok: true, days, stops: [{ id, n, start, end, season, leg }], home, missing, score }
    or { ok: false, error: 'no_route' }. */
 function planRoute(st, data) {
@@ -188,6 +191,8 @@ function planRoute(st, data) {
   // a place with a node (a night on the way) never opens or closes a trip, so it has no arrival or departure leg
   function arrive(id) { var h = G.road[st.from][node(id)]; return !P[id].node && h <= END_LEG_H ? legCost(h) : null; }
   function depart(id) { var h = G.road[node(id)][st.to]; return !P[id].node && h <= END_LEG_H ? legCost(h) : null; }
+  // two places within NEAR_H by road of each other (a city of an airport and its neighbour), a and b both set
+  function near(a, b) { return !!a && !!b && node(a) !== node(b) && G.road[node(a)][node(b)] <= NEAR_H; }
   function nightsOf(id) { var out = []; for (var n = P[id].nights[0]; n <= P[id].nights[2]; n++) out.push(n); return out; }
 
   /* One sweep. first: the city opening the trip out of order, or null; last: the city closing it, or null;
@@ -215,6 +220,8 @@ function planRoute(st, data) {
         });
       });
       for (i = 0; i < j; i++) {
+        // a place near the city that opens the trip comes right after it, one near the city that closes it right before it
+        if (near(first, id) || near(last, order[i])) continue;
         var c = hop(order[i], id);
         if (c === null) continue;
         for (t = 1; t < N; t++) {
