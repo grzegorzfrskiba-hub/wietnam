@@ -12,7 +12,10 @@
      o: the order within the stay; pace: one of PACES; t: title; d: text; early: starts at 6:00 or earlier;
      rain: what to do on a wet day (shown after "Gdy pada: ", so it starts with a small letter);
      easy: the plan at level 1 (spokojnie), { pace, t, d, early? }, required on a hiking day;
-     hard: the plan at level 3 (ekstremalnie), { pace, t, d, early?, off?, late? }; off: the months 1–12 it is not offered;
+     hard: the plan at level 3 (ekstremalnie), { pace, t, d, early?, off?, late?, next? }; off: the months 1–12 it is not offered;
+     next: the trip's second day, { pace, t, d, early? }, for a hard version over two days (late, its night away): it takes
+     the next day of the stay, whatever plan stood there, and only when the stay has that day; the month of the first day
+     decides whether it runs (off), as a trip is booked by the day it starts;
      self: the plan when the place's swap (SWAPS) is set to „Samodzielnie”, { pace, t, d, early? }, at every level;
      late: the version's night ends away from the stay, so the next morning goes on the walk out; not used on a stay's
      last day before the way home or a long leg;

@@ -182,6 +182,30 @@ eq([stopDays(FLATE, { n: 2, start: 1 }, 0, 1, JAN, HOME)[1].t, stopDays(FLATE, {
 eq(titles(stopDays(FC, { n: 2, start: 1 }, 0, 3, JAN, HOME)), ['1:A1', '2:A2h'], 'a hard version that is not late is kept before the way home');
 eq([variantOf(FLATE.days[2], 3, 1, true).variant, variantOf(FLATE.days[2], 3, 1, false).variant, variantOf(FLATE.days[2], 3, 1).variant, variantOf(FLATE.days[2], 1, 1, true).variant],
   [null, 'hard', 'hard', 'easy'], 'variantOf: a late hard version is left out only when asked');
+/* A hard version over two days (hard.next): its night is away (late), and the next day of the stay is the trip's second day.
+   Both or neither: without a next day in the stay, or with the first day in a month off, the usual days. */
+var FTWO = {
+  days: [
+    { p: 1, o: 1, pace: 'travel', t: 'T1', d: 't1' },
+    { p: 2, o: 2, pace: 'nature', t: 'T2', d: 't2', rain: 'rt', easy: { pace: 'nature', t: 'T2e', d: 't2e' },
+      hard: { pace: 'hike', t: 'H1', d: 'h1', late: true, off: [10, 11], cost: ['x.trip'], next: { pace: 'hike', t: 'H2', d: 'h2', early: true } } },
+    { p: 3, o: 3, pace: 'boat', t: 'T3', d: 't3', cost: ['x.boat'] },
+    { p: 4, o: 4, pace: 'rest', t: 'T4', d: 't4' }
+  ]
+};
+function vt(days) { return days.map(function (d) { return d.day + ':' + d.t + (d.variant ? '/' + d.variant : ''); }); }
+eq(vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 3, JAN)), ['1:T1', '2:H1/hard', '3:H2/hard'], 'two days at level 3: the day and the next one of the stay');
+eq(vt(stopDays(FTWO, { n: 4, start: 1 }, 0, 3, JAN)), ['1:T1', '2:H1/hard', '3:H2/hard', '4:T4'], 'four nights: the plan after the two days stays');
+eq(vt(stopDays(FTWO, { n: 2, start: 1 }, 0, 3, JAN)), ['1:T1', '2:T2'], 'two nights: no next day in the stay, so the usual day');
+eq(vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 3, [8, 8, 9])), ['1:T1', '2:H1/hard', '3:H2/hard'], 'the first day decides: two days from 30 September run into October');
+eq(vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 3, [9, 9, 9])), ['1:T1', '2:T2', '3:T3'], 'the first day in a month off: neither');
+eq(vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 3, JAN, HOME)), ['1:T1', '2:H1/hard', '3:H2/hard'],
+  'before the way home: the second day, back in the afternoon, may be the last day of the stay');
+eq([vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 2, JAN)), vt(stopDays(FTWO, { n: 3, start: 1 }, 0, 1, JAN))],
+  [['1:T1', '2:T2', '3:T3'], ['1:T1', '2:T2e/easy', '3:T3']], 'levels 2 and 1: the usual and the easy days');
+var TWO = stopDays(FTWO, { n: 3, start: 1 }, 0, 3, JAN);
+eq([TWO[1].cost, TWO[2].cost, TWO[2].pack, TWO[2].early, TWO[2].rain, TWO[1].rain], [['x.trip'], [], [], true, null, 'rt'],
+  'the second day: its own cost (none), pack and early start, no rain plan; the first keeps the day\'s rain plan');
 print('day plans ok');
 
 /* ---------- dates and holidays ---------- */

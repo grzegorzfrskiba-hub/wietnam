@@ -157,8 +157,11 @@ function variantOf(day, level, month, notLate, self) {
   return { pace: src.pace, t: src.t, d: src.d, early: !!(src.early != null ? src.early : day.early), rain: day.rain || null, variant: v,
     cost: (src.cost || day.cost || []).slice(), pack: (src.pack || day.pack || []).slice() };
 }
-// a plan that has no versions: the solo plan of one night, the arrival day of a second stay
-function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, rain: null, variant: null, cost: (x.cost || []).slice(), pack: (x.pack || []).slice() }; }
+// a plan that has no versions: the solo plan of one night, the arrival day of a second stay, the second day of a two-day
+// hard version (variant 'hard')
+function plainDay(x, variant) {
+  return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, rain: null, variant: variant || null, cost: (x.cost || []).slice(), pack: (x.pack || []).slice() };
+}
 
 /* The day plans of one stay: [{ day, pace, t, d, early, rain, variant, cost, pack }], one per night, from the stay's first day.
    c: the place's content; stop: { n, start } from planRoute; done: nights spent there earlier in the trip (on a round trip
@@ -168,7 +171,10 @@ function plainDay(x) { return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, 
    next: the leg after the stay, { home, h } (the way home or not, its hours; see legAfter), or none: no restriction. On
    the stay's last day, when the way home or a leg of LONG_LEG_H hours or more follows, a late hard version (its next
    morning goes on the walk out, so the journey would start around noon) gives way to the usual day.
-   self: the place's swap is set to „Samodzielnie”, so the days with a self version take it (selfSwaps). */
+   self: the place's swap is set to „Samodzielnie”, so the days with a self version take it (selfSwaps).
+   A hard version with next spans two days: its night is away (late) and the next day of the stay becomes next, the trip's
+   second day, whatever plan stood there. Both or neither: it is taken only when the stay has a next day, and the month of
+   its first day decides, as a trip is booked by the day it starts. */
 function stopDays(c, stop, done, level, months, next, self) {
   var byP = c.days.slice().sort(function (a, b) { return a.p - b.p; }), out = [], picked;
   var notLate = !!next && (next.home || next.h >= LONG_LEG_H);
@@ -181,8 +187,16 @@ function stopDays(c, stop, done, level, months, next, self) {
     picked = byP.slice(0, stop.n);
     if (picked.length !== stop.n) return null;
   }
+  var second = null;   // the second day of a two-day hard version taken the day before
   picked.sort(function (a, b) { return a.o - b.o; }).forEach(function (d) {
-    out.push(stop.n === 1 && d.solo ? plainDay(d.solo) : variantOf(d, level, months[stop.start - 1 + out.length] + 1, notLate && out.length === stop.n - 1, self));
+    var k = stop.start - 1 + out.length, last = out.length === stop.n - 1, two = d.hard && d.hard.next;
+    if (second) { out.push(second); second = null; return; }
+    if (stop.n === 1 && d.solo) { out.push(plainDay(d.solo)); return; }
+    // a late hard version stays off the last day before a long leg, and a two-day one off the last day of any stay
+    var away = last && (notLate || !!two);
+    var v = variantOf(d, level, months[k] + 1, away, self);
+    if (two && v.variant === 'hard') second = plainDay(d.hard.next, 'hard');
+    out.push(v);
   });
   out.forEach(function (d, k) { d.day = stop.start + k; });
   return out;

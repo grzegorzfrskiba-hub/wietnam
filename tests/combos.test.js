@@ -57,6 +57,11 @@
       plans.push(days || []);
       need(days && days.length === x.n, x.id + ': ' + (days ? days.length : 'no') + ' day plans for ' + x.n + ' nights' + (done[x.id] ? ' (second stay)' : ''));
       if (days && s.level === 1) need(days.every(function (d) { return d.pace !== 'hike'; }), x.id + ': a hike at level 1');
+      // a hard version over two days: the next day is its second day, and it never ends the stay
+      if (days) days.forEach(function (d, k) {
+        var first = d.variant === 'hard' && CONTENT[x.id].days.filter(function (cd) { return cd.hard && cd.hard.next && cd.hard.t === d.t; })[0];
+        if (first) need(k < days.length - 1 && days[k + 1].t === first.hard.next.t, x.id + ': ' + d.t + ' without its second day');
+      });
       if (days && days.length === x.n && s.level === 3 && (next.home || next.h >= LONG_LEG_H)) {
         need(!isLate(x.id, days[x.n - 1]), x.id + ': a late hard night on the last day of the stay, before ' + (next.home ? 'the way home' : 'a leg of ' + next.h + ' h'));
         // the rule had work to do: without the leg the same stay would have ended with that night
