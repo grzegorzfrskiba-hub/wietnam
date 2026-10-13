@@ -45,6 +45,11 @@ dataCheck('travel', function (need) {
     seen[k] = true;
   });
   Object.keys(PLACES).forEach(function (id) { need(G.h[node(id)], id + ': no road or flight reaches it'); });
+  // every airport code is a known airport (AIRPORTS in content.js), so a typo makes no airport of its own
+  ROADS.concat(FLIGHTS).forEach(function (r) {
+    [r[0], r[1]].forEach(function (e) { if (/^[A-Z]{3}$/.test(e)) need(AIRPORTS[e], (r.length && FLIGHTS.indexOf(r) > -1 ? 'flight ' : 'road ') + r.join(' ') + ': ' + e + ' is no airport of AIRPORTS'); });
+  });
+  Object.keys(HUBS).forEach(function (code) { need(AIRPORTS[code], 'HUBS: ' + code + ' is no airport of AIRPORTS'); });
   Object.keys(HUBS).forEach(function (code) {
     need(G.road[code] && G.road[code][HUBS[code]] <= END_LEG_H, code + ': its city ' + HUBS[code] + ' within ' + END_LEG_H + ' h by road');
     Object.keys(PLACES).forEach(function (id) { need(G.h[code] && G.h[code][node(id)] < Infinity, id + ' cannot be reached from ' + code); });

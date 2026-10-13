@@ -17,11 +17,13 @@
   var held = 0;   // stays at level 3 where that rule kept a late hard night off the last day
   var MAP_WORDS = { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
   var BUDGET_DATA = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
+  var BOOK_DATA = { costs: COSTS, book: BOOK, swaps: SWAPS, places: PLACES, airports: AIRPORTS, airKeys: AIR_KEYS, homestays: HOMESTAYS, shortFlightH: SHORT_FLIGHT_H };
+  var PACK_DATA = { climate: CLIMATE, seasons: SEASONS, content: CONTENT, places: PLACES, swaps: SWAPS };
 
   // extra: a label for a changed setting; then no route is allowed (e.g. the only city near the airport removed),
   // unless strict (after an added place the base trip still exists, so no route is a failure)
   function check(s, extra, strict) {
-    var name = s.from + '→' + s.to + ' ' + s.days + 'd m' + s.month + ' L' + s.level + ' ' + (s.interests.join('+') || '-') + (extra || '');
+    var name = s.from + '→' + s.to + ' ' + (s.start ? s.start + '…' + s.end : s.days + 'd m' + s.month) + ' L' + s.level + ' ' + (s.interests.join('+') || '-') + (extra || '');
     function need(c, what) { if (!c) fails.push(name + ': ' + what); }
     var st = normSettings(s, PLACES, HUBS);
     if (!st.ok) { fails.push(name + ': settings ' + st.error); return null; }
@@ -42,7 +44,10 @@
       need(!p.node || (i > 0 && i < last), x.id + ' (node ' + p.node + ') is the ' + (i ? 'last' : 'first') + ' stop');
       need(!p.node || (s.remove || []).indexOf(p.node) < 0, x.id + ' is on the trip though its node ' + p.node + ' is removed');
       need(p.level <= s.level, x.id + ' needs level ' + p.level);
-      need(x.season.length === x.n && x.season.indexOf('X') < 0, x.id + ' season ' + x.season);
+      // the season of each night, read again from SEASONS and the months of the trip: never closed (X)
+      var letters = '';
+      for (var j = 0; j < x.n; j++) letters += SEASONS[x.id].charAt(st.months[x.start - 1 + j]);
+      need(letters === x.season && letters.indexOf('X') < 0, x.id + ' season ' + x.season + ', from SEASONS ' + letters);
       need(x.leg && x.leg.segs.length > 0 && x.leg.total <= (i === 0 ? END_LEG_H : MAX_LEG_H), 'leg into ' + x.id + ': ' + (x.leg && x.leg.total) + ' h');
       if (x.leg) x.leg.segs.forEach(function (g) { need(g.h > 0, 'segment without hours into ' + x.id); });
       nights += x.n; day += x.n;
@@ -93,8 +98,13 @@
       need(Math.abs(sum[0] - b.two[0]) < 1e-6 && Math.abs(sum[1] - b.two[1]) < 1e-6, 'budget: the parts add up to the whole');
       need(b.items.every(function (x, i) { return !i || b.items[i - 1].two[1] >= x.two[1]; }), 'budget: the paid things dearest first');
     });
-    need(nights === s.days - 1, nights + ' nights, want ' + (s.days - 1));
-    need(r.days === s.days, 'days ' + r.days);
+    need(nights === st.days - 1, nights + ' nights, want ' + (st.days - 1));
+    need(r.days === st.days, 'days ' + r.days);
+    // before the trip (page.js): what to book (keys of BOOK, the most urgent first), what to pack, entry and health
+    var books = bookList(r, plans, [], BOOK_DATA), packs = packList(r, plans, st, [], PACK_DATA), notes = entryNotes(st, false, ENTRY);
+    need(books.every(function (b, i) { return BOOK[b.key] && b.ahead > 0 && (!i || books[i - 1].ahead >= b.ahead); }), 'bookList: ' + books.map(function (b) { return b.key; }).join(', '));
+    need(packs.length > 0 && packs.every(function (p) { return typeof p.code === 'string' && Array.isArray(p.places); }), 'packList');
+    need(notes.length > 0 && notes[0].code === 'visa', 'entryNotes');
     need(r.stops[0].leg.from === s.from && r.stops[0].leg.flights === 0, 'arrival day: by road from ' + s.from);
     need(r.home && r.home.to === s.to && r.home.flights === 0 && r.home.total <= END_LEG_H, 'departure day: ' + (r.home && r.home.total) + ' h to ' + s.to);
     return r;
@@ -137,7 +147,26 @@
       }
     });
   });
-  print('combos: ' + count + (all ? ' (all)' : ' (every 7th; tests/run.sh --full checks all)'));
+  // the date mode: trips over the turn of every month of 2027 (from the 25th, for 10 and 20 days), each night with its own
+  // month, for every set of interests, level and pair of airports (sampled like the months without --full)
+  var dated = 0;
+  sets.forEach(function (interests) {
+    LEVELS.forEach(function (level) {
+      for (var mo = 1; mo <= 12; mo++) [10, 20].forEach(function (len) {
+        var a = Date.UTC(2027, mo - 1, 25), start = new Date(a).toISOString().slice(0, 10), end = new Date(a + (len - 1) * 864e5).toISOString().slice(0, 10);
+        airports.forEach(function (from) {
+          airports.forEach(function (to) {
+            if (!all && k++ % 7) return;
+            dated++;
+            check({ from: from, to: to, start: start, end: end, interests: interests, level: level });
+          });
+        });
+      });
+    });
+  });
+  print('combos: ' + count + ' months and ' + dated + ' dates' + (all ? ' (all)' : ' (every 7th; tests/run.sh --full checks all)'));
+  // every place is on some trip: a place no trip takes is dead data (or the engine cannot reach it)
+  ok(ids.every(function (id) { return used[id] > 0; }), 'on no trip: ' + ids.filter(function (id) { return !used[id]; }).join(', '));
   print('places used: ' + ids.map(function (id) { return id + ' ' + (used[id] || 0); }).join(', '));
   print('late hard nights kept off the last day of a stay: ' + held);
   ok(held > 0, 'no checked stay had a late hard night to keep off its last day: the rule is not tested');

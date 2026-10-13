@@ -410,7 +410,9 @@ function whyOff(route, settings, st, data, climate) {
       if (st.interests.length && st.interests.every(function (k) { return (p.fit[k] || 0) < 2; })) x.reasons.push('profile');
       if (p.level > st.level || every('X')) { x.canAdd = false; return x; }
       var withIt = normSettings(withAdded(settings, id), P, data.hubs), r = withIt.ok ? planRoute(withIt, data) : null;
-      if (!r || !r.ok || r.missing.indexOf(id) > -1) { x.reasons.push('far'); x.canAdd = false; }
+      // not fitted: closed in part of the term, or too far for these days
+      var part = months.some(function (m) { return code.charAt(m - 1) === 'X'; });
+      if (!r || !r.ok || r.missing.indexOf(id) > -1) { x.reasons.push(part ? 'closed_part' : 'far'); x.canAdd = false; }
       else { x.drops = droppedPlaces(route.stops, r.stops, P); x.shorter = shortenedPlaces(route.stops, r.stops, P); }
       if (!x.reasons.length) x.reasons.push('beaten');
       return x;

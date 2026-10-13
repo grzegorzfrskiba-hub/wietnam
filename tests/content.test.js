@@ -279,7 +279,7 @@ contentCheck('ui', function (need) {
   var FAMILIES = { 'pace.': PACES, 'reg.': REGIONS, 'int.': INTERESTS, 'lvl.': LEVELS, 'lvlp.': LEVELS, 'badge.': ['easy', 'hard', 'self'],
     'mon.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'mon3.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'monl.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     'season.': ['D', 'S', 'Z'], 'why.': ['from', 'to'], 'wx.': WEATHER_WHY,
-    'off.r.': ['removed', 'level', 'closed', 'season', 'profile', 'far', 'beaten'],
+    'off.r.': ['removed', 'level', 'closed', 'closed_part', 'season', 'profile', 'far', 'beaten'],
     'm.': Object.keys(MAP_PANELS),
     'alert.': ['tet', 'holiday', 'nodata'],
     'bud.': ['nights', 'day', 'travel', 'trips'], 'cost.': Object.keys(COSTS.items).concat(['flights']),

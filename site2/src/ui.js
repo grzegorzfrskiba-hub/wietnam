@@ -128,7 +128,7 @@ UI.pl = {
   'm.dialog': 'Mapa trasy, powiększona', 'm.title': 'Mapa trasy: ',
   'off.h3': 'Nie ma na twojej trasie', 'off.p': 'Przy każdym miejscu jest powód. „Dodaj” układa trasę na nowo razem z tym miejscem.',
   'off.add': 'Dodaj', 'off.add.aria': 'Dodaj {x} do trasy', 'off.missing': 'nie zmieściło się', 'off.reset': 'Wróć do trasy bez zmian',
-  'off.r.removed': 'usunięte przez ciebie', 'off.r.level': 'tylko na poziomie „{lvl}”', 'off.r.closed': 'zamknięte w tym terminie',
+  'off.r.removed': 'usunięte przez ciebie', 'off.r.level': 'tylko na poziomie „{lvl}”', 'off.r.closed': 'zamknięte w tym terminie', 'off.r.closed_part': 'zamknięte w części tego terminu',
   'off.r.season': 'poza sezonem ({why})', 'off.r.profile': 'nie pasuje do tego, co lubisz', 'off.r.far': 'za daleko na tyle dni',
   'off.r.beaten': 'przy {days} dniach wygrały inne miejsca',
   'off.drops': 'Po dodaniu wypadnie: {list}.', 'off.nodrops': 'Zmieści się bez usuwania innych miejsc.',

@@ -346,6 +346,14 @@ var D3 = { places: P3, seasons: S3, graph: DATA_T.graph, hubs: HUBS }, st3 = nor
 eq([o3.catba.reasons, o3.catba.canAdd, o3.babe.reasons, o3.babe.canAdd], [['level'], false, ['closed'], false], 'a higher level and a closed place: no Dodaj');
 eq(whyOff(planRoute(normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3), Object.assign({}, MARCH, { level: 3 }), normSettings(Object.assign({}, MARCH, { level: 3 }), P3, HUBS), D3, CLIMATE)
   .filter(function (x) { return x.id === 'catba'; })[0].reasons.indexOf('level'), -1, 'at the level it needs, the level is no reason');
+// closed (X) in part of the term and not fitted around it: closed in part of the term, not too far (made up: Cao Bằng closed
+// in April, on a trip from 28 March that cannot reach it in March)
+var S4 = JSON.parse(JSON.stringify(SEASONS));
+S4.caobang = 'SSSXSSSSDDDS';
+var D4 = { places: PLACES, seasons: S4, graph: DATA_T.graph, hubs: HUBS }, M4 = { from: 'SGN', to: 'HAN', start: '2027-03-28', end: '2027-04-11', interests: [], level: 2, add: [], remove: [] };
+var st4 = normSettings(M4, PLACES, HUBS), o4 = byId(whyOff(planRoute(st4, D4), M4, st4, D4, CLIMATE)), o4s = byId(whyOff(planRoute(st4, DATA_T), M4, st4, DATA_T, CLIMATE));
+eq([o4.caobang.reasons, o4.caobang.canAdd, o4s.caobang.reasons, o4s.caobang.canAdd], [['closed_part'], false, ['beaten'], true],
+  'closed in part of the term and not fitted around it: said so, no Dodaj; open all the term, the same trip could take it');
 
 function nightsOf(list) { return list.map(function (x) { return { id: x[0], n: x[1] }; }); }
 eq(shortenedPlaces(nightsOf([['saigon', 3], ['hue', 3], ['hanoi', 3]]), nightsOf([['saigon', 2], ['mekong', 2], ['hue', 2], ['hanoi', 3]]), PLACES), ['saigon', 'hue'],
