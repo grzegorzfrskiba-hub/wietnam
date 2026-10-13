@@ -585,6 +585,21 @@ var tZZ = tripAll({ from: 'DAD', to: 'SGN', start: '2027-01-28', end: '2027-02-1
 var tRT = tripAll({ from: 'DAD', to: 'DAD', month: 1, days: 18, interests: [], level: 1 });
 eq([tZZ.r.stops[0].id, flownInto(tZZ, 'DAD'), flownInto(tRT, 'DAD').length > 0, flownOutAgain(tRT, 'DAD')], ['hoian', [], true, []],
   'Đà Nẵng to Hồ Chí Minh City: Hội An first, no flight back near Đà Nẵng; a round trip from Đà Nẵng comes home by plane and flies out no more');
+// Hà Giang: the loop over three days, with five nights over four (Lũng Cú on day 3); no hard day, so level 3 is level 2;
+// ridden yourself, every day of the loop on the motorbike; the permit for the border zone on the first day, at level 1 too
+function hg(n, level, self) { return stopDays(CONTENT.hagiang, { n: n, start: 1 }, 0, level, [9, 9, 9, 9, 9], null, self); }
+eq([hg(4, 2).map(function (d) { return d.t; }), hg(5, 2)[2].t, JSON.stringify(hg(5, 3)) === JSON.stringify(hg(5, 2)),
+  hg(4, 2, true).map(function (d) { return d.variant; }), hg(4, 1)[0].cost],
+  [['Wieczór w Hà Giang', 'Przez Quản Bạ i Yên Minh do Đồng Văn', 'Mã Pí Lèng, kanion Nho Quế i Du Già', 'Z Du Già z powrotem do Hà Giang'],
+    'Lũng Cú i wieś pod masztem', true, ['self', 'self', 'self', 'self'], ['hagiang.permit']],
+  'Hà Giang: four nights, the loop over three days; five, Lũng Cú on day 3; level 3 as level 2; ridden yourself every day; the permit at level 1 too');
+var tHG = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 12, interests: ['gory'], level: 2, add: ['hagiang'] });
+var bHGd = tripBudget(tHG.r, plansOf(tHG, false), [], BUDR), bHGs = tripBudget(tHG.r, plansOf(tHG, true), ['hagiang'], BUDR), kHG = bookList(tHG.r, plansOf(tHG, false), [], BOOKD);
+function hgItems(b) { return b.items.map(function (x) { return x.key; }).filter(function (k) { return /^hagiang/.test(k); }).sort(); }
+eq([stayOf(tHG, 'hagiang').n >= 4, hgItems(bHGd), hgItems(bHGs), bHGs.two[1] < bHGd.two[1], keysOf(kHG).indexOf('hagiang.car') > -1,
+  kHG.filter(function (e) { return e.key === 'homestay'; })[0].list.indexOf('hagiang') > -1],
+  [true, ['hagiang.car', 'hagiang.permit'], ['hagiang.moto', 'hagiang.permit'], true, true, true],
+  'mountains in October with Hà Giang: the car or the easy rider and the permit; ridden yourself the motorbike, for less; the car on the list of what to book, Hà Giang with the hosts');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });
@@ -608,6 +623,7 @@ eq([air('HAN', 'catba'), air('catba', 'HPH'), air('SGN', 'cattien'), air('mekong
 // Phong Nha from the airports of Đà Nẵng and Huế (plan 2): its own roads, on the expressway, each with its text
 eq([air('DAD', 'phongnha'), air('phongnha', 'HUI'), legBetween(DATA_ALL.graph, 'DAD', 'phongnha', true).total, legBetween(DATA_ALL.graph, 'HUI', 'phongnha', true).total],
   [['r.air_phongnha_dad', {}], ['r.air_phongnha_hui', {}], 5.5, 3.75], 'Phong Nha from Đà Nẵng airport (5½ h) and from Huế airport (3¾ h): roads of their own, with their texts');
+eq(air('HAN', 'hagiang'), ['r.air_ninhbinh', {}], 'Hà Giang from Nội Bài: a car or a limousine van booked ahead, as to Ninh Bình');
 var arrive = { segs: [{ mode: 'road', from: 'HAN', to: 'catba', h: 4 }] }, leave = { segs: [{ mode: 'road', from: 'cattien', to: 'SGN', h: 3.75 }, { mode: 'fly', from: 'SGN', to: 'HAN', h: 2.2 }] };
 eq([ferryNotes(arrive, FERRY, AIRPORTS), ferryNotes(leave, FERRY, AIRPORTS), ferryNotes({ segs: [{ mode: 'road', from: 'ninhbinh', to: 'catba', h: 4.5 }] }, FERRY, AIRPORTS)],
   [[{ key: 'n.ferry_in', place: 'catba', last: '18:00', land: '13:30' }], [{ key: 'n.ferry_out', place: 'cattien', first: '6:00', at: '10:00' }], []],

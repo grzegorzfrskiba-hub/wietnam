@@ -157,6 +157,7 @@ contentCheck('content', function (need) {
       swapOfRoad[pair] = k;
     });
     need(!!w.place !== !!(w.roads && Object.keys(w.roads).length), 'SWAPS.' + k + ': a place or roads');
+    need(w.risk === undefined || w.risk === true, 'SWAPS.' + k + ': risk is true or left out');
   });
   // every item of COSTS is the cost of some plan or of a swap's road
   var paid = {};
@@ -197,7 +198,7 @@ contentCheck('typography', function (need) {
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
 var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
-  'porcie', 'świecie'];
+  'porcie', 'świecie', 'remoncie'];
 function styleOk(need, list) {
   list.forEach(function (x) {
     var t = x[1];
@@ -291,6 +292,7 @@ contentCheck('ui', function (need) {
     'alert.': ['tet', 'holiday', 'nodata'],
     'bud.': ['nights', 'day', 'travel', 'trips'], 'cost.': Object.keys(COSTS.items).concat(['flights']),
     'sw.': Object.keys(SWAPS).concat(['driver', 'self']), 'sw.tips.': Object.keys(SWAPS),
+    'sw.risk.': Object.keys(SWAPS).filter(function (k) { return SWAPS[k].risk; }),
     'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }), 'b.homestay.': HOMESTAY_NOTES,
     'e.': ['visa', 'visa_end', 'passport', 'insurance', 'insurance_moto', 'doctor'],
     'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],

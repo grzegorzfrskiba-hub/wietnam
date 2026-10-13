@@ -78,6 +78,11 @@ var PHOTO_META = {
   danang_1: { cap: 'Łódki-kosze na plaży Mỹ Khê', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Coracles_in_Da_Nang_1.jpg' },
   danang_2: { cap: 'Jaskinia Huyền Không w Marmurowych Górach', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Huyen_Khong_Cave_1.jpg' },
   danang_3: { cap: 'Droga Hoàng Sa na półwyspie Sơn Trà', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Ho%C3%A0ng_Sa_Road,_Son_Tra_Peninsula.jpg' },
-  danang_4: { cap: 'Sala Muzeum Rzeźby Czamskiej w Đà Nẵng', artist: 'Daderot', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Interior_view_-_Museum_of_Cham_Sculpture_-_Danang,_Vietnam_-_DSC01931.JPG' }
+  danang_4: { cap: 'Sala Muzeum Rzeźby Czamskiej w Đà Nẵng', artist: 'Daderot', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Interior_view_-_Museum_of_Cham_Sculpture_-_Danang,_Vietnam_-_DSC01931.JPG' },
+  hagiang_0: { cap: 'Przełęcz Mã Pí Lèng nad kanionem rzeki Nho Quế', artist: 'Hoach Le Dinh', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:M%C3%A3_P%C3%AD_L%C3%A8ng,_Vietnam.jpg' },
+  hagiang_1: { cap: 'Kanion Tu Sản i rzeka Nho Quế', artist: 'NKSTTSSHNVN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:TuSan2-2022.jpg' },
+  hagiang_2: { cap: 'Droga i tarasy w Quản Bạ', artist: 'Benjamin Smith', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Qu%E1%BA%A3n_B%E1%BA%A1,_Vietnam_-_1.jpg' },
+  hagiang_3: { cap: 'Dwie stożkowe góry Cô Tiên w Quản Bạ', artist: 'Sketyl none', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:N%C3%BAi_C%C3%B4_Ti%C3%AAn,_Qu%E1%BA%A3n_B%E1%BA%A1_(47742798901).jpg' },
+  hagiang_4: { cap: 'Brama pałacu rodu Vương w Sà Phìn', artist: 'Velvet', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Sa_Phin_palais_hmong_entree.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview

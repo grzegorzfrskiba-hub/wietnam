@@ -381,7 +381,7 @@
       '<div class="seg swap-seg" role="radiogroup" aria-label="' + esc(T('sw.' + id)) + '">' + ['driver', 'self'].map(function (v) {
         return '<label><input type="radio" name="swap-' + id + '-' + day + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + T('sw.' + v) + '</span></label>';
       }).join('') + '</div><p class="swap-note">' + esc(T('sw.note')) + '</p>' +
-      (self ? '<div class="swap-box"><p><b>' + T('sw.req.h') + '</b>' + esc(T('sw.req')) + '</p><p><b>' + T('sw.risk.h') + '</b>' + esc(T('sw.risk')) + '</p>' +
+      (self ? '<div class="swap-box"><p><b>' + T('sw.req.h') + '</b>' + esc(T('sw.req')) + '</p><p><b>' + T('sw.risk.h') + '</b>' + esc(T('sw.risk') + (SWAPS[id].risk ? ' ' + T('sw.risk.' + id) : '')) + '</p>' +
         '<p><b>' + T('sw.tips.h') + '</b>' + esc(T('sw.tips') + ' ' + T('sw.tips.' + id)) + '</p></div>' : '') + '</div>';
   }
   // the swap of a place (its days), or of a road of the leg L (SWAPS), or undefined

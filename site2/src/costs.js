@@ -10,7 +10,7 @@ var COSTS = {
   // a double room for a night: two people share it, one person alone pays all of it
   night: { saigon: [28, 69], mekong: [20, 42], phuquoc: [28, 80], cattien: [14, 40], dalat: [17, 53], hoian: [17, 52], hue: [14, 52],
     puluong: [14, 62], ninhbinh: [15, 62], catba: [14, 52], hanoi: [21, 69], babe: [12, 64], caobang: [14, 48],
-    phongnha: [21, 55], cucphuong: [14, 34], danang: [22, 58] },
+    phongnha: [21, 55], cucphuong: [14, 34], danang: [22, 58], hagiang: [14, 52] },
   day: [13, 28],         // a person a day, two travelling together: food, Grab, water and coffee, tickets up to about 5 EUR
   daySolo: [2, 5],       // more a day for one person alone, who pays each Grab ride in full
   shared: [2.5, 3.5],    // a seat in a limousine van or a bus, a person an hour on the road
@@ -77,6 +77,10 @@ var COSTS = {
     'cucphuong.maybac': { pp: [0, 0], group: [17, 86] },
     'danang.sontra': { pp: [0, 0], group: [22, 52] },
     'haivan.car_dn': { pp: [0, 0], group: [43, 98] },
-    'haivan.moto_dn': { pp: [25, 32], group: [0, 0] }
+    'haivan.moto_dn': { pp: [25, 32], group: [0, 0] },
+    'hagiang.car': { pp: [0, 0], group: [88, 133] },
+    'hagiang.easyrider': { pp: [18, 34], group: [0, 0], book: 'hagiang.car' },
+    'hagiang.moto': { pp: [8, 23], group: [0, 0] },
+    'hagiang.permit': { pp: [9, 9], group: [0, 0] }
   }
 };

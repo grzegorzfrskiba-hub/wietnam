@@ -71,6 +71,8 @@ var AIR_KEYS = {
   'HPH-catba': { text: 'r.air_catba', book: true }, 'HAN-catba': { text: 'r.air_catba', book: true },
   'SGN-mekong': { text: 'r.air_mekong', book: true }, 'SGN-cattien': { text: 'r.air_cattien', book: true },
   'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
+  // Hà Giang: a car or a limousine van from Nội Bài, as to Ninh Bình
+  'HAN-hagiang': { text: 'r.air_ninhbinh', book: true },
   'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true },
   // Phong Nha: a car from the airports of Đà Nẵng and Huế, on the expressway
   'DAD-phongnha': { text: 'r.air_phongnha_dad', book: true }, 'HUI-phongnha': { text: 'r.air_phongnha_hui', book: true },
@@ -85,13 +87,15 @@ var FERRY = {
   cattien: { last: '18:00', land: { SGN: '13:30' }, first: '6:00', at: { SGN: '10:00' } }
 };
 
-/* Either-or choices inside a trip (plan 2B): for now riding a motorbike yourself instead of being driven, on the loop around
-   Cao Bằng and on the roads over the Hải Vân pass. A link lists the swaps set to „Samodzielnie” (motocykl=caobang,haivan);
-   the trip does not change. place: the place whose days take their self versions (the days of the loop); roads: the roads
-   of ROAD_KEYS the swap rides, by their two places in alphabetical order, each with text, its UI key when ridden yourself,
-   and cost, the item of COSTS (costs.js) for each way: driver (with a driver, the usual) and self. */
+/* Either-or choices inside a trip (plan 2B): for now riding a motorbike yourself instead of being driven, on the loops around
+   Cao Bằng and Hà Giang and on the roads over the Hải Vân pass. A link lists the swaps set to „Samodzielnie”
+   (motocykl=caobang,haivan); the trip does not change. place: the place whose days take their self versions (the days of
+   the loop); roads: the roads of ROAD_KEYS the swap rides, by their two places in alphabetical order, each with text, its
+   UI key when ridden yourself, and cost, the item of COSTS (costs.js) for each way: driver (with a driver, the usual) and
+   self; risk: true when the place has a sentence of its own about the risk (UI key sw.risk.<id>), after the common one. */
 var SWAPS = {
   caobang: { place: 'caobang' },
+  hagiang: { place: 'hagiang', risk: true },
   haivan: { roads: { 'hoian-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car', self: 'haivan.moto' } },
     'danang-hue': { text: 'r.haivan_self', cost: { driver: 'haivan.car_dn', self: 'haivan.moto_dn' } } } }
 };

@@ -17,12 +17,15 @@ var BOOK = {
   'cucphuong.stay': { ahead: 7, links: [{ name: 'Du lịch Cúc Phương, kontakt', url: 'https://dulichcucphuong.com.vn/contact-us/' }, { name: 'Du lịch Cúc Phương, noclegi', url: 'https://dulichcucphuong.com.vn/co-so-luu-tru/' }, { name: 'Du lịch Cúc Phương, nocna przejażdżka', url: 'https://dulichcucphuong.com.vn/tour-xe-dien-xem-dom-dom-va-quan-sat-dong-vat-hoang-da-ban-dem-huou-nai-culi/' }] },
   'phongnha.paradise7': { ahead: 7, links: [{ name: 'Park Phong Nha–Kẻ Bàng, Paradise Cave', url: 'https://phongnhakebang.vn/du-lich/dong-thien-duong13' }, { name: 'Paradise Cave', url: 'https://dongthienduong.com/' }] },
   'caobang.easyrider': { ahead: 7, links: [{ name: 'Cao Bang Eco Travel', url: 'https://caobangecotravel.com/3-days-2-nights-tour/' }, { name: 'Cao Bang Green Riders', url: 'https://caobanggreenriders.com/tours' }] },
+  'hagiang.car': { ahead: 7, links: [{ name: 'ZingHome Ha Giang', url: 'https://zinghomehagiang.com/' }] },
+  'hagiang.easyrider': { ahead: 7, links: [{ name: 'ZingHome Ha Giang, pętla 3 dni', url: 'https://zinghomehagiang.com/tour/ha-giang-loop-3-days-2-nights/' }, { name: 'ZingHome Ha Giang, pętla 4 dni', url: 'https://zinghomehagiang.com/tour/ha-giang-loop-4-days-3-nights/' }] },
   'transfer': { ahead: 3, links: [{ name: 'Baolau', url: 'https://www.baolau.com/en/destinations/vietnam' }, { name: 'Vexere', url: 'https://vexere.com/en-US' }, { name: 'FUTA (Phương Trang)', url: 'https://futabus.vn/' }] },
   'airport': { ahead: 3, links: [{ name: 'Baolau', url: 'https://www.baolau.com/en/destinations/vietnam' }, { name: 'Green SM Liên Tỉnh', url: 'https://www.greensm.com/vn-vi/green-lien-tinh' }] },
   'dalat.bidoup': { ahead: 3, links: [{ name: 'Park Bidoup–Núi Bà, kontakt', url: 'https://bidoupnuiba.gov.vn/lien-he/' }, { name: 'Park Bidoup–Núi Bà, formularz', url: 'https://bidoupnuiba.gov.vn/dat-tour' }, { name: 'Park Bidoup–Núi Bà, cennik', url: 'https://bidoupnuiba.gov.vn/dich-vu/bang-gia-dich-vu/' }] },
   'dalat.langbiang': { ahead: 3, links: [{ name: 'Park Bidoup–Núi Bà, kontakt', url: 'https://bidoupnuiba.gov.vn/lien-he/' }] },
   'cucphuong.maybac': { ahead: 3, links: [{ name: 'Du lịch Cúc Phương, kontakt', url: 'https://dulichcucphuong.com.vn/contact-us/' }, { name: 'Du lịch Cúc Phương, combo z Mây Bạc', url: 'https://dulichcucphuong.com.vn/combo-mot-ngay/' }] },
   'caobang.moto': { ahead: 3, links: [{ name: 'Cao Bang Green Riders, cennik', url: 'https://caobanggreenriders.com/rental' }, { name: 'Cao Bang Eco Travel, cennik', url: 'https://caobangecotravel.com/motorbike/' }] },
+  'hagiang.moto': { ahead: 3, links: [{ name: 'ZingHome Ha Giang, cennik', url: 'https://zinghomehagiang.com/ha-giang-motorbike-rental/' }] },
   'haivan.car': { ahead: 3, links: [{ name: 'Hoi An Transport Service', url: 'https://hoiantransportservice.com/hoi-an-hue-private-car/' }, { name: 'Hoi An Day Trip', url: 'https://hoiandaytrip.com/da-nang-to-hue-private-transfer/' }] },
   'haivan.car_dn': { ahead: 3, links: [{ name: 'Hoi An Transport Service', url: 'https://hoiantransportservice.com/da-nang-to-hue-private-car-hai-van-pass/' }, { name: 'Hoi An Day Trip', url: 'https://hoiandaytrip.com/da-nang-to-hue-private-transfer/' }] },
   'haivan.moto_dn': { ahead: 3, links: [{ name: 'Hidden Land Travel', url: 'https://hiddenlandtravel.com/rental/da-nang-to-hue-motorbike-rental/' }, { name: 'Tigit Motorbikes', url: 'https://www.tigitmotorbikes.com/blogs/one-way-motorbike-rental-hai-van-pass-by-motorbike' }] },
@@ -42,6 +45,6 @@ var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-1
     { name: 'MSZ: Wietnam w serwisie Odyseusz', url: 'https://odyseusz.gov.pl/VN' },
     { name: 'GIS: szczepienia dla podróżujących', url: 'https://www.gov.pl/web/gis/zalecane-szczepienia-dla-podrozujacych' }] };
 // the places where a stay sleeps with hosts (the plans of their first day say so): their rooms go on the list of what to book
-var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang'];
+var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang'];
 // the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)
-var HOMESTAY_NOTES = ['puluong'];
+var HOMESTAY_NOTES = ['puluong', 'hagiang'];
