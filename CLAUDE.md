@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (12.10.2026):** etap 2 zrobiony: plany 2A (telefon, powody, pogoda, mapa) i 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk). Następny krok: etap 3, partia A (nowe miejsca), zob. [notes/etapy.md](notes/etapy.md).
+**Status (13.10.2026):** etap 3 w toku: partia A, plan 1 (Phong Nha, Cúc Phương, Đà Nẵng z Sơn Trà) zrobiony. Następny krok: plan 2 partii A (Hà Giang, Sa Pa), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -25,7 +25,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Repo będzie publiczne od publikacji w etapie 4, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, będzie widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
 - **Strona tylko po polsku.** Mechanizm kluczy tekstów i test kompletności zostają na przyszły angielski. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
-- **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
+- **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
 - **Narzędzia na tym Macu:**
   - `gh` jest w `~/.local/bin/gh`, zalogowany;
   - node nie ma: testy pierwowzoru działają w JavaScriptCore (`tests/run.sh`);
@@ -34,7 +34,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 
 ## Jak sprawdzać
 
-- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie (ok. 40 s).
+- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie, także w trybie dat (ok. 70 s).
 - `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
 - `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
 - Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
