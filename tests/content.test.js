@@ -163,7 +163,7 @@ contentCheck('content', function (need) {
   var paid = {};
   Object.keys(CONTENT).forEach(function (id) {
     CONTENT[id].days.forEach(function (d) {
-      [d, d.easy, d.hard, d.solo, d.self].forEach(function (v) { ((v && v.cost) || []).forEach(function (e) { [].concat(e).forEach(function (x) { paid[x] = true; }); }); });
+      [d, d.easy, d.hard, d.hard && d.hard.next, d.solo, d.self].forEach(function (v) { ((v && v.cost) || []).forEach(function (e) { [].concat(e).forEach(function (x) { paid[x] = true; }); }); });
     });
   });
   Object.keys(SWAPS).forEach(function (k) {

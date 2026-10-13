@@ -1,6 +1,7 @@
 /* The places (modules) the engine plans with: only what the engine needs; the names, texts and photos are in the texts of
    the places (content.js, content/<id>.js). axis: position on the south–north line that trips sweep along, close to the latitude
-   (Pù Luông sits before Ninh Bình so trips run Pù Luông → Ninh Bình → Cát Bà, and Cúc Phương between them). nights: [min, ideal, max]; the
+   (Pù Luông sits before Ninh Bình so trips run Pù Luông → Ninh Bình → Cát Bà, and Cúc Phương between them; Sa Pa, at
+   22.34° N, sits past Hà Giang so the north runs Ba Bể → Cao Bằng → Hà Giang → Sa Pa). nights: [min, ideal, max]; the
    minimum is 1 only where a one-night plan exists or the place is an airport's city (HUBS). level: the lowest
    adventure level the place is offered at (1 spokojnie, 2 aktywnie, 3 ekstremalnie). fit: 0–3 for each
    interest. node: the travel point it shares with another place (hanoiStop is a night in Hà Nội on the way,
@@ -23,7 +24,8 @@ var PLACES = {
   hanoiStop: { axis: 21.03, node: 'hanoi', nights: [1, 1, 1], level: 1, fit: { kultura: 0, jedzenie: 1, przyroda: 0, gory: 0, morze: 0 } },
   babe:      { axis: 22.41, nights: [1, 2, 3], level: 1, fit: { kultura: 1, jedzenie: 0, przyroda: 2, gory: 1, morze: 0 } },
   caobang:   { axis: 22.67, nights: [2, 2, 3], level: 1, fit: { kultura: 1, jedzenie: 0, przyroda: 2, gory: 2, morze: 0 } },
-  hagiang:   { axis: 22.83, nights: [4, 4, 5], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } }
+  hagiang:   { axis: 22.83, nights: [4, 4, 5], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } },
+  sapa:      { axis: 22.9, nights: [2, 3, 4], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } }
 };
 /* The city each international airport opens and closes trips with. */
 var HUBS = { SGN: 'saigon', HAN: 'hanoi', DAD: 'hoian' };

@@ -20,6 +20,8 @@ var ROADS = [
   ['catba', 'caobang', 9.5], ['caobang', 'babe', 4.5],
   // Hà Giang, the loop over the Đồng Văn plateau, beyond Cao Bằng and Ba Bể
   ['hanoi', 'hagiang', 6.5], ['HAN', 'hagiang', 5.75], ['hagiang', 'caobang', 8], ['hagiang', 'babe', 7],
+  // Sa Pa, on the expressway from Hà Nội; to Cao Bằng it is over 10 h (through Hà Giang)
+  ['hanoi', 'sapa', 5.5], ['HAN', 'sapa', 5], ['hagiang', 'sapa', 6], ['ninhbinh', 'sapa', 6.5],
   // Cúc Phương, between Pù Luông and Ninh Bình
   ['ninhbinh', 'cucphuong', 1.25], ['hanoi', 'cucphuong', 2.75], ['HAN', 'cucphuong', 3], ['puluong', 'cucphuong', 2.75], ['THD', 'cucphuong', 2],
   ['catba', 'cucphuong', 5.5], ['babe', 'cucphuong', 7.75],

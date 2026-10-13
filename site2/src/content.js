@@ -42,7 +42,7 @@ var REGIONS = ['south', 'centre', 'north'];
 
 /* Names of several words in the texts of the places that have no letter Polish lacks, so tieVietnamese (page.js) cannot
    tell them from Polish words: the page keeps each on one line, as it does the names of the places and the airports. */
-var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'Hang Va'];
+var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'Hang Va', 'La Dao'];
 
 /* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
    the name on the map's arrows to another panel, where it differs. */
@@ -72,7 +72,7 @@ var AIR_KEYS = {
   'SGN-mekong': { text: 'r.air_mekong', book: true }, 'SGN-cattien': { text: 'r.air_cattien', book: true },
   'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
   // Hà Giang: a car or a limousine van from Nội Bài, as to Ninh Bình
-  'HAN-hagiang': { text: 'r.air_ninhbinh', book: true },
+  'HAN-hagiang': { text: 'r.air_ninhbinh', book: true }, 'HAN-sapa': { text: 'r.air_ninhbinh', book: true },
   'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true },
   // Phong Nha: a car from the airports of Đà Nẵng and Huế, on the expressway
   'DAD-phongnha': { text: 'r.air_phongnha_dad', book: true }, 'HUI-phongnha': { text: 'r.air_phongnha_hui', book: true },

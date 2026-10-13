@@ -15,6 +15,7 @@ var BOOK = {
   'puluong.summit': { ahead: 7, links: [{ name: 'Rezerwat Pù Luông, formularz', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeXxg-Spbz74V5wBPSBBRXaZpF4PMsFcX22Oxh2XfuYdcBeiA/viewform' }] },
   'caobang.car': { ahead: 7, links: [{ name: 'Cao Bang Eco Travel', url: 'https://caobangecotravel.com/3-days-2-nights-tour/' }, { name: 'Cao Bang Green Riders', url: 'https://caobanggreenriders.com/' }] },
   'cucphuong.stay': { ahead: 7, links: [{ name: 'Du lịch Cúc Phương, kontakt', url: 'https://dulichcucphuong.com.vn/contact-us/' }, { name: 'Du lịch Cúc Phương, noclegi', url: 'https://dulichcucphuong.com.vn/co-so-luu-tru/' }, { name: 'Du lịch Cúc Phương, nocna przejażdżka', url: 'https://dulichcucphuong.com.vn/tour-xe-dien-xem-dom-dom-va-quan-sat-dong-vat-hoang-da-ban-dem-huou-nai-culi/' }] },
+  'sapa.fansipan': { ahead: 7, links: [{ name: "Sapa O'Chau, Fansipan w 2 dni", url: 'https://sapaochau.org/index.php/sapa-trekking-and-homestay/sapa-trek-and-tour/fansipan-tours/mount-fansipan-trek-2-day/' }] },
   'phongnha.paradise7': { ahead: 7, links: [{ name: 'Park Phong Nha–Kẻ Bàng, Paradise Cave', url: 'https://phongnhakebang.vn/du-lich/dong-thien-duong13' }, { name: 'Paradise Cave', url: 'https://dongthienduong.com/' }] },
   'caobang.easyrider': { ahead: 7, links: [{ name: 'Cao Bang Eco Travel', url: 'https://caobangecotravel.com/3-days-2-nights-tour/' }, { name: 'Cao Bang Green Riders', url: 'https://caobanggreenriders.com/tours' }] },
   'hagiang.car': { ahead: 7, links: [{ name: 'ZingHome Ha Giang', url: 'https://zinghomehagiang.com/' }] },
@@ -36,6 +37,9 @@ var BOOK = {
   'cattien.park': { ahead: 1, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, nocne safari', url: 'https://cattiennationalpark.com.vn/xem-thu-dem/' }] },
   'puluong.guide': { ahead: 1, links: [] },
   'cucphuong.car': { ahead: 1, links: [] },
+  'sapa.trek': { ahead: 2, links: [{ name: 'Sapa Sisters', url: 'https://sapasisters.com/sapa-tour-booking/' }] },
+  'sapa.car': { ahead: 1, links: [] },
+  'sapa.cablecar': { ahead: 0, links: [{ name: 'Sun World Fansipan Legend', url: 'https://sunworld.vn/vi/fansipan' }] },
   'babe.boat': { ahead: 0, links: [] },
   'danang.sontra': { ahead: 0, links: [{ name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }, { name: 'Hoi An Transport Service, przejazdy z Đà Nẵng', url: 'https://hoiantransportservice.com/private-car-with-driver-from-da-nang/' }] },
   'hue.citadel': { ahead: 0, links: [{ name: 'Bilety elektroniczne', url: 'https://eticket.hueworldheritage.org.vn/' }, { name: 'Cennik', url: 'https://hueworldheritage.org.vn/Thong-tin-tham-quan/Gia-ve' }] }

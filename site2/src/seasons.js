@@ -4,6 +4,6 @@ var SEASONS = {
   saigon: 'DDDSSSSSSSDD', mekong: 'DDDDSSSSSSDD', phuquoc: 'DDDDSZZZZSSD', cattien: 'DDDSSSSZZZSD', dalat: 'DDDDSSSSSSDD',
   hoian: 'DDDDDSSDSZZS', hue: 'DDDDDSSSSZZZ', puluong: 'SSSDSSSSSDDS', ninhbinh: 'SSSDDDSSSDDD', catba: 'SSSDDSZZZDDS',
   hanoi: 'DDDDSSSSSDDD', babe: 'SSSDSSSSDDDS', caobang: 'SSDDSSSSDDDS',
-  phongnha: 'DSDDDSDDZZZS', cucphuong: 'SSSDSSSSSDDS', danang: 'SSDDDSSDSZZS', hagiang: 'SSSDSZSSSDDS'
+  phongnha: 'DSDDDSDDZZZS', cucphuong: 'SSSDSSSSSDDS', danang: 'SSDDDSSDSZZS', hagiang: 'SSSDSZSSSDDS', sapa: 'SSDSZZZZZSSS'
 };
 SEASONS.hanoiStop = SEASONS.hanoi;   // a night in Hà Nội on the way

@@ -600,6 +600,16 @@ eq([stayOf(tHG, 'hagiang').n >= 4, hgItems(bHGd), hgItems(bHGs), bHGs.two[1] < b
   kHG.filter(function (e) { return e.key === 'homestay'; })[0].list.indexOf('hagiang') > -1],
   [true, ['hagiang.car', 'hagiang.permit'], ['hagiang.moto', 'hagiang.permit'], true, true, true],
   'mountains in October with Hà Giang: the car or the easy rider and the permit; ridden yourself the motorbike, for less; the car on the list of what to book, Hà Giang with the hosts');
+// Sa Pa: Fansipan on foot over two days at level 3, from three nights, not in May–September (its months of downpours) nor
+// with two nights; at level 1 the cable car and the valley by car; the expedition has its own rain plan and sleeps in the camp
+function sp(n, level, months) { return stopDays(CONTENT.sapa, { n: n, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
+eq([sp(3, 3, [2, 2, 2]), sp(3, 3, [6, 6, 6]), sp(2, 3, [2, 2]), sp(3, 1, [2, 2, 2]),
+  stopDays(CONTENT.sapa, { n: 3, start: 1 }, 0, 3, [2, 2, 2])[1].rain === CONTENT.sapa.days[1].hard.rain, COSTS.items['sapa.fansipan'].night],
+  [['-', 'hard', 'hard'], ['-', '-', '-'], ['-', '-'], ['-', 'easy', 'easy'], true, true],
+  'Sa Pa: Fansipan on foot on days 2 and 3 at level 3 in March, not in July nor in two nights; at level 1 the cable car and the valley by car; its own rain plan, a night in the camp');
+var tSP = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['gory'], level: 3, add: ['sapa'] });
+eq([stayOf(tSP, 'sapa').days.slice(1, 3), keysOf(bookList(tSP.r, plansAll(tSP), [], BOOKD)).indexOf('sapa.fansipan') > -1], [['hard', 'hard'], true],
+  'mountains in March at level 3 with Sa Pa: Fansipan on foot, on the list of what to book');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });
@@ -623,7 +633,7 @@ eq([air('HAN', 'catba'), air('catba', 'HPH'), air('SGN', 'cattien'), air('mekong
 // Phong Nha from the airports of Đà Nẵng and Huế (plan 2): its own roads, on the expressway, each with its text
 eq([air('DAD', 'phongnha'), air('phongnha', 'HUI'), legBetween(DATA_ALL.graph, 'DAD', 'phongnha', true).total, legBetween(DATA_ALL.graph, 'HUI', 'phongnha', true).total],
   [['r.air_phongnha_dad', {}], ['r.air_phongnha_hui', {}], 5.5, 3.75], 'Phong Nha from Đà Nẵng airport (5½ h) and from Huế airport (3¾ h): roads of their own, with their texts');
-eq(air('HAN', 'hagiang'), ['r.air_ninhbinh', {}], 'Hà Giang from Nội Bài: a car or a limousine van booked ahead, as to Ninh Bình');
+eq([air('HAN', 'hagiang'), air('sapa', 'HAN')], [['r.air_ninhbinh', {}], ['r.air_ninhbinh', {}]], 'Hà Giang and Sa Pa from Nội Bài: a car or a limousine van booked ahead, as to Ninh Bình');
 var arrive = { segs: [{ mode: 'road', from: 'HAN', to: 'catba', h: 4 }] }, leave = { segs: [{ mode: 'road', from: 'cattien', to: 'SGN', h: 3.75 }, { mode: 'fly', from: 'SGN', to: 'HAN', h: 2.2 }] };
 eq([ferryNotes(arrive, FERRY, AIRPORTS), ferryNotes(leave, FERRY, AIRPORTS), ferryNotes({ segs: [{ mode: 'road', from: 'ninhbinh', to: 'catba', h: 4.5 }] }, FERRY, AIRPORTS)],
   [[{ key: 'n.ferry_in', place: 'catba', last: '18:00', land: '13:30' }], [{ key: 'n.ferry_out', place: 'cattien', first: '6:00', at: '10:00' }], []],

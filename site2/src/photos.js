@@ -83,6 +83,11 @@ var PHOTO_META = {
   hagiang_1: { cap: 'Kanion Tu Sản i rzeka Nho Quế', artist: 'NKSTTSSHNVN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:TuSan2-2022.jpg' },
   hagiang_2: { cap: 'Droga i tarasy w Quản Bạ', artist: 'Benjamin Smith', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Qu%E1%BA%A3n_B%E1%BA%A1,_Vietnam_-_1.jpg' },
   hagiang_3: { cap: 'Dwie stożkowe góry Cô Tiên w Quản Bạ', artist: 'Sketyl none', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:N%C3%BAi_C%C3%B4_Ti%C3%AAn,_Qu%E1%BA%A3n_B%E1%BA%A1_(47742798901).jpg' },
-  hagiang_4: { cap: 'Brama pałacu rodu Vương w Sà Phìn', artist: 'Velvet', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Sa_Phin_palais_hmong_entree.jpg' }
+  hagiang_4: { cap: 'Brama pałacu rodu Vương w Sà Phìn', artist: 'Velvet', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Sa_Phin_palais_hmong_entree.jpg' },
+  sapa_0: { cap: 'Tarasy ryżowe Hầu Thào i Tả Van nad rzeką Mường Hoa', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:M%C6%B0%E1%BB%9Dng_Hoa_Valley_01.jpg' },
+  sapa_1: { cap: 'Znak na szczycie Fansipan, 3143 m (2024)', artist: 'MinhVN1863', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Fansipan_Summit_Mark_2024.jpg' },
+  sapa_2: { cap: 'Obóz na 2800 m na szlaku na Fansipan', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Base_camp_of_the_Fansipan.jpg' },
+  sapa_3: { cap: 'Pasmo Hoàng Liên Sơn ze stacji strażników Núi Xẻ', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains_01.jpg' },
+  sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview
