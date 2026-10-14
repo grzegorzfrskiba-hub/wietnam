@@ -207,6 +207,8 @@ function styleOk(need, list) {
       need(NOT_PLURAL.indexOf(w.toLowerCase()) > -1, x[0] + ': „' + w + '” looks like a plural form: write to one reader (a noun goes on NOT_PLURAL)');
     });
     need(!/\p{L}+(łeś|łaś|łbyś|łabyś)(?=[^\p{L}]|$)/iu.test(t), x[0] + ': a gendered form (-łeś, -łaś)');
+    // „Sam do lasu nie wejdziesz” speaks to a man (final review of plan B1); „ten sam”, „na sam wierzchołek” stay inside a sentence
+    need(!/(^|[.!?:;]\s+)Sama?\s/u.test(t), x[0] + ': a gendered form (Sam, Sama at the start of a sentence): write „na własną rękę”, „bez przewodnika”');
     need(!/w grudniu|grudniow|grudzień to|wigili|bożego narodzenia|boże narodzenie/i.test(t), x[0] + ': tied to December: texts are written for any month');
     need(!/z powrotem w\s/i.test(t), x[0] + ': „z powrotem w…” assumes where the trip comes from; the place may open or close the trip');
   });
