@@ -31,6 +31,8 @@ var BOOK = {
   'dalat.bidoup': { ahead: 3, links: [{ name: 'Park Bidoup–Núi Bà, kontakt', url: 'https://bidoupnuiba.gov.vn/lien-he/' }, { name: 'Park Bidoup–Núi Bà, formularz', url: 'https://bidoupnuiba.gov.vn/dat-tour' }, { name: 'Park Bidoup–Núi Bà, cennik', url: 'https://bidoupnuiba.gov.vn/dich-vu/bang-gia-dich-vu/' }] },
   'dalat.langbiang': { ahead: 3, links: [{ name: 'Park Bidoup–Núi Bà, kontakt', url: 'https://bidoupnuiba.gov.vn/lien-he/' }] },
   'cucphuong.maybac': { ahead: 3, links: [{ name: 'Du lịch Cúc Phương, kontakt', url: 'https://dulichcucphuong.com.vn/contact-us/' }, { name: 'Du lịch Cúc Phương, combo z Mây Bạc', url: 'https://dulichcucphuong.com.vn/combo-mot-ngay/' }] },
+  'mucangchai.paragliding': { ahead: 5, links: [{ name: 'Mebayluon, rezerwacja', url: 'https://www.mebayluon.com/booking' }, { name: 'Mebayluon, loty w Mù Cang Chải', url: 'https://www.mebayluon.com/blog/du-luon-mu-cang-chai' }] },
+  'mucangchai.trek': { ahead: 3, links: [{ name: 'Local Vietnam, Mù Cang Chải z wędrówką', url: 'https://localvietnam.com/tour/mu-cang-chai-tour/' }] },
   'caobang.moto': { ahead: 3, links: [{ name: 'Cao Bang Green Riders, cennik', url: 'https://caobanggreenriders.com/rental' }, { name: 'Cao Bang Eco Travel, cennik', url: 'https://caobangecotravel.com/motorbike/' }] },
   'hagiang.moto': { ahead: 3, links: [{ name: 'ZingHome Ha Giang, cennik', url: 'https://zinghomehagiang.com/ha-giang-motorbike-rental/' }] },
   'haivan.car': { ahead: 3, links: [{ name: 'Hoi An Transport Service', url: 'https://hoiantransportservice.com/hoi-an-hue-private-car/' }, { name: 'Hoi An Day Trip', url: 'https://hoiandaytrip.com/da-nang-to-hue-private-transfer/' }] },
@@ -47,6 +49,7 @@ var BOOK = {
   'hoian.myson': { ahead: 1, links: [{ name: 'Hoi An Transport Service, Mỹ Sơn', url: 'https://hoiantransportservice.com/hoi-an-my-son-sanctuary-by-private-car/' }, { name: 'Vietnam Vacation Travel, Mỹ Sơn', url: 'https://vietnamvacation.com.vn/hoi-an-to-my-son-sanctuary/' }, { name: 'Mỹ Sơn, bilety online', url: 'https://mysonticketonline.vn/ticket' }] },
   'sapa.trek': { ahead: 2, links: [{ name: 'Sapa Sisters', url: 'https://sapasisters.com/sapa-tour-booking/' }] },
   'sapa.car': { ahead: 1, links: [] },
+  'mucangchai.car': { ahead: 1, links: [] },
   'sapa.cablecar': { ahead: 0, links: [{ name: 'Sun World Fansipan Legend', url: 'https://sunworld.vn/vi/fansipan' }] },
   'babe.boat': { ahead: 0, links: [] },
   'danang.sontra': { ahead: 0, links: [{ name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }, { name: 'Hoi An Transport Service, przejazdy z Đà Nẵng', url: 'https://hoiantransportservice.com/private-car-with-driver-from-da-nang/' }] },
@@ -57,6 +60,6 @@ var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-1
     { name: 'MSZ: Wietnam w serwisie Odyseusz', url: 'https://odyseusz.gov.pl/VN' },
     { name: 'GIS: szczepienia dla podróżujących', url: 'https://www.gov.pl/web/gis/zalecane-szczepienia-dla-podrozujacych' }] };
 // the places where a stay sleeps with hosts (the plans of their first day say so): their rooms go on the list of what to book
-var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang'];
+var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang', 'mucangchai'];
 // the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)
-var HOMESTAY_NOTES = ['puluong', 'hagiang'];
+var HOMESTAY_NOTES = ['puluong', 'hagiang', 'mucangchai'];

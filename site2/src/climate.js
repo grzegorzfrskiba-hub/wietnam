@@ -3,8 +3,9 @@
    the reasons of a fair or poor month (S or Z in seasons.js), as codes of WEATHER_WHY; a good month has none.
    tests/data.test.js checks the numbers and the letters against the research tables and the reasons against its thresholds. */
 // upal: heat; deszcz: rainy season; szaro: grey, little sun; chlod: cold nights under cloud; morze: cold sea; fale: rough sea;
-// ulewy: downpours most days; tajfuny: typhoon season (sailing bans); powodzie: flood season
-var WEATHER_WHY = ['upal', 'deszcz', 'szaro', 'chlod', 'morze', 'fale', 'ulewy', 'tajfuny', 'powodzie'];
+// ulewy: downpours most days; tajfuny: typhoon season (sailing bans); powodzie: flood season; tarasy: the rice terraces after
+// the harvest, without rice (not the weather: Mù Cang Chải's exception in XI–III, decision of 14.10.2026, research/mucangchai-2026-10.md)
+var WEATHER_WHY = ['upal', 'deszcz', 'szaro', 'chlod', 'morze', 'fale', 'ulewy', 'tajfuny', 'powodzie', 'tarasy'];
 var CLIMATE = {
   saigon: {
     t: [[23.4, 32], [23.1, 32.7], [24.9, 33.6], [26.4, 34.5], [26.4, 34.9], [25.5, 33.5], [25.2, 33], [25.1, 32.9], [25, 32.6], [25, 32.3], [24.9, 32.4], [23.9, 31.6]],
@@ -100,6 +101,11 @@ var CLIMATE = {
     t: [[17.5, 27.1], [18.2, 29.6], [19.6, 32], [21.4, 33.3], [22, 31.8], [21.7, 29.9], [21.3, 29.2], [21.4, 29], [21.1, 28.9], [20.5, 28.4], [19.6, 27.2], [18.3, 26.2]],
     rain: [[5.2, 1.6], [3.8, 0.8], [24.1, 3.4], [84.3, 7.8], [233.6, 18.5], [245.1, 21.2], [253.7, 23.4], [309.8, 24.2], [311.4, 23.2], [198.8, 15.7], [100.3, 10.6], [26.4, 5.8]],
     why: { 5: ['deszcz'], 6: ['deszcz'], 7: ['deszcz'], 8: ['deszcz'], 9: ['deszcz'], 10: ['deszcz'] }
+  },
+  mucangchai: {
+    t: [[9.2, 19], [10.5, 21.3], [13.4, 24.8], [16.7, 27.3], [19.1, 28], [20.5, 27.4], [20.4, 27.2], [19.8, 27.4], [18.4, 26.8], [16.1, 25.1], [12.6, 22.1], [9.2, 19.4]],
+    rain: [[28.5, 4.9], [32.1, 5.3], [63.4, 7.6], [129.5, 13.7], [215.1, 18.9], [344, 24.2], [383.7, 26.1], [313.5, 23], [132.3, 15.1], [64, 10.4], [35.4, 5.6], [24.2, 4]],
+    why: { 1: ['tarasy'], 2: ['tarasy'], 3: ['tarasy'], 5: ['deszcz'], 6: ['ulewy'], 7: ['ulewy'], 8: ['ulewy'], 11: ['tarasy'], 12: ['tarasy'] }
   }
 };
 CLIMATE.hanoiStop = CLIMATE.hanoi;   // a night in Hà Nội on the way

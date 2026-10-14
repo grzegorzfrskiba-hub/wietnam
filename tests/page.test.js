@@ -668,6 +668,16 @@ eq([iYD > -1, tYD.r.stops[iYD].leg.segs.some(function (g) { return g.to === 'BMV
 eq([flightNotes({ segs: [{ mode: 'road', from: 'hoian', to: 'DAD', h: 0.75 }, { mode: 'fly', from: 'DAD', to: 'BMV', h: 1.1 }, { mode: 'road', from: 'BMV', to: 'yokdon', h: 1.25 }] }, FLIGHT_DAYS),
   flightNotes({ segs: [{ mode: 'fly', from: 'SGN', to: 'BMV', h: 1 }] }, FLIGHT_DAYS)],
   [[{ key: 'n.flight_days', a: 'DAD', b: 'BMV', days: 'f.days_tts' }], []], 'the flight Đà Nẵng – Buôn Ma Thuột runs three days a week, the flight from Hồ Chí Minh City every day');
+// Mù Cang Chải: on the axis past Sa Pa (the way down from Sa Pa to Hà Nội); its fair months XI–III are the terraces after
+// the harvest (wx.tarasy), not the weather; at level 1 the viewpoints by car; a third night adds Khau Phạ; no hard day
+function mcc(n, level) { return stopDays(CONTENT.mucangchai, { n: n, start: 1 }, 0, level, [9, 9, 9]).map(function (d) { return (d.variant || '-') + ' ' + d.t; }); }
+eq([PLACES.mucangchai.axis > PLACES.sapa.axis, CLIMATE.mucangchai.why[1], CLIMATE.mucangchai.why[4], mcc(2, 2).length, mcc(3, 3)[2], mcc(2, 1)[1].split(' ')[0],
+  CONTENT.mucangchai.days.some(function (d) { return d.hard; }), HOMESTAYS.indexOf('mucangchai') > -1],
+  [true, ['tarasy'], undefined, 2, '- Nad doliną Lìm Mông', 'easy', false, true],
+  'Mù Cang Chải: past Sa Pa on the axis, its fair winter months for the terraces after the harvest, the viewpoints by car at level 1, Khau Phạ at three nights');
+var tMC = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['gory'], level: 2, add: ['mucangchai'] }), oMC = tMC.r.stops.map(function (x) { return x.id; });
+eq([oMC.indexOf('mucangchai') > -1, oMC.indexOf('sapa') < 0 || oMC.indexOf('sapa') === oMC.indexOf('mucangchai') - 1, keysOf(bookList(tMC.r, plansAll(tMC), [], BOOKD)).indexOf('homestay') > -1],
+  [true, true, true], 'mountains in October with Mù Cang Chải: after Sa Pa when both are on the trip, the hosts on the list of what to book');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });

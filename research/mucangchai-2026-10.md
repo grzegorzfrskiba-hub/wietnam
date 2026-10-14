@@ -89,7 +89,7 @@ Oba miejsca to tarasy ryżowe i wioski Hmông, więc fakty do decyzji, czy wpusz
   - lot tandemem paralotnią nad doliną Lìm Mông (MBL).
   - Nocleg u gospodarzy albo w miasteczku.
 - **Stacja:** własna, Mù Cang Chải, 975 m, tabela Vietnam Institute for Building Science and Technology na Wikipedii (K-MCC), bez podanego okresu uśredniania. Tarasy La Pán Tẩn i przełęcz Khau Phạ (start paralotni 1268 m: MBL) leżą wyżej i są chłodniejsze. Drugiego źródła do kontroli nie znalazłem (Wikipedia po wietnamsku nie ma tabeli: WIKI-VI).
-  - Słońce, h (I–XII): 157,2; 160,5; 188,8; 193,5; 173,1; 105,8; 114,6; 135,5; 146,0; 145,4; 155,8; 163,4.
+  - Słońce, h (I–XII): 157, 161, 189, 194, 173, 106, 115, 136, 146, 145, 156, 163 (zaokrąglone do pełnych godzin; z tabeli: 157,2; 160,5; 188,8; 193,5; 173,1; 105,8; 114,6; 135,5; 146,0; 145,4; 155,8; 163,4).
   - Rekordy minimum: −2,8 °C w styczniu, −3,6 °C w grudniu, −0,2 °C w lutym (K-MCC). W falach chłodu na Khau Phạ, w Púng Luông i w La Pán Tẩn bywa szron, a w miasteczku poniżej 10 °C (HTV†).
 - **Poza klimatem:**
   - **Kalendarz ryżu:** Hmông sadzą jeden ryż w roku (MIA-1VU†). Wodę wpuszczają na tarasy w V–VI do orki i sadzenia (BLC-NUOC†), a bywa, że dopiero na początku VII (BLC-MUON†). W Tú Lệ pora wody zaczyna się wcześniej: festiwal paralotni „Bay trên mùa nước đổ” trwał 29.04–5.05.2026 w Lìm Thái (BLC-2026-04-21). Złoty ryż: Tú Lệ i Lìm Mông koło końca VIII, La Pán Tẩn i Chế Cu Nha na początku X (VNP-2026-08-13); 4.10.2025 dojrzewał przy Mâm Xôi, Móng Ngựa, Kim Nọi i Lao Chải, część pól w Háng Đăng Dê była już ścięta, a w niektórych miejscach złoty ryż miał zostać do ostatniego tygodnia X (VNE-2025-10-05). Zimą: tớ dày w XII–I (VNP-2026-08-13), morze chmur w XI–XII, a w I–III mniej dni lotnych z powodu niskich chmur (MBL).
@@ -350,18 +350,18 @@ Licencje, autorzy, rozmiary i geotagi wziąłem 14.10.2026 z API Wikimedia Commo
 | `mucangchai.views` | p 1, p 2 i jego easy | 2 | 5 | | | wstęp Mâm Xôi i Móng Ngựa po 30 000 VND (2024) i mototaksówka 60 000–100 000 VND/os.; w kwocie dziennej |
 | `mucangchai.car` | p 2 easy, p 3 | | | 36 | 53 | szacunek: stawka dzienna auta z kierowcą (W-LV w CEN), jak `sapa.car` |
 | `mucangchai.trek` | p 2 | 17 | 31 | 5 | 18 | szacunek: jak `sapa.trek` (SAPA); cennika samego przewodnika w Mù Cang Chải nie znalazłem |
-| `mucangchai.paragliding` | p 3 | 75 | 75 | | | 2 190 000 VND/os. z ubezpieczeniem, odwozem i zdjęciami (MBL, BLC-2026-03-16); opcja |
+| `mucangchai.paragliding` | p 3 | 0 | 75 | | | od: bez lotu, bo lot to opcja dnia (decyzja z sesji partii B, 14.10.2026); do: 2 190 000 VND/os. z ubezpieczeniem, odwozem i zdjęciami (MBL, BLC-2026-03-16) |
 | `mucangchai.lungcung` | p 2 hard (dzień 1 z noclegiem w chacie, `night: true`) | 127 | 139 | | | MAM: 3 700 000 VND/os., z dopłatą dla cudzoziemców 4 050 000 VND; z dojazdem z Hà Nội, mototaksówki osobno; obejmuje oba dni |
 
 ### Zestawienie: rezerwacje
 
 | klucz | co | wyprzedzenie poza szczytem | wyprzedzenie w szczycie | dni | linki |
 |---|---|---|---|---|---|
-| mucangchai.paragliding | lot tandemem paralotnią z Khau Phạ | 3–5 dni | 1–2 tygodnie: koniec VIII – IX, 2.09, festiwale | 5 | Mebayluon, rezerwacja: https://www.mebayluon.com/booking ; Mebayluon, loty w Mù Cang Chải: https://www.mebayluon.com/blog/du-luon-mu-cang-chai |
+| mucangchai.paragliding | lot tandemem paralotnią z Khau Phạ | 3–5 dni | 1–2 tygodnie: koniec VIII – IX, 2.09, festiwale | 5 | Mebayluon, rezerwacja: https://www.mebayluon.com/booking; Mebayluon, loty w Mù Cang Chải: https://www.mebayluon.com/blog/du-luon-mu-cang-chai |
 | mucangchai.trek | przewodnik na wędrówkę Chế Cu Nha – La Pán Tẩn | 2–3 dni (szacunek) | ok. tydzień: złoty sezon, 2.09 (szacunek) | 3 | Local Vietnam, Mù Cang Chải z wędrówką: https://localvietnam.com/tour/mu-cang-chai-tour/ |
-| mucangchai.lungcung | Lùng Cúng w 2 dni z biurem, nocleg w chacie | 1–2 tygodnie (szacunek) | 2–3 tygodnie: złoty sezon, XII (szacunek) | 14 | MAM Travel, Lùng Cúng: https://mamtravel.vn/en/tour/trekking-lung-cung/ |
 | mucangchai.car | auto z kierowcą na dzień | dzień wcześniej (szacunek) | 2–3 dni: złoty sezon (szacunek) | 1 | — (przez gospodarzy) |
 
+- Lùng Cúng bez trudnego dnia (decyzja z sesji partii B, 14.10.2026: żadne biuro nie podaje numeru licencji), więc bez wiersza w tabeli; gdyby wrócił: `mucangchai.lungcung`, 1–2 tygodnie (szacunek), w szczycie 2–3 tygodnie (złoty sezon, XII), 14 dni, MAM Travel, Lùng Cúng: https://mamtravel.vn/en/tour/trekking-lung-cung/.
 - Nocleg u gospodarzy idzie przez linię `homestay` w REZ (miejsce w `HOMESTAYS`): w szczycie 3–4 tygodnie, zob. „Rezerwacje”. Gdyby nie było linii `homestay`, osobny wiersz `mucangchai.stay`.
 
 ### Zestawienie: drogi

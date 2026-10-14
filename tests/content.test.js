@@ -198,7 +198,7 @@ contentCheck('typography', function (need) {
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
 var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
-  'porcie', 'świecie', 'remoncie', 'namiocie'];
+  'porcie', 'świecie', 'remoncie', 'namiocie', 'punkcie'];
 function styleOk(need, list) {
   list.forEach(function (x) {
     var t = x[1];

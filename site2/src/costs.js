@@ -12,7 +12,7 @@ var COSTS = {
   // a double room for a night: two people share it, one person alone pays all of it
   night: { saigon: [28, 69], mekong: [20, 42], phuquoc: [28, 80], cattien: [14, 40], dalat: [17, 53], hoian: [17, 52], hue: [14, 52],
     puluong: [14, 62], ninhbinh: [15, 62], catba: [14, 52], hanoi: [21, 69], babe: [12, 64], caobang: [14, 48],
-    phongnha: [21, 55], cucphuong: [14, 34], danang: [22, 58], hagiang: [14, 52], sapa: [24, 60], yokdon: [10, 14] },
+    phongnha: [21, 55], cucphuong: [14, 34], danang: [22, 58], hagiang: [14, 52], sapa: [24, 60], yokdon: [10, 14], mucangchai: [14, 51] },
   day: [13, 28],         // a person a day, two travelling together: food, Grab, water and coffee, tickets up to about 5 EUR
   daySolo: [2, 5],       // more a day for one person alone, who pays each Grab ride in full
   shared: [2.5, 3.5],    // a seat in a limousine van or a bus, a person an hour on the road
@@ -96,6 +96,9 @@ var COSTS = {
     'yokdon.elephants': { pp: [22, 45], group: [7, 7] },
     'yokdon.trek': { pp: [0, 0], group: [15, 21] },
     'yokdon.cooking': { pp: [10, 10], group: [3, 3] },
-    'yokdon.camp': { pp: [0, 0], group: [48, 48] }
+    'yokdon.camp': { pp: [0, 0], group: [48, 48] },
+    'mucangchai.trek': { pp: [17, 31], group: [5, 18] },
+    'mucangchai.car': { pp: [0, 0], group: [36, 53] },
+    'mucangchai.paragliding': { pp: [0, 75], group: [0, 0] }
   }
 };

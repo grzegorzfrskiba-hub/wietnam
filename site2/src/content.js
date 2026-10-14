@@ -78,6 +78,8 @@ var AIR_KEYS = {
   'HAN-caobang': { text: 'r.air_car', book: true }, 'HAN-babe': { text: 'r.air_car', book: true }, 'HAN-puluong': { text: 'r.air_car', book: true },
   // Hà Giang: a car or a limousine van from Nội Bài, as to Ninh Bình
   'HAN-hagiang': { text: 'r.air_ninhbinh', book: true }, 'HAN-sapa': { text: 'r.air_ninhbinh', book: true },
+  // Mù Cang Chải: a car from Nội Bài; the sleeper buses leave from Mỹ Đình in the city
+  'HAN-mucangchai': { text: 'r.air_car', book: true },
   'THD-ninhbinh': { text: 'r.air_thd', book: false }, 'THD-puluong': { text: 'r.air_puluong', book: true },
   // Phong Nha: a car from the airports of Đà Nẵng and Huế, on the expressway
   'DAD-phongnha': { text: 'r.air_phongnha_dad', book: true }, 'HUI-phongnha': { text: 'r.air_phongnha_hui', book: true },

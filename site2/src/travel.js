@@ -22,6 +22,8 @@ var ROADS = [
   ['hanoi', 'hagiang', 6.5], ['HAN', 'hagiang', 5.75], ['hagiang', 'caobang', 8], ['hagiang', 'babe', 7],
   // Sa Pa, on the expressway from Hà Nội; to Cao Bằng it is over 10 h (through Hà Giang)
   ['hanoi', 'sapa', 5.5], ['HAN', 'sapa', 5], ['hagiang', 'sapa', 6], ['ninhbinh', 'sapa', 6.5],
+  // Mù Cang Chải, on road 32 from Hà Nội over the Khau Phạ pass, and to Sa Pa by Than Uyên
+  ['hanoi', 'mucangchai', 6], ['HAN', 'mucangchai', 5.75], ['sapa', 'mucangchai', 4.5], ['hagiang', 'mucangchai', 7],
   // Cúc Phương, between Pù Luông and Ninh Bình
   ['ninhbinh', 'cucphuong', 1.25], ['hanoi', 'cucphuong', 2.75], ['HAN', 'cucphuong', 3], ['puluong', 'cucphuong', 2.75], ['THD', 'cucphuong', 2],
   ['catba', 'cucphuong', 5.5], ['babe', 'cucphuong', 7.75],
