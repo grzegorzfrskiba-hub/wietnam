@@ -653,6 +653,21 @@ eq([dl(3, 3, [0, 0, 0]), dl(4, 3, [11, 11, 11, 11]), dl(3, 3, [5, 5, 5]), dl(2, 
 var tTN = tripAll({ from: 'SGN', to: 'SGN', year: 2027, month: 1, days: 10, interests: ['gory'], level: 3, add: ['dalat'] });
 eq([stayOf(tTN, 'dalat').days.slice(1, 3), keysOf(bookList(tTN.r, plansAll(tTN), [], BOOKD)).indexOf('dalat.tanang') > -1], [['hard', 'hard'], true],
   'mountains in January at level 3 with Đà Lạt: the Tà Năng–Phan Dũng trail, on the list of what to book');
+// Yok Đôn: on foot after the elephants on day 2, at level 1 half a day with them and a cooking lesson; at level 3 a night in
+// the forest with the park's guide, not in May–October and not on the last day before the way home; one night: the solo plan
+function yd(n, level, months, next) { return stopDays(CONTENT.yokdon, { n: n, start: 1 }, 0, level, months, next).map(function (d) { return d.variant || '-'; }); }
+eq([yd(2, 2, [0, 0]), yd(2, 1, [0, 0]), yd(2, 3, [0, 0]), yd(2, 3, [6, 6]), yd(2, 3, [0, 0], { home: true, h: 3 }), stopDays(CONTENT.yokdon, { n: 1, start: 1 }, 0, 2, [0])[0].t],
+  [['-', '-'], ['-', 'easy'], ['-', 'hard'], ['-', '-'], ['-', '-'], CONTENT.yokdon.days[0].solo.t],
+  'Yok Đôn: the elephants on day 2, at level 1 with a cooking lesson; the night in the forest at level 3 in January, not in July nor before the way home; one night solo');
+var tYD = tripAll({ from: 'SGN', to: 'SGN', year: 2027, month: 1, days: 10, interests: ['przyroda'], level: 2, add: ['yokdon'] }), iYD = tYD.r.stops.map(function (x) { return x.id; }).indexOf('yokdon');
+eq([iYD > -1, tYD.r.stops[iYD].leg.segs.some(function (g) { return g.to === 'BMV' || g.from === 'BMV'; }) || tYD.r.stops[iYD + 1 < tYD.r.stops.length ? iYD + 1 : iYD].leg.segs.some(function (g) { return g.from === 'BMV'; }),
+  keysOf(bookList(tYD.r, plansAll(tYD), [], BOOKD)).filter(function (k) { return /^yokdon/.test(k); }).sort()],
+  [true, true, ['yokdon.elephants', 'yokdon.stay']],
+  'nature in January with Yok Đôn: by Buôn Ma Thuột airport, the elephants and the park\'s guest house on the list of what to book');
+// a flight that runs only on some days of the week: the journey's card says on which (FLIGHT_DAYS)
+eq([flightNotes({ segs: [{ mode: 'road', from: 'hoian', to: 'DAD', h: 0.75 }, { mode: 'fly', from: 'DAD', to: 'BMV', h: 1.1 }, { mode: 'road', from: 'BMV', to: 'yokdon', h: 1.25 }] }, FLIGHT_DAYS),
+  flightNotes({ segs: [{ mode: 'fly', from: 'SGN', to: 'BMV', h: 1 }] }, FLIGHT_DAYS)],
+  [[{ key: 'n.flight_days', a: 'DAD', b: 'BMV', days: 'f.days_tts' }], []], 'the flight Đà Nẵng – Buôn Ma Thuột runs three days a week, the flight from Hồ Chí Minh City every day');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });

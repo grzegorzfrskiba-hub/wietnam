@@ -25,6 +25,8 @@ var ROADS = [
   // Cúc Phương, between Pù Luông and Ninh Bình
   ['ninhbinh', 'cucphuong', 1.25], ['hanoi', 'cucphuong', 2.75], ['HAN', 'cucphuong', 3], ['puluong', 'cucphuong', 2.75], ['THD', 'cucphuong', 2],
   ['catba', 'cucphuong', 5.5], ['babe', 'cucphuong', 7.75],
+  // Yok Đôn with Buôn Ma Thuột airport (BMV); by road only from Đà Lạt and Cát Tiên, from the rest of the country by plane
+  ['BMV', 'yokdon', 1.25], ['dalat', 'yokdon', 6], ['cattien', 'yokdon', 6],
   // the extra airports: Cát Bi (HPH) near Cát Bà, Thọ Xuân (THD) near Pù Luông and Ninh Bình
   ['HPH', 'catba', 1.75], ['THD', 'puluong', 2.5], ['THD', 'ninhbinh', 2]
 ];
@@ -34,6 +36,8 @@ var FLIGHTS = [
   ['DAD', 'DLI', 1.1], ['DAD', 'VCA', 1.5], ['DAD', 'PQC', 1.8],
   // Đồng Hới (Phong Nha)
   ['HAN', 'VDH', 1.1], ['SGN', 'VDH', 1.6],
+  // Buôn Ma Thuột (Yok Đôn); from Đà Nẵng three days a week (FLIGHT_DAYS in content.js)
+  ['SGN', 'BMV', 1], ['HAN', 'BMV', 1.8], ['DAD', 'BMV', 1.1],
   // Cát Bi and Thọ Xuân
   ['HPH', 'SGN', 2], ['HPH', 'DAD', 1.3], ['THD', 'SGN', 2]
 ];

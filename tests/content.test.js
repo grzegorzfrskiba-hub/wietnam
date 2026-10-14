@@ -198,7 +198,7 @@ contentCheck('typography', function (need) {
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
 var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
-  'porcie', 'świecie', 'remoncie'];
+  'porcie', 'świecie', 'remoncie', 'namiocie'];
 function styleOk(need, list) {
   list.forEach(function (x) {
     var t = x[1];
@@ -281,6 +281,7 @@ contentCheck('ui', function (need) {
   Object.keys(ROAD_KEYS).forEach(function (k) { wants(ROAD_KEYS[k], 'ROAD_KEYS'); });
   Object.keys(SWAPS).forEach(function (k) { Object.keys(SWAPS[k].roads || {}).forEach(function (pair) { wants(SWAPS[k].roads[pair].text, 'SWAPS'); }); });
   Object.keys(AIR_KEYS).forEach(function (k) { wants(AIR_KEYS[k].text, 'AIR_KEYS'); });
+  Object.keys(FLIGHT_DAYS).forEach(function (k) { wants(FLIGHT_DAYS[k], 'FLIGHT_DAYS'); });
   (app.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'app.js (map labels)'); });
   (panels.match(/'m\.[a-z]+'/g) || []).forEach(function (m) { wants(m.slice(1, -1), 'panels.js (names on the basemap)'); });
   // keys built from data as T(prefix + value): app.js builds each prefix, and every value has its key

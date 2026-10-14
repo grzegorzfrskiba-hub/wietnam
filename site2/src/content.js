@@ -56,8 +56,13 @@ var AIRPORTS = {
   VCA: { name: 'Cần Thơ', maps: 'Can Tho International Airport', pt: [10.08, 105.71] },
   HPH: { name: 'Hải Phòng (Cát Bi)', short: 'Hải Phòng', maps: 'Cat Bi International Airport', pt: [20.82, 106.72] },
   THD: { name: 'Thanh Hóa (Thọ Xuân)', short: 'Thanh Hóa', maps: 'Tho Xuan Airport', pt: [19.90, 105.47] },
-  VDH: { name: 'Đồng Hới', maps: 'Dong Hoi Airport', pt: [17.52, 106.59] }
+  VDH: { name: 'Đồng Hới', maps: 'Dong Hoi Airport', pt: [17.52, 106.59] },
+  BMV: { name: 'Buôn Ma Thuột', maps: 'Buon Ma Thuot Airport', pt: [12.67, 108.12] }
 };
+
+/* Flights that do not run every day (the research of the place, „Zestawienie: loty”): by the two airports in alphabetical
+   order, the UI key of the days they run; the journey's card says so (flightNotes in page.js). */
+var FLIGHT_DAYS = { 'BMV-DAD': 'f.days_tts' };
 
 /* Roads with a text of their own (UI keys), by their two places in alphabetical order; see segKey in page.js. */
 var ROAD_KEYS = { 'cattien-dalat': 'r.car_baoloc', 'hoian-hue': 'r.haivan', 'danang-hue': 'r.haivan' };
@@ -77,7 +82,9 @@ var AIR_KEYS = {
   // Phong Nha: a car from the airports of Đà Nẵng and Huế, on the expressway
   'DAD-phongnha': { text: 'r.air_phongnha_dad', book: true }, 'HUI-phongnha': { text: 'r.air_phongnha_hui', book: true },
   // Cúc Phương: a car from Nội Bài; from Thọ Xuân a taxi, but the way back is booked through the park
-  'HAN-cucphuong': { text: 'r.air_car', book: true }, 'THD-cucphuong': { text: 'r.air_thd', book: true }
+  'HAN-cucphuong': { text: 'r.air_car', book: true }, 'THD-cucphuong': { text: 'r.air_thd', book: true },
+  // Yok Đôn: a taxi from Buôn Ma Thuột airport, but no taxi waits at the park, so the way back is booked through the park
+  'BMV-yokdon': { text: 'r.air_thd', book: true }
 };
 /* The places behind a ferry that runs by day (research/lotniska-2026-10.md): last, about when the last crossing toward the
    place goes in the evening; land, by airport, the latest landing that still makes it by car; first, the first crossing

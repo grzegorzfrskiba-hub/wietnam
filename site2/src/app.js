@@ -400,7 +400,8 @@
     var from = AIRPORTS[L.from] ? T('leg.airport', { x: AIRPORTS[L.from].name }) : C(L.from).short;
     var to = toId ? C(toId).short : T('leg.airport', { x: AIRPORTS[L.to].name });
     var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; }))).map(function (k) { return T(k); })
-      .concat(ferryNotes({ segs: cardSegs(L.segs, AIRPORTS) }, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }));
+      .concat(ferryNotes({ segs: cardSegs(L.segs, AIRPORTS) }, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }))
+      .concat(flightNotes(L, FLIGHT_DAYS).map(function (n) { return T(n.key, { a: AIRPORTS[n.a].name, b: AIRPORTS[n.b].name, days: T(n.days) }); }));
     var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to), sw = swapOfLeg(L);
     return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
       '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +

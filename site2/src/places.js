@@ -25,7 +25,8 @@ var PLACES = {
   babe:      { axis: 22.41, nights: [1, 2, 3], level: 1, fit: { kultura: 1, jedzenie: 0, przyroda: 2, gory: 1, morze: 0 } },
   caobang:   { axis: 22.67, nights: [2, 2, 3], level: 1, fit: { kultura: 1, jedzenie: 0, przyroda: 2, gory: 2, morze: 0 } },
   hagiang:   { axis: 22.83, nights: [4, 4, 5], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } },
-  sapa:      { axis: 22.9, nights: [2, 3, 4], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } }
+  sapa:      { axis: 22.9, nights: [2, 3, 4], level: 1, fit: { kultura: 2, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } },
+  yokdon:    { axis: 12.87, nights: [1, 2, 2], level: 1, fit: { kultura: 1, jedzenie: 1, przyroda: 3, gory: 0, morze: 0 } }
 };
 /* The city each international airport opens and closes trips with. */
 var HUBS = { SGN: 'saigon', HAN: 'hanoi', DAD: 'hoian' };

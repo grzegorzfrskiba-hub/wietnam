@@ -745,6 +745,14 @@ function ferryNotes(leg, ferry, airports) {
   return out;
 }
 
+/* The flights of a journey that run only on some days of the week (FLIGHT_DAYS in content.js), as notes for its card:
+   [{ key: 'n.flight_days', a, b, days }], a and b the airports in the order flown, days the UI key of the days.
+   leg: a leg of planRoute (its segs); flightDays: FLIGHT_DAYS. */
+function flightNotes(leg, flightDays) {
+  return leg.segs.filter(function (g) { return g.mode === 'fly' && flightDays[[g.from, g.to].sort().join('-')]; })
+    .map(function (g) { return { key: 'n.flight_days', a: g.from, b: g.to, days: flightDays[[g.from, g.to].sort().join('-')] }; });
+}
+
 var LONG_LEG_H = 7;   // a travel day this long or longer gets the "long day" flag and a note
 
 /* The notes under a journey, as UI keys: an afternoon flight after two hours or more of road to the airport; a long day;
