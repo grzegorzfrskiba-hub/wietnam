@@ -18,7 +18,8 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
 # The offline file keeps one embedded size per photo.
 SMALLER = {"photo": (480, 960), "hero": (960, 1400)}
 
-SITE_URL = "https://grzegorzfrskiba-hub.github.io/wietnam/"
+# the public address, written once: var SITE_URL in page.js (the copied plan links to it)
+SITE_URL = re.search(r"^var SITE_URL = '([^']+)';", open(os.path.join(SRC, "page.js"), encoding="utf-8").read(), re.M).group(1)
 # Link preview (WhatsApp and others), only on the public page, whose address it names.
 PREVIEW = {
     "title": "Wietnam po swojemu",

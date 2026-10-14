@@ -709,7 +709,7 @@
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
       (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
-      '<p class="b-note">' + esc(T('bud.note')) + '</p>';
+      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4), rate: fmtSpan(EUR_PLN_DATE, EUR_PLN_DATE) })) + '</p>';
     var books = bookList(r, state.plans, moto, BOOK_DATA);
     $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
       (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +

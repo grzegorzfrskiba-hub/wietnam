@@ -125,6 +125,14 @@ dataCheck('holidays', function (need) {
   // a trip that starts on the last day the page offers still ends inside the list
   need(isoDay(HOLIDAYS_UNTIL) - isoDay(PLAN_LAST_YEAR + '-12-31') >= MAX_DAYS - 1, 'HOLIDAYS_UNTIL covers a trip of ' + MAX_DAYS + ' days from 31.12.' + PLAN_LAST_YEAR);
   need(TET_MARGIN_DAYS === 7, 'the week before and after Tết counts');
+  // the facts: the rows are those of the table in research/swieta-2026-10.md, in its order, and a row the government
+  // announced („ogłoszone” in the table) is marked // announced in holidays.js, an estimate not
+  var table = researchRows('research/swieta-2026-10.md', '## Tabela wierszy'), src = readFile('site2/src/holidays.js').split('\n');
+  need(JSON.stringify(HOLIDAYS) === JSON.stringify(table.map(function (r) { return r.slice(0, 4); })), 'HOLIDAYS: the rows of the table in research/swieta-2026-10.md');
+  table.forEach(function (r) {
+    var line = src.filter(function (l) { return l.indexOf("['" + r[0] + "', '" + r[1] + "'") > -1; })[0] || '';
+    need(/\/\/ announced/.test(line) === /^ogłoszone/.test(r[5]), r[0] + ': marked announced in holidays.js exactly when the research says „ogłoszone”');
+  });
 });
 
 dataCheck('photos', function (need) {
@@ -232,7 +240,11 @@ dataCheck('costs', function (need) {
     need(it.night === undefined || it.night === true, k + ': night is true or left out');
     need(it.book === undefined || BOOK[it.book], k + ': book ' + it.book + ' is no key of BOOK');
   });
-  need(EUR_PLN === 4.3775 && /^\d{4}-\d{2}-\d{2}$/.test(COSTS_CHECKED), 'the NBP rate of 9.10.2026 and the day the prices were checked');
+  // the rate and its day: the row NBP-A of research/ceny-2026-10.md („Tabela A nr …: EUR 4,3775 zł, …”, the day of the table)
+  var nbp = /^\| NBP-A \| Tabela A nr [^:|]*: EUR (\d+),(\d+) zł[^|]*\|[^|]*\|[^|]*\| (\d+)\.(\d+)\.(\d{4}) \|$/m.exec(readFile('research/ceny-2026-10.md'));
+  need(nbp && EUR_PLN === +(nbp[1] + '.' + nbp[2]) && typeof EUR_PLN_DATE === 'string' && EUR_PLN_DATE === nbp[5] + '-' + ('0' + nbp[4]).slice(-2) + '-' + ('0' + nbp[3]).slice(-2),
+    'EUR_PLN and EUR_PLN_DATE as in the row NBP-A of research/ceny-2026-10.md');
+  need(isoDay(COSTS_CHECKED) !== null && typeof EUR_PLN_DATE === 'string' && COSTS_CHECKED >= EUR_PLN_DATE, 'COSTS_CHECKED: a real day, not before the rate');
 });
 dataCheck('booking', function (need) {
   var rows = {};

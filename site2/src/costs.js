@@ -2,9 +2,11 @@
    comfortable end. Sources and dates: the tables „Zestawienie” and „Zestawienie wycieczek” in research/ceny-2026-10.md
    and „Zestawienie” in research/motocykl-2026-10.md, for a place of stage 3 the tables „Zestawienie: ceny” and
    „Zestawienie: wycieczki” of its own note (research/<id>-2026-10.md); tests/data.test.js checks every number against them.
-   EUR_PLN: the NBP rate the page converts with (table A, 9.10.2026). */
-var EUR_PLN = 4.3775;
-var COSTS_CHECKED = '2026-10-12';   // the day the prices were checked last (11–12.10.2026)
+   EUR_PLN, EUR_PLN_DATE: the NBP rate the page converts with and the day of its table (the row NBP-A of
+   research/ceny-2026-10.md, which tests/data.test.js reads); COSTS_CHECKED: the last day the prices were checked, whose
+   month the note under the budget names. */
+var EUR_PLN = 4.3775, EUR_PLN_DATE = '2026-10-09';
+var COSTS_CHECKED = '2026-10-13';   // the prices of the research notes were checked 11–13.10.2026
 var SHORT_FLIGHT_H = 1.5;           // a flight with at most this many hours in the air is a short one
 var COSTS = {
   // a double room for a night: two people share it, one person alone pays all of it

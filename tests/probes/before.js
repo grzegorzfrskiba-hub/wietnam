@@ -16,6 +16,8 @@ setTimeout(function () {
   check('„Przed wyjazdem” has its four parts', parts.join(' | ') === 'Budżet | Zarezerwuj wcześniej | Wjazd i zdrowie | Co spakować', parts.join(' | '));
   check('the figure and the budget part say the same amount', textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), textOf('#b-budget .b-sum b'));
   check('the list of what to book has its items, each with a sentence', document.querySelectorAll('#b-book .b-book li').length > 0);
+  check('the note under the budget names the month of the prices and the day of the NBP rate (costs.js)',
+    textOf('#b-budget .b-note') === 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w październiku 2026 i przeliczone z euro po kursie NBP z 9.10.2026.', textOf('#b-budget .b-note'));
   // Cao Bằng ridden yourself
   // the budget before the swap, in euros: on a short loop the motorbike saves less than the 100 zł the amount is rounded to
   var before = ids(), money = JSON.stringify(t.state.budget.two), self = document.querySelector('.swap[data-swap="caobang"] input[value="self"]');

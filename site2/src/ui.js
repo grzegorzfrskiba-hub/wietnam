@@ -161,7 +161,7 @@ UI.pl = {
   'bud.h3': 'Budżet', 'bud.two': 'na osobę, przy dwóch osobach w pokoju i aucie.', 'bud.one': 'W pojedynkę: {x}.',
   'bud.nights': 'Noclegi', 'bud.day': 'Jedzenie i drobne wydatki', 'bud.travel': 'Przejazdy i loty krajowe', 'bud.trips': 'Wycieczki, przewodnicy i rejsy',
   'bud.top': 'Najwięcej kosztują: {x}.', 'bud.item': '{name} ({x})',
-  'bud.note': 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w październiku 2026 i przeliczone z euro po kursie NBP z 9.10.2026.',
+  'bud.note': 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w {month} {year} i przeliczone z euro po kursie NBP z {rate}.',
   'bud.tet': 'Ten termin obejmuje Tết: noclegi drożeją zwykle o 20–50%, autobusy o 40–60%, a loty krajowe kosztują 2–3 razy więcej, więc kwoty będą wyższe.',
   'bud.holiday': 'Ten termin obejmuje długi weekend ({x}): ceny bywają wyższe, a miejsc mniej.',
   'bud.holidays': 'Ten termin obejmuje długie weekendy: {x}. Ceny bywają wtedy wyższe, a miejsc mniej.',
