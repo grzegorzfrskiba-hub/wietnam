@@ -74,7 +74,7 @@ UI.pl = {
   'pdf.hint': 'Otworzy się okno drukowania. Na iPhonie stuknij Udostępnij u góry, potem „Zachowaj w Plikach”; na Androidzie wybierz u góry „Zapisz jako PDF”, a na komputerze drukarkę „Zapisz jako PDF”. PDF otworzysz potem bez internetu.',
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
-  'days.p': 'Każde miejsce ze zdjęciami, planem na każdy dzień i opisem dojazdu. Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu.',
+  'days.p': 'Każde miejsce ze zdjęciami, planem na każdy dzień i opisem dojazdu.', 'days.p_map': 'Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu.',
   'pace.travel': 'Dzień w drodze', 'pace.hike': 'Aktywna wędrówka', 'pace.nature': 'Przyroda bez wysiłku', 'pace.boat': 'Dzień na wodzie',
   'pace.culture': 'Zwiedzanie bez wysiłku', 'pace.rest': 'Dzień odpoczynku',
   'badge.easy': 'Wersja spokojna', 'badge.hard': 'Trudny dzień', 'badge.self': 'Motocykl samodzielnie', 'early': 'Pobudka przed 6',

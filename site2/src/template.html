@@ -455,7 +455,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom, .shape-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
@@ -489,7 +489,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 }
 </style>
 
-<noscript><p class="noscript">Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu. Jeśli widzisz ten tekst w podglądzie pliku na iPhonie, otwórz w przeglądarce stronę __SITE_URL__ albo zapisz na niej swoją trasę jako PDF.</p></noscript>
+<noscript><p class="noscript">__NOSCRIPT__</p></noscript>
 <header class="hero" id="top">
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
   <span class="hero-where">Tràng An, Ninh Bình</span>
@@ -590,7 +590,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="block-head">
       <p class="eyebrow" data-i18n="days.eyebrow"></p>
       <h2 data-i18n="days.h2"></h2>
-      <p data-i18n="days.p"></p>
+      <p><span data-i18n="days.p"></span> <span class="days-map" data-i18n="days.p_map"></span></p>
     </div>
     <div class="map-print" id="map-print"></div>
     <div class="route">

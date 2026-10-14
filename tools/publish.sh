@@ -5,7 +5,11 @@
 #   bash tools/publish.sh          then git add docs && git commit, and git push with consent
 set -euo pipefail
 cd "$(dirname "$0")/.."
-bash tests/run.sh > /dev/null
+if ! out=$(bash tests/run.sh 2>&1); then
+  echo "$out" | tail -n 40 >&2
+  echo "publish.sh: the tests failed (the end of their output above), docs/ is unchanged" >&2
+  exit 1
+fi
 python3 site2/build.py
 rm -rf docs
 cp -R site2/out/pages docs

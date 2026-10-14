@@ -33,6 +33,14 @@ OG_SIZE = (1200, 630)
 # The public page stays out of search engines while the first friends try it (decision of 14.10.2026); to open it, set
 # NOINDEX = False, build and publish again.
 NOINDEX = True
+
+# The sentence for a viewer without JavaScript: on the public page a short one; in the offline file the longer one, as an
+# iPhone shows a sent HTML file in a preview that runs no scripts.
+NOSCRIPT = {
+    "page": "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.",
+    "offline": "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu. Jeśli widzisz ten tekst w podglądzie pliku na iPhonie, "
+               "otwórz w przeglądarce stronę %s albo zapisz na niej swoją trasę jako PDF." % SITE_URL,
+}
 # tab icon: karst peaks on the page's accent green
 ICON = ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='#0c6a5a'/>"
         "<path d='M8 50 15 30 21 38 30 13 39 33 45 24 56 50z' fill='#fff'/></svg>")
@@ -136,22 +144,22 @@ def main():
             left = (big.width - ow) // 2
             big.crop((left, top, left + ow, top + oh)).save(os.path.join(OUT_WEB, "img", "og.jpg"), "JPEG", quality=78, optimize=True, progressive=True)
 
-    def page(photos, fonts):
+    def page(photos, fonts, kind):
         script = js + "\nvar PHOTOS = " + json.dumps(photos, ensure_ascii=False) + ";\n" + app_js
         script = script.replace("</script", "<\\/script")
         top = photos[hero]
         # the hero is cropped to cover a box about 2x as wide as a phone screen (clamped height, 3:2 photo)
         top_set = ' srcset="%s" sizes="(max-width: 700px) 200vw, 100vw"' % top["srcset"] if "srcset" in top else ""
         return (template.replace("__HERO_SRC__", top["src"]).replace(" __HERO_SRCSET__", top_set).replace("__HERO_W__", str(top["w"]))
-                .replace("__HERO_H__", str(top["h"])).replace("/* __FONTS__ */", fonts).replace("__SITE_URL__", SITE_URL).replace("__SCRIPT__", script))
+                .replace("__HERO_H__", str(top["h"])).replace("/* __FONTS__ */", fonts).replace("__NOSCRIPT__", NOSCRIPT[kind]).replace("__SCRIPT__", script))
 
-    web_page = page(web, fonts_css(False))
+    web_page = page(web, fonts_css(False), "page")
     open(os.path.join(OUT_WEB, "index.html"), "w", encoding="utf-8").write(web_page)
     # GitHub Pages serves files as they are, so it gets the full document and its own copy of the images
     open(os.path.join(OUT_PAGES, "index.html"), "w", encoding="utf-8").write(full_document(web_page, preview=True))
     shutil.copytree(os.path.join(OUT_WEB, "img"), os.path.join(OUT_PAGES, "img"))
     shutil.copytree(os.path.join(OUT_WEB, "fonts"), os.path.join(OUT_PAGES, "fonts"))
-    open(os.path.join(OUT_OFF, OFFLINE_NAME), "w", encoding="utf-8").write(full_document(page(off, fonts_css(True))))
+    open(os.path.join(OUT_OFF, OFFLINE_NAME), "w", encoding="utf-8").write(full_document(page(off, fonts_css(True), "offline")))
 
     size = lambda p: os.path.getsize(p) / 1e6
     img_total = sum(size(os.path.join(OUT_WEB, "img", f)) for f in os.listdir(os.path.join(OUT_WEB, "img")))
