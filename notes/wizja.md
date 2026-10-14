@@ -18,7 +18,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 
 - **Pierwsi odbiorcy:** przygodowi znajomi. Każdy przyjeżdża w innym terminie i z innym akcentem: kultura, jedzenie albo przyroda i naczelne.
 - **Docelowo:** każdy, kto planuje Wietnam samodzielnie. Narzędzie jest ogólne: dowolny miesiąc i dowolne daty. Może urosnąć poza grono znajomych, więc decyzje nie zamykają tej drogi (zob. „Otwarte drzwi”).
-- **Start (decyzja z 14.10.2026):** najpierw kilka przygodowych osób dostaje sam adres strony i trzy pytania. Do tego czasu strona nie trafia do wyszukiwarek (`noindex`), a otwarcie zapada po ich opiniach.
+- **Start (decyzja z 14.10.2026):** najpierw kilka przygodowych osób dostaje sam adres strony i trzy pytania. Do tego czasu strona nie trafia do wyszukiwarek (`noindex`), a otwarcie zapada po ich opiniach. Decyzja z 14.10.2026: `noindex` zostaje do etapu angielskiego.
 
 ## Kryteria sukcesu
 
@@ -41,6 +41,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - Treść i interfejs są po polsku.
 - Polski staje się językiem bazowym. W pierwowzorze bazą był angielski, a polski nakładką.
 - Mechanizm kluczy i test kompletności zostają, więc angielski można dodać później jako osobny etap.
+- **Decyzja z 14.10.2026:** po partii B przychodzi etap angielski (etap 5 w [etapy.md](etapy.md)): większość pierwszych testerów mówi po angielsku, więc angielski będzie językiem przewodnim, a polski drugim. Do tego czasu strona jest tylko po polsku.
 
 ### 3. Miesiące: wszystkie
 
@@ -197,7 +198,7 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
 - Sơn Đoòng jako moduł;
 - konta, komentarze, opinie, podział kosztów.
 
-**Na później:** angielski, lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu, własna domena, otwarcie strony dla wyszukiwarek (po opiniach znajomych).
+**Na później:** angielski (etap 5, po partii B), lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu, własna domena, otwarcie strony dla wyszukiwarek (po opiniach znajomych).
 
 ## Sprawdzone w researchu (stan 14.10.2026)
 

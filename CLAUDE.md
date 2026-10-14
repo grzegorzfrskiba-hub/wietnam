@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (14.10.2026):** etap 4 zrobiony: strona opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek (`noindex`). Następny krok: pierwsza runda znajomych, potem partia B, zob. [notes/etapy.md](notes/etapy.md).
+**Status (14.10.2026):** etap 4 zrobiony: strona opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek (`noindex`). Następny krok: plan B1 partii B ([notes/plans/2026-10-14-etap-3b1-miejsca.md](notes/plans/2026-10-14-etap-3b1-miejsca.md)), potem plan B2 i etap angielski, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -23,7 +23,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Jedna sesja naraz** w tym repo.
 - **Bez zgody użytkownika nie rób:** `git push`, publikacji artifactu, wysyłania plików. Commituj, gdy użytkownik o to prosi.
 - **Repo jest publiczne od 14.10.2026, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
-- **Strona tylko po polsku.** Mechanizm kluczy tekstów i test kompletności zostają na przyszły angielski. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
+- **Strona tylko po polsku** do etapu angielskiego (etap 5, po partii B; angielski będzie wtedy językiem przewodnim). Mechanizm kluczy tekstów i test kompletności zostają na ten etap. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
 - **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
 - **Narzędzia na tym Macu:**

@@ -7,8 +7,9 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | 0. Wizja | zrobione 9.10.2026 |
 | 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
 | 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
-| 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B po publikacji |
+| 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B w toku: plan B1 (Yok Đôn, Mù Cang Chải, Tà Năng w Đà Lạt, Mỹ Sơn w Hội An) zaplanowany 14.10.2026: [plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), do wykonania; plan B2 (długi ogon researchu, kurs NBP i ceny) po nim |
 | 4. Audyt i publikacja (po partii A) | zrobione 14.10.2026: [plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md); strona pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek |
+| 5. Angielski | po partii B (decyzja z 14.10.2026): angielski jako język przewodni, polski drugi |
 
 ## Etap 1: fundament i silnik na 12 dzisiejszych miejscach
 
@@ -77,7 +78,10 @@ Każda partia kończy się pełnym testem kombinacji.
     - Cúc Phương: naczelne, żółwie i stary las, nocleg w parku (Vân Long zostaje w Ninh Bình);
     - Đà Nẵng z Sơn Trà: duki czerwononogie z dróg półwyspu, plaża Mỹ Khê, Marmurowe Góry;
   - plan 2 ([plans/2026-10-13-etap-3a2-miejsca.md](plans/2026-10-13-etap-3a2-miejsca.md), zrobiony 14.10.2026): Hà Giang z pętlą na 3 albo 4 dni, z kierowcą albo samodzielnie, i Sa Pa z Fansipanem pieszo na dwa dni; w silniku reguła regionu lotniska, która usuwa zygzaki, a na mapie rozsuwane znaczniki.
-- **Partia B:** Bạch Mã, Pù Mát, Yok Đôn, Tà Năng–Phan Dũng, Mù Cang Chải, Mỹ Sơn (np. jako dzień w module Hội An).
+- **Partia B** (sesja decyzji 14.10.2026), w dwóch planach:
+  - plan B1 ([plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), do wykonania): Yok Đôn z lotniskiem Buôn Ma Thuột, Mù Cang Chải za Sa Pa, szlak Tà Năng–Phan Dũng jako trudna wersja dni 2 i 3 w Đà Lạt i Mỹ Sơn jako trzeci dzień Hội An; drobne uwagi z przeglądu etapu 4;
+  - plan B2, po B1, w osobnej sesji: długi ogon researchu, kurs NBP i największe ceny;
+  - odłożone, z researchem w repo: Bạch Mã (droga na szczyt przerwana od 27.10.2025, [research/bachma-2026-10.md](../research/bachma-2026-10.md)) i Pù Mát (noc w lesie niepotwierdzona na 2026, [research/pumat-2026-10.md](../research/pumat-2026-10.md)).
 - **Kolejne partie** według potrzeb, np. morze (Côn Đảo).
 
 ## Etap 4: audyt i publikacja (po partii A)
@@ -90,9 +94,17 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
+## Etap 5: angielski (po partii B)
+
+Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji.
+
 Plan ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md), sesja decyzji 14.10.2026, zrobiony 14.10.2026): poprawki z listy audytu, PDF jako wersja offline dla podróżnych (przycisk i wydruk na A4), kroje na własnym hostingu i lżejszy plik offline, licencje zdjęć i stopka, fakty z 14.10.2026 i porządki w researchu, wizja i README; potem punkt kontrolny, końcowy przegląd, publikacja z `docs/` z `noindex` (każdy krok za zgodą) i pierwsza runda znajomych.
 
-## Następny krok: pierwsza runda znajomych, potem partia B
+## Następny krok: plan B1 partii B
+
+Sesja decyzji partii B (14.10.2026): opinii pierwszej rundy jeszcze nie ma, a większość testerów będzie anglojęzyczna, więc po partii B przychodzi etap angielski (etap 5), a `noindex` zostaje do niego i do opinii. Partia B ma dwa plany: B1 z miejscami ([plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md): Yok Đôn, Mù Cang Chải, Tà Năng–Phan Dũng w Đà Lạt, Mỹ Sơn w Hội An, drobne uwagi etapu 4) i B2 z długim ogonem researchu, kursem NBP i cenami, w osobnej sesji. Bạch Mã i Pù Mát są odłożone; ich research jest w repo. Decyzje i 23 ustalenia stoją w planie B1. Wykonanie w świeżej sesji, z suchą próbą na gałęzi `sucha-proba-b1`.
+
+### Z etapu 4
 
 Zrobione 14.10.2026: etap 4 ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md)). Strona jest pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie z `noindex`, a repo jest publiczne, bez wolnej licencji. Przed publikacją:
 - poprawki z listy audytu: wjazd w trybie miesiąca, droga przez lotnisko jako jedna droga, `esc()` w przełączniku, kurs NBP i adres strony w jednym miejscu, testy świąt i zdjęć;
@@ -110,7 +122,7 @@ Fakty z dnia publikacji (14.10.2026, po południu): półwysep Sơn Trà jest zn
 
 Publikacja (14.10.2026): repo jest publiczne, a strona działa pod https://grzegorzfrskiba-hub.github.io/wietnam/ (GitHub Pages z `docs/`, HTTPS wymuszony, `noindex`); strona, zdjęcia i kroje idą przez https, bez zapytań do Google, a na telefonie „Kopiuj plan na WhatsApp” kopiuje do schowka, link w WhatsAppie pokazuje podgląd ze zdjęciem z Tràng An, tytułem i opisem, a PDF z przycisku się zapisuje.
 
-**Pierwsza runda:** 2–4 przygodowe osoby dostały sam adres strony i trzy pytania (decyzja 2 z 14.10.2026). Opinie zapisujemy tu bez imion i bez linków, punkt po punkcie, z decyzją, co z nimi zrobić. Potem sesja decyzji partii B: miejsca partii B, otwarcie strony dla wyszukiwarek (`NOINDEX` w `site2/build.py`) i lista „Po publikacji, z partią B” niżej. Każda nowa wersja strony: `bash tools/publish.sh`, commit `docs/` i `git push` za zgodą.
+**Pierwsza runda:** 2–4 przygodowe osoby dostały sam adres strony i trzy pytania (decyzja 2 z 14.10.2026). Do sesji decyzji partii B (14.10.2026) opinii nie było; większość testerów będzie anglojęzyczna. Opinie zapisujemy tu bez imion i bez linków, punkt po punkcie, z decyzją, co z nimi zrobić. Każda nowa wersja strony: `bash tools/publish.sh`, commit `docs/` i `git push` za zgodą.
 
 **Do etapu 3 (partia B i kolejne):**
 - każde nowe miejsce dostaje też dane z planu 2B: cenę noclegu w `COSTS.night`, płatne części dni jako pozycje `COSTS.items` wskazane polem `cost` w dniach, wpisy w `BOOK` z wyprzedzeniem i linkami, miejsce w `HOMESTAYS`, gdy nocuje się u gospodarzy, i teksty dalekich dróg z lotnisk w `AIR_KEYS`; liczby stoją w tabelach „Zestawienie” pliku researchu miejsca (`research/<id>-2026-10.md`), a test danych czyta je stamtąd (w wierszu `fit` zainteresowanie „gory” bez „ó”);
@@ -131,7 +143,7 @@ Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 **Po publikacji, z partią B:**
 - długi ogon researchu: punkty „Do sprawdzenia przed publikacją (etap 4)” i „Czego nie ustaliłem” w notatkach researchu, które po kontroli z 14.10.2026 dalej są otwarte (godziny otwarcia, bilety do ok. 5 EUR, współrzędne, ceny przewodników i noclegów, dni zamknięć); sprawdzić z partią B, a do tego czasu bez zmian na stronie;
 - kurs NBP i największe ceny (rejs, auta, loty, Hang Én, Fansipan) odświeżyć z partią B: dziś kurs z 9.10.2026 i ceny z 11–13.10.2026, w jednym miejscu (`costs.js` i wiersz NBP-A w `research/ceny-2026-10.md`);
-- otwarcie dla wyszukiwarek: `NOINDEX = False` w `site2/build.py`, gdy pierwsza runda znajomych nie zgłosi poważnych błędów;
+- otwarcie dla wyszukiwarek: `NOINDEX = False` w `site2/build.py`; decyzja z 14.10.2026: `noindex` zostaje do etapu angielskiego i do opinii pierwszej rundy;
 - PDF z iPhone'a: Safari ignoruje `break-after: avoid`, więc nagłówek bywa sam na dole strony; jeśli znajomi to zgłoszą, zgrupować nagłówek z pierwszym dniem;
 - wydruk: ostatnia strona bywa prawie pusta (sama stopka), a zdanie „Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu” drukuje się, choć mówi o ekranie;
 - przed publikacją każdej partii drugi rzut oka na komunikaty, jak w zadaniu 11 etapu 4;
