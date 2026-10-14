@@ -1,8 +1,6 @@
 <title>Wietnam po swojemu</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
 <style>
+/* __FONTS__ */
 /* Layout: photo opener, the facts, the settings, the day strip, then the route as a split view: sticky to-scale map beside the stays on desktop, stacked on phones. */
 :root {
   --paper: #eef2ef;
@@ -83,6 +81,8 @@ ul, ol { padding: 0; list-style: none; }
 
 /* Hero */
 .hero { position: relative; min-height: clamp(460px, 64vh, 680px); display: flex; align-items: flex-end; overflow: hidden; background: var(--photo-bg); }
+/* without JavaScript (an iPhone's preview of the offline file): where to open the page instead */
+.noscript { margin: 0; padding: 16px var(--gutter); background: var(--warm-soft); color: var(--ink); }
 .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.45) 0%, rgba(var(--scrim), 0.12) 28%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
@@ -477,6 +477,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 }
 </style>
 
+<noscript><p class="noscript">Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu. Jeśli widzisz ten tekst w podglądzie pliku na iPhonie, otwórz w przeglądarce stronę __SITE_URL__ albo zapisz na niej swoją trasę jako PDF.</p></noscript>
 <header class="hero" id="top">
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
   <span class="hero-where">Tràng An, Ninh Bình</span>

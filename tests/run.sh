@@ -38,4 +38,10 @@ echo "== lint: no words in CSS content (texts come from UI.pl)"
 if grep -nE "content: *\"[^\"]*[A-Za-z]{3,}" site2/src/template.html; then echo "FAIL: put the text in UI.pl" >&2; exit 1; fi
 echo "== lint: counted words only through countWord(key, n)"
 if grep -nE "T\('(nights|f\.places|f\.flights|f\.hikes)\.(one|few|many)'" site2/src/app.js; then echo "FAIL: use countWord(key, n)" >&2; exit 1; fi
+echo "== lint: the fonts come with the page (site2/fonts), not from Google Fonts"
+if grep -nE "fonts\.(googleapis|gstatic)\.com" site2/src/template.html site2/build.py; then echo "FAIL: the page loads fonts from Google" >&2; exit 1; fi
+[ -f site2/fonts/fonts.css ] || { echo "FAIL: site2/fonts/fonts.css is missing" >&2; exit 1; }
+for f in $(grep -o "url(fonts/[a-z0-9-]*\.woff2)" site2/fonts/fonts.css | sed 's/^url(fonts\///; s/)$//'); do
+  [ -f "site2/fonts/$f" ] || { echo "FAIL: site2/fonts/$f is missing" >&2; exit 1; }
+done
 echo "ALL PASS"

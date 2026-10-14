@@ -22,7 +22,7 @@ if [ "$2" -lt 600 ]; then
   URL="file://$TMP/wrap.html"
   WIN=800
 fi
-"$C" --headless=new --disable-gpu --hide-scrollbars --user-data-dir="$TMP" \
+"$C" --headless=new --disable-gpu --hide-scrollbars --user-data-dir="$TMP" --allow-file-access-from-files \
   --window-size="$WIN,$H" --virtual-time-budget=8000 --screenshot="$3" \
   "$URL" >/dev/null 2>&1 &
 PID=$!

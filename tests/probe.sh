@@ -16,6 +16,7 @@ cd "$(dirname "$0")/.."
 [ -s site2/out/pages/index.html ] || { echo "probe.sh: run python3 site2/build.py first" >&2; exit 1; }
 D="${TMPDIR:-/tmp}/vn-probe"; rm -rf "$D"; mkdir -p "$D"
 ln -s "$PWD/site2/out/pages/img" "$D/img"
+ln -s "$PWD/site2/out/pages/fonts" "$D/fonts"
 HASH="${3:-}"; HASH="${HASH//MIESIAC/$(date -v+5m +%Y-%m)}"
 { cat site2/out/pages/index.html; echo "<script>window.__probeHash = '#$HASH';"; cat tests/probes/lib.js "$1"; echo "</script>"; } > "$D/index.html"
 printf '<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style><iframe src="index.html#%s" width="%s" height="900"></iframe>' "$HASH" "$2" > "$D/wrap.html"

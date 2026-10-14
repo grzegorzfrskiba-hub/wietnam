@@ -15,7 +15,7 @@ TMP=$(mktemp -d)
 rm -f "$2"
 DARK=()
 [ "${3:-}" = dark ] && DARK=(--force-dark-mode --blink-settings=preferredColorScheme=0)
-"$C" --headless=new --disable-gpu --user-data-dir="$TMP" "${DARK[@]+"${DARK[@]}"}" \
+"$C" --headless=new --disable-gpu --user-data-dir="$TMP" --allow-file-access-from-files "${DARK[@]+"${DARK[@]}"}" \
   --virtual-time-budget=8000 --no-pdf-header-footer --print-to-pdf="$2" \
   "file://$PWD/site2/out/pages/index.html#${1//MIESIAC/$(date -v+5m +%Y-%m)}" >/dev/null 2>&1 &
 PID=$!
