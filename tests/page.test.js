@@ -494,6 +494,17 @@ eq([spread([[100, 100], [112, 100]]), spread([[100, 100], [100, 110]]), spread([
   [[[95, 100, 100, 100], [117, 100, 112, 100]], [[100, 94, 100, 100], [100, 116, 100, 110]], [[100, 100, 100, 100], [130, 100, 130, 100]],
    [[89, 100, 100, 100], [111, 100, 100, 100]], [[10, 100, 5, 100], [32, 100, 10, 100]]],
   'pins 12 px apart in a row move to 22 px, one above the other to 22 px; pins apart stay; two on one point go sideways; at the edge the other pin moves');
+// a cluster of three pins (a triangle, three in a row, three on one point, in a corner): no two overlap after the rounds
+// (the pairs come within a hundredth of a pixel of PIN_GAP), each keeps its point and stays inside the panel
+function cluster(q) {
+  var pins = spreadPins(q.map(function (a) { return { x: a[0], y: a[1], w: PIN_H }; }), { w: 270, h: 270 });
+  return pins.every(function (a, i) {
+    return a.px === q[i][0] && a.py === q[i][1] && a.x >= PIN_H / 2 && a.x <= 270 - PIN_H / 2 && a.y >= PIN_H / 2 && a.y <= 270 - PIN_H / 2 &&
+      pins.slice(i + 1).every(function (b) { return Math.abs(b.x - a.x) >= PIN_H + PIN_GAP - 0.01 || Math.abs(b.y - a.y) >= PIN_H + PIN_GAP - 0.01; });
+  });
+}
+eq([[[100, 100], [112, 100], [106, 108]], [[100, 100], [110, 100], [120, 100]], [[100, 100], [100, 100], [100, 100]], [[5, 5], [12, 8], [8, 15]]].map(cluster),
+  [true, true, true, true], 'three pins in a cluster: apart after the rounds, each with its point, inside the panel');
 var MAPW = { panels: MAP_PANELS, places: OLD_PLACES, content: CONTENT, airports: AIRPORTS, say: function (k) { return UI.pl[k]; } };
 function pinsOf(L) { return L.panels.map(function (P) { return P.key + ':' + P.pins.map(function (p) { return p.key + '(' + p.nums + ')'; }).join(','); }); }
 function labelsOf(P, kind) { return P.labels.filter(function (l) { return l.kind === kind; }).map(function (l) { return l.lines.join('/'); }); }
