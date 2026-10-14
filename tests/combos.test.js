@@ -58,11 +58,11 @@
       used[x.id] = (used[x.id] || 0) + 1;
     });
     // the page's day plans (page.js), planned as app.js does: one per night of every stay at the level set, no hike at level 1,
-    // and a hard version that ends away from the stay (late) never on the last day of a stay that the way home or a leg of
-    // LONG_LEG_H hours or more follows
+    // and a hard version that ends away from the stay (late) never on the last day of a stay that the way home, a leg of
+    // LONG_LEG_H hours or more or a journey to a place behind a ferry follows
     var done = {}, plans = [];
     r.stops.forEach(function (x, i) {
-      var next = legAfter(r, i), days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months, next);
+      var next = legAfter(r, i, FERRY), days = stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months, next);
       plans.push(days || []);
       need(days && days.length === x.n, x.id + ': ' + (days ? days.length : 'no') + ' day plans for ' + x.n + ' nights' + (done[x.id] ? ' (second stay)' : ''));
       if (days && s.level === 1) need(days.every(function (d) { return d.pace !== 'hike'; }), x.id + ': a hike at level 1');
@@ -71,8 +71,8 @@
         var first = d.variant === 'hard' && CONTENT[x.id].days.filter(function (cd) { return cd.hard && cd.hard.next && cd.hard.t === d.t; })[0];
         if (first) need(k < days.length - 1 && days[k + 1].t === first.hard.next.t, x.id + ': ' + d.t + ' without its second day');
       });
-      if (days && days.length === x.n && s.level === 3 && (next.home || next.h >= LONG_LEG_H)) {
-        need(!isLate(x.id, days[x.n - 1]), x.id + ': a late hard night on the last day of the stay, before ' + (next.home ? 'the way home' : 'a leg of ' + next.h + ' h'));
+      if (days && days.length === x.n && s.level === 3 && (next.home || next.h >= LONG_LEG_H || next.ferry)) {
+        need(!isLate(x.id, days[x.n - 1]), x.id + ': a late hard night on the last day of the stay, before ' + (next.home ? 'the way home' : 'a leg of ' + next.h + ' h' + (next.ferry ? ' to a ferry' : '')));
         // the rule had work to do: without the leg the same stay would have ended with that night
         if (isLate(x.id, stopDays(CONTENT[x.id], x, done[x.id] || 0, s.level, st.months)[x.n - 1])) held++;
       }
@@ -98,7 +98,7 @@
     // alone pays no less, the parts add up to the whole, the paid things dearest first
     [[], Object.keys(SWAPS)].forEach(function (moto) {
       var self = selfSwaps(moto, SWAPS), donS = {}, pl = moto.length ? r.stops.map(function (x, i) {
-        var d = stopDays(CONTENT[x.id], x, donS[x.id] || 0, s.level, st.months, legAfter(r, i), !!self.places[x.id]);
+        var d = stopDays(CONTENT[x.id], x, donS[x.id] || 0, s.level, st.months, legAfter(r, i, FERRY), !!self.places[x.id]);
         donS[x.id] = (donS[x.id] || 0) + x.n;
         return d || [];
       }) : plans;

@@ -19,7 +19,7 @@
      decides whether it runs (off), as a trip is booked by the day it starts;
      self: the plan when the place's swap (SWAPS) is set to „Samodzielnie”, { pace, t, d, early? }, at every level;
      late: the version's night ends away from the stay, so the next morning goes on the walk out; not used on a stay's
-     last day before the way home or a long leg;
+     last day before the way home, a long leg or a journey to a place behind a ferry (FERRY);
      a version keeps the day's early start unless it sets its own, and the day's rain plan unless a hard version has its own;
      cost: the paid parts of the plan, keys of COSTS.items (costs.js), for the budget and the list of what to book; an entry
      that is a list names things to pick from (a car with a driver or an easy rider): the budget takes the cheapest and the

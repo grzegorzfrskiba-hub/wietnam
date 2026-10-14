@@ -297,8 +297,11 @@ eq([withRemoved(base, 'catba').add, withRemoved(base, 'catba').remove], [[], ['h
 eq([withoutChanges(base).add, withoutChanges(base).remove, base.add, base.remove], [[], [], ['catba'], ['hoian']],
   'back to the trip without changes; the settings given stay as they were');
 var FL = { stops: [{ leg: { total: 3.75 } }, { leg: { total: 7.5 } }, { leg: { total: 2 } }], home: { total: 3.5 } };
-eq([legAfter(FL, 0), legAfter(FL, 1), legAfter(FL, 2)], [{ home: false, h: 7.5 }, { home: false, h: 2 }, { home: true, h: 3.5 }],
+eq([legAfter(FL, 0), legAfter(FL, 1), legAfter(FL, 2)], [{ home: false, h: 7.5, ferry: false }, { home: false, h: 2, ferry: false }, { home: true, h: 3.5, ferry: false }],
   'the leg after a stay: the leg into the next stay, or the way home after the last one');
+var FC = { stops: [{ id: 'yokdon', leg: { total: 1.25 } }, { id: 'cattien', leg: { total: 6 } }], home: { total: 3.75 } };
+eq([legAfter(FC, 0, FERRY), legAfter(FC, 0), legAfter(FC, 1, FERRY)], [{ home: false, h: 6, ferry: true }, { home: false, h: 6, ferry: false }, { home: true, h: 3.75, ferry: false }],
+  'the leg into a place behind a ferry (FERRY) says so; without FERRY no leg does');
 function stopsOf(ids) { return ids.map(function (id) { return { id: id }; }); }
 eq(droppedPlaces(stopsOf(['saigon', 'dalat', 'hue', 'hanoi']), stopsOf(['saigon', 'phuquoc', 'dalat', 'hanoi']), PLACES), ['hue'], 'dropped: on the old trip, not on the new one');
 eq(droppedPlaces(stopsOf(['babe', 'caobang', 'hanoi', 'dalat']), stopsOf(['dalat', 'phuquoc']), PLACES), ['babe', 'caobang', 'hanoi'], 'dropped: in the order of the old trip');
@@ -403,7 +406,7 @@ var BUDR = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLI
 function plansOf(t, self) {
   var done = {};
   return t.r.stops.map(function (x, i) {
-    var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i), !!self);
+    var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i, FERRY), !!self);
     done[x.id] = (done[x.id] || 0) + x.n;
     return d;
   });
@@ -545,7 +548,7 @@ var DATA_ALL = { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLI
 function tripAll(s) { var st = stOf(s); return { st: st, r: planRoute(st, DATA_ALL) }; }
 function plansAll(t) {
   var done = {};
-  return t.r.stops.map(function (x, i) { var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i)); done[x.id] = (done[x.id] || 0) + x.n; return d; });
+  return t.r.stops.map(function (x, i) { var d = stopDays(CONTENT[x.id], x, done[x.id] || 0, t.st.level, t.st.months, legAfter(t.r, i, FERRY)); done[x.id] = (done[x.id] || 0) + x.n; return d; });
 }
 // Phong Nha: Hang Én over two days at level 3 in its season, the usual and the easy days otherwise
 function pn(level, months) { return stopDays(CONTENT.phongnha, { n: 3, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
@@ -674,6 +677,10 @@ eq([iYD > -1, tYD.r.stops[iYD].leg.segs.some(function (g) { return g.to === 'BMV
 eq([flightNotes({ segs: [{ mode: 'road', from: 'hoian', to: 'DAD', h: 0.75 }, { mode: 'fly', from: 'DAD', to: 'BMV', h: 1.1 }, { mode: 'road', from: 'BMV', to: 'yokdon', h: 1.25 }] }, FLIGHT_DAYS),
   flightNotes({ segs: [{ mode: 'fly', from: 'SGN', to: 'BMV', h: 1 }] }, FLIGHT_DAYS)],
   [[{ key: 'n.flight_days', a: 'DAD', b: 'BMV', days: 'f.days_tts' }], []], 'the flight Đà Nẵng – Buôn Ma Thuột runs three days a week, the flight from Hồ Chí Minh City every day');
+// after the night in the forest the journey starts around noon: 6 h by road to Cát Tiên would reach the Đồng Nai at its
+// last ferry, so the night gives way there (final review of plan B1); 6 h to Đà Lạt is an evening arrival and keeps it
+eq([yd(2, 3, [0, 0], { home: false, h: 6, ferry: true }), yd(2, 3, [0, 0], { home: false, h: 6, ferry: false })], [['-', '-'], ['-', 'hard']],
+  'Yok Đôn: no night in the forest before a journey to a place behind a ferry, as before a long leg');
 // Mù Cang Chải: on the axis past Sa Pa (the way down from Sa Pa to Hà Nội); its fair months XI–III are the terraces after
 // the harvest (wx.tarasy), not the weather; at level 1 the viewpoints by car; a third night adds Khau Phạ; no hard day
 function mcc(n, level) { return stopDays(CONTENT.mucangchai, { n: n, start: 1 }, 0, level, [9, 9, 9]).map(function (d) { return (d.variant || '-') + ' ' + d.t; }); }

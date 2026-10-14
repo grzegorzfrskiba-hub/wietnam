@@ -169,16 +169,17 @@ function plainDay(x, variant) {
    A first stay takes the n plans with the lowest p, in their order o; a one-night stay the solo version of the p 1 plan
    when it has one. A second stay starts with c.again and goes on with the next plans by p (after a solo night, with the
    plans after those its covers stands for). null when there are too few.
-   next: the leg after the stay, { home, h } (the way home or not, its hours; see legAfter), or none: no restriction. On
-   the stay's last day, when the way home or a leg of LONG_LEG_H hours or more follows, a late hard version (its next
-   morning goes on the walk out, so the journey would start around noon) gives way to the usual day.
+   next: the leg after the stay, { home, h, ferry } (the way home or not, its hours, to a place behind a ferry or not; see
+   legAfter), or none: no restriction. On the stay's last day, when the way home, a leg of LONG_LEG_H hours or more or a
+   journey to a place behind a ferry follows, a late hard version (its next morning goes on the walk out, so the journey
+   would start around noon and reach the river after the last crossing) gives way to the usual day.
    self: the place's swap is set to „Samodzielnie”, so the days with a self version take it (selfSwaps).
    A hard version with next spans two days: its night is away (late) and the next day of the stay becomes next, the trip's
    second day, whatever plan stood there. Both or neither: it is taken only when the stay has a next day, and the month of
    its first day decides, as a trip is booked by the day it starts. */
 function stopDays(c, stop, done, level, months, next, self) {
   var byP = c.days.slice().sort(function (a, b) { return a.p - b.p; }), out = [], picked;
-  var notLate = !!next && (next.home || next.h >= LONG_LEG_H);
+  var notLate = !!next && (next.home || next.h >= LONG_LEG_H || !!next.ferry);
   if (done) {
     if (!c.again) return null;
     // after a one-night first stay, whose solo plan may stand for more plans than the p 1 one (its covers)
@@ -312,11 +313,13 @@ function interestAlerts(route, st, places, climate) {
 }
 
 /* ---------- the trip ---------- */
-/* The leg after stay i of a trip, as stopDays wants it (its next): { home, h }, h the hours of the journey. A stop's leg
-   in planRoute leads into it, so the leg after a stay is the next stop's; after the last stay it is the way home. */
-function legAfter(route, i) {
+/* The leg after stay i of a trip, as stopDays wants it (its next): { home, h, ferry }, h the hours of the journey, ferry
+   true when it leads to a place behind a ferry, whose last crossing is in the evening. A stop's leg in planRoute leads
+   into it, so the leg after a stay is the next stop's; after the last stay it is the way home. ferry: FERRY (content.js),
+   or none: no journey is behind a ferry. */
+function legAfter(route, i, ferry) {
   var last = i === route.stops.length - 1, leg = last ? route.home : route.stops[i + 1].leg;
-  return { home: last, h: leg.total };
+  return { home: last, h: leg.total, ferry: !last && !!ferry && !!ferry[route.stops[i + 1].id] };
 }
 
 /* The figures of the facts row: places (each once, nights on the way not counted), domestic flights, hiking days at the

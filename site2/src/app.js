@@ -91,7 +91,7 @@
     state.settings = s; state.st = st; state.route = r; state.linkWarn = !!linkWarn;
     var self = selfSwaps(s.moto, SWAPS);
     state.plans = r.stops.map(function (x, i) {
-      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i), !!self.places[x.id]);
+      var days = stopDays(C(x.id), x, done[x.id] || 0, st.level, st.months, legAfter(r, i, FERRY), !!self.places[x.id]);
       done[x.id] = (done[x.id] || 0) + x.n;
       return days;
     });
