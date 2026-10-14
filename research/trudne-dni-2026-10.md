@@ -1,19 +1,19 @@
 # Trudne dni dla poziomu „ekstremalnie”: 13 miejsc (sprawdzone 10.10.2026)
 
-Dane dla zadań 7 i 8 planu 1B (pole `hard` w dniach miejsc): które z 13 miejsc ma dzień wyraźnie trudniejszy od zwykłego, co to za dzień, kto go prowadzi, kiedy go nie ma i ile kosztuje. Adresy otwarto 10.10.2026 (poza oznaczonymi †, zob. „Jak czytać”), późniejsze zmiany nie są uwzględnione. Noc w Hà Nội w drodze (`hanoiStop`) jest poza zakresem.
+Dane do pola `hard` w dniach miejsc, czyli do trudnych dni na poziomie „ekstremalnie”: które z 13 miejsc ma dzień wyraźnie trudniejszy od zwykłego, co to za dzień, kto go prowadzi, kiedy go nie ma i ile kosztuje. Adresy otwarto 10.10.2026 (poza oznaczonymi †, zob. „Jak czytać”). Późniejsze ustalenia mają własną datę, a uzupełnienia z 13 i 14.10.2026 są na końcu pliku. Noc w Hà Nội w drodze (`hanoiStop`) jest poza zakresem.
 
 - **Wynik:** trzy miejsca mają trudny dzień, dziesięć nie.
   - **cattien:** noc na stacji strażników nad Bàu Sấu, usługa samego parku (zastępuje dzień `p` 2).
   - **puluong:** szczyt Pù Luông w jeden dzień z lokalnym przewodnikiem, ok. 8–9 godzin (`p` 2).
-  - **catba:** dzień wspinaczki skałkowej albo deep water soloing z operatorem (`p` 4). Najsłabiej udokumentowany z trzech: uprawnienia operatorów znam tylko z ich własnych stron.
+  - **catba** (na razie bez trudnego dnia, decyzja z 10.10.2026): dzień wspinaczki skałkowej albo deep water soloing z operatorem (`p` 4). Najsłabiej udokumentowany z trzech: uprawnienia operatorów znam tylko z ich własnych stron.
   - **Reszta** dostaje dzień zwykły. Albo nic nie jest trudniejsze od zwykłego dnia (saigon, mekong, phuquoc, hanoi, ninhbinh), albo trudniejsze dni są wielodniowe (dalat, babe), albo nie ma udokumentowanego produktu z uprawnieniami (hoian, caobang). Huế ma tylko Bạch Mã, a to moduł partii B.
 - **Najważniejsze znaleziska poza werdyktami:**
-  - Kajaki na zatokach Cát Bà są zawieszone od 15.11.2024. Nie znalazłem urzędowej wiadomości o zniesieniu, a źródła komercyjne są sprzeczne. Zwykły dzień `p` 2 w Cát Bà (rejs) mówi o kajaku, więc zadanie 8 musi to sprawdzić (sekcja „catba”).
+  - Kajaki na zatokach Cát Bà są zawieszone od 15.11.2024. Nie znalazłem urzędowej wiadomości o zniesieniu, a źródła komercyjne są sprzeczne; 14.10.2026 stan był ten sam (sekcja „Uzupełnienie 14.10.2026”). Zwykły dzień `p` 2 w Cát Bà (rejs) mówił w pierwowzorze o kajaku, a od 10.10.2026 płynie bambusową łodzią (sekcja „catba” i `research/plany-dni-2026-10.md`).
   - W 2026 wejście do lasu i organizowanie tam wycieczek bez zgody zarządcy jest karane, więc każdy „tak” opiera się na usłudze zarządcy albo na operatorze z uprawnieniami (sekcja „Ramy prawne 2026”).
 
 ## Jak czytać
 
-- **Trudny dzień** (kryteria z planu 1B, zadanie 3):
+- **Trudny dzień** (kryteria z 10.10.2026):
   - wyraźnie trudniejszy od zwykłego dnia miejsca: 6–10 godzin marszu, wspinaczka, noc w terenie ze strażnikiem albo dłuższa wyprawa łodzią;
   - mieści się w jednym dniu planu, z noclegiem w miejscu albo w terenie;
   - prowadzi go przewodnik albo operator z uprawnieniami (wizja, pkt 5).
@@ -39,7 +39,8 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
 
 - **Zgoda zarządcy lasu:**
   - 19.8.2026 zarząd obszaru turystycznego Núi Bà Đen (Tây Ninh) przypomniał, że organizowanie trekkingu, biwaków i usług turystycznych w lesie bez zgody zarządcy jest karane: 4–6 mln VND za organizowanie wycieczek, 6–10 mln VND za usługi i działalność, według dekretu 146/2026/NĐ-CP z 6.5.2026 (DT-0819);
-  - ustalenie o Tà Năng z 17.5.2026 mówi to samo o wejściu do lasu: 4–6 mln VND (`research/ta-nang-2026-10.md`).
+  - ustalenie o Tà Năng z 17.5.2026 mówi to samo o wejściu do lasu: 4–6 mln VND (`research/ta-nang-2026-10.md`);
+  - numer dekretu 146/2026/NĐ-CP znam tylko z artykułu DT-0819, a tekstu dekretu nie czytałem. Artykuł o Bát Xát (TT-0518) podaje przy tych samych kwotach kar (4–6 i 6–10 mln VND) inny przepis: art. 11 dekretu 168/2024/NĐ-CP z 26.12.2024 (odczyt z 13.10.2026 w `research/sapa-2026-10.md`, sekcja „Bezpieczeństwo i przepisy”). Który numer jest właściwy, nie ustaliłem.
 - **Norma:** TCVN 14602:2026 (ISO 3021:2023) to pierwsza krajowa norma dla turystyki przygodowej i trekkingu: wymagania dla organizatorów (prowadzący, ocena ryzyka, ubezpieczenie). Opis w `research/ta-nang-2026-10.md` (VietnamPlus, 23.4.2026).
 - **Zawieszenia z 2026 roku** pokazują, że urzędy egzekwują te zasady. Żadne nie dotyczy trzech miejsc z „tak”:
   - Tam Đảo: wspinaczka na trzy szczyty zawieszona od 5.5.2026 do odwołania (TT-0507);
@@ -79,11 +80,11 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
   - bilet do parku 60 000 VND (z promem) i opłata za Bàu Sấu 250 000 VND/os.;
   - pokoje trzeba zarezerwować w recepcji parku. Na stacji jest ich razem na 19 osób (trzy pokoje trzyosobowe, jeden czteroosobowy, bungalow dwuosobowy i rodzinny);
   - plan wymaga przewodnika (wizja), a park go oferuje, choć nie narzuca.
-- **Ryzyka:** pijawki w porze deszczowej (IV–XI), strumienie przelewające się przez ścieżki, ślisko, brak zasięgu, owady przez cały rok (park radzi środek odstraszający) (CT-www, CT-2024, CT-prog, SEZ).
+- **Ryzyka:** pijawki w porze deszczowej (IV–XI), strumienie przelewające się przez ścieżki, ślisko, brak zasięgu, owady przez cały rok (park radzi środek odstraszający) (CT-www, CT-2024, CT-prog, SEZ). Do tego dzikie zwierzęta: w jeziorze żyją na wolności krokodyle syjamskie, od których wzięło nazwę (Bàu Sấu znaczy „Jezioro Krokodyli”); nocą widać przy brzegu ich oczy, a jeziora nie odgradza żaden płot (CT-VNE-CS). Programy parku o zwierzętach nad jeziorem nie piszą (CT-prog). Nad wodą, zwłaszcza po zmroku, trzymaj się strażnika.
 - **Miesiące wyłączone:**
   - **zakazu ani zamknięcia nie ma**: park jest otwarty cały rok, w lipcu 2024 prasa nie opisywała zamkniętych tras w porze deszczowej (CT-2024), a przewodnik z 2026 nie wspomina o zamknięciach (CT-VNE);
   - **sezon, propozycja `off`: VIII–X** (`[8, 9, 10]`): w danych to miesiące Z (coroczne wezbranie Đồng Nai, strumienie przez ścieżki; `research/sezony-2026-10.md`). VI–VII i XI zostają z ostrzeżeniem o pijawkach.
-- **Cena** (cennik parku obowiązujący od 1.6.2024 do wydania nowego, pobrany 10.10.2026; wartości zbiorcze w ostatnim wierszu):
+- **Cena** (cennik parku dla gości krajowych, obowiązujący od 1.6.2024 do wydania nowego, pobrany 10.10.2026; wartości zbiorcze z przewodnikiem w ostatnim wierszu):
 
   | pozycja | cena | EUR/os. przy 2 osobach | źródło |
   |---|---|---|---|
@@ -92,10 +93,12 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
   | przewodnik parku (opcjonalny), tour z autem i noclegiem | 650 000–850 000 VND za tour (zał. 3: 650 000 po wietnamsku, 850 000 po angielsku; streszczenie cennika: 800 000) | 11–15 | CT-zał, CT-ceny |
   | pokój na stacji: trzyosobowy podstawowy albo bungalow dwuosobowy | 750 000 albo 1 000 000 VND za pokój | 13–17 | CT-ceny |
   | kolacja i śniadanie | od 150 000 i od 30 000 VND/os. | 5 i 1 | CT-ceny |
-  | **razem, bez przewodnika i z przewodnikiem w bungalowie** | 1 155 000–1 705 000 VND/os. | **40–59** | |
+  | **razem z przewodnikiem po angielsku, w pokoju trzyosobowym albo w bungalowie** | 1 580 000–1 705 000 VND/os. | **54–59** | |
 
-  Dla jednej osoby auto i przewodnik się nie dzielą: 65–103 EUR. Ceny pokoi, aut i przewodników rosną o 20% w dni świąteczne (Tết, 30.4–1.5, 2.9 i inne dni państwowe). Pokoje w VIII–X są tańsze o 20%, ale nie na Bàu Sấu (CT-ceny).
-- **Zastępuje:** `p` 2 „Gibony i Jezioro Krokodyli”. Zwykły `p` 2 ma `early: true` (wyjście przed świtem ze strażnikiem), a trudny dzień wyjeżdża do 14:00, więc musi mieć własne `early: false`. Następnego ranka trzeba przejść 5 km do 9:00, więc dalszy przejazd (do Đà Lạt ok. 4,5 h) zaczyna się koło południa: to zdanie do tekstu. Przy pobycie na jedną noc dzień `p` 1 ma wersję `solo` (przyjazd po południu), która tego dnia nie pomieści, więc trudnego dnia przy jednej nocy nie ma.
+  Plan wymaga przewodnika (wizja, pkt 5), więc kwota zbiorcza go zawiera. Bez przewodnika, którego park nie narzuca, dzień kosztuje od 1 155 000 VND/os. (40 EUR), a z przewodnikiem po wietnamsku od 1 480 000 VND/os. (51 EUR). Dla jednej osoby auto, przewodnik i pokój się nie dzielą: z przewodnikiem po angielsku 94–103 EUR (bez przewodnika od 65 EUR). Ceny pokoi, aut i przewodników rosną o 20% w dni świąteczne (Tết, 30.4–1.5, 2.9 i inne dni państwowe). Pokoje w VIII–X są tańsze o 20%, ale nie na Bàu Sấu (CT-ceny).
+
+  CT-ceny to cennik dla gości krajowych, a cen dla cudzoziemców ta notatka nie sprawdzała. Według `research/ceny-2026-10.md` (11.10.2026) cennik parku nie ma osobnych cen dla cudzoziemców, a przewodnik turystyczny Potoo z 1.5.2026 (CT-POT w tamtym pliku) podaje cudzoziemcom te same ceny promu i Bàu Sấu; czy tak samo jest z pokojami, autem, przewodnikiem i posiłkami, nie wiadomo.
+- **Zastępuje:** `p` 2 „Gibony i Jezioro Krokodyli”. Zwykły `p` 2 ma `early: true` (wyjście przed świtem ze strażnikiem), a trudny dzień wyjeżdża do 14:00, więc musi mieć własne `early: false`. Następnego ranka trzeba przejść 5 km do 9:00, więc dalszy przejazd (do Đà Lạt ok. 4,5 h) zaczyna się koło południa, i tak mówi tekst dnia („w dalszą podróż ruszysz koło południa”). Przy pobycie na jedną noc dzień `p` 1 ma wersję `solo` (przyjazd po południu), która tego dnia nie pomieści, więc trudnego dnia przy jednej nocy nie ma.
 
 ## dalat: Đà Lạt
 
@@ -107,7 +110,7 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
   - Bidoup 2 dni/1 noc 1 950 000 VND (z namiotem) i Hòn Giao 2 dni/1 noc 1 590 000 VND to wyprawy wielodniowe (BNB-ceny).
 - **Tà Năng:** operator TropiAd sprzedaje wyłącznie wyjścia 2 dni/1 noc i 2 dni/2 noce (ok. 31 km na pełną trasę), jednodniowej wersji nie ma (TROP). Wielodniowe odcinki to moduł etapu 3. Dzień `p` 3 w planach zostaje z ustaleniem z `research/ta-nang-2026-10.md`.
 - **Lang Biang:** oferta całodniowa z przewodnikiem, ok. 7 godzin, od 49 USD (LB†). Moja ocena: wysiłek podobny do `p` 2, a źródła nie podają wymogu uprawnień.
-- Zmiana z przeglądu zadania 7: dzień `p` 3 w Đà Lạt to teraz Lang Biang zamiast Tà Năng, z zastrzeżeniem, że szlak bywa zamknięty (zob. `research/plany-dni-2026-10.md`).
+- Zmiana z 10.10.2026: dzień `p` 3 w Đà Lạt to teraz Lang Biang zamiast Tà Năng, z zastrzeżeniem, że szlak bywa zamknięty (zob. `research/plany-dni-2026-10.md`).
 - **Canyoning w Datanla** (liny, skoki do wody, ok. 7 godzin): zbadałem dodatkowo i **nie wpisuję**. 26.2.2016 zginęło tam trzech turystów na wycieczce prywatnej firmy, którą zarządca wodospadu nazwał prowadzoną „na dziko”, bez biletów i sprzętu ośrodka (TT-2016). 22.9.2018 zginął jeden turysta na wycieczce licencjonowanej firmy, po czym Lâm Đồng, według powiązanego artykułu, zawiesił tury przygodowe w Datanla (TN-2018). Aktualnego rejestru operatorów nie znalazłem. To sport, nie wyprawa, i wymaga osobnej decyzji (etap 2 albo 3).
 
 ## hoian: Hội An
@@ -153,7 +156,7 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
 
 ## catba: Cát Bà i zatoka Lan Hạ
 
-**Decyzja z przeglądu (10.10.2026):** na razie bez trudnego dnia na Cát Bà, bo licencje operatorów wspinaczki i DWS są tylko deklarowane; do ponownego sprawdzenia w etapie 3.
+**Decyzja z 10.10.2026:** na razie bez trudnego dnia na Cát Bà, bo licencje operatorów wspinaczki i DWS są tylko deklarowane. Ponowne sprawdzenie z 13.10.2026 dało ten sam werdykt (sekcja „Uzupełnienie 13.10.2026: Cát Bà, trudny dzień”).
 
 **Werdykt: tak.** Dzień wspinaczki skałkowej albo deep water soloing (DWS, wspinaczka nad wodą ze skokiem do morza) z operatorem z miasta Cát Bà. **Warunek:** operator ma certyfikat na ten rodzaj działalności, o numer którego pytasz przed rezerwacją. To najsłabiej udokumentowany z trzech trudnych dni: uprawnienia operatorów znam tylko z ich własnych stron (poniżej).
 
@@ -165,7 +168,7 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
 - **Pozwolenia i uprawnienia:**
   - Hải Phòng ma procedurę wydawania „Giấy chứng nhận đủ điều kiện kinh doanh hoạt động thể thao” dla wspinaczki sportowej. Wymaga ona instruktorów (trener albo zawodnik klasy 2 i wyżej, dyplom sportowy albo przeszkolenie), ratownika i, przy sportach przygodowych, ustaleń z placówką medyczną (CB-GCN; dekrety 36/2019/NĐ-CP i 31/2024/NĐ-CP, rozporządzenie 28/2018/TT-BVHTTDL). DWS to odmiana wspinaczki sportowej, osobnego przepisu nie znalazłem;
   - Cat Ba Climbing podaje „Fully licensed” bez numeru i organu, ubezpieczenie do 100 mln VND na przypadek i instruktora w cenie (CB-CBC); Asia Outdoors deklaruje licencję parku (CB-AO); Cat Ba Ventures nie podaje żadnej informacji o licencji (CB-CBV). **Żadnego numeru certyfikatu ani urzędowej listy operatorów nie znalazłem**;
-  - Quyết định 253/2025/QĐ-UBND (31.12.2025, wg wyników wyszukiwania w mocy od 12.1.2026; tekst decyzji nie otworzył się†) dopuszcza usługi turystyczne na zatokach Cát Bà tylko w miejscach, trasach i punktach dozwolonych przez władze. Nie ustaliłem, czy dozwolono miejsca do DWS (CB-253).
+  - Quyết định 253/2025/QĐ-UBND (31.12.2025, wg wyników wyszukiwania w mocy od 12.1.2026, co 13.10.2026 potwierdził też BHP-0108; tekst decyzji się nie otworzył) dopuszcza usługi turystyczne na zatokach Cát Bà tylko w miejscach, trasach i punktach dozwolonych przez władze. Nie ustaliłem, czy dozwolono miejsca do DWS (CB-253).
 - **Kajaki są poza dniem:**
   - od 15.11.2024 urząd powiatu Cát Hải (zawiadomienie 1213/TB-UBND) kazał zawiesić usługi kajakowe na zatokach archipelagu do czasu spełnienia warunków prawnych (CB-K1, CB-K2);
   - nie znalazłem urzędowego komunikatu o zniesieniu. Operator rejsów pisze bez daty, że zawieszenie nadal obowiązuje: od 1.2.2026 do odwołania, na podstawie pisma 483/TB-UBND, dla całej zatoki Lan Hạ (CB-IS); numeru nie potwierdziłem u źródła urzędowego;
@@ -188,7 +191,7 @@ Dotyczą wszystkich trzech „tak” i wyjaśniają, dlaczego wymagam usługi za
   | wieloodcinkowa wspinaczka na Tiger Beach (cały dzień) | 4 748 000 VND | 164 | CB-CBC |
 
   **Dzień: ok. 85–90 EUR/os.** Ceny dotyczą grup od 3 osób; Cat Ba Ventures wycenia grupy prywatne na zapytanie.
-- **Zastępuje:** `p` 4 „Việt Hải i park narodowy” (wędrówka, jedyny dzień o tempie `hike`). **Uwaga:** `stopDays` bierze `n` planów o najniższym `p`, więc przy 3 nocach wchodzą `p` 1–3, a dnia `p` 4 w planie nie ma. Trudny dzień widać więc tylko przy 4 nocach. Przy trzech nocach można go dopiąć do `p` 3 (po rejsie łódź dobija ok. 12:00, więc zostaje popołudnie na półdniowe DWS). To decyzja zadania 8.
+- **Zastępuje:** `p` 4 „Việt Hải i park narodowy” (wędrówka, jedyny dzień o tempie `hike`). **Uwaga:** `stopDays` bierze `n` planów o najniższym `p`, więc przy 3 nocach wchodzą `p` 1–3, a dnia `p` 4 w planie nie ma. Trudny dzień widać więc tylko przy 4 nocach. Przy trzech nocach można go dopiąć do `p` 3 (po rejsie łódź dobija ok. 12:00, więc zostaje popołudnie na półdniowe DWS). Wybór zostaje na czas, gdy Cát Bà dostanie trudny dzień (na razie go nie ma, decyzja z 10.10.2026).
 
 ## hanoi: Hà Nội
 
@@ -223,17 +226,17 @@ Wyprawy wielodniowe, które znalazłem przy okazji. Nie są trudnymi dniami, ale
 - **Đà Lạt:** Bidoup 2 dni/1 noc (1 950 000 VND, ok. 67 EUR), Hòn Giao 2 dni/1 noc (1 590 000 VND, ok. 55 EUR), Tà Năng–Phan Dũng 2 dni/2 noce (BNB-ceny, TROP).
 - **Ba Bể:** trekkingi 2–4-dniowe (BB-HV).
 
-## Uwagi dla zadań 7 i 8
+## Uwagi do planów dni (10.10.2026)
 
-1. **Tylko trzy dni dostają `hard`:** cattien `p` 2 (zadanie 7), puluong `p` 2 i catba `p` 4 (zadanie 8). Pozostałe dziesięć miejsc zostaje bez `hard`, więc na poziomie 3 dostaje dzień zwykły (decyzja z sesji 10.10.2026). Test z zadania 8 („co najmniej jeden dzień z `hard`”) przejdzie.
+1. **Trzy dni z werdyktem „tak”:** cattien `p` 2, puluong `p` 2 i catba `p` 4 (na razie bez trudnego dnia, decyzja z 10.10.2026). Pozostałe dziesięć miejsc zostaje bez `hard`, więc na poziomie 3 dostaje dzień zwykły (decyzja z sesji 10.10.2026). Test treści (`tests/content.test.js`) sprawdza, że co najmniej jeden dzień ma `hard`.
 2. **Pole `off` według propozycji:** cattien `[8, 9, 10]`, puluong `[5, 6, 7, 8, 9]`, catba `[7, 8, 9]`. Tylko dla Cát Bà są udokumentowane zakazy; dla dwóch pozostałych to reguła sezonu opisana w „Jak czytać”.
-3. **Teksty trudnych dni:** każdy mówi, z kim się idzie (zarządca albo operator z uprawnieniami), jakie jest pozwolenie i jakie ryzyko, bez cen i linków (to etap 2).
-   - **cattien:** park sprzedaje nocleg na stacji strażników; wyjazd z siedziby do 14:00, powrót 5 km pieszo przed 9:00.
+3. **Teksty trudnych dni:** każdy mówi, z kim się idzie (zarządca albo operator z uprawnieniami), jakie jest pozwolenie i jakie ryzyko, bez cen i linków, które strona podaje osobno, w części „Przed wyjazdem”.
+   - **cattien:** park sprzedaje nocleg na stacji strażników, a przewodnika parku rezerwuje się razem z noclegiem, bo plan go wymaga; wyjazd z siedziby do 14:00, powrót 5 km pieszo przed 9:00.
    - **puluong:** lokalny przewodnik, najlepiej przez rezerwat; pijawki i błoto w porze deszczowej.
    - **catba:** operator z certyfikatem na wspinaczkę, numer do sprawdzenia; zależność od pływu.
-4. **Dziedziczenie:** trudny dzień Cát Tiên musi mieć własne `early: false`, bo zwykły `p` 2 ma `early: true`. Pozostałe dwa nie mają `early`.
-5. **Cát Bà `p` 4** wchodzi do planu tylko przy 4 nocach (zob. sekcja „catba”). To rozwiązanie zadania 8.
-6. **Kajaki w zwykłych dniach:** `p` 2 w Cát Bà (rejs: „kajaki, wizyta w pływającej wiosce”) i `p` 2 w Ba Bể („łódź albo kajak”) mówią o kajaku, a od 15.11.2024 (Cát Bà) i lipca 2026 (Ba Bể) usługi kajakowe są zawieszone albo zakazane. W Ba Bể zadanie 8 już to ma w liście poprawek. W Cát Bà dodatkowo nie powinno obiecywać kajaka w dniu `p` 2 i ma wpisać tę zmianę do `research/plany-dni-2026-10.md`.
+4. **Dziedziczenie:** trudny dzień Cát Tiên ma własne `early: false`, bo zwykły `p` 2 ma `early: true`. Pozostałe dwa nie mają `early`.
+5. **Cát Bà `p` 4** wchodziłby do planu tylko przy 4 nocach (zob. sekcja „catba”). Wróci to razem z trudnym dniem, którego Cát Bà na razie nie ma (decyzja z 10.10.2026).
+6. **Kajaki w zwykłych dniach:** w pierwowzorze `p` 2 w Cát Bà (rejs: „kajaki, wizyta w pływającej wiosce”) i `p` 2 w Ba Bể („łódź albo kajak”) mówiły o kajaku, a od 15.11.2024 (Cát Bà) i lipca 2026 (Ba Bể) usługi kajakowe są zawieszone albo zakazane. Od 10.10.2026 oba dni płyną łodzią, a zmiany opisuje `research/plany-dni-2026-10.md` (sekcje „catba” i „babe”).
 7. **Do sprawdzenia przed publikacją (etap 4):**
    - cennik parku Cát Tiên (obowiązuje od 1.6.2024, a park ma przejść pod zarząd miasta Đồng Nai, więc adres strony może się zmienić; `research/sezony-2026-10.md`);
    - czy rezerwat Pù Luông sprzedaje wersję jednodniową i za ile;
@@ -250,7 +253,7 @@ Adresy sprawdzone 10.10.2026: 54 otwiera się, a cztery oznaczone † zwracają 
 |---|---|---|---|---|
 | KURS | Kursy walut open.er-api.com: 1 EUR = 28 993,89 VND, 1,1206 USD. | https://open.er-api.com/v6/latest/EUR | komercyjne (dane kursowe) | 10.10.2026 00:02 UTC |
 | DT-0819 | Dân Trí: ostrzeżenie zarządu Núi Bà Đen przed trekkingiem i biwakowaniem bez zgody zarządcy lasu; dekret 146/2026/NĐ-CP, kary 4–6 i 6–10 mln VND. | https://dantri.com.vn/du-lich/tay-ninh-canh-bao-viec-trekking-cam-trai-tu-phat-o-nui-ba-den-20260819221637352.htm | prasa | 19.8.2026 |
-| TT-0518 | Kinh tế Sài Gòn Online w Tuổi Trẻ: zakaz trekkingu bez zezwolenia na szczytach Bát Xát (Lào Cai), Tam Đảo Bắc, Chư Yang Sin, norma TCVN 14602:2026. | https://tuoitre.vn/saigontimes/cam-trekking-tu-phat-loat-dinh-nui-noi-tieng-o-mien-bac-1061229857.htm | prasa | 18.5.2026 |
+| TT-0518 | Kinh tế Sài Gòn Online w Tuổi Trẻ: zakaz trekkingu bez zezwolenia na szczytach Bát Xát (Lào Cai), Tam Đảo Bắc, Chư Yang Sin, norma TCVN 14602:2026; kary 4–6 i 6–10 mln VND według art. 11 dekretu 168/2024/NĐ-CP (odczyt z 13.10.2026 w `research/sapa-2026-10.md`, SP-TT0518). | https://tuoitre.vn/saigontimes/cam-trekking-tu-phat-loat-dinh-nui-noi-tieng-o-mien-bac-1061229857.htm | prasa | 18.5.2026 |
 | TT-0507 | Tuổi Trẻ: park narodowy Tam Đảo zawiesza wspinaczkę na trzy szczyty od 5.5.2026. | https://tuoitre.vn/tam-dung-hoat-dong-leo-nui-tuyen-3-dinh-tam-dao-2026050711485508.htm | prasa | 7.5.2026 |
 | TT-0910 | Tuổi Trẻ: zarząd Sơn Trà ostrzega przed trekkingiem bez zgody po wypadku w Mũi Nghê, 10.9.2026. | https://tuoitre.vn/sau-tai-nan-o-mui-nghe-da-nang-khuyen-cao-viec-khach-mua-tour-trekking-tu-phat-tai-son-tra-100260910172459945.htm | prasa | 10.9.2026 |
 | TaNang | Kopia ustalenia o Tà Năng–Phan Dũng (norma TCVN 14602:2026, kara 4–6 mln VND za wejście do lasu, oferta operatorów). | `research/ta-nang-2026-10.md` | własne badanie | 8.10.2026, kopia 10.10.2026 |
@@ -263,6 +266,7 @@ Adresy sprawdzone 10.10.2026: 54 otwiera się, a cztery oznaczone † zwracają 
 |---|---|---|---|---|
 | CT-ceny | Cennik parku dla gości krajowych: bilet, pokoje na stacji w Bàu Sấu, „Tham quan Bàu Sấu (nghỉ đêm tại Bàu Sấu)”, auto, przewodnik, posiłki, zasady (decyzja 27/QĐ-TTGDMT z 20.5.2024, od 1.6.2024). | https://cattiennationalpark.com.vn/wp-content/uploads/2024/06/bang-gia-khach-noi-dia-2025.pdf | urzędowe (park) | od 1.6.2024 |
 | CT-zał | Ta sama decyzja ze skanu z pieczęcią: załączniki 2 (opłaty) i 3 (przewodnicy: tour Bàu Sấu 2 dni/1 noc BS2/BS3, tour przygodowy MH1/MH2). | https://cattiennationalpark.com.vn/wp-content/uploads/2025/07/Bang-gia-2024-co-moc-dau.pdf | urzędowe (park) | 20.5.2024, plik z lipca 2025 |
+| CT-VNE-CS | VnExpress: noc na stacji strażników nad Bàu Sấu; w jeziorze żyją na wolności krokodyle syjamskie, nocą przy brzegu świecą setki par ich oczu, bez ogrodzenia; nocleg 200 000 VND od osoby, słaby zasięg telefonu. | https://vnexpress.net/ngu-dem-o-dam-day-ca-sau-4147123.html | prasa | 16.8.2020 (odczyt 14.10.2026) |
 | CT-prog | Programy parku z noclegiem w Bàu Sấu (3N2D-TLBO: stacja bez wi-fi, zasięgu i klimatyzacji, kolacja ze strażnikami) i z dniem w Bàu Sấu (2N1D-BS). | https://cattiennationalpark.com.vn/wp-content/uploads/2023/01/3N2D-TLBO.pdf ; https://cattiennationalpark.com.vn/wp-content/uploads/2023/01/2N1D.BS_.pdf | urzędowe (park) | 1.2023 (miesiąc w adresie plików) |
 | CT-www | Strona parku: tours 2 dni/1 noc i 3 dni/2 noce, brak komunikatu o zamknięciu, artykuł o porze deszczowej (pijawki, IV–XI). | https://cattiennationalpark.com.vn/thong-tin-tour-du-lich/ ; https://cattiennationalpark.com.vn/luu-y-tham-quan-rung-cat-tien-mua-mua/ | urzędowe (park) | 30.12.2022 (artykuł), strona 10.10.2026 |
 | CT-VNE | VnExpress, „Cẩm nang Du lịch VQG Cát Tiên 2026”: Bàu Sấu 9 km + 5 km, nocleg (wyjazd przed 14:00, powrót przed 9:30, bez namiotów), ceny. | https://vnexpress.net/cam-nang-du-lich-vuon-quoc-gia-cat-tien-4775984.html | prasa | 9.8.2024, aktualizacja 25.5.2026 |
@@ -305,7 +309,7 @@ Adresy sprawdzone 10.10.2026: 54 otwiera się, a cztery oznaczone † zwracają 
 | CB-WC | The Wandering Climber: sezon wspinaczkowy, pływy i DWS, rady. | https://www.thewanderingclimber.com/cat-ba-climbing-guide/ | blog | 5.10.2019, aktualizacja 2.9.2022 |
 | CB-LS | Báo Lạng Sơn: DWS w Cát Bà, wymagania wobec uczestników (Cat Ba Climbing). | https://langsontv.vn/news/460/74284/khach-tay-thich-thu-trai-nghiem-leo-nui-roi-tha-minh-xuong-bien-o-cat-ba | prasa | 22.8.2024 |
 | CB-GCN | Sở Văn hóa và Thể thao Hải Phòng: procedura „Giấy chứng nhận đủ điều kiện kinh doanh hoạt động thể thao đối với môn Leo núi thể thao”. | https://cdn.haiphong.gov.vn/gov-hpg/SiteFolders/sovhtt/6329/tintuc/2024/5/gcn_leo-nui-the-thao.pdf | urzędowe | 5.2024 (miesiąc w adresie pliku) |
-| CB-253 | Portal Cát Hải: Quyết định 253/2025/QĐ-UBND o zasadach turystyki na zatokach archipelagu Cát Bà (tekst decyzji nie otworzył się†). | https://cathai.haiphong.gov.vn/thong-tin-du-lich/hai-phong-ban-hanh-quy-che-quan-ly-hoat-dong-du-lich-tren-cac-vinh-thuoc-quan-dao-cat-ba-843442 | urzędowe | brak |
+| CB-253 | Portal Cát Hải: Quyết định 253/2025/QĐ-UBND o zasadach turystyki na zatokach archipelagu Cát Bà. Strona się otworzyła, a tekst decyzji w załączniku nie (zob. CB-253PDF w „Uzupełnieniu 13.10.2026”). | https://cathai.haiphong.gov.vn/thong-tin-du-lich/hai-phong-ban-hanh-quy-che-quan-ly-hoat-dong-du-lich-tren-cac-vinh-thuoc-quan-dao-cat-ba-843442 | urzędowe | brak |
 | CB-K1 | Tuổi Trẻ: zawieszenie kajaków na zatokach Cát Bà od 15.11.2024. | https://tuoitre.vn/cat-ba-dung-hoat-dong-cheo-thuyen-kayak-tren-vinh-20241120214249607.htm | prasa | 20.11.2024 |
 | CB-K2 | Dân Trí: to samo, zawiadomienie 1213/TB-UBND powiatu Cát Hải. | https://dantri.com.vn/du-lich/dung-cheo-thuyen-kayak-o-lan-ha-khach-tay-tiec-nuoi-doanh-nghiep-boi-roi-20241120174714373.htm | prasa | 21.11.2024 |
 | CB-IS | Indochina Sails: zawieszenie kajaków „od 1.2.2026 do odwołania”, pismo 483/TB-UBND (strona bez daty, numeru nie potwierdziłem). | https://www.indochinasails.com/en/blog/kayak-suspension-enhanced-bamboo-boat-experience-in-lan-ha-bay.html | operator | brak |
@@ -346,7 +350,7 @@ Adresy sprawdzone 10.10.2026: 54 otwiera się, a cztery oznaczone † zwracają 
 | hue | nie | — | — | ETAPY |
 | puluong | tak: szczyt Pù Luông w jeden dzień | 2 | V–IX (propozycja z sezonu; zakazu nie ma) | PL-TT, PL-VNP, PL-VNN, PL-HET, PL-PLT, PL-PLE, PL-HDV, SEZ |
 | ninhbinh | nie | — | — | NB-NBTC, ETAPY |
-| catba | tak: wspinaczka albo DWS z operatorem (warunek: certyfikat) | 4 | VII–IX (zakazy wypłynięć 2023–2026) | CB-CBC, CB-CBV, CB-AO, CB-WC, CB-LS, CB-GCN, CB-253, CB-K1, CB-K2, CB-IS, CB-VT, SEZ |
+| catba | tak (na razie bez trudnego dnia, decyzja z 10.10.2026): wspinaczka albo DWS z operatorem (warunek: certyfikat) | 4 | VII–IX (zakazy wypłynięć 2023–2026) | CB-CBC, CB-CBV, CB-AO, CB-WC, CB-LS, CB-GCN, CB-253, CB-K1, CB-K2, CB-IS, CB-VT, SEZ |
 | hanoi | nie | — | — | TT-0507, TT-0518 |
 | babe | nie | — | — (kajaki zakazane od lipca 2026) | BB-P2, BB-ML, BB-HV, BB-TC, BB-0722, BB-1010 |
 | caobang | nie | — | — | CAO-wetrek, CAO-bao, CAO-loop, CAO-viator |
@@ -383,7 +387,7 @@ Etykiety CB-CBC, CB-CBV, CB-AO, CB-IS i CB-253 są w tabeli „Cát Bà” wyże
 
 | etykieta | opis | adres | rodzaj | data |
 |---|---|---|---|---|
-| KURS-NBP | Kurs NBP z zadania: 1 EUR = 29 055 VND, 1 USD = 25 901 VND (etykieta KURS w tamtym pliku). | `research/lotniska-2026-10.md` | własne badanie | 11.10.2026 |
+| KURS-NBP | Kurs NBP z tabel A 197/A/NBP/2026 (9.10.2026) i B 040/B/NBP/2026 (7.10.2026): 1 EUR = 29 055 VND, 1 USD = 25 901 VND (etykieta KURS w tamtym pliku). | `research/lotniska-2026-10.md` | własne badanie | 11.10.2026 |
 | BHP-0108 | Báo Hải Phòng: nowe zasady turystyki na zatokach Cát Bà od 12.1.2026: usługi tylko w ogłoszonych obszarach i punktach, legalna rejestracja i warunki każdej usługi, nadzór Ban Quản lý các vịnh. | https://baohaiphong.vn/tang-cuong-bao-dam-an-toan-bao-ve-moi-truong-tai-di-san-thien-nhien-the-gioi-cat-ba-532789.html | prasa | 8.1.2026 |
 | CB-253PDF | Załącznik do strony CB-253 „QUYET DINH (Ban hanh Quy che quan ly hoat dong du lich tren vinh) 2026-01-06”, prawdopodobnie tekst decyzji 253/2025; plik ma ponad 10 MB i narzędzie go nie otworzyło. | https://cdn.haiphong.gov.vn/gov-hpg/5889/tintuc/2026/1/quyet-dinh-ban-hanh-quy-che-quan-ly-hoat-dong-du-lich-tren-vinh-2026-01-06-41-.signed639036577419825053.pdf | urzędowe | 6.1.2026 (w nazwie załącznika) |
 | CB-QD32 | Caselaw.vn, tekst Quyết định 32/2018/QĐ-UBND (zasady turystyki na zatokach Cát Bà): art. 3 ust. 4 zalicza „chèo thuyền kayak, leo núi” do usług sportowych. | https://caselaw.vn/van-ban-phap-luat/319800-quyet-dinh-32-2018-qd-ubnd-ve-quy-che-quan-ly-hoat-dong-du-lich-tren-cac-vinh-thuoc-quan-dao-cat-ba-huyen-cat-hai-thanh-pho-hai-phong | komercyjne (baza przepisów) | 2018, nie obowiązuje od 15.10.2020 |
@@ -397,3 +401,20 @@ Etykiety CB-CBC, CB-CBV, CB-AO, CB-IS i CB-253 są w tabeli „Cát Bà” wyże
 | CB-VQG | Park Narodowy Cát Bà, „Các hoạt động du lịch”: trasy 1–2 h i 4–5 h (Mây Bầu – Ao Ếch – Áng Phay – Việt Hải); bez wspinaczki, DWS i kajaków. | https://vuonquocgiacatba.com.vn/cac-hoat-dong-du-lich | urzędowe (park) | 23.4.2026 |
 | VNS-0504 | Viet Nam News: norma TCVN 14602:2026 „Adventure tourism – Hiking and trekking activities – Requirements and recommendations”. | https://vietnamnews.vn/life-style/1780612/new-national-standard-aims-to-rein-in-risks-in-adventure-tourism.html | prasa | 4.5.2026 |
 | VNE-0615 | VnExpress: zderzenie statku Minh Anh z łodzią Bảy Hoa w rejonie Vạn Bội 14.6.2026, jedna ofiara, obie jednostki z ważnymi przeglądami. | https://vnexpress.net/nhan-chung-vu-tau-chim-o-vinh-lan-ha-chi-kip-nghe-coi-canh-bao-hai-giay-5085991.html | prasa | 15.6.2026 |
+
+## Uzupełnienie 14.10.2026: Cát Bà, kajaki i Cannon Fort
+
+Stan na 14.10.2026, sprawdzony przed publikacją (WebSearch i WebFetch, po wietnamsku i angielsku; adresy otwarto 14.10.2026). Względem „Uzupełnienia 13.10.2026” nic się nie zmieniło.
+
+- **Kajaki:** urzędowego zniesienia zawieszenia dalej nie ma. Armator pisze, że zawieszenie na podstawie pisma 483/TB-UBND obowiązuje od 1.2.2026 do odwołania w całej zatoce Lan Hạ, razem z jaskiniami Sáng – Tối (CB-2026-10-14a). Teksty promocyjne, także w prasie, opisują kajaki jak zwykłą atrakcję, bez podstawy prawnej (CB-2026-10-14b, CB-2026-10-14c).
+- **Dozwolone miejsca:** urzędowej listy miejsc do pływania kajakiem nie ma. Zatwierdzenia trzech stref zaproponowanych w 2024 roku (Cửa Cái – Minh Tự, Vạn Tà, Ba Đình; BHP-1206) dalej nie widać, a tekstu decyzji 253/2025/QĐ-UBND nadal nie udało się przeczytać (CB-253PDF).
+- **Cannon Fort (Pháo đài Thần Công):** komunikatu o ponownym otwarciu nie ma. Najnowsze źródła z datą, które opisują stan, mówią, że fort nie przyjmuje turystów i można najwyżej poprosić strażnicę o wejście (CB-VW i CB-NV w `research/plany-dni-2026-10.md`, CB-2026-10-14d). Portal komercyjny z 30.5.2026 opisuje fort jak czynny punkt widokowy z biletem 40 000 VND (CB-2026-10-14e), ale tę samą cenę podawały teksty z 2023 roku, a ten portal bywa niedokładny (`research/hagiang-2026-10.md`, „Jak czytać”).
+- **Skutek:** dzień `p` 1 bez fortu i dzień `p` 2 bez kajaka zostają bez zmian.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| CB-2026-10-14a | Indochina Sails: zawieszenie kajaków na podstawie pisma 483/TB-UBND urzędu Cát Hải, od 1.2.2026 do odwołania, cała zatoka Lan Hạ z jaskiniami Sáng – Tối; zawieszenie dalej obowiązuje; dozwolonych stref brak. | https://www.indochinasails.com/en/blog/kayak-suspension-enhanced-bamboo-boat-experience-in-lan-ha-bay.html | operator | brak (© 1993–2026) |
+| CB-2026-10-14b | Bhaya Cruises: kajaki opisane jako dostępne; strefy mogą się zmieniać, trzeba trzymać się tras ustalonych przez władze w 2026 roku; bez decyzji i bez zawieszenia. | https://bhayacruises.com/blog/lan-ha-bay/ | operator | 13.4.2026, aktualizacja 17.7.2026 |
+| CB-2026-10-14c | Báo Văn hóa o sezonie 2026 na Cát Bà: kajak o zachodzie słońca na Lan Hạ wśród atrakcji; o zawieszeniu i o forcie nic. | https://baovanhoa.vn/du-lich/dieu-gi-se-tao-nen-con-sot-du-lich-cat-ba-nam-2026-216267.html | prasa | 1.4.2026 |
+| CB-2026-10-14d | Lữ hành Việt Nam: fort nie przyjmuje już turystów, można poprosić strażnicę; usług brak; dawny bilet 40 000 VND. | https://luhanhvietnam.com.vn/du-lich/phao-dai-than-cong-cat-ba.html | blog (portal komercyjny) | 18.5.2023 |
+| CB-2026-10-14e | vietnamtourism.com (portal komercyjny bez wydawcy): fort jako punkt widokowy z kawiarnią, bilet 40 000 VND; kajaki bez przewodnika po opłacie 40 000 VND w pływających domach, o zawieszeniu nic. | https://www.vietnamtourism.com/vi/nhung-ieu-nen-lam-tren-ao-cat-ba-cam-nang-ay-u-nam-2026 | blog (portal komercyjny) | aktualizacja 30.5.2026 |

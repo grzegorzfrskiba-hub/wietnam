@@ -35,7 +35,7 @@ var COSTS = {
     'cattien.gibbons': { pp: [31, 33], group: [0, 0], book: 'cattien.park' },
     'cattien.bausau_day': { pp: [9, 9], group: [24, 46], book: 'cattien.park' },
     'cattien.trees': { pp: [0, 0], group: [14, 15] },
-    'cattien.bausau_night': { pp: [15, 15], group: [50, 88], night: true },
+    'cattien.bausau_night': { pp: [15, 15], group: [79, 88], night: true },
     'dalat.bidoup': { pp: [10, 10], group: [42, 70] },
     'dalat.cablecar': { pp: [3, 14], group: [2, 6] },
     'dalat.langbiang': { pp: [2, 44], group: [24, 0] },
