@@ -167,7 +167,8 @@ function plainDay(x, variant) {
    c: the place's content; stop: { n, start } from planRoute; done: nights spent there earlier in the trip (on a round trip
    the airport's city comes back at the end); level: 1–3; months: st.months, the month (0–11) of each trip day.
    A first stay takes the n plans with the lowest p, in their order o; a one-night stay the solo version of the p 1 plan
-   when it has one. A second stay starts with c.again and goes on with the next plans by p. null when there are too few.
+   when it has one. A second stay starts with c.again and goes on with the next plans by p (after a solo night, with the
+   plans after those its covers stands for). null when there are too few.
    next: the leg after the stay, { home, h } (the way home or not, its hours; see legAfter), or none: no restriction. On
    the stay's last day, when the way home or a leg of LONG_LEG_H hours or more follows, a late hard version (its next
    morning goes on the walk out, so the journey would start around noon) gives way to the usual day.
@@ -180,7 +181,9 @@ function stopDays(c, stop, done, level, months, next, self) {
   var notLate = !!next && (next.home || next.h >= LONG_LEG_H);
   if (done) {
     if (!c.again) return null;
-    picked = byP.slice(done, done + stop.n - 1);
+    // after a one-night first stay, whose solo plan may stand for more plans than the p 1 one (its covers)
+    var from = done === 1 && byP[0].solo && byP[0].solo.covers ? byP[0].solo.covers : done;
+    picked = byP.slice(from, from + stop.n - 1);
     if (picked.length !== stop.n - 1) return null;
     out.push(plainDay(c.again));
   } else {

@@ -26,6 +26,8 @@
      dearest of them; a version keeps the day's cost unless it sets its own ([] for none); a solo plan has its own only;
      pack: codes of PACK_CODES for the list of what to pack, as cost (also on an event);
      solo: on the p 1 day only, the plan of a one-night stay: that evening and the next morning before moving on;
+     covers: how many plans by p a solo plan stands for, 1 when not set; 2 when its morning is the p 2 plan (Hội An's
+     old town at dawn), so that a second stay goes on with the p 3 plan instead of repeating it;
    - again: on an airport's city (HUBS) only: the arrival day of its second stay on a round trip;
      a second stay starts with again and goes on with the plans after the first stay's, by p;
    - events: what happens at the place in some weeks of every year, shown in its card when a stay meets them:

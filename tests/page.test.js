@@ -643,6 +643,12 @@ eq([ha(2, 2), ha(3, 2), [mySon2.early, mySon2.cost, /Muzeum Rzeźby Czamskiej/.t
   [['Bocznymi drogami Hội An', 'Stare miasto o 6:00'], ['Bocznymi drogami Hội An', 'Stare miasto o 6:00', 'Mỹ Sơn o 6:00'], [true, ['hoian.myson'], true],
    ['easy', false, ['hoian.myson_tour']], [1, 2, 3]],
   'Hội An: Mỹ Sơn from 6:00 on the third day at three nights, with a rain plan; at level 1 the group tour with the boat back');
+// a round trip through Đà Nẵng: Hội An for one night first (its solo plan has the old town at dawn, the p 2 plan) and two
+// nights at the end, which go on with Mỹ Sơn, not the old town at 6:00 again (final review of plan B1); Hà Nội's solo
+// stands for its p 1 plan only, so its second stay keeps the p 2 plan
+function back(id) { return stopDays(CONTENT[id], { n: 2, start: 9 }, 1, 2, [2, 2, 2, 2, 2, 2, 2, 2, 2, 2], { home: true, h: 1 }).map(function (d) { return d.t; }); }
+eq([back('hoian'), back('hanoi')], [['Powrót do Hội An', 'Mỹ Sơn o 6:00'], ['Powrót do Hà Nội', 'Świątynia Literatury i Muzeum Etnologii']],
+  'a second stay of two nights: Hội An goes on with Mỹ Sơn after its solo night, Hà Nội with its p 2 plan');
 // Đà Lạt: the Tà Năng–Phan Dũng trail over two days at level 3 (days 2 and 3, the night in a tent), from three nights,
 // not in May–October; at level 2 the days as they were; the trail has its own rain plan
 function dl(n, level, months) { return stopDays(CONTENT.dalat, { n: n, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }

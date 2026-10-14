@@ -89,8 +89,11 @@ contentCheck('content', function (need) {
         }
       }
       if (d.solo) {
-        plan(w + ' solo', d.solo, ['pace', 't', 'd', 'early']);
+        plan(w + ' solo', d.solo, ['pace', 't', 'd', 'early', 'covers']);
         need(d.p === 1, w + ': solo only on the p 1 day');
+        // covers (the plans by p it stands for) matters to a second stay only, so to a place with again
+        if (d.solo.covers != null) need(d.solo.covers % 1 === 0 && d.solo.covers >= 2 && d.solo.covers < c.days.length && !!c.again,
+          w + ': solo covers 2 or more of the plans, fewer than all, in a place with again');
       }
       if (d.self) {
         plan(w + ' self', d.self, ['pace', 't', 'd', 'early']);
