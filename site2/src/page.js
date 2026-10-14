@@ -588,7 +588,7 @@ function bookList(route, plans, moto, data) {
     if (e && e.items.indexOf(k) < 0) e.items.push(k);
   }
   function leg(L) {
-    L.segs.forEach(function (g) {
+    cardSegs(L.segs, data.airports).forEach(function (g) {
       var e, k;
       if (g.mode === 'fly') {
         var f = g.h <= data.shortFlightH ? C.flight.short : C.flight.long;
@@ -662,13 +662,15 @@ function packList(route, plans, st, moto, data) {
 }
 
 /* Entry and health for this trip, from ENTRY (before.js): [{ code, vars }] for the UI keys e.<code>: visa (days without a
-   visa, the last day of the exemption); visa_end when the trip may end after it (the month mode counts the whole month);
-   passport; insurance, and insurance_moto when riding a motorbike yourself; doctor. st: normSettings' result; riding: a
-   swap ridden yourself is on the trip (ridesOn); entry: ENTRY. */
+   visa, the last day of the exemption); visa_end when the trip may end after it (in the month mode the trip may start on
+   the month's last day, so its latest end is that day plus the trip); passport; insurance, and insurance_moto when
+   riding a motorbike yourself; doctor. st: normSettings' result; riding: a swap ridden yourself is on the trip
+   (ridesOn); entry: ENTRY. */
 function entryNotes(st, riding, entry) {
   var span = tripSpan(st), until = fmtSpan(entry.visaFreeUntil, entry.visaFreeUntil);
+  var end = span && (st.start ? span[1] : tripDate(span[1], st.days));
   var out = [{ code: 'visa', vars: { days: entry.visaFreeDays, until: until } }];
-  if (!span || span[1] > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
+  if (!end || end > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
   out.push({ code: 'passport', vars: {} }, { code: 'insurance', vars: {} });
   if (riding) out.push({ code: 'insurance_moto', vars: {} });
   out.push({ code: 'doctor', vars: {} });
@@ -704,6 +706,19 @@ function segKey(g, airports, roadKeys, selfRoads, airKeys) {
   if (g.to === 'mekong') return ['r.bus_mekong', {}];
   if (g.from === 'mekong') return ['r.bus_mekong_from', {}];
   return ['r.van_car', {}];
+}
+
+/* The parts of a leg as the card and the list of what to book show them: a road that runs through an airport without a
+   flight there (Ninh Bình to Hà Giang by Nội Bài) is one road from its first place to its last, its hours summed; the map
+   draws every part (its line runs by the airport). segs: a leg's segments (legBetween); airports: AIRPORTS. */
+function cardSegs(segs, airports) {
+  var out = [];
+  segs.forEach(function (g) {
+    var last = out[out.length - 1];
+    if (last && last.mode === 'road' && g.mode === 'road' && airports[g.from] && last.to === g.from) out[out.length - 1] = { mode: 'road', from: last.from, to: g.to, h: last.h + g.h };
+    else out.push(g);
+  });
+  return out;
 }
 
 /* The ferries of a journey (FERRY in content.js): a road from an airport to a place behind a ferry, with the last crossing

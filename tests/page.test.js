@@ -443,6 +443,13 @@ eq(packList(tEk.r, plansOf(tEk), tEk.st, [], PACKD).filter(function (p) { return
 eq([entryNotes(tA.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tDk.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tA.st, true, ENTRY)[0].vars],
   [['visa', 'passport', 'insurance', 'doctor'], ['visa', 'visa_end', 'passport', 'insurance', 'doctor'], { days: 45, until: '14.08.2028' }],
   'entry: a trip that ends after the exemption is told to check the rules; the visa line names the days and the last day');
+// the month mode: a trip may start on the month's last day, so 16 days in July 2028 may end after 14.08.2028, 15 days not
+function visaEnd(month, days) {
+  var st = stOf({ from: 'HAN', to: 'HAN', year: 2028, month: month, days: days, interests: [], level: 2 });
+  return entryNotes(st, false, ENTRY).map(function (e) { return e.code; }).indexOf('visa_end') > -1;
+}
+eq([visaEnd(7, 15), visaEnd(7, 16), visaEnd(7, 30), visaEnd(6, 30)], [false, true, true, false],
+  'entry in the month mode: the latest end is the month\'s last day plus the trip, so July 2028 for 16 or 30 days is told to check the rules');
 eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), ridesOn(tA.r, ['haivan'], SWAPS), entryNotes(tA.st, true, ENTRY).map(function (e) { return e.code; }).indexOf('insurance_moto') > -1],
   [true, false, true, true], 'riding yourself on the trip: Cao Bằng on the loop, the pass on the March trip (Hội An → Huế); the insurance line for it');
 print('before ok');
@@ -619,6 +626,14 @@ eq([pCN.length, overlapArea(pinBoxOf(pCN[0]), pinBoxOf(pCN[1])), pCN.map(functio
   pCN.every(function (pn) { return pn.x !== pn.px; })],
   [2, 0, pCN.map(function (pn) { var c = CONTENT[pn.key].pt; return [(c[1] - nP.lon0) * nP.s, (nP.lat0 - c[0]) * nP.s]; }), true],
   'Cúc Phương and Ninh Bình: two pins apart, each moved off its point, which it keeps');
+// a road through an airport without a flight there (Ninh Bình to Hà Giang by Nội Bài): one road in the card and on the list
+// of what to book, its hours summed; a leg with a flight keeps its parts; the map draws every part
+var tNH = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['gory', 'kultura'], level: 2 });
+var legNH = tNH.r.stops.filter(function (x) { return x.id === 'hagiang'; })[0].leg, kNH = bookList(tNH.r, plansAll(tNH), [], BOOKD);
+var flyLeg = [{ mode: 'road', from: 'hue', to: 'HUI', h: 0.5 }, { mode: 'fly', from: 'HUI', to: 'HAN', h: 1.2 }, { mode: 'road', from: 'HAN', to: 'ninhbinh', h: 2.25 }];
+eq([legNH.segs.length, cardSegs(legNH.segs, AIRPORTS), kNH.filter(function (e) { return e.key === 'airport'; })[0].list, cardSegs(flyLeg, AIRPORTS)],
+  [2, [{ mode: 'road', from: 'ninhbinh', to: 'hagiang', h: 8 }], [['HAN', 'ninhbinh', 1]], flyLeg],
+  'Ninh Bình to Hà Giang by Nội Bài: one road of 8 h; the car from the airport to Ninh Bình is booked once, the road to Hà Giang is a transfer');
 print('stage 3 ok');
 
 /* ---------- travel texts ---------- */

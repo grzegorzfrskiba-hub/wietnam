@@ -377,12 +377,12 @@
      in the name of the radio group, so a swap met twice on a trip (there and back over a pass) makes two groups. */
   function swapBlock(id, day) {
     var self = state.settings.moto.indexOf(id) > -1;
-    return '<div class="swap" data-swap="' + id + '"><p class="swap-h">' + T('sw.' + id) + '</p>' +
+    return '<div class="swap" data-swap="' + id + '"><p class="swap-h">' + esc(T('sw.' + id)) + '</p>' +
       '<div class="seg swap-seg" role="radiogroup" aria-label="' + esc(T('sw.' + id)) + '">' + ['driver', 'self'].map(function (v) {
-        return '<label><input type="radio" name="swap-' + id + '-' + day + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + T('sw.' + v) + '</span></label>';
+        return '<label><input type="radio" name="swap-' + id + '-' + day + '" value="' + v + '"' + ((v === 'self') === self ? ' checked' : '') + '><span>' + esc(T('sw.' + v)) + '</span></label>';
       }).join('') + '</div><p class="swap-note">' + esc(T('sw.note')) + '</p>' +
-      (self ? '<div class="swap-box"><p><b>' + T('sw.req.h') + '</b>' + esc(T('sw.req')) + '</p><p><b>' + T('sw.risk.h') + '</b>' + esc(T('sw.risk') + (SWAPS[id].risk ? ' ' + T('sw.risk.' + id) : '')) + '</p>' +
-        '<p><b>' + T('sw.tips.h') + '</b>' + esc(T('sw.tips') + ' ' + T('sw.tips.' + id)) + '</p></div>' : '') + '</div>';
+      (self ? '<div class="swap-box"><p><b>' + esc(T('sw.req.h')) + '</b>' + esc(T('sw.req')) + '</p><p><b>' + esc(T('sw.risk.h')) + '</b>' + esc(T('sw.risk') + (SWAPS[id].risk ? ' ' + T('sw.risk.' + id) : '')) + '</p>' +
+        '<p><b>' + esc(T('sw.tips.h')) + '</b>' + esc(T('sw.tips') + ' ' + T('sw.tips.' + id)) + '</p></div>' : '') + '</div>';
   }
   // the swap of a place (its days), or of a road of the leg L (SWAPS), or undefined
   function swapOfPlace(id) { return Object.keys(SWAPS).filter(function (k) { return SWAPS[k].place === id; })[0]; }
@@ -396,13 +396,13 @@
     var from = AIRPORTS[L.from] ? T('leg.airport', { x: AIRPORTS[L.from].name }) : C(L.from).short;
     var to = toId ? C(toId).short : T('leg.airport', { x: AIRPORTS[L.to].name });
     var notes = legNotes(L, prev, !!(prev && C(prev.id).days.some(function (d) { return d.solo; }))).map(function (k) { return T(k); })
-      .concat(ferryNotes(L, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }));
+      .concat(ferryNotes({ segs: cardSegs(L.segs, AIRPORTS) }, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }));
     var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to), sw = swapOfLeg(L);
     return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
       '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
       '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
-      '<ul class="leg-segs">' + L.segs.map(function (g) {
+      '<ul class="leg-segs">' + cardSegs(L.segs, AIRPORTS).map(function (g) {
         var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads, AIR_KEYS));
         return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
       }).join('') + '</ul>' +
