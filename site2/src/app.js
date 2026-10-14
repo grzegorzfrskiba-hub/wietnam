@@ -246,6 +246,9 @@
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
+    // the printout names this route's address on the public page (as the copied plan does)
+    var url = SITE_URL + linkHash(state.settings);
+    $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
     tieShortWords(document.body);
   }
 
@@ -539,12 +542,24 @@
         '<rect class="m-edge" x="0" y="0" width="' + p.w + '" height="' + p.h + '" rx="8"/><text class="m-title" x="10" y="17">' + T('m.' + P.key) + '</text>' +
         scaleBar(p) + '</g>');
     });
-    $('#map').innerHTML = '<svg viewBox="-6 -6 ' + (MAP_WIDTH + 12) + ' ' + (L.height + 12) + '" role="img" aria-labelledby="map-title"><title id="map-title">' + T('m.title') +
-      esc(state.route.stops.map(function (s) { return C(s.id).short; }).join(', ')) + '</title><defs>' + defs.join('') + '</defs>' + body.join('') + '</svg>' +
-      '<p class="map-legend"><span><svg width="24" height="6" aria-hidden="true"><line class="m-road" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.road') + '</span>' +
+    var legend = '<span><svg width="24" height="6" aria-hidden="true"><line class="m-road" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.road') + '</span>' +
       '<span><svg width="24" height="6" aria-hidden="true"><line class="m-fly" x1="0" x2="24" y1="3" y2="3"/></svg>' + T('m.flight') + '</span>' +
       '<span><svg width="12" height="12" aria-hidden="true"><rect class="m-airport" x="0.8" y="0.8" width="10.4" height="10.4" rx="2"/></svg>' + T('m.airports') + '</span>' +
-      '<span class="map-note">' + T('m.scale') + '</span><button type="button" class="map-hint">' + T('m.zoom') + '</button></p>';
+      '<span class="map-note">' + T('m.scale') + '</span>';
+    $('#map').innerHTML = '<svg viewBox="-6 -6 ' + (MAP_WIDTH + 12) + ' ' + (L.height + 12) + '" role="img" aria-labelledby="map-title"><title id="map-title">' + T('m.title') +
+      esc(state.route.stops.map(function (s) { return C(s.id).short; }).join(', ')) + '</title><defs>' + defs.join('') + '</defs>' + body.join('') + '</svg>' +
+      '<p class="map-legend">' + legend + '<button type="button" class="map-hint">' + T('m.zoom') + '</button></p>';
+    // the printout: the three panels apart, north and centre side by side, the south under them with the legend
+    var svg = $('#map svg').outerHTML;
+    $('#map-print').innerHTML = mapBoxes.map(function (b, i) { return '<div class="mp-panel">' + panelSvg(svg, b, 'p' + i) + '</div>'; }).join('') +
+      '<p class="map-legend mp-legend">' + legend + '</p>';
+  }
+  /* One panel of the map as an SVG of its own (the zoom and the printout): own ids, so a copy never borrows the sidebar
+     map's clip paths (the ids clip-<panel>, never the attribute clip-path), and a viewBox around the panel. b: its box in
+     mapBoxes; tag: what the copy's ids end with. */
+  function panelSvg(svg, b, tag) {
+    return svg.replace(new RegExp('(clip-(?:' + Object.keys(MAP_PANELS).join('|') + ')|map-title)', 'g'), '$1-' + tag)
+      .replace(/viewBox="[^"]*"/, 'viewBox="-6 ' + (b.y - 6) + ' ' + (MAP_WIDTH + 12) + ' ' + (b.h + 12) + '"');
   }
 
   /* ---------- map zoom (desktop): the three panels grow out of the sidebar into a side-by-side view ---------- */
@@ -575,10 +590,7 @@
     var panels = mapBoxes.map(function (b, i) {
       var d = document.createElement('div');
       d.className = 'mz-panel';
-      // own ids so the copies never borrow the sidebar map's clip paths (the ids clip-<panel>, never the attribute clip-path);
-      // each copy shows one panel
-      d.innerHTML = svg.replace(new RegExp('(clip-(?:' + Object.keys(MAP_PANELS).join('|') + ')|map-title)', 'g'), '$1-z' + i)
-        .replace(/viewBox="[^"]*"/, 'viewBox="-6 ' + (b.y - 6) + ' ' + (MAP_WIDTH + 12) + ' ' + (b.h + 12) + '"');
+      d.innerHTML = panelSvg(svg, b, 'z' + i);
       return d;
     });
     box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
@@ -955,6 +967,8 @@
   renderCredits();
   bindLightbox();
   bindCopy();
+  // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
+  $('#pdf-plan').addEventListener('click', function () { window.print(); });
   bindAnchors();
   bindMapZoom();
   bindChanges();

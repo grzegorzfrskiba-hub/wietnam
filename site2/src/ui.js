@@ -65,11 +65,13 @@ UI.pl = {
   'alert.int_none': '{x}: żadne miejsce na tej trasie nie pasuje do tego dobrze. Powody są niżej, w części „Nie ma na twojej trasie”.',
 
   'shape.eyebrow': 'W skrócie', 'shape.h2': 'Wszystkie {days} dni',
-  'shape.p': 'Jeden kwadrat to jeden dzień, w kolorze miejsca noclegu. Kropka oznacza dzień przyjazdu. Kliknij dzień, żeby do niego przejść.',
+  'shape.p': 'Jeden kwadrat to jeden dzień, w kolorze miejsca noclegu. Kropka oznacza dzień przyjazdu.', 'shape.click': 'Kliknij dzień, żeby do niego przejść.',
   'day': 'Dzień', 'days': 'Dni',
   'flyhome': 'Wylot', 'flyhome.aria': 'Dzień {days}: wylot z {airport}',
   'missing': 'Nie zmieściło się: {x}. Reszta trasy jest bez zmian.',
   'copy.btn': 'Kopiuj plan na WhatsApp', 'copy.aria': 'Plan jako tekst', 'copy.ok': 'Skopiowano. Wklej plan do czatu.', 'copy.fail': 'Skopiuj zaznaczony tekst poniżej.',
+  'pdf.btn': 'Zapisz trasę jako PDF',
+  'pdf.hint': 'Otworzy się okno drukowania. Na iPhonie stuknij Udostępnij u góry, potem „Zachowaj w Plikach”; na Androidzie wybierz u góry „Zapisz jako PDF”, a na komputerze drukarkę „Zapisz jako PDF”. PDF otworzysz potem bez internetu.',
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
   'days.p': 'Każde miejsce ze zdjęciami, planem na każdy dzień i opisem dojazdu. Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu.',

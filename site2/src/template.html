@@ -218,6 +218,7 @@ footer .ft-copy { margin-top: 18px; }
 .strip-legend .mono { color: var(--muted); font-size: 12px; }
 .home-dot { background: transparent; border: 1px dashed var(--muted); }
 .copy { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.pdf-hint { flex-basis: 100%; margin: 0; max-width: 62ch; font-size: 14px; color: var(--muted); }
 #copy-status { font-size: 14px; color: var(--accent); }
 #copy-fallback { width: 100%; max-width: 560px; font: 13px var(--mono); padding: 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
 
@@ -225,6 +226,8 @@ footer .ft-copy { margin-top: 18px; }
 .route { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
 .map-col { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 64px); }
 .map svg { width: 100%; height: auto; max-height: calc(100vh - 80px); display: block; }
+/* the map's panels apart and the link to the route: for the printout only (@media print) */
+.map-print, .print-link { display: none; }
 /* the zoom button exists for screen readers and keyboards only where zooming works (wide screens); display: none hides it everywhere else */
 .map-hint { display: none; font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: zoom-in; text-align: left; }
 @media (min-width: 901px) {
@@ -447,31 +450,40 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   .secnav.away .secnav-sum { margin-left: 0; flex: 1; justify-content: space-between; }
 }
 .totop { position: fixed; z-index: 35; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 2px 10px rgba(var(--black), 0.18); }
+@page { size: A4; margin: 12mm; }
 @media print {
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .lightbox, .mapzoom, .shape-click { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
-  .map-col { position: static; break-inside: avoid; }
-  .map svg { max-width: 220px; }
+  /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
+     legend, each about 9 cm wide (the sidebar map is for the screen); the link to the route under the title */
+  .map-col { display: none !important; }
+  .map-print { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; align-items: start; break-inside: avoid; margin-bottom: 8mm; }
+  .map-print svg { display: block; width: 100%; height: auto; }
+  .mp-legend { align-self: end; }
+  .print-link { display: block; margin-top: 12px; font: 11px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
   /* a stop may run over a page break; its days, journeys and boxes stay whole. Chrome prints a grid that breaks across
      pages with its later rows over the earlier ones (the tip boxes covered the last day's text), so a stop is a plain
      block here and the grid gap becomes a margin */
   .stop { display: block !important; break-inside: auto; }
   .stop > * + * { margin-top: var(--stop-gap); }
   .stop-compact > * + * { margin-top: var(--stop-gap-compact); }
-  .gal { max-width: 360px; break-inside: avoid; }
+  /* one photo a stay, about 5 cm high, so a photo that has to move to the next page leaves a smaller gap */
+  .gal { max-width: 7.5cm; break-inside: avoid; }
   /* a heading never stays alone at the bottom of a page: the eyebrow goes with its title, the title with what follows */
   .eyebrow, .facts-for, .stop-head, h2, h3, .block-head { break-after: avoid; }
   .block-head, .stop-head, .stop-title { break-inside: avoid; }
   .leg, .day, .tip { break-inside: avoid; }
-  /* "Przed wyjazdem" and the motorbike's choice: blocks, not grids (as .stop above), and each of their items whole */
+  /* "Przed wyjazdem" and the motorbike's choice: blocks, not grids (as .stop above), and each of their items whole; the
+     choice may break between its paragraphs, its heading stays with the switch */
   .before, .b-part, .b-book, .b-list, .b-parts, .swap { display: block !important; }
   .before > * + * { margin-top: 24px; }
   .b-part > * + *, .b-book li + li, .b-list li + li, .swap > * + * { margin-top: 8px; }
-  .b-book li, .b-list li, .b-parts li, .swap { break-inside: avoid; }
+  .b-book li, .b-list li, .b-parts li, .swap-seg, .swap p { break-inside: avoid; }
+  .swap-h { break-after: avoid; }
   .credits { columns: 3; column-gap: 20px; font-size: 9px; line-height: 1.35; }
   .credits li { margin-bottom: 1px; }
 }
@@ -486,6 +498,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
       <h1 data-i18n-html="hero.h1"></h1>
       <p class="hero-lede" data-i18n="hero.lede"></p>
+      <p class="print-link" id="print-link"></p>
       <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a></div>
     </div>
   </div>
@@ -552,7 +565,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="block-head">
       <p class="eyebrow" data-i18n="shape.eyebrow"></p>
       <h2 id="shape-h2" tabindex="-1"></h2>
-      <p data-i18n="shape.p"></p>
+      <p><span data-i18n="shape.p"></span> <span class="shape-click" data-i18n="shape.click"></span></p>
     </div>
     <div class="strip" id="strip"></div>
     <ul class="strip-legend" id="strip-legend"></ul>
@@ -566,8 +579,10 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     </div>
     <div class="copy">
       <button type="button" class="btn" id="copy-plan" data-i18n="copy.btn"></button>
+      <button type="button" class="btn-ghost" id="pdf-plan" data-i18n="pdf.btn"></button>
       <span id="copy-status" role="status"></span>
       <textarea id="copy-fallback" rows="9" readonly hidden data-i18n-aria="copy.aria"></textarea>
+      <p class="pdf-hint" data-i18n="pdf.hint"></p>
     </div>
   </section>
 
@@ -577,6 +592,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <h2 data-i18n="days.h2"></h2>
       <p data-i18n="days.p"></p>
     </div>
+    <div class="map-print" id="map-print"></div>
     <div class="route">
       <aside class="map-col" data-i18n-aria="map.aria"><div class="map" id="map"></div></aside>
       <div class="stops" id="stops"></div>

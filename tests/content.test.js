@@ -308,6 +308,16 @@ contentCheck('ui', function (need) {
   need(pl['fmt.hm'].indexOf('{h}') > -1 && pl['fmt.hm'].indexOf('{m}') > -1, 'fmt.hm needs {h} and {m}');
 });
 
+/* The printout, the offline version for travellers (decision of 14.10.2026): A4 with 12 mm margins, the button „Zapisz
+   trasę jako PDF” right after „Kopiuj plan na WhatsApp”, the map's panels apart for print and the link to the route on the
+   first page; tests/probes/pdf.js taps the button, tests/print.sh prints. */
+contentCheck('printout', function (need) {
+  var tpl = readFile('site2/src/template.html');
+  need(/\n@page \{ size: A4; margin: 12mm; \}\n/.test(tpl), 'template.html: @page { size: A4; margin: 12mm; }');
+  need(/id="copy-plan"[^>]*><\/button>\s*<button type="button" class="btn-ghost" id="pdf-plan" data-i18n="pdf.btn"><\/button>/.test(tpl), 'template.html: the PDF button right after „Kopiuj plan”');
+  need(/<div class="map-print" id="map-print"><\/div>/.test(tpl) && /<p class="print-link" id="print-link"><\/p>/.test(tpl), 'template.html: the map and the link of the printout');
+});
+
 /* What the parks allow today (research/<id>-2026-10.md): every plan that drives to Sơn Trà says to check the notice of its
    management the day before, as the roads close in heavy rain (closed from 8.10.2026 until further notice). */
 contentCheck('safety', function (need) {

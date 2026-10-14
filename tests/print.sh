@@ -1,8 +1,9 @@
 #!/bin/bash
 # Usage: tests/print.sh <settings> <out.pdf> [dark]   e.g. tests/print.sh 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2' /tmp/a.pdf
 # MIESIAC in the settings becomes the month five months from today (YYYY-MM).
-# Prints the built page to PDF through headless Chrome (A4, backgrounds on), then reports the page count,
-# the pages that are almost empty and the text lines covered by a box drawn over them (must be 0).
+# Prints the built page to PDF through headless Chrome (A4 from the page's @page rule, backgrounds on), then reports the
+# paper, the page count, the pages that are almost empty and the text lines covered by a box drawn over them.
+# Exit 1 when a line of text is covered.
 # "dark" prints with the system set to dark mode.
 # Prints site2/out/pages/index.html, the full document a visitor gets (doctype, no body margin), not the fragment in
 # site2/out/web, which Chrome opens in quirks mode with an 8 px margin.
@@ -38,7 +39,8 @@ for p in doc:
     bottom = max([b[3] for b in blocks] or [0])
     fill.append(round(100 * bottom / p.rect.height))
 low = [i + 1 for i, f in enumerate(fill) if f < 45 and i + 1 < len(fill)]
-print("%s: %d pages; filled to %% of height: %s; under 45%% (not counting the last): %s" % (sys.argv[1], len(doc), fill, low or "none"))
+print("%s: %d pages of %.0f x %.0f mm; filled to %% of height: %s; under 45%% (not counting the last): %s"
+      % (sys.argv[1], len(doc), doc[0].rect.width * 25.4 / 72, doc[0].rect.height * 25.4 / 72, fill, low or "none"))
 # Covered text: a run of text that a filled box (a card or a tip: a short rounded path, unlike the map's land and sea)
 # is drawn over later in the page and hides more than a fifth of it. Counted in lines (one baseline = one line).
 lines = set()
@@ -49,4 +51,5 @@ for n, p in enumerate(doc, 1):
         if abs(r) and any(d["seqno"] > t["seqno"] and abs(r & d["rect"]) > 0.2 * abs(r) for d in boxes):
             lines.add((n, round(t["chars"][0][2][1])))
 print("covered text lines: %d%s" % (len(lines), " (pages %s)" % ", ".join(str(n) for n in sorted({n for n, _ in lines})) if lines else ""))
+sys.exit(1 if lines else 0)
 PY
