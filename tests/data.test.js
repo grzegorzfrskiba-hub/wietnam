@@ -13,6 +13,9 @@ function dataCheck(label, body) {
 var SEASON_NOTE = readFile('research/sezony-2026-10.md');
 var OWN_NOTES = Object.keys(PLACES).filter(function (id) { return !PLACES[id].node && SEASON_NOTE.indexOf('\n## ' + id + ': ') < 0; })
   .map(function (id) { return 'research/' + id + '-2026-10.md'; });
+// a day added to another place's module in batch B keeps its research in a note of its own too, with the tables
+// „Zestawienie: wycieczki” and „Zestawienie: rezerwacje” (Mỹ Sơn in Hội An)
+var DAY_NOTES = ['research/myson-2026-10.md'];
 
 dataCheck('places', function (need) {
   Object.keys(PLACES).forEach(function (id) {
@@ -224,7 +227,7 @@ dataCheck('costs', function (need) {
     var v = [n(r[2]), n(r[3])], car = /^auto/.test(r[1]);
     items[r[0]] = { pp: car ? [0, 0] : v, group: car ? v : [0, 0] };
   });
-  OWN_NOTES.forEach(function (p) {
+  OWN_NOTES.concat(DAY_NOTES).forEach(function (p) {
     researchRows(p, '### Zestawienie: ceny').forEach(function (r) { base[r[0]] = [n(r[2]), n(r[3])]; });
     researchRows(p, '### Zestawienie: wycieczki').forEach(function (r) {
       items[r[0].replace(/`/g, '')] = { pp: [n(r[2]), n(r[3])], group: [n(r[4]), n(r[5])] };
@@ -253,7 +256,7 @@ dataCheck('costs', function (need) {
 dataCheck('booking', function (need) {
   var rows = {};
   researchRows('research/rezerwacje-2026-10.md', '## Zestawienie\n').forEach(function (r) { rows[r[0]] = r; });
-  OWN_NOTES.forEach(function (p) { researchRows(p, '### Zestawienie: rezerwacje').forEach(function (r) { rows[r[0]] = r; }); });
+  OWN_NOTES.concat(DAY_NOTES).forEach(function (p) { researchRows(p, '### Zestawienie: rezerwacje').forEach(function (r) { rows[r[0]] = r; }); });
   Object.keys(BOOK).forEach(function (k) {
     var b = BOOK[k], r = rows[k];
     need(r, k + ': no row in the research');

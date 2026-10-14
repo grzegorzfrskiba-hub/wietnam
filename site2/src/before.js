@@ -1,7 +1,8 @@
 /* Before the trip (plan 2B). BOOK: what to book ahead and where, by key: ahead, the days ahead outside the peak (0: on the
    spot, not on the list), and the links, official pages and checked operators without tracking or partner parameters.
    From the table „Zestawienie” in research/rezerwacje-2026-10.md, for a place of stage 3 the table „Zestawienie: rezerwacje”
-   of its own note (tests/data.test.js checks them against both); tools/links.sh
+   of its own note, for a day added to another place's module the note of the day (Mỹ Sơn: research/myson-2026-10.md;
+   tests/data.test.js checks them against both); tools/links.sh
    checks that the links answer. ENTRY: entry for Polish citizens, from research/wjazd-2026-10.md: days without a visa and
    the last day of the exemption (Nghị quyết 229/NQ-CP; a trip that ends later is told to check the rules), and the official
    pages to check before the trip. */
@@ -34,9 +35,11 @@ var BOOK = {
   'saigon.cangio': { ahead: 2, links: [{ name: 'Green SM Green Tour', url: 'https://www.greensm.com/vn-vi/green-tour' }, { name: 'Saigontourist', url: 'https://xedulich.saigontourist.net/' }, { name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }] },
   'hanoi.duonglam': { ahead: 2, links: [{ name: 'Green SM Green Tour', url: 'https://www.greensm.com/vn-vi/green-tour' }] },
   'hoian.cooking': { ahead: 2, links: [{ name: 'Tra Que Water Wheel', url: 'https://traquewaterwheel.com/' }] },
+  'hoian.myson_tour': { ahead: 2, links: [{ name: 'LocalVietnam, Mỹ Sơn', url: 'https://localvietnam.com/tour/my-son-sanctuary-tour/' }] },
   'cattien.park': { ahead: 1, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, nocne safari', url: 'https://cattiennationalpark.com.vn/xem-thu-dem/' }] },
   'puluong.guide': { ahead: 1, links: [] },
   'cucphuong.car': { ahead: 1, links: [] },
+  'hoian.myson': { ahead: 1, links: [{ name: 'Hoi An Transport Service, Mỹ Sơn', url: 'https://hoiantransportservice.com/hoi-an-my-son-sanctuary-by-private-car/' }, { name: 'Vietnam Vacation Travel, Mỹ Sơn', url: 'https://vietnamvacation.com.vn/hoi-an-to-my-son-sanctuary/' }, { name: 'Mỹ Sơn, bilety online', url: 'https://mysonticketonline.vn/ticket' }] },
   'sapa.trek': { ahead: 2, links: [{ name: 'Sapa Sisters', url: 'https://sapasisters.com/sapa-tour-booking/' }] },
   'sapa.car': { ahead: 1, links: [] },
   'sapa.cablecar': { ahead: 0, links: [{ name: 'Sun World Fansipan Legend', url: 'https://sunworld.vn/vi/fansipan' }] },

@@ -42,6 +42,8 @@ var COSTS = {
     'dalat.train': { pp: [5, 5], group: [2, 6] },
     'dalat.caudat': { pp: [0, 0], group: [36, 53] },
     'hoian.cooking': { pp: [25, 47], group: [5, 10] },
+    'hoian.myson': { pp: [5, 5], group: [28, 41] },
+    'hoian.myson_tour': { pp: [26, 36], group: [0, 0] },
     'hue.citadel': { pp: [7, 7], group: [0, 0] },
     'hue.tombs': { pp: [9, 13], group: [0, 0] },
     'hue.boatcar': { pp: [10, 13], group: [36, 45] },

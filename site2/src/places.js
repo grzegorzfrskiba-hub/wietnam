@@ -12,7 +12,7 @@ var PLACES = {
   phuquoc:   { axis: 10.33, nights: [2, 3, 4], level: 1, fit: { kultura: 0, jedzenie: 1, przyroda: 1, gory: 0, morze: 3 } },
   cattien:   { axis: 11.43, nights: [1, 2, 2], level: 1, fit: { kultura: 0, jedzenie: 0, przyroda: 3, gory: 1, morze: 0 } },
   dalat:     { axis: 11.94, nights: [2, 3, 4], level: 1, fit: { kultura: 1, jedzenie: 1, przyroda: 2, gory: 2, morze: 0 } },
-  hoian:     { axis: 15.88, nights: [1, 2, 2], level: 1, fit: { kultura: 3, jedzenie: 3, przyroda: 0, gory: 0, morze: 1 } },
+  hoian:     { axis: 15.88, nights: [1, 2, 3], level: 1, fit: { kultura: 3, jedzenie: 3, przyroda: 0, gory: 0, morze: 1 } },
   danang:    { axis: 16.07, nights: [1, 2, 2], level: 1, fit: { kultura: 1, jedzenie: 1, przyroda: 1, gory: 1, morze: 2 } },
   hue:       { axis: 16.46, nights: [2, 2, 3], level: 1, fit: { kultura: 3, jedzenie: 2, przyroda: 1, gory: 0, morze: 0 } },
   phongnha:  { axis: 17.6, nights: [2, 3, 4], level: 1, fit: { kultura: 0, jedzenie: 0, przyroda: 2, gory: 3, morze: 0 } },

@@ -6,6 +6,9 @@ var OLD_IDS = ['saigon', 'mekong', 'phuquoc', 'cattien', 'dalat', 'hoian', 'hue'
 var OLD_AIRPORTS = ['SGN', 'HAN', 'DAD', 'HUI', 'DLI', 'PQC', 'VCA', 'HPH', 'THD'];
 var OLD_PLACES = {};
 OLD_IDS.forEach(function (id) { OLD_PLACES[id] = PLACES[id]; });
+// Hội An with its nights of stages 1–2 (since batch B it has a third, with Mỹ Sơn)
+OLD_PLACES.hoian = JSON.parse(JSON.stringify(PLACES.hoian));
+OLD_PLACES.hoian.nights = [1, 2, 2];
 function oldEnd(e) { return OLD_IDS.indexOf(e) > -1 || OLD_AIRPORTS.indexOf(e) > -1; }
 var DATA_T = { places: OLD_PLACES, seasons: SEASONS, hubs: HUBS,
   graph: travelGraph(ROADS.filter(function (r) { return oldEnd(r[0]) && oldEnd(r[1]); }), FLIGHTS.filter(function (f) { return oldEnd(f[0]) && oldEnd(f[1]); })) };
@@ -632,6 +635,14 @@ eq([sp(3, 3, [2, 2, 2]), sp(3, 3, [6, 6, 6]), sp(2, 3, [2, 2]), sp(3, 1, [2, 2, 
 var tSP = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['gory'], level: 3, add: ['sapa'] });
 eq([stayOf(tSP, 'sapa').days.slice(1, 3), keysOf(bookList(tSP.r, plansAll(tSP), [], BOOKD)).indexOf('sapa.fansipan') > -1], [['hard', 'hard'], true],
   'mountains in March at level 3 with Sa Pa: Fansipan on foot, on the list of what to book');
+// Hội An: at three nights the third day is Mỹ Sơn from 6:00 (at level 1 the group tour with the boat back, from about
+// 7:00), with its own rain plan; at two nights the days stay as they were
+function ha(n, level) { return stopDays(CONTENT.hoian, { n: n, start: 1 }, 0, level, [2, 2, 2]).map(function (d) { return d.t; }); }
+var mySon = stopDays(CONTENT.hoian, { n: 3, start: 1 }, 0, 1, [2, 2, 2])[2], mySon2 = stopDays(CONTENT.hoian, { n: 3, start: 1 }, 0, 2, [2, 2, 2])[2];
+eq([ha(2, 2), ha(3, 2), [mySon2.early, mySon2.cost, /Muzeum Rzeźby Czamskiej/.test(mySon2.rain)], [mySon.variant, mySon.early, mySon.cost], PLACES.hoian.nights],
+  [['Bocznymi drogami Hội An', 'Stare miasto o 6:00'], ['Bocznymi drogami Hội An', 'Stare miasto o 6:00', 'Mỹ Sơn o 6:00'], [true, ['hoian.myson'], true],
+   ['easy', false, ['hoian.myson_tour']], [1, 2, 3]],
+  'Hội An: Mỹ Sơn from 6:00 on the third day at three nights, with a rain plan; at level 1 the group tour with the boat back');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });
