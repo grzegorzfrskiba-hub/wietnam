@@ -234,7 +234,7 @@ UI.pl = {
   'e.visa_end': 'Twój wyjazd może skończyć się po {until}, a obecne zwolnienie z wiz trwa do tego dnia. Sprawdź aktualne zasady wjazdu.',
   'e.evisa': 'E-wiza: jeśli jej potrzebujesz, złóż wniosek tylko na rządowej stronie evisa.gov.vn. W sieci są fałszywe strony, które się pod nią podszywają.',
   'e.passport': 'Paszport: ważny co najmniej 6 miesięcy, najlepiej licząc od dnia powrotu, z dwiema wolnymi stronami.',
-  'e.arrival': 'Karta przylotu: Wietnam wprowadza ją na kolejnych lotniskach, a na Tân Sơn Nhất (Hồ Chí Minh City) od kwietnia 2026. Wypełnia się ją w ciągu 3 dni przed lotem, bezpłatnie i tylko na stronie urzędu imigracyjnego prearrival.immigration.gov.vn.',
+  'e.arrival': 'Karta przylotu: Wietnam wprowadza ją na kolejnych lotniskach, a na Tân Sơn Nhất (Hồ Chí Minh City) od kwietnia 2026. Wypełnia się ją w ciągu 3 dni przed przylotem, bezpłatnie i tylko na stronie urzędu imigracyjnego prearrival.immigration.gov.vn.',
   'e.vape': 'E-papierosy: razem z podgrzewanym tytoniem są w Wietnamie nielegalne, a za ich przywóz i używanie grożą kary i konfiskata, więc zostaw je w domu.',
   'e.insurance': 'Ubezpieczenie: przy wjeździe nikt go nie sprawdza, ale weź polisę z kosztami leczenia i transportem medycznym. EKUZ działa tylko w Unii Europejskiej i EFTA.',
   'e.insurance_moto': 'Motocykl: sprawdź w warunkach polisy, czy obejmuje jazdę motocyklem. Szkody wyrządzone innym na motocyklu zwykle nie są ubezpieczone.',

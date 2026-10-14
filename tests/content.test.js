@@ -318,12 +318,15 @@ contentCheck('printout', function (need) {
   need(/<div class="map-print" id="map-print"><\/div>/.test(tpl) && /<p class="print-link" id="print-link"><\/p>/.test(tpl), 'template.html: the map and the link of the printout');
 });
 
-/* What the parks allow today (research/<id>-2026-10.md): every plan that drives to Sơn Trà says to check the notice of its
-   management the day before, as the roads close in heavy rain (closed from 8.10.2026 until further notice). */
+/* What the parks and the entry rules allow today (research/<id>-2026-10.md, research/wjazd-2026-10.md): every plan that
+   drives to Sơn Trà says to check the notice of its management the day before, as the roads close in heavy rain (closed
+   8–13.10.2026, open again from 14.10.2026); the arrival card's 3 days count from the arrival, as the immigration office
+   says (WJ-2026-10-14c), not from a flight that may leave a day earlier. */
 contentCheck('safety', function (need) {
   CONTENT.danang.days.forEach(function (d) {
     [['', d], [' solo', d.solo], [' easy', d.easy], [' hard', d.hard]].forEach(function (v) {
       if (v[1] && /Sơn Trà/.test(v[1].d)) need(/sprawdź[^.]*komunikat/.test(v[1].d), 'danang day ' + d.p + v[0] + ': a plan on Sơn Trà says to check the notice of the management (sprawdź … komunikat)');
     });
   });
+  need(/w ciągu 3 dni przed przylotem/.test(UI.pl['e.arrival']), 'e.arrival: the arrival card is filled within 3 days before the arrival (przed przylotem), as the immigration office counts');
 });
