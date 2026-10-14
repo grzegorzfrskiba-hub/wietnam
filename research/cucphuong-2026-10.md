@@ -185,7 +185,7 @@ Pobyt najdłuższy to 2 noce, więc są dwa dni. Teksty to propozycje do `site2/
 ## Bezpieczeństwo i przepisy
 
 - **Bilet:** wstęp jest płatny (60 000 VND dorosły, 20 000 VND student, 10 000 VND dziecko w wieku 6–15 lat; TT206). Bilet elektroniczny z kodem QR kupisz w sklepie parku, płatność przez VNPAY, bez zwrotu ani zamiany (CP-WWW).
-- **Godziny:** zajęcia dzienne kończą się przed 19:00, a zabawy grupowe przed 23:00 (CP-NOIQUY). Od 1.09.2026 między 19:00 a 7:00 nocujący nie wchodzą w głąb lasu, poza nocną wycieczką z przewodnikiem, a każdy wyjeżdżający pojazd i bagaż są kontrolowane (CP-POJAZDY, decyzja 195/QĐ-VCP-TCHC z 18.08.2026).
+- **Godziny:** zajęcia dzienne kończą się przed 19:00, a zabawy grupowe przed 23:00 (CP-NOIQUY). Od 1.09.2026 między 19:00 a 7:00 nocujący nie wchodzą w głąb lasu, poza nocną wycieczką z przewodnikiem, a każdy wyjeżdżający pojazd i bagaż są kontrolowane (CP-POJAZDY, decyzja 195/QĐ-VCP-TCHC z 18.08.2026). Stan 14.10.2026: zasada obowiązuje, a komunikat z 20.08.2026 nie ma daty końca ani odwołania (CP-2026-10-14c); regulamin z 24.09.2026 dopuszcza zajęcia po 19:00 tylko z pozwoleniem (CP-2026-10-14d).
 - **Przewodnik parku obowiązkowy:** Mây Bạc i Bản Mường (CP-SZLAKI), całodniowe wejście przy jeziorze Mạc i pętla ze skamieniałym gadem (CP-DROGA), warianty 3 i 4 combo jednodniowego, tylko dla dorosłych (CP-COMBO). Bez przewodnika: pętla do tysiącletniego Chò, 700-letnie Chò chỉ, ścieżki Sấu i Đăng, Động Người Xưa (CP-SZLAKI, CP-DROGA).
 - **Nie wolno (wprost w źródłach):**
   - wchodzić w głąb lasu nocą bez przewodnika (CP-POJAZDY);
@@ -193,10 +193,10 @@ Pobyt najdłuższy to 2 noce, więc są dwa dni. Teksty to propozycje do `site2/
   - szkodzić zwierzętom i roślinom, śmiecić, hałasować, wnosić broń, materiały wybuchowe i trujące oraz „organizmy niewiadomego pochodzenia” (CP-NOIQUY);
   - używać lampy błyskowej na nocnej przejażdżce (ND-2024b);
   - wchodzić do lasu i organizować tam wycieczek bez zgody zarządcy, pod karą 4–6 mln VND (TD, „Ramy prawne 2026”, dekret 146/2026/NĐ-CP).
-- **Noclegi w lesie:** wstrzymane 23.08.2026 przed sztormem nr 4 (VOV-2026-08-23) i od 16.09.2026 do odwołania z powodu ulew i powodzi (TT-2026-09-16). Źródła nie mówią, czy chodzi tylko o biwaki, czy też o pokoje w Bống albo przy bramie; inne zajęcia działały „według warunków” i wskazań zarządcy (BVH-2026-09-16). Przed rezerwacją noclegu zapytaj park, co jest otwarte.
+- **Noclegi w lesie:** wstrzymane 23.08.2026 przed sztormem nr 4 (VOV-2026-08-23) i od 16.09.2026 do odwołania z powodu ulew i powodzi (TT-2026-09-16). Źródła nie mówią, czy chodzi tylko o biwaki, czy też o pokoje w Bống albo przy bramie; inne zajęcia działały „według warunków” i wskazań zarządcy (BVH-2026-09-16). Przed rezerwacją noclegu zapytaj park, co jest otwarte. Stan 14.10.2026: wstrzymania z 16.09.2026, o ile można to ustalić, nie odwołano. Na stronie parku nie ma komunikatu o wznowieniu (najnowsze wpisy z 24.09.2026), prasa po 17.09.2026 o wznowieniu nie pisze, a wydział turystyki zapowiadał przegląd tras przed wznowieniem, gdy opadnie woda (CP-2026-10-14a, CP-2026-10-14e, CP-2026-10-14f). Czy chodzi też o pokoje w Bống, dalej nie wiadomo: źródła mówią tylko o nocowaniu w lesie, a regulamin z 24.09.2026 o tym milczy (CP-2026-10-14d). Do ustalenia w parku, tel. 1800 5555 88.
 - **Bống:** prąd tylko ok. 4 h wieczorem (CP-POKOJE), w głębi lasu zanika zasięg telefonu (ND-2024b).
 - **Ryzyka:** pijawki i komary w porze deszczowej, śliskie wapienne zbocza (CP-BIWAK, OX), jaskinie bez oświetlenia (CP-SZLAKI, CP-DROGA), zwierzęta przechodzące przez wąską krętą drogę do Bống (JB).
-- **Zarządca:** park podlega dziś ministerstwu rolnictwa i środowiska. Prowincja Ninh Bình chce go przejąć, a ministerstwo w raporcie z 30.06.2026 radziło zostawić go pod zarządem centralnym (THANHTRA†). Strona i cennik mogą się więc zmienić, jak w Cát Tiên (SEZ).
+- **Zarządca:** park podlega dziś ministerstwu rolnictwa i środowiska. Prowincja Ninh Bình chce go przejąć, a ministerstwo w raporcie z 30.06.2026 radziło zostawić go pod zarządem centralnym (THANHTRA†). Stan 14.10.2026: bez zmian. Ninh Bình wysłała 24.06.2026 wniosek do rządu i premiera o przekazanie parku (CP-2026-10-14g); ministerstwo w raporcie 7019 radzi zostawić cztery parki międzyprowincjonalne, w tym Cúc Phương, pod sobą, a Thanh Hóa i Phú Thọ chcą obecnego modelu (CP-2026-10-14h, otwarte źródło zamiast THANHTRA†). Decyzji rządu nie znalazłem. Strona i cennik mogą się więc zmienić, jak w Cát Tiên (SEZ).
 
 ## Ceny
 
@@ -369,14 +369,14 @@ Licencje, autorzy i rozmiary sprawdzone na stronach plików 13.10.2026 (WebFetch
 
 ## Do sprawdzenia przed publikacją (etap 4)
 
-- Czy park odwołał wstrzymanie noclegów w lesie z 16.09.2026 i czy dotyczyło ono też pokoi w Bống (TT-2026-09-16).
+- Czy park odwołał wstrzymanie noclegów w lesie z 16.09.2026 i czy dotyczyło ono też pokoi w Bống (TT-2026-09-16). Sprawdzone 14.10.2026: nie odwołał, o ile można to ustalić; czy wstrzymanie obejmuje pokoje w Bống, dalej nie wiadomo, to pytanie do parku (sekcja „Bezpieczeństwo i przepisy”, CP-2026-10-14a, CP-2026-10-14e, CP-2026-10-14f).
 - Godziny EPRC i programu żółwi w 2026 (dziś tylko WV ze stanem 1.2024) i czy combo zawiera wstęp do parku (SOV mówi, że tak; CP-COMBO milczy).
 - Cena przewodnika na Mây Bạc, minimalna grupa i czy park prowadzi tam cudzoziemców po angielsku (CP-COMBO, BVH-2025b).
-- Czy przy nocnej przejażdżce para płaci minimum 600 000 VND, czy park łączy małe grupy (CP-NOC).
+- Czy przy nocnej przejażdżce para płaci minimum 600 000 VND, czy park łączy małe grupy (CP-NOC). Sprawdzone 14.10.2026: przejażdżka jest w sprzedaży, codziennie 19:00–22:00, 150 000 VND dla nocujących i 210 000 VND dla pozostałych, z minimum 600 000 VND za turę poniżej 4 osób i bez komunikatu o przerwie (CP-2026-10-14b); czy park łączy małe grupy, strona dalej nie mówi.
 - Szczegóły decyzji 195/QĐ-VCP-TCHC (skany w CP-POJAZDY nie dały się odczytać): czy auta gości trzeba zgłaszać, co się dzieje po wyczerpaniu limitu 300 pojazdów i czy elektryczne busy parku wożą pojedyncze osoby do Bống i za ile.
 - Godziny otwarcia bramy: 6:00–19:00 według JB i VNA†, start programów o 8:00 według BVH-2025b; oficjalnej godziny nie znalazłem.
-- Zarząd parku: czy Ninh Bình przejęła park (THANHTRA†); wtedy adresy stron i cennik mogą się zmienić.
-- Program biwaku 2 dni/1 noc (CP-BIWAK): cena, terminy i czy wróci po wstrzymaniu.
+- Zarząd parku: czy Ninh Bình przejęła park (THANHTRA†); wtedy adresy stron i cennik mogą się zmienić. Sprawdzone 14.10.2026: nie, park dalej podlega ministerstwu, a decyzji rządu w sprawie wniosku Ninh Bình nie znalazłem (CP-2026-10-14g, CP-2026-10-14h).
+- Program biwaku 2 dni/1 noc (CP-BIWAK): cena, terminy i czy wróci po wstrzymaniu. Sprawdzone 14.10.2026 tylko częściowo: wstrzymania nocowania w lesie nie odwołano (CP-2026-10-14a), a ceny i terminów biwaku nie sprawdzano.
 - Współrzędne bramy (`pt`) z mapy albo strony parku; dziś pochodzą z geotagów dwóch zdjęć z Commons.
 - Licencje kandydatów na zdjęcia na stronach plików, tuż przed publikacją.
 
@@ -447,3 +447,18 @@ Adresy otwarto 13.10.2026, poza oznaczonymi † (znane tylko z wyników wyszukiw
 | R2R | Rome2Rio, tylko odległości: Nội Bài 150,2 km; Hà Nội 122,5 km; Tam Cốc 51,3 km; Pù Luông 110,3 km; Thọ Xuân 83,9 km; Ba Bể 322,1 km; Cao Bằng 392,7 km; Cát Bà (autobus i taksówka) | https://www.rome2rio.com/s/Noi-Bai-International-Airport-HAN/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Hanoi/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Tam-Coc/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Pu-Luong/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Thanh-Hoa-Tho-Xuan-Airport-THD/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Ba-Be-National-Park/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/Cao-B%E1%BA%B1ng/Cuc-Phuong-National-Park ; https://www.rome2rio.com/s/C%C3%A1t-B%C3%A0/Cuc-Phuong-National-Park | przewodnik komercyjny | 13.10.2026 |
 | VNA† | Vietnam Airlines, przewodnik „Cuc Phuong National Park”: ok. 120 km i ok. 2,5 h z Hà Nội, 6:00–19:00, 60 000 VND (adres zwraca 404) | https://www.vietnamairlines.com/vn/en/useful-information/travel-guide/cuc-phuong-national-park | przewodnik komercyjny | brak |
 | SEZ, TD, CEN, REZ, POL, LOT | pliki projektu: sezony (K5, N2, N3, zasady oceny), trudne dni (ramy prawne 2026), ceny (kurs NBP, W-LV), rezerwacje, połączenia, lotniska (THD-SPL) | `research/sezony-2026-10.md` ; `research/trudne-dni-2026-10.md` ; `research/ceny-2026-10.md` ; `research/rezerwacje-2026-10.md` ; `research/polaczenia-2026-10.md` ; `research/lotniska-2026-10.md` | własne obliczenie | 9–12.10.2026 |
+
+### Sprawdzenie przed publikacją (14.10.2026)
+
+Sprawdzenie punktów „Do sprawdzenia przed publikacją (etap 4)”: WebSearch i WebFetch 14.10.2026, bez zapisywania stron; wszystkie adresy się otworzyły. Część to te same strony co w tabeli wyżej, w odczycie z 14.10.2026.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| CP-2026-10-14a | Strona ośrodka usług parku (ta sama co CP-WWW): najnowsze wpisy z 24.09.2026 (Trung thu, regulamin) i z 20.08.2026 (zasady ruchu); komunikatu o wznowieniu nocowania w lesie ani o Bống brak; dwie nocne przejażdżki na liście programów | https://dulichcucphuong.com.vn/ | park/zarządca | odczyt 14.10.2026 |
+| CP-2026-10-14b | Nocna przejażdżka melexem (pierwszy adres CP-NOC): codziennie 19:00–22:00, ok. 1 h; 150 000 VND dla nocujących, 210 000 VND dla pozostałych; minimum 600 000 VND za turę poniżej 4 osób; przycisk rezerwacji, bez komunikatu o przerwie | https://dulichcucphuong.com.vn/tour-xe-dien-xem-dom-dom-va-quan-sat-dong-vat-hoang-da-ban-dem-huou-nai-culi/ | park/zarządca | 9.05.2024, aktualizacja 13.09.2026 |
+| CP-2026-10-14c | Zasady ruchu w strefie rdzenia od 1.09.2026 (ta sama strona co CP-POJAZDY; decyzja 195/QĐ-VCP-TCHC z 18.08.2026): nocujący nie wchodzą sami w głąb lasu w godz. 19:00–7:00, poza nocną wycieczką z przewodnikiem; bez daty końca | https://dulichcucphuong.com.vn/thong-bao-quy-dinh-moi-ve-quan-ly-phuong-tien-giao-thong-vao-vung-loi-vuon-quoc-gia-cuc-phuong-ap-dung-tu-01-09-2026/ | park/zarządca | 20.08.2026 |
+| CP-2026-10-14d | Regulamin zwiedzania (ta sama strona co CP-NOIQUY): zajęcia dzienne do 19:00 poza tymi z pozwoleniem, zabawy grupowe do 23:00, wszystkie zajęcia za zgodą zarządcy; o nocowaniu w lesie i jego wstrzymaniu nic | https://dulichcucphuong.com.vn/noi-quy-tham-quan-vuon-quoc-gia-cuc-phuong/ | park/zarządca | 24.09.2026 |
+| CP-2026-10-14e | Tuổi Trẻ (ten sam artykuł co TT-2026-09-16): wydział turystyki Ninh Bình wstrzymuje nocowanie w lesie w Cúc Phương od 16.09 do odwołania; o Bống i pokojach nic | https://tuoitre.vn/nhieu-diem-du-lich-o-ninh-binh-tam-dung-don-khach-do-mua-lon-100260916122654333.htm | prasa | 16.09.2026 |
+| CP-2026-10-14f | Công an Nhân dân: to samo wstrzymanie; trasy zostaną sprawdzone przed wznowieniem, gdy opadnie woda i będzie bezpiecznie; o Bống i pokojach nic | https://cand.vn/ninh-binh-tam-dung-dieu-chinh-hoat-dong-nhieu-khu-diem-du-lich-do-mua-lu-post822331.html | prasa | 17.09.2026 |
+| CP-2026-10-14g | Tiền Phong: przewodniczący komitetu ludowego Ninh Bình podpisał 24.06 wniosek do rządu i premiera o przekazanie parku prowincji; zmiana nie ruszałaby granic administracyjnych; decyzji brak | https://tienphong.vn/ninh-binh-muon-quan-ly-vuon-quoc-gia-cuc-phuong-post1854055.tpo | prasa | 24.06.2026 |
+| CP-2026-10-14h | VietNamNet: ministerstwo w raporcie 7019 radzi rządowi zostawić mu cztery parki międzyprowincjonalne, w tym Cúc Phương; Ninh Bình chce przejąć park, Thanh Hóa i Phú Thọ chcą obecnego modelu; decyzji rządu brak | https://vietnamnet.vn/bo-nnmt-muon-tiep-tuc-quan-ly-4-vuon-quoc-gia-cuc-phuong-tam-dao-bach-ma-yok-don-2531782.html | prasa | 2.07.2026 |

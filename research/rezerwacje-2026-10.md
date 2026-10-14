@@ -679,6 +679,8 @@ Odcinki w danych: Nội Bài–Cát Bà (4 h), Nội Bài–Ninh Bình (2,25 h),
 
 Uzupełnia sekcję „Cát Tiên” wyżej (`cattien.park`, akapit o ośrodku naczelnych) i zdanie o moście w `research/lotniska-2026-10.md`. Adresy otwarto 12.10.2026 (poza oznaczonymi †). Wyszukiwanie 12.10.2026: WebSearch w trybie standardowym, po wietnamsku i angielsku, 16 zapytań, w tym 4 o moście. Poprawna pisownia nazwy wyspy to Đảo Tiên. Wyżej i w `cattien.js` stoi „Dao Tiến”.
 
+**Stan 14.10.2026: bez zmian** dla noclegu nad Bàu Sấu, Đảo Tiên i gibonów. Strona parku ma ten sam cennik (pliki z 2024 i 2025 roku) i ten sam kontakt, najnowszy wpis jest z 7.08.2026, a w stopce dalej są nazwa parku i logotypy ministerstwa (CT-2026-10-14a, CT-2026-10-14b). VnExpress (aktualizacja 25.05.2026) dalej pisze, że Đảo Tiên jest zamknięty, bez daty i powodu (CT-2026-10-14c); opinia o wycieczce o 8:30 jest ze stycznia 2026, czyli sprzed tej aktualizacji, a jej datę znam tylko z wyników wyszukiwania (CT-2026-10-14h†). O gibonach nowych źródeł nie ma. Wiadomości o samym przekazaniu parku miastu Đồng Nai po uchwale 188/NQ-CP ani o nowym cenniku czy kanale rezerwacji nie znalazłem (CT-2026-10-14d, CT-2026-10-14e). Most: niżej, „Most przez Đồng Nai”.
+
 ### Đảo Tiên
 
 - **Stan: zamknięty, bez daty otwarcia.** VnExpress (aktualizacja 25.05.2026): „Điểm tham quan gần trụ sở vườn còn có Trung tâm cứu hộ linh trưởng - đảo Tiên và khu nghiên cứu nấm. Tuy nhiên, những nơi này hiện đóng cửa và chưa có thời điểm mở trở lại.” Zamknięty jest więc ośrodek ratowania naczelnych na wyspie Tiên i ośrodek badań grzybów. Gazeta radzi zapytać park przed przyjazdem (CT-VNE).
@@ -715,7 +717,8 @@ Uzupełnia sekcję „Cát Tiên” wyżej (`cattien.park`, akapit o ośrodku na
   - vietnamtourism.com (aktualizacja 18.09.2026): most jest w budowie i ma być gotowy w 2026. Po otwarciu może zastąpić prom, więc trzeba to sprawdzić na miejscu (CT-VT);
   - Potoo (1.05.2026): w kwietniu 2026 most był w budowie, a koniec przewidziano „w tym roku” (CT-POTOO).
 - Wiadomości prasy wietnamskiej ani urzędów o tym moście nie znalazłem. Cztery wyszukiwania 12.10.2026, po wietnamsku i angielsku, zwróciły tylko inne mosty na Đồng Nai. Strona parku nie ma komunikatu o moście (CT-HOME).
-- **Wniosek:** stan budowy i data otwarcia są nieznane. W tekstach zostaje prom.
+- **Sprawdzenie 14.10.2026: prasa o moście jest.** Budowę mostu przez Đồng Nai do parku rozpoczęto na początku kwietnia 2025: ponad 156 m, 5 przęseł, szerokość 7 m (6 m wspólnego pasa dla aut i pieszych), nacisk 10 t na oś, 50 mld VND (45 mld z budżetu przez ministerstwo rolnictwa i środowiska, 5 mld z parku); zakończenie planowano na początek 2026 r. (CT-2026-10-14f, CT-2026-10-14g). Wiadomości o otwarciu do 14.10.2026 nie znalazłem, a przewodnik VnExpress (aktualizacja 25.05.2026) liczy prom w cenie biletu (CT-2026-10-14c).
+- **Wniosek (14.10.2026):** stan budowy i data otwarcia dalej są nieznane, choć otwarcie planowano na początek 2026 r. W tekstach zostaje prom.
 
 ### Co z tego wynika dla treści miejsca
 
@@ -1006,3 +1009,18 @@ Adresy otwarto 12.10.2026: z 12 nowych adresów 10 otwiera się, a dwa oznaczone
 | LB-CENY | Park Bidoup–Núi Bà, cennik (ten sam adres co DL-CENY): Thiên Thai pół dnia 3,5 km i Thiên Thai – Trạm Kiểm lâm Đưng jar Giêng 1 dzień 10 km, po 250 000 VND od dorosłego (bilet, przewodnik, obiad piknikowy); bez trasy na szczyt Lang Biang | https://bidoupnuiba.gov.vn/dich-vu/bang-gia-dich-vu/ | urzędowe (park) | od 1.01.2024 |
 | PL-HDVNP | VietnamPlus: zarząd rezerwatu wnosi o wstrzymanie wizyt w Hang Dơi po zgłoszeniu z 10.09.2026; tablice, kontrola wejść, zespół kontrolny; wizyty bez zgody władz, „hoàn toàn tự phát”, wstrzymanie opłat | https://www.vietnamplus.vn/thanh-hoa-de-nghi-dung-tham-quan-hang-da-250-trieu-nam-de-dam-bao-an-toan-post1135691.vnp | prasa (agencja państwowa) | 12.09.2026 |
 | PL-HDLC | Báo Lào Cai za VnExpress: Hang Dơi zamknięta do zakończenia kontroli przez gminę; ok. 2,5 km, wejście wyższe niż 10 m; wieś pobierała opłaty bez zezwolenia | https://baolaocai.vn/dung-tham-quan-hang-250-trieu-nam-tuoi-o-thanh-hoa-vi-da-roi-post909263.html | prasa | 12.09.2026 |
+
+### Sprawdzenie przed publikacją (14.10.2026)
+
+Sprawdzenie punktów do etapu 4 o Cát Tiên: adresy otwarto 14.10.2026 (WebSearch i WebFetch, bez zapisywania stron), poza oznaczonym † (treść znana tylko z wyników wyszukiwania). CT-2026-10-14a, b i c to te same strony co CT-HOME, CT-CENY i CT-VNE, otwarte znowu 14.10.2026.
+
+| etykieta | co to jest | adres | rodzaj | data |
+|---|---|---|---|---|
+| CT-2026-10-14a | Park Cát Tiên, strona główna: najnowsze wpisy z 3.07 i 7.08.2026; nic o noclegu nad Bàu Sấu, nowym cenniku, przekazaniu miastu, Đảo Tiên, gibonach, moście i promie; w stopce nazwa parku i logotypy ministerstwa | https://cattiennationalpark.com.vn/ | urzędowe (park) | najnowszy wpis 7.08.2026 |
+| CT-2026-10-14b | Park, cennik: te same pliki PDF (decyzja z 2024 w folderze 2025/07 i cennik dla gości krajowych w folderze 2024/06), wpis z 20.03.2023; bez nowej daty | https://cattiennationalpark.com.vn/bang-gia-dich-vu/ | urzędowe (park) | wpis 20.03.2023 (odczyt 14.10.2026) |
+| CT-2026-10-14c | VnExpress, przewodnik po parku: nocleg nad Bàu Sấu (wyjazd do 13:00 rowerem albo 14:00 autem, powrót do 9:30, bez namiotów), opłata 250 000 VND, auto 640 000 VND, przewodnik 450 000 VND; Đảo Tiên zamknięte bez daty i powodu; prom w cenie biletu; o moście nic | https://vnexpress.net/cam-nang-du-lich-vuon-quoc-gia-cat-tien-4775984.html | prasa | 9.08.2024, aktualizacja 25.05.2026 |
+| CT-2026-10-14d | Thanh Niên: uchwała 188/NQ-CP z 16.07.2026 o przekazaniu parku miastu Đồng Nai; ok. 44 000 ha w Đồng Nai i 27 300 ha w Lâm Đồng; o usługach turystycznych nic | https://thanhnien.vn/kham-pha-vuon-quoc-gia-cat-tien-canh-rung-nguyen-sinh-hon-71000-ha-ben-song-dong-nai-185260720202522645.htm | prasa | 21.07.2026 |
+| CT-2026-10-14e | VietnamPlus: plan ekoturystyki parku 2025–2030 (19 miejsc, 15 tras, 142 km); o Bàu Sấu, Đảo Tiên, gibonach, promie i moście nic | https://www.vietnamplus.vn/vuon-quoc-gia-cat-tien-la-phoi-xanh-cua-the-gioi-tai-viet-nam-post1135557.vnp | prasa (agencja państwowa) | 26.09.2026 |
+| CT-2026-10-14f | Báo Đồng Nai: początek budowy mostu przez Đồng Nai do parku, ponad 156 m, 5 przęseł, szerokość 7 m, 10 t na oś, 50 mld VND (45 z budżetu, 5 z parku), zakończenie planowane na początek 2026; dotąd do parku tylko promem | https://baodongnai.com.vn/tin-moi/202504/khoi-cong-cau-qua-song-vao-vuon-quoc-gia-cat-tien-c8c019f/ | prasa (dziennik prowincji) | 4.04.2025 |
+| CT-2026-10-14g | Nông nghiệp và Môi trường: to samo, w dzienniku ministerstwa rolnictwa i środowiska; prom nazwany niewygodnym i niebezpiecznym | https://nongnghiepmoitruong.vn/khoi-cong-xay-dung-cau-vao-vuon-quoc-gia-cat-tien-d746637.html | prasa (dziennik ministerstwa) | 4.04.2025 |
+| CT-2026-10-14h† | Wanderlog (zestawienie opinii Google): codzienne wycieczki na Đảo Tiên o 8:30 z centrum dla zwiedzających, 400 000 VND; strona nie pokazuje dat opinii, a datę opinii (styczeń 2026) znam tylko z wyników wyszukiwania | https://wanderlog.com/place/details/30765/dao-tien-endangered-primate-species-centre | blog | brak (opinia z I 2026†) |

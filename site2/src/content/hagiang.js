@@ -36,6 +36,6 @@ CONTENT.hagiang = {
     { from: [2, 1], to: [3, 31], t: 'Wiosną kwitną brzoskwinie, śliwy i rzepak; na płaskowyżu brzoskwinie i rzepak kwitną jeszcze w marcu.' },
     { from: [4, 20], to: [5, 20], t: 'Targ w Khâu Vai koło Mèo Vạc: raz w roku, 27. dnia trzeciego miesiąca księżycowego, z festiwalem przez 2–3 dni. W kalendarzu wypada między końcem kwietnia a połową maja (2025: 22–24.04, 2026: 12–13.05), więc sprawdź datę w danym roku.' },
     { from: [6, 1], to: [9, 30], warn: true, t: 'Pora deszczowa: ulewy, mgła, osuwiska i obrywy skał na drodze QL4C (2024, 2026). Wyjeżdżaj rano, po ulewie pytaj o stan drogi, a przy ostrzeżeniu przed osuwiskami przeczekaj.' },
-    { from: [10, 1], to: [12, 31], t: 'Kwitnie gryka (tam giác mạch): różowe i białe pola na płaskowyżu. Festiwal w Đồng Văn ma co roku inną datę (2025: 29.11, 2026: 6.11); wtedy noclegi i drogi są zatłoczone, a ruch przez Đồng Văn bywa wstrzymany.' }
+    { from: [10, 1], to: [12, 31], t: 'Kwitnie gryka (tam giác mạch): różowe i białe pola na płaskowyżu. Festiwal w Đồng Văn ma co roku inną datę (2025: 29.11, 2026: 25.10); wtedy noclegi i drogi są zatłoczone, a ruch przez Đồng Văn bywa wstrzymany.' }
   ]
 };

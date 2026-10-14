@@ -663,15 +663,16 @@ function packList(route, plans, st, moto, data) {
 
 /* Entry and health for this trip, from ENTRY (before.js): [{ code, vars }] for the UI keys e.<code>: visa (days without a
    visa, the last day of the exemption); visa_end when the trip may end after it (in the month mode the trip may start on
-   the month's last day, so its latest end is that day plus the trip); passport; insurance, and insurance_moto when
-   riding a motorbike yourself; doctor. st: normSettings' result; riding: a swap ridden yourself is on the trip
-   (ridesOn); entry: ENTRY. */
+   the month's last day, so its latest end is that day plus the trip); evisa (the only official e-visa site), passport,
+   arrival (the arrival card), vape (e-cigarettes are banned; research/wjazd-2026-10.md, 14.10.2026); insurance, and
+   insurance_moto when riding a motorbike yourself; doctor. st: normSettings' result; riding: a swap ridden yourself is on
+   the trip (ridesOn); entry: ENTRY. */
 function entryNotes(st, riding, entry) {
   var span = tripSpan(st), until = fmtSpan(entry.visaFreeUntil, entry.visaFreeUntil);
   var end = span && (st.start ? span[1] : tripDate(span[1], st.days));
   var out = [{ code: 'visa', vars: { days: entry.visaFreeDays, until: until } }];
   if (!end || end > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
-  out.push({ code: 'passport', vars: {} }, { code: 'insurance', vars: {} });
+  out.push({ code: 'evisa', vars: {} }, { code: 'passport', vars: {} }, { code: 'arrival', vars: {} }, { code: 'vape', vars: {} }, { code: 'insurance', vars: {} });
   if (riding) out.push({ code: 'insurance_moto', vars: {} });
   out.push({ code: 'doctor', vars: {} });
   return out;

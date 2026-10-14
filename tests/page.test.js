@@ -441,8 +441,8 @@ eq([packList(tA.r, plansOf(tA), tA.st, [], PACKD).map(function (p) { return p.co
 var tEk = tripOf({ from: 'DAD', to: 'HAN', year: 2027, month: 7, days: 12, interests: ['przyroda'], level: 3 });
 eq(packList(tEk.r, plansOf(tEk), tEk.st, [], PACKD).filter(function (p) { return p.code === 'leeches'; })[0].places, ['cattien'], 'July in Cát Tiên: the leeches of the rainy season (an event)');
 eq([entryNotes(tA.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tDk.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tA.st, true, ENTRY)[0].vars],
-  [['visa', 'passport', 'insurance', 'doctor'], ['visa', 'visa_end', 'passport', 'insurance', 'doctor'], { days: 45, until: '14.08.2028' }],
-  'entry: a trip that ends after the exemption is told to check the rules; the visa line names the days and the last day');
+  [['visa', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'doctor'], ['visa', 'visa_end', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'doctor'], { days: 45, until: '14.08.2028' }],
+  'entry: a trip that ends after the exemption is told to check the rules; the visa line names the days and the last day; every trip gets the official e-visa site, the arrival card and the ban on e-cigarettes');
 // the month mode: a trip may start on the month's last day, so 16 days in July 2028 may end after 14.08.2028, 15 days not
 function visaEnd(month, days) {
   var st = stOf({ from: 'HAN', to: 'HAN', year: 2028, month: month, days: days, interests: [], level: 2 });

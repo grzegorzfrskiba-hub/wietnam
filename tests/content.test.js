@@ -294,7 +294,7 @@ contentCheck('ui', function (need) {
     'sw.': Object.keys(SWAPS).concat(['driver', 'self']), 'sw.tips.': Object.keys(SWAPS),
     'sw.risk.': Object.keys(SWAPS).filter(function (k) { return SWAPS[k].risk; }),
     'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }), 'b.homestay.': HOMESTAY_NOTES,
-    'e.': ['visa', 'visa_end', 'passport', 'insurance', 'insurance_moto', 'doctor'],
+    'e.': ['visa', 'visa_end', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'insurance_moto', 'doctor'],
     'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
   Object.keys(FAMILIES).forEach(function (pre) {

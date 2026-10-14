@@ -69,6 +69,7 @@ Propozycja do `site2/src/places.js` i do głowy `site2/src/content/phongnha.js`.
     - od 7.10.2020 jaskinie Phong Nha i Tiên Sơn, trasa 4 500 m, rzeka Chày z Hang Tối i Nước Moọc (BVH-2020);
     - koniec października 2024, burza Trami: jaskinie Phong Nha i Tiên Sơn oraz rzeka Chày do 30.10, a Paradise Cave i ogród botaniczny były dostępne (EASIA-2024);
     - 13.6.2025, burza Wutip: jaskinie Phong Nha i Tiên Sơn, Nước Moọc i Hang Tối (DTI-2025).
+    - 9–10.10.2026, ulewy od wieczora 9.10: woda zalała niżej położone części gminy Phong Nha i brody, m.in. Bến Troóc, a władze postawiły zapory przy zalanych przejazdach (PN-2026-10-14g). Centrum Turystyki wydało komunikat o stanie zwiedzania z 10.10.2026 (PN-2026-10-14h†), ale jego treści nie odczytałem, więc nie wiem, czy łodzie i jaskinie stały. Strona parku do 12.10.2026 komunikatu o wstrzymaniu nie ma, a prasy o zamknięciu łodzi albo jaskiń nie znalazłem (PN-2026-10-14f; sprawdzenie 14.10.2026).
   - **Lipiec 2026:** po ulewach w Laosie rzeka Son była przez kilka dni mętna. Łodzie do jaskini Phong Nha pływały, ale przy Hang Tối nie dało się kąpać w rzece. Chętnych na rzekę Chày było ok. 20% mniej, w szczycie sezonu (TT-2026-07-15).
   - **Wyprawy:** Oxalis prowadzi Hang Én od grudnia do połowy września (w FAQ: do końca sierpnia), a Hang Va od grudnia do sierpnia (OX-HE, OX-HE2, JB-CMP). To brak oferty, czyli miesiące wyłączone wersji `hard`, a nie zamknięcie miejsca.
   - **Bez X:** żadne źródło urzędowe nie zamyka jaskini Phong Nha ani Paradise Cave na cały miesiąc. Wstrzymania trwały od dnia do ok. 10 dni.
@@ -447,14 +448,14 @@ Sprawdzone 13.10.2026 na stronie każdego pliku: autor, licencja, rozmiar i opis
 
 ## Do sprawdzenia przed publikacją (etap 4)
 
-- **Godziny i ceny Paradise Cave:** oficjalnych godzin nie ma, a źródła podają od 6:30–17:00 do 7:30–16:00 (JB-PC, VS-PC, VNA-PC†, VJ-PC†). Bilet 270 000 VND z autkiem trzeba sprawdzić na 2027.
-- **Sezony wypraw Oxalis:** Hang Én (strona: XII–połowa IX, FAQ: XII–koniec VIII) i Tú Làn w jeden dzień (strona: cały rok, karta†: XI–połowa IX). Do tego cena Hang Én od 15.11.2026 (9 500 000 VND).
-- **Paradise Cave 7 km:** minimum osób (2 czy 5) i to, czy trasa działa cały rok.
+- **Godziny i ceny Paradise Cave:** oficjalnych godzin nie ma, a źródła podają od 6:30–17:00 do 7:30–16:00 (JB-PC, VS-PC, VNA-PC†, VJ-PC†). Bilet 270 000 VND z autkiem trzeba sprawdzić na 2027. Sprawdzone 14.10.2026: strona parku dalej podaje 270 000 VND z autkiem, dzieci 1,1–1,3 m 145 000 VND, poniżej 1,1 m za darmo, ale bez godzin i bez daty cennika (PN-2026-10-14e). Urzędowych godzin dalej nie ma, a czy cena obowiązuje w 2027, nie wiadomo.
+- **Sezony wypraw Oxalis:** Hang Én (strona: XII–połowa IX, FAQ: XII–koniec VIII) i Tú Làn w jeden dzień (strona: cały rok, karta†: XI–połowa IX). Do tego cena Hang Én od 15.11.2026 (9 500 000 VND). Sprawdzone 14.10.2026: bez zmian. Strony Hang Én po angielsku i wietnamsku podają sezon od grudnia do połowy września (FAQ: do końca sierpnia) i 9 500 000 VND od osoby, a dat pierwszego i ostatniego wyjścia sezonu 2026/27 nie publikują: są tylko w kalendarzu rezerwacji, którego narzędzie nie czyta (PN-2026-10-14a, PN-2026-10-14b). Jungle Boss dalej pisze o 8 800 000 VND do 14.11.2026 i 9 500 000 VND od 15.11.2026, z wyjściami grudniowymi już po nowej cenie (PN-2026-10-14c). Tú Làn w jeden dzień: strona dalej podaje cały rok i 2 000 000 VND (PN-2026-10-14d).
+- **Paradise Cave 7 km:** minimum osób (2 czy 5) i to, czy trasa działa cały rok. Sprawdzone 14.10.2026: strona parku dalej podaje 2 000 000 VND, a minimum grupy w jednym miejscu 2 osoby, w innym 5 (PN-2026-10-14e); czy trasa działa cały rok, nie podaje.
 - **`pt` i `maps` Phong Nha oraz `pt` lotniska VDH:** sprawdzić na mapie i w Google Maps.
 - **Loty zimowe do VDH:** wiersze Vietnam Airlines bez dat, Sun PhuQuoc Airways (codziennie od 16.8.2026) i Vietjet na HAN – VDH. Do tego adres strony Sun PhuQuoc Airways do `BOOK.flights`.
 - **Dojazdy na miejscu:** odległość i cena dojazdu do Hang Tối i Nước Moọc, ceny przy skrajnych źródłach (łódź do jaskini Phong Nha: park 700 000 VND za kurs, portal komercyjny 360 000 VND).
 - **Zdjęcia:** obejrzeć wybrane pliki (ludzie, ostrość, czy COM-PN1 nie powtarza COM-SON3) i dobrać zdjęcie kładki w Paradise Cave z kategorii „Thien Duong Cave”.
-- **Komunikaty Centrum Turystyki o wstrzymaniach:** strona parku nie ma zakładki z komunikatami, a sprawdzałem tylko aktualności.
+- **Komunikaty Centrum Turystyki o wstrzymaniach:** strona parku nie ma zakładki z komunikatami, a sprawdzałem tylko aktualności. Sprawdzone 14.10.2026: Centrum ma profil na Facebooku z komunikatami, np. o stanie zwiedzania z 10.10.2026, ale jego treść znam tylko z tytułu w wynikach wyszukiwania (PN-2026-10-14h†); strona parku do 12.10.2026 komunikatów o wstrzymaniu nie ma (PN-2026-10-14f).
 - **Bagaż w Oxalis:** czy przechowuje bagaż na noc w Hang Én.
 - **Zmiana silnika** dla pary dni Hang Én i kod `swim` (sekcja „Plany dni”).
 
@@ -573,3 +574,18 @@ Adresy otwarto 13.10.2026, poza oznaczonymi †. Data w ostatniej kolumnie to da
 | MOTO | `research/motocykl-2026-10.md`: kategoria A1, A2 albo A i IDP z konwencji z 1968 r., samo B nie wystarcza. | plik w repozytorium | własne obliczenie (własne badanie) | 12.10.2026 |
 | POL | `research/polaczenia-2026-10.md`: HUI – hue 0,5 h, puluong – ninhbinh 3,5 h, hanoi – ninhbinh 2 h, zasady dróg i lotów. | plik w repozytorium | własne obliczenie (własne badanie) | 9.10.2026 |
 | KURS | Kurs NBP z `research/ceny-2026-10.md`: tabela A 197/A/NBP/2026 z 9.10.2026 i tabela B 040/B/NBP/2026 z 7.10.2026. | plik w repozytorium | urzędowe (za `research/ceny-2026-10.md`) | 9.10.2026 |
+
+### Sprawdzenie przed publikacją (14.10.2026)
+
+Sprawdzenie punktów „Do sprawdzenia przed publikacją (etap 4)”: WebSearch i WebFetch 14.10.2026, bez zapisywania stron. † jak w „Jak czytać”: treść znana tylko z wyników wyszukiwania.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| PN-2026-10-14a | Oxalis, Hang Én (ta sama strona co OX-HE): sezon XII–połowa IX (FAQ: do końca VIII), 9 500 000 VND z opłatami parku, do 16 osób, 16–70 lat, rezerwacja online do 19:00 dzień wcześniej, zwrot przy rezygnacji co najmniej 7 dni przed, powrót ok. 18:00; bez dat wyjść i bez przechowywania bagażu. | https://oxalisadventure.com/tour/hang-en-adventure-cave-camp/ | operator | brak (odczyt 14.10.2026) |
+| PN-2026-10-14b | Oxalis, Hang Én po wietnamsku: wyjścia od grudnia do połowy września, w porze deszczowej zamknięte; 9 500 000 VND, 16–70 lat, do 16 osób, koniec ok. 18:00. | https://oxalisadventure.com/vi/tour/kham-pha-hang-en/ | operator | brak (odczyt 14.10.2026) |
+| PN-2026-10-14c | Jungle Boss (ta sama strona co JB-HE): 8 800 000 VND do 14.11.2026, od 15.11.2026 9 500 000 VND, grudzień już po nowej cenie; jaskinia zamknięta od połowy IX do XI; rezerwacja kilka miesięcy wcześniej, 10% zniżki przy 90 dniach. Operator konkurencyjny wobec Oxalis. | https://junglebosstours.com/explorer/tourism-blog/hang-en-cave-tour-phong-nha | przewodnik komercyjny | brak (© 2026) |
+| PN-2026-10-14d | Oxalis, Tú Làn w jeden dzień (ta sama strona co OX-TL1): cały rok, 2 000 000 VND, 16–70 lat, do 12 osób, odbiór 7:00–7:30, powrót 17:30–19:00. | https://oxalisadventure.com/tour/tu-lan-1-day-experience/ | operator | brak (odczyt 14.10.2026) |
+| PN-2026-10-14e | Strona parku, Paradise Cave (ta sama strona co PNKB-PC): 270 000 VND z autkiem, dzieci 1,1–1,3 m 145 000 VND, poniżej 1,1 m za darmo; trasa 7 km 2 000 000 VND, 2 dni/1 noc 4 000 000 VND, sprzeczne minimum osób; bez godzin i bez daty cennika. | https://phongnhakebang.vn/du-lich/dong-thien-duong13 | park/zarządca | brak (odczyt 14.10.2026) |
+| PN-2026-10-14f | Strona główna parku (ta sama co PNKB-WWW): wiadomości z 2–12.10.2026, żadnego komunikatu o wstrzymaniu łodzi czy jaskiń. | https://phongnhakebang.vn/ | park/zarządca | 12.10.2026 (najnowszy wpis) |
+| PN-2026-10-14g | VietnamPlus: ulewy od wieczora 9.10 do 10.10 zalały niżej położone części gminy Phong Nha, woda na brodach Bến Troóc, Ngọn Rào, Xuân Trạch, Thanh Sen; zapory przy zalanych przejazdach; o turystyce nic. | https://www.vietnamplus.vn/quang-tri-mua-lu-dien-bien-phuc-tap-nhieu-ngam-tran-tuyen-duong-bi-ngap-sau-post1141225.vnp | prasa (agencja państwowa) | 10.10.2026, 16:28 |
+| PN-2026-10-14h† | Profil Centrum Turystyki Phong Nha–Kẻ Bàng na Facebooku: wpis z komunikatem o stanie zwiedzania z 10.10.2026; znam tylko tytuł z wyników wyszukiwania. | https://www.facebook.com/phongnhatourism/ | park/zarządca (centrum turystyki parku) | 10.10.2026† |

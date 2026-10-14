@@ -8,6 +8,7 @@
   - **Mandat za jazdę bez uprawnień** wynosi 2–4 mln VND (69–138 EUR) do 125 cm³ i 6–8 mln VND (207–275 EUR) powyżej. Możliwe jest też zatrzymanie motocykla. Brak kasku kosztuje 400 000–600 000 VND (14–21 EUR) od osoby. Kwoty pochodzą z omówień, bo urzędowego tekstu dekretu 168/2024/NĐ-CP nie otworzyłem (sekcja „Kary”).
   - **Ubezpieczenie.** OWU Warta Travel wyłączają zdarzenia przy prowadzeniu pojazdu bez uprawnień wymaganych w danym kraju i przy działaniu wbrew miejscowemu prawu. Do tego OC w życiu prywatnym nie obejmuje szkód z kierowania pojazdami, więc nawet z uprawnieniami szkody wyrządzone innym zostają poza polisą (OWU-WARTA § 11 i § 14).
   - **Ryzyko.** WHO szacuje śmiertelność na drogach w Wietnamie na 17,7 na 100 000 mieszkańców, a w Polsce na 6,5 (2021). To ok. 2,7 raza więcej (WHO-GHO).
+  - **MSZ RP** odradza samodzielne podróże motocyklem po Wietnamie, zwłaszcza poza największymi ośrodkami, ale strona celowo nie cytuje tej rady w ramce „Samodzielnie”, a przełącznik „Z kierowcą / Samodzielnie” zostaje bez zmian (decyzja z 14.10.2026; WJ-2026-10-14p w `research/wjazd-2026-10.md`).
 
 ## Jak czytać
 
