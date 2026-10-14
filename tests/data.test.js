@@ -144,6 +144,10 @@ dataCheck('photos', function (need) {
     need(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(m.page), ph + ': its page on Wikimedia Commons');
   });
   need(PHOTO_META[HERO_PHOTO], 'the hero photo ' + HERO_PHOTO + ' has its credits');
+  // each id once (a second entry with the same id would silently replace the first) and a real author, never a stand-in
+  var entries = readFile('site2/src/photos.js').match(/^  [a-z]+_\d+: \{/gm) || [];
+  need(entries.length === Object.keys(PHOTO_META).length, 'photos.js: ' + entries.length + ' entries for ' + Object.keys(PHOTO_META).length + ' ids, so an id is there twice');
+  Object.keys(PHOTO_META).forEach(function (ph) { need(!/nieznany|unknown/i.test(PHOTO_META[ph].artist), ph + ': a real author, not „autor nieznany”'); });
 });
 
 /* The climate (climate.js) against its research note: the numbers and the season letters are those of the tables in

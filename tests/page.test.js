@@ -452,6 +452,10 @@ eq([visaEnd(7, 15), visaEnd(7, 16), visaEnd(7, 30), visaEnd(6, 30)], [false, tru
   'entry in the month mode: the latest end is the month\'s last day plus the trip, so July 2028 for 16 or 30 days is told to check the rules');
 eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), ridesOn(tA.r, ['haivan'], SWAPS), entryNotes(tA.st, true, ENTRY).map(function (e) { return e.code; }).indexOf('insurance_moto') > -1],
   [true, false, true, true], 'riding yourself on the trip: Cao Bằng on the loop, the pass on the March trip (Hội An → Huế); the insurance line for it');
+// the credits: a photo's licence links to its text on creativecommons.org, in Polish; the public domain has no text
+eq([licenceUrl('CC BY-SA 4.0'), licenceUrl('CC BY 2.0'), licenceUrl('CC BY-SA 3.0 de'), licenceUrl('CC0'), licenceUrl('Public domain')],
+  ['https://creativecommons.org/licenses/by-sa/4.0/deed.pl', 'https://creativecommons.org/licenses/by/2.0/deed.pl', 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.pl',
+   'https://creativecommons.org/publicdomain/zero/1.0/deed.pl', null], 'the text of a licence: CC BY and CC BY-SA by version (and country), CC0; none for the public domain');
 print('before ok');
 
 /* ---------- the map ---------- */

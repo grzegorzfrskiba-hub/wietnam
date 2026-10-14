@@ -677,6 +677,15 @@ function entryNotes(st, riding, entry) {
   return out;
 }
 
+/* The text of a photo's licence on creativecommons.org, in Polish: 'CC BY-SA 4.0' → …/licenses/by-sa/4.0/deed.pl, a
+   licence of a country ('CC BY-SA 3.0 de') with its country, CC0 → the CC0 deed; null for the public domain, which has no
+   licence text (the photo's page on Commons says why). */
+function licenceUrl(license) {
+  if (license === 'CC0') return 'https://creativecommons.org/publicdomain/zero/1.0/deed.pl';
+  var m = /^CC (BY(?:-SA)?) (\d\.\d)(?: ([a-z]{2}))?$/.exec(license);
+  return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + 'deed.pl' : null;
+}
+
 /* An amount in euros, [from, to], in złoty: each end at rate and rounded to step złoty (100 for the budget, 10 for one
    item); a from that would round to 0 becomes step. */
 function zlRange(eur, rate, step) {

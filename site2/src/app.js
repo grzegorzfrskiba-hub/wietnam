@@ -21,6 +21,7 @@
   function countWord(key, n) { return T(key + '.' + nightForm(n)); }
   function C(id) { return CONTENT[id]; }
   function caption(id) { return PHOTO_META[id].cap; }
+  function licName(l) { return l === 'Public domain' ? T('ft.pd') : l; }   // a licence as the page names it
   function nodeOf(id) { return PLACES[id].node || id; }
   function stopColor(id) { return 'var(--pal-' + C(nodeOf(id)).color + ')'; }
 
@@ -854,7 +855,7 @@
     var im = $('#lb-img');
     im.src = p.src; im.alt = caption(lb.ids[lb.i]); im.width = p.w; im.height = p.h;
     $('#lb-cap').textContent = caption(lb.ids[lb.i]);
-    $('#lb-credit').textContent = T('lb.photo') + PHOTO_META[lb.ids[lb.i]].artist + ' · ' + PHOTO_META[lb.ids[lb.i]].license;
+    $('#lb-credit').textContent = T('lb.photo') + PHOTO_META[lb.ids[lb.i]].artist + ' · ' + licName(PHOTO_META[lb.ids[lb.i]].license);
     $('#lb-count').textContent = (lb.i + 1) + ' / ' + lb.ids.length;
     $('#lb-prev').disabled = lb.i === 0;
     $('#lb-next').disabled = lb.i === lb.ids.length - 1;
@@ -948,8 +949,10 @@
     used[HERO_PHOTO] = true;
     Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
-      var m = PHOTO_META[ph];
-      return '<li>' + esc(m.cap) + ': ' + esc(m.artist) + ', <a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.license) + '</a></li>';
+      // the caption leads to the photo's page on Commons, the licence to its text
+      var m = PHOTO_META[ph], lic = licenceUrl(m.license);
+      return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.cap) + '</a>: ' + esc(m.artist) + ', ' +
+        (lic ? '<a href="' + esc(lic) + '" target="_blank" rel="noopener">' + esc(licName(m.license)) + '</a>' : esc(licName(m.license))) + '</li>';
     }).join('');
   }
   function applyStatic() {

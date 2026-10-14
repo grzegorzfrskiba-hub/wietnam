@@ -89,6 +89,8 @@ def photo_ids():
     """The photo ids in photos.js (one entry per line, '  id: { cap: …') and the hero photo."""
     text = open(os.path.join(SRC, "photos.js"), encoding="utf-8").read()
     ids = re.findall(r"^  ([a-z]+_\d+): \{", text, re.M)
+    assert len(ids) == len(set(ids)), "an id twice in photos.js: %s" % sorted(p for p in set(ids) if ids.count(p) > 1)
+    assert "nieznany" not in text, "photos.js: a photo without its real author"
     hero = re.search(r"^var HERO_PHOTO = '([a-z]+_\d+)';", text, re.M).group(1)
     assert hero in ids, hero
     return ids, hero
