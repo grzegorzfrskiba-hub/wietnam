@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (14.10.2026):** etap 3, partia A zrobiona: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng z Sơn Trà) i plan 2 (Hà Giang, Sa Pa). Następny krok: etap 4 (audyt i publikacja) według planu [notes/plans/2026-10-14-etap-4-audyt-i-publikacja.md](notes/plans/2026-10-14-etap-4-audyt-i-publikacja.md), do wykonania w świeżej sesji; zob. [notes/etapy.md](notes/etapy.md).
+**Status (14.10.2026):** etap 4 zrobiony: strona opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek (`noindex`). Następny krok: pierwsza runda znajomych, potem partia B, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -11,8 +11,8 @@
   - Publicznie: https://grzegorzfrskiba-hub.github.io/vietnam-december/
 - **Ten projekt: ogólny planer po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
   - Kod został wzięty z pierwowzoru (`site2/`, `tests/`, `site2/build.py`) jako kopia w planach 1A i 1B.
-  - Repo: https://github.com/grzegorzfrskiba-hub/wietnam, prywatne do publikacji w etapie 4.
-  - Adres strony po publikacji: https://grzegorzfrskiba-hub.github.io/wietnam/
+  - Repo: https://github.com/grzegorzfrskiba-hub/wietnam, publiczne od 14.10.2026, bez wolnej licencji.
+  - Strona: https://grzegorzfrskiba-hub.github.io/wietnam/ (GitHub Pages z `docs/` na `main`; nową wersję przygotowuje `bash tools/publish.sh`, a wysyła commit `docs/` i `git push` za zgodą).
 - **Strony grudniowej nie zmieniaj.** Jej linki krążą w WhatsAppie i grupa z niej korzysta.
 
 ## Zasady
@@ -22,7 +22,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Odpowiadaj po polsku.**
 - **Jedna sesja naraz** w tym repo.
 - **Bez zgody użytkownika nie rób:** `git push`, publikacji artifactu, wysyłania plików. Commituj, gdy użytkownik o to prosi.
-- **Repo będzie publiczne od publikacji w etapie 4, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, będzie widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
+- **Repo jest publiczne od 14.10.2026, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
 - **Strona tylko po polsku.** Mechanizm kluczy tekstów i test kompletności zostają na przyszły angielski. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
 - **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
