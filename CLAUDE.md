@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (14.10.2026):** etap 3, partia A zrobiona: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng z Sơn Trà) i plan 2 (Hà Giang, Sa Pa). Następny krok: etap 4 (audyt i publikacja), zob. [notes/etapy.md](notes/etapy.md).
+**Status (14.10.2026):** etap 3, partia A zrobiona: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng z Sơn Trà) i plan 2 (Hà Giang, Sa Pa). Następny krok: etap 4 (audyt i publikacja) według planu [notes/plans/2026-10-14-etap-4-audyt-i-publikacja.md](notes/plans/2026-10-14-etap-4-audyt-i-publikacja.md), do wykonania w świeżej sesji; zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
