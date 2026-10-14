@@ -41,6 +41,7 @@ var COSTS = {
     'dalat.langbiang': { pp: [2, 44], group: [24, 0] },
     'dalat.train': { pp: [5, 5], group: [2, 6] },
     'dalat.caudat': { pp: [0, 0], group: [36, 53] },
+    'dalat.tanang': { pp: [172, 298], group: [79, 0] },
     'hoian.cooking': { pp: [25, 47], group: [5, 10] },
     'hoian.myson': { pp: [5, 5], group: [28, 41] },
     'hoian.myson_tour': { pp: [26, 36], group: [0, 0] },

@@ -427,8 +427,8 @@ eq([keysOf(kA), kA[0].list, kA[0].two], [['flights', 'dalat.bidoup', 'dalat.lang
   [['SGN', 'DLI'], ['DLI', 'DAD'], ['HUI', 'HAN']], [102, 186]], 'the March trip: three short flights first (3 weeks ahead), then the guides, the car over the pass and the day trips');
 var tBk = tripOf(Object.assign({}, MARCH, { interests: ['przyroda'], level: 3 })), kB = bookList(tBk.r, plansOf(tBk), [], BOOKD);
 eq([keysOf(kB), kB.filter(function (e) { return e.key === 'airport'; })[0].list, kB.filter(function (e) { return e.key === 'transfer'; })[0].two],
-  [['cattien.bausau_night', 'flights', 'catba.cruise', 'transfer', 'dalat.bidoup', 'dalat.langbiang', 'airport', 'saigon.cangio', 'cattien.park'], [['HAN', 'ninhbinh', 1], ['HAN', 'catba', 1]], null],
-  'nature at level 3: the night at Bàu Sấu first (4 weeks), the cruise; the cars from Nội Bài; vans between places, priced with the travel');
+  [['cattien.bausau_night', 'flights', 'dalat.tanang', 'catba.cruise', 'transfer', 'airport', 'saigon.cangio', 'cattien.park'], [['HAN', 'ninhbinh', 1], ['HAN', 'catba', 1]], null],
+  'nature at level 3: the night at Bàu Sấu first (4 weeks), the Tà Năng–Phan Dũng trail and the cruise (2 weeks); the cars from Nội Bài; vans between places, priced with the travel');
 var tCk = tripOf({ from: 'HAN', to: 'HAN', year: 2027, month: 10, days: 14, interests: ['przyroda', 'gory'], level: 2 }), kC = bookList(tCk.r, plansOf(tCk, ['caobang']), ['caobang'], BOOKD);
 eq([keysOf(kC), kC[1].list], [['catba.cruise', 'homestay', 'airport', 'transfer', 'caobang.moto'], ['babe', 'caobang']],
   'Cao Bằng ridden yourself: the motorbike to rent; the hosts of Ba Bể and Khuổi Ky');
@@ -643,6 +643,16 @@ eq([ha(2, 2), ha(3, 2), [mySon2.early, mySon2.cost, /Muzeum Rzeźby Czamskiej/.t
   [['Bocznymi drogami Hội An', 'Stare miasto o 6:00'], ['Bocznymi drogami Hội An', 'Stare miasto o 6:00', 'Mỹ Sơn o 6:00'], [true, ['hoian.myson'], true],
    ['easy', false, ['hoian.myson_tour']], [1, 2, 3]],
   'Hội An: Mỹ Sơn from 6:00 on the third day at three nights, with a rain plan; at level 1 the group tour with the boat back');
+// Đà Lạt: the Tà Năng–Phan Dũng trail over two days at level 3 (days 2 and 3, the night in a tent), from three nights,
+// not in May–October; at level 2 the days as they were; the trail has its own rain plan
+function dl(n, level, months) { return stopDays(CONTENT.dalat, { n: n, start: 1 }, 0, level, months).map(function (d) { return d.variant || '-'; }); }
+eq([dl(3, 3, [0, 0, 0]), dl(4, 3, [11, 11, 11, 11]), dl(3, 3, [5, 5, 5]), dl(2, 3, [0, 0]), dl(3, 2, [0, 0, 0]),
+  stopDays(CONTENT.dalat, { n: 3, start: 1 }, 0, 3, [0, 0, 0])[1].rain === CONTENT.dalat.days[1].hard.rain, CONTENT.dalat.days[1].hard.off],
+  [['-', 'hard', 'hard'], ['-', 'hard', 'hard', '-'], ['-', '-', '-'], ['-', '-'], ['-', '-', '-'], true, [5, 6, 7, 8, 9, 10]],
+  'Đà Lạt: Tà Năng–Phan Dũng on days 2 and 3 at level 3 in January and December, not in June nor in two nights; its own rain plan');
+var tTN = tripAll({ from: 'SGN', to: 'SGN', year: 2027, month: 1, days: 10, interests: ['gory'], level: 3, add: ['dalat'] });
+eq([stayOf(tTN, 'dalat').days.slice(1, 3), keysOf(bookList(tTN.r, plansAll(tTN), [], BOOKD)).indexOf('dalat.tanang') > -1], [['hard', 'hard'], true],
+  'mountains in January at level 3 with Đà Lạt: the Tà Năng–Phan Dũng trail, on the list of what to book');
 // Cúc Phương and Ninh Bình on one trip: their pins move apart on the map, each with its point where the place is
 var tCN = tripAll({ from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 10, interests: ['przyroda'], level: 2, add: ['cucphuong', 'ninhbinh'] });
 var pCN = mapLayout(tCN.r, tCN.st, MAPW_ALL).panels[0].pins.filter(function (pn) { return pn.key === 'cucphuong' || pn.key === 'ninhbinh'; });

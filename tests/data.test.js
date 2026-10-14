@@ -14,8 +14,8 @@ var SEASON_NOTE = readFile('research/sezony-2026-10.md');
 var OWN_NOTES = Object.keys(PLACES).filter(function (id) { return !PLACES[id].node && SEASON_NOTE.indexOf('\n## ' + id + ': ') < 0; })
   .map(function (id) { return 'research/' + id + '-2026-10.md'; });
 // a day added to another place's module in batch B keeps its research in a note of its own too, with the tables
-// „Zestawienie: wycieczki” and „Zestawienie: rezerwacje” (Mỹ Sơn in Hội An)
-var DAY_NOTES = ['research/myson-2026-10.md'];
+// „Zestawienie: wycieczki” and „Zestawienie: rezerwacje” (Mỹ Sơn in Hội An, the Tà Năng–Phan Dũng trail in Đà Lạt)
+var DAY_NOTES = ['research/myson-2026-10.md', 'research/tanang-2026-10.md'];
 
 dataCheck('places', function (need) {
   Object.keys(PLACES).forEach(function (id) {

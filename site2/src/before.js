@@ -1,7 +1,8 @@
 /* Before the trip (plan 2B). BOOK: what to book ahead and where, by key: ahead, the days ahead outside the peak (0: on the
    spot, not on the list), and the links, official pages and checked operators without tracking or partner parameters.
    From the table „Zestawienie” in research/rezerwacje-2026-10.md, for a place of stage 3 the table „Zestawienie: rezerwacje”
-   of its own note, for a day added to another place's module the note of the day (Mỹ Sơn: research/myson-2026-10.md;
+   of its own note, for a day added to another place's module the note of the day (Mỹ Sơn: research/myson-2026-10.md,
+   Tà Năng–Phan Dũng: research/tanang-2026-10.md;
    tests/data.test.js checks them against both); tools/links.sh
    checks that the links answer. ENTRY: entry for Polish citizens, from research/wjazd-2026-10.md: days without a visa and
    the last day of the exemption (Nghị quyết 229/NQ-CP; a trip that ends later is told to check the rules), and the official
@@ -10,6 +11,7 @@ var BOOK = {
   'phongnha.hangen': { ahead: 60, links: [{ name: 'Oxalis, Hang Én', url: 'https://oxalisadventure.com/tour/hang-en-adventure-cave-camp/' }, { name: 'Oxalis, wszystkie wyprawy', url: 'https://oxalisadventure.com/tours/' }] },
   'cattien.bausau_night': { ahead: 28, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, cennik', url: 'https://cattiennationalpark.com.vn/bang-gia-dich-vu/' }] },
   'flights': { ahead: 21, links: [{ name: 'Vietnam Airlines', url: 'https://www.vietnamairlines.com/' }, { name: 'Vietjet', url: 'https://www.vietjetair.com/' }, { name: 'Vietravel Airlines', url: 'https://www.vietravelairlines.com/' }] },
+  'dalat.tanang': { ahead: 14, links: [{ name: 'Viet Challenge, Tà Năng–Phan Dũng', url: 'https://vietchallenge.com/tour/the-ta-nang-phan-dung-trail-a-breathtaking-adventure-in-vietnam' }, { name: 'Highland Adventure Travel, Tà Năng–Phan Dũng', url: 'https://highlandadventuretravel.com/tour/trekking-ta-nang-phan-dung-31.html' }, { name: 'Da Lat Trip, Tà Năng 3 dni', url: 'https://www.dalattrip.com/ta-nang-trekking-tour/' }] },
   'catba.cruise': { ahead: 14, links: [{ name: 'Full Moon Travel Asia', url: 'https://fullmoontravelasia.com/cat-ba-overnight-cruise-lan-ha-bay-viet-hai-village/' }, { name: 'Cat Ba Ventures', url: 'https://catbaventures.com/cat-ba-tours/lan-ha-bay-ha-long-bay-bai-tu-long-bay-boat-trip-kayaking-2-days-1-night.html' }] },
   'homestay': { ahead: 14, links: [] },
   'phongnha.tulan': { ahead: 14, links: [{ name: 'Oxalis, Tú Làn w jeden dzień', url: 'https://oxalisadventure.com/tour/tu-lan-1-day-experience/' }] },
