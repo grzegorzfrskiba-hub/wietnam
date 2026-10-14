@@ -2,6 +2,8 @@
 
 Ustalona w sesji o wizji 9.10.2026. Tło i rozpoznanie: [pomysl-planer-dla-znajomych.md](pomysl-planer-dla-znajomych.md). Plan prac: [etapy.md](etapy.md).
 
+Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą.
+
 ## W skrócie
 
 Każdy ustawia sobie:
@@ -10,12 +12,13 @@ Każdy ustawia sobie:
 - jedno lub dwa zainteresowania;
 - poziom przygody.
 
-Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę, sezon i budżet. Trasę można poprawić i wysłać linkiem. Strona nie podaje konkretnych lotów. Kod pochodzi z planera „Vietnam in December”.
+Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę, sezon i budżet. Trasę można poprawić, wysłać linkiem albo zapisać jako PDF. Strona nie podaje konkretnych lotów. Kod pochodzi z planera „Vietnam in December”.
 
 ## Dla kogo
 
 - **Pierwsi odbiorcy:** przygodowi znajomi. Każdy przyjeżdża w innym terminie i z innym akcentem: kultura, jedzenie albo przyroda i naczelne.
 - **Docelowo:** każdy, kto planuje Wietnam samodzielnie. Narzędzie jest ogólne: dowolny miesiąc i dowolne daty. Może urosnąć poza grono znajomych, więc decyzje nie zamykają tej drogi (zob. „Otwarte drzwi”).
+- **Start (decyzja z 14.10.2026):** najpierw kilka przygodowych osób dostaje sam adres strony i trzy pytania. Do tego czasu strona nie trafia do wyszukiwarek (`noindex`), a otwarcie zapada po ich opiniach.
 
 ## Kryteria sukcesu
 
@@ -55,14 +58,15 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 
 - **Spokojnie:** spacery, wycieczki jednodniowe, hotele i noclegi u gospodarzy, tylko łatwe jaskinie.
 - **Aktywnie (domyślny):** całodniowe trekkingi, noc u gospodarzy w górach albo w lodge'u przy parku, kajaki, pętla motocyklowa z kierowcą.
-- **Ekstremalnie:** wielodniowe wyprawy z noclegiem w jaskini (Hang Én, Tú Làn), noce w dżungli, Tà Năng–Phan Dũng, Fansipan pieszo.
+- **Ekstremalnie:** wyprawy z noclegiem w jaskini albo w górach (Hang Én na dwa dni, Fansipan pieszo na dwa dni) i noc w dżungli nad Bàu Sấu w Cát Tiên. Stan na 14.10.2026: Tú Làn jest na stronie tylko w jeden dzień, a Tà Năng–Phan Dũng czeka na partię B.
 - **Jak działa poziom:** wybiera warianty dni (łatwy / zwykły / trudny), tak jak dziś wersja łagodna. Odblokowuje też moduły, które wymagają danego poziomu. Moduł jest dostępny od swojego poziomu wzwyż.
 - **Wyprawy** (jaskinie, dżungla, wielodniowe trekkingi) tylko z licencjonowanym operatorem lub przewodnikiem.
 - **Motocykl:**
   - domyślnie z kierowcą;
   - samodzielna jazda to zamiana albo–albo w modułach z pętlą (Hà Giang, Cao Bằng, przełęcz Hải Vân), a obok są wymagania i uczciwa informacja o ryzyku;
   - nie zależy od poziomu przygody, bo chodzi o prawo jazdy, nie o kondycję;
-  - tylko na pętlach, nie przez całą trasę.
+  - tylko na pętlach, nie przez całą trasę;
+  - MSZ odradza samodzielne podróże motocyklem po Wietnamie (Odyseusz, 30.06.2026). Ramka „Samodzielnie” zostaje bez tego zdania, a link do MSZ stoi w „Wjazd i zdrowie” (decyzja z 14.10.2026).
 - **Sơn Đoòng** tylko jako wzmianka, bo jest wyprzedana do 2027. Nie jest modułem.
 
 ### 6. Długość i lotniska
@@ -95,16 +99,17 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 
 ## Jak działa strona
 
-- **Ustawienia na wierzchu:** termin, lotnisko przylotu i wylotu, zainteresowania (0–2) i poziom. Do wyboru są przyciski i pola dat, bez suwaków. Ustawienia domyślne na pierwsze wejście ustalimy w etapie 2.
+- **Ustawienia na wierzchu:** termin, lotnisko przylotu i wylotu, zainteresowania (0–2) i poziom. Do wyboru są przyciski i pola dat, bez suwaków. Na pierwsze wejście strona bierze najlepszy miesiąc z 12 następnych (etap 2).
 - **Trasa przelicza się od razu** przy każdej zmianie, bez przycisku „generuj”.
 - **Trasa wygląda jak w pierwowzorze:** pasek dni, mapa, miejsca z galeriami, plan dnia, przejazdy, sezon i pogoda, logistyka.
 - **„Wybrane, bo…”** stoi przy każdym miejscu na trasie, np. „przyroda + w marcu dobry sezon”. Obok jest przycisk „Usuń”.
 - **„Nie ma na twojej trasie, bo…”** podaje powód: poza sezonem, za daleko na tyle dni, nie twój profil albo tylko na poziomie ekstremalnie.
   - Przy każdym miejscu jest przycisk „Dodaj”. Silnik układa wtedy trasę na nowo z tym miejscem i mówi, co wypadło.
   - Tak poprawia się gotową trasę. Nie jest to panel przełączników na start, przed którym ostrzegało badanie z 8.10.
-- **Zamiany albo–albo** działają wewnątrz modułów, np. motocykl z kierowcą albo samodzielnie.
+- **Zamiany albo–albo** działają wewnątrz modułów: motocykl z kierowcą albo samodzielnie w Cao Bằng, na przełęczy Hải Vân i w Hà Giang.
 - **Budżet** opisuje pkt 7. Do tego **ostrzeżenia:** Tết, święta, zamknięcia.
-- **Link z ustawieniami** (rozszerzony `variantHash`) i kopiowanie planu do WhatsAppa.
+- **„Przed wyjazdem”** (etap 2): budżet z podziałem i kwotą w pojedynkę, rezerwacje od najpilniejszej z linkami, wjazd i zdrowie, lista rzeczy do spakowania.
+- **Link z ustawieniami** (rozszerzony `variantHash`), kopiowanie planu do WhatsAppa i zapis trasy jako PDF (przycisk „Zapisz trasę jako PDF”, wydruk na A4).
 - **Tempo nie jest ustawieniem** w pierwszej wersji. Silnik ma stałe zasady: minimum nocy zapisane w module i karę za przeprowadzki. Tempo dodamy, jeśli okaże się potrzebne.
 
 ## Silnik
@@ -116,11 +121,12 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
   - nic zamkniętego w dniu pobytu;
   - moduły tylko od swojego poziomu wzwyż;
   - trasa kończy się na lotnisku wylotu;
-  - „Dodaj” wymusza moduł, a „Usuń” go wyklucza.
+  - „Dodaj” wymusza moduł, a „Usuń” go wyklucza;
+  - miejsce najwyżej godzinę drogi od miasta lotniska stoi tuż przy nim, a trasa nie robi zygzaków samolotem w okolicy lotniska przylotu i wylotu (etap 3).
 - **Gdy wymuszonego miejsca nie da się zmieścić,** np. przy za małej liczbie dni, strona mówi dlaczego i zostawia resztę trasy bez zmian.
 - **Powtarzalność:** te same ustawienia zawsze dają tę samą trasę, bo remisy rozstrzygamy zawsze tak samo.
 - **Działa w przeglądarce,** bez serwera i bez AI. AI pomaga tylko pisać treść, a każdy fakt ma źródło.
-- **Ryzyko do sprawdzenia na początku etapu 1:** czy prosta oś z odnogami i powrotem na to samo lotnisko daje sensowne trasy. Odnogi to Phú Quốc, Cát Bà, Cao Bằng i Ba Bể, później Hà Giang i Sa Pa. Najpierw mały prototyp na 12 miejscach, dopiero potem zamrażamy model modułu.
+- **Ryzyko do sprawdzenia na początku etapu 1:** czy prosta oś z odnogami i powrotem na to samo lotnisko daje sensowne trasy. Odnogi to Phú Quốc, Cát Bà, Cao Bằng i Ba Bể, później Hà Giang i Sa Pa. Najpierw mały prototyp na 12 miejscach, dopiero potem zamrażamy model modułu. Sprawdzone w etapie 1A (10.10.2026): model zostaje.
 
 ## Moduł: co ma każde miejsce
 
@@ -179,7 +185,8 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
   - przypadki dat: Tết, przełom miesięcy;
   - próbka „Dodaj/Usuń” i zamian;
   - na co dzień szybki przebieg, pełny przed publikacją.
-- **Offline:** PDF z wydruku twojej trasy (pierwowzór to umie) i lekki plik offline z mniejszymi zdjęciami. Decyzja w etapie 4.
+- **Offline (decyzja z 14.10.2026):** PDF trasy z przycisku „Zapisz trasę jako PDF”, bo otworzy go każdy telefon. Lekki plik offline (ok. 6 MB, zdjęcia 640 px) zostaje w buildzie na komputer i Chrome na Androidzie, bez rozsyłania: iPhone pokazuje plik HTML w podglądzie bez skryptów, czyli prawie pusty.
+- **Kroje** na własnym hostingu (`site2/fonts/`, licencja OFL): strona nie łączy się z Google Fonts, a plik offline ma kroje w środku.
 
 ## Poza zakresem
 
@@ -190,16 +197,12 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
 - Sơn Đoòng jako moduł;
 - konta, komentarze, opinie, podział kosztów.
 
-**Na później:** angielski, lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu, własna domena.
+**Na później:** angielski, lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu, własna domena, otwarcie strony dla wyszukiwarek (po opiniach znajomych).
 
-## Do sprawdzenia w researchu
+## Sprawdzone w researchu (stan 14.10.2026)
 
-- daty Tết na lata 2027–2030 (z grubsza 6.02.2027 i 26.01.2028) oraz święta państwowe;
-- ile dni Polacy mogą być w Wietnamie bez wizy (prawdopodobnie 45);
-- samodzielna jazda motocyklem:
-  - czy Wietnam uznaje polskie międzynarodowe prawo jazdy;
-  - kategorie prawa jazdy po nowym prawie drogowym;
-  - ubezpieczenia;
-  - kontrole w Hà Giang;
-- noclegi w dżungli: Cúc Phương, Pù Mát, Cát Tiên;
-- sezon wypraw jaskiniowych w Phong Nha (według rozpoznania od końca stycznia).
+- daty Tết na lata 2027–2031 i święta państwowe: [research/swieta-2026-10.md](../research/swieta-2026-10.md);
+- 45 dni bez wizy dla Polaków (uchwała 229/NQ-CP, do 14.08.2028): [research/wjazd-2026-10.md](../research/wjazd-2026-10.md);
+- samodzielna jazda motocyklem (prawo jazdy, kategorie, ubezpieczenia, kontrole w Hà Giang): [research/motocykl-2026-10.md](../research/motocykl-2026-10.md) i [research/hagiang-2026-10.md](../research/hagiang-2026-10.md);
+- noclegi w dżungli: Cát Tiên nad Bàu Sấu ([research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md)) i Cúc Phương ([research/cucphuong-2026-10.md](../research/cucphuong-2026-10.md)); Pù Mát w partii B;
+- sezon wypraw jaskiniowych w Phong Nha: [research/phongnha-2026-10.md](../research/phongnha-2026-10.md).

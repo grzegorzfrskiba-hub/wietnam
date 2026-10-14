@@ -6,7 +6,7 @@
 
 ## Skąd to się wzięło
 
-- **Pierwowzór: strona „Vietnam in December”,** trójjęzyczny planer wyjazdu organizatora z rodziną kolegi (11–25.12.2026).
+- **Pierwowzór: strona „Vietnam in December”,** trójjęzyczny planer grudniowego wyjazdu grupy (2026).
   - Źródła: `~/Desktop/CLAUDE roboczy plik/vietnam-planner/`. Jej `CLAUDE.md` opisuje budowę, testy i publikację.
   - Publicznie: https://grzegorzfrskiba-hub.github.io/vietnam-december/
 - **Ten projekt: ogólny planer po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
@@ -39,9 +39,12 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
 - Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
   - `bash tests/shot.sh '<ustawienia z linku>' <szerokość> <plik.png> [wysokość]`: zrzut, domyślnie 2600 px wysokości;
-  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`, `settings.js`, `map.js`, `before.js`; sonda kończy się kodem 1, gdy któraś kontrola nie przejdzie;
-  - `bash tests/print.sh '<ustawienia>' <plik.pdf> [dark]`: wydruk do PDF; podaje liczbę stron, prawie puste strony i linie zakryte ramkami;
+  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`, `settings.js`, `map.js`, `before.js`, `publish.js` (kroje, `noindex`, podgląd linku), `pdf.js` (przycisk PDF, mapa i link w wydruku); sonda kończy się kodem 1, gdy któraś kontrola nie przejdzie;
+  - `bash tests/print.sh '<ustawienia>' <plik.pdf> [dark]`: wydruk do PDF na A4; podaje format, liczbę stron, prawie puste strony i linie zakryte ramkami, a przy zakrytych liniach kończy się kodem 1;
   - słowo `MIESIAC` w ustawieniach zamienia się na miesiąc za pięć miesięcy od dziś.
 - `bash tools/links.sh`: linki rezerwacji i wjazdu (`site2/src/before.js`) przez curl, bez zapisywania stron; kod 1, gdy któryś adres nie odpowiada 2xx.
+- `bash tools/licenses.sh`: licencje i autorzy zdjęć (`site2/src/photos.js`) porównane z API Wikimedia Commons, tylko odczyt; kod 1 przy innej licencji albo braku pliku.
+- `bash tools/publish.sh`: testy, build i kopia `site2/out/pages` w `docs/`, z którego GitHub Pages podaje stronę; commit i `git push` to osobne kroki, push tylko za zgodą użytkownika.
+- Kroje (IBM Plex Sans, IBM Plex Mono, Newsreader) leżą w `site2/fonts/` z licencjami OFL; Chrome bez okna czyta je z dysku tylko z flagą `--allow-file-access-from-files`, którą mają `shot.sh`, `print.sh` i `probe.sh`.
 - `python3 -I geo/make_basemap.py <katalog z danymi Natural Earth>`: kontury mapy (`site2/src/basemap.js`) po zmianie kadrów w `site2/src/panels.js`. Dane (ok. 20 MB) leżą poza repo i pobiera się je za zgodą użytkownika (plan 2A, zadanie 11).
 - Pułapki: wbudowana przeglądarka nie otwiera `file://`; w nowym worktree podlinkuj `photos/` z głównej kopii; pasek u góry, „Na górę” i podświetlanie na mapie działają na IntersectionObserver, którego Chrome bez okna nie uruchamia, więc sprawdza się je ręcznie przez lokalny serwer (plan 2A, zadanie 13); narzędzie do zapisu plików bywa, że zamienia napis \u00a0 na sam znak twardej spacji, więc po każdej zmianie kodu grep z „Jak sprawdzać” w planach.

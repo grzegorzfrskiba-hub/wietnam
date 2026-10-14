@@ -33,7 +33,7 @@ Najwięcej pracy pochłonie treść, a nie kod: research, zdjęcia i tłumaczeni
 | Grudzień: pogoda, deszcz na wybrzeżu, teksty „w grudniu” | 12 miesięcy: pogoda i sezon każdego miejsca w każdym miesiącu, Tết, święta, sezony wypraw |
 | 5 tras ułożonych ręcznie + zamiany | biblioteka modułów (miejsce + kilka dni planu) układana automatycznie, potem zamiany jak dziś |
 | Przylot do HCMC, wylot z Hà Nội, konkretne loty | wybór lotniska przylotu i wylotu (HCMC, Hà Nội, Đà Nẵng), bez numerów lotów |
-| Wersja łagodna dla rodziców (`e` przy dniu) | poziom przygody: spokojnie / aktywnie / ekstremalnie, na tym samym mechanizmie |
+| Wersja łagodna (`e` przy dniu) | poziom przygody: spokojnie / aktywnie / ekstremalnie, na tym samym mechanizmie |
 | „Left out on purpose”: stała lista | „Nie ma na twojej trasie, bo…”: poza sezonem, za daleko na tyle dni, nie twój profil |
 | Mapa: dwa panele (cały kraj + północ) | inne kadry albo trzeci panel, bo Sa Pa i Mù Cang Chải leżą na zachód od dzisiejszego panelu północy, a Phong Nha w środku kraju; kontury trzeba przeliczyć (`geo/make_basemap.py`) |
 
@@ -64,7 +64,7 @@ Najwięcej pracy pochłonie treść, a nie kod: research, zdjęcia i tłumaczeni
 
 ## Zgodność z badaniem z 8.10
 
-Badanie `vietnam-planner/notes/design-research/itinerary-benchmarks.md` odradzało silnik planowania i suwaki. Dotyczyło jednak grupy z rodzicami, która ma w 10 minut wybrać jedną z kilku tras. Tu odbiorca jest inny: planuje sam i ma własne daty. Wnioski z badania nadal obowiązują:
+Badanie `vietnam-planner/notes/design-research/itinerary-benchmarks.md` odradzało silnik planowania i suwaki. Dotyczyło jednak grupy, która ma w 10 minut wybrać jedną z kilku tras. Tu odbiorca jest inny: planuje sam i ma własne daty. Wnioski z badania nadal obowiązują:
 
 - **Profile jako gotowe ustawienia, bez suwaków.** Suwaki źle działają na telefonie.
 - **Trasa przelicza się od razu przy każdej zmianie.** Nie ma przycisku „generuj”: w podobnych narzędziach najwięcej skarg dotyczy właśnie ponownego generowania.
@@ -110,7 +110,7 @@ Dziś strona ma 12 miejsc: Hồ Chí Minh City, Đà Lạt, Cát Tiên, Mekong, 
 - **Kombinacje:** wariantów będą tysiące, więc reguły muszą być sprawdzane w testach jak dziś „Cát Bà ≥ 3 noce”. Inaczej wrócą błędy takie jak 28 złamanych kombinacji z audytu 9.10.
 - **Aktualność:** ceny i rozkłady się zmieniają, więc przy każdym fakcie data sprawdzenia, a na stronie notka „sprawdźcie u przewoźnika” (już jest).
 - **Plik offline:** dziś ma 13 MB przy 12 miejscach, przy ok. 35 miejscach wyjdzie 35–40 MB. Rozwiązania: mniejsze zdjęcia w pliku albo plik tylko z wybraną trasą.
-- **Strona grudniowa zostaje nietknięta:** jej linki krążą w WhatsAppie i rodzice z niej korzystają.
+- **Strona grudniowa zostaje nietknięta:** jej linki krążą w WhatsAppie i grupa z niej korzysta.
 
 ## Organizacja
 
