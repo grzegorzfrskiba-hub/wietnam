@@ -157,7 +157,7 @@ eq(titles(stopDays(FC, { n: 1, start: 9 }, 2, 2, JAN)), ['9:B1'], 'a second stay
 function cb(level, self) { return stopDays(CONTENT.caobang, { n: 3, start: 1 }, 0, level, JAN, null, self).map(function (d) { return [d.variant, d.cost]; }); }
 eq([cb(2, false), cb(1, false), cb(1, true), cb(3, true)],
   [[[null, []], [null, [['caobang.car', 'caobang.easyrider']]], [null, [['caobang.car', 'caobang.easyrider']]]],
-   [['easy', []], [null, [['caobang.car', 'caobang.easyrider']]], [null, [['caobang.car', 'caobang.easyrider']]]],
+   [[null, []], [null, [['caobang.car', 'caobang.easyrider']]], [null, [['caobang.car', 'caobang.easyrider']]]],
    [['self', []], ['self', ['caobang.moto']], ['self', ['caobang.moto']]], [['self', []], ['self', ['caobang.moto']], ['self', ['caobang.moto']]]],
   'Cao Bằng ridden yourself: every day of the loop takes its self version, at every level, with the motorbike as its cost');
 eq(stopDays(FC, { n: 4, start: 1 }, 0, 2, JAN), null, 'more nights than plans');

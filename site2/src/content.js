@@ -44,7 +44,7 @@ var REGIONS = ['south', 'centre', 'north'];
 
 /* Names of several words in the texts of the places that have no letter Polish lacks, so tieVietnamese (page.js) cannot
    tell them from Polish words: the page keeps each on one line, as it does the names of the places and the airports. */
-var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'Hang Va', 'La Dao'];
+var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'La Dao'];
 
 /* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
    the name on the map's arrows to another panel, where it differs. */

@@ -223,6 +223,24 @@ contentCheck('style', function (need) {
     'at least one hard day: level 3 must change something (research/trudne-dni-2026-10.md)');
 });
 
+/* The length of a day's text (decision of 15.10.2026): what is special in the day and its limits (hours, a guide, the
+   season, the weather, an early start) in about 60 words, at most DAY_WORDS, without hints how (streets, pick-up times,
+   ways to get in touch, apps), so that the texts do not grow back. A word: letters or digits between spaces. The rain plans
+   and the other texts of a place are left out. */
+var DAY_WORDS = 70;
+function wordCount(t) { return (t.match(/\S+/g) || []).filter(function (w) { return /[\p{L}\p{N}]/u.test(w); }).length; }
+contentCheck('day texts', function (need) {
+  Object.keys(CONTENT).forEach(function (id) {
+    var c = CONTENT[id];
+    c.days.forEach(function (d) {
+      [['', d], [' easy', d.easy], [' hard', d.hard], [' hard next', d.hard && d.hard.next], [' solo', d.solo], [' self', d.self]].forEach(function (v) {
+        if (v[1]) need(wordCount(v[1].d) <= DAY_WORDS, id + ' day ' + d.p + v[0] + ': ' + wordCount(v[1].d) + ' words, at most ' + DAY_WORDS + ' (about 60)');
+      });
+    });
+    if (c.again) need(wordCount(c.again.d) <= DAY_WORDS, id + ' again: ' + wordCount(c.again.d) + ' words, at most ' + DAY_WORDS + ' (about 60)');
+  });
+});
+
 /* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex
    colour and no rgb() or rgba() with numbers (a triplet variable goes in as rgba(var(--black), 0.25)). */
 contentCheck('css colours', function (need) {
