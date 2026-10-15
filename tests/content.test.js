@@ -255,10 +255,139 @@ contentCheck('for every passport', function (need) {
   Object.keys(BOOK).forEach(function (k) { BOOK[k].links.forEach(function (l, i) { all.push(['BOOK.' + k + '.links[' + i + ']', l.name]); }); });
   ENTRY.links.forEach(function (l, i) { all.push(['ENTRY.links[' + i + ']', l.name]); });
   all.forEach(function (x) {
-    need(!/(^|[^\p{L}])(zł|PLN|EUR|USD)(?!\p{L})|[€$]|NBP/u.test(x[1]), x[0] + ': money in złoty, euro or dollars, or the NBP rate: the page says dong');
+    // also the words for them (the final review of plan B2): euro, dolar, złotówki
+    need(!/(^|[^\p{L}])(zł|PLN|EUR|USD)(?!\p{L})|[€$]|NBP|(^|[^\p{L}])(euro(?!p)|dolar|złotówk)/iu.test(x[1]), x[0] + ': money in złoty, euro or dollars, or the NBP rate: the page says dong');
     need(!/[Pp]olsk|[Pp]olak|Polsce|Polski|Odyseusz|starost|EKUZ|(^|[^\p{L}])(GIS|MSZ)(?!\p{L})|[Aa]mbasad\p{L}* RP/u.test(x[1]),
       x[0] + ': advice for the citizens of one country (Polish offices, Poland as a yardstick)');
   });
+});
+
+/* ---------- two languages (stage 5, decisions of 15.10.2026) ---------- */
+// The fields that hold a text in a place's content (content.js): an overlay in another language has these, and only these.
+var TEXT_KEYS = ['name', 'short', 'sub', 't', 'd', 'rain', 'gem', 'skip', 'instead'];
+// every text of a place as [path, text]: the strings under TEXT_KEYS (poi.name too); the data (maps, region, pace, cost…) not
+function placeTexts(v, path, out) {
+  if (Array.isArray(v)) v.forEach(function (x, i) { placeTexts(x, path + '.' + i, out); });
+  else if (v && typeof v === 'object') {
+    Object.keys(v).forEach(function (k) {
+      if (typeof v[k] === 'string') { if (TEXT_KEYS.indexOf(k) > -1) out.push([path + '.' + k, v[k]]); }
+      else placeTexts(v[k], path + '.' + k, out);
+    });
+  }
+  return out;
+}
+// what is wrong with the overlay over of a place base: a text of the base missing or empty, or a field where the base has
+// no text (data, a field of its own); lists hold their texts at the same places as the base's
+function overlayProblems(base, over, path) {
+  var out = [], want = {}, got = {};
+  placeTexts(base, path, []).forEach(function (x) { want[x[0]] = true; });
+  (function walk(v, p) {
+    if (typeof v === 'string') got[p] = v;
+    else if (Array.isArray(v)) v.forEach(function (x, i) { walk(x, p + '.' + i); });
+    else if (v && typeof v === 'object') Object.keys(v).forEach(function (k) { walk(v[k], p + '.' + k); });
+    else out.push(p + ': ' + JSON.stringify(v) + ' is no text');
+  })(over, path);
+  Object.keys(want).forEach(function (p) { if (!(p in got)) out.push(p + ': no text'); else if (!isText(got[p])) out.push(p + ': empty, or spaces at an end'); });
+  Object.keys(got).forEach(function (p) { if (!want[p]) out.push(p + ': no text in the Polish file at this place'); });
+  return out;
+}
+// The facts of a text that its translation keeps (finding 14): the numbers, as both languages would write them, and the
+// Vietnamese names. Numbers: a time as written (6:00); thousands without their space or comma; the decimal comma of
+// Polish as a point; a Polish date (30.04) as its day and month; a decade of a Polish century („lat 70. XVIII wieku”) as
+// the year it starts (1770, as English writes „the 1770s”); the months of both languages and Roman numerals (months,
+// centuries) as their numbers; English ordinals (19th, 27th) as numbers.
+var MONTHS_PL = [['styczeń', 'stycznia', 'styczniu'], ['luty', 'lutego', 'lutym'], ['marzec', 'marca', 'marcu'], ['kwiecień', 'kwietnia', 'kwietniu'],
+  ['maj', 'maja', 'maju'], ['czerwiec', 'czerwca', 'czerwcu'], ['lipiec', 'lipca', 'lipcu'], ['sierpień', 'sierpnia', 'sierpniu'],
+  ['wrzesień', 'września', 'wrześniu'], ['październik', 'października', 'październiku'], ['listopad', 'listopada', 'listopadzie'], ['grudzień', 'grudnia', 'grudniu']];
+var MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function roman(r) {
+  var v = { I: 1, V: 5, X: 10, L: 50 }, n = 0;
+  for (var i = 0; i < r.length; i++) n += v[r[i]] < (v[r[i + 1]] || 0) ? -v[r[i]] : v[r[i]];
+  return n;
+}
+function factNumbers(t, lang) {
+  var s = ' ' + String(t).replace(/\u00a0|\u2060/g, function (c) { return c === '\u2060' ? '' : ' '; }) + ' ', out = [];
+  s = s.replace(/\d{1,2}:\d{2}/g, function (m) { out.push(m); return ' '; });
+  if (lang === 'pl') {
+    s = s.replace(/(\d) (?=\d{3}(?!\d))/g, '$1');
+    s = s.replace(/(\d{2})\. ([IVXL]+) (wieku|w\.)/g, function (m, d, r) { return ' ' + ((roman(r) - 1) * 100 + Number(d)) + ' '; });
+    s = s.replace(/(\d{1,2})\.(\d{2})(?!\d)/g, ' $1 $2 ');
+    s = s.replace(/(\d),(\d)/g, '$1.$2');
+    MONTHS_PL.forEach(function (forms, i) { s = s.replace(new RegExp('(^|[^\\p{L}])(' + forms.join('|') + ')(?![\\p{L}])', 'gu'), '$1 ' + (i + 1) + ' '); });
+    s = s.replace(/(^|[^\p{L}])([IVXL]+)(?![\p{L}])/gu, function (m, a, r) { return a + ' ' + roman(r) + ' '; });
+  } else {
+    s = s.replace(/(\d),(?=\d{3}(?!\d))/g, '$1');
+    MONTHS_EN.forEach(function (name, i) { s = s.replace(new RegExp('(^|[^\\p{L}])' + name + '(?![\\p{L}])', 'gu'), '$1 ' + (i + 1) + ' '); });
+    s = s.replace(/(\d)(st|nd|rd|th)(?![\p{L}])/gu, '$1');
+  }
+  (s.match(/\d+(?:\.\d+)?½?|½/g) || []).forEach(function (m) { out.push(/^\d+(\.\d+)?$/.test(m) ? String(Number(m)) : m.replace(/^0+(?=\d)/, '')); });
+  return out.sort();
+}
+function vietNames(t) {
+  var seen = {};
+  (String(t).match(/[\p{L}\p{M}]+/gu) || []).forEach(function (w) { if (VIET_LETTER.test(w)) seen[w] = true; });
+  return Object.keys(seen).sort();
+}
+// Pairs of texts whose numbers or names differ for a reason, by the path of the Polish text: { path: reason }.
+var SAME_FACTS_EXCEPTIONS = {};
+function factProblems(path, pl, en) {
+  if (SAME_FACTS_EXCEPTIONS[path]) return [];
+  var out = [], a = factNumbers(pl, 'pl'), b = factNumbers(en, 'en'), x = vietNames(pl), y = vietNames(en);
+  if (a.join(' ') !== b.join(' ')) out.push(path + ': numbers ' + a.join(' ') + ' | ' + b.join(' '));
+  if (x.join(' ') !== y.join(' ')) out.push(path + ': Vietnamese names ' + x.join(' ') + ' | ' + y.join(' '));
+  return out;
+}
+// The style of the English texts (finding 15): British English to one reader (you), Vietnamese names with their marks,
+// typographic quotes and apostrophe (“ ” ’), no Polish letter or quote, no American spelling of a short list.
+var AMERICAN = /(^|[^\p{L}])(color|colors|colored|colorful|center|centers|centered|traveler|travelers|traveling|traveled|theater|theaters|favorite|favorites|gray|meter|meters|kilometer|kilometers|liter|liters|program|programs|license|licenses|defense|harbor|neighbor|neighbors|honor|catalog|aluminum|mold|plow)(?![\p{L}])/iu;
+function englishProblems(path, t) {
+  var out = [];
+  if (/[ąćęłńśźżĄĆĘŁŃŚŹŻ]/.test(t)) out.push(path + ': a Polish letter');
+  if (/[„]/.test(t)) out.push(path + ': a Polish quote „ (use “ ”)');
+  if (/["']/.test(t)) out.push(path + ': straight quotes or apostrophe (use “ ” ’)');
+  var m = AMERICAN.exec(t);
+  if (m) out.push(path + ': American spelling „' + m[2] + '” (British English: colour, centre, traveller, metre, programme, licence…)');
+  if (/\d\s*(am|pm)\b/i.test(t)) out.push(path + ': am/pm, use 24-hour time');
+  if (/\d°/.test(t)) out.push(path + ': no space before °C');
+  if (/\d-\d/.test(t)) out.push(path + ': a hyphen in a range, use an en dash');
+  if (/\d(?:[\d.:,]*\d)?\s(?!\d{3}(?!\d))[\d½]/.test(t)) out.push(path + ': two numbers side by side: put a word between them');
+  if (/(^|[^\p{L}])(PLN|EUR|USD)(?!\p{L})|[€$£]|(^|[^\p{L}])(euros?|dollars?|zloty)(?![\p{L}])/iu.test(t) || /Poland|Polish/.test(t)) out.push(path + ': money other than dong, or Poland: the page is for every passport');
+  return out;
+}
+
+/* The English texts of the places (site2/src/en/content/<id>.js, finding 8): every place has them, with a text wherever
+   its Polish file has one and nothing else (finding 13), the same numbers and Vietnamese names in each pair of texts
+   (finding 14), in British English for every passport (findings 15 and 16), and a day's text of at most DAY_WORDS_EN
+   words (finding 17: the longest English day text of the dry run, so that the texts do not grow). */
+var DAY_WORDS_EN = 80;
+contentCheck('english places', function (need) {
+  Object.keys(CONTENT).forEach(function (id) {
+    var en = CONTENT_EN[id], w = 'CONTENT_EN.' + id, pl = {};
+    need(en, id + ': no English texts (site2/src/en/content/' + id + '.js)');
+    if (!en) return;
+    overlayProblems(CONTENT[id], en, w).forEach(function (p) { need(false, p); });
+    placeTexts(CONTENT[id], w, []).forEach(function (x) { pl[x[0]] = x[1]; });
+    placeTexts(en, w, []).forEach(function (x) {
+      englishProblems(x[0], x[1]).forEach(function (p) { need(false, p); });
+      if (pl[x[0]] != null) factProblems(x[0], pl[x[0]], x[1]).forEach(function (p) { need(false, p); });
+      if (/\.d$/.test(x[0])) need(wordCount(x[1]) <= DAY_WORDS_EN, x[0] + ': ' + wordCount(x[1]) + ' words, at most ' + DAY_WORDS_EN);
+    });
+  });
+  Object.keys(CONTENT_EN).forEach(function (id) { need(CONTENT[id], 'English texts for an unknown place: ' + id); });
+  // the safety sentences of the places in English too: a hard day says who leads; a plan on Sơn Trà says to check the
+  // management's notice; the 7 km in Paradise Cave turn back after about 4 km in the rainy season
+  Object.keys(CONTENT_EN).forEach(function (id) {
+    (CONTENT_EN[id].days || []).forEach(function (d, i) {
+      if (d.hard) need(/guide|operator/i.test(d.hard.d) && !/without (a |the )?(guide|operator)/i.test(d.hard.d), 'CONTENT_EN.' + id + '.days.' + i + '.hard: say who leads (a guide or an operator)');
+    });
+  });
+  CONTENT_EN.danang.days.forEach(function (d, i) {
+    [['', d], ['.solo', d.solo], ['.easy', d.easy], ['.hard', d.hard]].forEach(function (v) {
+      if (v[1] && /Sơn Trà/.test(v[1].d)) need(/check[^.]*notice/i.test(v[1].d), 'CONTENT_EN.danang.days.' + i + v[0] + ': a plan on Sơn Trà says to check the management’s notice');
+    });
+  });
+  var cave = CONTENT.phongnha.days.map(function (d) { return d.t; }).indexOf('7 km w głąb Paradise Cave');
+  need(cave > -1 && /turns back after about 4 km/.test(CONTENT_EN.phongnha.days[cave].d), 'CONTENT_EN.phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');
 });
 
 /* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex

@@ -1,0 +1,39 @@
+/* Hà Giang and the loop over the Đồng Văn plateau: the English texts of the place (stage 5), the same fields and order as
+   site2/src/content/hagiang.js where it has a text. Facts and sources: research/hagiang-2026-10.md. */
+CONTENT_EN.hagiang = {
+  name: 'Hà Giang and the Đồng Văn plateau', short: 'Hà Giang',
+  sub: 'A loop over the Đồng Văn plateau and the Mã Pí Lèng pass',
+  poi: { name: 'Đồng Văn' },
+  days: [
+    { t: 'Evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a driver or a motorbike guide (easy rider) only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.',
+      rain: 'change nothing, but ask the agency about the forecast and the state of the QL4C road.',
+      easy: { t: 'Evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a car with a driver only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.' },
+      self: { t: 'Evening in Hà Giang', d: 'A night in Hà Giang town; in the evening, pick up the motorbike from the rental shop you will return it to after the loop. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone: the police immigration office in town issues the permit for about 230,000–300,000 VND, and your hotel can arrange it too. Always carry your passport, licence and International Driving Permit.' } },
+    { t: 'Through Quản Bạ and Yên Minh to Đồng Văn', d: 'By car with a driver, or riding pillion behind a motorbike guide, over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, with a view of the conical Cô Tiên hills, then through Yên Minh and the Thẩm Mã and Chín Khoanh hairpins, past the Vương family palace in Sà Phìn. About 150 km in all, 4–5 hours of driving alone. A night in Đồng Văn and an evening walk in the old quarter.',
+      rain: 'go more slowly and expect fog on the passes; in a downpour or a landslide warning, ask the agency about the state of the QL4C road.',
+      easy: { t: 'Through Quản Bạ and Yên Minh to Đồng Văn', d: 'By car with a driver over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, with a view of the two conical Cô Tiên hills, then through Yên Minh and the Thẩm Mã and Chín Khoanh hairpins. On the way, the Vương family palace in Sà Phìn. About 150 km in all, 4–5 hours of driving alone. A night in Đồng Văn, and an evening walk in the old quarter.' },
+      self: { t: 'Through Quản Bạ and Yên Minh to Đồng Văn by motorbike', d: 'About 150 km by motorbike, 4–5 hours of riding alone, so set off at 8:00 to arrive before dark: over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, Yên Minh, the Thẩm Mã and Chín Khoanh hairpins and past the Vương family palace in Sà Phìn to Đồng Văn. Bắc Sum has sharp bends and oncoming lorries. Police check this road, foreigners especially.' } },
+    { t: 'Lũng Cú and the village below the tower', d: 'A short day, about 50–60 km: by car or with a motorbike guide to Lũng Cú and its flag tower at the northernmost tip of Vietnam, up the steps or by electric buggy. Then Lô Lô Chải village below the tower, and back to Đồng Văn for a second night. Do not turn off onto roads towards the border.',
+      rain: 'in fog the view from the tower disappears, so stay longer in Đồng Văn’s old quarter and go to Lũng Cú when it clears.',
+      easy: { t: 'Lũng Cú and the village below the tower', d: 'A short day, about 50–60 km: by car with a driver to Lũng Cú and its flag tower at the northernmost tip of Vietnam, up by electric buggy. Then Lô Lô Chải village below the tower, and back to Đồng Văn for a second night.' },
+      self: { t: 'Lũng Cú and the village below the tower by motorbike', d: 'By motorbike, 26 km to Lũng Cú and back, about 50–60 km in all on narrow roads near the border: ride slowly and do not turn off onto roads towards the border. Up to the flag tower at Vietnam’s northern tip by the steps or by electric buggy, then Lô Lô Chải village below the tower and a second night in Đồng Văn.' } },
+    { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già', d: 'Over the Mã Pí Lèng pass, on a road cut into the slope above the canyon of the Nho Quế river, to Mèo Vạc. If the weather allows, a boat through the Tu Sản canyon. In the afternoon, through Mậu Duệ to Du Già, about 100 km in all, for a night at a homestay in a valley with a waterfall.',
+      rain: 'in a downpour skip the boat, which does not sail in storms, and on the pass go slowly and do not stop below steep slopes.',
+      easy: { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già', d: 'By car with a driver over the Mã Pí Lèng pass, on a road cut into the slope above the canyon of the Nho Quế river, to Mèo Vạc. If the weather allows, a boat through the Tu Sản canyon. In the afternoon, through Mậu Duệ to Du Già, about 100 km in all, for a night at a homestay in a valley with a waterfall.' },
+      self: { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già by motorbike', d: 'About 100 km by motorbike: over the Mã Pí Lèng pass above the canyon of the Nho Quế river to Mèo Vạc, then in the afternoon through Mậu Duệ to Du Già, for a night at a homestay. Lorries and construction machines use Mã Pí Lèng, and beyond Mèo Vạc the road is sometimes under repair, so set off in the morning and ride slowly. Take the boat through the Tu Sản canyon only in a life jacket.' } },
+    { t: 'From Du Già back to Hà Giang', d: 'In the morning, a walk to the waterfall in Du Già, then along the Lũng Hồ valley and through Thái An back to Hà Giang town, about 100 km. A night in town.',
+      rain: 'after a downpour the waterfall is swollen and slippery, so look at it only from the bank, and leave Du Già earlier to be back before dark.',
+      easy: { t: 'From Du Già back to Hà Giang', d: 'In the morning, a walk to the waterfall in Du Già, then by car with a driver along the Lũng Hồ valley and through Thái An back to Hà Giang town, about 100 km. A night in town.' },
+      self: { t: 'From Du Già back to Hà Giang by motorbike', d: 'In the morning, a walk to the waterfall in Du Già, then about 100 km by motorbike back to Hà Giang, along the Lũng Hồ valley and through Thái An; the stretch of road south of Du Già is sometimes in poor condition. Return the motorbike in town before dark.' } }
+  ],
+  gem: 'A boat through the Tu Sản canyon below the Mã Pí Lèng pass.',
+  skip: 'The “Mỏm đá sống ảo” rock ledge on Mã Pí Lèng: closed since July 2026, and photos on the edge of the drop are dangerous.',
+  instead: 'a roadside viewpoint on the pass, or a boat in the Tu Sản canyon.',
+  events: [
+    { t: 'Cold season: from December to February the nights on the plateau are cold, about 4–7 °C on average; there can be frost, freezing rain and even snow, and thick fog on the passes. Bring a warm jacket, a hat and gloves, and wait out icy roads.' },
+    { t: 'In spring, peach and plum trees and rapeseed bloom; on the plateau, peach and rapeseed are still in flower in March.' },
+    { t: 'The Khâu Vai market near Mèo Vạc: once a year, on the 27th day of the third lunar month, with a festival over 2–3 days. It falls between late April and mid-May (2025: 22–24 April, 2026: 12–13 May), so check the date for your year.' },
+    { t: 'Rainy season: downpours, fog, landslides and rockfalls on the QL4C road (2024, 2026). Set off in the morning, ask about the road after a downpour, and wait it out when there is a landslide warning.' },
+    { t: 'Buckwheat is in flower (tam giác mạch): pink and white fields on the plateau. The festival in Đồng Văn has a different date every year (2025: 29 November, 2026: 25 October); then rooms and roads are crowded, and traffic through Đồng Văn is sometimes stopped.' }
+  ]
+};

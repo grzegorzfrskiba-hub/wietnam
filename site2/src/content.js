@@ -36,6 +36,9 @@
      research/sezony-2026-10.md;
    - gem, skip, instead: tips (skip and instead together). */
 var CONTENT = {};
+// the English texts of the places (stage 5): site2/src/en/content/<id>.js, CONTENT_EN.<id> with the same text fields
+// (localContent in page.js lays them over the Polish ones)
+var CONTENT_EN = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
 // what a day or an event adds to the list of what to pack (UI keys p.<code>): socks against leeches, a torch, swimwear for a
 // river or a cave swum through
