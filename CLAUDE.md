@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (15.10.2026):** etap 3, partia B: plan B1 zrobiony i opublikowany pod https://grzegorzfrskiba-hub.github.io/wietnam/ (Yok Đôn, Mù Cang Chải, szlak Tà Năng–Phan Dũng w Đà Lạt, Mỹ Sơn w Hội An), dalej z `noindex`. Następny krok: plan B2 partii B według sesji decyzji z 15.10.2026 (treść dla podróżnych z całego świata: skrócone „Przed wyjazdem” i najdłuższe opisy dni, dongi zamiast złotówek, przesiew researchu), potem etap angielski, zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** etap 3, partia B: plan B1 zrobiony i opublikowany pod https://grzegorzfrskiba-hub.github.io/wietnam/ (Yok Đôn, Mù Cang Chải, szlak Tà Năng–Phan Dũng w Đà Lạt, Mỹ Sơn w Hội An), dalej z `noindex`. Następny krok: wykonanie planu B2 partii B ([notes/plans/2026-10-15-etap-3b2-tresc.md](notes/plans/2026-10-15-etap-3b2-tresc.md); treść dla podróżnych z całego świata: ramka motocykla, „Warto wiedzieć”, skrócone rezerwacje i najdłuższe opisy dni, dongi zamiast złotówek, fakty z przesiewu researchu), potem etap angielski, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
