@@ -55,6 +55,31 @@ function linkHash(s) {
   return '#' + parts.join('&');
 }
 
+/* ---------- the language (stage 5) ---------- */
+/* The page's language from the part of the address after #: Polish when the link says lang=pl, else English, the default
+   (decision of 15.10.2026). The language is no setting of the trip: lang with another value, or without one, is English,
+   with no warning of a wrong link, and parseLink leaves it out. */
+function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')) ? 'pl' : 'en'; }
+/* The address of the settings in a language: Polish adds lang=pl at the end, so a link copied, sent or printed opens the
+   same trip in Polish; English adds nothing, so every link from before stage 5 opens in English. */
+function langHash(s, lang) { return linkHash(s) + (lang === 'pl' ? '&lang=pl' : ''); }
+/* The texts of the places in a language. content: CONTENT, with the Polish texts; overlay: for English CONTENT_EN, the same
+   fields where a place has a text (tests/content.test.js checks it), lists in the same order. Returns a copy of content
+   with the overlay's texts over the Polish ones and the data (p, pace, cost…) as it was; without an overlay, content. */
+function localContent(content, overlay) {
+  function over(base, o) {
+    if (o === undefined) return base;
+    if (typeof base === 'string') return o;
+    if (Array.isArray(base)) return base.map(function (b, i) { return over(b, o[i]); });
+    if (base && typeof base === 'object') { var out = {}; Object.keys(base).forEach(function (k) { out[k] = over(base[k], o[k]); }); return out; }
+    return base;
+  }
+  if (!overlay) return content;
+  var out = {};
+  Object.keys(content).forEach(function (id) { out[id] = over(content[id], overlay[id]); });
+  return out;
+}
+
 /* A copy of the settings with lists of its own; add, remove and moto are never missing. */
 function copySettings(s) {
   var o = {};
@@ -244,9 +269,18 @@ function tripAlerts(st, list, from, until, tetMargin) {
   return { hits: hits, unknown: span[0] < from || span[1] > until };
 }
 
-/* Days for a sentence: '6–12.02.2027', '30.04–3.05.2027', '28.12.2030–2.01.2031'; one day: '1.01.2027'. */
-function fmtSpan(a, b) {
+/* Days for a sentence: '6–12.02.2027', '30.04–3.05.2027', '28.12.2030–2.01.2031'; one day: '1.01.2027'. In English (stage 5),
+   with mon the 12 short names of the months (UI.en mon3.1…12): '6–12 Feb 2027', '30 Apr – 3 May 2027',
+   '28 Dec 2030 – 2 Jan 2031', '1 Jan 2027'. */
+function fmtSpan(a, b, mon) {
   var p = a.split('-'), q = b.split('-');
+  if (mon) {
+    var md = function (x) { return +x[2] + ' ' + mon[+x[1] - 1]; };
+    if (a === b) return md(p) + ' ' + p[0];
+    if (p[0] !== q[0]) return md(p) + ' ' + p[0] + ' – ' + md(q) + ' ' + q[0];
+    if (p[1] !== q[1]) return md(p) + ' – ' + md(q) + ' ' + q[0];
+    return +p[2] + '–' + md(q) + ' ' + q[0];
+  }
   function dm(x) { return +x[2] + '.' + x[1]; }
   if (a === b) return dm(p) + '.' + p[0];
   if (p[0] !== q[0]) return dm(p) + '.' + p[0] + '–' + dm(q) + '.' + q[0];
@@ -664,39 +698,44 @@ function packList(route, plans, st, moto, data) {
   return out;
 }
 
-/* The text of a photo's licence on creativecommons.org, in Polish: 'CC BY-SA 4.0' → …/licenses/by-sa/4.0/deed.pl, a
-   licence of a country ('CC BY-SA 3.0 de') with its country, CC0 → the CC0 deed; null for the public domain, which has no
-   licence text (the photo's page on Commons says why). */
-function licenceUrl(license) {
-  if (license === 'CC0') return 'https://creativecommons.org/publicdomain/zero/1.0/deed.pl';
+/* The text of a photo's licence on creativecommons.org, in the page's language (lang 'en', else Polish): 'CC BY-SA 4.0' →
+   …/licenses/by-sa/4.0/deed.pl, a licence of a country ('CC BY-SA 3.0 de') with its country, CC0 → the CC0 deed; null for
+   the public domain, which has no licence text (the photo's page on Commons says why). */
+function licenceUrl(license, lang) {
+  var deed = 'deed.' + (lang === 'en' ? 'en' : 'pl');
+  if (license === 'CC0') return 'https://creativecommons.org/publicdomain/zero/1.0/' + deed;
   var m = /^CC (BY(?:-SA)?) (\d\.\d)(?: ([a-z]{2}))?$/.exec(license);
-  return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + 'deed.pl' : null;
+  return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + deed : null;
 }
 
 /* An amount in euros, [from, to], in dong as the page writes it (decision of 15.10.2026): [from, to, millions], the two
    ends as text and whether they are millions. sum (the budget of a whole trip): whole millions, never under 1 ("17–39"); a
    part of it or a thing to pay for: millions with one decimal when the dearer end comes to 1 million or more ("0,8–1,5"),
-   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). */
-function vndRange(eur, rate, sum) {
+   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). lang 'en'
+   (stage 5): a decimal point and thousands with commas ("0.8–1.5", "260,000"). */
+function vndRange(eur, rate, sum, lang) {
   var v = eur.map(function (x) { return x * rate; });
   if (sum) return v.map(function (x) { return String(Math.max(1, Math.round(x / 1e6))); }).concat([true]);
-  if (Math.round(v[1] / 1e5) >= 10) return v.map(function (x) { return (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1).replace('.', ','); }).concat([true]);
-  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4); }).concat([false]);
+  if (Math.round(v[1] / 1e5) >= 10) {
+    return v.map(function (x) { var t = (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1); return lang === 'en' ? t : t.replace('.', ','); }).concat([true]);
+  }
+  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4, lang); }).concat([false]);
 }
 
 /* An amount in euros as the page writes it in dong: { key, vars } for the UI keys vnd, vnd.one, mln, mln.one, vnd.upto and
    mln.upto, with the numbers of vndRange. A thing that may cost nothing (its from is 0, as the flight over Khau Phạ, which
    is up to the visitor) says only its dearer end, "do 2,2 mln VND", not a from rounded up to a price (the final review of
-   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate and sum: as for
-   vndRange. */
-function vndText(eur, rate, sum) {
+   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate, sum and lang:
+   as for vndRange. */
+function vndText(eur, rate, sum, lang) {
   if (eur[1] <= 0) return { key: 'vnd.one', vars: { a: '0' } };
-  var r = vndRange(eur, rate, sum), m = r[2];
+  var r = vndRange(eur, rate, sum, lang), m = r[2];
   if (!sum && eur[0] <= 0) return { key: m ? 'mln.upto' : 'vnd.upto', vars: { b: r[1] } };
   return r[0] === r[1] ? { key: m ? 'mln.one' : 'vnd.one', vars: { a: r[0] } } : { key: m ? 'mln' : 'vnd', vars: { a: r[0], b: r[1] } };
 }
-/* A number with its thousands apart (no-break spaces), as Polish writes money: 260000 → '260 000'. */
-function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+/* A number with its thousands apart, as the language writes money: in Polish with no-break spaces, 260000 → '260 000'; in
+   English (lang 'en') with commas, '260,000'. */
+function money(n, lang) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : '\u00a0'); }
 
 /* ---------- travel texts ---------- */
 /* The text of one road segment as [UI key, values]: from or to an airport; a road with a text of its own (roadKeys, by
@@ -791,6 +830,15 @@ function tieShort(text) {
   return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C|mln|VND)(?![\p{L}])/gu, '$1\u00a0$2')
     .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u00a0').replace(/mln VND/g, 'mln\u00a0VND');
 }
+/* English typography (stage 5): as in Polish (tieShort), a number keeps its unit on the line (5 km, 4½ h, 25 °C, 2.2M VND,
+   260,000 VND, 125 cc), ≈ keeps its number and a range of numbers (1–3, 11:00–14:30) keeps together; English has no
+   one-letter words to tie. */
+function tieEnglish(text) {
+  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/([\d½]M?) (h|min|km|mm|m|°C|cc|VND)(?![\p{L}])/gu, '$1\u00a0$2');
+}
+/* "w marcu", "we wrześniu" (we before w and a consonant); in English (lang 'en') "in March". noun: the month as the UI key
+   monl.<n> of the language gives it. */
+function inMonthText(noun, lang) { return lang === 'en' ? 'in ' + noun : (/^w[^aeiouyąęó]/i.test(noun) ? 'we ' : 'w ') + noun; }
 
 /* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become
    no-break spaces. names: the names that have a space, longest first, so a longer name is tied before a shorter one in it. */

@@ -45,8 +45,10 @@
     var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', timeZone: 'UTC' });
     return wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
   }
-  // "w marcu", "we wrześniu" (we before w and a consonant)
-  function inMonth(m) { var noun = T('monl.' + m); return (/^w[^aeiouyąęó]/i.test(noun) ? 'we ' : 'w ') + noun; }
+  // "w marcu", "we wrześniu", "in March" (inMonthText in page.js)
+  function inMonth(m) { return inMonthText(T('monl.' + m), lang); }
+  // days for a sentence (fmtSpan in page.js): in English with the short names of the months
+  function span(a, b) { return fmtSpan(a, b, lang === 'en' ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (m) { return T('mon3.' + m); }) : null); }
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
@@ -55,13 +57,13 @@
   // a thing that may cost nothing only its dearer end, "do 2,2 mln VND"; one number when both ends come out alike; "0 VND"
   // only for what costs nothing
   function vnd(eur, sum) {
-    var v = vndText(eur, EUR_VND, sum);
+    var v = vndText(eur, EUR_VND, sum, lang);
     return T(v.key, v.vars);
   }
   // names for a sentence: "A", "A i B", "A, B i C"
   function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
   function termText(st) {
-    return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
+    return st.start ? span(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
   }
 
   /* ---------- state ---------- */
@@ -234,7 +236,7 @@
 
   /* The settings in short, for the bar at the top: "mar 2027 · 15 dni · Aktywnie", or with dates "28.01–14.02.2027 · …". */
   function summaryText(st) {
-    var term = st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('mon3.' + st.month) + ' ' + st.year;
+    var term = st.start ? span(st.start, tripDate(st.start, st.days)) : T('mon3.' + st.month) + ' ' + st.year;
     return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
   }
 
@@ -270,7 +272,7 @@
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
     if (state.linkWarn) lines.push(T('set.dropped'));
     if (passed) lines.push(T('alert.past'));
-    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) })); });
+    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: span(h.from, h.to) })); });
     // a chosen interest whose places on the trip are all in a poor season, or that no place on the trip serves
     interestAlerts(r, st, PLACES, CLIMATE).forEach(function (x) {
       var what = T('int.' + x.interest);
@@ -926,11 +928,11 @@
     .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
     .filter(function (n, i, all) { return n.indexOf(' ') > -1 && all.indexOf(n) === i; })
     .sort(function (a, b) { return b.length - a.length; });
-  // a text with the no-break spaces of Polish typography (tieShort) and of the names (tieVietnamese, tieNames), all in page.js
-  function tied(text) { return lang === 'pl' ? tieNames(tieVietnamese(tieShort(text)), TIED_NAMES) : text; }
+  // a text with the no-break spaces of the language's typography (tieShort, tieEnglish) and of the names (tieVietnamese,
+  // tieNames), all in page.js
+  function tied(text) { return tieNames(tieVietnamese(lang === 'pl' ? tieShort(text) : tieEnglish(text)), TIED_NAMES); }
   // every text in root, tied as above
   function tieShortWords(root) {
-    if (lang !== 'pl') return;
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), node;
     while ((node = walker.nextNode())) {
       if (/^(SCRIPT|STYLE|TEXTAREA)$/i.test(node.parentNode.nodeName)) continue;
@@ -954,7 +956,7 @@
     Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
       // the caption leads to the photo's page on Commons, the licence to its text
-      var m = PHOTO_META[ph], lic = licenceUrl(m.license);
+      var m = PHOTO_META[ph], lic = licenceUrl(m.license, lang);
       return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.cap) + '</a>: ' + esc(m.artist) + ', ' +
         (lic ? '<a href="' + esc(lic) + '" target="_blank" rel="noopener">' + esc(licName(m.license)) + '</a>' : esc(licName(m.license))) + '</li>';
     }).join('');

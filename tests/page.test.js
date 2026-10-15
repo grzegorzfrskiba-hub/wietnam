@@ -44,6 +44,23 @@ eq([parseLink('#od=SGN&motocykl=caobang,haivan').moto, parseLink('#motocykl=Cao'
 var roundM = Object.assign({}, round, { moto: ['caobang'] });
 eq(linkHash(roundM), linkHash(round) + '&motocykl=caobang', 'linkHash: the swaps last, only when there are any');
 eq(parseLink(linkHash(roundM)), roundM, 'linkHash, then parseLink: the same settings (with a swap)');
+// the language (stage 5): Polish only with lang=pl, English otherwise, also with another value or none; the language is no
+// setting of the trip, so parseLink leaves it out and names no wrong field
+eq(['#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2', '#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2&lang=pl', '#lang=pl&od=SGN', '#od=SGN&lang=en',
+  '#od=SGN&lang=', '#od=SGN&lang', '#od=SGN&lang=PL', '#od=SGN&lang=pl2', '', '#day-5'].map(langOf), ['en', 'pl', 'pl', 'en', 'en', 'en', 'en', 'en', 'en', 'en'],
+  'langOf: Polish only with lang=pl');
+var badL = [];
+eq([parseLink('#od=SGN&lang=pl', badL), parseLink('#od=SGN&lang=xx', badL), badL], [{ from: 'SGN' }, { from: 'SGN' }, []], 'parseLink leaves the language out and names no wrong field');
+eq([langHash(round, 'pl'), langHash(round, 'en')], [linkHash(round) + '&lang=pl', linkHash(round)], 'langHash: lang=pl at the end in Polish, nothing in English');
+eq(parseLink(langHash(roundM, 'pl')), roundM, 'langHash, then parseLink: the same settings');
+// the texts of the places in a language: the overlay's texts over the Polish ones, the data kept, the base unchanged
+var BASE_T = { a: { name: 'Miejsce', short: 'A', pt: [1, 2], days: [{ p: 1, t: 'Dzień', d: 'Opis.', cost: ['x.y'], easy: { pace: 'rest', t: 'Łatwo', d: 'Spokojnie.' } }],
+  events: [{ from: [1, 1], to: [2, 1], t: 'Uwaga.' }] } };
+var OVER_T = { a: { name: 'Place', short: 'A', days: [{ t: 'Day', d: 'Text.', easy: { t: 'Easy', d: 'Relaxed.' } }], events: [{ t: 'Note.' }] } };
+eq(localContent(BASE_T, OVER_T), { a: { name: 'Place', short: 'A', pt: [1, 2], days: [{ p: 1, t: 'Day', d: 'Text.', cost: ['x.y'], easy: { pace: 'rest', t: 'Easy', d: 'Relaxed.' } }],
+  events: [{ from: [1, 1], to: [2, 1], t: 'Note.' }] } }, 'localContent: the texts of the overlay, the data of the base');
+eq([BASE_T.a.name, localContent(BASE_T, null) === BASE_T, localContent(BASE_T, {}).a.name], ['Miejsce', true, 'Miejsce'],
+  'the base stays as it was; without an overlay, or without one for a place, the Polish texts');
 print('link ok');
 
 /* ---------- the defaults and the settings a link opens ---------- */
@@ -248,6 +265,11 @@ eq(fmtSpan('2027-02-06', '2027-02-12'), '6–12.02.2027', 'a span in one month')
 eq(fmtSpan('2027-04-30', '2027-05-03'), '30.04–3.05.2027', 'a span over two months');
 eq(fmtSpan('2030-12-28', '2031-01-02'), '28.12.2030–2.01.2031', 'a span over two years');
 eq(fmtSpan('2027-01-01', '2027-01-01'), '1.01.2027', 'one day');
+// in English (stage 5), with the short names of the months: the day, the month's name and the year; a span over two months
+// or two years with a spaced dash between whole dates
+var MON3_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+eq([fmtSpan('2027-02-06', '2027-02-12', MON3_EN), fmtSpan('2027-04-30', '2027-05-03', MON3_EN), fmtSpan('2030-12-28', '2031-01-02', MON3_EN), fmtSpan('2027-01-01', '2027-01-01', MON3_EN)],
+  ['6–12 Feb 2027', '30 Apr – 3 May 2027', '28 Dec 2030 – 2 Jan 2031', '1 Jan 2027'], 'English spans: in one month, over two months, over two years, one day');
 var TODAY_T = '2026-10-11';
 eq([termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 9, days: 10 }), TODAY_T), termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2026, month: 10, days: 10 }), TODAY_T),
   termPassed(stOf({ from: 'SGN', to: 'HAN', year: 2027, month: 3, days: 10 }), TODAY_T)], [true, false, false], 'term passed, the month mode: an earlier month yes, this month and a later one no');
@@ -409,6 +431,12 @@ eq([vndText([0, 75], 29055, false), vndText([0, 29], 29055, false), vndText([28,
   [{ key: 'mln.upto', vars: { b: '2,2' } }, { key: 'vnd.upto', vars: { b: '840\u00a0000' } }, { key: 'mln', vars: { a: '0,8', b: '1,5' } },
    { key: 'vnd.one', vars: { a: '260\u00a0000' } }, { key: 'vnd.one', vars: { a: '0' } }, { key: 'mln', vars: { a: '57', b: '114' } }],
   'dong as the page writes them: a thing that may cost nothing (from 0, as the flight over Khau Phạ) says only its dearer end, „do 2,2 mln VND”, never „0,1–2,2”; one number when the ends are alike; „0 VND” only for what costs nothing');
+// in English (stage 5): a decimal point and thousands with commas, as English writes money: „0.8–1.5M VND”, „260,000 VND”
+eq([money(500, 'en'), money(12400, 'en'), money(1234567, 'en')], ['500', '12,400', '1,234,567'], 'English: thousands with commas');
+eq([vndRange([28, 52], 29055, false, 'en'), vndRange([9, 9], 29055, false, 'en'), vndRange([1964, 3929], 29055, true, 'en')],
+  [['0.8', '1.5', true], ['260,000', '260,000', false], ['57', '114', true]], 'English dong: a decimal point, thousands with commas, whole millions alike');
+eq([vndText([0, 75], 29055, false, 'en'), vndText([0, 29], 29055, false, 'en'), vndText([20, 34], 29055, false, 'en')],
+  [{ key: 'mln.upto', vars: { b: '2.2' } }, { key: 'vnd.upto', vars: { b: '840,000' } }, { key: 'mln', vars: { a: '0.6', b: '1.0' } }], 'English dong as the page writes them');
 // the real data: the March trip (Hồ Chí Minh City, Đà Lạt, Hội An, Huế, Hà Nội) and the Cao Bằng loop ridden yourself
 var BUDR = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
 function plansOf(t, self) {
@@ -459,6 +487,9 @@ eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), rides
 eq([licenceUrl('CC BY-SA 4.0'), licenceUrl('CC BY 2.0'), licenceUrl('CC BY-SA 3.0 de'), licenceUrl('CC0'), licenceUrl('Public domain')],
   ['https://creativecommons.org/licenses/by-sa/4.0/deed.pl', 'https://creativecommons.org/licenses/by/2.0/deed.pl', 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.pl',
    'https://creativecommons.org/publicdomain/zero/1.0/deed.pl', null], 'the text of a licence: CC BY and CC BY-SA by version (and country), CC0; none for the public domain');
+eq([licenceUrl('CC BY-SA 4.0', 'en'), licenceUrl('CC BY-SA 3.0 de', 'en'), licenceUrl('CC0', 'en'), licenceUrl('Public domain', 'en')],
+  ['https://creativecommons.org/licenses/by-sa/4.0/deed.en', 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en', 'https://creativecommons.org/publicdomain/zero/1.0/deed.en', null],
+  'in English (stage 5): the English text of a licence');
 print('before ok');
 
 /* ---------- the map ---------- */
@@ -783,4 +814,13 @@ eq(tieVietnamese('plaża An Bàng nad Zatoką Lan Hạ'), 'plaża An' + NB + 'B�
   'a word without a Vietnamese letter keeps with one that has it; two Polish words do not');
 eq(tieVietnamese('do Hội An. Potem Saigon Waterbus i Stare Miasto'), 'do Hội' + NB + 'An. Potem Saigon Waterbus i Stare Miasto', 'a full stop ends a name; words without Vietnamese letters stay apart');
 eq(tieVietnamese(tieVietnamese('Hà Tôn Quyền i Bến Thành')), tieVietnamese('Hà Tôn Quyền i Bến Thành'), 'idempotent');
+// English (stage 5): no one-letter words to tie; a number keeps its unit and ≈ its number, and a range keeps together
+eq([tieEnglish('about 3–4 km from a town'), tieEnglish('≈ 5½ h on the road'), tieEnglish('nights of 13 °C, 64 mm of rain, 1700 m up'),
+  tieEnglish('a fine of 2–4M VND or 230,000–300,000 VND'), tieEnglish('a 110–125 cc scooter, 11:00–14:30'), tieEnglish('a walk in a park, I hear')],
+  ['about 3–\u20604' + NB + 'km from a town', '≈' + NB + '5½' + NB + 'h on the road', 'nights of 13' + NB + '°C, 64' + NB + 'mm of rain, 1700' + NB + 'm up',
+   'a fine of 2–\u20604M' + NB + 'VND or 230,000–\u2060300,000' + NB + 'VND', 'a 110–\u2060125' + NB + 'cc scooter, 11:00–\u206014:30', 'a walk in a park, I hear'],
+  'tieEnglish: units, ≈ and ranges as in Polish; no one-letter words');
+eq(tieEnglish(tieEnglish('≈ 4 h, 1–3 km')), tieEnglish('≈ 4 h, 1–3 km'), 'idempotent');
+eq([inMonthText('marcu', 'pl'), inMonthText('wrześniu', 'pl'), inMonthText('lutym', 'pl'), inMonthText('March', 'en'), inMonthText('September', 'en')],
+  ['w marcu', 'we wrześniu', 'w lutym', 'in March', 'in September'], 'inMonthText: we before w and a consonant in Polish; in English, in');
 print('words ok');
