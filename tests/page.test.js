@@ -441,23 +441,12 @@ eq([kB.filter(function (e) { return e.key === 'cattien.park'; })[0].items, kB.fi
   [['cattien.safari'], ['cattien.bausau_night'], []], 'the items booked under a key: Cát Tiên at level 3, the night safari only (the night at the lake replaces the walk)');
 eq([packList(tA.r, plansOf(tA), tA.st, [], PACKD).map(function (p) { return p.code + (p.places.length ? ':' + p.places.join(',') : '') + (p.t !== null ? ':' + p.t : ''); }),
   packList(tBk.r, plansOf(tBk), tBk.st, [], PACKD).map(function (p) { return p.code; }), packList(tCk.r, plansOf(tCk, ['caobang']), tCk.st, ['caobang'], PACKD).map(function (p) { return p.code; })],
-  [['warm:dalat:13', 'rain:hue,hanoi', 'boots', 'sun', 'mosquito', 'cash', 'apps'], ['warm', 'rain', 'boots', 'torch', 'swim', 'sun', 'mosquito', 'cash', 'apps'],
-   ['rain', 'boots', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps']],
-  'packing: cold nights in Đà Lạt (13 °C), rain in Huế and Hà Nội in March, boots for the hikes; a torch for the night at Bàu Sấu, swimming at Cát Bà; the motorbike');
+  [['warm:dalat:13', 'rain:hue,hanoi', 'mosquito'], ['warm', 'rain', 'torch', 'swim', 'mosquito'], ['rain', 'swim', 'moto', 'mosquito']],
+  'packing only from the trip (decision of 15.10.2026): cold nights in Đà Lạt (13 °C), rain in Huế and Hà Nội in March; a torch for the night at Bàu Sấu, swimming at Cát Bà; the motorbike; repellent for dengue on every trip');
 var tEk = tripOf({ from: 'DAD', to: 'HAN', year: 2027, month: 7, days: 12, interests: ['przyroda'], level: 3 });
 eq(packList(tEk.r, plansOf(tEk), tEk.st, [], PACKD).filter(function (p) { return p.code === 'leeches'; })[0].places, ['cattien'], 'July in Cát Tiên: the leeches of the rainy season (an event)');
-eq([entryNotes(tA.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tDk.st, false, ENTRY).map(function (e) { return e.code; }), entryNotes(tA.st, true, ENTRY)[0].vars],
-  [['visa', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'doctor'], ['visa', 'visa_end', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'doctor'], { days: 45, until: '14.08.2028' }],
-  'entry: a trip that ends after the exemption is told to check the rules; the visa line names the days and the last day; every trip gets the official e-visa site, the arrival card and the ban on e-cigarettes');
-// the month mode: a trip may start on the month's last day, so 16 days in July 2028 may end after 14.08.2028, 15 days not
-function visaEnd(month, days) {
-  var st = stOf({ from: 'HAN', to: 'HAN', year: 2028, month: month, days: days, interests: [], level: 2 });
-  return entryNotes(st, false, ENTRY).map(function (e) { return e.code; }).indexOf('visa_end') > -1;
-}
-eq([visaEnd(7, 15), visaEnd(7, 16), visaEnd(7, 30), visaEnd(6, 30)], [false, true, true, false],
-  'entry in the month mode: the latest end is the month\'s last day plus the trip, so July 2028 for 16 or 30 days is told to check the rules');
-eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), ridesOn(tA.r, ['haivan'], SWAPS), entryNotes(tA.st, true, ENTRY).map(function (e) { return e.code; }).indexOf('insurance_moto') > -1],
-  [true, false, true, true], 'riding yourself on the trip: Cao Bằng on the loop, the pass on the March trip (Hội An → Huế); the insurance line for it');
+eq([ridesOn(tCk.r, ['caobang'], SWAPS), ridesOn(tCk.r, ['haivan'], SWAPS), ridesOn(tA.r, ['haivan'], SWAPS)],
+  [true, false, true], 'riding yourself on the trip: Cao Bằng on the loop, the pass on the March trip (Hội An → Huế)');
 // the credits: a photo's licence links to its text on creativecommons.org, in Polish; the public domain has no text
 eq([licenceUrl('CC BY-SA 4.0'), licenceUrl('CC BY 2.0'), licenceUrl('CC BY-SA 3.0 de'), licenceUrl('CC0'), licenceUrl('Public domain')],
   ['https://creativecommons.org/licenses/by-sa/4.0/deed.pl', 'https://creativecommons.org/licenses/by/2.0/deed.pl', 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.pl',

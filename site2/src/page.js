@@ -635,14 +635,15 @@ function bookList(route, plans, moto, data) {
 }
 
 var PACK_COLD_C = 15;   // a night this cold or colder (the mean low of a month, as the page rounds it) asks for a warm layer
-/* What to pack for this trip: [{ code, places, t }] for the UI keys p.<code>, in this order: warm, the stays with a month
-   whose nights are PACK_COLD_C °C or colder (t: the coldest); rain, the stays in a month of rain (rainyMonth); boots for a
-   trip with a hike, else shoes; leeches, torch and swim, the stays whose plans or events met ask for them (pack, content.js),
-   and swim also the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the trip; then sun, mosquito,
-   cash and apps on every trip. places: the places, each once, in the order of the trip (a night on the way as its node).
+/* What to pack for this trip, only what the trip asks for (decision of 15.10.2026): [{ code, places, t }] for the UI keys
+   p.<code>, in this order: warm, the stays with a month whose nights are PACK_COLD_C °C or colder (t: the coldest); rain,
+   the stays in a month of rain (rainyMonth); leeches, torch and swim, the stays whose plans or events met ask for them
+   (pack, content.js), and swim also the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the
+   trip; then mosquito (dengue is in the whole country) on every trip. places: the places, each once, in the order of the
+   trip (a night on the way as its node).
    route, plans, moto: as for tripBudget; st: normSettings' result; data: { climate, seasons, content, places, swaps }. */
 function packList(route, plans, st, moto, data) {
-  var lists = { warm: [], rain: [], leeches: [], torch: [], swim: [] }, cold = null, hike = false, out = [];
+  var lists = { warm: [], rain: [], leeches: [], torch: [], swim: [] }, cold = null, out = [];
   function put(code, id) { if (lists[code].indexOf(id) < 0) lists[code].push(id); }
   route.stops.forEach(function (s, i) {
     var id = data.places[s.id].node || s.id;
@@ -652,35 +653,14 @@ function packList(route, plans, st, moto, data) {
       cold = cold === null ? w.t[0] : Math.min(cold, w.t[0]);
     });
     for (var d = s.start; d < s.start + s.n; d++) if (rainyMonth(data.climate[s.id], st.months[d - 1] + 1)) put('rain', id);
-    (plans[i] || []).forEach(function (p) {
-      if (p.pace === 'hike') hike = true;
-      p.pack.forEach(function (k) { put(k, id); });
-    });
+    (plans[i] || []).forEach(function (p) { p.pack.forEach(function (k) { put(k, id); }); });
     stayEvents(data.content[s.id], s, st).forEach(function (e) { (e.pack || []).forEach(function (k) { put(k, id); }); });
     if ((data.places[s.id].fit.morze || 0) >= 2) put('swim', id);
   });
   ['warm', 'rain'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: k === 'warm' ? cold : null }); });
-  out.push({ code: hike ? 'boots' : 'shoes', places: [], t: null });
   ['leeches', 'torch', 'swim'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: null }); });
   if (ridesOn(route, moto, data.swaps)) out.push({ code: 'moto', places: [], t: null });
-  ['sun', 'mosquito', 'cash', 'apps'].forEach(function (k) { out.push({ code: k, places: [], t: null }); });
-  return out;
-}
-
-/* Entry and health for this trip, from ENTRY (before.js): [{ code, vars }] for the UI keys e.<code>: visa (days without a
-   visa, the last day of the exemption); visa_end when the trip may end after it (in the month mode the trip may start on
-   the month's last day, so its latest end is that day plus the trip); evisa (the only official e-visa site), passport,
-   arrival (the arrival card), vape (e-cigarettes are banned; research/wjazd-2026-10.md, 14.10.2026); insurance, and
-   insurance_moto when riding a motorbike yourself; doctor. st: normSettings' result; riding: a swap ridden yourself is on
-   the trip (ridesOn); entry: ENTRY. */
-function entryNotes(st, riding, entry) {
-  var span = tripSpan(st), until = fmtSpan(entry.visaFreeUntil, entry.visaFreeUntil);
-  var end = span && (st.start ? span[1] : tripDate(span[1], st.days));
-  var out = [{ code: 'visa', vars: { days: entry.visaFreeDays, until: until } }];
-  if (!end || end > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
-  out.push({ code: 'evisa', vars: {} }, { code: 'passport', vars: {} }, { code: 'arrival', vars: {} }, { code: 'vape', vars: {} }, { code: 'insurance', vars: {} });
-  if (riding) out.push({ code: 'insurance_moto', vars: {} });
-  out.push({ code: 'doctor', vars: {} });
+  out.push({ code: 'mosquito', places: [], t: null });
   return out;
 }
 

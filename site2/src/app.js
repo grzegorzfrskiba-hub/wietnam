@@ -708,7 +708,7 @@
     });
   }
 
-  /* ---------- before the trip: the budget, what to book (bookList), entry and health (entryNotes), what to pack (packList) ---------- */
+  /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
   function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.name) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
@@ -737,9 +737,10 @@
         var meta = [e.two ? esc(T('book.cost', { x: zl(e.two, 10) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
-    $('#b-entry').innerHTML = '<h3>' + T('entry.h3') + '</h3><ul class="b-list">' + entryNotes(st, ridesOn(r, moto, SWAPS), ENTRY).map(function (e) {
-      return '<li>' + esc(T('e.' + e.code, e.vars)) + '</li>';
-    }).join('') + '</ul><p class="b-meta">' + T('entry.check') + linksOf(ENTRY.links) + '</p>';
+    // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
+    // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
+    $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
+      '<p class="b-meta">' + T('know.links') + linksOf(ENTRY.links) + '</p>';
     $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
       return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
     }).join('') + '</ul>';

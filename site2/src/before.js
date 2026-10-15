@@ -4,9 +4,8 @@
    of its own note, for a day added to another place's module the note of the day (Mỹ Sơn: research/myson-2026-10.md,
    Tà Năng–Phan Dũng: research/tanang-2026-10.md;
    tests/data.test.js checks them against both); tools/links.sh
-   checks that the links answer. ENTRY: entry for Polish citizens, from research/wjazd-2026-10.md: days without a visa and
-   the last day of the exemption (Nghị quyết 229/NQ-CP; a trip that ends later is told to check the rules), and the official
-   pages to check before the trip. */
+   checks that the links answer. ENTRY: the links of „Warto wiedzieć”, the government's sites of the e-visa and the arrival
+   card (research/wjazd-2026-10.md; decision of 15.10.2026: nothing that depends on the reader's citizenship). */
 var BOOK = {
   'phongnha.hangen': { ahead: 60, links: [{ name: 'Oxalis, Hang Én', url: 'https://oxalisadventure.com/tour/hang-en-adventure-cave-camp/' }, { name: 'Oxalis, wszystkie wyprawy', url: 'https://oxalisadventure.com/tours/' }] },
   'cattien.bausau_night': { ahead: 28, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, cennik', url: 'https://cattiennationalpark.com.vn/bang-gia-dich-vu/' }] },
@@ -55,10 +54,7 @@ var BOOK = {
   'danang.sontra': { ahead: 0, links: [{ name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }, { name: 'Hoi An Transport Service, przejazdy z Đà Nẵng', url: 'https://hoiantransportservice.com/private-car-with-driver-from-da-nang/' }] },
   'hue.citadel': { ahead: 0, links: [{ name: 'Bilety elektroniczne', url: 'https://eticket.hueworldheritage.org.vn/' }, { name: 'Cennik', url: 'https://hueworldheritage.org.vn/Thong-tin-tham-quan/Gia-ve' }] }
 };
-var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-12',
-  links: [{ name: 'Ambasada RP w Hanoi: bez wizy do 45 dni', url: 'https://www.gov.pl/web/wietnam/zwolnienie-z-obowiazku-posiadania-wizy-dla-pobytow-w-celach-turystycznych-nie-dluzszych-niz-45-dni' },
-    { name: 'MSZ: Wietnam w serwisie Odyseusz', url: 'https://odyseusz.gov.pl/VN' },
-    { name: 'GIS: szczepienia dla podróżujących', url: 'https://www.gov.pl/web/gis/zalecane-szczepienia-dla-podrozujacych' }] };
+var ENTRY = { links: [{ name: 'E-wiza: evisa.gov.vn', url: 'https://evisa.gov.vn/' }, { name: 'Karta przylotu: prearrival.immigration.gov.vn', url: 'https://prearrival.immigration.gov.vn/' }] };
 // the places where a stay sleeps with hosts (the plans of their first day say so): their rooms go on the list of what to book
 var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang', 'mucangchai'];
 // the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)

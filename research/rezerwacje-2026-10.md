@@ -66,6 +66,17 @@
   - druga wypożyczalnia motocykli Hội An → Huế;
   - adres strony Sun PhuQuoc Airways.
 
+## Od planu B2 (decyzja z 15.10.2026)
+
+Linie „Zarezerwuj wcześniej” mówią tylko, co zarezerwować, z jakim wyprzedzeniem (i w szczycie), ile to kosztuje i gdzie (linki z tabeli „Zestawienie”). Z dodatków zostały te, które chronią albo zmieniają plan: licencja biura przy Fansipanie, szlaku Tà Năng–Phan Dũng i pętli Hà Giang, pierwszeństwo nocujących na nocnej przejażdżce w Cúc Phương i drugi termin przy paralotni. Poza stroną zostają tu i w notatkach miejsc:
+- kanały kontaktu: telefon, Zalo, e-mail, WhatsApp, formularz rezerwatu Pù Luông, „w ośrodku Paradise Cave”, „przez gospodarzy”, „przez hotel”, „przez park albo nocleg”, „w wypożyczalni w mieście”, „odbierasz go w biurze wypożyczalni”, „bezpośrednio u gospodarzy”;
+- liczba pokoi i miejsc: 13 pokoi w domu gościnnym parku Yok Đôn, ok. 19 miejsc nad Bàu Sấu, grupy do 10 osób przy słoniach i to, że miejsc jest tyle, ile słoni w programie;
+- dane o zdrowiu, które Oxalis zbiera 45 dni przed wyprawą do Hang Én;
+- „Bilet kupisz w kasie albo online” przy Mỹ Sơn;
+- szczyt „30.04–1.05, 2.09” przy szlaku Tà Năng–Phan Dũng, który w V–X jest wyłączony (zostają weekendy I–IV, Tết i 30.04).
+
+Linia aut z lotnisk mówi „z lotniska albo na lotnisko” zamiast „na dalekie drogi z lotnisk”, bo obejmuje też krótkie drogi, np. Buôn Ma Thuột – Yok Đôn (1,25 h).
+
 ## flights: loty krajowe
 
 - **Wyprzedzenie poza szczytem:** ok. 3 tygodnie, żeby trafić dobrą cenę. Wolne miejsca są zwykle jeszcze kilka dni przed lotem. **Szacunek.** Metoda:

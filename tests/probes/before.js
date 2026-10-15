@@ -13,7 +13,7 @@ setTimeout(function () {
   var fig = document.querySelector('#facts .f-budget a');
   check('the budget is the last figure of the facts, a link to „Przed wyjazdem”', fig && fig.getAttribute('href') === '#before' && /zł/.test(fig.textContent), fig && fig.textContent);
   var parts = Array.prototype.map.call(document.querySelectorAll('#before .b-part h3'), function (h) { return h.textContent.replace(/\s+/g, ' '); });
-  check('„Przed wyjazdem” has its four parts', parts.join(' | ') === 'Budżet | Zarezerwuj wcześniej | Wjazd i zdrowie | Co spakować', parts.join(' | '));
+  check('„Przed wyjazdem” has its four parts', parts.join(' | ') === 'Budżet | Zarezerwuj wcześniej | Warto wiedzieć | Co spakować', parts.join(' | '));
   check('the figure and the budget part say the same amount', textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), textOf('#b-budget .b-sum b'));
   check('the list of what to book has its items, each with a sentence', document.querySelectorAll('#b-book .b-book li').length > 0);
   check('the note under the budget names the month of the prices and the day of the NBP rate (costs.js)',

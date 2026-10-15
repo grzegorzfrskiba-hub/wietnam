@@ -300,8 +300,7 @@ contentCheck('ui', function (need) {
     'sw.': Object.keys(SWAPS).concat(['driver', 'self']), 'sw.tips.': Object.keys(SWAPS),
     'sw.risk.': Object.keys(SWAPS).filter(function (k) { return SWAPS[k].risk; }),
     'b.': Object.keys(BOOK).filter(function (k) { return BOOK[k].ahead > 0; }), 'b.homestay.': HOMESTAY_NOTES,
-    'e.': ['visa', 'visa_end', 'evisa', 'passport', 'arrival', 'vape', 'insurance', 'insurance_moto', 'doctor'],
-    'p.': ['warm', 'rain', 'boots', 'shoes', 'leeches', 'torch', 'swim', 'moto', 'sun', 'mosquito', 'cash', 'apps'],
+    'p.': ['warm', 'rain', 'leeches', 'torch', 'swim', 'moto', 'mosquito'],
     'set.err.': ['airport', 'date', 'month', 'year', 'days', 'interests', 'level', 'add', 'remove', 'no_route'] };
   Object.keys(FAMILIES).forEach(function (pre) {
     need(app.indexOf("T('" + pre + "' + ") > -1, 'app.js never builds a key ' + pre + '…');
@@ -326,8 +325,9 @@ contentCheck('printout', function (need) {
 
 /* What the parks and the entry rules allow today (research/<id>-2026-10.md, research/wjazd-2026-10.md): every plan that
    drives to Sơn Trà says to check the notice of its management the day before, as the roads close in heavy rain (closed
-   8–13.10.2026, open again from 14.10.2026); the arrival card's 3 days count from the arrival, as the immigration office
-   says (WJ-2026-10-14c), not from a flight that may leave a day earlier. */
+   8–13.10.2026, open again from 14.10.2026); „Warto wiedzieć” (decision of 15.10.2026) asks whether one's own passport
+   needs a visa and sends the e-visa and the arrival card to the government's sites only, its two links, as fake sites
+   copy them (WJ-2026-10-14c, WJ-2026-10-14i). */
 contentCheck('safety', function (need) {
   CONTENT.danang.days.forEach(function (d) {
     [['', d], [' solo', d.solo], [' easy', d.easy], [' hard', d.hard]].forEach(function (v) {
@@ -340,5 +340,6 @@ contentCheck('safety', function (need) {
   need(/konwencji z 1968 r\./.test(UI.pl['sw.note']) && /na samochód nie wystarcza/.test(UI.pl['sw.note']) && /według której konwencji wydaje je twój kraj/.test(UI.pl['sw.note']),
     'sw.note: a motorbike licence and the international permit of the 1968 convention; a car\'s is not enough; which convention your country follows');
   need(/Paszportu nie zostawiaj w zastaw/.test(UI.pl['sw.tips']), 'sw.tips: the passport is no deposit');
-  need(/w ciągu 3 dni przed przylotem/.test(UI.pl['e.arrival']), 'e.arrival: the arrival card is filled within 3 days before the arrival (przed przylotem), as the immigration office counts');
+  need(/twój paszport/.test(UI.pl['know.visa']) && /stronach rządowych/.test(UI.pl['know.visa']), 'know.visa: whether your passport needs a visa; the e-visa and the arrival card on the government\'s sites only');
+  need(ENTRY.links.length === 2 && ENTRY.links.every(function (l) { return /^https:\/\/[a-z.]+\.gov\.vn\/$/.test(l.url); }), 'ENTRY.links: the two sites of the government (.gov.vn)');
 });

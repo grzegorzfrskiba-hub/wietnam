@@ -203,7 +203,7 @@ dataCheck('climate', function (need) {
 /* The prices (costs.js) and what to book ahead (before.js) against their research notes. Every number of COSTS stands in
    the tables „Zestawienie” and „Zestawienie wycieczek” of research/ceny-2026-10.md or „Zestawienie” of
    research/motocykl-2026-10.md (there a car is the group's part, a person or a motorbike the person's); every entry of
-   BOOK in „Zestawienie” of research/rezerwacje-2026-10.md; ENTRY in „Zestawienie” of research/wjazd-2026-10.md. A place of
+   BOOK in „Zestawienie” of research/rezerwacje-2026-10.md; the links of ENTRY among the sources of research/wjazd-2026-10.md. A place of
    stage 3: the tables „Zestawienie: ceny”, „Zestawienie: wycieczki” and „Zestawienie: rezerwacje” of its own note. An item
    costs no less at to than at from, for two people (pp + group / 2) and for one (pp + group). */
 function researchRows(path, head) {
@@ -267,10 +267,6 @@ dataCheck('booking', function (need) {
     b.links.forEach(function (l) { need(/^https:\/\//.test(l.url) && !/[?&](utm_|ref=|aff|partner)/i.test(l.url), k + ': ' + l.url + ' is https and has no tracking'); });
   });
   Object.keys(rows).forEach(function (k) { need(BOOK[k], k + ': in the research, not in BOOK'); });
-  var entry = {};
-  researchRows('research/wjazd-2026-10.md', '## Zestawienie\n').forEach(function (r) { entry[r[0]] = r[1]; });
-  need(/^45 dni/.test(entry.bez_wizy_dni || '') && ENTRY.visaFreeDays === 45, 'ENTRY: 45 days without a visa');
-  need(/14\.8\.2028/.test(entry.bez_wizy_do || '') && ENTRY.visaFreeUntil === '2028-08-14', 'ENTRY: the exemption ends on 14.8.2028');
   var wjazd = readFile('research/wjazd-2026-10.md');
   ENTRY.links.forEach(function (l) { need(/^https:\/\//.test(l.url) && wjazd.indexOf(l.url) > -1, 'ENTRY: ' + l.url + ' is a source of research/wjazd-2026-10.md'); });
   HOMESTAYS.forEach(function (id) { need(PLACES[id] && /gospodarzy|Khuổi Ky/.test(JSON.stringify(CONTENT[id].days)), 'HOMESTAYS: ' + id + ' is a place whose plans sleep with hosts'); });

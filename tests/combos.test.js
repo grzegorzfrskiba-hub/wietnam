@@ -125,11 +125,10 @@
     });
     need(nights === st.days - 1, nights + ' nights, want ' + (st.days - 1));
     need(r.days === st.days, 'days ' + r.days);
-    // before the trip (page.js): what to book (keys of BOOK, the most urgent first), what to pack, entry and health
-    var books = bookList(r, plans, [], BOOK_DATA), packs = packList(r, plans, st, [], PACK_DATA), notes = entryNotes(st, false, ENTRY);
+    // before the trip (page.js): what to book (keys of BOOK, the most urgent first) and what to pack
+    var books = bookList(r, plans, [], BOOK_DATA), packs = packList(r, plans, st, [], PACK_DATA);
     need(books.every(function (b, i) { return BOOK[b.key] && b.ahead > 0 && (!i || books[i - 1].ahead >= b.ahead); }), 'bookList: ' + books.map(function (b) { return b.key; }).join(', '));
     need(packs.length > 0 && packs.every(function (p) { return typeof p.code === 'string' && Array.isArray(p.places); }), 'packList');
-    need(notes.length > 0 && notes[0].code === 'visa', 'entryNotes');
     need(r.stops[0].leg.from === s.from && r.stops[0].leg.flights === 0, 'arrival day: by road from ' + s.from);
     need(r.home && r.home.to === s.to && r.home.flights === 0 && r.home.total <= END_LEG_H, 'departure day: ' + (r.home && r.home.total) + ' h to ' + s.to);
     return r;
