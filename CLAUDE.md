@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (15.10.2026):** etap 3, partia B: plan B1 zrobiony i opublikowany pod https://grzegorzfrskiba-hub.github.io/wietnam/ (Yok Đôn, Mù Cang Chải, szlak Tà Năng–Phan Dũng w Đà Lạt, Mỹ Sơn w Hội An), dalej z `noindex`. Następny krok: wykonanie planu B2 partii B ([notes/plans/2026-10-15-etap-3b2-tresc.md](notes/plans/2026-10-15-etap-3b2-tresc.md); treść dla podróżnych z całego świata: ramka motocykla, „Warto wiedzieć”, skrócone rezerwacje i najdłuższe opisy dni, dongi zamiast złotówek, fakty z przesiewu researchu), potem etap angielski, zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** etap 3, partia B: plany B1 i B2 zrobione i opublikowane pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Następny krok: etap 5, angielski (najpierw sesja decyzji: nazwa strony, adres, przełącznik języka, `noindex`), zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -24,7 +24,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Bez zgody użytkownika nie rób:** `git push`, publikacji artifactu, wysyłania plików. Commituj, gdy użytkownik o to prosi.
 - **Repo jest publiczne od 14.10.2026, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
 - **Strona tylko po polsku** do etapu angielskiego (etap 5, po partii B; angielski będzie wtedy językiem przewodnim). Mechanizm kluczy tekstów i test kompletności zostają na ten etap. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
-- **Treść dla podróżnych z całego świata** (decyzja z 15.10.2026): bez porad zależnych od obywatelstwa i bez ogólnej wiedzy podróżniczej, ceny w dongach (od planu B2). Każde nowe zdanie przechodzi test z wizji, sekcja „Treść, bezpieczeństwo, licencje”.
+- **Treść dla podróżnych z całego świata** (decyzja z 15.10.2026): bez porad zależnych od obywatelstwa i bez ogólnej wiedzy podróżniczej, ceny w dongach (od planu B2). Każde nowe zdanie przechodzi test z wizji, sekcja „Treść, bezpieczeństwo, licencje”. Pilnują tego testy treści `for every passport` (bez złotych, euro, dolarów, NBP i polskich urzędów) i `day texts` (opis dnia najwyżej 70 słów).
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
 - **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
 - **Narzędzia na tym Macu:**

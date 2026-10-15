@@ -2,7 +2,7 @@
 
 Ustalona w sesji o wizji 9.10.2026. Tło i rozpoznanie: [pomysl-planer-dla-znajomych.md](pomysl-planer-dla-znajomych.md). Plan prac: [etapy.md](etapy.md).
 
-Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”).
+Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę.
 
 ## W skrócie
 
@@ -70,7 +70,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
   - nie zależy od poziomu przygody, bo chodzi o prawo jazdy, nie o kondycję;
   - tylko na pętlach, nie przez całą trasę;
   - MSZ odradza samodzielne podróże motocyklem po Wietnamie (Odyseusz, 30.06.2026). Ramka „Samodzielnie” zostaje bez tego zdania, a link do MSZ stoi w „Wjazd i zdrowie” (decyzja z 14.10.2026);
-  - decyzja z 15.10.2026 (plan B2): porady zależne od obywatelstwa, w tym link do MSZ, znikają ze strony. Ramka podaje ogólne wymagania (prawo jazdy na motocykl i międzynarodowe prawo jazdy według konwencji z 1968 r.) i ryzyko, bez porównań z Polską i bez polskich procedur.
+  - decyzja z 15.10.2026 (plan B2): porady zależne od obywatelstwa, w tym link do MSZ, znikają ze strony. Ramka podaje ogólne wymagania (prawo jazdy na motocykl i międzynarodowe prawo jazdy według konwencji z 1968 r.) i ryzyko, bez porównań z Polską i bez polskich procedur. Od planu B2 (15.10.2026) tak jest na stronie, a pod przełącznikiem stoi też, żeby czytelnik sprawdził, według której konwencji wydaje je jego kraj, bo wzór z 1949 r. w Wietnamie nie działa.
 - **Sơn Đoòng** tylko jako wzmianka, bo jest wyprzedana do 2027. Nie jest modułem.
 
 ### 6. Długość i lotniska
@@ -84,7 +84,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 
 ### 7. Budżet: zgrubnie
 
-- Przedział na osobę, bez lotów do Wietnamu. Do planu B2 w złotych; decyzja z 15.10.2026: w dongach, bez przeliczeń na waluty czytelników (wybór użytkownika; rekomendacja była: dongi, a przy sumie orientacyjnie USD).
+- Przedział na osobę, bez lotów do Wietnamu, w dongach (decyzja z 15.10.2026, na stronie od planu B2, 15.10.2026; wcześniej w złotych), bez przeliczeń na waluty czytelników (wybór użytkownika; rekomendacja była: dongi, a przy sumie orientacyjnie USD). Suma w pełnych milionach, części i pozycje od 1 mln z jednym miejscem po przecinku, mniejsze kwoty do 10 000 VND.
 - Ceny w danych są w EUR. Na dongi przelicza je ten sam kurs, po którym research przeliczał ceny ze źródeł, z datą w `research/ceny-2026-10.md`; na stronie kursu nie ma.
 - Pod przedziałem są najdroższe pozycje trasy z informacją, z jakim wyprzedzeniem rezerwować: wyprawy, przewodnicy, kierowca albo wynajem motocykla, loty krajowe.
 - Kwoty nie mają poprawek sezonowych. Gdy termin obejmuje Tết albo święta, strona ostrzega o wyższych cenach.
@@ -112,7 +112,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
   - Tak poprawia się gotową trasę. Nie jest to panel przełączników na start, przed którym ostrzegało badanie z 8.10.
 - **Zamiany albo–albo** działają wewnątrz modułów: motocykl z kierowcą albo samodzielnie w Cao Bằng, na przełęczy Hải Vân i w Hà Giang.
 - **Budżet** opisuje pkt 7. Do tego **ostrzeżenia:** Tết, święta, zamknięcia.
-- **„Przed wyjazdem”** (etap 2): budżet z podziałem i kwotą w pojedynkę, rezerwacje od najpilniejszej z linkami, wjazd i zdrowie, lista rzeczy do spakowania. Decyzja z 15.10.2026 (plan B2): rezerwacje skrócone do tego, co, kiedy, za ile i gdzie; zamiast „Wjazd i zdrowie” krótkie „Warto wiedzieć” (wiza ogólnie, e-papierosy); pakowanie tylko z tego, co wynika z trasy.
+- **„Przed wyjazdem”** (etap 2, od planu B2 według decyzji z 15.10.2026): budżet w dongach z podziałem i kwotą w pojedynkę; rezerwacje od najpilniejszej: co, kiedy, za ile i gdzie, z licencją biura tam, gdzie chroni; „Warto wiedzieć” (wiza według paszportu, e-wiza i karta przylotu tylko na stronach rządowych, e-papierosy); pakowanie tylko z tego, co wynika z trasy.
 - **Link z ustawieniami** (rozszerzony `variantHash`), kopiowanie planu do WhatsAppa i zapis trasy jako PDF (przycisk „Zapisz trasę jako PDF”, wydruk na A4).
 - **Tempo nie jest ustawieniem** w pierwszej wersji. Silnik ma stałe zasady: minimum nocy zapisane w module i karę za przeprowadzki. Tempo dodamy, jeśli okaże się potrzebne.
 
@@ -207,10 +207,11 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
 
 **Na później:** angielski (etap 5, po partii B), lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu, własna domena, otwarcie strony dla wyszukiwarek (po opiniach znajomych).
 
-## Sprawdzone w researchu (stan 14.10.2026)
+## Sprawdzone w researchu (stan 15.10.2026)
 
 - daty Tết na lata 2027–2031 i święta państwowe: [research/swieta-2026-10.md](../research/swieta-2026-10.md);
 - 45 dni bez wizy dla Polaków (uchwała 229/NQ-CP, do 14.08.2028; po planie B2 poza stroną, decyzja z 15.10.2026): [research/wjazd-2026-10.md](../research/wjazd-2026-10.md);
 - samodzielna jazda motocyklem (prawo jazdy, kategorie, ubezpieczenia, kontrole w Hà Giang): [research/motocykl-2026-10.md](../research/motocykl-2026-10.md) i [research/hagiang-2026-10.md](../research/hagiang-2026-10.md);
 - noclegi w dżungli: Cát Tiên nad Bàu Sấu ([research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md)) i Cúc Phương ([research/cucphuong-2026-10.md](../research/cucphuong-2026-10.md)); noc w lesie Yok Đôn ([research/yokdon-2026-10.md](../research/yokdon-2026-10.md)); Pù Mát odłożony (14.10.2026: noc w lesie niepotwierdzona na 2026);
-- sezon wypraw jaskiniowych w Phong Nha: [research/phongnha-2026-10.md](../research/phongnha-2026-10.md).
+- sezon wypraw jaskiniowych w Phong Nha: [research/phongnha-2026-10.md](../research/phongnha-2026-10.md);
+- przesiew otwartych punktów researchu (15.10.2026, plan B2): 227 punktów, 73 sprawdzone, 154 z adnotacją „Poza stroną”; międzynarodowe prawo jazdy według konwencji w innych krajach: [research/motocykl-2026-10.md](../research/motocykl-2026-10.md); kurs 1 EUR = 29 055 VND: [research/ceny-2026-10.md](../research/ceny-2026-10.md).
