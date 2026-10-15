@@ -95,7 +95,7 @@ var PHOTO_META = {
   yokdon_4: { cap: 'Muzeum Đắk Lắk w Buôn Ma Thuột', artist: 'Daaé', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Bao_tang_Dak_Lak_1.JPG' },
   mucangchai_0: { cap: 'Tarasy w La Pán Tẩn', artist: 'Văn Ngọc Tăng (langthangdaydo)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:La_P%C3%A1n_T%E1%BA%A9n_Agriculture_(Unsplash).jpg' },
   mucangchai_1: { cap: 'Tarasy pod przełęczą Khau Phạ', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Khau_Ph%E1%BA%A1_Pass,_Vietnam_(Unsplash).jpg' },
-  mucangchai_2: { cap: 'Tarasy w gminie Chế Cu Nha', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Terraces_in_Che_Cu_Nha_commune,_Mu_Cang_Chai_(Unsplash).jpg' },
+  mucangchai_2: { cap: 'Tarasy w Chế Cu Nha', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Terraces_in_Che_Cu_Nha_commune,_Mu_Cang_Chai_(Unsplash).jpg' },
   mucangchai_3: { cap: 'Dolina pod przełęczą Khau Phạ z góry', artist: 'Victor311', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Khau_Ph%E1%BA%A1_nh%C3%ACn_t%E1%BB%AB_tr%C3%AAn_cao.jpg' },
   mucangchai_4: { cap: 'Tarasy w porze wody w Dế Xu Phình', artist: 'Gió Đông', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mu_Cang_Chai_02.JPG' },
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }

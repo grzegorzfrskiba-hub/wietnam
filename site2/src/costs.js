@@ -80,7 +80,7 @@ var COSTS = {
     'cucphuong.night': { pp: [5, 0], group: [0, 21], book: 'cucphuong.stay' },
     'cucphuong.car': { pp: [0, 0], group: [36, 53] },
     'cucphuong.maybac': { pp: [0, 0], group: [17, 86] },
-    'danang.sontra': { pp: [0, 0], group: [22, 52] },
+    'danang.sontra': { pp: [0, 0], group: [24, 52] },
     'haivan.car_dn': { pp: [0, 0], group: [43, 98] },
     'haivan.moto_dn': { pp: [25, 32], group: [0, 0] },
     'hagiang.car': { pp: [0, 0], group: [88, 133] },

@@ -358,6 +358,9 @@ contentCheck('safety', function (need) {
   need(/konwencji z 1968 r\./.test(UI.pl['sw.note']) && /na samochód nie wystarcza/.test(UI.pl['sw.note']) && /według której konwencji wydaje je twój kraj/.test(UI.pl['sw.note']),
     'sw.note: a motorbike licence and the international permit of the 1968 convention; a car\'s is not enough; which convention your country follows');
   need(/Paszportu nie zostawiaj w zastaw/.test(UI.pl['sw.tips']), 'sw.tips: the passport is no deposit');
+  // the 7 km in Paradise Cave turn back after about 4 km when the water is high in the rainy season (PN-2026-10-15c)
+  need(CONTENT.phongnha.days.some(function (d) { return d.t === '7 km w głąb Paradise Cave' && /zawraca po ok\. 4 km/.test(d.d); }),
+    'phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');
   need(/twój paszport/.test(UI.pl['know.visa']) && /stronach rządowych/.test(UI.pl['know.visa']), 'know.visa: whether your passport needs a visa; the e-visa and the arrival card on the government\'s sites only');
   need(ENTRY.links.length === 2 && ENTRY.links.every(function (l) { return /^https:\/\/[a-z.]+\.gov\.vn\/$/.test(l.url); }), 'ENTRY.links: the two sites of the government (.gov.vn)');
 });
