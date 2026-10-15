@@ -1,6 +1,6 @@
 # Route G („Wietnam po swojemu”) — instrukcja dla Claude
 
-**Status (15.10.2026):** partia B etapu 3 zrobiona i opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej po polsku i z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Etap 5 (angielski): sesja decyzji zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca). Następny krok: wykonanie planu etapu 5 ([notes/plans/2026-10-15-etap-5-angielski.md](notes/plans/2026-10-15-etap-5-angielski.md)) w świeżej sesji, zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** etap 5 zrobiony: Route G jest po angielsku i po polsku pod https://grzegorzfrskiba-hub.github.io/wietnam/ (domyślnie po angielsku, przełącznik EN · PL, `&lang=pl` w linku), dalej z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Następny krok: pierwsza runda anglojęzycznych testerów, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -9,7 +9,7 @@
 - **Pierwowzór: strona „Vietnam in December”,** trójjęzyczny planer grudniowego wyjazdu grupy (2026).
   - Źródła: `~/Desktop/CLAUDE roboczy plik/vietnam-planner/`. Jej `CLAUDE.md` opisuje budowę, testy i publikację.
   - Publicznie: https://grzegorzfrskiba-hub.github.io/vietnam-december/
-- **Ten projekt: ogólny planer, dziś po polsku, po etapie 5 „Route G” po angielsku i po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
+- **Ten projekt: ogólny planer „Route G”, po angielsku i po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
   - Kod został wzięty z pierwowzoru (`site2/`, `tests/`, `site2/build.py`) jako kopia w planach 1A i 1B.
   - Repo: https://github.com/grzegorzfrskiba-hub/wietnam, publiczne od 14.10.2026, bez wolnej licencji.
   - Strona: https://grzegorzfrskiba-hub.github.io/wietnam/ (GitHub Pages z `docs/` na `main`; nową wersję przygotowuje `bash tools/publish.sh`, a wysyła commit `docs/` i `git push` za zgodą).
@@ -23,7 +23,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Jedna sesja naraz** w tym repo.
 - **Bez zgody użytkownika nie rób:** `git push`, publikacji artifactu, wysyłania plików. Commituj, gdy użytkownik o to prosi.
 - **Repo jest publiczne od 14.10.2026, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
-- **Język strony:** do wykonania etapu 5 tylko polski. Po etapie 5 angielski domyślny i polski drugi, z tymi samymi faktami, na jednym adresie z przełącznikiem EN · PL i `&lang=pl` w linku (decyzje z 15.10.2026 w [notes/etapy.md](notes/etapy.md), „Z sesji decyzji etapu 5”); od tej pory każdy nowy tekst od razu w obu językach. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
+- **Język strony:** od etapu 5 angielski domyślny i polski drugi, z tymi samymi faktami, na jednym adresie z przełącznikiem EN · PL i `&lang=pl` w linku (decyzje z 15.10.2026 w [notes/etapy.md](notes/etapy.md), „Z sesji decyzji etapu 5”); każdy nowy tekst od razu w obu językach: polski w `site2/src/ui.js` i `content/`, angielski w `site2/src/en/`, a testy dwóch języków pilnują tych samych faktów. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
 - **Treść dla podróżnych z całego świata** (decyzja z 15.10.2026): bez porad zależnych od obywatelstwa i bez ogólnej wiedzy podróżniczej, ceny w dongach (od planu B2). Każde nowe zdanie przechodzi test z wizji, sekcja „Treść, bezpieczeństwo, licencje”. Pilnują tego testy treści `for every passport` (bez złotych, euro, dolarów, NBP i polskich urzędów) i `day texts` (opis dnia najwyżej 70 słów).
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
 - **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).
@@ -38,10 +38,10 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie, także w trybie dat (ok. 2,5 min).
 - `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
 - `bash tools/liczby.sh [katalog źródeł]`: liczby ze wszystkich 134 784 tras do punktu kontrolnego (udział miejsc, noce, długie dni z lotem, zygzaki); ze starą kopią źródeł z `git archive` daje liczby „przed”.
-- `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
+- `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Route-G.html`.
 - Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
   - `bash tests/shot.sh '<ustawienia z linku>' <szerokość> <plik.png> [wysokość]`: zrzut, domyślnie 2600 px wysokości;
-  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`, `settings.js`, `map.js`, `before.js`, `publish.js` (kroje, `noindex`, podgląd linku), `pdf.js` (przycisk PDF, mapa i link w wydruku); sonda kończy się kodem 1, gdy któraś kontrola nie przejdzie;
+  - `bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<ustawienia>'`: sondy `link.js`, `anchors.js`, `changes.js`, `settings.js`, `map.js`, `before.js`, `publish.js` (kroje, `noindex`, podgląd linku), `pdf.js` (przycisk PDF, mapa i link w wydruku), `lang.js` (przełącznik EN · PL i język w linku, na linku bez `lang=`); każda sonda działa w obu językach, a ustawienia z `&lang=pl` na końcu sprawdzają polską wersję; sonda kończy się kodem 1, gdy któraś kontrola nie przejdzie;
   - `bash tests/print.sh '<ustawienia>' <plik.pdf> [dark]`: wydruk do PDF na A4; podaje format, liczbę stron, prawie puste strony i linie zakryte ramkami, a przy zakrytych liniach kończy się kodem 1;
   - słowo `MIESIAC` w ustawieniach zamienia się na miesiąc za pięć miesięcy od dziś.
 - `bash tools/links.sh`: linki rezerwacji i wjazdu (`site2/src/before.js`) przez curl, bez zapisywania stron; kod 1, gdy któryś adres nie odpowiada 2xx.

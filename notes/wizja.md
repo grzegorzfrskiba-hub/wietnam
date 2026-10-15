@@ -2,7 +2,7 @@
 
 Ustalona w sesji o wizji 9.10.2026. Tło i rozpoznanie: [pomysl-planer-dla-znajomych.md](pomysl-planer-dla-znajomych.md). Plan prac: [etapy.md](etapy.md).
 
-Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę. Sesja decyzji etapu 5 (15.10.2026) ustaliła nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `noindex` do samego końca; na stronie po etapie 5 (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji etapu 5”).
+Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę. Sesja decyzji etapu 5 (15.10.2026) ustaliła nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `noindex` do samego końca; na stronie od etapu 5, 15.10.2026 (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji etapu 5”).
 
 ## W skrócie
 
@@ -37,14 +37,14 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - Bez linku strona od razu pokazuje sensowną trasę na ustawieniach domyślnych.
 - Ustawienia są na wierzchu, nie ma ukrytego trybu organizatora.
 
-### 2. Język: polski, od etapu 5 angielski i polski
+### 2. Język: angielski i polski (od etapu 5)
 
-- Treść i interfejs są po polsku.
+- Do etapu 5 treść i interfejs były po polsku.
 - Polski staje się językiem bazowym. W pierwowzorze bazą był angielski, a polski nakładką.
 - Mechanizm kluczy i test kompletności zostają, więc angielski można dodać później jako osobny etap.
 - **Decyzja z 14.10.2026:** po partii B przychodzi etap angielski (etap 5 w [etapy.md](etapy.md)): większość pierwszych testerów mówi po angielsku, więc angielski będzie językiem przewodnim, a polski drugim. Do tego czasu strona jest tylko po polsku.
 - **Decyzja z 15.10.2026:** po etapie 5 polski jest tłumaczeniem angielskiego, z tymi samymi faktami. Wersji z dodatkami dla czytelników z jednego kraju nie ma.
-- **Decyzja z 15.10.2026 (sesja etapu 5; na stronie po etapie 5):** jeden adres i mały przełącznik EN · PL w prawym górnym rogu, domyślnie angielski (wybór użytkownika; rekomendacja była: osobny adres `/pl/`). Wybór polskiego dopisuje `&lang=pl` do linku, także w planie na WhatsApp i w PDF; bez pamięci w przeglądarce i bez języka przeglądarki. Podgląd linku jest po angielsku. Tłumaczymy wszystko, co widzi czytelnik, i README; notatki, research i plany zostają po polsku.
+- **Decyzja z 15.10.2026 (sesja etapu 5; na stronie od etapu 5, 15.10.2026):** jeden adres i mały przełącznik EN · PL w prawym górnym rogu, domyślnie angielski (wybór użytkownika; rekomendacja była: osobny adres `/pl/`). Wybór polskiego dopisuje `&lang=pl` do linku, także w planie na WhatsApp i w PDF; bez pamięci w przeglądarce i bez języka przeglądarki. Podgląd linku jest po angielsku. Tłumaczymy wszystko, co widzi czytelnik, i README; notatki, research i plany zostają po polsku.
 
 ### 3. Miesiące: wszystkie
 
@@ -71,7 +71,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
   - nie zależy od poziomu przygody, bo chodzi o prawo jazdy, nie o kondycję;
   - tylko na pętlach, nie przez całą trasę;
   - MSZ odradza samodzielne podróże motocyklem po Wietnamie (Odyseusz, 30.06.2026). Ramka „Samodzielnie” zostaje bez tego zdania, a link do MSZ stoi w „Wjazd i zdrowie” (decyzja z 14.10.2026);
-  - decyzja z 15.10.2026 (plan B2): porady zależne od obywatelstwa, w tym link do MSZ, znikają ze strony. Ramka podaje ogólne wymagania (prawo jazdy na motocykl i międzynarodowe prawo jazdy według konwencji z 1968 r.) i ryzyko, bez porównań z Polską i bez polskich procedur. Od planu B2 (15.10.2026) tak jest na stronie, a pod przełącznikiem stoi też, żeby czytelnik sprawdził, według której konwencji wydaje je jego kraj, bo wzór z 1949 r. w Wietnamie nie działa. Decyzja z 15.10.2026 (sesja etapu 5; na stronie po etapie 5): na końcu zdania dochodzi wyjątek z umów: prawo jazdy z państwa ASEAN i międzynarodowe prawo jazdy z Korei Płd., choć policja przy kontroli może ich nie uznać od ręki (research motocykla, „Umowa ASEAN o prawach jazdy”).
+  - decyzja z 15.10.2026 (plan B2): porady zależne od obywatelstwa, w tym link do MSZ, znikają ze strony. Ramka podaje ogólne wymagania (prawo jazdy na motocykl i międzynarodowe prawo jazdy według konwencji z 1968 r.) i ryzyko, bez porównań z Polską i bez polskich procedur. Od planu B2 (15.10.2026) tak jest na stronie, a pod przełącznikiem stoi też, żeby czytelnik sprawdził, według której konwencji wydaje je jego kraj, bo wzór z 1949 r. w Wietnamie nie działa. Decyzja z 15.10.2026 (sesja etapu 5; na stronie od etapu 5, 15.10.2026): na końcu zdania dochodzi wyjątek z umów: prawo jazdy z państwa ASEAN i międzynarodowe prawo jazdy z Korei Płd., choć policja przy kontroli może ich nie uznać od ręki (research motocykla, „Umowa ASEAN o prawach jazdy”).
 - **Sơn Đoòng** tylko jako wzmianka, bo jest wyprzedana do 2027. Nie jest modułem.
 
 ### 6. Długość i lotniska
@@ -95,7 +95,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - Nazwa: „Wietnam po swojemu”.
 - Repo `wietnam`, adres https://grzegorzfrskiba-hub.github.io/wietnam/
 - Własną domenę można później podpiąć do GitHub Pages bez zmian w kodzie.
-- **Decyzja z 15.10.2026 (sesja etapu 5; na stronie po etapie 5):** nazwa „Route G”, jedna dla obu wersji językowych, z podpisem „Vietnam, up to you” po angielsku i „Wietnam po swojemu” po polsku. Adres bez zmian; własna domena przy otwarciu dla wyszukiwarek.
+- **Decyzja z 15.10.2026 (sesja etapu 5; na stronie od etapu 5, 15.10.2026):** nazwa „Route G”, jedna dla obu wersji językowych, z podpisem „Vietnam, up to you” po angielsku i „Wietnam po swojemu” po polsku. Adres bez zmian; własna domena przy otwarciu dla wyszukiwarek.
 
 ### 9. Repo i licencja
 
@@ -117,7 +117,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - **Budżet** opisuje pkt 7. Do tego **ostrzeżenia:** Tết, święta, zamknięcia.
 - **„Przed wyjazdem”** (etap 2, od planu B2 według decyzji z 15.10.2026): budżet w dongach z podziałem i kwotą w pojedynkę; rezerwacje od najpilniejszej: co, kiedy, za ile i gdzie, z licencją biura tam, gdzie chroni; „Warto wiedzieć” (wiza według paszportu, e-wiza i karta przylotu tylko na stronach rządowych, e-papierosy); pakowanie tylko z tego, co wynika z trasy.
 - **Link z ustawieniami** (rozszerzony `variantHash`), kopiowanie planu do WhatsAppa i zapis trasy jako PDF (przycisk „Zapisz trasę jako PDF”, wydruk na A4).
-- **Język** (decyzja z 15.10.2026, na stronie po etapie 5): przełącznik EN · PL w prawym górnym rogu zdjęcia na górze strony, domyślnie angielski; polski dopisuje `&lang=pl` do linku, a trasa przy przełączeniu zostaje.
+- **Język** (decyzja z 15.10.2026, na stronie od etapu 5, 15.10.2026): przełącznik EN · PL w prawym górnym rogu zdjęcia na górze strony, domyślnie angielski; polski dopisuje `&lang=pl` do linku, a trasa przy przełączeniu zostaje.
 - **Tempo nie jest ustawieniem** w pierwszej wersji. Silnik ma stałe zasady: minimum nocy zapisane w module i karę za przeprowadzki. Tempo dodamy, jeśli okaże się potrzebne.
 
 ## Silnik
@@ -211,7 +211,7 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
 - porady zależne od obywatelstwa (wiza, prawo jazdy, ubezpieczenie, szczepienia, rejestracja podróży) i ogólna wiedza podróżnicza (decyzja z 15.10.2026);
 - przeliczanie cen na waluty czytelników (decyzja z 15.10.2026).
 
-**Na później:** lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu; na sam koniec, po opiniach znajomych i wszystkich poprawkach: otwarcie strony dla wyszukiwarek, własna domena i ewentualnie osobny adres polskiej wersji (decyzja z 15.10.2026). Angielski to etap 5, w toku (sesja decyzji 15.10.2026).
+**Na później:** lotniska Phú Quốc i Cam Ranh, tempo jako ustawienie, podpowiedź „kiedy najlepiej jechać” dla profilu; na sam koniec, po opiniach znajomych i wszystkich poprawkach: otwarcie strony dla wyszukiwarek, własna domena i ewentualnie osobny adres polskiej wersji (decyzja z 15.10.2026). Angielski: etap 5, zrobiony 15.10.2026.
 
 ## Sprawdzone w researchu (stan 15.10.2026)
 
