@@ -194,6 +194,9 @@ contentCheck('typography', function (need) {
     need(!/\d\s*(am|pm)\b/i.test(x[1]), x[0] + ': am/pm, use 24-hour time');
     need(!/\d°/.test(x[1]), x[0] + ': no space before °C');
     need(!/\d-\d/.test(x[1]), x[0] + ': a hyphen in a range, use an en dash');
+    // two numbers side by side read as one („na Tết i 30.04 3–4 tygodnie”, the final review of plan B2); a number's thousands
+    // („17 000”) are no second number, and a colon („2025: 22–24.04”) parts them
+    need(!/\d(?:[\d.:]*\d)?\s(?!\d{3}(?!\d))[\d½]/.test(x[1]), x[0] + ': two numbers side by side: put a word between them');
   });
 });
 
@@ -375,6 +378,13 @@ contentCheck('safety', function (need) {
   need(/konwencji z 1968 r\./.test(UI.pl['sw.note']) && /na samochód nie wystarcza/.test(UI.pl['sw.note']) && /według której konwencji wydaje je twój kraj/.test(UI.pl['sw.note']),
     'sw.note: a motorbike licence and the international permit of the 1968 convention; a car\'s is not enough; which convention your country follows');
   need(/Paszportu nie zostawiaj w zastaw/.test(UI.pl['sw.tips']), 'sw.tips: the passport is no deposit');
+  // the exceptions by agreement (decision 8 of stage 5, 15.10.2026): a licence of an ASEAN country and a South Korean permit,
+  // which police at a check may not accept straight away (MOTO-2026-10-15t, -15v, -15w, -15y)
+  need(/Wyjątki z umów: prawo jazdy z państwa ASEAN i międzynarodowe prawo jazdy z Korei Płd\., choć policja przy kontroli może ich nie uznać od ręki\.$/.test(UI.pl['sw.note']),
+    'sw.note: ends with the exceptions by agreement (ASEAN, South Korea) and the caution about police checks');
+  // the risk as two facts, each with its source (finding 20 of stage 5): the WHO estimate and the national data of 2023
+  need(/\(szacunek WHO\)\. Ponad 90% zabitych w 2023 r\. to ofiary wypadków z udziałem motocykla \(dane krajowe\)\./.test(UI.pl['sw.risk']) && !/z nich/.test(UI.pl['sw.risk']),
+    'sw.risk: the WHO estimate and the national data of 2023 as two facts, without „z nich”');
   // the 7 km in Paradise Cave turn back after about 4 km when the water is high in the rainy season (PN-2026-10-15c)
   need(CONTENT.phongnha.days.some(function (d) { return d.t === '7 km w głąb Paradise Cave' && /zawraca po ok\. 4 km/.test(d.d); }),
     'phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');

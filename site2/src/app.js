@@ -742,7 +742,7 @@
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
     // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
     $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
-      '<p class="b-meta">' + T('know.links') + linksOf(ENTRY.links) + '</p>';
+      '<p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>';
     $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
       return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
     }).join('') + '</ul>';
