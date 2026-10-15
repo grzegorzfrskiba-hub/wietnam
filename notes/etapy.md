@@ -7,9 +7,9 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | 0. Wizja | zrobione 9.10.2026 |
 | 1. Fundament i silnik na 12 miejscach | zrobione 11.10.2026: 1A (silnik) 10.10.2026, 1B (strona) 11.10.2026; raport tras 1A: [notes/raport-tras-2026-10-09.md](raport-tras-2026-10-09.md) |
 | 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
-| 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B w toku: plan B1 (Yok Đôn, Mù Cang Chải, Tà Năng w Đà Lạt, Mỹ Sơn w Hội An) zrobiony 15.10.2026: [plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), raport tras: [notes/raport-tras-2026-10-14.md](raport-tras-2026-10-14.md); plan B2 (długi ogon researchu, kurs NBP i ceny) do zaplanowania |
+| 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B w toku: plan B1 (Yok Đôn, Mù Cang Chải, Tà Năng w Đà Lạt, Mỹ Sơn w Hội An) zrobiony 15.10.2026: [plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), raport tras: [notes/raport-tras-2026-10-14.md](raport-tras-2026-10-14.md); plan B2 (treść dla podróżnych z całego świata: skróty, dongi, przesiew researchu; sesja decyzji 15.10.2026) do zaplanowania |
 | 4. Audyt i publikacja (po partii A) | zrobione 14.10.2026: [plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md); strona pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek |
-| 5. Angielski | po partii B (decyzja z 14.10.2026): angielski jako język przewodni, polski drugi |
+| 5. Angielski | po partii B (decyzja z 14.10.2026): angielski jako język przewodni, polski drugi, jako tłumaczenie z tymi samymi faktami (decyzja z 15.10.2026) |
 
 ## Etap 1: fundament i silnik na 12 dzisiejszych miejscach
 
@@ -80,7 +80,7 @@ Każda partia kończy się pełnym testem kombinacji.
   - plan 2 ([plans/2026-10-13-etap-3a2-miejsca.md](plans/2026-10-13-etap-3a2-miejsca.md), zrobiony 14.10.2026): Hà Giang z pętlą na 3 albo 4 dni, z kierowcą albo samodzielnie, i Sa Pa z Fansipanem pieszo na dwa dni; w silniku reguła regionu lotniska, która usuwa zygzaki, a na mapie rozsuwane znaczniki.
 - **Partia B** (sesja decyzji 14.10.2026), w dwóch planach:
   - plan B1 ([plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), zrobiony 15.10.2026): Yok Đôn z lotniskiem Buôn Ma Thuột, Mù Cang Chải za Sa Pa, szlak Tà Năng–Phan Dũng jako trudna wersja dni 2 i 3 w Đà Lạt i Mỹ Sơn jako trzeci dzień Hội An; drobne uwagi z przeglądu etapu 4;
-  - plan B2, po B1, w osobnej sesji: długi ogon researchu, kurs NBP i największe ceny;
+  - plan B2 (sesja decyzji 15.10.2026, niżej): treść dla podróżnych z całego świata, czyli skrócone „Przed wyjazdem”, ogólne zasady motocykla, dongi zamiast złotówek, skrócone najdłuższe opisy dni i przesiew otwartych punktów researchu;
   - odłożone, z researchem w repo: Bạch Mã (droga na szczyt przerwana od 27.10.2025, [research/bachma-2026-10.md](../research/bachma-2026-10.md)) i Pù Mát (noc w lesie niepotwierdzona na 2026, [research/pumat-2026-10.md](../research/pumat-2026-10.md)).
 - **Kolejne partie** według potrzeb, np. morze (Côn Đảo).
 
@@ -96,7 +96,7 @@ Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą 
 
 ## Etap 5: angielski (po partii B)
 
-Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji.
+Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji. Decyzja z 15.10.2026: etap 5 przychodzi po planie B2 i tłumaczy już skróconą treść, a polski zostaje tłumaczeniem angielskiego, z tymi samymi faktami; sesja decyzji etapu ustali też nazwę strony.
 
 Plan ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md), sesja decyzji 14.10.2026, zrobiony 14.10.2026): poprawki z listy audytu, PDF jako wersja offline dla podróżnych (przycisk i wydruk na A4), kroje na własnym hostingu i lżejszy plik offline, licencje zdjęć i stopka, fakty z 14.10.2026 i porządki w researchu, wizja i README; potem punkt kontrolny, końcowy przegląd, publikacja z `docs/` z `noindex` (każdy krok za zgodą) i pierwsza runda znajomych.
 
@@ -108,7 +108,57 @@ Punkt kontrolny planu B1 (15.10.2026): pełny test `ALL PASS` (134 784 ustawieni
 
 Końcowy przegląd planu B1 (15.10.2026, świeży recenzent): „Gotowe do publikacji: po poprawkach”, bez uwag krytycznych. Recenzent potwierdził, że zdania o bezpieczeństwie, przewodnikach i cenach mają pokrycie w researchu, i sześć punktów „Na co uważać”, a znalazł trzy ważne sprawy, poprawione przed publikacją w osobnych commitach „Poprawka z końcowego przeglądu planu B1”: forma rodzajowa „Sam do lasu nie wejdziesz” w Yok Đôn (test stylu łapie teraz „Sam”, „Sama” na początku zdania); na trasach z Đà Nẵng w obie strony powrót do Hội An po pierwszej nocy powtarzał stare miasto o 6:00, a Mỹ Sơn nie było wcale (4683 trasy; plan solo Hội An ma `covers: 2`, więc powrót idzie dalej Mỹ Sơn, który jest teraz na 60 063 trasach zamiast 55 380); noc w lesie Yok Đôn przed 6 h drogi do Cát Tiên kończyła się na ostatnim promie przez Đồng Nai (55 tras; `legAfter` mówi teraz, że droga prowadzi do miejsca za promem, i późna noc wtedy ustępuje, więc noc w lesie jest na 4654 trasach zamiast 4709). Do tego plan na deszcz szlaku Tà Năng brzmi jak w researchu („przy złej prognozie przełóż wyjście”), a źródło LI-2026 w researchu Yok Đôn nie ma już linku do profilu osoby prywatnej. Trasy, liczby, raport tras i najszersza kwota bez zmian. Drobne uwagi i sprawy do sprawdzenia poszły na listę „Po publikacji, z partią B”.
 
-**Plan B2:** najpierw krótka sesja decyzji: jak głęboko sprawdzamy ok. 100 otwartych punktów researchu (godziny, bilety do ok. 5 EUR, współrzędne, ceny przewodników i noclegów, dni zamknięć) i które ceny odświeżamy razem z kursem NBP; potem plan z suchą próbą. Po partii B etap 5, angielski.
+**Plan B2:** treść dla podróżnych z całego świata według decyzji z 15.10.2026 (niżej): skrócone „Przed wyjazdem” i najdłuższe opisy dni, ogólne zasady motocykla, dongi zamiast złotówek i przesiew otwartych punktów researchu. Następny krok: plan z suchą próbą, jak B1, a wykonanie w świeżej sesji. Po partii B etap 5, angielski.
+
+### Z sesji decyzji planu B2 (15.10.2026)
+
+Po planie B1 użytkownik uznał, że strona za bardzo prowadzi za rękę i ma polskie szczegóły: wizę dla Polaków, Odyseusza, międzynarodowe prawo jazdy ze starostwa, złotówki po kursie NBP. Znajomi są w większości z innych krajów, a strona ma dawać inspirację i trasę dopasowaną do profilu ludziom, którzy umieją się zorganizować. Plan B2 nie jest więc długim ogonem researchu z kursem NBP, tylko treścią dla podróżnych z całego świata.
+
+Decyzje (sześć według rekomendacji, waluta to wybór użytkownika):
+1. Zasada: zdanie zostaje, gdy zmienia trasę albo plan dnia w Wietnamie albo chroni przed czymś, czego doświadczony podróżny może nie wiedzieć, i jest prawdziwe dla każdego paszportu (wizja, „Treść, bezpieczeństwo, licencje”).
+2. Waluta: same dongi, bez przeliczeń na inne waluty. Wybór użytkownika; rekomendacja była: dongi, a przy sumie wyjazdu orientacyjnie USD.
+3. Polska wersja po etapie 5: ta sama treść co angielska, czyli tłumaczenie z tymi samymi faktami.
+4. Kolejność: najpierw skróty po polsku (plan B2), potem etap 5. Skróty łatwiej ocenić po polsku, a etap 5 tłumaczy gotową treść.
+5. „Przed wyjazdem”: cztery części, odchudzone: budżet; rezerwacje (co, kiedy, ile, link); „Warto wiedzieć” z dwoma zdaniami zamiast „Wjazd i zdrowie”; pakowanie tylko z trasy.
+6. Opisy dni: 28 opisów z 60 słowami i więcej skrócić do ok. 60. Zostaje to, co w dniu wyjątkowe, i ograniczenia (godziny, przewodnik, sezon, pogoda), a wypadają wskazówki „jak” (ulice, godziny odbioru, kanały kontaktu). Krótsze opisy bez zmian. Przykład z sesji: dzień w Đà Nẵng ze 110 do 58 słów.
+7. Research: ok. 100 otwartych punktów przesiać i sprawdzić tylko ważne (ustalenie 22).
+
+Ustalenia (25, przyjęte w jednym kroku):
+- Notatki:
+  1. wizja, „Dla kogo”: pierwsi odbiorcy to znajomi z różnych krajów, docelowo samodzielni podróżni z całego świata; strona daje inspirację i trasę dopasowaną do profilu, a nie instrukcję organizacji wyjazdu;
+  2. wizja, „Treść”: zasada z decyzji 1 dla każdego nowego zdania;
+  3. wizja, „Poza zakresem”: porady zależne od obywatelstwa (wiza, prawo jazdy, ubezpieczenie, szczepienia, rejestracja podróży), ogólna wiedza podróżnicza i przeliczanie na waluty czytelników;
+  4. wizja, język: po etapie 5 polski jest tłumaczeniem angielskiego, z tymi samymi faktami;
+  5. research zostaje pełny: fakty, które wypadną ze strony, zostają w notatkach researchu z adnotacją;
+  6. z listy „Po publikacji” wypada punkt o poradzie MSZ dla motocyklistów, bo to porada zależna od obywatelstwa.
+- Waluta:
+  7. ceny w danych zostają w euro; na dongi przelicza je ten sam kurs, po którym research przeliczał ceny ze źródeł (1 EUR = 29 055 VND, `research/ceny-2026-10.md`), więc kwoty wracają do cen ze źródeł; na stronie kursu nie ma;
+  8. zapis: suma w pełnych milionach („17–39 mln VND”), pozycje od 1 mln z jednym miejscem po przecinku („0,8–1,5 mln VND”), mniejsze zaokrąglone do 10 000 („260 000 VND”); pod budżetem tylko „Ceny sprawdzone w {miesiąc} {rok}”;
+  9. kwoty w tekstach też w dongach: pozwolenie w Hà Giang „ok. 230 000–300 000 VND” zamiast „10 USD” (obie kwoty są w researchu);
+  10. sonda kafelka sprawdza nową najszerszą kwotę (ok. „57–114 mln VND”).
+- „Przed wyjazdem”:
+  11. „Wjazd i zdrowie” zmienia się w „Warto wiedzieć” z dwoma zdaniami: wiza (sprawdź, czy twój paszport jej wymaga; e-wizę i kartę przylotu załatwiaj tylko na stronach rządowych, oba linki) oraz e-papierosy i podgrzewany tytoń nielegalne; wypadają zwolnienie z wiz dla Polaków z ostrzeżeniem o jego końcu, paszport, ubezpieczenie, lekarz i trzy polskie linki;
+  12. rezerwacje: co, z jakim wyprzedzeniem (i w szczycie), kwota i linki; z dodatków zostają tylko te, które chronią albo zmieniają plan: licencja biura przy Fansipanie, szlaku Tà Năng i pętli Hà Giang oraz zapasowy dzień przy paralotni; wypadają kanały kontaktu, liczba pokoi i miejsc, dane o zdrowiu i „bilet kupisz w kasie”;
+  13. pakowanie: zostają ciepła warstwa, deszcz, pijawki, czołówka, strój kąpielowy, rzeczy na motocykl (przy „Samodzielnie”) i środek na komary z dengą; wypadają buty, krem z filtrem, gotówka i aplikacje.
+- Motocykl:
+  14. wymagania: prawo jazdy na motocykl i międzynarodowe według konwencji z 1968 r.; samo prawo jazdy na samochód nie wystarcza; research sprawdzi, czy są kraje, które takiego dokumentu nie wydają (np. USA tylko według konwencji z 1949 r.), i jeśli tak, dochodzi zdanie „sprawdź, według której konwencji wydaje je twój kraj”; wypadają starostwo, 35 zł i polskie kategorie;
+  15. ryzyko bez porównania z Polską; skutki prawne, mandat, zatrzymanie motocykla, polisa i kontrole zostają; zdanie o polisie tylko w ramce, bez powtórki w „Warto wiedzieć”;
+  16. rady: zostają „paszportu nie zostawiaj w zastaw”, jazda tylko za dnia, żwir i ciężarówki na serpentynach; wypadają oględziny i zdjęcia rys; rady dla pętli bez zmian.
+- Opisy dni:
+  17. 28 opisów z 60 słowami i więcej skrócić do ok. 60 według decyzji 6; plany na deszcz i krótsze opisy bez zmian;
+  18. drobne uwagi z końcowego przeglądu B1, które dotyczą skracanych tekstów, poprawić przy okazji (np. „8 kilometrów” obok „2 km”); reszta zostaje na liście.
+- Testy:
+  19. test stylu: w tekstach strony nie ma złotówek, NBP ani polskich urzędów (Odyseusz, starostwo, EKUZ, GIS, ambasada RP);
+  20. test długości: opis dnia ma najwyżej 70 słów (cel ok. 60), żeby teksty nie urosły z powrotem;
+  21. silnik bez zmian: trasy i liczby z `tools/liczby.sh` takie same przed i po; zmienia się tylko waluta kwoty.
+- Research i ceny:
+  22. przesiew otwartych punktów: do sprawdzenia zostają te, które po skróceniu dalej są na stronie i zmieniają trasę, dzień, bezpieczeństwo, cenę noclegu albo pozycję od ok. 20 EUR na osobę; reszta dostaje adnotację „poza stroną (decyzja z 15.10.2026)”; Bạch Mã i Pù Mát pomijamy, bo są odłożone;
+  23. cen w planie B2 nie odświeżamy (sprawdzone 11–13.10.2026), poza punktami z przesiewu; następne odświeżenie przed otwarciem dla wyszukiwarek.
+- Proces:
+  24. plan B2 z suchą próbą, jak B1, wykonanie w świeżej sesji; na punkt kontrolny arkusz skrótów (każdy skrócony tekst przed i po, do przejrzenia po polsku) oraz liczba słów na stronie i liczba stron PDF trzech tras, przed i po;
+  25. po B2 etap 5 (angielski) z własną sesją decyzji: nazwa strony, adres, przełącznik języka i `noindex`.
+
+Notatki z tej sesji idą na GitHuba razem z planem B2.
 
 ### Z sesji decyzji partii B (14.10.2026)
 
@@ -136,7 +186,7 @@ Publikacja (14.10.2026): repo jest publiczne, a strona działa pod https://grzeg
 
 **Do etapu 3 (partia B i kolejne):**
 - każde nowe miejsce dostaje też dane z planu 2B: cenę noclegu w `COSTS.night`, płatne części dni jako pozycje `COSTS.items` wskazane polem `cost` w dniach, wpisy w `BOOK` z wyprzedzeniem i linkami, miejsce w `HOMESTAYS`, gdy nocuje się u gospodarzy, i teksty dalekich dróg z lotnisk w `AIR_KEYS`; liczby stoją w tabelach „Zestawienie” pliku researchu miejsca (`research/<id>-2026-10.md`), a test danych czyta je stamtąd (w wierszu `fit` zainteresowanie „gory” bez „ó”);
-- najszersza kwota budżetu ma postać „d ddd–dd ddd zł” (najwyższa po planie B1: 8 600–17 200 zł, 30 dni z Đà Nẵng w obie strony, góry i morze, „Ekstremalnie”, kwiecień); cyfry kroju mają jedną szerokość, więc kafelek mieści każdą kwotę tej postaci, ale kwota z pięcioma cyframi na obu końcach byłaby szersza: po każdej partii sonda `before.js` przy 641, 768 i 901 px;
+- najszersza kwota budżetu ma postać „d ddd–dd ddd zł” (najwyższa po planie B1: 8 600–17 200 zł, 30 dni z Đà Nẵng w obie strony, góry i morze, „Ekstremalnie”, kwiecień); cyfry kroju mają jedną szerokość, więc kafelek mieści każdą kwotę tej postaci, ale kwota z pięcioma cyframi na obu końcach byłaby szersza: po każdej partii sonda `before.js` przy 641, 768 i 901 px (po planie B2 kwota w dongach, ok. „57–114 mln VND”, ustalenie 10 z 15.10.2026);
 - nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają Cát Tiên, Pù Luông, Phong Nha, Cúc Phương, Sa Pa, Đà Lạt ze szlakiem Tà Năng–Phan Dũng i Yok Đôn); wyprawa na dwa dni to trudna wersja z polem `next` i własnym planem na deszcz (`hard.rain`);
 - każde nowe miejsce dostaje numer koloru (`color` w treści) i musi leżeć w kadrze mapy (`site2/src/panels.js`). Paleta ma 20 kolorów i po planie B1 wszystkie są zajęte (Yok Đôn 18, Mù Cang Chải 20), więc przed kolejnym miejscem (Bạch Mã, Pù Mát) paletę trzeba rozszerzyć. Pù Mát leży poza kadrami: trzeba przesunąć kadr północy do 18,6° N (z lotniskiem Vinh) i wygenerować kontury od nowa (`geo/make_basemap.py`);
 - wielowyrazowe nazwy z nowych tekstów bez wietnamskich liter (jak Lang Biang, Paradise Cave, La Dao) dopisać do `KEEP_TOGETHER` w `site2/src/content.js`; nazwy z takimi literami wiąże reguła `tieVietnamese`, a krótkie nazwy miejsc strona wiąże sama. Sonda `changes.js` łapie tylko nazwy z literą wietnamską, więc nazwy bez niej trzeba wypatrzyć samemu;
@@ -151,13 +201,12 @@ Publikacja (14.10.2026): repo jest publiczne, a strona działa pod https://grzeg
 Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 
 **Po publikacji, z partią B (plan B2 i później):**
-- długi ogon researchu: punkty „Do sprawdzenia przed publikacją (etap 4)” i „Czego nie ustaliłem” w notatkach researchu, które po kontroli z 14.10.2026 dalej są otwarte (godziny otwarcia, bilety do ok. 5 EUR, współrzędne, ceny przewodników i noclegów, dni zamknięć); sprawdzić z partią B, a do tego czasu bez zmian na stronie;
-- kurs NBP i największe ceny (rejs, auta, loty, Hang Én, Fansipan) odświeżyć z partią B: dziś kurs z 9.10.2026 i ceny z 11–13.10.2026, w jednym miejscu (`costs.js` i wiersz NBP-A w `research/ceny-2026-10.md`);
+- długi ogon researchu: punkty „Do sprawdzenia przed publikacją (etap 4)” i „Czego nie ustaliłem” w notatkach researchu, które po kontroli z 14.10.2026 dalej są otwarte (godziny otwarcia, bilety do ok. 5 EUR, współrzędne, ceny przewodników i noclegów, dni zamknięć); w planie B2 przesiew według decyzji z 15.10.2026 (ustalenie 22): sprawdzamy tylko ważne punkty, które po skróceniu dalej są na stronie, a reszta dostaje adnotację;
+- kurs NBP i złotówki znikają w planie B2 (decyzja z 15.10.2026: ceny w dongach, po kursie z `research/ceny-2026-10.md`); cen w B2 nie odświeżamy, a największe pozycje (rejs, auta, loty, Hang Én, Fansipan) odświeżyć przed otwarciem dla wyszukiwarek, w jednym miejscu (`costs.js` i kurs w `research/ceny-2026-10.md`);
 - otwarcie dla wyszukiwarek: `NOINDEX = False` w `site2/build.py`; decyzja z 14.10.2026: `noindex` zostaje do etapu angielskiego i do opinii pierwszej rundy;
 - PDF z iPhone'a: Safari ignoruje `break-after: avoid`, więc nagłówek bywa sam na dole strony; jeśli znajomi to zgłoszą, zgrupować nagłówek z pierwszym dniem;
 - wydruk: ostatnia strona bywa prawie pusta (sama stopka);
 - przed publikacją każdej partii drugi rzut oka na komunikaty, jak w zadaniu 11 etapu 4;
-- MSZ odradza samodzielne podróże motocyklem, a strona tego nie cytuje (decyzja z 14.10.2026): wrócić do tego, jeśli zapyta o to pierwsza runda;
 - uwagi drobne z końcowego przeglądu etapu 4:
   - PDF w przeglądarce wbudowanej w komunikator: z czatu WhatsAppa przycisk otwiera okno drukowania (sprawdzone na telefonie 14.10.2026), ale w innych komunikatorach (np. Messenger, Instagram) `window.print()` może nic nie zrobić; jeśli znajomi to zgłoszą, dopisać do podpowiedzi zdanie o otwarciu strony w Safari albo Chrome;
   - podzbiory krojów z Google Fonts nie mają strzałki →, znaku ≈ ani samolotu ✈, więc te znaki idą z kroju zastępczego, tak jak przed etapem 4: pełne pliki krojów albo bez zmian;
