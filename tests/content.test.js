@@ -544,6 +544,10 @@ contentCheck('language switch', function (need) {
   need(/<header class="hero" id="top">[\s\S]*<div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN<\/button><span aria-hidden="true">·<\/span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL<\/button><\/div>[\s\S]*<\/header>/.test(tpl),
     'template.html: the switch EN · PL in the photo at the top');
   need(/@media print \{[\s\S]*\.lang-switch, [^{]*\{ display: none !important; \}/.test(tpl), 'template.html: the switch is not printed');
+  // the name in the file itself, before or without the scripts (the final review of stage 5): the page's English title in
+  // <title> (a reader without JavaScript, the offline file) and in the link preview of build.py
+  need(tpl.indexOf('<title>' + UI.en['doc.title'] + '</title>') > -1, 'template.html: the title of the file is the English title of the page (doc.title)');
+  need(readFile('site2/build.py').indexOf('"title": "' + UI.en['doc.title'] + '"') > -1, 'build.py: the link preview has the English title of the page (doc.title)');
 });
 
 /* What the parks and the entry rules allow today (research/<id>-2026-10.md, research/wjazd-2026-10.md): every plan that
