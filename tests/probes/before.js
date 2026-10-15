@@ -86,23 +86,33 @@ setTimeout(function () {
               setTimeout(function () {
                 var same = (textOf('#facts') + ' ' + textOf('#before')).match(/(?<![\d,])(\d(?:[\d ,]*\d)?)–\u2060?\1 (mln )?VND/);
                 check('no amount has the same number at both ends', !same, same && same[0]);
-                // a swap on a form that gives no trip (the end before the start) changes nothing: the choice goes back, and the
-                // form's message stands next to it, as next to Dodaj
-                var at2 = soon();
-                location.hash = '#od=SGN&do=HAN&miesiac=' + at2.year + '-' + (at2.month < 10 ? '0' : '') + at2.month + '&dni=15&co=&poziom=2';
+                // a thing that may cost nothing (the flight over Khau Phạ, from 0 EUR) says only its dearer end, in what to book
+                // and among the dearest things: „do 2,2 mln VND”, never „0,1–2,2 mln VND” (the final review of plan B2)
+                location.hash = '#od=HAN&do=HAN&miesiac=2027-10&dni=15&co=gory&poziom=2&dodaj=mucangchai';
                 setTimeout(function () {
-                  document.querySelector('#settings-form input[name=mode][value=dates]').click();
-                  setField('end', '2026-01-01');
-                  var sw = document.querySelector('.swap[data-swap="haivan"] input[value="self"]');
-                  check('the road over the Hải Vân pass is on the trip', !!sw);
-                  if (!sw) { done(); return; }
-                  sw.click();
+                  var li = Array.prototype.filter.call(document.querySelectorAll('#b-book li'), function (l) { return /Lot tandemem paralotnią/.test(l.textContent); })[0];
+                  var fly = li && li.querySelector('.b-meta') ? li.querySelector('.b-meta').textContent.replace(/\s+/g, ' ').trim() : '';
+                  check('a thing that may cost nothing says only its dearer end: „do 2,2 mln VND na osobę”', /^do 2,2 mln VND na osobę/.test(fly), fly);
+                  check('and so among the dearest things', /lot paralotnią nad Khau Phạ \(do 2,2 mln VND\)/.test(textOf('#b-budget')),
+                    (textOf('#b-budget').match(/Najwięcej kosztują[^.]*\./) || [''])[0]);
+                  // a swap on a form that gives no trip (the end before the start) changes nothing: the choice goes back, and the
+                  // form's message stands next to it, as next to Dodaj
+                  var at2 = soon();
+                  location.hash = '#od=SGN&do=HAN&miesiac=' + at2.year + '-' + (at2.month < 10 ? '0' : '') + at2.month + '&dni=15&co=&poziom=2';
                   setTimeout(function () {
-                    var on = document.querySelector('.swap[data-swap="haivan"] input:checked'), said = textOf('#settings-msg');
-                    check('a swap on a form that gives no trip goes back to „Z kierowcą” and says why next to it', !!on && on.value === 'driver' &&
-                      !/motocykl=/.test(location.hash) && said !== '' && textOf('.swap[data-swap="haivan"]').indexOf(said) > -1, (on && on.value) + ' | ' + said);
-                    done();
-                  }, 400);
+                    document.querySelector('#settings-form input[name=mode][value=dates]').click();
+                    setField('end', '2026-01-01');
+                    var sw = document.querySelector('.swap[data-swap="haivan"] input[value="self"]');
+                    check('the road over the Hải Vân pass is on the trip', !!sw);
+                    if (!sw) { done(); return; }
+                    sw.click();
+                    setTimeout(function () {
+                      var on = document.querySelector('.swap[data-swap="haivan"] input:checked'), said = textOf('#settings-msg');
+                      check('a swap on a form that gives no trip goes back to „Z kierowcą” and says why next to it', !!on && on.value === 'driver' &&
+                        !/motocykl=/.test(location.hash) && said !== '' && textOf('.swap[data-swap="haivan"]').indexOf(said) > -1, (on && on.value) + ' | ' + said);
+                      done();
+                    }, 400);
+                  }, 500);
                 }, 500);
               }, 500);
             }, 500);

@@ -404,6 +404,11 @@ eq([vndRange([1964, 3929], 29055, true), vndRange([0.01, 0.02], 29055, true), vn
   [['57', '114', true], ['1', '1', true], ['0,8', '1,5', true], ['0,1', '2,2', true], ['260\u00a0000', '260\u00a0000', false], ['10\u00a0000', '60\u00a0000', false],
    ['0,6', '1,0', true]], 'dong: the sum of a trip in whole millions, never under 1; a part or a thing in millions with one decimal from 1 million up, never under 0,1, else rounded to 10 000');
 eq([money(500), money(12400), money(1234567)], ['500', '12\u00a0400', '1\u00a0234\u00a0567'], 'thousands apart (NB is set further down)');
+eq([vndText([0, 75], 29055, false), vndText([0, 29], 29055, false), vndText([28, 52], 29055, false), vndText([9, 9], 29055, false),
+  vndText([0, 0], 29055, false), vndText([1964, 3929], 29055, true)],
+  [{ key: 'mln.upto', vars: { b: '2,2' } }, { key: 'vnd.upto', vars: { b: '840\u00a0000' } }, { key: 'mln', vars: { a: '0,8', b: '1,5' } },
+   { key: 'vnd.one', vars: { a: '260\u00a0000' } }, { key: 'vnd.one', vars: { a: '0' } }, { key: 'mln', vars: { a: '57', b: '114' } }],
+  'dong as the page writes them: a thing that may cost nothing (from 0, as the flight over Khau Phạ) says only its dearer end, „do 2,2 mln VND”, never „0,1–2,2”; one number when the ends are alike; „0 VND” only for what costs nothing');
 // the real data: the March trip (Hồ Chí Minh City, Đà Lạt, Hội An, Huế, Hà Nội) and the Cao Bằng loop ridden yourself
 var BUDR = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
 function plansOf(t, self) {

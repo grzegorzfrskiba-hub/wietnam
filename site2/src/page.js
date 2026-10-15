@@ -683,6 +683,18 @@ function vndRange(eur, rate, sum) {
   if (Math.round(v[1] / 1e5) >= 10) return v.map(function (x) { return (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1).replace('.', ','); }).concat([true]);
   return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4); }).concat([false]);
 }
+
+/* An amount in euros as the page writes it in dong: { key, vars } for the UI keys vnd, vnd.one, mln, mln.one, vnd.upto and
+   mln.upto, with the numbers of vndRange. A thing that may cost nothing (its from is 0, as the flight over Khau Phạ, which
+   is up to the visitor) says only its dearer end, "do 2,2 mln VND", not a from rounded up to a price (the final review of
+   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate and sum: as for
+   vndRange. */
+function vndText(eur, rate, sum) {
+  if (eur[1] <= 0) return { key: 'vnd.one', vars: { a: '0' } };
+  var r = vndRange(eur, rate, sum), m = r[2];
+  if (!sum && eur[0] <= 0) return { key: m ? 'mln.upto' : 'vnd.upto', vars: { b: r[1] } };
+  return r[0] === r[1] ? { key: m ? 'mln.one' : 'vnd.one', vars: { a: r[0] } } : { key: m ? 'mln' : 'vnd', vars: { a: r[0], b: r[1] } };
+}
 /* A number with its thousands apart (no-break spaces), as Polish writes money: 260000 → '260 000'. */
 function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
 

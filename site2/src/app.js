@@ -50,13 +50,13 @@
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
-  // an amount in euros, [from, to], in dong (vndRange): the budget of the trip (sum) in whole millions, "17–39 mln VND";
+  // an amount in euros, [from, to], in dong (vndText): the budget of the trip (sum) in whole millions, "17–39 mln VND";
   // a part of it or a thing in millions with one decimal, "0,8–1,5 mln VND", or under a million to 10 000, "260 000 VND";
-  // one number when both ends come out alike; "0 VND" only for what costs nothing
+  // a thing that may cost nothing only its dearer end, "do 2,2 mln VND"; one number when both ends come out alike; "0 VND"
+  // only for what costs nothing
   function vnd(eur, sum) {
-    if (eur[1] <= 0) return T('vnd.one', { a: '0' });
-    var r = vndRange(eur, EUR_VND, sum), one = r[0] === r[1];
-    return T(r[2] ? (one ? 'mln.one' : 'mln') : (one ? 'vnd.one' : 'vnd'), { a: r[0], b: r[1] });
+    var v = vndText(eur, EUR_VND, sum);
+    return T(v.key, v.vars);
   }
   // names for a sentence: "A", "A i B", "A, B i C"
   function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
@@ -735,7 +735,8 @@
           : e.key === 'airport' ? andList(e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short + (a[2] > 1 ? ' ' + T('book.both') : ''); }))
           : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
         var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
-        var meta = [e.two ? esc(T('book.cost', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
+        // a thing that may cost nothing says its dearer end without „ok.”: „do 2,2 mln VND na osobę”
+        var meta = [e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
