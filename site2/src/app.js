@@ -1,5 +1,6 @@
 /* Page logic: reads the settings (the link or the form), plans the trip with the engine (engine.js) and renders the facts,
-   the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js. */
+   the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js,
+   and in English (stage 5) en/: the page's language comes from the link and the switch EN · PL (setLang). */
 (function () {
   'use strict';
 
@@ -11,7 +12,10 @@
   };
 
   /* ---------- texts ---------- */
-  var lang = 'pl';   // the only language for now; UI keeps its keys, so another one can come later as UI.<code>
+  // the page's language, 'en' or 'pl' (setLang): English unless the link says lang=pl (decision of 15.10.2026)
+  var lang = 'en';
+  // the texts of the places in that language (localContent in page.js), set by setLang
+  var VIEW = CONTENT;
   function T(k, vars) {
     var v = UI[lang][k];
     if (v == null) return k;
@@ -19,8 +23,10 @@
     return v;
   }
   function countWord(key, n) { return T(key + '.' + nightForm(n)); }
-  function C(id) { return CONTENT[id]; }
-  function caption(id) { return PHOTO_META[id].cap; }
+  function C(id) { return VIEW[id]; }
+  function caption(id) { return lang === 'en' ? PHOTO_CAPS_EN[id] : PHOTO_META[id].cap; }
+  // a holiday's or a link's name in the page's language (HOLIDAY_NAMES_EN and LINK_NAMES_EN in en/names.js)
+  function named(map, name) { return lang === 'en' ? map[name] : name; }
   function licName(l) { return l === 'Public domain' ? T('ft.pd') : l; }   // a licence as the page names it
   function nodeOf(id) { return PLACES[id].node || id; }
   function stopColor(id) { return 'var(--pal-' + C(nodeOf(id)).color + ')'; }
@@ -37,13 +43,14 @@
     return '≈ ' + (r % 1 ? (whole ? whole : '') + '½' : whole) + ' ' + T('h');
   }
   function dayRange(a, b) { return a === b ? T('day') + ' ' + a : T('days') + ' ' + a + '–' + b; }
-  // the weekday and date of trip day n, only when the trip has dates: "czw. 28.01", short enough for one line under the number
+  // the weekday and date of trip day n, only when the trip has dates: "czw. 28.01", in English "Thu 28 Jan" (finding 9),
+  // short enough for one line under the number
   function dateLabel(day) {
     var iso = tripDate(state.st.start, day);
     if (!iso) return '';
     var p = iso.split('-').map(Number);
-    var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', timeZone: 'UTC' });
-    return wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
+    var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString(lang === 'en' ? 'en-GB' : 'pl-PL', { weekday: 'short', timeZone: 'UTC' });
+    return lang === 'en' ? wd + '\u00a0' + p[2] + '\u00a0' + T('mon3.' + p[1]) : wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
   }
   // "w marcu", "we wrześniu", "in March" (inMonthText in page.js)
   function inMonth(m) { return inMonthText(T('monl.' + m), lang); }
@@ -60,8 +67,8 @@
     var v = vndText(eur, EUR_VND, sum, lang);
     return T(v.key, v.vars);
   }
-  // names for a sentence: "A", "A i B", "A, B i C"
-  function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
+  // names for a sentence: "A", "A i B", "A, B i C"; in English "A, B and C"
+  function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' ' + T('and') + ' ' + list[list.length - 1]; }
   function termText(st) {
     return st.start ? span(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
   }
@@ -79,7 +86,8 @@
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
-  /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
+  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with lang=pl at the end
+     when the page is in Polish (langHash in page.js). Otherwise keep the
      last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong. The settings
      are copied with their lists (copySettings), so a caller may leave out add, remove and moto.
      Returns whether the trip changed. */
@@ -101,7 +109,7 @@
     state.budget = tripBudget(r, state.plans, s.moto, BUDGET_DATA);
     msg('');
     $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
-    var h = linkHash(s);
+    var h = langHash(s, lang);
     if (location.hash !== h) {
       try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
     }
@@ -110,8 +118,10 @@
   }
 
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
-     without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. */
+     without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. A link
+     with lang=pl opens in Polish, every other one in English (langOf in page.js). */
   function fromLink() {
+    if (langOf(location.hash) !== lang) setLang(langOf(location.hash));
     var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
@@ -127,16 +137,20 @@
     var airports = Object.keys(HUBS).map(function (code) { return '<option value="' + code + '">' + esc(AIRPORTS[code].name) + '</option>'; }).join('');
     F.from.innerHTML = airports;
     F.to.innerHTML = airports;
+    labelForm();
+    F.start.min = TODAY;
+    F.start.max = PLAN_LAST_YEAR + '-12-31';
+    F.addEventListener('submit', function (e) { e.preventDefault(); });
+    F.addEventListener('change', onFormChange);
+  }
+  // the words of the form in the page's language: the interests and the levels (which of them is chosen comes back with syncForm)
+  function labelForm() {
     $('#interest-list').innerHTML = INTERESTS.map(function (k) {
       return '<label class="chip"><input type="checkbox" name="interest" value="' + k + '"><span>' + T('int.' + k) + '</span></label>';
     }).join('');
     $('#level-list').innerHTML = LEVELS.map(function (n) {
       return '<label><input type="radio" name="level" value="' + n + '"><span>' + T('lvl.' + n) + '</span></label>';
     }).join('');
-    F.start.min = TODAY;
-    F.start.max = PLAN_LAST_YEAR + '-12-31';
-    F.addEventListener('submit', function (e) { e.preventDefault(); });
-    F.addEventListener('change', onFormChange);
   }
   // the months on offer, plus the month of a link from outside that range, so the form always shows the settings
   function monthOptions(s) {
@@ -215,10 +229,11 @@
       el.focus({ preventScroll: true });
     });
     window.addEventListener('hashchange', function () {
-      if (state.settings && location.hash === linkHash(state.settings)) return;
+      if (state.settings && location.hash === langHash(state.settings, lang)) return;
       var bad = [];
-      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length) {   // an anchor typed by hand: put the settings back
-        try { history.replaceState(null, '', linkHash(state.settings)); } catch (e) { /* the address keeps the anchor */ }
+      // an anchor typed by hand: put the settings back (lang= alone is a link: the default trip in its language)
+      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)lang=/.test(location.hash)) {
+        try { history.replaceState(null, '', langHash(state.settings, lang)); } catch (e) { /* the address keeps the anchor */ }
         return;
       }
       fromLink();
@@ -250,8 +265,8 @@
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
-    // the printout names this route's address on the public page (as the copied plan does)
-    var url = SITE_URL + linkHash(state.settings);
+    // the printout names this route's address on the public page, in the page's language (as the copied plan does)
+    var url = SITE_URL + langHash(state.settings, lang);
     $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
     tieShortWords(document.body);
   }
@@ -272,12 +287,12 @@
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
     if (state.linkWarn) lines.push(T('set.dropped'));
     if (passed) lines.push(T('alert.past'));
-    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: span(h.from, h.to) })); });
+    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: named(HOLIDAY_NAMES_EN, h.name), span: span(h.from, h.to) })); });
     // a chosen interest whose places on the trip are all in a poor season, or that no place on the trip serves
     interestAlerts(r, st, PLACES, CLIMATE).forEach(function (x) {
       var what = T('int.' + x.interest);
       lines.push(x.none ? T('alert.int_none', { x: what }) : T(x.ids.length > 1 ? 'alert.int_bad_many' : 'alert.int_bad',
-        { x: what, when: x.months.map(inMonth).join(' i '), places: x.ids.map(function (id) { return C(id).short; }).join(' i '),
+        { x: what, when: x.months.map(inMonth).join(' ' + T('and') + ' '), places: x.ids.map(function (id) { return C(id).short; }).join(' ' + T('and') + ' '),
           why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') }));
     });
     if (a.unknown && !passed) lines.push(T('alert.nodata'));
@@ -307,11 +322,13 @@
 
   /* Why stay i is on the trip ("Wybrane, bo…"), and, on a full card, its weather in the month or months of its days and the
      events of the place that it meets. */
+  // "w marcu i kwietniu dobry sezon", in English "good season in March and April" (the order of season.when)
   function seasonPhrase(months) {
     if (months.every(function (m) { return m.season === months[0].season; })) {
-      return inMonth(months[0].month) + months.slice(1).map(function (m) { return ' i ' + T('monl.' + m.month); }).join('') + ' ' + T('season.' + months[0].season);
+      return T('season.when', { when: inMonth(months[0].month) + months.slice(1).map(function (m) { return ' ' + T('and') + ' ' + T('monl.' + m.month); }).join(''),
+        season: T('season.' + months[0].season) });
     }
-    return months.map(function (m) { return inMonth(m.month) + ' ' + T('season.' + m.season); }).join(', ');
+    return months.map(function (m) { return T('season.when', { when: inMonth(m.month), season: T('season.' + m.season) }); }).join(', ');
   }
   // the weather of a stay, month by month; a number of days of rain keeps its words on its line ("12 dni z deszczem")
   function weatherLine(list) {
@@ -484,7 +501,7 @@
     }).join('') + '</g>';
   }
   function renderMap() {
-    var L = mapLayout(state.route, state.st, { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: T });
+    var L = mapLayout(state.route, state.st, { panels: MAP_PANELS, places: PLACES, content: VIEW, airports: AIRPORTS, say: T });
     var defs = [], body = [];
     mapBoxes = L.panels.map(function (P) { return { y: P.y, h: P.p.h }; });
     L.panels.forEach(function (P) {
@@ -712,12 +729,12 @@
   }
 
   /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
-  function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.name) + '</a>'; }).join(' · '); }
+  function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(named(LINK_NAMES_EN, l.name)) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
     var b = state.budget, r = state.route, st = state.st, moto = state.settings.moto;
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
-    var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return h.name; });
+    var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return named(HOLIDAY_NAMES_EN, h.name); });
     var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
     $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
       '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
@@ -785,7 +802,7 @@
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
     lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
-    lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
+    lines.push(T('pt.link') + SITE_URL + langHash(state.settings, lang));
     return lines.join('\n');
   }
   function bindCopy() {
@@ -922,10 +939,10 @@
     document.querySelectorAll('#stops .stop').forEach(function (s) { io.observe(s); });
   }
 
-  // the multi-word names a line may not break inside: the short names of the places, the names of the airports and the
-  // names without a Vietnamese letter that the texts use (KEEP_TOGETHER in content.js)
+  // the multi-word names a line may not break inside: the short names of the places in both languages, the names of the
+  // airports and the names without a Vietnamese letter that the texts use (KEEP_TOGETHER in content.js)
   var TIED_NAMES = Object.keys(CONTENT).map(function (id) { return CONTENT[id].short; })
-    .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
+    .concat(Object.keys(CONTENT_EN).map(function (id) { return CONTENT_EN[id].short; }), Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
     .filter(function (n, i, all) { return n.indexOf(' ') > -1 && all.indexOf(n) === i; })
     .sort(function (a, b) { return b.length - a.length; });
   // a text with the no-break spaces of the language's typography (tieShort, tieEnglish) and of the names (tieVietnamese,
@@ -957,7 +974,7 @@
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
       // the caption leads to the photo's page on Commons, the licence to its text
       var m = PHOTO_META[ph], lic = licenceUrl(m.license, lang);
-      return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.cap) + '</a>: ' + esc(m.artist) + ', ' +
+      return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(caption(ph)) + '</a>: ' + esc(m.artist) + ', ' +
         (lic ? '<a href="' + esc(lic) + '" target="_blank" rel="noopener">' + esc(licName(m.license)) + '</a>' : esc(licName(m.license))) + '</li>';
     }).join('');
   }
@@ -970,10 +987,32 @@
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.getAttribute('data-i18n-aria'))); });
   }
 
+  /* ---------- the language (stage 5) ---------- */
+  /* The page's language, 'en' or 'pl': the texts of the places, the words of the template and of the form, the credits and the
+     switch EN · PL; the caller draws the trip again (apply). */
+  function setLang(l) {
+    lang = l;
+    VIEW = localContent(CONTENT, lang === 'en' ? CONTENT_EN : null);
+    applyStatic();
+    if (F) labelForm();
+    renderCredits();
+    Array.prototype.forEach.call(document.querySelectorAll('#lang-switch [data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
+  }
+  /* EN · PL (decision 1 of 15.10.2026): the texts change at once, without a reload; the trip, its settings and its changes
+     stay, and the address gains or loses lang=pl at its end (apply); the form shows the trip's settings again (syncForm). */
+  function bindLang() {
+    $('#lang-switch').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-lang]');
+      if (!b || b.getAttribute('data-lang') === lang) return;
+      setLang(b.getAttribute('data-lang'));
+      apply(state.settings, state.linkWarn);
+      syncForm();
+    });
+  }
+
   /* ---------- wiring ---------- */
-  applyStatic();
+  setLang(langOf(location.hash));   // the texts first, in the language of the link
   buildForm();
-  renderCredits();
   bindLightbox();
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
@@ -983,6 +1022,7 @@
   bindChanges();
   bindSwaps();
   bindSummary();
+  bindLang();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');

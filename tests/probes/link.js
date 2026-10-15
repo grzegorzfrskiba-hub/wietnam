@@ -15,7 +15,8 @@ setTimeout(function () {
     var b = document.getElementById('copy-fallback');
     if (copied === null && !b.hidden) copied = b.value;
     var line = (copied || '').split('\n').pop();
-    check('the copied plan ends with a link to the public page with these settings', line === 'Ten plan na stronie: ' + SITE_URL + asked, line);
+    // in the page's language: in Polish the link of the link ends with lang=pl (the asked link has it)
+    check('the copied plan ends with a link to the public page with these settings', line === L({ en: 'This plan on the site: ', pl: 'Ten plan na stronie: ' }) + SITE_URL + asked, line);
     done();
   }, 300);
 }, 1500);

@@ -13,6 +13,11 @@ function soon(k) {
   while (m > 12) { m -= 12; y++; }
   return { year: y, month: m };
 }
+// the page's language (stage 5): English unless the link says lang=pl; L({ en: …, pl: … }) is what a check expects in it
+var LANG = document.documentElement.lang;
+function L(texts) { return texts[LANG]; }
+// a new link in the page's language, as a visitor's next link would be: the settings, and lang=pl when the page is in Polish
+function goTo(hash) { location.hash = hash + (LANG === 'pl' ? '&lang=pl' : ''); }
 // the text of an element, spaces folded; '' when there is none
 function textOf(sel) { var e = document.querySelector(sel); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
 // a form control set as a visitor would: the value, then the change event the page listens to

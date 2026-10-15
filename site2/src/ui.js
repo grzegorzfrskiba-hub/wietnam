@@ -5,7 +5,7 @@ var UI = {};
 UI.pl = {
   'doc.title': 'Route G · Wietnam po swojemu',
   'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.before': 'Przed wyjazdem',
-  'nav.top': 'Na górę', 'nav.change': 'Zmień',
+  'nav.top': 'Na górę', 'nav.change': 'Zmień', 'lang.aria': 'Język strony',
   'sum': '{term} · {days} dni · {level}',
   'hero.alt': 'Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình',
   'hero.eyebrow': 'Planer podróży po Wietnamie',
@@ -88,7 +88,7 @@ UI.pl = {
 
   'fly': 'Lot', 'door': 'od drzwi do drzwi', 'longday': 'Długi dzień w drodze', 'maps': 'Trasa w Mapach Google',
   'leg.airport': 'Lotnisko {x}',
-  'min': 'min', 'h': 'godz.', 'fmt.hm': '{h} godz. {m} min',
+  'min': 'min', 'h': 'godz.', 'fmt.hm': '{h} godz. {m} min', 'and': 'i',
   'r.taxi_from': 'Taksówka albo transfer z lotniska {x}',
   'r.taxi_to': 'Taksówka na lotnisko {x}',
   'r.van_car': 'Minibus typu limousine albo prywatny samochód',
@@ -154,7 +154,7 @@ UI.pl = {
   'stop.remove': 'Usuń', 'stop.remove.aria': 'Usuń {x} z trasy', 'tag.added': 'Dodane',
   'why.on': 'Wybrane, bo: {x}.', 'why.added': 'dodane przez ciebie', 'why.from': 'lotnisko przylotu', 'why.to': 'lotnisko wylotu',
   'why.way': 'po drodze', 'why.night': 'Dzieli drogę z {a} do {b} na dwa krótsze dni.',
-  'season.D': 'dobry sezon', 'season.S': 'średni sezon', 'season.Z': 'zły sezon',
+  'season.D': 'dobry sezon', 'season.S': 'średni sezon', 'season.Z': 'zły sezon', 'season.when': '{when} {season}',
   'wx.first': 'Pogoda {when}: {x}.', 'wx.month': '{t} °C, {mm} mm deszczu, {days}',
   'wx.days.one': 'dzień z deszczem', 'wx.days.few': 'dni z deszczem', 'wx.days.many': 'dni z deszczem',
   'wx.upal': 'upał', 'wx.deszcz': 'pora deszczowa', 'wx.szaro': 'szaro, mało słońca', 'wx.chlod': 'chłodne noce i pochmurno',

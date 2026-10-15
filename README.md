@@ -1,21 +1,25 @@
-# Wietnam po swojemu
+# Route G
 
-Planer trasy po Wietnamie: https://grzegorzfrskiba-hub.github.io/wietnam/
+Vietnam, up to you: a trip planner for Vietnam, https://grzegorzfrskiba-hub.github.io/wietnam/ (in English; in Polish with the EN · PL switch or `&lang=pl` at the end of a link).
 
-Ustawiasz termin, lotniska przylotu i wylotu, jedno albo dwa zainteresowania i poziom przygody, a strona układa trasę: miejsca, plan każdego dnia, przejazdy, mapę, sezon i budżet. Trasę możesz poprawić, wysłać linkiem albo zapisać jako PDF.
+You set your dates, the airports you fly into and out of, one or two interests and an adventure level, and the page plans a route: the places, a plan for each day, the journeys, a map, the season and a budget. You can change the route, send it as a link or save it as a PDF.
 
-- Strona działa w przeglądarce, bez serwera, bez kont i bez liczników odwiedzin. Ustawienia trasy są w linku.
-- Fakty i ceny pochodzą z notatek w `research/`, każdy ze źródłem i datą sprawdzenia. Rozkłady, ceny, godziny otwarcia i zasady w parkach się zmieniają, więc przed wyjazdem sprawdź je u przewoźnika i na miejscu.
-- Linki rezerwacji prowadzą do oficjalnych stron i sprawdzonych operatorów, bez parametrów śledzących.
+- The page runs in the browser, with no server, no accounts and no visitor counters. The settings of a route are in its link.
+- Facts and prices come from the notes in `research/` (in Polish), each with its source and the date it was checked. Timetables, prices, opening hours and park rules change, so check them with the carrier and on the spot before you go.
+- Booking links lead to official sites and checked operators, without tracking parameters.
 
-## Zdjęcia, mapa i kroje
+## Photos, map and fonts
 
-- Zdjęcia pochodzą z Wikimedia Commons, na licencjach CC0, CC BY i CC BY-SA albo z domeny publicznej. Autor, licencja i link do strony każdego zdjęcia stoją w stopce strony i w `site2/src/photos.js`; te licencje obowiązują dalej. Obraz w podglądzie linku to zdjęcie „Łódź wiosłowa pod skałami Tràng An”, autor Jakub Hałun, CC BY 4.0.
-- Kontury mapy: Natural Earth, domena publiczna.
-- Kroje pisma: IBM Plex Sans, IBM Plex Mono i Newsreader na licencji SIL Open Font License 1.1 (pliki licencji w `site2/fonts/`).
+- The photos come from Wikimedia Commons, under CC0, CC BY and CC BY-SA or in the public domain. The author, the licence and a link to each photo’s page are in the page’s footer and in `site2/src/photos.js`; those licences still apply. The image in the link preview is the photo “A rowing boat below the cliffs of Tràng An” by Jakub Hałun, CC BY 4.0.
+- Map outlines: Natural Earth, public domain.
+- Fonts: IBM Plex Sans, IBM Plex Mono and Newsreader under the SIL Open Font License 1.1 (licence files in `site2/fonts/`).
 
-## Prawa
+## Rights
 
-© 2026 Wietnam po swojemu. Wszelkie prawa zastrzeżone.
+© 2026 Route G. All rights reserved.
 
-Repo jest publiczne, ale nie ma wolnej licencji: kod, teksty i notatki można czytać, ale nie wolno ich kopiować ani rozpowszechniać bez zgody. Zdjęcia, kontury mapy i kroje mają własne licencje, opisane wyżej.
+The repository is public but has no open licence: you may read the code, texts and notes, but not copy or distribute them without permission. The photos, map outlines and fonts have their own licences, described above.
+
+## Po polsku
+
+Route G („Wietnam po swojemu”) to planer trasy po Wietnamie, po angielsku i po polsku: polską wersję otwiera przełącznik EN · PL albo `&lang=pl` na końcu linku. Ustawiasz termin, lotniska, zainteresowania i poziom przygody, a strona układa trasę z planem dni, przejazdami, mapą, sezonem i budżetem. Notatki, research i plany w repo są po polsku. © 2026 Route G. Wszelkie prawa zastrzeżone; zdjęcia, kontury mapy i kroje mają własne licencje, opisane wyżej.

@@ -5,9 +5,10 @@
 // tests/probe.sh tests/probes/pdf.js 1400 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=gory,kultura&poziom=2'
 setTimeout(function () {
   var btn = document.getElementById('pdf-plan'), printed = 0;
-  check('the button „Zapisz trasę jako PDF” stands right after „Kopiuj plan na WhatsApp”', !!btn && btn.textContent === 'Zapisz trasę jako PDF' &&
+  check('the button „Zapisz trasę jako PDF” stands right after „Kopiuj plan na WhatsApp”', !!btn && btn.textContent === L({ en: 'Save route as PDF', pl: 'Zapisz trasę jako PDF' }) &&
     !!btn.previousElementSibling && btn.previousElementSibling.id === 'copy-plan', btn && btn.textContent);
-  check('its hint says where to tap on an iPhone and on Android', /Zachowaj w Plikach/.test(textOf('.pdf-hint')) && /Zapisz jako PDF/.test(textOf('.pdf-hint')), textOf('.pdf-hint'));
+  check('its hint says where to tap on an iPhone and on Android', L({ en: /Save to Files/, pl: /Zachowaj w Plikach/ }).test(textOf('.pdf-hint')) &&
+    L({ en: /Save as PDF/, pl: /Zapisz jako PDF/ }).test(textOf('.pdf-hint')), textOf('.pdf-hint'));
   window.print = function () { printed++; };
   btn.click();
   check('a tap opens the print dialog', printed === 1, printed);
@@ -16,10 +17,11 @@ setTimeout(function () {
   var seen = {}, twice = Array.prototype.map.call(document.querySelectorAll('[id]'), function (e) { return e.id; })
     .filter(function (id) { if (seen[id]) return true; seen[id] = true; return false; });
   check('no id twice on the page (the copies of the map have their own)', twice.length === 0, twice.slice(0, 5).join(', '));
-  check('the printout has the legend of the map', /Droga/.test(textOf('#map-print .mp-legend')), textOf('#map-print .mp-legend'));
+  check('the printout has the legend of the map', L({ en: /Road/, pl: /Droga/ }).test(textOf('#map-print .mp-legend')), textOf('#map-print .mp-legend'));
   var link = document.querySelector('#print-link a');
+  // in the page's language: in Polish the link ends with lang=pl, as the address does
   check('the printout links to this route on the public page', !!link && link.getAttribute('href') === 'https://grzegorzfrskiba-hub.github.io/wietnam/' + location.hash &&
-    textOf('#print-link').indexOf('Ten plan na stronie: ') === 0, link && link.getAttribute('href'));
+    textOf('#print-link').indexOf(L({ en: 'This plan on the site: ', pl: 'Ten plan na stronie: ' })) === 0 && /&lang=pl$/.test(location.hash) === (LANG === 'pl'), link && link.getAttribute('href'));
   check('on the screen the parts of the printout stay hidden', getComputedStyle(document.getElementById('map-print')).display === 'none' &&
     getComputedStyle(document.getElementById('print-link')).display === 'none');
   done();

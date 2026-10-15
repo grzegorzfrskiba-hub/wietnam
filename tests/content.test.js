@@ -537,6 +537,15 @@ contentCheck('printout', function (need) {
   need(/<div class="map-print" id="map-print"><\/div>/.test(tpl) && /<p class="print-link" id="print-link"><\/p>/.test(tpl), 'template.html: the map and the link of the printout');
 });
 
+/* The language switch (stage 5, findings 1 and 2): EN · PL in the photo at the top, two buttons with their languages,
+   not printed. */
+contentCheck('language switch', function (need) {
+  var tpl = readFile('site2/src/template.html');
+  need(/<header class="hero" id="top">[\s\S]*<div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN<\/button><span aria-hidden="true">·<\/span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL<\/button><\/div>[\s\S]*<\/header>/.test(tpl),
+    'template.html: the switch EN · PL in the photo at the top');
+  need(/@media print \{[\s\S]*\.lang-switch, [^{]*\{ display: none !important; \}/.test(tpl), 'template.html: the switch is not printed');
+});
+
 /* What the parks and the entry rules allow today (research/<id>-2026-10.md, research/wjazd-2026-10.md): every plan that
    drives to Sơn Trà says to check the notice of its management the day before, as the roads close in heavy rain (closed
    8–13.10.2026, open again from 14.10.2026); „Warto wiedzieć” (decision of 15.10.2026) asks whether one's own passport

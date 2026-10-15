@@ -4,7 +4,7 @@
 UI.en = {
   'doc.title': 'Route G · Vietnam, up to you',
   'nav.aria': 'Sections', 'nav.settings': 'Settings', 'nav.shape': 'At a glance', 'nav.days': 'Day by day', 'nav.before': 'Before you go',
-  'nav.top': 'Back to top', 'nav.change': 'Change',
+  'nav.top': 'Back to top', 'nav.change': 'Change', 'lang.aria': 'Language',
   'sum': '{term} · {days} days · {level}',
   'hero.alt': 'A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình',
   'hero.eyebrow': 'Vietnam trip planner',
@@ -87,7 +87,7 @@ UI.en = {
 
   'fly': 'Flight', 'door': 'door to door', 'longday': 'Long day on the road', 'maps': 'Route in Google Maps',
   'leg.airport': '{x} airport',
-  'min': 'min', 'h': 'h', 'fmt.hm': '{h} h {m} min',
+  'min': 'min', 'h': 'h', 'fmt.hm': '{h} h {m} min', 'and': 'and',
   'r.taxi_from': 'Taxi or transfer from {x} airport',
   'r.taxi_to': 'Taxi to {x} airport',
   'r.van_car': 'Limousine van or private car',
@@ -153,7 +153,7 @@ UI.en = {
   'stop.remove': 'Remove', 'stop.remove.aria': 'Remove {x} from the route', 'tag.added': 'Added',
   'why.on': 'Picked because: {x}.', 'why.added': 'added by you', 'why.from': 'arrival airport', 'why.to': 'departure airport',
   'why.way': 'on the way', 'why.night': 'Splits the road from {a} to {b} into two shorter days.',
-  'season.D': 'good season', 'season.S': 'fair season', 'season.Z': 'poor season',
+  'season.D': 'good season', 'season.S': 'fair season', 'season.Z': 'poor season', 'season.when': '{season} {when}',
   'wx.first': 'Weather {when}: {x}.', 'wx.month': '{t} °C, {mm} mm of rain, {days}',
   'wx.days.one': 'rainy day', 'wx.days.few': 'rainy days', 'wx.days.many': 'rainy days',
   'wx.upal': 'heat', 'wx.deszcz': 'rainy season', 'wx.szaro': 'grey, little sun', 'wx.chlod': 'cool nights and cloud',

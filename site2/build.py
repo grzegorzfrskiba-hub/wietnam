@@ -11,11 +11,13 @@ FONT_DIR = os.path.join(ROOT, "fonts")   # the fonts with their licences and fon
 OUT_WEB = os.path.join(ROOT, "out", "web")
 OUT_PAGES = os.path.join(ROOT, "out", "pages")
 OUT_OFF = os.path.join(ROOT, "out", "offline")
-OFFLINE_NAME = "Wietnam-po-swojemu.html"
-# the page's scripts in load order; the photo list (PHOTOS) and app.js come after them
+OFFLINE_NAME = "Route-G.html"
+# the page's scripts in load order, the English texts (en/, stage 5) after their Polish ones; the photo list (PHOTOS) and
+# app.js come after them
 SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
            + sorted("content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "content", "*.js")))
-           + ["photos.js", "ui.js", "panels.js", "costs.js", "before.js", "page.js", "basemap.js"])
+           + sorted("en/content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "en", "content", "*.js")))
+           + ["photos.js", "en/photos.js", "ui.js", "en/ui.js", "panels.js", "costs.js", "before.js", "en/names.js", "page.js", "basemap.js"])
 # Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo.
 # The offline file keeps one embedded size per photo, small enough for a file of about 6 MB: width and JPEG quality.
 SMALLER = {"photo": (480, 960), "hero": (960, 1400)}
@@ -23,23 +25,27 @@ OFFLINE = {"photo": (640, 60), "hero": (1280, 62)}
 
 # the public address, written once: var SITE_URL in page.js (the copied plan links to it)
 SITE_URL = re.search(r"^var SITE_URL = '([^']+)';", open(os.path.join(SRC, "page.js"), encoding="utf-8").read(), re.M).group(1)
-# Link preview (WhatsApp and others), only on the public page, whose address it names.
+# Link preview (WhatsApp and others), only on the public page, whose address it names; in English, the page's default
+# language (decision 1 of stage 5: one address, so WhatsApp, which reads the file without its scripts, shows English).
 PREVIEW = {
-    "title": "Wietnam po swojemu",
-    "description": "Ustaw termin, lotniska, to, co lubisz, i poziom przygody, a strona ułoży trasę po Wietnamie: miejsca, plan dni, przejazdy i mapę.",
-    "alt": "Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình",
+    "title": "Route G · Vietnam, up to you",
+    "description": "Set your dates, your airports, what you like and how adventurous you are, and the page plans a route around Vietnam: the places, a plan for each day, the journeys and a map.",
+    "alt": "A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình",
 }
 OG_SIZE = (1200, 630)
 # The public page stays out of search engines while the first friends try it (decision of 14.10.2026); to open it, set
 # NOINDEX = False, build and publish again.
 NOINDEX = True
 
-# The sentence for a viewer without JavaScript: on the public page a short one; in the offline file the longer one, as an
-# iPhone shows a sent HTML file in a preview that runs no scripts.
+# The sentence for a viewer without JavaScript, in English and under it in Polish (stage 5): on the public page a short one;
+# in the offline file the longer one, as an iPhone shows a sent HTML file in a preview that runs no scripts.
 NOSCRIPT = {
-    "page": "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.",
-    "offline": "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu. Jeśli widzisz ten tekst w podglądzie pliku na iPhonie, "
-               "otwórz w przeglądarce stronę %s albo zapisz na niej swoją trasę jako PDF." % SITE_URL,
+    "page": [("en", "This page plans your route in the browser and needs JavaScript: turn it on in your browser’s settings."),
+             ("pl", "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.")],
+    "offline": [("en", "This page plans your route in the browser and needs JavaScript. If you see this text in an iPhone’s file preview, "
+                       "open the page %s in a browser, or save your route there as a PDF." % SITE_URL),
+                ("pl", "Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu. Jeśli widzisz ten tekst w podglądzie pliku na iPhonie, "
+                       "otwórz w przeglądarce stronę %s albo zapisz na niej swoją trasę jako PDF." % SITE_URL)],
 }
 # tab icon: karst peaks on the page's accent green
 ICON = ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='#0c6a5a'/>"
@@ -55,7 +61,7 @@ def head_extras(preview):
     if preview:
         esc = lambda t: t.replace("&", "&amp;").replace('"', "&quot;")
         out += ('<meta name="description" content="%s">\n' % esc(PREVIEW["description"])
-                + '<meta property="og:type" content="website">\n<meta property="og:locale" content="pl_PL">\n'
+                + '<meta property="og:type" content="website">\n<meta property="og:locale" content="en_GB">\n'
                 + '<meta property="og:url" content="%s">\n' % SITE_URL
                 + '<meta property="og:title" content="%s">\n' % esc(PREVIEW["title"])
                 + '<meta property="og:description" content="%s">\n' % esc(PREVIEW["description"])
@@ -68,7 +74,7 @@ def head_extras(preview):
 
 def full_document(fragment, preview=False):
     """The page fragment as a complete HTML document: doctype, charset and viewport, tab icon, no body margin."""
-    return ('<!doctype html>\n<html lang="pl">\n<head>\n<meta charset="utf-8">\n'
+    return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             + head_extras(preview)
             + fragment.replace("<style>", "<style>\nbody { margin: 0; }", 1).replace("</style>", "</style>\n</head>\n<body>", 1)
@@ -151,7 +157,7 @@ def main():
         # the hero is cropped to cover a box about 2x as wide as a phone screen (clamped height, 3:2 photo)
         top_set = ' srcset="%s" sizes="(max-width: 700px) 200vw, 100vw"' % top["srcset"] if "srcset" in top else ""
         return (template.replace("__HERO_SRC__", top["src"]).replace(" __HERO_SRCSET__", top_set).replace("__HERO_W__", str(top["w"]))
-                .replace("__HERO_H__", str(top["h"])).replace("/* __FONTS__ */", fonts).replace("__NOSCRIPT__", NOSCRIPT[kind]).replace("__SCRIPT__", script))
+                .replace("__HERO_H__", str(top["h"])).replace("/* __FONTS__ */", fonts).replace("__NOSCRIPT__", "".join('<p class="noscript" lang="%s">%s</p>' % x for x in NOSCRIPT[kind])).replace("__SCRIPT__", script))
 
     web_page = page(web, fonts_css(False), "page")
     open(os.path.join(OUT_WEB, "index.html"), "w", encoding="utf-8").write(web_page)

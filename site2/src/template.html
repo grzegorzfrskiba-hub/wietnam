@@ -95,6 +95,13 @@ ul, ol { padding: 0; list-style: none; }
 .hero-cta .primary { background: var(--on-photo); color: var(--photo-bg); }
 .hero-cta .ghost { color: var(--on-photo); border: 1px solid rgba(var(--white), 0.6); }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+/* the language switch (stage 5): EN · PL in the photo's top right corner, each at least 44 px for a finger, the active one
+   underlined; it scrolls with the page */
+.lang-switch { position: absolute; z-index: 2; top: 4px; right: calc(var(--gutter) - 12px); display: flex; align-items: center; color: var(--on-photo); font: 500 13px var(--mono); letter-spacing: 0.08em; text-shadow: 0 1px 10px rgba(var(--black), 0.45); }
+.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
+.lang-switch button:hover, .lang-switch button[aria-pressed="true"] { opacity: 1; }
+.lang-switch button[aria-pressed="true"] { text-decoration: underline 2px; text-underline-offset: 5px; }
+.lang-switch span { opacity: 0.7; }
 
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
@@ -278,6 +285,8 @@ footer .ft-copy { margin-top: 18px; }
 .pin.on .m-label { fill: var(--c); }
 .map-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font: 12px var(--mono); color: var(--muted); }
 .map-legend span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+/* the sentence about the scales may break: in English it is wider than the map on a phone of 320 px */
+.map-legend .map-note { white-space: normal; }
 .map-legend svg { display: block; }
 
 .stops { display: grid; gap: 22px; min-width: 0; }
@@ -421,6 +430,10 @@ footer a { color: var(--muted); }
   .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
   .off-list li > .btn-small { grid-column: 2; justify-self: start; }
 }
+/* the narrowest phones (320 px): the line over the name, longest in Polish, starts under the language switch */
+@media (max-width: 359px) {
+  .hero-text { padding-top: 54px; }
+}
 html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
 .secnav .wrap { display: flex; align-items: center; gap: 18px; }
@@ -455,7 +468,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
@@ -489,10 +502,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 }
 </style>
 
-<noscript><p class="noscript">__NOSCRIPT__</p></noscript>
+<noscript>__NOSCRIPT__</noscript>
 <header class="hero" id="top">
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
   <span class="hero-where">Tràng An, Ninh Bình</span>
+  <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
   <div class="hero-text">
     <div class="wrap">
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
