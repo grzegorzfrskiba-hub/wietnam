@@ -9,7 +9,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
 | 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B zrobiona 15.10.2026: plan B1 (Yok Đôn, Mù Cang Chải, Tà Năng w Đà Lạt, Mỹ Sơn w Hội An) zrobiony 15.10.2026: [plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), raport tras: [notes/raport-tras-2026-10-14.md](raport-tras-2026-10-14.md); plan B2 (treść dla podróżnych z całego świata: skróty, dongi, przesiew researchu; sesja decyzji 15.10.2026) zrobiony 15.10.2026: [plans/2026-10-15-etap-3b2-tresc.md](plans/2026-10-15-etap-3b2-tresc.md) |
 | 4. Audyt i publikacja (po partii A) | zrobione 14.10.2026: [plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md); strona pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek |
-| 5. Angielski | w toku: sesja decyzji 15.10.2026 zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca); następny krok: plan z suchą próbą |
+| 5. Angielski | w toku: sesja decyzji 15.10.2026 zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca); plan z suchą próbą zrobiony 15.10.2026: [plans/2026-10-15-etap-5-angielski.md](plans/2026-10-15-etap-5-angielski.md), do wykonania |
 
 ## Etap 1: fundament i silnik na 12 dzisiejszych miejscach
 
@@ -100,9 +100,9 @@ Plan ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-au
 
 Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji. Decyzja z 15.10.2026: etap 5 przychodzi po planie B2 i tłumaczy już skróconą treść, a polski zostaje tłumaczeniem angielskiego, z tymi samymi faktami; sesja decyzji etapu ustali też nazwę strony. Sesja decyzji (15.10.2026): nazwa „Route G”, jeden adres z przełącznikiem EN · PL i angielskim domyślnym, `&lang=pl` w linku przy polskim, adres bez zmian, `noindex` do samego końca, tłumaczenie wszystkiego, co widzi czytelnik; decyzje i 31 ustaleń w „Z sesji decyzji etapu 5” niżej.
 
-## Następny krok: plan etapu 5 (angielski)
+## Następny krok: wykonanie planu etapu 5 (angielski)
 
-Sesja decyzji etapu 5 zrobiona 15.10.2026 (niżej). Następny krok: plan etapu 5 z suchą próbą, jak B1 i B2, w osobnej sesji; wykonanie w świeżej sesji (ustalenie 28). Sesja planu tłumaczy w suchej próbie skróconą treść i przed oddaniem planu pokazuje arkusz PL | EN (ustalenie 29). Plan wprowadza nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `&lang=pl` w linku przy polskim; `noindex` zostaje do samego końca.
+Sesja decyzji etapu 5 zrobiona 15.10.2026 (niżej). Plan z suchą próbą: [plans/2026-10-15-etap-5-angielski.md](plans/2026-10-15-etap-5-angielski.md) (sucha próba na gałęzi `sucha-proba-5`; arkusz PL | EN i 16 ustaleń z sesji planowania zatwierdzone 15.10.2026), wykonanie w świeżej sesji (ustalenie 28). Plan wprowadza nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `&lang=pl` w linku przy polskim; `noindex` zostaje do samego końca.
 
 ### Z sesji decyzji etapu 5 (15.10.2026)
 

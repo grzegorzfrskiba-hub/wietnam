@@ -1,6 +1,6 @@
 # Route G („Wietnam po swojemu”) — instrukcja dla Claude
 
-**Status (15.10.2026):** partia B etapu 3 zrobiona i opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej po polsku i z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Etap 5 (angielski): sesja decyzji zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca). Następny krok: plan etapu 5 z suchą próbą, w osobnej sesji, zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** partia B etapu 3 zrobiona i opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej po polsku i z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Etap 5 (angielski): sesja decyzji zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca). Następny krok: wykonanie planu etapu 5 ([notes/plans/2026-10-15-etap-5-angielski.md](notes/plans/2026-10-15-etap-5-angielski.md)) w świeżej sesji, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
