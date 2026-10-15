@@ -399,8 +399,11 @@ eq(bT.items.map(function (x) { return x.key; }), ['flights', 'r.car', 'b.night',
 var bS = tripBudget(RT, PL, ['w'], BUD);
 eq([bS.two, bS.one, bS.items.map(function (x) { return x.key; })], [[166, 310], [213, 422], ['flights', 'b.night', 'r.moto', 'x.car', 'a.boat']],
   'the swap ridden yourself: its road costs the motorbike; a tie keeps the order of the trip');
-eq([zlRange([166, 315], 4.3775, 100), zlRange([0.5, 2], 4.3775, 10), money(500), money(12400), money(1234567)],
-  [[700, 1400], [10, 10], '500', '12\u00a0400', '1\u00a0234\u00a0567'], 'złoty: rounded to the step, never 0; thousands apart (NB is set further down)');
+eq([vndRange([1964, 3929], 29055, true), vndRange([0.01, 0.02], 29055, true), vndRange([28, 52], 29055, false), vndRange([0, 75], 29055, false),
+  vndRange([9, 9], 29055, false), vndRange([0.5, 2], 29055, false), vndRange([20, 34], 29055, false)],
+  [['57', '114', true], ['1', '1', true], ['0,8', '1,5', true], ['0,1', '2,2', true], ['260\u00a0000', '260\u00a0000', false], ['10\u00a0000', '60\u00a0000', false],
+   ['0,6', '1,0', true]], 'dong: the sum of a trip in whole millions, never under 1; a part or a thing in millions with one decimal from 1 million up, never under 0,1, else rounded to 10 000');
+eq([money(500), money(12400), money(1234567)], ['500', '12\u00a0400', '1\u00a0234\u00a0567'], 'thousands apart (NB is set further down)');
 // the real data: the March trip (Hồ Chí Minh City, Đà Lạt, Hội An, Huế, Hà Nội) and the Cao Bằng loop ridden yourself
 var BUDR = { costs: COSTS, places: PLACES, swaps: SWAPS, shortFlightH: SHORT_FLIGHT_H };
 function plansOf(t, self) {
@@ -756,6 +759,9 @@ eq(tieShort('(w domu) i „o tym” oraz x–u nas'), '(w' + NB + 'domu) i' + NB
 eq([tieShort('ok. 3–4 km od'), tieShort('≈ 5½ godz. drogi'), tieShort('2 godz. 30 min'), tieShort('noce 13 °C, 64 mm deszczu, 1700 m n.p.m.')],
   ['ok.' + NB + '3–\u20604' + NB + 'km od', '≈' + NB + '5½' + NB + 'godz. drogi', '2' + NB + 'godz. 30' + NB + 'min', 'noce 13' + NB + '°C, 64' + NB + 'mm deszczu, 1700' + NB + 'm n.p.m.'],
   'a number keeps its unit, ≈ and „ok.” keep their number');
+eq(tieShort('ok. 17 000 osób, 230 000–300 000 VND, mandat 2–4 mln VND, 1700 m'),
+  'ok.' + NB + '17' + NB + '000 osób, 230' + NB + '000–\u2060300' + NB + '000' + NB + 'VND, mandat 2–\u20604' + NB + 'mln' + NB + 'VND, 1700' + NB + 'm',
+  'a number keeps its thousands and dong their number: 17 000, 230 000–300 000 VND, 2–4 mln VND');
 eq([tieShort('jedzie ok. ½ godz.'), tieShort('Ok. 2 h'), tieShort('ok. godziny'), tieShort('bok. 5')],
   ['jedzie ok.' + NB + '½' + NB + 'godz.', 'Ok.' + NB + '2 h', 'ok. godziny', 'bok. 5'], '„ok.” only before a number, and only as a word of its own');
 eq([tieShort('140–260'), tieShort('ok. 11:00–14:30'), tieShort('½–1 godz.'), tieShort('Đồng Bài – Cái Viềng'), tieShort('x–u nas')],

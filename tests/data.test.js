@@ -247,11 +247,11 @@ dataCheck('costs', function (need) {
     need(it.night === undefined || it.night === true, k + ': night is true or left out');
     need(it.book === undefined || BOOK[it.book], k + ': book ' + it.book + ' is no key of BOOK');
   });
-  // the rate and its day: the row NBP-A of research/ceny-2026-10.md („Tabela A nr …: EUR 4,3775 zł, …”, the day of the table)
-  var nbp = /^\| NBP-A \| Tabela A nr [^:|]*: EUR (\d+),(\d+) zł[^|]*\|[^|]*\|[^|]*\| (\d+)\.(\d+)\.(\d{4}) \|$/m.exec(readFile('research/ceny-2026-10.md'));
-  need(nbp && EUR_PLN === +(nbp[1] + '.' + nbp[2]) && typeof EUR_PLN_DATE === 'string' && EUR_PLN_DATE === nbp[5] + '-' + ('0' + nbp[4]).slice(-2) + '-' + ('0' + nbp[3]).slice(-2),
-    'EUR_PLN and EUR_PLN_DATE as in the row NBP-A of research/ceny-2026-10.md');
-  need(isoDay(COSTS_CHECKED) !== null && typeof EUR_PLN_DATE === 'string' && COSTS_CHECKED >= EUR_PLN_DATE, 'COSTS_CHECKED: a real day, not before the rate');
+  // the rate: the row EUR-VND of research/ceny-2026-10.md („Kurs całego researchu i strony: 1 EUR = 29 055 VND …”), the one
+  // the research converted the prices of its sources with, so the page's dong come back to them (decision of 15.10.2026)
+  var rate = /^\| EUR-VND \| Kurs całego researchu i strony: 1 EUR = (\d+) (\d{3}) VND/m.exec(readFile('research/ceny-2026-10.md'));
+  need(rate && EUR_VND === +(rate[1] + rate[2]), 'EUR_VND as in the row EUR-VND of research/ceny-2026-10.md');
+  need(isoDay(COSTS_CHECKED) !== null, 'COSTS_CHECKED: a real day');
 });
 dataCheck('booking', function (need) {
   var rows = {};

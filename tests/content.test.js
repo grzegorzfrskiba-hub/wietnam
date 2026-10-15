@@ -241,6 +241,23 @@ contentCheck('day texts', function (need) {
   });
 });
 
+/* For travellers from anywhere (decision of 15.10.2026): the page's texts name no money but dong (no złoty, euro or
+   dollar, no NBP rate) and no advice for the citizens of one country (Polish offices and services, Poland as a yardstick).
+   The texts: the interface, the places, the captions, the holidays and the names of the links. */
+contentCheck('for every passport', function (need) {
+  var all = strings(CONTENT, 'CONTENT', []);
+  strings(UI.pl, 'UI.pl', all);
+  Object.keys(PHOTO_META).forEach(function (ph) { all.push(['PHOTO_META.' + ph + '.cap', PHOTO_META[ph].cap]); });
+  HOLIDAYS.forEach(function (h, i) { all.push(['HOLIDAYS[' + i + ']', h[3]]); });
+  Object.keys(BOOK).forEach(function (k) { BOOK[k].links.forEach(function (l, i) { all.push(['BOOK.' + k + '.links[' + i + ']', l.name]); }); });
+  ENTRY.links.forEach(function (l, i) { all.push(['ENTRY.links[' + i + ']', l.name]); });
+  all.forEach(function (x) {
+    need(!/(^|[^\p{L}])(zł|PLN|EUR|USD)(?!\p{L})|[€$]|NBP/u.test(x[1]), x[0] + ': money in złoty, euro or dollars, or the NBP rate: the page says dong');
+    need(!/[Pp]olsk|[Pp]olak|Polsce|Polski|Odyseusz|starost|EKUZ|(^|[^\p{L}])(GIS|MSZ)(?!\p{L})|[Aa]mbasad\p{L}* RP/u.test(x[1]),
+      x[0] + ': advice for the citizens of one country (Polish offices, Poland as a yardstick)');
+  });
+});
+
 /* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex
    colour and no rgb() or rgba() with numbers (a triplet variable goes in as rgba(var(--black), 0.25)). */
 contentCheck('css colours', function (need) {

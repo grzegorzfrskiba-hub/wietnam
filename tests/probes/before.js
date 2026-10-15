@@ -11,15 +11,15 @@ setTimeout(function () {
   var t = window.__trip;
   function ids() { return t.state.route.stops.map(function (s) { return s.id; }).join(','); }
   var fig = document.querySelector('#facts .f-budget a');
-  check('the budget is the last figure of the facts, a link to „Przed wyjazdem”', fig && fig.getAttribute('href') === '#before' && /zł/.test(fig.textContent), fig && fig.textContent);
+  check('the budget is the last figure of the facts, a link to „Przed wyjazdem”, in millions of dong', fig && fig.getAttribute('href') === '#before' && /^\d+(–\u2060?\d+)? mln VND/.test(fig.textContent.replace(/\s+/g, ' ')), fig && fig.textContent);
   var parts = Array.prototype.map.call(document.querySelectorAll('#before .b-part h3'), function (h) { return h.textContent.replace(/\s+/g, ' '); });
   check('„Przed wyjazdem” has its four parts', parts.join(' | ') === 'Budżet | Zarezerwuj wcześniej | Warto wiedzieć | Co spakować', parts.join(' | '));
   check('the figure and the budget part say the same amount', textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), textOf('#b-budget .b-sum b'));
   check('the list of what to book has its items, each with a sentence', document.querySelectorAll('#b-book .b-book li').length > 0);
-  check('the note under the budget names the month of the prices and the day of the NBP rate (costs.js)',
-    textOf('#b-budget .b-note') === 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w październiku 2026 i przeliczone z euro po kursie NBP z 9.10.2026.', textOf('#b-budget .b-note'));
+  check('the note under the budget names the month of the prices (costs.js) and no rate',
+    textOf('#b-budget .b-note') === 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w październiku 2026.', textOf('#b-budget .b-note'));
   // Cao Bằng ridden yourself
-  // the budget before the swap, in euros: on a short loop the motorbike saves less than the 100 zł the amount is rounded to
+  // the budget before the swap, in euros: on a short loop the motorbike saves less than the million the amount is rounded to
   var before = ids(), money = JSON.stringify(t.state.budget.two), self = document.querySelector('.swap[data-swap="caobang"] input[value="self"]');
   check('the Cao Bằng card offers „Z kierowcą” and „Samodzielnie”, with the legal condition', self && /konwencji z 1968 r\./.test(textOf('#stops .swap[data-swap="caobang"] .swap-note')));
   self.click();
@@ -61,9 +61,10 @@ setTimeout(function () {
         setTimeout(function () {
           var box = document.getElementById('copy-fallback');
           check('the plan for WhatsApp says the budget', box.hidden || /Budżet na osobę/.test(box.value), box.value.split('\n').slice(-3).join(' / '));
-          // the widest budget: an amount of the longest form, d ddd–dd ddd zł (the digits of the display font are of one width, so
-          // each such amount is as wide as the highest); here 30 days from and to Hồ Chí Minh City, nature, November 2027: it fits its figure
-          location.hash = '#od=SGN&do=SGN&miesiac=2027-11&dni=30&co=przyroda&poziom=2';
+          // the widest budget: an amount of the longest form, dd–ddd mln VND (the digits of the display font are of one width, so
+          // each such amount is as wide as the highest); here the highest, 57–114 mln VND, 30 days from and to Đà Nẵng, mountains and
+          // sea, „Ekstremalnie”, April 2027: it fits its figure
+          location.hash = '#od=DAD&do=DAD&miesiac=2027-04&dni=30&co=gory,morze&poziom=3';
           setTimeout(function () {
             var b = document.querySelector('#facts .f-budget b'), li = document.querySelector('#facts .f-budget');
             check('the widest budget fits its figure: ' + textOf('#facts .f-budget b'), b.getBoundingClientRect().right <= document.getElementById('facts').getBoundingClientRect().right + 0.5 &&
@@ -79,10 +80,11 @@ setTimeout(function () {
             setTimeout(function () {
               check('Tết: the budget warns that prices go up', /Tết/.test(textOf('#b-budget .b-warn')), textOf('#b-budget .b-warn'));
               check('Tết: the list of what to book says how far ahead', /Tết/.test(textOf('#b-book .b-warn')), textOf('#b-book .b-warn'));
-              // ends that round to the same złoty say it once: 30 zł, never 30–30 zł (Đà Nẵng, 5 days: the Imperial City in Huế)
+              // ends that round to the same amount say it once: 210 000 VND, never 210 000–210 000 VND (Đà Nẵng, 5 days: the Imperial
+              // City in Huế)
               location.hash = '#od=DAD&do=DAD&miesiac=2027-01&dni=5&co=&poziom=2';
               setTimeout(function () {
-                var same = (textOf('#facts') + ' ' + textOf('#before')).match(/(?<!\d)(\d(?:[\d ]*\d)?)–\u2060?\1 zł/);
+                var same = (textOf('#facts') + ' ' + textOf('#before')).match(/(?<![\d,])(\d(?:[\d ,]*\d)?)–\u2060?\1 (mln )?VND/);
                 check('no amount has the same number at both ends', !same, same && same[0]);
                 // a swap on a form that gives no trip (the end before the start) changes nothing: the choice goes back, and the
                 // form's message stands next to it, as next to Dodaj

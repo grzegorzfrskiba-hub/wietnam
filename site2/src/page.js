@@ -673,12 +673,17 @@ function licenceUrl(license) {
   return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + 'deed.pl' : null;
 }
 
-/* An amount in euros, [from, to], in złoty: each end at rate and rounded to step złoty (100 for the budget, 10 for one
-   item); a from that would round to 0 becomes step. */
-function zlRange(eur, rate, step) {
-  return eur.map(function (v) { return Math.max(step, Math.round(v * rate / step) * step); });
+/* An amount in euros, [from, to], in dong as the page writes it (decision of 15.10.2026): [from, to, millions], the two
+   ends as text and whether they are millions. sum (the budget of a whole trip): whole millions, never under 1 ("17–39"); a
+   part of it or a thing to pay for: millions with one decimal when the dearer end comes to 1 million or more ("0,8–1,5"),
+   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). */
+function vndRange(eur, rate, sum) {
+  var v = eur.map(function (x) { return x * rate; });
+  if (sum) return v.map(function (x) { return String(Math.max(1, Math.round(x / 1e6))); }).concat([true]);
+  if (Math.round(v[1] / 1e5) >= 10) return v.map(function (x) { return (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1).replace('.', ','); }).concat([true]);
+  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4); }).concat([false]);
 }
-/* A number with its thousands apart (no-break spaces), as Polish writes money: 12400 → '12 400'. */
+/* A number with its thousands apart (no-break spaces), as Polish writes money: 260000 → '260 000'. */
 function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
 
 /* ---------- travel texts ---------- */
@@ -762,7 +767,8 @@ function nightForm(n) {
 
 /* Polish typography: a one-letter word (a i o u w z) gets a no-break space after it, so no line ends on it. It must start the text
    or follow white space, ( „ or –. A run like "i w domu" needs several passes (a match uses up the space in front of the next word), so repeat.
-   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm), and ≈ and „ok.” keep their number. A range of numbers
+   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm, 2–4 mln VND) and its thousands (17 000, 230 000 VND),
+   and ≈ and „ok.” keep their number. A range of numbers
    (1–3, 140–260, 11:00–14:30) keeps together: a word joiner after its dash, which a browser would break after. */
 function tieShort(text) {
   var before;
@@ -770,7 +776,8 @@ function tieShort(text) {
     before = text;
     text = text.replace(/(^|[\s(„–])([aiouwzAIOUWZ]) /g, '$1$2\u00a0');
   } while (text !== before);
-  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C)(?![\p{L}])/gu, '$1\u00a0$2');
+  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C|mln|VND)(?![\p{L}])/gu, '$1\u00a0$2')
+    .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u00a0').replace(/mln VND/g, 'mln\u00a0VND');
 }
 
 /* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become

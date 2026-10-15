@@ -50,12 +50,13 @@
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
-  // an amount in euros, [from, to], in złoty: rounded to 100 zł (or step), thousands apart: "2 600–5 900 zł", or "30 zł" when
-  // both ends round alike; nothing is "0 zł"
-  function zl(eur, step) {
-    if (eur[1] <= 0) return '0\u00a0zł';
-    var r = zlRange(eur, EUR_PLN, step || 100);
-    return r[0] === r[1] ? T('zl.one', { a: money(r[0]) }) : T('zl', { a: money(r[0]), b: money(r[1]) });
+  // an amount in euros, [from, to], in dong (vndRange): the budget of the trip (sum) in whole millions, "17–39 mln VND";
+  // a part of it or a thing in millions with one decimal, "0,8–1,5 mln VND", or under a million to 10 000, "260 000 VND";
+  // one number when both ends come out alike; "0 VND" only for what costs nothing
+  function vnd(eur, sum) {
+    if (eur[1] <= 0) return T('vnd.one', { a: '0' });
+    var r = vndRange(eur, EUR_VND, sum), one = r[0] === r[1];
+    return T(r[2] ? (one ? 'mln.one' : 'mln') : (one ? 'vnd.one' : 'vnd'), { a: r[0], b: r[1] });
   }
   // names for a sentence: "A", "A i B", "A, B i C"
   function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
@@ -263,7 +264,7 @@
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
       '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
-      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: zl(state.budget.two) })) + '"><b>' + zl(state.budget.two) + '</b><span>' + T('f.budget') + '</span></a></li>';
+      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -715,15 +716,15 @@
     var b = state.budget, r = state.route, st = state.st, moto = state.settings.moto;
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
     var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return h.name; });
-    var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: zl(x.two, 10) }); });
-    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + zl(b.two) + '</b> ' + esc(T('bud.two')) + '</p>' +
-      '<p>' + esc(T('bud.one', { x: zl(b.one) })) + '</p>' +
+    var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
+    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
+      '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
       '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
-        return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + zl(b.parts[k].two) + '</span></li>';
+        return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + vnd(b.parts[k].two) + '</span></li>';
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
       (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
-      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4), rate: fmtSpan(EUR_PLN_DATE, EUR_PLN_DATE) })) + '</p>';
+      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>';
     var books = bookList(r, state.plans, moto, BOOK_DATA);
     $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
       (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
@@ -734,7 +735,7 @@
           : e.key === 'airport' ? andList(e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short + (a[2] > 1 ? ' ' + T('book.both') : ''); }))
           : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
         var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
-        var meta = [e.two ? esc(T('book.cost', { x: zl(e.two, 10) })) : '', linksOf(e.links)].filter(Boolean);
+        var meta = [e.two ? esc(T('book.cost', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
@@ -780,7 +781,7 @@
       s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
-    lines.push(T('pt.budget', { x: zl(state.budget.two) }));
+    lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
     lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
     return lines.join('\n');
   }
