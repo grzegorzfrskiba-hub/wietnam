@@ -12,6 +12,6 @@ CONTENT_EN.catba = {
       easy: { t: 'A night on Lan Hạ Bay', d: 'A two-day cruise with one night on board, on Lan Hạ Bay and the quiet southern edge of Hạ Long Bay. Choose a larger, steadier boat where every cabin has its own bathroom. You will go in among the karsts in a bamboo boat rowed by locals, and watch the sunset from the deck.' } }
   ],
   gem: 'Việt Hải, a car-free village inside the national park. Some cruises from Cát Bà call there, so if you are staying three nights, choose one of them.',
-  skip: 'Hạ Long cruises from Tuần Châu, and the crowded stops at Sửng Sốt Cave and on Ti Tốp Island.',
+  skip: 'Hạ Long cruises from Tuần Châu, and the crowded stops at Sửng Sốt Cave and on Ti Tốp island.',
   instead: 'a cruise that starts on Cát Bà.'
 };

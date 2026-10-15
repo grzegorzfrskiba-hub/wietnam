@@ -5,7 +5,7 @@ CONTENT_EN.yokdon = {
   sub: 'Elephants without rides, dry forest and the Sêrêpốk river',
   days: [
     { t: 'To the forest on the Sêrêpốk', d: 'Check in at the park’s guesthouse by the headquarters, where every tour starts. In the afternoon, a boat on the Sêrêpốk river, 40–60 minutes. If you come through Buôn Ma Thuột, stop at the World Coffee Museum, built in the style of an Ê Đê longhouse.',
-      rain: 'in a storm the boat stays in: spend longer in Buôn Ma Thuột, at the World Coffee Museum and the Đắk Lắk Museum of the Central Highlands peoples, and reach the park for the evening.',
+      rain: 'in a storm the boat stays in: spend longer in Buôn Ma Thuột, at the World Coffee Museum and the Đắk Lắk Museum, on the peoples of the Central Highlands, and reach the park for the evening.',
       solo: { t: 'Yok Đôn in the evening and morning', d: 'Reach the park in the afternoon and check in at the guesthouse. At sunset, a boat on the Sêrêpốk. At 8:00 the next morning you set off on foot with a park guide after the elephants, which find their own food in the forest; around 11:00 you are back and on your way.' } },
     { t: 'On foot after the elephants', d: 'At 8:00, on foot into the forest with a park guide, to where the elephants were last seen. For years they carried tourists; since 2018 they have roamed the forest freely, finding their own food: you watch from a distance, with no riding, bathing or feeding. After lunch, through the dry forest with a guide again, with a swim in a stream. The park lets you into the forest only with a guide.',
       rain: 'the elephants in the morning as usual, in a rain cape, and in the afternoon, when the storm comes, a cooking class in an Ê Đê family’s kitchen, 700 m from the park.',

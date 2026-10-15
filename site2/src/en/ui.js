@@ -58,8 +58,8 @@ UI.en = {
   'vnd.upto': 'up to\u00a0{b}\u00a0VND', 'mln.upto': 'up to\u00a0{b}M\u00a0VND',
   'term.month': '{month} {year}',
   'alert.past': 'These dates have passed. Choose a new month or new dates, and the route will be planned again.',
-  'alert.tet': 'Tết, days off about {span}: some places are closed, and transport and rooms sell out and cost more, also the week before and after. Book early.',
-  'alert.holiday': '{name} (about {span}): a national holiday, so travel and popular places are busier. Book transport and rooms earlier.',
+  'alert.tet': 'Tết, with days off around {span}: some places are closed, and transport and rooms sell out and cost more, also the week before and after. Book early.',
+  'alert.holiday': '{name} (around {span}): a national holiday, so travel and popular places are busier. Book transport and rooms earlier.',
   'alert.nodata': 'For part of these dates the page has no holiday dates. Check the dates of Tết and the national holidays.',
   'alert.int_bad': '{x}: {places} has a poor season {when} ({why}).',
   'alert.int_bad_many': '{x}: {places} have a poor season {when} ({why}).',
@@ -113,7 +113,7 @@ UI.en = {
   'n.ferry_in': 'The last crossing to {x} is at about {last}: choose a flight that lands by about {land} at the latest.',
   'n.ferry_out': 'The first crossing from {x} is at about {first}, so you will be at the airport at about {at} at the earliest.',
   'n.flight_days': 'The {a} – {b} flight runs only {days}: plan this day around it.', 'f.days_tts': 'on Tuesdays, Thursdays and Saturdays',
-  'n.solo_long': 'After the morning plan at the previous place, a long road is left and you will arrive in the evening. To travel in daylight, skip the morning plan.',
+  'n.solo_long': 'After the morning plan at the previous place, a long journey remains, and you will arrive in the evening. To travel in daylight, skip the morning plan.',
 
   'pt.title': 'Route G: {days} days, {term}',
   'pt.route': '{from} → {to}',
@@ -254,7 +254,7 @@ UI.en = {
   'p.warm': 'A warm layer and a hat: nights in {x} can be cool, down to about {t}\u00a0°C.',
   'p.rain': 'A rain jacket or poncho: it often rains in {x} at this time of year.',
   'p.leeches': 'Leech socks for forest trails: {x}.', 'p.torch': 'A head torch for the night in the forest: {x}.', 'p.swim': 'Swimwear: {x}.',
-  'p.moto': 'For the motorbike, your own gloves and rain jacket; check the certified helmet when you rent.',
+  'p.moto': 'For the motorbike, your own gloves and rain jacket; when you rent, check that the helmet is certified.',
   'p.mosquito': 'Insect repellent with DEET and long sleeves: dengue occurs across the country, and the mosquitoes bite mostly by day.',
 
   'ft.photos': 'Photos · Wikimedia Commons', 'ft.notes': 'Notes',
