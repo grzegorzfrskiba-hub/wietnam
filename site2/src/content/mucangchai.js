@@ -3,7 +3,7 @@
 CONTENT.mucangchai = {
   name: 'Mù Cang Chải i przełęcz Khau Phạ', short: 'Mù Cang Chải',
   sub: 'Tarasy ryżowe Hmông, wzgórze Mâm Xôi i paralotnie nad przełęczą Khau Phạ',
-  region: 'north', maps: 'Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
+  region: 'north', maps: 'Cho Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
   photos: ['mucangchai_0', 'mucangchai_1', 'mucangchai_2', 'mucangchai_3', 'mucangchai_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Tarasy o zachodzie słońca', d: 'Zamelduj się u gospodarzy w La Pán Tẩn albo w miasteczku. Ok. 16:00 wzgórze Móng Ngựa, 2 km od centrum: tarasy ułożone w podkowę, najpiękniejsze przed zachodem słońca, a po 17:00 tłoczno. Na zboczach jest stromo, a na barierkach budek do zdjęć nie stawaj. Na kolację ryba z potoku albo pstrąg z hodowli pod Khau Phạ.',

@@ -44,6 +44,14 @@ dataCheck('places', function (need) {
     need(INTERESTS.every(function (k) { return fit[k] === PLACES[id].fit[k]; }),
       id + ': fit ' + JSON.stringify(PLACES[id].fit) + ' in places.js, ' + JSON.stringify(fit) + ' in ' + path);
   });
+  // and the name its own note gives in the row „maps”, which the links „Trasa w Mapach Google” use (content/<id>.js); the
+  // checkpoint of a plan checks the names in Google Maps (plan B2: Mù Cang Chải by its market in the town, as the name of
+  // the commune leads to the commune's point, about 2 km east of the town)
+  OWN_NOTES.forEach(function (path) {
+    var id = path.replace(/^research\/|-2026-10\.md$/g, ''), m = /^\| maps \| [`']*([^`'|]+?)[`']* \|/m.exec(readFile(path));
+    need(m && CONTENT[id].maps === m[1], id + ': maps ' + JSON.stringify(CONTENT[id].maps) + ' in content/' + id + '.js, ' +
+      (m ? JSON.stringify(m[1]) : 'no row „maps”') + ' in ' + path);
+  });
 });
 
 dataCheck('travel', function (need) {
