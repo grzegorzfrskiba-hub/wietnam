@@ -410,6 +410,33 @@ contentCheck('english names', function (need) {
   });
 });
 
+/* The interface in English (site2/src/en/ui.js, finding 8): UI.en has exactly the keys of UI.pl (finding 13), each with the
+   values the page fills in ({name}) of its Polish text, the same numbers and Vietnamese names (finding 14), in British
+   English for every passport (findings 15 and 16); a road text reads right both ways, as in Polish. */
+contentCheck('english interface', function (need) {
+  var pl = UI.pl, en = UI.en;
+  function slots(t) { return (t.match(/\{[a-z]+\}/g) || []).sort().join(' '); }
+  Object.keys(pl).forEach(function (k) { need(k in en, 'UI.en[\'' + k + '\'] is missing'); });
+  Object.keys(en).forEach(function (k) {
+    var w = 'UI.en[\'' + k + '\']', v = en[k];
+    if (!(k in pl)) { need(false, w + ' is no key of UI.pl'); return; }
+    need(typeof v === 'string' && v.trim() !== '', w + ' is empty');
+    need(slots(v) === slots(pl[k]), w + ': fills in ' + (slots(v) || 'nothing') + ', the Polish ' + (slots(pl[k]) || 'nothing'));
+    englishProblems(w, v).concat(factProblems(w, pl[k], v)).forEach(function (p) { need(false, p); });
+    if (/^r\./.test(k)) need(!/(^|[^\p{L}])(uphill|downhill|back|at the end|at the start)(?![\p{L}])/iu.test(v), w + ' names a direction (' + v + '): a road text must read right both ways');
+  });
+  // the safety sentences in English too (decisions of 15.10.2026): the motorbike licence and permit of the 1968 convention,
+  // the exceptions by agreement, the risk as two facts, the passport as no deposit, the visa and the government's sites
+  need(/International Driving Permit under the 1968 Convention/.test(en['sw.note']) && /A car licence does not cover/.test(en['sw.note']) &&
+    /Check which convention your country issues it under/.test(en['sw.note']) &&
+    /Exceptions by agreement: a licence from an ASEAN country and a South Korean permit, though police at a check may not accept them straight away\.$/.test(en['sw.note']),
+    'UI.en sw.note: the motorbike licence and the permit of the 1968 convention, a car licence not enough, the convention of your country, the exceptions by agreement');
+  need(/\(WHO estimate\)\. Over 90% of those killed in 2023 died in crashes involving a motorbike \(national data\)\./.test(en['sw.risk']),
+    'UI.en sw.risk: the WHO estimate and the national data of 2023 as two facts');
+  need(/Do not leave your passport as a deposit/.test(en['sw.tips']), 'UI.en sw.tips: the passport is no deposit');
+  need(/your passport needs one/.test(en['know.visa']) && /only on the government sites/.test(en['know.visa']), 'UI.en know.visa: whether your passport needs a visa; the government sites only');
+});
+
 /* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex
    colour and no rgb() or rgba() with numbers (a triplet variable goes in as rgba(var(--black), 0.25)). */
 contentCheck('css colours', function (need) {

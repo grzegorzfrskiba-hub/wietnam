@@ -1,15 +1,16 @@
-/* The interface texts. Polish is the base language; another one would be UI.<code> with exactly these keys.
+/* The interface texts. Polish is the base language; English is UI.en in site2/src/en/ui.js, with exactly these keys (stage 5).
    {name} marks a value the page fills in. Counted words ('nights', 'f.places', 'f.flights', 'f.hikes') have three forms,
    picked by nightForm() in page.js: .one for 1; .few for numbers ending in 2–4 except 12–14; .many for the rest. */
 var UI = {};
 UI.pl = {
-  'doc.title': 'Wietnam po swojemu',
+  'doc.title': 'Route G · Wietnam po swojemu',
   'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.before': 'Przed wyjazdem',
   'nav.top': 'Na górę', 'nav.change': 'Zmień',
   'sum': '{term} · {days} dni · {level}',
   'hero.alt': 'Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình',
   'hero.eyebrow': 'Planer podróży po Wietnamie',
-  'hero.h1': 'Wietnam <em>po</em> swojemu',
+  'hero.h1': 'Route G',
+  'hero.tag': 'Wietnam po swojemu',
   'hero.lede': 'Ustaw termin, lotniska, to, co lubisz, i poziom przygody. Strona od razu ułoży trasę: miejsca, plan każdego dnia, przejazdy i mapę. Potem możesz ją poprawić i wysłać linkiem.',
   'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę',
 
@@ -115,7 +116,7 @@ UI.pl = {
   'n.flight_days': 'Lot {a} – {b} jest tylko {days}: zaplanuj pod niego ten dzień.', 'f.days_tts': 'we wtorki, czwartki i soboty',
   'n.solo_long': 'Po porannym planie w poprzednim miejscu zostaje długa droga i dotrzesz wieczorem. Żeby jechać za dnia, pomiń poranny plan.',
 
-  'pt.title': 'Wietnam po swojemu: {days} dni, {term}',
+  'pt.title': 'Route G: {days} dni, {term}',
   'pt.route': '{from} → {to}',
   'pt.profile': 'Co lubisz: {x}. Poziom: {lvl}.',
   'pt.any': 'po trochu wszystkiego',
@@ -260,5 +261,5 @@ UI.pl = {
   'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',
   'ft.notes.p': 'Czasy przejazdów to szacunki od drzwi do drzwi, z ok. 1½ godz. na lotnisku przy każdym locie. Połączenia sprawdzono w październiku 2026. Rozkłady lotów, godziny otwarcia, zasady na szlakach i stan morza sprawdź przed wyjazdem u przewoźnika i na miejscu. Trudne dni tylko z licencjonowanym przewodnikiem albo operatorem. Kontury mapy: Natural Earth, domena publiczna.',
   'ft.pd': 'domena publiczna',
-  'ft.copy': '© 2026 Wietnam po swojemu. Wszelkie prawa zastrzeżone.'
+  'ft.copy': '© 2026 Route G. Wszelkie prawa zastrzeżone.'
 };

@@ -88,7 +88,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
 .hero .eyebrow { color: var(--on-photo); opacity: 0.85; }
 .hero h1 { font-size: clamp(42px, 7.4vw, 92px); font-weight: 400; letter-spacing: -0.02em; margin-top: 10px; max-width: 16ch; }
-.hero h1 em { font-style: italic; }
+.hero-tag { margin-top: 6px; font: italic 400 clamp(22px, 2.8vw, 34px) var(--display); letter-spacing: -0.01em; }
 .hero-lede { margin-top: 14px; max-width: 54ch; font-size: clamp(16px, 1.5vw, 19px); opacity: 0.94; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .hero-cta a { font: 500 15px var(--body); text-decoration: none; padding: 11px 18px; border-radius: 6px; min-height: 44px; display: inline-flex; align-items: center; }
@@ -496,7 +496,8 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   <div class="hero-text">
     <div class="wrap">
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
-      <h1 data-i18n-html="hero.h1"></h1>
+      <h1 data-i18n="hero.h1"></h1>
+      <p class="hero-tag" data-i18n="hero.tag"></p>
       <p class="hero-lede" data-i18n="hero.lede"></p>
       <p class="print-link" id="print-link"></p>
       <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a></div>
