@@ -1,6 +1,6 @@
 # „Wietnam po swojemu” — instrukcja dla Claude
 
-**Status (14.10.2026):** etap 4 zrobiony: strona opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek (`noindex`). Następny krok: plan B1 partii B ([notes/plans/2026-10-14-etap-3b1-miejsca.md](notes/plans/2026-10-14-etap-3b1-miejsca.md)), potem plan B2 i etap angielski, zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** etap 3, partia B: plan B1 zrobiony i opublikowany pod https://grzegorzfrskiba-hub.github.io/wietnam/ (Yok Đôn, Mù Cang Chải, szlak Tà Năng–Phan Dũng w Đà Lạt, Mỹ Sơn w Hội An), dalej z `noindex`. Następny krok: plan B2 partii B (najpierw krótka sesja decyzji), potem etap angielski, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -34,8 +34,9 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 
 ## Jak sprawdzać
 
-- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie, także w trybie dat (ok. 100 s).
+- `bash tests/run.sh` → `ALL PASS`. Testy działają w JavaScriptCore, bo node nie ma. Test kombinacji sprawdza co 7. ustawienie; `bash tests/run.sh --full` sprawdza wszystkie, także w trybie dat (ok. 2,5 min).
 - `bash tools/report.sh > notes/raport-tras-RRRR-MM-DD.md`: przykładowe trasy do przeglądu.
+- `bash tools/liczby.sh [katalog źródeł]`: liczby ze wszystkich 134 784 tras do punktu kontrolnego (udział miejsc, noce, długie dni z lotem, zygzaki); ze starą kopią źródeł z `git archive` daje liczby „przed”.
 - `python3 site2/build.py` → `site2/out/web` (fragment do artifactu), `site2/out/pages` (GitHub Pages), `site2/out/offline/Wietnam-po-swojemu.html`.
 - Narzędzia Chrome bez okna działają na zbudowanej stronie z `site2/out/pages`:
   - `bash tests/shot.sh '<ustawienia z linku>' <szerokość> <plik.png> [wysokość]`: zrzut, domyślnie 2600 px wysokości;

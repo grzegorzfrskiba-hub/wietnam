@@ -59,7 +59,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 
 - **Spokojnie:** spacery, wycieczki jednodniowe, hotele i noclegi u gospodarzy, tylko łatwe jaskinie.
 - **Aktywnie (domyślny):** całodniowe trekkingi, noc u gospodarzy w górach albo w lodge'u przy parku, kajaki, pętla motocyklowa z kierowcą.
-- **Ekstremalnie:** wyprawy z noclegiem w jaskini albo w górach (Hang Én na dwa dni, Fansipan pieszo na dwa dni) i noc w dżungli nad Bàu Sấu w Cát Tiên. Stan na 14.10.2026: Tú Làn jest na stronie tylko w jeden dzień, a Tà Năng–Phan Dũng czeka na partię B.
+- **Ekstremalnie:** wyprawy z noclegiem w jaskini albo w górach (Hang Én na dwa dni, Fansipan pieszo na dwa dni) i noc w dżungli nad Bàu Sấu w Cát Tiên. Stan na 15.10.2026: Tú Làn jest na stronie tylko w jeden dzień; szlak Tà Năng–Phan Dũng to od planu B1 partii B trudna wersja dni 2 i 3 w Đà Lạt, a noc w lesie Yok Đôn trudna wersja dnia 2 (obie wyłączone w V–X).
 - **Jak działa poziom:** wybiera warianty dni (łatwy / zwykły / trudny), tak jak dziś wersja łagodna. Odblokowuje też moduły, które wymagają danego poziomu. Moduł jest dostępny od swojego poziomu wzwyż.
 - **Wyprawy** (jaskinie, dżungla, wielodniowe trekkingi) tylko z licencjonowanym operatorem lub przewodnikiem.
 - **Motocykl:**
@@ -205,5 +205,5 @@ Dziś nie budujemy produktu, ale nic nie zamyka drogi do większego projektu:
 - daty Tết na lata 2027–2031 i święta państwowe: [research/swieta-2026-10.md](../research/swieta-2026-10.md);
 - 45 dni bez wizy dla Polaków (uchwała 229/NQ-CP, do 14.08.2028): [research/wjazd-2026-10.md](../research/wjazd-2026-10.md);
 - samodzielna jazda motocyklem (prawo jazdy, kategorie, ubezpieczenia, kontrole w Hà Giang): [research/motocykl-2026-10.md](../research/motocykl-2026-10.md) i [research/hagiang-2026-10.md](../research/hagiang-2026-10.md);
-- noclegi w dżungli: Cát Tiên nad Bàu Sấu ([research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md)) i Cúc Phương ([research/cucphuong-2026-10.md](../research/cucphuong-2026-10.md)); Pù Mát w partii B;
+- noclegi w dżungli: Cát Tiên nad Bàu Sấu ([research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md)) i Cúc Phương ([research/cucphuong-2026-10.md](../research/cucphuong-2026-10.md)); noc w lesie Yok Đôn ([research/yokdon-2026-10.md](../research/yokdon-2026-10.md)); Pù Mát odłożony (14.10.2026: noc w lesie niepotwierdzona na 2026);
 - sezon wypraw jaskiniowych w Phong Nha: [research/phongnha-2026-10.md](../research/phongnha-2026-10.md).
