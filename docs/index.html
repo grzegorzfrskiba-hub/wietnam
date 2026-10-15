@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c6a5a'/%3E%3Cpath d='M8 50 15 30 21 38 30 13 39 33 45 24 56 50z' fill='%23fff'/%3E%3C/svg%3E">
 <meta name="robots" content="noindex">
-<meta name="description" content="Ustaw termin, lotniska, to, co lubisz, i poziom przygody, a strona ułoży trasę po Wietnamie: miejsca, plan dni, przejazdy i mapę.">
+<meta name="description" content="Set your dates, your airports, what you like and how adventurous you are, and the page plans a route around Vietnam: the places, a plan for each day, the journeys and a map.">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="pl_PL">
+<meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://grzegorzfrskiba-hub.github.io/wietnam/">
-<meta property="og:title" content="Wietnam po swojemu">
-<meta property="og:description" content="Ustaw termin, lotniska, to, co lubisz, i poziom przygody, a strona ułoży trasę po Wietnamie: miejsca, plan dni, przejazdy i mapę.">
+<meta property="og:title" content="Route G · Vietnam, up to you">
+<meta property="og:description" content="Set your dates, your airports, what you like and how adventurous you are, and the page plans a route around Vietnam: the places, a plan for each day, the journeys and a map.">
 <meta property="og:image" content="https://grzegorzfrskiba-hub.github.io/wietnam/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình">
+<meta property="og:image:alt" content="A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình">
 <meta name="twitter:card" content="summary_large_image">
-<title>Wietnam po swojemu</title>
+<title>Route G · Vietnam, up to you</title>
 <style>
 body { margin: 0; }
 /* IBM Plex Sans, IBM Plex Mono and Newsreader under the SIL Open Font License 1.1 (OFL-IBM-Plex.txt, OFL-Newsreader.txt):
@@ -129,13 +129,20 @@ ul, ol { padding: 0; list-style: none; }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
 .hero .eyebrow { color: var(--on-photo); opacity: 0.85; }
 .hero h1 { font-size: clamp(42px, 7.4vw, 92px); font-weight: 400; letter-spacing: -0.02em; margin-top: 10px; max-width: 16ch; }
-.hero h1 em { font-style: italic; }
+.hero-tag { margin-top: 6px; font: italic 400 clamp(22px, 2.8vw, 34px) var(--display); letter-spacing: -0.01em; }
 .hero-lede { margin-top: 14px; max-width: 54ch; font-size: clamp(16px, 1.5vw, 19px); opacity: 0.94; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .hero-cta a { font: 500 15px var(--body); text-decoration: none; padding: 11px 18px; border-radius: 6px; min-height: 44px; display: inline-flex; align-items: center; }
 .hero-cta .primary { background: var(--on-photo); color: var(--photo-bg); }
 .hero-cta .ghost { color: var(--on-photo); border: 1px solid rgba(var(--white), 0.6); }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+/* the language switch (stage 5): EN · PL in the photo's top right corner, each at least 44 px for a finger, the active one
+   underlined; it scrolls with the page */
+.lang-switch { position: absolute; z-index: 2; top: 4px; right: calc(var(--gutter) - 12px); display: flex; align-items: center; color: var(--on-photo); font: 500 13px var(--mono); letter-spacing: 0.08em; text-shadow: 0 1px 10px rgba(var(--black), 0.45); }
+.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
+.lang-switch button:hover, .lang-switch button[aria-pressed="true"] { opacity: 1; }
+.lang-switch button[aria-pressed="true"] { text-decoration: underline 2px; text-underline-offset: 5px; }
+.lang-switch span { opacity: 0.7; }
 
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
@@ -217,7 +224,7 @@ footer .ft-copy { margin-top: 18px; }
 .facts .f-budget a { display: grid; gap: 2px; color: inherit; text-decoration: none; }
 .facts .f-budget b { font-size: clamp(24px, 2.5vw, 32px); }   /* the widest form, dd–ddd mln VND, fits its column (tests/probes/before.js) */
 .facts .f-budget span { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
-/* Before the trip: the budget, what to book, entry and health, what to pack; two columns on a wide screen */
+/* Before the trip: the budget, what to book, what is worth knowing, what to pack; two columns on a wide screen */
 .before { display: grid; gap: 28px; }
 @media (min-width: 900px) { .before { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 48px; } }
 .b-part { display: grid; gap: 10px; align-content: start; }
@@ -319,6 +326,8 @@ footer .ft-copy { margin-top: 18px; }
 .pin.on .m-label { fill: var(--c); }
 .map-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font: 12px var(--mono); color: var(--muted); }
 .map-legend span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+/* the sentence about the scales may break: in English it is wider than the map on a phone of 320 px */
+.map-legend .map-note { white-space: normal; }
 .map-legend svg { display: block; }
 
 .stops { display: grid; gap: 22px; min-width: 0; }
@@ -462,6 +471,10 @@ footer a { color: var(--muted); }
   .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
   .off-list li > .btn-small { grid-column: 2; justify-self: start; }
 }
+/* the narrowest phones (320 px): the line over the name, longest in Polish, starts under the language switch */
+@media (max-width: 359px) {
+  .hero-text { padding-top: 54px; }
+}
 html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 .secnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
 .secnav .wrap { display: flex; align-items: center; gap: 18px; }
@@ -496,7 +509,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
@@ -532,14 +545,16 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 </head>
 <body>
 
-<noscript><p class="noscript">Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.</p></noscript>
+<noscript><p class="noscript" lang="en">This page plans your route in the browser and needs JavaScript: turn it on in your browser’s settings.</p><p class="noscript" lang="pl">Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.</p></noscript>
 <header class="hero" id="top">
   <img src="img/ninhbinh_1.jpg" srcset="img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w" sizes="(max-width: 700px) 200vw, 100vw" alt="" data-i18n-alt="hero.alt" width="1920" height="1282" fetchpriority="high">
   <span class="hero-where">Tràng An, Ninh Bình</span>
+  <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
   <div class="hero-text">
     <div class="wrap">
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
-      <h1 data-i18n-html="hero.h1"></h1>
+      <h1 data-i18n="hero.h1"></h1>
+      <p class="hero-tag" data-i18n="hero.tag"></p>
       <p class="hero-lede" data-i18n="hero.lede"></p>
       <p class="print-link" id="print-link"></p>
       <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a></div>
@@ -1294,6 +1309,9 @@ var TET_MARGIN_DAYS = 7;   // the week before and after Tết is busy too: peopl
      research/sezony-2026-10.md;
    - gem, skip, instead: tips (skip and instead together). */
 var CONTENT = {};
+// the English texts of the places (stage 5): site2/src/en/content/<id>.js, CONTENT_EN.<id> with the same text fields
+// (localContent in page.js lays them over the Polish ones)
+var CONTENT_EN = {};
 var PACES = ['travel', 'hike', 'nature', 'boat', 'culture', 'rest'];
 // what a day or an event adds to the list of what to pack (UI keys p.<code>): socks against leeches, a torch, swimwear for a
 // river or a cave swum through
@@ -1665,7 +1683,7 @@ CONTENT.mucangchai = {
     { p: 1, o: 1, pace: 'travel', t: 'Tarasy o zachodzie słońca', d: 'Zamelduj się u gospodarzy w La Pán Tẩn albo w miasteczku. Ok. 16:00 wzgórze Móng Ngựa, 2 km od centrum: tarasy ułożone w podkowę, najpiękniejsze przed zachodem słońca, a po 17:00 tłoczno. Na zboczach jest stromo, a na barierkach budek do zdjęć nie stawaj. Na kolację ryba z potoku albo pstrąg z hodowli pod Khau Phạ.',
       rain: 'po deszczu ścieżki na zboczach Móng Ngựa są śliskie: zostań na górnym punkcie widokowym albo przełóż tarasy na jutro.' },
     { p: 2, o: 2, pace: 'hike', cost: ['mucangchai.trek'], t: 'Wioski i tarasy La Pán Tẩn', d: 'Całodniowa wędrówka z lokalnym przewodnikiem: z Chế Cu Nha przez tarasy, las i wioski Hmông do La Pán Tẩn, ok. 10 km, z obiadem po drodze. Na koniec wzgórze Mâm Xôi, tarasy ułożone jak taca kleistego ryżu, skąd ok. 16:00 zabierze cię auto. Po deszczu groble między tarasami są śliskie, więc weź buty z dobrą podeszwą.',
-      rain: 'w ulewie zamiast wędrówki autem po punktach widokowych Mâm Xôi i Kim Nọi, a pieszo tylko krótkie odcinki po betonowych drogach.',
+      rain: 'w ulewie autem po punktach widokowych Mâm Xôi i Kim Nọi, a pieszo tylko krótkie odcinki po betonowych drogach.',
       easy: { pace: 'nature', cost: ['mucangchai.car'], t: 'Punkty widokowe autem', d: 'Autem z kierowcą po punktach widokowych: rano Mâm Xôi w La Pán Tẩn (ostatni odcinek mototaksówką), potem tarasy i skała Kim Nọi, ok. 300 m pieszo od drogi, i bambusowy las Mồ Dề, 3,5 km od miasteczka.' } },
     { p: 3, o: 3, pace: 'nature', cost: ['mucangchai.car', 'mucangchai.paragliding'], t: 'Nad doliną Lìm Mông', d: 'Rano na przełęcz Khau Phạ, ok. 20 km od miasteczka, z widokiem na tarasy doliny Lìm Mông. Kto chce, leci stąd tandemem paralotnią z pilotem: 10–15 minut nad tarasami. Loty zależą od wiatru, więc miej w zapasie drugi termin. Po południu dolina Lìm Mông i Tú Lệ: cốm, w sezonie prosto z pola, i kąpiel w gorących źródłach.',
       rain: 'w deszczu paralotnie nie latają, a przełęcz tonie w chmurach: zostań w Tú Lệ przy gorących źródłach albo zamień ten dzień z innym.' }
@@ -1677,7 +1695,7 @@ CONTENT.mucangchai = {
     { from: [4, 25], to: [6, 15], t: 'Pora wody: tarasy zalewa się pod sadzenie ryżu, najwcześniej w Tú Lệ pod koniec kwietnia, w wioskach Mù Cang Chải w maju i czerwcu, a w suchy rok dopiero na początku lipca.' },
     { from: [6, 1], to: [10, 10], warn: true, pack: ['leeches'], t: 'Pora ulew i sztormów: na szosie 32 i na przełęczy Khau Phạ zdarzają się osuwiska, jak 1–3 października 2025, gdy droga stała trzy dni. Dzień wcześniej sprawdź komunikaty i miej dzień zapasu; na groblach są błoto i pijawki.' },
     { from: [8, 20], to: [10, 20], t: 'Złote tarasy: ryż dojrzewa najpierw w Tú Lệ i dolinie Lìm Mông (koniec sierpnia), potem w La Pán Tẩn i Chế Cu Nha (do połowy października). Na przełomie sierpnia i września trwa festiwal z lotami paralotni nad Khau Phạ i flagą na tarasach 2 września. To jedyny tłok w roku, więc nocleg i lot zarezerwuj kilka tygodni wcześniej.' },
-    { from: [12, 1], to: [2, 29], warn: true, t: 'Zimna pora: noce w miasteczku ok. 9 °C, a w falach chłodu na przełęczy i w La Pán Tẩn szron. Tarasy stoją po żniwach bez ryżu, za to kwitnie wtedy tớ dày, a doliny często wypełnia morze chmur.' }
+    { from: [12, 1], to: [2, 29], warn: true, t: 'Zimna pora: noce w miasteczku ok. 9 °C, a w falach chłodu na przełęczy i w La Pán Tẩn szron. Tarasy stoją po żniwach bez ryżu, za to w XII–I kwitnie tớ dày, a doliny często wypełnia morze chmur.' }
   ]
 };
 
@@ -1711,7 +1729,7 @@ CONTENT.phongnha = {
     { p: 1, o: 1, pace: 'travel', t: 'Nad rzeką Son', d: 'Nocleg w miasteczku Phong Nha nad rzeką Son, ok. godziny od lotniska Đồng Hới. Wieczorem rowerem po dolinie Bồng Lai, wśród pól i farm; wiele noclegów pożycza rowery za darmo.' },
     { p: 2, o: 2, pace: 'hike', cost: ['phongnha.paradise7'], t: '7 km w głąb Paradise Cave', d: 'Całodniowa trasa ośrodka Paradise Cave (Động Thiên Đường): pierwszy kilometr drewnianą kładką, dalej z przewodnikiem i czołówką w ciemności, 7 km w głąb jaskini, z obiadem w środku. Sprzęt wydają o 8:00, koniec ok. 14:30–16:00. Trasa jest od 16 lat i nie dla osób z chorobami serca albo nadciśnieniem. W porze deszczowej woda podnosi się i wyprawa zawraca po ok. 4 km.',
       rain: 'kilometr kładki w Paradise Cave, która leży wysoko i działa prawie zawsze; przy kilkudniowych ulewach park wstrzymuje trasę 7 km i łodzie do jaskini Phong Nha.',
-      easy: { pace: 'boat', cost: ['phongnha.cave', 'phongnha.paradise'], t: 'Łodzią do jaskini Phong Nha i kładką przez Paradise Cave', d: 'Rano łódź z przystani w miasteczku: pół godziny rzeką Son, potem ok. 1 200 m podziemnej rzeki, już na wiosłach, i suche komory na pomostach, razem ok. 2,5 godziny. Po południu Paradise Cave: autko elektryczne pod górę, schody w dół i kilometr drewnianej kładki wśród nacieków; czynne mniej więcej 7:30–16:00.' },
+      easy: { pace: 'boat', cost: ['phongnha.cave', 'phongnha.paradise'], t: 'Łodzią do jaskini Phong Nha i kładką przez Paradise Cave', d: 'Rano łódź z przystani w miasteczku: pół godziny rzeką Son, potem ok. 1 200 m podziemnej rzeki, już na wiosłach, i suche komory na pomostach, razem ok. 2,5 godziny. Po południu Paradise Cave: autko elektryczne, potem pieszo pod górę, schody w dół i kilometr drewnianej kładki wśród nacieków; czynne mniej więcej 7:30–16:00.' },
       hard: { pace: 'hike', late: true, off: [9, 10, 11], cost: ['phongnha.hangen'], pack: ['swim'], t: 'Hang Én: w dół do Rào Thương i noc w jaskini',
         rain: 'przy ulewach Oxalis odwołuje wyprawę, a woda w Hang Én opada dopiero po kilku dniach: zostaje kilometr kładki w Paradise Cave, która leży wysoko i działa prawie zawsze.', d: 'Dwudniowa wyprawa z Oxalis, jedynym operatorem z pozwoleniem prowincji na tę trasę, z przewodnikami i asystentami bezpieczeństwa: strome zejście do potoku Rào Thương, brody, wioska Đoòng, dżunglą do jaskini Nước Lạnh i nocleg w obozie w Hang Én, z kąpielą w jeziorku. Oxalis przyjmuje osoby w wieku 16–70 lat w dobrej kondycji. Sơn Đoòng, największa jaskinia świata, jest wyprzedana na kilka lat naprzód.',
         next: { pace: 'hike', t: 'Hang Én: rano w jaskini, wyjście do drogi', d: 'Po śniadaniu tylna część jaskini i obiad w obozie, potem przez rzeki, ok. 30 przepraw w dwa dni, i 450 m podejścia do drogi, gdzie czeka auto. W Phong Nha ok. 18:00, więc tę noc spędzisz jeszcze tutaj, a w dalszą drogę ruszysz następnego dnia.' } } },
@@ -1835,8 +1853,8 @@ CONTENT.yokdon = {
       rain: 'w burzy łódź nie wypłynie: zostań dłużej w Buôn Ma Thuột, w Muzeum Kawy i w muzeum Đắk Lắk o ludach Wyżyny Centralnej, a do parku dojedź na wieczór.',
       solo: { pace: 'nature', cost: ['yokdon.boat', 'yokdon.elephants'], t: 'Yok Đôn wieczorem i rano', d: 'Dotrzyj do parku po południu i zamelduj się w domu gościnnym. O zachodzie łódź po Sêrêpốk. Rano o 8:00 ruszasz z przewodnikiem parku pieszo za słoniami, które same szukają jedzenia w lesie; koło 11:00 wracasz i dalej w drogę.' } },
     { p: 2, o: 2, pace: 'hike', cost: ['yokdon.elephants', 'yokdon.trek'], t: 'Pieszo za słoniami', d: 'O 8:00 z przewodnikiem parku pieszo w las, tam, gdzie słonie były ostatnio widziane. Słonie przez lata woziły turystów, a od 2018 roku chodzą wolno po lesie i same szukają jedzenia: patrzysz z odległości, bez jazdy, kąpieli i karmienia. Po obiedzie znów z przewodnikiem przez suchy las, z kąpielą w strumieniu. Do lasu park wpuszcza tylko z przewodnikiem.',
-      rain: 'rano słonie jak zwykle, w pelerynie, a po południu, gdy przyjdzie burza, zamiast lasu lekcja gotowania w kuchni rodziny Ê Đê, 700 metrów od parku.',
-      easy: { pace: 'nature', cost: ['yokdon.elephants', 'yokdon.cooking'], t: 'Słonie rano, kuchnia Ê Đê po południu', d: 'Rano pół dnia za słoniami, 8:00–11:00, z przewodnikiem parku i transportem z biura do lasu. Po południu lekcja gotowania u rodziny Ê Đê w Buôn Jang Lành, 700 metrów od parku: razem z gospodarzami gotujesz i jesz obiad.' },
+      rain: 'rano słonie jak zwykle, w pelerynie, a po południu, gdy przyjdzie burza, lekcja gotowania w kuchni rodziny Ê Đê, 700 m od parku.',
+      easy: { pace: 'nature', cost: ['yokdon.elephants', 'yokdon.cooking'], t: 'Słonie rano, kuchnia Ê Đê po południu', d: 'Rano pół dnia za słoniami, 8:00–11:00, z przewodnikiem parku i transportem z biura do lasu. Po południu lekcja gotowania u rodziny Ê Đê w Buôn Jang Lành, 700 m od parku: razem z gospodarzami gotujesz i jesz obiad.' },
       hard: { pace: 'hike', late: true, off: [5, 6, 7, 8, 9, 10], cost: ['yokdon.camp'], pack: ['torch'], t: 'Noc w lesie Yok Đôn', d: 'Noc w lesie z przewodnikiem parku: pieszo przez suchy las do obozu, zwykle przy wodospadzie Thác Phật, 8 km od siedziby, i nocleg w hamaku albo w namiocie parku. Słonie chodzą tu wolno, więc trzymaj się wskazówek przewodnika. W drogę ruszysz koło południa: nie rezerwuj na ten dzień wczesnego lotu. Słonie z programu zobaczysz tylko w dniu przyjazdu, jeśli dotrzesz przed turą 13:30.' } }
   ],
   gem: 'Jedyny w Wietnamie park suchego lasu, w którym słonie po latach wożenia turystów chodzą wolno po lesie, a ty idziesz za nimi pieszo.',
@@ -1848,7 +1866,464 @@ CONTENT.yokdon = {
   ]
 };
 
-/* Every photo the page shows: caption (Polish, the exact place), author, licence and its page on Wikimedia Commons.
+/* Ba Bể: the English texts of the place (stage 5), the same fields and order as site2/src/content/babe.js where it has a
+   text. */
+CONTENT_EN.babe = {
+  name: 'Ba Bể', short: 'Ba Bể',
+  sub: 'A mountain lake ringed by Tày villages',
+  days: [
+    { t: 'Arrival at the lake', d: 'Check in at a homestay in a Tày stilt house in Pác Ngòi, and at dusk take a walk along the lakeshore.',
+      solo: { t: 'The lake in one afternoon', d: 'Arrive by early afternoon at the latest, check in at a homestay in a Tày stilt house in Pác Ngòi and, while it is still light, take a boat to Puông Cave and Bà Góa island. Dusk on the lakeshore, then breakfast in the morning and on your way.' } },
+    { t: 'On the water', d: 'By boat to Puông Cave, the Đầu Đẳng waterfall and Bà Góa island. In the afternoon, by bike through the villages.',
+      easy: { t: 'On the water', d: 'By boat to Puông Cave, the Đầu Đẳng waterfall and Bà Góa island. In the afternoon, a rest with your hosts and an unhurried stroll round the village.' } },
+    { t: 'Villages high above the lake', d: 'A half-day hike with a local guide to Tày and Dao villages on the slopes above the lake. Ask your hosts about an evening of Then singing.',
+      easy: { t: 'A quiet morning by the lake', d: 'A short boat ride to a neighbouring Tày village and a cooking class with your hosts. Ask about an evening of Then singing.' } }
+  ],
+  gem: 'A night in a Tày stilt house on the lakeshore.'
+};
+
+/* Cao Bằng: the English texts of the place (stage 5), the same fields and order as site2/src/content/caobang.js where it has
+   a text. */
+CONTENT_EN.caobang = {
+  name: 'Cao Bằng', short: 'Cao Bằng',
+  sub: 'The Bản Giốc waterfall and the karst borderlands',
+  days: [
+    { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.',
+      self: { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Pick up your hired motorbike the same evening. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.' } },
+    { t: 'Angel’s Eye and Pác Bó', d: 'Núi Mắt Thần – a mountain with a hole right through its summit, rising above a grassy valley – and the clear, green stream at Pác Bó by the border.',
+      self: { t: 'Angel’s Eye and Pác Bó by motorbike', d: 'By motorbike to Núi Mắt Thần – a mountain with a hole right through its summit, rising above a grassy valley – and to the clear, green stream at Pác Bó by the border. Be back before dark: the mountain roads are unlit.' } },
+    { t: 'Lakes, a pass, a waterfall and a cave', d: 'In the morning the chain of Thang Hen karst lakes and the hairpin bends of the Mã Phục pass, at midday the Bản Giốc waterfall, and in the afternoon Ngườm Ngao Cave. You reach the waterfall at midday because in the dry season, from late November to early May, power stations upstream can hold back the water in the morning, and the flow peaks at about 11:00–14:30. A night in Khuổi Ky, a Tày village of stone houses.',
+      self: { t: 'Lakes, a pass, a waterfall and a cave by motorbike', d: 'In the morning, the Thang Hen karst lakes and the Mã Phục pass hairpins: ride down slowly, as the bends can be gravelly and hide oncoming lorries. At midday the Bản Giốc waterfall, because in the dry season power stations can hold back its water in the morning (the flow peaks at about 11:00–14:30), and in the afternoon Ngườm Ngao Cave. A night in Khuổi Ky; next morning, about 85 km to Cao Bằng city to return the motorbike.' } }
+  ],
+  gem: 'The stone houses of Khuổi Ky and the Thang Hen lakes.',
+  poi: { name: 'Bản Giốc' },
+  events: [
+    { t: 'The best time for Bản Giốc: in late September and early October the waterfall spreads wide and the rainy season is coming to an end.' }
+  ]
+};
+
+/* Cát Bà & Lan Hạ Bay: the English texts of the place (stage 5), the same fields and order as site2/src/content/catba.js
+   where it has a text. */
+CONTENT_EN.catba = {
+  name: 'Cát Bà & Lan Hạ Bay', short: 'Cát Bà',
+  sub: 'A jungle-covered island on the quiet side of Hạ Long',
+  days: [
+    { t: 'To the island', d: 'Stay in Cát Bà town. In the evening, a walk along the waterfront, where the fishing boats moor, and dinner at one of the small eateries.' },
+    { t: 'Việt Hải and the national park', d: 'A hike up Ngự Lâm peak in Cát Bà National Park, then on by bike to Việt Hải, a car-free village ringed by cliffs.',
+      easy: { t: 'Việt Hải without the climb', d: 'By boat from Cát Bà town to the Việt Hải pier, then about 5 km along a flat road to the village – by electric buggy or bike – and lunch among the crags.' } },
+    { t: 'After the cruise, a quiet afternoon', d: 'The boat is back on Cát Bà at about 12:00. A long seafood lunch by the harbour, then the small Cát Cò beaches and a massage.' },
+    { t: 'A night on Lan Hạ Bay', d: 'A two-day cruise with one night on board: the boat sails from Cát Bà through Lan Hạ Bay as far as the quiet southern edge of Hạ Long Bay. You will go in among the karsts in a bamboo boat rowed by locals, and watch the sunset from the deck. Some cruises also call at a floating village.',
+      easy: { t: 'A night on Lan Hạ Bay', d: 'A two-day cruise with one night on board, on Lan Hạ Bay and the quiet southern edge of Hạ Long Bay. Choose a larger, steadier boat where every cabin has its own bathroom. You will go in among the karsts in a bamboo boat rowed by locals, and watch the sunset from the deck.' } }
+  ],
+  gem: 'Việt Hải, a car-free village inside the national park. Some cruises from Cát Bà call there, so if you are staying three nights, choose one of them.',
+  skip: 'Hạ Long cruises from Tuần Châu, and the crowded stops at Sửng Sốt Cave and on Ti Tốp island.',
+  instead: 'a cruise that starts on Cát Bà.'
+};
+
+/* Cát Tiên National Park: the English texts of the place (stage 5), the same fields and order as site2/src/content/cattien.js
+   where it has a text. */
+CONTENT_EN.cattien = {
+  name: 'Cát Tiên National Park', short: 'Cát Tiên',
+  sub: 'Lowland jungle, gibbons and a night safari',
+  days: [
+    { t: 'Into the jungle', d: 'Cross the Đồng Nai river on a small ferry to the park headquarters and spend the night inside the park. After dark, a night drive in search of deer and civets.',
+      solo: { t: 'The jungle by night and at dawn', d: 'Arrive by mid-afternoon at the latest and spend the night in the park; book the dawn gibbon walk with the park before you arrive, as places are limited. After dark, a night drive in search of deer and civets. Before dawn the next day, go out with a park ranger to hear the gibbons calling, then breakfast and on your way.' } },
+    { t: 'Gibbons and Crocodile Lake', d: 'Before dawn, go out with a park ranger to hear the gibbons calling, then follow a forest trail to Bàu Sấu, or Crocodile Lake. Book the gibbon walk with the park before you arrive, as places are limited, and the Bàu Sấu hike and its permit at the park headquarters no later than the day before.',
+      easy: { t: 'Cát Tiên at an easy pace', d: 'In the morning, a walk with a park guide to the giant Tung and Gõ trees, about 2 hours along a forest path. In the afternoon, the nature museum and the wildlife rescue centre right next to the park headquarters.' },
+      hard: { t: 'A night at Crocodile Lake', d: 'A night at the rangers’ station by Bàu Sấu, with a park guide. Leave the headquarters by 14:00: 9 km by car and 5 km on foot through the forest. In the evening, sunset over the lake and dinner with the rangers; the rooms are simple, with no phone signal. The park requires you to be fit. Next morning, 5 km back to the car and on your way around noon: do not book an early flight that day.' } }
+  ],
+  gem: 'One of the last large lowland forests in the south, four hours from Hồ Chí Minh City.',
+  events: [
+    { t: 'Rainy season in the park: take leech socks for the forest trails, as the park considers them necessary at this time of year.' }
+  ]
+};
+
+/* Cúc Phương: the English texts of the place (stage 5), the same fields and order as site2/src/content/cucphuong.js where
+   it has a text. Facts and sources: research/cucphuong-2026-10.md. */
+CONTENT_EN.cucphuong = {
+  name: 'Cúc Phương National Park', short: 'Cúc Phương',
+  sub: 'Rescued primates, thousand-year-old trees and the forest at night',
+  days: [
+    { t: 'Rescued primates and the forest at night', d: 'Check into one of the park’s rooms, at the gate or by Mạc lake. In the afternoon, the rescue centres, 500 m from the ticket office and usually open until 17:00: Delacour’s and Cát Bà langurs, gibbons, lorises, turtles and pangolins. In the evening, a night ride by electric buggy along the edge of the forest: fireflies, deer and lorises; gather at 18:30 for a 19:00 start, and guests staying in the park get priority.',
+      rain: 'the park museum and the visitor centre are under cover, and an umbrella comes in handy at the rescue centres; the park decides whether the night ride goes ahead in a downpour.',
+      solo: { t: 'The forest at night and rescued primates in the morning', d: 'Arrive by late afternoon at the latest and check into one of the park’s rooms at the gate. At 18:30, gather for the night ride by electric buggy: fireflies, deer and lorises. In the morning, from 8:00, the rescue centres, 500 m from the ticket office: Delacour’s langurs, gibbons and turtles; move on at around 10:30.' } },
+    { t: 'Deep into the forest, to the old trees', d: 'In the morning, 20 km by car to Bống, deep in the forest, where guests staying in the park are allowed in from 7:00. From there, a loop through primary forest: Động Sơn Cung Cave and the thousand-year-old Chò tree, 7 km and 2–3 hours, without a guide, with a torch for the cave. After lunch, the 700-year-old Chò chỉ tree and Động Người Xưa Cave, with traces of people from 7,500 years ago. Leave the forest before dark.',
+      rain: 'the flat path to the Sấu trees and the short one to the 700-year-old Chò chỉ, as wet limestone is slippery, and in the afternoon the park museum by the gate.',
+      easy: { t: 'Short paths to the old trees', d: 'By car to Bống and a short path to the 700-year-old Chò chỉ, 2 km there and back, half an hour to an hour. On the way back, Động Người Xưa Cave (300 m and about 200 steps) and a flat path among old Sấu and Đăng trees, 2 km, about an hour.' },
+      hard: { t: 'Up Mây Bạc with a park guide', d: 'Mây Bạc, the park’s highest peak (648 m): from Bống, a steep path through primary forest and over limestone slopes, 7 km there and back, 4–5 hours. A park guide is compulsory, and the route is only for fit adults. Leave the forest before dark: after 19:00 you may enter the deep forest only on a guided night tour.' } }
+  ],
+  gem: 'Vietnam’s oldest national park, with the thousand-year-old Chò tree and a centre that rescues the country’s rarest primates.',
+  skip: 'A day trip from Hà Nội: about 5.5 hours in a car and the forest at the hottest time of day.',
+  instead: 'a night in the park: the night ride in the evening, and the forest from 7:00 in the morning.',
+  events: [
+    { t: 'Butterfly and firefly season: butterflies usually from the second week of April to the end of May, with the most on sunny days after rain, and fireflies from late April to early June. The timing shifts from year to year, and this is the park’s busiest time, so book your stay early.' },
+    { t: 'Rainy season: the limestone slopes are slippery, and the forest has mosquitoes and leeches, so take leech socks and repellent. Before a storm or after downpours, the park may suspend overnight stays deep in the forest, so check the park’s notice the day before.' },
+    { t: 'Cool season: from December to February the nights in the forest are chilly and the days are often grey. Take a warm layer for the evening and the night ride.' }
+  ]
+};
+
+/* Highlands around Đà Lạt: the English texts of the place (stage 5), the same fields and order as site2/src/content/dalat.js
+   where it has a text. Facts and sources of the Tà Năng–Phan Dũng trail: research/tanang-2026-10.md. */
+CONTENT_EN.dalat = {
+  name: 'Highlands around Đà Lạt', short: 'Đà Lạt',
+  sub: 'Pine-covered hills, quiet guesthouses and cool nights',
+  days: [
+    { t: 'Dusk over the Tà Nung valley', d: 'Skip the centre and head west to the ridges above the Tà Nung valley to watch the pine-covered hills and coffee plantations at dusk. Stay at a guesthouse out of town, where the nights are quiet and cool, and starry in the dry season.' },
+    { t: 'Bidoup–Núi Bà cloud forest', d: 'A guided hike towards Hòn Giao among old pines, mossy forest and wild orchids. The trail is about 50 km away, so this takes the whole day. In the dry season, from November to April, the paths are firm underfoot; in the rainy season they can be slippery. Book your guide at the park’s tourist information centre.',
+      easy: { t: 'Pine forest and a lakeside monastery', d: 'The cable car from Robin Hill glides over the pine forest to Trúc Lâm, a quiet Zen monastery overlooking Tuyền Lâm lake. A stroll through the monastery gardens, then a leisurely cruise on the lake or a long lunch on the shore.' },
+      hard: { t: 'The Tà Năng–Phan Dũng trail: over the hills to a camp', d: 'Day one of a two-day trek on the Tà Năng–Phan Dũng trail. You leave before dawn, and from 9:00 walk with a guide through pine forests and rice fields up to grassy hills, about 12–15 km; porters carry the tents, food and water. Before dark, a tent on a hilltop, a barbecue dinner and a campfire. You may enter the trail only with an agency and a guide, and your luggage stays at your hotel in Đà Lạt.',
+        rain: 'when it pours in the mountains, the streams in the Phan Dũng forest rise suddenly: leave the decision to cross to your guide, and if the forecast is bad, put off the trek and stay in Đà Lạt.',
+        next: { t: 'The Tà Năng–Phan Dũng trail: down to the Phan Dũng forest', d: 'Sunrise over the hills, then down through pine forest and dry deciduous forest, with two stream crossings, to the Phan Dũng forest gate at about 15:30. From there the agency’s car takes you to Đà Lạt, about 4.5 hours, so you will reach your hotel around 20:00 and move on the next day. Many agencies end the trek at Liên Hương on the coast: choose one that returns to Đà Lạt.' } } },
+    { t: 'The summit of Lang Biang', d: 'A full-day hike up Núi Bà (2,167 m), the highest peak of Lang Biang mountain: through damp forest, then steep steps to the top, 4–6 hours’ walk there and back, only with a guide. In places the path disappears in the forest, and in the rainy season it is slippery, with leeches. When booking, ask whether the trail is open: if not, the park runs its own guided walk, 10 km through the forest from the Thiên Thai waterfall.',
+      easy: { t: 'The old railway and flower villages', d: 'A heritage train from Đà Lạt’s 1930s station to Trại Mát and the mosaic-covered Linh Phước Pagoda, then the greenhouses of the flower village of Vạn Thành.' } },
+    { t: 'Tea hills and a coffee plantation', d: 'Sunrise over the tea hills of Cầu Đất, then a family-run K’Ho coffee plantation at the foot of Lang Biang mountain.' }
+  ],
+  gem: 'Bidoup–Núi Bà. Most visitors to Đà Lạt never leave the town at all.',
+  skip: 'The Crazy House, the flower parks and the Datanla alpine coaster.',
+  instead: 'the pine forest and the villages out of town.'
+};
+
+/* Đà Nẵng with the Sơn Trà peninsula: the English texts of the place (stage 5), the same fields and order as
+   site2/src/content/danang.js where it has a text. Facts and sources: research/danang-2026-10.md. */
+CONTENT_EN.danang = {
+  name: 'Đà Nẵng and the Sơn Trà peninsula', short: 'Đà Nẵng',
+  sub: 'Red-shanked doucs on Sơn Trà, Mỹ Khê beach and the Marble Mountains',
+  days: [
+    { t: 'The Marble Mountains and an evening by the Hàn', d: 'The Marble Mountains (Ngũ Hành Sơn), south of the centre: up Thủy Sơn by the steps or the lift, Huyền Không Cave and the view from Vọng Giang Đài; open 7:00–17:30. In the evening, dinner by the Hàn river, and on Saturdays and Sundays at 21:00 the Dragon Bridge breathes fire and water.',
+      rain: 'the Museum of Cham Sculpture (7:00–17:00) instead of the slippery steps of the Marble Mountains.',
+      solo: { t: 'An evening by the Hàn and Sơn Trà in the morning', d: 'In the evening, dinner by the Hàn river, and on Saturdays and Sundays at 21:00 the show on the Dragon Bridge. At dawn, a swim at Mỹ Khê while the lifeguards are on duty, and from 7:30 by car up Sơn Trà: the road to Bàn Cờ, where you look out for doucs, and Linh Ứng Pagoda. The management closes the roads onto the peninsula in downpours, so check its notice that evening. Move on around 10:00.' } },
+    { t: 'Dawn at Mỹ Khê and doucs on Sơn Trà', d: 'In the morning, a swim at Mỹ Khê while the lifeguards are on duty, only between the flags, then the Museum of Cham Sculpture before noon. In the afternoon, by car up Sơn Trà, to Bàn Cờ and Linh Ứng Pagoda. Watch the treetops for red-shanked doucs, but do not go into the forest or feed the animals. The roads are open 7:30–17:30 (March–September until 18:30), and the management closes them in downpours: check its notice the day before.',
+      rain: 'the museum and the city, but stay off Sơn Trà: in downpours the management closes the roads onto the peninsula, sometimes for several days.' }
+  ],
+  gem: 'Cây đa di sản: an old banyan tree on Sơn Trà that you can reach only on foot from the junction by Bãi Bắc.',
+  skip: '“Treks” and “douc safaris” deep into the Sơn Trà forest, sold on the street and online: entering the forest without the management’s permission is illegal.',
+  instead: 'looking for doucs from the peninsula’s permitted roads during opening hours.',
+  events: [
+    { t: 'On Sơn Trà, lim xẹt trees bloom along Yết Kiêu Street from late March to June, and thàn mát trees in April and May. The doucs come down then for the flowers and young leaves, so they are easier to spot.' },
+    { t: 'The height of the rainy and storm season: in downpours the management closes the roads onto Sơn Trà, sometimes for several days, and the sea can be dangerous. Keep checking the notices and have a backup plan in the city.' },
+    { t: 'Outside the swimming season fewer lifeguards are on duty on the beaches, and the north-east monsoon brings waves and rip currents. Swim only where there are lifeguards, between the flags.' }
+  ]
+};
+
+/* Hà Giang and the loop over the Đồng Văn plateau: the English texts of the place (stage 5), the same fields and order as
+   site2/src/content/hagiang.js where it has a text. Facts and sources: research/hagiang-2026-10.md. */
+CONTENT_EN.hagiang = {
+  name: 'Hà Giang and the Đồng Văn plateau', short: 'Hà Giang',
+  sub: 'A loop over the Đồng Văn plateau and the Mã Pí Lèng pass',
+  poi: { name: 'Đồng Văn' },
+  days: [
+    { t: 'An evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a driver or a motorbike guide (easy rider) only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.',
+      rain: 'change nothing, but ask the agency about the forecast and the state of the QL4C road.',
+      easy: { t: 'An evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a car with a driver only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.' },
+      self: { t: 'An evening in Hà Giang', d: 'A night in Hà Giang town; in the evening, pick up the motorbike from the rental shop you will return it to after the loop. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone: the police immigration office in town issues the permit for about 230,000–300,000 VND, and your hotel can arrange it too. Always carry your passport, licence and International Driving Permit.' } },
+    { t: 'Through Quản Bạ and Yên Minh to Đồng Văn', d: 'By car with a driver, or riding pillion behind a motorbike guide, over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, with a view of the conical Cô Tiên hills, then through Yên Minh and the Thẩm Mã and Chín Khoanh hairpins, past the Vương family palace in Sà Phìn. About 150 km in all, 4–5 hours of driving, not counting stops. A night in Đồng Văn and an evening walk in the old quarter.',
+      rain: 'go more slowly and expect fog on the passes; in a downpour or a landslide warning, ask the agency about the state of the QL4C road.',
+      easy: { t: 'Through Quản Bạ and Yên Minh to Đồng Văn', d: 'By car with a driver over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, with a view of the two conical Cô Tiên hills, then through Yên Minh and the Thẩm Mã and Chín Khoanh hairpins. On the way, the Vương family palace in Sà Phìn. About 150 km in all, 4–5 hours of driving, not counting stops. A night in Đồng Văn, and an evening walk in the old quarter.' },
+      self: { t: 'Through Quản Bạ and Yên Minh to Đồng Văn by motorbike', d: 'About 150 km by motorbike, 4–5 hours of riding, not counting stops, so set off at 8:00 to arrive before dark: over the Bắc Sum pass and through Heaven’s Gate in Quản Bạ, Yên Minh, the Thẩm Mã and Chín Khoanh hairpins and past the Vương family palace in Sà Phìn to Đồng Văn. Bắc Sum has sharp bends and oncoming lorries. Police check this road, foreigners especially.' } },
+    { t: 'Lũng Cú and the village below the tower', d: 'A short day, about 50–60 km: by car or with a motorbike guide to Lũng Cú and its flag tower at the northernmost tip of Vietnam, up the steps or by electric buggy. Then Lô Lô Chải village below the tower, and back to Đồng Văn for a second night. Do not turn off onto roads towards the border.',
+      rain: 'in fog the view from the tower disappears, so stay longer in Đồng Văn’s old quarter and go to Lũng Cú when it clears.',
+      easy: { t: 'Lũng Cú and the village below the tower', d: 'A short day, about 50–60 km: by car with a driver to Lũng Cú and its flag tower at the northernmost tip of Vietnam, up by electric buggy. Then Lô Lô Chải village below the tower, and back to Đồng Văn for a second night.' },
+      self: { t: 'Lũng Cú and the village below the tower by motorbike', d: 'By motorbike, 26 km to Lũng Cú and back, about 50–60 km in all on narrow roads near the border: ride slowly and do not turn off onto roads towards the border. Up to the flag tower at Vietnam’s northern tip by the steps or by electric buggy, then Lô Lô Chải village below the tower and a second night in Đồng Văn.' } },
+    { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già', d: 'Over the Mã Pí Lèng pass, on a road cut into the slope above the canyon of the Nho Quế river, to Mèo Vạc. If the weather allows, a boat through the Tu Sản canyon. In the afternoon, through Mậu Duệ to Du Già, about 100 km in all, for a night at a homestay in a valley with a waterfall.',
+      rain: 'in a downpour skip the boat, which does not sail in storms, and on the pass go slowly and do not stop below steep slopes.',
+      easy: { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già', d: 'By car with a driver over the Mã Pí Lèng pass, on a road cut into the slope above the canyon of the Nho Quế river, to Mèo Vạc. If the weather allows, a boat through the Tu Sản canyon. In the afternoon, through Mậu Duệ to Du Già, about 100 km in all, for a night at a homestay in a valley with a waterfall.' },
+      self: { t: 'Mã Pí Lèng, the Nho Quế canyon and Du Già by motorbike', d: 'About 100 km by motorbike: over the Mã Pí Lèng pass above the canyon of the Nho Quế river to Mèo Vạc, then in the afternoon through Mậu Duệ to Du Già, for a night at a homestay. Lorries and construction machines use Mã Pí Lèng, and beyond Mèo Vạc the road is sometimes under repair, so set off in the morning and ride slowly. Take the boat through the Tu Sản canyon only in a life jacket.' } },
+    { t: 'From Du Già back to Hà Giang', d: 'In the morning, a walk to the waterfall in Du Già, then along the Lũng Hồ valley and through Thái An back to Hà Giang town, about 100 km. A night in town.',
+      rain: 'after a downpour the waterfall is swollen and slippery, so look at it only from the bank, and leave Du Già earlier to be back before dark.',
+      easy: { t: 'From Du Già back to Hà Giang', d: 'In the morning, a walk to the waterfall in Du Già, then by car with a driver along the Lũng Hồ valley and through Thái An back to Hà Giang town, about 100 km. A night in town.' },
+      self: { t: 'From Du Già back to Hà Giang by motorbike', d: 'In the morning, a walk to the waterfall in Du Già, then about 100 km by motorbike back to Hà Giang, along the Lũng Hồ valley and through Thái An; the stretch of road south of Du Già is sometimes in poor condition. Return the motorbike in town before dark.' } }
+  ],
+  gem: 'A boat through the Tu Sản canyon below the Mã Pí Lèng pass.',
+  skip: 'The “Mỏm đá sống ảo” rock ledge on Mã Pí Lèng: closed since July 2026, and photos on the edge of the drop are dangerous.',
+  instead: 'a roadside viewpoint on the pass, or a boat in the Tu Sản canyon.',
+  events: [
+    { t: 'Cold season: from December to February the nights on the plateau are cold, about 4–7 °C on average; there can be frost, freezing rain and even snow, and thick fog on the passes. Bring a warm jacket, a hat and gloves, and wait out icy roads.' },
+    { t: 'In spring, peach and plum trees and rapeseed bloom; on the plateau, peach and rapeseed are still in flower in March.' },
+    { t: 'The Khâu Vai market near Mèo Vạc: once a year, on the 27th day of the third lunar month, with a festival over 2–3 days. It falls between late April and mid-May (2025: 22–24 April, 2026: 12–13 May), so check the date for your year.' },
+    { t: 'Rainy season: downpours, fog, landslides and rockfalls on the QL4C road (2024, 2026). Set off in the morning, ask about the road after a downpour, and wait it out when there is a landslide warning.' },
+    { t: 'Buckwheat is in flower (tam giác mạch): pink and white fields on the plateau. The festival in Đồng Văn has a different date every year (2025: 29 November, 2026: 25 October); then rooms and roads are crowded, and traffic through Đồng Văn is sometimes stopped.' }
+  ]
+};
+
+/* Hà Nội: the English texts of the place (stage 5), the same fields and order as site2/src/content/hanoi.js where it has a
+   text. */
+CONTENT_EN.hanoi = {
+  name: 'Hà Nội', short: 'Hà Nội',
+  sub: 'The capital: the Old Quarter, temples and craft villages',
+  days: [
+    { t: 'The Old Quarter and Hoàn Kiếm lake', d: 'A walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter.',
+      solo: { t: 'An evening in Hà Nội', d: 'At dusk, a walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter, with street food for dinner: bún chả or bánh cuốn. In the morning, egg coffee, then on your way.' } },
+    { t: 'The Temple of Literature and the Museum of Ethnology', d: 'The Temple of Literature when it opens at 8:00, before the groups arrive. Then the Vietnam Museum of Ethnology, with full-size village houses in its garden (closed on Mondays).' },
+    { t: 'Đường Lâm village', d: 'A day trip to Đường Lâm, about 1½ hours each way: laterite lanes, a 17th-century communal house and lunch with a local family.' },
+    { t: 'Pottery and the river', d: 'The potters’ village of Bát Tràng on the Red River, and on the way into the city, at sunset, a walk across Long Biên Bridge.' }
+  ],
+  again: { t: 'Return to Hà Nội', d: 'A relaxed evening: at sunset, a walk across Long Biên Bridge over the Red River, and for dinner, phở cuốn (beef rolled in sheets of rice noodle) on Ngũ Xã Street by Trúc Bạch lake.' },
+  gem: 'Đường Lâm, an old laterite village west of the city.',
+  skip: 'Train Street: closed to tourists time and again, and crowded whenever it is open.',
+  instead: 'Long Biên Bridge at dawn.'
+};
+
+/* A night in Hà Nội: the English texts of the place (stage 5), the same fields and order as site2/src/content/hanoiStop.js
+   where it has a text. */
+CONTENT_EN.hanoiStop = {
+  name: 'A night in Hà Nội', short: 'Hà Nội',
+  sub: 'An overnight stop between two places',
+  days: [
+    { t: 'Street food and an early night', d: 'An evening in the city. Street food in the Old Quarter (bún chả, bánh cuốn, egg coffee), then an early night before you travel on.' }
+  ]
+};
+
+/* Hội An: the English texts of the place (stage 5), the same fields and order as site2/src/content/hoian.js where it has a
+   text. Facts and sources of Mỹ Sơn: research/myson-2026-10.md. */
+CONTENT_EN.hoian = {
+  name: 'Hội An', short: 'Hội An',
+  sub: 'The Old Town at dawn, vegetable-growing villages and canals among water palms',
+  days: [
+    { t: 'Hội An’s back roads', d: 'When you arrive, get a bike and ride to the vegetable village of Trà Quế, then on to the canals among the water coconut palms of Cẩm Thanh.',
+      rain: 'a lantern-making workshop, plus the covered market.',
+      easy: { t: 'Hội An at a gentle pace', d: 'A cooking class in the vegetable village of Trà Quế (by taxi), then the Old Town at dusk as the lanterns come on, a sampan ride on the Thu Bồn river and dinner before the crowds peak at around 19:00. Touristy, but beautiful all the same.' },
+      solo: { t: 'Hội An in the evening and at dawn', d: 'In the evening, the Old Town by lantern light, ideally before 19:00, ahead of the biggest crowds, and dinner by the Thu Bồn river. At 6:00 the next morning the same lanes are almost empty; then breakfast and on your way.' } },
+    { t: 'The Old Town at 6:00', d: 'See the Old Town before the day-trippers arrive: merchant houses and assembly halls in the morning light (you can go inside from about 8:00, with an Old Town ticket). The afternoon is free: a tailor, a cafe by the river, or a bike ride to An Bàng beach, 3–4 km from the Old Town.',
+      rain: 'the assembly halls in the Old Town, or fittings at the tailor’s.' },
+    { t: 'Mỹ Sơn at 6:00', d: 'At 5:00, a car with a driver to Mỹ Sơn, about an hour away. The ticket office opens at 6:00, and a buggy takes you 2 km into the valley, to the ruins of 4th–13th-century Cham temples in the jungle: walk round them while it is cool and empty, as the coaches arrive around 9:30. At 9:00, a Cham dance performance by tower G. Keep to the marked paths, as unexploded ordnance may lie on the slopes.',
+      rain: 'in light rain Mỹ Sơn stays open, but the paths are slippery and the lower temple groups are muddy; in downpours water floods the valley and the access road, and the management closes the site, so check its notice in the morning. In that case, go to the Museum of Cham Sculpture in Đà Nẵng (7:00–17:00), which holds sculptures from Mỹ Sơn.',
+      easy: { t: 'Mỹ Sơn, back by boat', d: 'A guided group tour: hotel pick-up around 7:00, at Mỹ Sơn around 9:00, with the Cham dance performance, then lunch, and around 13:30 back to Hội An by boat on the Thu Bồn. More comfortable than at dawn, but the valley will be hot and crowded.' } }
+  ],
+  again: { t: 'Return to Hội An', d: 'A quiet evening by the sea: by taxi or by bike through the rice fields to An Bàng beach, a walk along the shore and a seafood dinner at one of the beach eateries.' },
+  gem: 'Cẩm Thanh: canals among water coconut palms, a few kilometres from the Old Town.',
+  skip: 'Hội An’s Old Town at 19:00, when the crowds among the lanterns are at their biggest.',
+  instead: 'the Old Town at 6:00 and the villages around it.',
+  events: [
+    { t: 'The height of the flood season: after downpours the Thu Bồn river can flood the Old Town, as well as the road to Mỹ Sơn and the valley of the ruins, and halt sightseeing for several days. Keep checking forecasts and notices, and have a backup plan.' }
+  ]
+};
+
+/* Huế: the English texts of the place (stage 5), the same fields and order as site2/src/content/hue.js where it has a
+   text. */
+CONTENT_EN.hue = {
+  name: 'Huế', short: 'Huế',
+  sub: 'The Imperial City, tombs along the Perfume River and rice fields all around',
+  days: [
+    { t: 'The Imperial City', d: 'When you arrive, the Imperial City (Đại Nội): the walls, gates and courtyards of the former capital of the Nguyễn dynasty. The ticket offices close around 17:00, and from mid-March to mid-October around 17:30. Towards evening, a walk along the Perfume River and bún bò Huế for dinner.',
+      rain: 'the covered galleries of the Imperial City and the Museum of Royal Antiquities.' },
+    { t: 'Huế by bike', d: 'By bike along the Perfume River to the tombs of Minh Mạng and Tự Đức, and in the late afternoon to Thiên Mụ Pagoda.',
+      rain: 'the Đông Ba Market hall by the Perfume River, and bún bò Huế for lunch at one of the food stalls.',
+      easy: { t: 'Huế by boat and by car', d: 'By dragon boat up the Perfume River to Thiên Mụ Pagoda, then by car to the tombs of Minh Mạng and Tự Đức.' } },
+    { t: 'Around Huế', d: 'The tile-roofed bridge at Thanh Toàn among the rice fields, then the Tam Giang lagoon at sunset.',
+      rain: 'a cooking class in Huế, or by car to the old garden houses of Kim Long.' }
+  ],
+  gem: 'Thanh Toàn, a covered bridge from the 1770s among the rice fields east of Huế.',
+  events: [
+    { t: 'The height of the flood season: after downpours, water can flood the Citadel and close Đại Nội for several days. Check the forecasts and notices before sightseeing.' }
+  ]
+};
+
+/* Mekong Delta: the English texts of the place (stage 5), the same fields and order as site2/src/content/mekong.js where it
+   has a text. */
+CONTENT_EN.mekong = {
+  name: 'Mekong Delta', short: 'Mekong',
+  sub: 'Canals, orchards and a floating market from a small boat',
+  days: [
+    { t: 'The canals of Phong Điền', d: 'Check in at a canal-side homestay in Phong Điền, just outside Cần Thơ. In the late afternoon, take a small sampan through the canals among the fruit orchards.',
+      solo: { t: 'The delta at dusk and dawn', d: 'Reach your canal-side homestay in Phong Điền, just outside Cần Thơ, by mid-afternoon at the latest, and take a sampan through the canals among the orchards. The next morning at 5:30, a small boat to the Cái Răng floating market; be back at your homestay before 9:00, in time to move on.' } },
+    { t: 'The floating market at dawn', d: 'Set off in a small boat at 5:30 to reach Cái Răng ahead of the tour boats, then the side canals and a rice noodle workshop. In the afternoon, cycle around the islet of Cồn Sơn.',
+      easy: { t: 'The floating market at dawn', d: 'Set off in a small boat at 5:30 to reach Cái Răng ahead of the tour boats, then the side canals and a rice noodle workshop. In the afternoon, a leisurely boat trip to the islet of Cồn Sơn – fruit orchards and a home-cooked lunch.' } }
+  ],
+  gem: 'Cồn Sơn – an islet where the islanders themselves run the tourism, a short boat ride from Cần Thơ.',
+  skip: 'Day trips to Mỹ Tho and Cái Bè: coach groups at the same coconut-candy stops.',
+  instead: 'a night at a homestay in Phong Điền and the market at sunrise.',
+  events: [
+    { t: 'Fruit season: from June to August the orchards around Cần Thơ are full of fruit.' },
+    { t: 'High water: from September to November the tides are highest at about 6:00–8:00 and 17:00–19:00. Agree the time of the morning boat trip to the market with your hosts, going by the tide table.' }
+  ]
+};
+
+/* Mù Cang Chải: the English texts of the place (stage 5), the same fields and order as site2/src/content/mucangchai.js where
+   it has a text. Facts and sources: research/mucangchai-2026-10.md. */
+CONTENT_EN.mucangchai = {
+  name: 'Mù Cang Chải and the Khau Phạ pass', short: 'Mù Cang Chải',
+  sub: 'Hmông rice terraces, Mâm Xôi hill and paragliding over the Khau Phạ pass',
+  days: [
+    { t: 'Terraces at sunset', d: 'Check in at a homestay in La Pán Tẩn or in the town. At about 16:00, Móng Ngựa hill, 2 km from the centre: terraces laid out in a horseshoe, at their best before sunset, and crowded after 17:00. The slopes are steep; do not stand on the railings of the photo platforms. For dinner, stream fish or trout farmed below Khau Phạ.',
+      rain: 'after rain the paths on the slopes of Móng Ngựa are slippery: stay at the upper viewpoint or save the terraces for tomorrow.' },
+    { t: 'Villages and terraces of La Pán Tẩn', d: 'A full-day hike with a local guide: from Chế Cu Nha through terraces, forest and Hmông villages to La Pán Tẩn, about 10 km, with lunch on the way. You finish at Mâm Xôi hill, terraces laid out like a tray of sticky rice, where a car picks you up at about 16:00. After rain the dykes between the terraces are slippery, so wear shoes with a good grip.',
+      rain: 'in a downpour, go by car to the Mâm Xôi and Kim Nọi viewpoints, and walk only short stretches on concrete roads.',
+      easy: { t: 'Viewpoints by car', d: 'Round the viewpoints in a car with a driver: in the morning Mâm Xôi in La Pán Tẩn (the last stretch by motorbike taxi), then the terraces and rock of Kim Nọi, about 300 m on foot from the road, and the Mồ Dề bamboo forest, 3.5 km from the town.' } },
+    { t: 'Above the Lìm Mông valley', d: 'In the morning, up to the Khau Phạ pass, about 20 km from the town, overlooking the terraces of the Lìm Mông valley. If you like, take a tandem paragliding flight from here with a pilot: 10–15 minutes over the terraces. Flights depend on the wind, so keep a second date in reserve. In the afternoon, the Lìm Mông valley and Tú Lệ: cốm, fresh from the fields in season, and a soak in the hot springs.',
+      rain: 'paragliders do not fly in the rain, and the pass is lost in cloud: stay by the hot springs in Tú Lệ or swap this day with another.' }
+  ],
+  gem: 'Mâm Xôi hill in La Pán Tẩn: terraces laid out like a tray of sticky rice, part of a special national monument.',
+  skip: 'Mù Cang Chải as a day trip from Hà Nội or Sa Pa: 8–12 hours in a car for terraces seen through the window.',
+  instead: 'a night at a homestay in La Pán Tẩn: Mâm Xôi in the morning without the crowds, Móng Ngựa in the evening.',
+  events: [
+    { t: 'Water season: the terraces are flooded for planting rice, first in Tú Lệ at the end of April, in the villages of Mù Cang Chải in May and June, and in a dry year not until early July.' },
+    { t: 'Season of downpours and storms: landslides happen on Highway 32 and the Khau Phạ pass, as on 1–3 October 2025, when the road was closed for three days. Check the notices the day before and keep a spare day; expect mud and leeches on the dykes.' },
+    { t: 'Golden terraces: the rice ripens first in Tú Lệ and the Lìm Mông valley (late August), then in La Pán Tẩn and Chế Cu Nha (until mid-October). In late August and early September there is a festival, with paragliding flights over Khau Phạ and a flag on the terraces on 2 September. These are the only crowds of the year, so book a room and a paragliding flight a few weeks ahead.' },
+    { t: 'Cold season: nights in the town are about 9 °C, and in cold snaps there is frost on the pass and in La Pán Tẩn. After the harvest the terraces are bare, but in December–January the tớ dày blossoms, and a sea of clouds often fills the valleys.' }
+  ]
+};
+
+/* Ninh Bình: the English texts of the place (stage 5), the same fields and order as site2/src/content/ninhbinh.js where it
+   has a text. */
+CONTENT_EN.ninhbinh = {
+  name: 'Ninh Bình', short: 'Ninh Bình',
+  sub: 'Rowing boats among limestone karsts',
+  days: [
+    { t: 'Into the karst hills', d: 'Stay in the lanes behind Tam Cốc. If you get there by mid-afternoon at the latest, fit in a rowing-boat trip on the Vân Long wetlands; the last boats leave in the late afternoon.',
+      solo: { t: 'Karst hills in the evening and morning', d: 'Stay in the lanes behind Tam Cốc, and arrive by mid-afternoon at the latest so you can still fit in a rowing-boat trip on the Vân Long wetlands before the last boats leave. The next morning, be at the Tràng An boat wharf at 7:00, when it opens, take the boat route through the caves, then travel on.' } },
+    { t: 'Tràng An at 7:00', d: 'Be at the boat wharf when it opens, at 7:00, and take the longest route through the caves before the coaches arrive. Then by bike along the village lanes, or to Hoa Lư, the 10th-century capital, and the temples of its first kings (rebuilt in the 17th century).',
+      easy: { t: 'Tràng An at 7:00', d: 'Be at the boat wharf when it opens, at 7:00, and take the longest route through the caves before the coaches arrive; you do not have to row. Then by car to Hoa Lư, the 10th-century capital, and its temples.' } }
+  ],
+  gem: 'Delacour’s langurs on the Vân Long crags – among the rarest primates in the world.',
+  skip: 'The Hang Múa viewpoint at sunset: 500 steps and a shoulder-to-shoulder crowd.',
+  instead: 'Vân Long in the late afternoon.',
+  events: [
+    { t: 'Rainy and typhoon season: when the water in the Tràng An caves is high, the boats take an altered route, and before a storm, boat trips can be suspended for several days. Check the wharf’s notice the day before.' }
+  ]
+};
+
+/* Phong Nha: the English texts of the place (stage 5), the same fields and order as site2/src/content/phongnha.js where it
+   has a text. Facts and sources: research/phongnha-2026-10.md. */
+CONTENT_EN.phongnha = {
+  name: 'Phong Nha–Kẻ Bàng National Park', short: 'Phong Nha',
+  sub: 'Caves by boat and on foot, among karst valleys',
+  days: [
+    { t: 'By the Son river', d: 'You stay in the small town of Phong Nha, on the Son river, about an hour from Đồng Hới airport. In the evening, cycle round the Bồng Lai valley, among fields and farms; many places to stay lend bikes for free.' },
+    { t: '7 km into Paradise Cave', d: 'Paradise Cave (Động Thiên Đường) runs a full-day trek: the first kilometre along a wooden boardwalk, then with a guide and a head torch in the dark, 7 km into the cave, with lunch inside. Gear is handed out at 8:00; you finish around 14:30–16:00. Ages 16 and over; not for anyone with heart disease or high blood pressure. In the rainy season the water rises and the trek turns back after about 4 km.',
+      rain: 'the kilometre of boardwalk in Paradise Cave, which lies high up and is almost always open; when downpours go on for several days, the park suspends the 7 km trek and the boats to Phong Nha Cave.',
+      easy: { t: 'By boat to Phong Nha Cave and along the boardwalk in Paradise Cave', d: 'In the morning, a boat from the pier in town: half an hour on the Son river, then about 1,200 m of underground river, now under oars, and dry chambers along walkways, about 2.5 hours in all. In the afternoon, Paradise Cave: an electric buggy, then up the hill and down the steps to a kilometre of wooden boardwalk among the dripstone formations; open roughly 7:30–16:00.' },
+      hard: { t: 'Hang Én: down to Rào Thương and a night in the cave',
+        rain: 'in downpours Oxalis cancels the expedition, and the water in Hang Én takes several days to go down: that leaves the kilometre of boardwalk in Paradise Cave, which lies high up and is almost always open.', d: 'A two-day expedition with Oxalis, the only operator with the province’s permit for this route, with guides and safety assistants: a steep descent to the Rào Thương stream, fords, Đoòng village, through the jungle to Nước Lạnh Cave and a night at the camp in Hang Én, with a swim in a small lake. Oxalis takes fit people aged 16–70. Sơn Đoòng, the world’s largest cave, is sold out several years ahead.',
+        next: { t: 'Hang Én: the cave in the morning, then out to the road', d: 'After breakfast, the back of the cave and lunch at the camp, then across the rivers, about 30 crossings over the two days, and a 450 m climb to the road, where a car is waiting. You are back in Phong Nha around 18:00, so you spend this night here too and move on the next day.' } } },
+    { t: 'Phong Nha Cave by boat, and Hang Tối', d: 'In the morning, by boat from the pier in town to Phong Nha Cave: half an hour on the Son river, then about 1,200 m of underground river under oars. In the afternoon, the Chày river and Hang Tối: a 400 m zip line over the river, the cave in the dark, a mud bath, kayaking and a swim in the river, about 4 hours in all (zip line: minimum weight 40 kg).',
+      rain: 'the boardwalk in Paradise Cave or the botanical garden, which are almost always open; when downpours go on for several days, the boats to Phong Nha Cave, as well as Hang Tối, usually stop for 2–5 days.',
+      easy: { t: 'The botanical garden and the Bồng Lai valley', d: 'The park’s botanical garden, about 10 km from town: forest paths of up to 4 km, the Gió waterfall, over 30 m high, and sometimes monkeys in the treetops; with a park guide the route is 5 km. In the afternoon, by bike or by car round the Bồng Lai valley, among fields and farms.' } },
+    { t: 'Tú Làn in a day', d: 'An expedition with Oxalis to the Tú Làn caves: hotel pick-up at 7:00–7:30, 70 km west, then about 9 km on foot, 800 m in the caves, 15 m of ladder in a harness and 150 m of swimming along an underground river in a life jacket, with lunch in the valley. Back in Phong Nha around 17:30–19:00. Ages 16–70; book 1–2 weeks ahead.',
+      rain: 'the boardwalk in Paradise Cave or the botanical garden; when the rivers rise, Oxalis changes or cancels the Tú Làn trip, and the park closes Nước Moọc.',
+      easy: { t: 'The Nước Moọc stream', d: 'About 20 minutes by car from Phong Nha Cave: boardwalks along a turquoise stream, shallow swimming spots and kayaks; open roughly 8:00–15:30, in summer until 16:30.' } }
+  ],
+  gem: 'The underground river in Phong Nha Cave: once the engine is switched off, the boat carries on under oars.',
+  skip: 'A day trip from Huế: about 7 hours in a car for two caves.',
+  instead: 'two nights in Phong Nha, with the boat to Phong Nha Cave in the morning.',
+  events: [
+    { t: 'The vàng anh trees are in flower along the Nước Moọc stream.' },
+    { t: 'Peak season: the caves can be crowded, and a tropical storm can stop the boats to Phong Nha Cave, as well as Hang Tối, for several days. After downpours in Laos the Son river can run murky.' },
+    { t: 'Flood season: when the Son river rises, the park suspends the boats to Phong Nha Cave, as well as Hang Tối and Nước Moọc, usually for 2–5 days, while Paradise Cave is almost always open.' },
+    { t: 'Cool season: the days are often grey and drizzly, and the water in the rivers and caves is cold. Take a warm layer for the evening and a waterproof jacket.' }
+  ]
+};
+
+/* Phú Quốc’s quiet north: the English texts of the place (stage 5), the same fields and order as site2/src/content/phuquoc.js
+   where it has a text. */
+CONTENT_EN.phuquoc = {
+  name: 'Phú Quốc’s quiet north', short: 'Phú Quốc',
+  sub: 'Fishing villages, starfish shallows and a national park',
+  days: [
+    { t: 'Island pace', d: 'Stay on the north coast near Gành Dầu, away from the strip of resorts in the south. Sunset over the Gulf of Thailand.' },
+    { t: 'Starfish in the shallows, and the forest', d: 'In the morning, Rạch Vẹm, where starfish lie in the shallows (look, do not pick them up). They are easiest to see from November to April, when the sea is calm and the water clear. In the afternoon, the forest roads of Phú Quốc National Park, which covers most of the north.' },
+    { t: 'A day off', d: 'Nothing planned: a massage, a long lunch and a swim if the sea is calm. This is a good place to slow down.' },
+    { t: 'Fishing villages and an empty beach', d: 'The east coast: a crab lunch on the pier at Hàm Ninh, a pepper plantation, then sunset on Vũng Bầu beach.' }
+  ],
+  gem: 'The starfish shallows of Rạch Vẹm on the north coast.',
+  skip: 'Sunset Town, the cable car to Hòn Thơm and VinWonders in the south.',
+  instead: 'the north coast and the national park.',
+  events: [
+    { t: 'Starfish season: from November to April the sea at Rạch Vẹm is calm and the water clear, so the starfish are easy to see. Look, do not pick them up.' }
+  ]
+};
+
+/* Pù Luông: the English texts of the place (stage 5), the same fields and order as site2/src/content/puluong.js where it
+   has a text. */
+CONTENT_EN.puluong = {
+  name: 'Pù Luông', short: 'Pù Luông',
+  sub: 'Bamboo homestays, rice valleys and hikes along the ridges',
+  days: [
+    { t: 'Into the valleys', d: 'Check in at a bamboo homestay above the rice terraces in Bản Đôn or Kho Mường. In the evening, a walk around the village.' },
+    { t: 'Ridges, villages and a waterfall', d: 'A full-day hike with a guide: the turquoise pools of the Hiêu waterfall, Kho Mường village and the ridges between the valleys.',
+      easy: { t: 'The valleys from the road', d: 'By car with a driver along the road through the valleys, to the lower pools of the Hiêu waterfall (a short, easy walk), then Kho Mường village and a long lunch in a stilt house.' },
+      hard: { t: 'To the summit of Pù Luông', d: 'A full-day climb to the summit of Pù Luông (1,700 m): 8–9 hours through the forest. The ascent is steep, over 35 degrees in places, and there may be leeches in the forest. Go only with a guide: the nature reserve runs the climbs with local guides and limits numbers, so sign up early and ask about a one-day version. It is a day for fit walkers. If it rains, skip the summit: the wet path is slippery.' } },
+    { t: 'A quiet day in the valley', d: 'Bamboo waterwheels, a bamboo raft on the river, weaving in a stilt house and a long lunch with your hosts. After the harvest, mornings here can be misty and quiet.' }
+  ],
+  gem: 'The turquoise pools of the Hiêu waterfall.',
+  skip: 'Mai Châu: charming, but these days surrounded by guesthouses geared to coach tours.',
+  instead: 'Pù Luông, under two hours by road from Mai Châu.',
+  events: [
+    { t: 'Golden terraces: the rice here usually ripens from late May to mid-June. The timing shifts from year to year and varies between villages, so ask your hosts.' },
+    { t: 'Golden terraces: the rice here usually ripens from late September to early October. The timing shifts from year to year and varies between villages, so ask your hosts.' },
+    { t: 'Cool season: from December to February the days here are often grey and chilly, the mornings misty, and it is colder still on the summit of Pù Luông. Take a warm layer.' }
+  ]
+};
+
+/* Hồ Chí Minh City: the English texts of the place (stage 5), the same fields and order as site2/src/content/saigon.js where
+   it has a text. */
+CONTENT_EN.saigon = {
+  name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
+  sub: 'Cần Giờ mangroves, Chợ Lớn and Saigon behind the scenes',
+  days: [
+    { t: 'A breather', d: 'No plan, on purpose: rest after the journey, then coffee at a nearby cafe, a massage and the pool. At sunset, the Saigon Waterbus (if it is running) from Bạch Đằng pier upriver to Thảo Điền, and dinner by the water.',
+      solo: { t: 'An evening by the Saigon river', d: 'One night, with no forced plan: coffee at one of the cafes in the old apartment blocks, a massage, and at sunset the Saigon Waterbus (if it is running) from Bạch Đằng pier to Thảo Điền, then dinner by the water. In the morning, breakfast and on your way.' } },
+    { t: 'The Cần Giờ mangroves', d: 'A day trip south – about 2 hours by car, with a short ferry crossing at Bình Khánh – to the Cần Giờ mangrove forest, a UNESCO biosphere reserve. By boat through the Vàm Sát channels, up a birdwatching tower, then seafood on the beach at Cần Thạnh and back to the city.' },
+    { t: 'Saigon behind the scenes', d: 'In the morning, Chợ Lớn: Bình Tây Market, the incense coils of Thiên Hậu Temple and dim sum on Hà Tôn Quyền Street. In the afternoon, cafes in old apartment blocks, and in the evening dinner at the snail and seafood stalls on Vĩnh Khánh Street, in the former District 4.' }
+  ],
+  again: { t: 'Return to Hồ Chí Minh City', d: 'A relaxed evening: a stroll along the Nguyễn Huệ promenade from City Hall to the river, then dinner at the snail and seafood stalls on Vĩnh Khánh Street.' },
+  gem: 'Cần Giờ: a real mangrove forest within the city limits, with hardly any foreign tourists.',
+  skip: 'The Củ Chi tunnels on a big group tour, and Bến Thành Market.',
+  instead: 'Cần Giờ, and Bình Tây Market in Chợ Lớn.'
+};
+
+/* Sa Pa and Fansipan: the English texts of the place (stage 5), the same fields and order as site2/src/content/sapa.js where it
+   has a text. Facts and sources: research/sapa-2026-10.md. */
+CONTENT_EN.sapa = {
+  name: 'Sa Pa and Fansipan', short: 'Sa Pa',
+  sub: 'Terraces of the Mường Hoa valley, H’Mông and Giáy villages, and Fansipan, the roof of Indochina',
+  days: [
+    { t: 'A hillside town', d: 'Settle in at Sa Pa, a former French hill station about 1,500 m above sea level. In the evening, a stroll round the town. Even in summer the nights here are cool, so keep a warm layer to hand.' },
+    { t: 'Villages of the Mường Hoa valley', d: 'A full-day hike with a local guide: from Sa Pa down to Ý Linh Hồ and Lao Chải, then along the Mường Hoa stream to Tả Van, among the rice terraces of the H’Mông and Giáy. About 10 km, mostly downhill, with lunch at a family home in a village. From Tả Van you return by car.',
+      rain: 'choose a shorter stretch of the valley or put the hike off, as the paths between the terraces are slippery then, and in thick fog it is better to wait it out.',
+      easy: { t: 'Fansipan by cable car and Cát Cát village', d: 'In the morning, the cable car over the Mường Hoa valley up Fansipan, 3,143 m: go first thing, before the clouds come in, and take a warm jacket, a hat and gloves. Every year the cable car closes for maintenance for a week or longer (for three weeks in 2025), so check its notices before you come. In the afternoon, a walk down to Cát Cát village and its waterfall.' },
+      hard: { t: 'Fansipan on foot: to the camp at 2,800 m', d: 'Day one of a two-day climb up Fansipan, 3,143 m: from the Trạm Tôn pass through the forest, lunch at 2,200 m and, in the afternoon, a night at the camp at 2,800 m, with no electricity. Go only with a company that arranges the park permit, and with a guide who holds an entry card: you may not enter the forest on your own. The trail is steep and slippery, and suits people in good shape.',
+        rain: 'in a downpour or thunderstorm the company postpones the climb, and in storms the provincial tourism department orders a halt to treks into the mountains: stay in Sa Pa and take the cable car to the summit when it clears.',
+        next: { t: 'Fansipan on foot: the summit and back', d: 'In the morning, the climb to the summit, which you reach at about 10:00–10:30, then down to the camp for lunch and on to Trạm Tôn, back in Sa Pa at about 17:00. It is quicker to ride the cable car down from just below the summit (a one-way ticket costs as much as a return), reaching Sa Pa at about 12:00–13:00. From late November to February the summit can be icy, so take gloves and a warm jacket.' } } },
+    { t: 'Fansipan by cable car and Cát Cát village', d: 'In the morning, the cable car over the Mường Hoa valley up Fansipan, 3,143 m: go first thing, before the clouds come in, and take a warm jacket, a hat and gloves. Every year the cable car closes for maintenance for a week or longer (for three weeks in 2025), so check its notices before you come. In the afternoon, a walk down to Cát Cát village and its waterfall.',
+      rain: 'the cable car runs in the rain too, but the summit can be in cloud then: if the forecast is bad, swap this day with another.',
+      easy: { t: 'The Mường Hoa valley without the hike', d: 'In a car with a driver down the Mường Hoa valley through Ý Linh Hồ and Lao Chải to Tả Van, with short walks among the terraces and by the stream. Lunch with a family in Tả Van and, in the afternoon, if you feel like it, a Dao herbal bath in La Dao.' } },
+    { t: 'Waterfalls below the Ô Quy Hồ pass', d: 'In a car with a driver up the road to the Ô Quy Hồ pass: first the Thác Bạc waterfall, a few hundred steps from the road, then, from the gate of Hoàng Liên park, about 30 minutes along a forest path to Thác Tình Yêu, the Love Waterfall. Finally the pass, almost 2,000 m above sea level, with a view of the Hoàng Liên range if there is no fog.',
+      rain: 'after a downpour the path to Thác Tình Yêu is slippery, so stay at the Thác Bạc waterfall by the road or postpone the trip.' }
+  ],
+  gem: 'The hike down the Mường Hoa valley from Lao Chải to Tả Van, among the terraces of the H’Mông and Giáy.',
+  events: [
+    { t: 'Terraces full of water: in May and early June the fields of the Mường Hoa valley stand in water, and the villages are planting rice.' },
+    { t: 'Season of downpours: the trails are muddy, there are leeches in the forest, and landslides can close roads and sights, as in September 2024, when Typhoon Yagi closed them for six days. Take leech socks and a waterproof jacket.' },
+    { t: 'Golden terraces: the rice usually ripens from mid-August to the end of September, in Lao Chải and Tả Van most often in late August and early September. The timing shifts from year to year and varies between villages, so ask your hosts.' },
+    { t: 'Frosty season: from late November to February there can be ice on the summit of Fansipan, and sometimes snow, while nights in Sa Pa itself average 6–8 °C. Take a hat, gloves and a warm jacket.' }
+  ]
+};
+
+/* Yok Đôn: the English texts of the place (stage 5), the same fields and order as site2/src/content/yokdon.js where it has
+   a text. Facts and sources: research/yokdon-2026-10.md. */
+CONTENT_EN.yokdon = {
+  name: 'Yok Đôn National Park', short: 'Yok Đôn',
+  sub: 'Elephants without rides, dry forest and the Sêrêpốk river',
+  days: [
+    { t: 'To the forest on the Sêrêpốk', d: 'Check in at the park’s guesthouse by the headquarters, where every tour starts. In the afternoon, a boat on the Sêrêpốk river, 40–60 minutes. If you come through Buôn Ma Thuột, stop at the World Coffee Museum, built in the style of an Ê Đê longhouse.',
+      rain: 'in a storm the boat stays in: spend longer in Buôn Ma Thuột, at the World Coffee Museum and the Đắk Lắk Museum, on the peoples of the Central Highlands, and reach the park for the evening.',
+      solo: { t: 'Yok Đôn in the evening and morning', d: 'Reach the park in the afternoon and check in at the guesthouse. At sunset, a boat on the Sêrêpốk. At 8:00 the next morning you set off on foot with a park guide after the elephants, which find their own food in the forest; around 11:00 you are back and on your way.' } },
+    { t: 'On foot after the elephants', d: 'At 8:00, on foot into the forest with a park guide, to where the elephants were last seen. For years they carried tourists; since 2018 they have roamed the forest freely, finding their own food: you watch from a distance, with no riding, bathing or feeding. After lunch, through the dry forest with a guide again, with a swim in a stream. The park lets you into the forest only with a guide.',
+      rain: 'the elephants in the morning as usual, in a rain cape, and in the afternoon, when the storm comes, a cooking class in an Ê Đê family’s kitchen, 700 m from the park.',
+      easy: { t: 'Elephants in the morning, Ê Đê cooking in the afternoon', d: 'In the morning, half a day after the elephants, 8:00–11:00, with a park guide and a ride from the office to the forest. In the afternoon, a cooking class with an Ê Đê family in Buôn Jang Lành, 700 m from the park: you cook lunch with your hosts and eat it together.' },
+      hard: { t: 'A night in the Yok Đôn forest', d: 'A night in the forest with a park guide: on foot through the dry forest to a camp, usually by the Thác Phật waterfall, 8 km from the headquarters, and a night in a hammock or a park tent. Elephants roam free here, so follow the guide’s instructions. You move on around noon: do not book an early flight that day. You will see the programme’s elephants only on your arrival day, if you arrive before the 13:30 tour.' } }
+  ],
+  gem: 'The only dry-forest park in Vietnam where the elephants, after years of carrying tourists, roam the forest freely and you follow them on foot.',
+  skip: 'Elephant rides in Lắk, or photos with an elephant behind a fence in Buôn Đôn.',
+  instead: 'half a day on foot with a Yok Đôn park guide after elephants that have carried no one since 2018.',
+  events: [
+    { t: 'The height of the dry season: the forest sheds its leaves and is at its most open, but the days are hot, and the park lies lower than Buôn Ma Thuột. Set out at dawn and take water, a hat and sunscreen.' },
+    { t: 'Rainy season: storms come in the afternoon, so the forest and the elephants are better in the morning. Take a light rain cape and insect repellent.' }
+  ]
+};
+
+/* Every photo the page shows: caption (Polish, the exact place; in English: site2/src/en/photos.js), author, licence and its
+   page on Wikimedia Commons.
    Allowed licences: CC0, CC BY, CC BY-SA and public domain, no NC or ND (notes/wizja.md). The image files are in
    photos/ (not in git; copied from the December planner and checked 10.10.2026); site2/build.py makes the web copies. */
 var PHOTO_META = {
@@ -1952,18 +2427,121 @@ var PHOTO_META = {
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview
 
-/* The interface texts. Polish is the base language; another one would be UI.<code> with exactly these keys.
+/* The captions of the photos in English (stage 5, finding 8), by the ids of photos.js, where the author, the licence
+   and the photo's page stay; each names the same place as the Polish caption. */
+var PHOTO_CAPS_EN = {
+  saigon_0: 'The Saigon river at blue hour',
+  saigon_1: 'A lone mangrove tree off the Cần Giờ coast',
+  saigon_2: 'A boardwalk through the Rừng Sác mangroves, Cần Giờ',
+  saigon_3: 'Incense at Thiên Hậu Temple, Chợ Lớn',
+  saigon_4: 'Dried goods at Bình Tây Market',
+  mekong_0: 'A rower on the Mekong just before sunrise',
+  mekong_2: 'The Cái Răng floating market, Cần Thơ',
+  mekong_3: 'Selling from a boat in Phong Điền',
+  mekong_1: 'A canal among nipa palms in the delta',
+  phuquoc_0: 'Granite boulders on one of Phú Quốc’s beaches',
+  phuquoc_1: 'Starfish in the shallows, Phú Quốc',
+  phuquoc_2: 'Sunset over the Gulf of Thailand',
+  phuquoc_5: 'A quiet beach near Hàm Ninh',
+  cattien_0: 'A fishing boat on a lake in the Cát Tiên wetlands',
+  cattien_1: 'Sunset over the Cát Tiên wetlands',
+  cattien_3: 'The buttress roots of a lowland forest giant',
+  cattien_4: 'The wetlands seen from the edge of the forest',
+  dalat_0: 'On the Tà Năng trail in the dry season',
+  dalat_1: 'A stream and a pool at Hòn Giao, Bidoup–Núi Bà National Park',
+  dalat_2: 'Old pines in Bidoup–Núi Bà after rain',
+  dalat_4: 'The view from Lang Biang mountain',
+  dalat_3: 'Tents on the grassy hills of Tà Năng',
+  hoian_0: 'Hội An’s waterfront on the Thu Bồn river',
+  hoian_1: 'A basket boat among water coconut palms',
+  hoian_4: 'Trần Phú Street in Hội An’s Old Town',
+  hoian_5: 'An Bàng beach near Hội An',
+  hoian_6: 'Temple groups B, C and D at Mỹ Sơn',
+  hue_0: 'Emperor Minh Mạng’s tomb in Huế, in the mist',
+  hue_1: 'The Minh Lâu pavilion at the tomb of Emperor Minh Mạng, Huế',
+  hue_2: 'A pavilion by the lotus pond at the tomb of Emperor Tự Đức in Huế',
+  hue_6: 'The tile-roofed Thanh Toàn bridge near Huế',
+  hue_4: 'The Hải Vân pass above the sea',
+  puluong_1: 'Sunset over the Pù Luông valley in November',
+  puluong_2: 'A village among rice fields, Pù Luông',
+  puluong_3: 'A bamboo raft poled along the river',
+  puluong_0: 'The Pù Luông terraces at harvest time (September)',
+  puluong_5: 'Weaving on a wooden loom at home',
+  ninhbinh_1: 'A rowing boat below the cliffs of Tràng An',
+  ninhbinh_0: 'Limestone karsts in Tràng An',
+  ninhbinh_3: 'The Vân Long wetlands at golden hour',
+  ninhbinh_4: 'A Delacour’s langur on a limestone crag',
+  ninhbinh_5: 'Through a cave on the Tràng An water route',
+  ninhbinh_6: 'Hoa Lư, the royal capital of the 10th century',
+  catba_0: 'Junks on Lan Hạ Bay',
+  catba_3: 'Morning mist over the islands off Cát Bà',
+  catba_1: 'A small beach on Lan Hạ Bay',
+  catba_2: 'A floating fish farm off Cát Bà',
+  catba_6: 'Việt Hải village, Cát Bà National Park',
+  hanoi_0: 'A train on Long Biên Bridge',
+  hanoi_1: 'The main gate of the Temple of Literature',
+  hanoi_3: 'A laterite lane in Đường Lâm village',
+  hanoi_5: 'A stilt house in the garden of the Museum of Ethnology',
+  babe_0: 'A boat on Ba Bể lake',
+  babe_1: 'The still surface of Ba Bể lake',
+  babe_2: 'A Tày stilt house by the lake',
+  babe_3: 'The fields of Pác Ngòi between the lake and the hills',
+  babe_5: 'Then singing to the sound of the tính lute',
+  caobang_0: 'The Bản Giốc waterfall from the bamboo-raft jetty',
+  caobang_6: 'Núi Mắt Thần, or Angel’s Eye mountain',
+  caobang_1: 'Bản Giốc above the rice fields',
+  caobang_2: 'Inside Ngườm Ngao Cave',
+  caobang_3: 'Karst hills reflected in a rice field near Bản Giốc',
+  phongnha_0: 'The Son river flowing deep into Phong Nha Cave',
+  phongnha_1: 'Dripstone formations in Paradise Cave (Động Thiên Đường)',
+  phongnha_2: 'The entrance to Hang Én Cave',
+  phongnha_3: 'The Son river and Phong Nha town from the air',
+  phongnha_4: 'Boats on the Son river at Phong Nha',
+  cucphuong_0: 'A grey-shanked douc at the primate rescue centre in Cúc Phương',
+  cucphuong_1: 'A forest path in Cúc Phương park',
+  cucphuong_2: 'The thousand-year-old Chò tree deep in the Cúc Phương forest',
+  cucphuong_3: 'A pangolin with its young at the pangolin rescue centre in Cúc Phương',
+  cucphuong_4: 'An Asian forest tortoise at the turtle rescue centre in Cúc Phương',
+  danang_0: 'A female red-shanked douc with her young on the Sơn Trà peninsula',
+  danang_1: 'Basket boats on Mỹ Khê beach',
+  danang_2: 'Huyền Không Cave in the Marble Mountains',
+  danang_3: 'Hoàng Sa Road on the Sơn Trà peninsula',
+  danang_4: 'A gallery of the Museum of Cham Sculpture in Đà Nẵng',
+  hagiang_0: 'The Mã Pí Lèng pass above the canyon of the Nho Quế river',
+  hagiang_1: 'The Tu Sản canyon and the Nho Quế river',
+  hagiang_2: 'A road and terraces in Quản Bạ',
+  hagiang_3: 'The two conical Cô Tiên hills in Quản Bạ',
+  hagiang_4: 'The gate of the Vương family palace in Sà Phìn',
+  sapa_0: 'Rice terraces of Hầu Thào and Tả Van above the Mường Hoa river',
+  sapa_1: 'The summit marker on Fansipan, 3,143 m (2024)',
+  sapa_2: 'The camp at 2,800 m on the Fansipan trail',
+  sapa_3: 'The Hoàng Liên Sơn range from the Núi Xẻ ranger station',
+  yokdon_0: 'Yok Đôn park in the dry season',
+  yokdon_1: 'The Sêrêpốk river',
+  yokdon_2: 'Dry dipterocarp forest near Buôn Ma Thuột',
+  yokdon_3: 'A village elder’s stilt house in Buôn Ako Dhong, Buôn Ma Thuột',
+  yokdon_4: 'The Đắk Lắk Museum in Buôn Ma Thuột',
+  mucangchai_0: 'Terraces in La Pán Tẩn',
+  mucangchai_1: 'Terraces below the Khau Phạ pass',
+  mucangchai_2: 'Terraces in Chế Cu Nha',
+  mucangchai_3: 'The valley below the Khau Phạ pass, seen from above',
+  mucangchai_4: 'Terraces in Dế Xu Phình in the water season',
+  sapa_4: 'Sa Pa seen from the slopes of the Hoàng Liên Sơn mountains'
+};
+
+/* The interface texts. Polish is the base language; English is UI.en in site2/src/en/ui.js, with exactly these keys (stage 5).
    {name} marks a value the page fills in. Counted words ('nights', 'f.places', 'f.flights', 'f.hikes') have three forms,
    picked by nightForm() in page.js: .one for 1; .few for numbers ending in 2–4 except 12–14; .many for the rest. */
 var UI = {};
 UI.pl = {
-  'doc.title': 'Wietnam po swojemu',
+  'doc.title': 'Route G · Wietnam po swojemu',
   'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.before': 'Przed wyjazdem',
-  'nav.top': 'Na górę', 'nav.change': 'Zmień',
+  'nav.top': 'Na górę', 'nav.change': 'Zmień', 'lang.aria': 'Język strony',
   'sum': '{term} · {days} dni · {level}',
   'hero.alt': 'Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình',
   'hero.eyebrow': 'Planer podróży po Wietnamie',
-  'hero.h1': 'Wietnam <em>po</em> swojemu',
+  'hero.h1': 'Route G',
+  'hero.tag': 'Wietnam po swojemu',
   'hero.lede': 'Ustaw termin, lotniska, to, co lubisz, i poziom przygody. Strona od razu ułoży trasę: miejsca, plan każdego dnia, przejazdy i mapę. Potem możesz ją poprawić i wysłać linkiem.',
   'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę',
 
@@ -2041,7 +2619,7 @@ UI.pl = {
 
   'fly': 'Lot', 'door': 'od drzwi do drzwi', 'longday': 'Długi dzień w drodze', 'maps': 'Trasa w Mapach Google',
   'leg.airport': 'Lotnisko {x}',
-  'min': 'min', 'h': 'godz.', 'fmt.hm': '{h} godz. {m} min',
+  'min': 'min', 'h': 'godz.', 'fmt.hm': '{h} godz. {m} min', 'and': 'i',
   'r.taxi_from': 'Taksówka albo transfer z lotniska {x}',
   'r.taxi_to': 'Taksówka na lotnisko {x}',
   'r.van_car': 'Minibus typu limousine albo prywatny samochód',
@@ -2069,7 +2647,7 @@ UI.pl = {
   'n.flight_days': 'Lot {a} – {b} jest tylko {days}: zaplanuj pod niego ten dzień.', 'f.days_tts': 'we wtorki, czwartki i soboty',
   'n.solo_long': 'Po porannym planie w poprzednim miejscu zostaje długa droga i dotrzesz wieczorem. Żeby jechać za dnia, pomiń poranny plan.',
 
-  'pt.title': 'Wietnam po swojemu: {days} dni, {term}',
+  'pt.title': 'Route G: {days} dni, {term}',
   'pt.route': '{from} → {to}',
   'pt.profile': 'Co lubisz: {x}. Poziom: {lvl}.',
   'pt.any': 'po trochu wszystkiego',
@@ -2095,10 +2673,10 @@ UI.pl = {
   'off.shorter': 'Zmieści się bez usuwania innych miejsc, ale skróci pobyt w: {list}.',
   'off.dropped': 'Żeby zmieścić {x}, z trasy wypadło: {list}.', 'off.came': 'Doszło też: {list}.', 'off.came_only': 'Po dodaniu {x} doszło też: {list}.',
   'sw.caobang': 'Pętla po Cao Bằng', 'sw.hagiang': 'Pętla Hà Giang', 'sw.haivan': 'Przez przełęcz Hải Vân', 'sw.driver': 'Z kierowcą', 'sw.self': 'Samodzielnie',
-  'sw.note': 'Samodzielnie tylko z prawem jazdy na motocykl i międzynarodowym prawem jazdy według konwencji z 1968 r., oba przy sobie. Samo prawo jazdy na samochód nie wystarcza nawet na skuter 110–125 cm³. Sprawdź, według której konwencji wydaje je twój kraj, bo międzynarodowe prawo jazdy według konwencji z 1949 r. w Wietnamie nie działa.',
+  'sw.note': 'Samodzielnie tylko z prawem jazdy na motocykl i międzynarodowym prawem jazdy według konwencji z 1968 r., oba przy sobie. Samo prawo jazdy na samochód nie wystarcza nawet na skuter 110–125 cm³. Sprawdź, według której konwencji wydaje je twój kraj, bo wzór z 1949 r. w Wietnamie nie działa. Wyjątki z umów: prawo jazdy z państwa ASEAN i międzynarodowe prawo jazdy z Korei Płd., choć policja przy kontroli może ich nie uznać od ręki.',
   'sw.req.h': 'Wymagania. ', 'sw.risk.h': 'Ryzyko. ', 'sw.tips.h': 'Rady. ',
   'sw.req': 'W motocyklu muszą być dowód rejestracyjny i polisa obowiązkowego OC, a kask zgodny z normą trzeba zapiąć, także pasażerowi. Sprawdź w warunkach swojej polisy, czy obejmuje jazdę motocyklem.',
-  'sw.risk': 'Na drogach Wietnamu ginie ok. 17 000 osób rocznie (szacunek WHO), a ponad 90% z nich w wypadkach z udziałem motocykla. Po wypadku grozi odpowiedzialność karna, odszkodowanie i zakaz wyjazdu do końca dochodzenia. Bez uprawnień grozi mandat 2–4 mln VND i zatrzymanie motocykla, a polisa może nie zapłacić. Policja kontroluje cudzoziemców.',
+  'sw.risk': 'Na drogach Wietnamu ginie ok. 17 000 osób rocznie (szacunek WHO). Ponad 90% zabitych w 2023 r. to ofiary wypadków z udziałem motocykla (dane krajowe). Po wypadku grozi odpowiedzialność karna, odszkodowanie i zakaz wyjazdu do końca dochodzenia. Bez uprawnień grozi mandat 2–4 mln VND i zatrzymanie motocykla, a polisa może nie zapłacić. Policja kontroluje cudzoziemców.',
   'sw.tips': 'Paszportu nie zostawiaj w zastaw, zapytaj o kaucję gotówką. Nie jedź po zmroku, w deszczu i mgle zwolnij, a na serpentynach uważaj na żwir i ciężarówki.',
   'sw.tips.caobang': 'Na pętli rozsądnie jest 80–100 km dziennie. Tankuj przy każdej okazji, bo za miastem stacji jest mało.',
   'sw.tips.hagiang': 'Motocykl weź i oddaj w mieście Hà Giang. Na pętli rozsądnie jest 100–150 km dziennie, więc ruszaj rano; najostrzejsze zakręty i najwięcej ciężarówek są na przełęczach Bắc Sum i Mã Pí Lèng. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej: pozwolenie za ok. 230 000–300 000 VND wydaje urząd imigracyjny policji w mieście Hà Giang, a załatwia je też hotel. Nie zbaczaj w drogi ku granicy.',
@@ -2107,7 +2685,7 @@ UI.pl = {
   'stop.remove': 'Usuń', 'stop.remove.aria': 'Usuń {x} z trasy', 'tag.added': 'Dodane',
   'why.on': 'Wybrane, bo: {x}.', 'why.added': 'dodane przez ciebie', 'why.from': 'lotnisko przylotu', 'why.to': 'lotnisko wylotu',
   'why.way': 'po drodze', 'why.night': 'Dzieli drogę z {a} do {b} na dwa krótsze dni.',
-  'season.D': 'dobry sezon', 'season.S': 'średni sezon', 'season.Z': 'zły sezon',
+  'season.D': 'dobry sezon', 'season.S': 'średni sezon', 'season.Z': 'zły sezon', 'season.when': '{when} {season}',
   'wx.first': 'Pogoda {when}: {x}.', 'wx.month': '{t} °C, {mm} mm deszczu, {days}',
   'wx.days.one': 'dzień z deszczem', 'wx.days.few': 'dni z deszczem', 'wx.days.many': 'dni z deszczem',
   'wx.upal': 'upał', 'wx.deszcz': 'pora deszczowa', 'wx.szaro': 'szaro, mało słońca', 'wx.chlod': 'chłodne noce i pochmurno',
@@ -2179,7 +2757,7 @@ UI.pl = {
   'b.homestay': 'Noclegi u gospodarzy: {x}. Rezerwuj 1–2 tygodnie wcześniej.',
   'b.homestay.puluong': 'W Pù Luông w porze złotych tarasów i w długie weekendy 4–6 tygodni wcześniej.',
   'b.homestay.hagiang': 'W Đồng Văn i Du Già w porze kwitnienia gryki (X–XII) 2–3 tygodnie wcześniej.',
-  'b.homestay.mucangchai': 'W Mù Cang Chải w porze złotych tarasów (koniec VIII – połowa X) i na 2.09 3–4 tygodnie wcześniej.',
+  'b.homestay.mucangchai': 'W Mù Cang Chải 3–4 tygodnie wcześniej w porze złotych tarasów (koniec VIII – połowa X) i na 2.09.',
   'b.puluong.summit': 'Wejście na szczyt Pù Luông: 3–7 dni wcześniej, w szczycie 2–3 tygodnie.',
   'b.caobang.car': 'Samochód z kierowcą albo przewodnik na motocyklu (easy rider) na pętlę Cao Bằng: 3–7 dni wcześniej, w szczycie 2–4 tygodnie.',
   'b.caobang.easyrider': 'Przewodnik na motocyklu (easy rider) na pętlę Cao Bằng: 3–7 dni wcześniej.',
@@ -2193,7 +2771,7 @@ UI.pl = {
   'b.airport': 'Samochód z kierowcą z lotniska albo na lotnisko: {x}. Zamów 2–3 dni wcześniej.',
   'b.dalat.bidoup': 'Przewodnik w parku Bidoup–Núi Bà: 2–3 dni wcześniej.',
   'b.dalat.langbiang': 'Przewodnik na Lang Biang: 2–3 dni wcześniej, gdy park potwierdzi, że szlak jest otwarty.',
-  'b.dalat.tanang': 'Szlak Tà Năng–Phan Dũng z biurem z Đà Lạt: 1–2 tygodnie wcześniej, w weekendy I–IV, na Tết i 30.04 3–4 tygodnie. Zapytaj o licencję biura i zgodę zarządcy lasu i upewnij się, że powrót do Đà Lạt jest w cenie.',
+  'b.dalat.tanang': 'Szlak Tà Năng–Phan Dũng z biurem z Đà Lạt: 1–2 tygodnie wcześniej, a 3–4 tygodnie na weekendy I–IV, na Tết i na 30.04. Zapytaj o licencję biura i zgodę zarządcy lasu i upewnij się, że powrót do Đà Lạt jest w cenie.',
   'b.saigon.cangio': 'Samochód z kierowcą na dzień do Cần Giờ: 1–2 dni wcześniej.',
   'b.hanoi.duonglam': 'Wycieczka do Đường Lâm: 1–2 dni wcześniej.',
   'b.hoian.cooking': 'Lekcja gotowania w Trà Quế: 1–2 dni wcześniej.',
@@ -2214,7 +2792,272 @@ UI.pl = {
   'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',
   'ft.notes.p': 'Czasy przejazdów to szacunki od drzwi do drzwi, z ok. 1½ godz. na lotnisku przy każdym locie. Połączenia sprawdzono w październiku 2026. Rozkłady lotów, godziny otwarcia, zasady na szlakach i stan morza sprawdź przed wyjazdem u przewoźnika i na miejscu. Trudne dni tylko z licencjonowanym przewodnikiem albo operatorem. Kontury mapy: Natural Earth, domena publiczna.',
   'ft.pd': 'domena publiczna',
-  'ft.copy': '© 2026 Wietnam po swojemu. Wszelkie prawa zastrzeżone.'
+  'ft.copy': '© 2026 Route G. Wszelkie prawa zastrzeżone.'
+};
+
+/* The interface texts in English (stage 5, decisions of 15.10.2026): exactly the keys of UI.pl (site2/src/ui.js), in the
+   same order; {name} marks a value the page fills in. British English, to one reader (you). Counted words keep the
+   three forms of UI.pl, picked by nightForm() in page.js: in English .few and .many are both the plural. */
+UI.en = {
+  'doc.title': 'Route G · Vietnam, up to you',
+  'nav.aria': 'Sections', 'nav.settings': 'Settings', 'nav.shape': 'At a glance', 'nav.days': 'Day by day', 'nav.before': 'Before you go',
+  'nav.top': 'Back to top', 'nav.change': 'Change', 'lang.aria': 'Language',
+  'sum': '{term} · {days} days · {level}',
+  'hero.alt': 'A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình',
+  'hero.eyebrow': 'Vietnam trip planner',
+  'hero.h1': 'Route G',
+  'hero.tag': 'Vietnam, up to you',
+  'hero.lede': 'Set your dates, your airports, what you like and how adventurous you are. The page plans a route at once: the places, a plan for every day, the journeys and a map. You can then change it and send it as a link.',
+  'hero.cta1': 'Set up your trip', 'hero.cta2': 'See the route',
+
+  'set.eyebrow': 'Step 1', 'set.h2': 'Your trip',
+  'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',
+  'set.term': 'Dates', 'set.mode.month': 'By month', 'set.mode.dates': 'Exact dates',
+  'set.month': 'Month', 'set.days': 'Number of days', 'set.start': 'Arrival day', 'set.end': 'Departure day',
+  'set.days.note': 'Days count from arrival to departure, both included.',
+  'set.airports': 'Airports', 'set.from': 'Fly into', 'set.to': 'Fly out of',
+  'set.interests': 'What you like (two at most)',
+  'set.interests.none': 'With nothing chosen, the route has a bit of everything.',
+  'set.level': 'Adventure level',
+  'int.kultura': 'Culture & history', 'int.jedzenie': 'Food', 'int.przyroda': 'Wildlife', 'int.gory': 'Mountains & caves', 'int.morze': 'Sea & islands',
+  'lvl.1': 'Relaxed', 'lvl.2': 'Active', 'lvl.3': 'Extreme',
+  'lvlp.1': 'Walks, day trips and the easy versions of days.',
+  'lvlp.2': 'Full-day hikes, bikes and boats, nights at homestays.',
+  'lvlp.3': 'Where possible, hard days with a licensed guide: longer routes and nights out in the wild. Elsewhere, days as at “Active”.',
+  'mon.1': 'January', 'mon.2': 'February', 'mon.3': 'March', 'mon.4': 'April', 'mon.5': 'May', 'mon.6': 'June',
+  'mon.7': 'July', 'mon.8': 'August', 'mon.9': 'September', 'mon.10': 'October', 'mon.11': 'November', 'mon.12': 'December',
+  'mon3.1': 'Jan', 'mon3.2': 'Feb', 'mon3.3': 'Mar', 'mon3.4': 'Apr', 'mon3.5': 'May', 'mon3.6': 'Jun',
+  'mon3.7': 'Jul', 'mon3.8': 'Aug', 'mon3.9': 'Sep', 'mon3.10': 'Oct', 'mon3.11': 'Nov', 'mon3.12': 'Dec',
+  'monl.1': 'January', 'monl.2': 'February', 'monl.3': 'March', 'monl.4': 'April', 'monl.5': 'May', 'monl.6': 'June',
+  'monl.7': 'July', 'monl.8': 'August', 'monl.9': 'September', 'monl.10': 'October', 'monl.11': 'November', 'monl.12': 'December',
+  'set.err.airport': 'Choose the airports from the list.',
+  'set.err.date': 'Give both dates: arrival and departure.',
+  'set.err.month': 'Choose a month from the list.',
+  'set.err.year': 'Choose a month and year from the list.',
+  'set.err.days': 'A trip lasts {min} to {max} days, counting the arrival and departure days.',
+  'set.err.interests': 'Choose two at most.',
+  'set.err.level': 'Choose an adventure level.',
+  'set.err.add': 'This place cannot be added.',
+  'set.err.remove': 'This place cannot be removed.',
+  'set.err.no_route': 'With these settings no route can be planned. Bring back the places you removed or change the airports.',
+  'set.err.keep': ' The last route stays below.',
+  'set.dropped': 'Part of the link was wrong, so the page used the default settings in its place.',
+
+  'f.for': 'Your route: {from} → {to}, {term}',
+  'f.days': 'days, {nights}',
+  'nights.one': 'night', 'nights.few': 'nights', 'nights.many': 'nights',
+  'f.places.one': 'place', 'f.places.few': 'places', 'f.places.many': 'places',
+  'f.flights.one': 'domestic flight', 'f.flights.few': 'domestic flights', 'f.flights.many': 'domestic flights',
+  'f.hikes.one': 'hiking day', 'f.hikes.few': 'hiking days', 'f.hikes.many': 'hiking days',
+  'f.longest': 'longest day on the road',
+  'f.budget': 'per person, roughly', 'f.budget.aria': 'Budget: {x} per person, roughly. Details under Before you go',
+  'vnd': '{a}–{b}\u00a0VND', 'vnd.one': '{a}\u00a0VND', 'mln': '{a}–{b}M\u00a0VND', 'mln.one': '{a}M\u00a0VND',
+  'vnd.upto': 'up to\u00a0{b}\u00a0VND', 'mln.upto': 'up to\u00a0{b}M\u00a0VND',
+  'term.month': '{month} {year}',
+  'alert.past': 'These dates have passed. Choose a new month or new dates, and the route will be planned again.',
+  'alert.tet': 'Tết, with days off around {span}: some places are closed, and transport and rooms sell out and cost more, also the week before and after. Book early.',
+  'alert.holiday': '{name} (around {span}): a national holiday, so travel and popular places are busier. Book transport and rooms earlier.',
+  'alert.nodata': 'For part of these dates the page has no holiday dates. Check the dates of Tết and the national holidays.',
+  'alert.int_bad': '{x}: {places} has a poor season {when} ({why}).',
+  'alert.int_bad_many': '{x}: {places} have a poor season {when} ({why}).',
+  'alert.int_none': '{x}: no place on this route suits it well. The reasons are below, under “Not on your route”.',
+
+  'shape.eyebrow': 'At a glance', 'shape.h2': 'All {days} days',
+  'shape.p': 'One square is one day, in the colour of the place where you sleep. A dot marks an arrival day.', 'shape.click': 'Click a day to go to it.',
+  'day': 'Day', 'days': 'Days',
+  'flyhome': 'Departure', 'flyhome.aria': 'Day {days}: flight out of {airport}',
+  'missing': 'Did not fit: {x}. The rest of the route is unchanged.',
+  'copy.btn': 'Copy plan for WhatsApp', 'copy.aria': 'The plan as text', 'copy.ok': 'Copied. Paste the plan into a chat.', 'copy.fail': 'Copy the selected text below.',
+  'pdf.btn': 'Save route as PDF',
+  'pdf.hint': 'A print window opens. On an iPhone tap Share at the top, then “Save to Files”; on Android choose “Save as PDF” at the top, and on a computer the “Save as PDF” printer. You can then open the PDF without internet.',
+
+  'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',
+  'days.p': 'Every place with photos, a plan for each day and how to get there.', 'days.p_map': 'The map is to scale, and on a large screen it stays in view as you scroll.',
+  'pace.travel': 'Travel day', 'pace.hike': 'Active hike', 'pace.nature': 'Easy nature', 'pace.boat': 'Day on the water',
+  'pace.culture': 'Easy sightseeing', 'pace.rest': 'Rest day',
+  'badge.easy': 'Relaxed version', 'badge.hard': 'Hard day', 'badge.self': 'Riding yourself', 'early': 'Up before 6',
+  't.rain': 'When it rains: ', 't.gem': 'Hidden gem', 't.skip': 'Skip', 't.instead': 'Instead: ',
+  'reg.south': 'southern Vietnam', 'reg.centre': 'central Vietnam', 'reg.north': 'northern Vietnam',
+  'home.h3': 'Flight out of {airport}', 'home.t': 'To the airport and the flight home',
+  'home.d': 'The last day stays light, as the page does not know when your flight leaves.',
+  'home.far': 'The drive to the airport takes {time}: for a morning flight, leave very early or spend the last night closer to the airport.',
+
+  'fly': 'Flight', 'door': 'door to door', 'longday': 'Long day on the road', 'maps': 'Route in Google Maps',
+  'leg.airport': '{x} airport',
+  'min': 'min', 'h': 'h', 'fmt.hm': '{h} h {m} min', 'and': 'and',
+  'r.taxi_from': 'Taxi or transfer from {x} airport',
+  'r.taxi_to': 'Taxi to {x} airport',
+  'r.van_car': 'Limousine van or private car',
+  'r.van_ferry': 'Limousine van and a short ferry',
+  'r.bus_mekong': 'Bus or private car to Phong Điền',
+  'r.bus_mekong_from': 'Bus or private car from Phong Điền',
+  'r.car_cattien': 'Private car or bus, and at the park a ferry across the Đồng Nai river',
+  'r.car_baoloc': 'Private car on the mountain road through Bảo Lộc',
+  'r.haivan': 'Car with a driver over the Hải Vân pass, with a stop by the Lăng Cô lagoon; when the pass is in cloud, the driver takes the tunnel',
+  'r.air_ninhbinh': 'Car with a driver or limousine van, both booked ahead',
+  'r.air_hue': 'Car with a driver booked ahead, through the tunnel under the Hải Vân pass',
+  'r.air_catba': 'Car with a driver booked ahead and the short Đồng Bài – Cái Viềng ferry',
+  'r.air_mekong': 'Car with a driver booked ahead or, slower, a bus via the Miền Tây bus station and Cần Thơ',
+  'r.air_cattien': 'Car with a driver booked ahead, and at the park a ferry across the Đồng Nai river, which runs only by day',
+  'r.air_car': 'Car with a driver booked ahead',
+  'r.air_thd': 'Taxi or car with a driver booked ahead',
+  'r.air_puluong': 'Car with a driver booked ahead, best through your hosts in Pù Luông',
+  'r.air_phongnha_dad': 'Car with a driver booked ahead, on the expressway, without the Hải Vân pass',
+  'r.air_phongnha_hui': 'Car with a driver booked ahead, on the expressway north',
+  'r.haivan_self': 'Motorbike rented one way, over the Hải Vân pass with a stop by the Lăng Cô lagoon; your luggage goes by car, and motorbikes may not use the tunnel, so in fog slow down or wait it out',
+  'n.afternoon': 'A long drive to the airport first: choose an afternoon flight.',
+  'n.long': 'The journey takes the whole day: set off early.',
+  'n.ferry_in': 'The last crossing to {x} is at about {last}: choose a flight that lands by about {land} at the latest.',
+  'n.ferry_out': 'The first crossing from {x} is at about {first}, so you will be at the airport at about {at} at the earliest.',
+  'n.flight_days': 'The {a} – {b} flight runs only {days}: plan this day around it.', 'f.days_tts': 'on Tuesdays, Thursdays and Saturdays',
+  'n.solo_long': 'After the morning plan at the previous place, a long journey remains, and you will arrive in the evening. To travel in daylight, skip the morning plan.',
+
+  'pt.title': 'Route G: {days} days, {term}',
+  'pt.route': '{from} → {to}',
+  'pt.profile': 'You like: {x}. Level: {lvl}.',
+  'pt.any': 'a bit of everything',
+  'pt.arrive': 'Day 1: arrival in {airport}',
+  'pt.home': 'Day {days}: flight out of {airport}',
+  'pt.flights': 'Domestic flights: ',
+  'pt.budget': 'Budget per person, without flights to Vietnam: about {x}.',
+  'pt.link': 'This plan on the site: ',
+
+  'g.open': 'Open photo {i} of {n} full screen', 'g.show': 'Show photo {i}', 'g.photos': 'Photos: {x}',
+  'g.prev': 'Previous photo', 'g.next': 'Next photo', 'g.full': 'Full screen',
+  'lb.aria': 'Photo viewer', 'lb.close': 'Close the photo viewer', 'lb.photo': 'Photo: ',
+  'm.north': 'North', 'm.centre': 'Centre', 'm.south': 'South', 'm.china': 'China', 'm.laos': 'Laos', 'm.cambodia': 'Cambodia',
+  'm.sea': 'South China Sea', 'm.tonkin': 'Gulf of Tonkin', 'm.road': 'Road', 'm.flight': 'Flight', 'm.airports': 'Arrival and departure airport',
+  'm.scale': 'Each panel has its own scale and scale bar', 'm.km': '{n} km', 'm.zoom': 'Click the map to enlarge it', 'm.close': 'Close the large map',
+  'm.dialog': 'Route map, enlarged', 'm.title': 'Route map: ',
+  'off.h3': 'Not on your route', 'off.p': 'Each place has its reason. “Add” plans the route again with that place.',
+  'off.add': 'Add', 'off.add.aria': 'Add {x} to the route', 'off.missing': 'did not fit', 'off.reset': 'Back to the route without changes',
+  'off.r.removed': 'removed by you', 'off.r.level': 'only at the “{lvl}” level', 'off.r.closed': 'closed on these dates', 'off.r.closed_part': 'closed for part of these dates',
+  'off.r.season': 'out of season ({why})', 'off.r.profile': 'does not match what you like', 'off.r.far': 'too far for this many days',
+  'off.r.beaten': 'with {days} days, other places won',
+  'off.drops': 'Adding it drops: {list}.', 'off.nodrops': 'It fits without removing other places.',
+  'off.shorter': 'It fits without removing other places, but shortens the stay in: {list}.',
+  'off.dropped': 'To fit {x}, the route dropped: {list}.', 'off.came': 'Also new on the route: {list}.', 'off.came_only': 'Adding {x} also brought in: {list}.',
+  'sw.caobang': 'Cao Bằng loop', 'sw.hagiang': 'Hà Giang loop', 'sw.haivan': 'Over the Hải Vân pass', 'sw.driver': 'With a driver', 'sw.self': 'Ride yourself',
+  'sw.note': 'Ride yourself only with a motorbike licence and an International Driving Permit under the 1968 Convention, both on you. A car licence does not cover even a 110–125 cc scooter. Check which convention your country issues it under: a 1949 permit does not work in Vietnam. Exceptions by agreement: a licence from an ASEAN country and a South Korean permit, though police at a check may not accept them straight away.',
+  'sw.req.h': 'What it takes. ', 'sw.risk.h': 'Risk. ', 'sw.tips.h': 'Advice. ',
+  'sw.req': 'The motorbike must carry its registration papers and compulsory third-party insurance, and a helmet that meets the standard must be fastened, for a passenger too. Check your own policy’s terms to see whether it covers riding a motorbike.',
+  'sw.risk': 'About 17,000 people die on Vietnam’s roads every year (WHO estimate). Over 90% of those killed in 2023 died in crashes involving a motorbike (national data). After a crash you face criminal liability, compensation and a ban on leaving the country until the investigation ends. Riding without a valid licence means a fine of 2–4M VND and the motorbike impounded, and your insurer may not pay. Police check foreigners.',
+  'sw.tips': 'Do not leave your passport as a deposit; ask to pay a cash deposit instead. Do not ride after dark, slow down in rain and fog, and on hairpins watch for gravel and lorries.',
+  'sw.tips.caobang': 'On the loop, 80–100 km a day is sensible. Fill up at every chance, as there are few petrol stations outside town.',
+  'sw.tips.hagiang': 'Pick up and return the motorbike in Hà Giang town. On the loop, 100–150 km a day is sensible, so set off in the morning; the sharpest bends and the most lorries are on the Bắc Sum and Mã Pí Lèng passes. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone: the police immigration office in Hà Giang town issues the permit for about 230,000–300,000 VND, and your hotel can arrange it too. Do not turn off onto roads towards the border.',
+  'sw.risk.hagiang': 'Since 12 April 2026 the provincial police have been checking the road to Đồng Văn, especially foreigners on rented motorbikes, and some rental shops and agencies (about 30) have pledged not to hand over a motorbike without the required licence. In 2026 two tourists died on the loop, both riding pillion behind a local driver.',
+  'sw.tips.haivan': 'Motorbikes may not use the tunnel, so the only way is over the top of the pass. Leave in the morning, ahead of the traffic and the fog.',
+  'stop.remove': 'Remove', 'stop.remove.aria': 'Remove {x} from the route', 'tag.added': 'Added',
+  'why.on': 'Picked because: {x}.', 'why.added': 'added by you', 'why.from': 'arrival airport', 'why.to': 'departure airport',
+  'why.way': 'on the way', 'why.night': 'Splits the road from {a} to {b} into two shorter days.',
+  'season.D': 'good season', 'season.S': 'fair season', 'season.Z': 'poor season', 'season.when': '{season} {when}',
+  'wx.first': 'Weather {when}: {x}.', 'wx.month': '{t} °C, {mm} mm of rain, {days}',
+  'wx.days.one': 'rainy day', 'wx.days.few': 'rainy days', 'wx.days.many': 'rainy days',
+  'wx.upal': 'heat', 'wx.deszcz': 'rainy season', 'wx.szaro': 'grey, little sun', 'wx.chlod': 'cool nights and cloud',
+  'wx.morze': 'cold sea', 'wx.fale': 'rough sea', 'wx.ulewy': 'downpours on most days', 'wx.tajfuny': 'typhoon season', 'wx.powodzie': 'flood season',
+  'wx.tarasy': 'terraces after the harvest, without rice',
+  'ev.event': 'On these dates', 'ev.warn': 'Take care on these dates',
+
+  'before.eyebrow': 'Before you go', 'before.h2': 'Budget, bookings and packing',
+  'before.p': 'Everything worked out for this route. Check prices and booking times with the carriers and operators too.',
+  'bud.h3': 'Budget', 'bud.two': 'per person, two sharing a room and a car.', 'bud.one': 'Travelling alone: {x}.',
+  'bud.nights': 'Accommodation', 'bud.day': 'Food and small expenses', 'bud.travel': 'Transport and domestic flights', 'bud.trips': 'Tours, guides and cruises',
+  'bud.top': 'The biggest costs: {x}.', 'bud.item': '{name} ({x})',
+  'bud.note': 'Without flights to Vietnam, insurance and souvenirs. Prices checked in {month} {year}.',
+  'bud.tet': 'These dates include Tết: rooms usually cost 20–50% more, buses 40–60% more, and domestic flights 2–3 times as much, so the amounts will be higher.',
+  'bud.holiday': 'These dates include a long weekend ({x}): prices are often higher and fewer places are free.',
+  'bud.holidays': 'These dates include long weekends: {x}. Prices are often higher then and fewer places are free.',
+  'cost.flights': 'domestic flights', 'cost.saigon.cangio': 'a day in Cần Giờ', 'cost.mekong.sampan': 'a sampan on the Phong Điền canals', 'cost.mekong.market': 'a boat to the Cái Răng market',
+  'cost.mekong.conson': 'a boat to Cồn Sơn', 'cost.phuquoc.north': 'a car in the north of Phú Quốc', 'cost.phuquoc.east': 'a car on the east coast of Phú Quốc',
+  'cost.cattien.safari': 'a night safari in Cát Tiên', 'cost.cattien.gibbons': 'gibbons at dawn', 'cost.cattien.bausau_day': 'the hike to Bàu Sấu',
+  'cost.cattien.trees': 'a walk to the giant trees', 'cost.cattien.bausau_night': 'a night at Bàu Sấu', 'cost.dalat.bidoup': 'a guide in Bidoup–Núi Bà',
+  'cost.dalat.cablecar': 'the cable car to Trúc Lâm', 'cost.dalat.langbiang': 'the climb up Lang Biang', 'cost.dalat.train': 'the old railway to Trại Mát',
+  'cost.dalat.caudat': 'a car to the Cầu Đất hills', 'cost.dalat.tanang': 'the Tà Năng–Phan Dũng trail over two days', 'cost.hoian.cooking': 'a cooking class in Trà Quế',
+  'cost.hoian.myson': 'Mỹ Sơn: ticket and a car with a driver', 'cost.hoian.myson_tour': 'a group tour to Mỹ Sơn', 'cost.hue.citadel': 'the Imperial City in Huế',
+  'cost.hue.tombs': 'the emperors’ tombs', 'cost.hue.boatcar': 'a dragon boat and the tombs', 'cost.hue.lagoon': 'Thanh Toàn and the Tam Giang lagoon',
+  'cost.puluong.guide': 'a guide in Pù Luông', 'cost.puluong.car': 'a car in the Pù Luông valleys', 'cost.puluong.summit': 'the climb to the Pù Luông summit',
+  'cost.ninhbinh.vanlong': 'a boat on Vân Long', 'cost.ninhbinh.trangan': 'a boat in Tràng An', 'cost.ninhbinh.car': 'a car to Hoa Lư',
+  'cost.catba.cruise': 'a cruise on Lan Hạ Bay', 'cost.catba.viethai': 'by bike to Việt Hải', 'cost.catba.viethai_boat': 'by boat to Việt Hải',
+  'cost.hanoi.duonglam': 'a trip to Đường Lâm', 'cost.hanoi.battrang': 'a trip to Bát Tràng', 'cost.babe.boat': 'a boat on Ba Bể lake',
+  'cost.babe.guide': 'a guide at Ba Bể lake', 'cost.babe.cooking': 'a cooking class with your hosts', 'cost.caobang.car': 'a driver on the Cao Bằng loop',
+  'cost.caobang.easyrider': 'an easy rider on the Cao Bằng loop', 'cost.caobang.moto': 'a motorbike on the Cao Bằng loop',
+  'cost.hagiang.car': 'a driver on the Hà Giang loop', 'cost.hagiang.easyrider': 'an easy rider on the Hà Giang loop', 'cost.hagiang.moto': 'a motorbike on the Hà Giang loop',
+  'cost.hagiang.permit': 'the border zone permit in Hà Giang',
+  'cost.sapa.trek': 'a guide in the Mường Hoa valley', 'cost.sapa.cablecar': 'the cable car up Fansipan', 'cost.sapa.car': 'a car with a driver around Sa Pa',
+  'cost.yokdon.boat': 'a boat on the Sêrêpốk', 'cost.yokdon.elephants': 'the elephants in Yok Đôn', 'cost.yokdon.trek': 'the Yok Đôn forest with a guide',
+  'cost.yokdon.cooking': 'a cooking class with an Ê Đê family', 'cost.yokdon.camp': 'a night in the Yok Đôn forest',
+  'cost.mucangchai.trek': 'a guide in Mù Cang Chải', 'cost.mucangchai.car': 'a car with a driver around Mù Cang Chải',
+  'cost.mucangchai.paragliding': 'a paragliding flight over Khau Phạ',
+  'cost.sapa.fansipan': 'the climb up Fansipan over two days', 'cost.sapa.descent': 'the walk down Fansipan or the cable car', 'cost.haivan.car': 'a car over the Hải Vân pass',
+  'cost.haivan.moto': 'a motorbike over the Hải Vân pass',
+  'cost.phongnha.cave': 'a boat to Phong Nha Cave', 'cost.phongnha.paradise': 'Paradise Cave', 'cost.phongnha.paradise7': '7 km in Paradise Cave',
+  'cost.phongnha.darkcave': 'Hang Tối and the Chày river', 'cost.phongnha.tulan': 'Tú Làn in one day', 'cost.phongnha.hangen': 'the Hang Én expedition',
+  'cost.phongnha.botanic': 'the Phong Nha botanic garden', 'cost.phongnha.mooc': 'the Nước Moọc stream',
+  'cost.cucphuong.centres': 'the rescue centres in Cúc Phương', 'cost.cucphuong.night': 'the night ride in Cúc Phương', 'cost.cucphuong.car': 'a car to Bống',
+  'cost.cucphuong.maybac': 'a guide to Mây Bạc',
+  'cost.danang.sontra': 'a car on Sơn Trà', 'cost.haivan.car_dn': 'a car over the Hải Vân pass from Đà Nẵng', 'cost.haivan.moto_dn': 'a motorbike over the Hải Vân pass from Đà Nẵng',
+  'book.h3': 'Book ahead', 'book.p': 'Most urgent first. Amounts per person, for two people.', 'book.cost': 'about {x} per person', 'book.upto': '{x} per person', 'book.both': 'both ways',
+  'book.tet': 'For Tết, book well ahead: domestic flights 2–3 months before, cruises and homestays 1–2 months, cars with a driver 3–4 weeks.',
+  'book.none': 'Nothing on this route needs booking far ahead. Book your rooms a week or two before.',
+  'b.phongnha.hangen': 'The Hang Én expedition with Oxalis: about 2 months ahead; for March, April and the summer 3–4 months.',
+  'b.phongnha.tulan': 'Tú Làn in one day with Oxalis: 1–2 weeks ahead, at peak times 3–4 weeks.',
+  'b.haivan.car_dn': 'A car with a driver from Đà Nẵng to Huế over the Hải Vân pass: 1–3 days ahead, for Tết and long weekends 1–2 weeks.',
+  'b.haivan.moto_dn': 'A one-way motorbike from Đà Nẵng to Huế, with your luggage carried: 2–3 days ahead.',
+  'b.cucphuong.stay': 'A night in Cúc Phương park, and with it the night ride, where overnight guests go first: 3–7 days ahead, for a weekend 1–2 weeks, in the butterfly and firefly season 3–4 weeks.',
+  'b.cucphuong.maybac': 'A park guide to Mây Bạc: 2–3 days ahead, at peak times 1–2 weeks.',
+  'b.cucphuong.car': 'A car with a driver for a day to Bống: the day before.',
+  'b.phongnha.paradise7': '7 km in Paradise Cave: 3–7 days ahead, at peak times 1–2 weeks.',
+  'b.sapa.fansipan': 'Fansipan on foot over two days, with a company that arranges the park’s permission: 3–7 days ahead, at peak times 1–2 weeks. Ask for the company’s licence number and whether the guide has an entry card issued by the park.',
+  'b.yokdon.stay': 'A night at the Yok Đôn park guesthouse, and the boat: 3–7 days ahead, for a weekend 1–2 weeks, on holidays 3–4 weeks.',
+  'b.yokdon.elephants': 'The elephants in Yok Đôn: 3–7 days ahead, on holidays 2–3 weeks.',
+  'b.yokdon.camp': 'A night in the Yok Đôn forest with a park guide: 3–7 days ahead, at peak times 2 weeks.',
+  'b.mucangchai.paragliding': 'A tandem paragliding flight from Khau Phạ: 3–5 days ahead, in the golden terrace season and during the festival 1–2 weeks. Flights depend on the wind, so keep a second date free.',
+  'b.mucangchai.trek': 'A guide for the walk from Chế Cu Nha to La Pán Tẩn: 2–3 days ahead, in the golden terrace season about a week.',
+  'b.mucangchai.car': 'A car with a driver for a day around Mù Cang Chải: the day before.',
+  'b.sapa.trek': 'A guide for the walk through Lao Chải and Tả Van: 1–2 days ahead, in the golden terrace season and on holidays about a week.',
+  'b.sapa.car': 'A car with a driver for a day around Sa Pa: the day before, at peak times 2–3 days.',
+  'b.flights': 'Domestic flights: {x}. Buy them about 3 weeks ahead.',
+  'b.cattien.bausau_night': 'A night at Bàu Sấu in Cát Tiên park: 2–4 weeks ahead, on holidays at least a month.',
+  'b.catba.cruise': 'A Lan Hạ Bay cruise with a night on board, sailing from Cát Bà: 1–2 weeks ahead, from October to April 2–4 weeks.',
+  'b.homestay': 'Homestays: {x}. Book 1–2 weeks ahead.',
+  'b.homestay.puluong': 'In Pù Luông, in the golden terrace season and on long weekends 4–6 weeks ahead.',
+  'b.homestay.hagiang': 'In Đồng Văn and Du Già, in the buckwheat flower season (October–December) 2–3 weeks ahead.',
+  'b.homestay.mucangchai': 'In Mù Cang Chải 3–4 weeks ahead in the golden terrace season (late August – mid-October) and for 2 September.',
+  'b.puluong.summit': 'The climb to the Pù Luông summit: 3–7 days ahead, at peak times 2–3 weeks.',
+  'b.caobang.car': 'A car with a driver or a motorbike guide (easy rider) for the Cao Bằng loop: 3–7 days ahead, at peak times 2–4 weeks.',
+  'b.caobang.easyrider': 'A motorbike guide (easy rider) for the Cao Bằng loop: 3–7 days ahead.',
+  'b.caobang.moto': 'A motorbike for the Cao Bằng loop: 1–3 days ahead, at peak times 1–2 weeks.',
+  'b.hagiang.car': 'A car with a driver or a motorbike guide (easy rider) for the Hà Giang loop, through a licensed agency: 3–7 days ahead, at peak times 3–4 weeks.',
+  'b.hagiang.easyrider': 'A motorbike guide (easy rider) for the Hà Giang loop, through a licensed agency: 3–7 days ahead.',
+  'b.hagiang.moto': 'A motorbike for the Hà Giang loop: 1–3 days ahead, at peak times 1–2 weeks.',
+  'b.haivan.car': 'A car with a driver over the Hải Vân pass: 1–3 days ahead.',
+  'b.haivan.moto': 'A one-way motorbike over the Hải Vân pass, with your luggage carried: 2–3 days ahead.',
+  'b.transfer': 'Limousine vans and intercity buses: 1–2 days ahead.',
+  'b.airport': 'A car with a driver from or to the airport: {x}. Book 2–3 days ahead.',
+  'b.dalat.bidoup': 'A guide in Bidoup–Núi Bà park: 2–3 days ahead.',
+  'b.dalat.langbiang': 'A guide for Lang Biang: 2–3 days ahead, once the park confirms that the trail is open.',
+  'b.dalat.tanang': 'The Tà Năng–Phan Dũng trail with an agency from Đà Lạt: 1–2 weeks ahead, and 3–4 weeks for weekends in January–April, for Tết and for 30 April. Ask about the agency’s licence and the forest manager’s permission, and make sure the return to Đà Lạt is included.',
+  'b.saigon.cangio': 'A car with a driver for a day to Cần Giờ: 1–2 days ahead.',
+  'b.hanoi.duonglam': 'A trip to Đường Lâm: 1–2 days ahead.',
+  'b.hoian.cooking': 'A cooking class in Trà Quế: 1–2 days ahead.',
+  'b.hoian.myson': 'A car with a driver to Mỹ Sơn for 5:00: the day before, at peak times (December–January, Tết, 30 April – 1 May, 2 September) 2–3 days.',
+  'b.hoian.myson_tour': 'A group tour to Mỹ Sơn with the return by boat: 1–2 days ahead, at peak times 3–7 days.',
+  'b.cattien.park': '{x}: sign up the day before at the latest.',
+  'b.puluong.guide': 'A guide in Pù Luông: the day before at the latest.',
+  'know.h3': 'Good to know', 'know.links': 'Government sites only: ',
+  'know.visa': 'Visa: check whether your passport needs one. Apply for an e-visa and fill in the arrival card only on the government sites, as fake sites pretend to be them.',
+  'know.vape': 'E-cigarettes: together with heated tobacco they are illegal in Vietnam, bringing them in included, and using one can mean a fine of 3–5M VND and the device destroyed, so leave them at home.',
+  'pack.h3': 'What to pack',
+  'p.warm': 'A warm layer and a hat: nights in {x} can be cool, down to about {t}\u00a0°C.',
+  'p.rain': 'A rain jacket or poncho: it often rains in {x} at this time of year.',
+  'p.leeches': 'Leech socks for forest trails: {x}.', 'p.torch': 'A head torch for the night in the forest: {x}.', 'p.swim': 'Swimwear: {x}.',
+  'p.moto': 'For the motorbike, your own gloves and rain jacket; when you rent, check that the helmet is certified.',
+  'p.mosquito': 'Insect repellent with DEET and long sleeves: dengue occurs across the country, and the mosquitoes bite mostly by day.',
+
+  'ft.photos': 'Photos · Wikimedia Commons', 'ft.notes': 'Notes',
+  'ft.notes.p': 'Travel times are door-to-door estimates, with about 1½ h at the airport for each flight. Connections were checked in October 2026. Before you go, check flight timetables, opening hours, trail rules and sea conditions with the carrier and on the spot. Hard days only with a licensed guide or operator. Map outlines: Natural Earth, public domain.',
+  'ft.pd': 'public domain',
+  'ft.copy': '© 2026 Route G. All rights reserved.'
 };
 
 /* The map's three panels, one under another on the page, each by its top-left corner (lon0, lat0) and bottom-right corner
@@ -2403,6 +3246,84 @@ var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang', 'mucangchai'
 // the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)
 var HOMESTAY_NOTES = ['puluong', 'hagiang', 'mucangchai'];
 
+/* The names of the holidays (holidays.js) and of the links of „Przed wyjazdem” (BOOK and ENTRY in before.js) in English
+   (stage 5, finding 8), by their Polish names. A name that is the same in both languages stands here too, so every new
+   holiday and link needs its English name (tests/content.test.js). */
+var HOLIDAY_NAMES_EN = {
+  'Dzień Kultury Wietnamu': 'Vietnam Culture Day',
+  'Nowy Rok': 'New Year’s Day',
+  'Tết': 'Tết',
+  'Święto Królów Hùng': 'Hùng Kings’ Commemoration Day',
+  'Dzień Zjednoczenia i Święto Pracy': 'Reunification Day and Labour Day',
+  'Święto Narodowe': 'National Day'
+};
+var LINK_NAMES_EN = {
+  'Oxalis, Hang Én': 'Oxalis, Hang Én',
+  'Oxalis, wszystkie wyprawy': 'Oxalis, all expeditions',
+  'Park Cát Tiên, kontakt': 'Cát Tiên park, contact',
+  'Park Cát Tiên, cennik': 'Cát Tiên park, prices',
+  'Vietnam Airlines': 'Vietnam Airlines',
+  'Vietjet': 'Vietjet',
+  'Vietravel Airlines': 'Vietravel Airlines',
+  'Viet Challenge, Tà Năng–Phan Dũng': 'Viet Challenge, Tà Năng–Phan Dũng',
+  'Highland Adventure Travel, Tà Năng–Phan Dũng': 'Highland Adventure Travel, Tà Năng–Phan Dũng',
+  'Da Lat Trip, Tà Năng 3 dni': 'Da Lat Trip, Tà Năng in 3 days',
+  'Full Moon Travel Asia': 'Full Moon Travel Asia',
+  'Cat Ba Ventures': 'Cat Ba Ventures',
+  'Oxalis, Tú Làn w jeden dzień': 'Oxalis, Tú Làn in one day',
+  'Rezerwat Pù Luông, formularz': 'Pù Luông reserve, form',
+  'Cao Bang Eco Travel': 'Cao Bang Eco Travel',
+  'Cao Bang Green Riders': 'Cao Bang Green Riders',
+  'Park Yok Đôn, nocleg': 'Yok Đôn park, accommodation',
+  'Park Yok Đôn, kontakt': 'Yok Đôn park, contact',
+  'Park Yok Đôn, program słoni': 'Yok Đôn park, elephant programme',
+  'Park Yok Đôn, biwak': 'Yok Đôn park, camping',
+  'Du lịch Cúc Phương, kontakt': 'Du lịch Cúc Phương, contact',
+  'Du lịch Cúc Phương, noclegi': 'Du lịch Cúc Phương, accommodation',
+  'Du lịch Cúc Phương, nocna przejażdżka': 'Du lịch Cúc Phương, night ride',
+  'Sapa O\'Chau, Fansipan w 2 dni': 'Sapa O’Chau, Fansipan in 2 days',
+  'Park Phong Nha–Kẻ Bàng, Paradise Cave': 'Phong Nha–Kẻ Bàng park, Paradise Cave',
+  'Paradise Cave': 'Paradise Cave',
+  'ZingHome Ha Giang': 'ZingHome Ha Giang',
+  'ZingHome Ha Giang, pętla 3 dni': 'ZingHome Ha Giang, 3-day loop',
+  'ZingHome Ha Giang, pętla 4 dni': 'ZingHome Ha Giang, 4-day loop',
+  'Baolau': 'Baolau',
+  'Vexere': 'Vexere',
+  'FUTA (Phương Trang)': 'FUTA (Phương Trang)',
+  'Green SM Liên Tỉnh': 'Green SM Liên Tỉnh',
+  'Park Bidoup–Núi Bà, kontakt': 'Bidoup–Núi Bà park, contact',
+  'Park Bidoup–Núi Bà, formularz': 'Bidoup–Núi Bà park, form',
+  'Park Bidoup–Núi Bà, cennik': 'Bidoup–Núi Bà park, prices',
+  'Du lịch Cúc Phương, combo z Mây Bạc': 'Du lịch Cúc Phương, combo with Mây Bạc',
+  'Mebayluon, rezerwacja': 'Mebayluon, booking',
+  'Mebayluon, loty w Mù Cang Chải': 'Mebayluon, flights in Mù Cang Chải',
+  'Local Vietnam, Mù Cang Chải z wędrówką': 'Local Vietnam, Mù Cang Chải with a trek',
+  'Cao Bang Green Riders, cennik': 'Cao Bang Green Riders, prices',
+  'Cao Bang Eco Travel, cennik': 'Cao Bang Eco Travel, prices',
+  'ZingHome Ha Giang, cennik': 'ZingHome Ha Giang, prices',
+  'Hoi An Transport Service': 'Hoi An Transport Service',
+  'Hoi An Day Trip': 'Hoi An Day Trip',
+  'Hidden Land Travel': 'Hidden Land Travel',
+  'Tigit Motorbikes': 'Tigit Motorbikes',
+  'Tigit Motorbikes (start w Đà Nẵng)': 'Tigit Motorbikes (start in Đà Nẵng)',
+  'Green SM Green Tour': 'Green SM Green Tour',
+  'Saigontourist': 'Saigontourist',
+  'Grab, wynajem na godziny': 'Grab, hourly rental',
+  'Tra Que Water Wheel': 'Tra Que Water Wheel',
+  'LocalVietnam, Mỹ Sơn': 'LocalVietnam, Mỹ Sơn',
+  'Park Cát Tiên, nocne safari': 'Cát Tiên park, night safari',
+  'Hoi An Transport Service, Mỹ Sơn': 'Hoi An Transport Service, Mỹ Sơn',
+  'Vietnam Vacation Travel, Mỹ Sơn': 'Vietnam Vacation Travel, Mỹ Sơn',
+  'Mỹ Sơn, bilety online': 'Mỹ Sơn, tickets online',
+  'Sapa Sisters': 'Sapa Sisters',
+  'Sun World Fansipan Legend': 'Sun World Fansipan Legend',
+  'Hoi An Transport Service, przejazdy z Đà Nẵng': 'Hoi An Transport Service, rides from Đà Nẵng',
+  'Bilety elektroniczne': 'E-tickets',
+  'Cennik': 'Prices',
+  'E-wiza: evisa.gov.vn': 'E-visa: evisa.gov.vn',
+  'Karta przylotu: prearrival.immigration.gov.vn': 'Arrival card: prearrival.immigration.gov.vn'
+};
+
 /* Pure helpers of the page, shared with the tests: the settings link, the defaults, the day plans of a stay, the holiday
    warnings, the figures of a trip, the places off the trip and the travel texts. No DOM here.
    Calls engine.js (normSettings, isoDay); the data (places, holidays, airports, road texts) comes in through arguments. */
@@ -2458,6 +3379,31 @@ function linkHash(s) {
   if (s.remove && s.remove.length) parts.push('usun=' + s.remove.join(','));
   if (s.moto && s.moto.length) parts.push('motocykl=' + s.moto.join(','));
   return '#' + parts.join('&');
+}
+
+/* ---------- the language (stage 5) ---------- */
+/* The page's language from the part of the address after #: Polish when the link says lang=pl, else English, the default
+   (decision of 15.10.2026). The language is no setting of the trip: lang with another value, or without one, is English,
+   with no warning of a wrong link, and parseLink leaves it out. */
+function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')) ? 'pl' : 'en'; }
+/* The address of the settings in a language: Polish adds lang=pl at the end, so a link copied, sent or printed opens the
+   same trip in Polish; English adds nothing, so every link from before stage 5 opens in English. */
+function langHash(s, lang) { return linkHash(s) + (lang === 'pl' ? '&lang=pl' : ''); }
+/* The texts of the places in a language. content: CONTENT, with the Polish texts; overlay: for English CONTENT_EN, the same
+   fields where a place has a text (tests/content.test.js checks it), lists in the same order. Returns a copy of content
+   with the overlay's texts over the Polish ones and the data (p, pace, cost…) as it was; without an overlay, content. */
+function localContent(content, overlay) {
+  function over(base, o) {
+    if (o === undefined) return base;
+    if (typeof base === 'string') return o;
+    if (Array.isArray(base)) return base.map(function (b, i) { return over(b, o[i]); });
+    if (base && typeof base === 'object') { var out = {}; Object.keys(base).forEach(function (k) { out[k] = over(base[k], o[k]); }); return out; }
+    return base;
+  }
+  if (!overlay) return content;
+  var out = {};
+  Object.keys(content).forEach(function (id) { out[id] = over(content[id], overlay[id]); });
+  return out;
 }
 
 /* A copy of the settings with lists of its own; add, remove and moto are never missing. */
@@ -2649,9 +3595,18 @@ function tripAlerts(st, list, from, until, tetMargin) {
   return { hits: hits, unknown: span[0] < from || span[1] > until };
 }
 
-/* Days for a sentence: '6–12.02.2027', '30.04–3.05.2027', '28.12.2030–2.01.2031'; one day: '1.01.2027'. */
-function fmtSpan(a, b) {
+/* Days for a sentence: '6–12.02.2027', '30.04–3.05.2027', '28.12.2030–2.01.2031'; one day: '1.01.2027'. In English (stage 5),
+   with mon the 12 short names of the months (UI.en mon3.1…12): '6–12 Feb 2027', '30 Apr – 3 May 2027',
+   '28 Dec 2030 – 2 Jan 2031', '1 Jan 2027'. */
+function fmtSpan(a, b, mon) {
   var p = a.split('-'), q = b.split('-');
+  if (mon) {
+    var md = function (x) { return +x[2] + ' ' + mon[+x[1] - 1]; };
+    if (a === b) return md(p) + ' ' + p[0];
+    if (p[0] !== q[0]) return md(p) + ' ' + p[0] + ' – ' + md(q) + ' ' + q[0];
+    if (p[1] !== q[1]) return md(p) + ' – ' + md(q) + ' ' + q[0];
+    return +p[2] + '–' + md(q) + ' ' + q[0];
+  }
   function dm(x) { return +x[2] + '.' + x[1]; }
   if (a === b) return dm(p) + '.' + p[0];
   if (p[0] !== q[0]) return dm(p) + '.' + p[0] + '–' + dm(q) + '.' + q[0];
@@ -3069,39 +4024,44 @@ function packList(route, plans, st, moto, data) {
   return out;
 }
 
-/* The text of a photo's licence on creativecommons.org, in Polish: 'CC BY-SA 4.0' → …/licenses/by-sa/4.0/deed.pl, a
-   licence of a country ('CC BY-SA 3.0 de') with its country, CC0 → the CC0 deed; null for the public domain, which has no
-   licence text (the photo's page on Commons says why). */
-function licenceUrl(license) {
-  if (license === 'CC0') return 'https://creativecommons.org/publicdomain/zero/1.0/deed.pl';
+/* The text of a photo's licence on creativecommons.org, in the page's language (lang 'en', else Polish): 'CC BY-SA 4.0' →
+   …/licenses/by-sa/4.0/deed.pl, a licence of a country ('CC BY-SA 3.0 de') with its country, CC0 → the CC0 deed; null for
+   the public domain, which has no licence text (the photo's page on Commons says why). */
+function licenceUrl(license, lang) {
+  var deed = 'deed.' + (lang === 'en' ? 'en' : 'pl');
+  if (license === 'CC0') return 'https://creativecommons.org/publicdomain/zero/1.0/' + deed;
   var m = /^CC (BY(?:-SA)?) (\d\.\d)(?: ([a-z]{2}))?$/.exec(license);
-  return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + 'deed.pl' : null;
+  return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + deed : null;
 }
 
 /* An amount in euros, [from, to], in dong as the page writes it (decision of 15.10.2026): [from, to, millions], the two
    ends as text and whether they are millions. sum (the budget of a whole trip): whole millions, never under 1 ("17–39"); a
    part of it or a thing to pay for: millions with one decimal when the dearer end comes to 1 million or more ("0,8–1,5"),
-   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). */
-function vndRange(eur, rate, sum) {
+   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). lang 'en'
+   (stage 5): a decimal point and thousands with commas ("0.8–1.5", "260,000"). */
+function vndRange(eur, rate, sum, lang) {
   var v = eur.map(function (x) { return x * rate; });
   if (sum) return v.map(function (x) { return String(Math.max(1, Math.round(x / 1e6))); }).concat([true]);
-  if (Math.round(v[1] / 1e5) >= 10) return v.map(function (x) { return (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1).replace('.', ','); }).concat([true]);
-  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4); }).concat([false]);
+  if (Math.round(v[1] / 1e5) >= 10) {
+    return v.map(function (x) { var t = (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1); return lang === 'en' ? t : t.replace('.', ','); }).concat([true]);
+  }
+  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4, lang); }).concat([false]);
 }
 
 /* An amount in euros as the page writes it in dong: { key, vars } for the UI keys vnd, vnd.one, mln, mln.one, vnd.upto and
    mln.upto, with the numbers of vndRange. A thing that may cost nothing (its from is 0, as the flight over Khau Phạ, which
    is up to the visitor) says only its dearer end, "do 2,2 mln VND", not a from rounded up to a price (the final review of
-   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate and sum: as for
-   vndRange. */
-function vndText(eur, rate, sum) {
+   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate, sum and lang:
+   as for vndRange. */
+function vndText(eur, rate, sum, lang) {
   if (eur[1] <= 0) return { key: 'vnd.one', vars: { a: '0' } };
-  var r = vndRange(eur, rate, sum), m = r[2];
+  var r = vndRange(eur, rate, sum, lang), m = r[2];
   if (!sum && eur[0] <= 0) return { key: m ? 'mln.upto' : 'vnd.upto', vars: { b: r[1] } };
   return r[0] === r[1] ? { key: m ? 'mln.one' : 'vnd.one', vars: { a: r[0] } } : { key: m ? 'mln' : 'vnd', vars: { a: r[0], b: r[1] } };
 }
-/* A number with its thousands apart (no-break spaces), as Polish writes money: 260000 → '260 000'. */
-function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+/* A number with its thousands apart, as the language writes money: in Polish with no-break spaces, 260000 → '260 000'; in
+   English (lang 'en') with commas, '260,000'. */
+function money(n, lang) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : '\u00a0'); }
 
 /* ---------- travel texts ---------- */
 /* The text of one road segment as [UI key, values]: from or to an airport; a road with a text of its own (roadKeys, by
@@ -3196,6 +4156,15 @@ function tieShort(text) {
   return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C|mln|VND)(?![\p{L}])/gu, '$1\u00a0$2')
     .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u00a0').replace(/mln VND/g, 'mln\u00a0VND');
 }
+/* English typography (stage 5): as in Polish (tieShort), a number keeps its unit on the line (5 km, 4½ h, 25 °C, 2.2M VND,
+   260,000 VND, 125 cc), ≈ keeps its number and a range of numbers (1–3, 11:00–14:30) keeps together; English has no
+   one-letter words to tie. */
+function tieEnglish(text) {
+  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/([\d½]M?) (h|min|km|mm|m|°C|cc|VND)(?![\p{L}])/gu, '$1\u00a0$2');
+}
+/* "w marcu", "we wrześniu" (we before w and a consonant); in English (lang 'en') "in March". noun: the month as the UI key
+   monl.<n> of the language gives it. */
+function inMonthText(noun, lang) { return lang === 'en' ? 'in ' + noun : (/^w[^aeiouyąęó]/i.test(noun) ? 'we ' : 'w ') + noun; }
 
 /* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become
    no-break spaces. names: the names that have a space, longest first, so a longer name is tied before a shorter one in it. */
@@ -3494,7 +4463,8 @@ var BASEMAP = {"north":{"vn":"M41.6 276 36.8 274.2 34 274.9 30 272.4 28.8 270.4 
 
 var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_0-480.jpg 480w, img/saigon_0-960.jpg 960w, img/saigon_0.jpg 1400w"}, "saigon_1": {"src": "img/saigon_1.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_1-480.jpg 480w, img/saigon_1-960.jpg 960w, img/saigon_1.jpg 1400w"}, "saigon_2": {"src": "img/saigon_2.jpg", "w": 1400, "h": 883, "srcset": "img/saigon_2-480.jpg 480w, img/saigon_2-960.jpg 960w, img/saigon_2.jpg 1400w"}, "saigon_3": {"src": "img/saigon_3.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_3-480.jpg 480w, img/saigon_3-960.jpg 960w, img/saigon_3.jpg 1400w"}, "saigon_4": {"src": "img/saigon_4.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_4-480.jpg 480w, img/saigon_4-960.jpg 960w, img/saigon_4.jpg 1400w"}, "mekong_0": {"src": "img/mekong_0.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_0-480.jpg 480w, img/mekong_0-960.jpg 960w, img/mekong_0.jpg 1400w"}, "mekong_2": {"src": "img/mekong_2.jpg", "w": 1400, "h": 929, "srcset": "img/mekong_2-480.jpg 480w, img/mekong_2-960.jpg 960w, img/mekong_2.jpg 1400w"}, "mekong_3": {"src": "img/mekong_3.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_3-480.jpg 480w, img/mekong_3-960.jpg 960w, img/mekong_3.jpg 1400w"}, "mekong_1": {"src": "img/mekong_1.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_1-480.jpg 480w, img/mekong_1-960.jpg 960w, img/mekong_1.jpg 1400w"}, "phuquoc_0": {"src": "img/phuquoc_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phuquoc_0-480.jpg 480w, img/phuquoc_0-960.jpg 960w, img/phuquoc_0.jpg 1400w"}, "phuquoc_1": {"src": "img/phuquoc_1.jpg", "w": 1400, "h": 933, "srcset": "img/phuquoc_1-480.jpg 480w, img/phuquoc_1-960.jpg 960w, img/phuquoc_1.jpg 1400w"}, "phuquoc_2": {"src": "img/phuquoc_2.jpg", "w": 1400, "h": 1054, "srcset": "img/phuquoc_2-480.jpg 480w, img/phuquoc_2-960.jpg 960w, img/phuquoc_2.jpg 1400w"}, "phuquoc_5": {"src": "img/phuquoc_5.jpg", "w": 1400, "h": 954, "srcset": "img/phuquoc_5-480.jpg 480w, img/phuquoc_5-960.jpg 960w, img/phuquoc_5.jpg 1400w"}, "cattien_0": {"src": "img/cattien_0.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_0-480.jpg 480w, img/cattien_0-960.jpg 960w, img/cattien_0.jpg 1400w"}, "cattien_1": {"src": "img/cattien_1.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_1-480.jpg 480w, img/cattien_1-960.jpg 960w, img/cattien_1.jpg 1400w"}, "cattien_3": {"src": "img/cattien_3.jpg", "w": 1400, "h": 933, "srcset": "img/cattien_3-480.jpg 480w, img/cattien_3-960.jpg 960w, img/cattien_3.jpg 1400w"}, "cattien_4": {"src": "img/cattien_4.jpg", "w": 1400, "h": 996, "srcset": "img/cattien_4-480.jpg 480w, img/cattien_4-960.jpg 960w, img/cattien_4.jpg 1400w"}, "dalat_0": {"src": "img/dalat_0.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_0-480.jpg 480w, img/dalat_0-960.jpg 960w, img/dalat_0.jpg 1400w"}, "dalat_1": {"src": "img/dalat_1.jpg", "w": 1400, "h": 1052, "srcset": "img/dalat_1-480.jpg 480w, img/dalat_1-960.jpg 960w, img/dalat_1.jpg 1400w"}, "dalat_2": {"src": "img/dalat_2.jpg", "w": 1400, "h": 933, "srcset": "img/dalat_2-480.jpg 480w, img/dalat_2-960.jpg 960w, img/dalat_2.jpg 1400w"}, "dalat_4": {"src": "img/dalat_4.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_4-480.jpg 480w, img/dalat_4-960.jpg 960w, img/dalat_4.jpg 1400w"}, "dalat_3": {"src": "img/dalat_3.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_3-480.jpg 480w, img/dalat_3-960.jpg 960w, img/dalat_3.jpg 1400w"}, "hoian_0": {"src": "img/hoian_0.jpg", "w": 1400, "h": 930, "srcset": "img/hoian_0-480.jpg 480w, img/hoian_0-960.jpg 960w, img/hoian_0.jpg 1400w"}, "hoian_1": {"src": "img/hoian_1.jpg", "w": 1400, "h": 936, "srcset": "img/hoian_1-480.jpg 480w, img/hoian_1-960.jpg 960w, img/hoian_1.jpg 1400w"}, "hoian_4": {"src": "img/hoian_4.jpg", "w": 1400, "h": 917, "srcset": "img/hoian_4-480.jpg 480w, img/hoian_4-960.jpg 960w, img/hoian_4.jpg 1400w"}, "hoian_5": {"src": "img/hoian_5.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_5-480.jpg 480w, img/hoian_5-960.jpg 960w, img/hoian_5.jpg 1400w"}, "hoian_6": {"src": "img/hoian_6.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_6-480.jpg 480w, img/hoian_6-960.jpg 960w, img/hoian_6.jpg 1400w"}, "hue_0": {"src": "img/hue_0.jpg", "w": 1400, "h": 933, "srcset": "img/hue_0-480.jpg 480w, img/hue_0-960.jpg 960w, img/hue_0.jpg 1400w"}, "hue_1": {"src": "img/hue_1.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_1-480.jpg 480w, img/hue_1-960.jpg 960w, img/hue_1.jpg 1400w"}, "hue_2": {"src": "img/hue_2.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_2-480.jpg 480w, img/hue_2-960.jpg 960w, img/hue_2.jpg 1400w"}, "hue_6": {"src": "img/hue_6.jpg", "w": 1400, "h": 933, "srcset": "img/hue_6-480.jpg 480w, img/hue_6-960.jpg 960w, img/hue_6.jpg 1400w"}, "hue_4": {"src": "img/hue_4.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_4-480.jpg 480w, img/hue_4-960.jpg 960w, img/hue_4.jpg 1400w"}, "puluong_1": {"src": "img/puluong_1.jpg", "w": 1400, "h": 1050, "srcset": "img/puluong_1-480.jpg 480w, img/puluong_1-960.jpg 960w, img/puluong_1.jpg 1400w"}, "puluong_2": {"src": "img/puluong_2.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_2-480.jpg 480w, img/puluong_2-960.jpg 960w, img/puluong_2.jpg 1400w"}, "puluong_3": {"src": "img/puluong_3.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_3-480.jpg 480w, img/puluong_3-960.jpg 960w, img/puluong_3.jpg 1400w"}, "puluong_0": {"src": "img/puluong_0.jpg", "w": 1400, "h": 933, "srcset": "img/puluong_0-480.jpg 480w, img/puluong_0-960.jpg 960w, img/puluong_0.jpg 1400w"}, "puluong_5": {"src": "img/puluong_5.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_5-480.jpg 480w, img/puluong_5-960.jpg 960w, img/puluong_5.jpg 1400w"}, "ninhbinh_1": {"src": "img/ninhbinh_1.jpg", "w": 1920, "h": 1282, "srcset": "img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w"}, "ninhbinh_0": {"src": "img/ninhbinh_0.jpg", "w": 1400, "h": 894, "srcset": "img/ninhbinh_0-480.jpg 480w, img/ninhbinh_0-960.jpg 960w, img/ninhbinh_0.jpg 1400w"}, "ninhbinh_3": {"src": "img/ninhbinh_3.jpg", "w": 1400, "h": 937, "srcset": "img/ninhbinh_3-480.jpg 480w, img/ninhbinh_3-960.jpg 960w, img/ninhbinh_3.jpg 1400w"}, "ninhbinh_4": {"src": "img/ninhbinh_4.jpg", "w": 1400, "h": 933, "srcset": "img/ninhbinh_4-480.jpg 480w, img/ninhbinh_4-960.jpg 960w, img/ninhbinh_4.jpg 1400w"}, "ninhbinh_5": {"src": "img/ninhbinh_5.jpg", "w": 1400, "h": 935, "srcset": "img/ninhbinh_5-480.jpg 480w, img/ninhbinh_5-960.jpg 960w, img/ninhbinh_5.jpg 1400w"}, "ninhbinh_6": {"src": "img/ninhbinh_6.jpg", "w": 1400, "h": 940, "srcset": "img/ninhbinh_6-480.jpg 480w, img/ninhbinh_6-960.jpg 960w, img/ninhbinh_6.jpg 1400w"}, "catba_0": {"src": "img/catba_0.jpg", "w": 1400, "h": 887, "srcset": "img/catba_0-480.jpg 480w, img/catba_0-960.jpg 960w, img/catba_0.jpg 1400w"}, "catba_3": {"src": "img/catba_3.jpg", "w": 1400, "h": 935, "srcset": "img/catba_3-480.jpg 480w, img/catba_3-960.jpg 960w, img/catba_3.jpg 1400w"}, "catba_1": {"src": "img/catba_1.jpg", "w": 1400, "h": 892, "srcset": "img/catba_1-480.jpg 480w, img/catba_1-960.jpg 960w, img/catba_1.jpg 1400w"}, "catba_2": {"src": "img/catba_2.jpg", "w": 1400, "h": 935, "srcset": "img/catba_2-480.jpg 480w, img/catba_2-960.jpg 960w, img/catba_2.jpg 1400w"}, "catba_6": {"src": "img/catba_6.jpg", "w": 1400, "h": 935, "srcset": "img/catba_6-480.jpg 480w, img/catba_6-960.jpg 960w, img/catba_6.jpg 1400w"}, "hanoi_0": {"src": "img/hanoi_0.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_0-480.jpg 480w, img/hanoi_0-960.jpg 960w, img/hanoi_0.jpg 1400w"}, "hanoi_1": {"src": "img/hanoi_1.jpg", "w": 1400, "h": 934, "srcset": "img/hanoi_1-480.jpg 480w, img/hanoi_1-960.jpg 960w, img/hanoi_1.jpg 1400w"}, "hanoi_3": {"src": "img/hanoi_3.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_3-480.jpg 480w, img/hanoi_3-960.jpg 960w, img/hanoi_3.jpg 1400w"}, "hanoi_5": {"src": "img/hanoi_5.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_5-480.jpg 480w, img/hanoi_5-960.jpg 960w, img/hanoi_5.jpg 1400w"}, "babe_0": {"src": "img/babe_0.jpg", "w": 1400, "h": 1050, "srcset": "img/babe_0-480.jpg 480w, img/babe_0-960.jpg 960w, img/babe_0.jpg 1400w"}, "babe_1": {"src": "img/babe_1.jpg", "w": 1400, "h": 914, "srcset": "img/babe_1-480.jpg 480w, img/babe_1-960.jpg 960w, img/babe_1.jpg 1400w"}, "babe_2": {"src": "img/babe_2.jpg", "w": 1400, "h": 933, "srcset": "img/babe_2-480.jpg 480w, img/babe_2-960.jpg 960w, img/babe_2.jpg 1400w"}, "babe_3": {"src": "img/babe_3.jpg", "w": 1400, "h": 933, "srcset": "img/babe_3-480.jpg 480w, img/babe_3-960.jpg 960w, img/babe_3.jpg 1400w"}, "babe_5": {"src": "img/babe_5.jpg", "w": 1400, "h": 907, "srcset": "img/babe_5-480.jpg 480w, img/babe_5-960.jpg 960w, img/babe_5.jpg 1400w"}, "caobang_0": {"src": "img/caobang_0.jpg", "w": 1400, "h": 934, "srcset": "img/caobang_0-480.jpg 480w, img/caobang_0-960.jpg 960w, img/caobang_0.jpg 1400w"}, "caobang_6": {"src": "img/caobang_6.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_6-480.jpg 480w, img/caobang_6-960.jpg 960w, img/caobang_6.jpg 1400w"}, "caobang_1": {"src": "img/caobang_1.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_1-480.jpg 480w, img/caobang_1-960.jpg 960w, img/caobang_1.jpg 1400w"}, "caobang_2": {"src": "img/caobang_2.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_2-480.jpg 480w, img/caobang_2-960.jpg 960w, img/caobang_2.jpg 1400w"}, "caobang_3": {"src": "img/caobang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_3-480.jpg 480w, img/caobang_3-960.jpg 960w, img/caobang_3.jpg 1400w"}, "phongnha_0": {"src": "img/phongnha_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phongnha_0-480.jpg 480w, img/phongnha_0-960.jpg 960w, img/phongnha_0.jpg 1400w"}, "phongnha_1": {"src": "img/phongnha_1.jpg", "w": 1400, "h": 852, "srcset": "img/phongnha_1-480.jpg 480w, img/phongnha_1-960.jpg 960w, img/phongnha_1.jpg 1400w"}, "phongnha_2": {"src": "img/phongnha_2.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_2-480.jpg 480w, img/phongnha_2-960.jpg 960w, img/phongnha_2.jpg 1400w"}, "phongnha_3": {"src": "img/phongnha_3.jpg", "w": 1400, "h": 1049, "srcset": "img/phongnha_3-480.jpg 480w, img/phongnha_3-960.jpg 960w, img/phongnha_3.jpg 1400w"}, "phongnha_4": {"src": "img/phongnha_4.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_4-480.jpg 480w, img/phongnha_4-960.jpg 960w, img/phongnha_4.jpg 1400w"}, "cucphuong_0": {"src": "img/cucphuong_0.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_0-480.jpg 480w, img/cucphuong_0-960.jpg 960w, img/cucphuong_0.jpg 1400w"}, "cucphuong_1": {"src": "img/cucphuong_1.jpg", "w": 1400, "h": 930, "srcset": "img/cucphuong_1-480.jpg 480w, img/cucphuong_1-960.jpg 960w, img/cucphuong_1.jpg 1400w"}, "cucphuong_2": {"src": "img/cucphuong_2.jpg", "w": 1400, "h": 1867, "srcset": "img/cucphuong_2-480.jpg 480w, img/cucphuong_2-960.jpg 960w, img/cucphuong_2.jpg 1400w"}, "cucphuong_3": {"src": "img/cucphuong_3.jpg", "w": 1400, "h": 1050, "srcset": "img/cucphuong_3-480.jpg 480w, img/cucphuong_3-960.jpg 960w, img/cucphuong_3.jpg 1400w"}, "cucphuong_4": {"src": "img/cucphuong_4.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_4-480.jpg 480w, img/cucphuong_4-960.jpg 960w, img/cucphuong_4.jpg 1400w"}, "danang_0": {"src": "img/danang_0.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_0-480.jpg 480w, img/danang_0-960.jpg 960w, img/danang_0.jpg 1400w"}, "danang_1": {"src": "img/danang_1.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_1-480.jpg 480w, img/danang_1-960.jpg 960w, img/danang_1.jpg 1400w"}, "danang_2": {"src": "img/danang_2.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_2-480.jpg 480w, img/danang_2-960.jpg 960w, img/danang_2.jpg 1400w"}, "danang_3": {"src": "img/danang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_3-480.jpg 480w, img/danang_3-960.jpg 960w, img/danang_3.jpg 1400w"}, "danang_4": {"src": "img/danang_4.jpg", "w": 1400, "h": 876, "srcset": "img/danang_4-480.jpg 480w, img/danang_4-960.jpg 960w, img/danang_4.jpg 1400w"}, "hagiang_0": {"src": "img/hagiang_0.jpg", "w": 1400, "h": 933, "srcset": "img/hagiang_0-480.jpg 480w, img/hagiang_0-960.jpg 960w, img/hagiang_0.jpg 1400w"}, "hagiang_1": {"src": "img/hagiang_1.jpg", "w": 1400, "h": 788, "srcset": "img/hagiang_1-480.jpg 480w, img/hagiang_1-960.jpg 960w, img/hagiang_1.jpg 1400w"}, "hagiang_2": {"src": "img/hagiang_2.jpg", "w": 1400, "h": 935, "srcset": "img/hagiang_2-480.jpg 480w, img/hagiang_2-960.jpg 960w, img/hagiang_2.jpg 1400w"}, "hagiang_3": {"src": "img/hagiang_3.jpg", "w": 1400, "h": 536, "srcset": "img/hagiang_3-480.jpg 480w, img/hagiang_3-960.jpg 960w, img/hagiang_3.jpg 1400w"}, "hagiang_4": {"src": "img/hagiang_4.jpg", "w": 1400, "h": 952, "srcset": "img/hagiang_4-480.jpg 480w, img/hagiang_4-960.jpg 960w, img/hagiang_4.jpg 1400w"}, "sapa_0": {"src": "img/sapa_0.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_0-480.jpg 480w, img/sapa_0-960.jpg 960w, img/sapa_0.jpg 1400w"}, "sapa_1": {"src": "img/sapa_1.jpg", "w": 1400, "h": 933, "srcset": "img/sapa_1-480.jpg 480w, img/sapa_1-960.jpg 960w, img/sapa_1.jpg 1400w"}, "sapa_2": {"src": "img/sapa_2.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_2-480.jpg 480w, img/sapa_2-960.jpg 960w, img/sapa_2.jpg 1400w"}, "sapa_3": {"src": "img/sapa_3.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_3-480.jpg 480w, img/sapa_3-960.jpg 960w, img/sapa_3.jpg 1400w"}, "yokdon_0": {"src": "img/yokdon_0.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_0-480.jpg 480w, img/yokdon_0-960.jpg 960w, img/yokdon_0.jpg 1400w"}, "yokdon_1": {"src": "img/yokdon_1.jpg", "w": 1400, "h": 933, "srcset": "img/yokdon_1-480.jpg 480w, img/yokdon_1-960.jpg 960w, img/yokdon_1.jpg 1400w"}, "yokdon_2": {"src": "img/yokdon_2.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_2-480.jpg 480w, img/yokdon_2-960.jpg 960w, img/yokdon_2.jpg 1400w"}, "yokdon_3": {"src": "img/yokdon_3.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_3-480.jpg 480w, img/yokdon_3-960.jpg 960w, img/yokdon_3.jpg 1400w"}, "yokdon_4": {"src": "img/yokdon_4.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_4-480.jpg 480w, img/yokdon_4-960.jpg 960w, img/yokdon_4.jpg 1400w"}, "mucangchai_0": {"src": "img/mucangchai_0.jpg", "w": 1400, "h": 933, "srcset": "img/mucangchai_0-480.jpg 480w, img/mucangchai_0-960.jpg 960w, img/mucangchai_0.jpg 1400w"}, "mucangchai_1": {"src": "img/mucangchai_1.jpg", "w": 1400, "h": 935, "srcset": "img/mucangchai_1-480.jpg 480w, img/mucangchai_1-960.jpg 960w, img/mucangchai_1.jpg 1400w"}, "mucangchai_2": {"src": "img/mucangchai_2.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_2-480.jpg 480w, img/mucangchai_2-960.jpg 960w, img/mucangchai_2.jpg 1400w"}, "mucangchai_3": {"src": "img/mucangchai_3.jpg", "w": 1400, "h": 788, "srcset": "img/mucangchai_3-480.jpg 480w, img/mucangchai_3-960.jpg 960w, img/mucangchai_3.jpg 1400w"}, "mucangchai_4": {"src": "img/mucangchai_4.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_4-480.jpg 480w, img/mucangchai_4-960.jpg 960w, img/mucangchai_4.jpg 1400w"}, "sapa_4": {"src": "img/sapa_4.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_4-480.jpg 480w, img/sapa_4-960.jpg 960w, img/sapa_4.jpg 1400w"}};
 /* Page logic: reads the settings (the link or the form), plans the trip with the engine (engine.js) and renders the facts,
-   the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js. */
+   the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js,
+   and in English (stage 5) en/: the page's language comes from the link and the switch EN · PL (setLang). */
 (function () {
   'use strict';
 
@@ -3506,7 +4476,10 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   };
 
   /* ---------- texts ---------- */
-  var lang = 'pl';   // the only language for now; UI keeps its keys, so another one can come later as UI.<code>
+  // the page's language, 'en' or 'pl' (setLang): English unless the link says lang=pl (decision of 15.10.2026)
+  var lang = 'en';
+  // the texts of the places in that language (localContent in page.js), set by setLang
+  var VIEW = CONTENT;
   function T(k, vars) {
     var v = UI[lang][k];
     if (v == null) return k;
@@ -3514,8 +4487,10 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     return v;
   }
   function countWord(key, n) { return T(key + '.' + nightForm(n)); }
-  function C(id) { return CONTENT[id]; }
-  function caption(id) { return PHOTO_META[id].cap; }
+  function C(id) { return VIEW[id]; }
+  function caption(id) { return lang === 'en' ? PHOTO_CAPS_EN[id] : PHOTO_META[id].cap; }
+  // a holiday's or a link's name in the page's language (HOLIDAY_NAMES_EN and LINK_NAMES_EN in en/names.js)
+  function named(map, name) { return lang === 'en' ? map[name] : name; }
   function licName(l) { return l === 'Public domain' ? T('ft.pd') : l; }   // a licence as the page names it
   function nodeOf(id) { return PLACES[id].node || id; }
   function stopColor(id) { return 'var(--pal-' + C(nodeOf(id)).color + ')'; }
@@ -3532,16 +4507,19 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     return '≈ ' + (r % 1 ? (whole ? whole : '') + '½' : whole) + ' ' + T('h');
   }
   function dayRange(a, b) { return a === b ? T('day') + ' ' + a : T('days') + ' ' + a + '–' + b; }
-  // the weekday and date of trip day n, only when the trip has dates: "czw. 28.01", short enough for one line under the number
+  // the weekday and date of trip day n, only when the trip has dates: "czw. 28.01", in English "Thu 28 Jan" (finding 9),
+  // short enough for one line under the number
   function dateLabel(day) {
     var iso = tripDate(state.st.start, day);
     if (!iso) return '';
     var p = iso.split('-').map(Number);
-    var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString('pl-PL', { weekday: 'short', timeZone: 'UTC' });
-    return wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
+    var wd = new Date(Date.UTC(p[0], p[1] - 1, p[2])).toLocaleDateString(lang === 'en' ? 'en-GB' : 'pl-PL', { weekday: 'short', timeZone: 'UTC' });
+    return lang === 'en' ? wd + '\u00a0' + p[2] + '\u00a0' + T('mon3.' + p[1]) : wd + '\u00a0' + p[2] + '.' + (p[1] < 10 ? '0' : '') + p[1];
   }
-  // "w marcu", "we wrześniu" (we before w and a consonant)
-  function inMonth(m) { var noun = T('monl.' + m); return (/^w[^aeiouyąęó]/i.test(noun) ? 'we ' : 'w ') + noun; }
+  // "w marcu", "we wrześniu", "in March" (inMonthText in page.js)
+  function inMonth(m) { return inMonthText(T('monl.' + m), lang); }
+  // days for a sentence (fmtSpan in page.js): in English with the short names of the months
+  function span(a, b) { return fmtSpan(a, b, lang === 'en' ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (m) { return T('mon3.' + m); }) : null); }
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
@@ -3550,13 +4528,13 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   // a thing that may cost nothing only its dearer end, "do 2,2 mln VND"; one number when both ends come out alike; "0 VND"
   // only for what costs nothing
   function vnd(eur, sum) {
-    var v = vndText(eur, EUR_VND, sum);
+    var v = vndText(eur, EUR_VND, sum, lang);
     return T(v.key, v.vars);
   }
-  // names for a sentence: "A", "A i B", "A, B i C"
-  function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
+  // names for a sentence: "A", "A i B", "A, B i C"; in English "A, B and C"
+  function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' ' + T('and') + ' ' + list[list.length - 1]; }
   function termText(st) {
-    return st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
+    return st.start ? span(st.start, tripDate(st.start, st.days)) : T('term.month', { month: T('mon.' + st.month), year: st.year });
   }
 
   /* ---------- state ---------- */
@@ -3572,7 +4550,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
-  /* New settings: plan the trip; when there is one, show it and write the settings into the address. Otherwise keep the
+  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with lang=pl at the end
+     when the page is in Polish (langHash in page.js). Otherwise keep the
      last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong. The settings
      are copied with their lists (copySettings), so a caller may leave out add, remove and moto.
      Returns whether the trip changed. */
@@ -3594,7 +4573,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     state.budget = tripBudget(r, state.plans, s.moto, BUDGET_DATA);
     msg('');
     $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
-    var h = linkHash(s);
+    var h = langHash(s, lang);
     if (location.hash !== h) {
       try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
     }
@@ -3603,8 +4582,10 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   }
 
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
-     without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. */
+     without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. A link
+     with lang=pl opens in Polish, every other one in English (langOf in page.js). */
   function fromLink() {
+    if (langOf(location.hash) !== lang) setLang(langOf(location.hash));
     var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
@@ -3620,16 +4601,20 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     var airports = Object.keys(HUBS).map(function (code) { return '<option value="' + code + '">' + esc(AIRPORTS[code].name) + '</option>'; }).join('');
     F.from.innerHTML = airports;
     F.to.innerHTML = airports;
+    labelForm();
+    F.start.min = TODAY;
+    F.start.max = PLAN_LAST_YEAR + '-12-31';
+    F.addEventListener('submit', function (e) { e.preventDefault(); });
+    F.addEventListener('change', onFormChange);
+  }
+  // the words of the form in the page's language: the interests and the levels (which of them is chosen comes back with syncForm)
+  function labelForm() {
     $('#interest-list').innerHTML = INTERESTS.map(function (k) {
       return '<label class="chip"><input type="checkbox" name="interest" value="' + k + '"><span>' + T('int.' + k) + '</span></label>';
     }).join('');
     $('#level-list').innerHTML = LEVELS.map(function (n) {
       return '<label><input type="radio" name="level" value="' + n + '"><span>' + T('lvl.' + n) + '</span></label>';
     }).join('');
-    F.start.min = TODAY;
-    F.start.max = PLAN_LAST_YEAR + '-12-31';
-    F.addEventListener('submit', function (e) { e.preventDefault(); });
-    F.addEventListener('change', onFormChange);
   }
   // the months on offer, plus the month of a link from outside that range, so the form always shows the settings
   function monthOptions(s) {
@@ -3708,10 +4693,11 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       el.focus({ preventScroll: true });
     });
     window.addEventListener('hashchange', function () {
-      if (state.settings && location.hash === linkHash(state.settings)) return;
+      if (state.settings && location.hash === langHash(state.settings, lang)) return;
       var bad = [];
-      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length) {   // an anchor typed by hand: put the settings back
-        try { history.replaceState(null, '', linkHash(state.settings)); } catch (e) { /* the address keeps the anchor */ }
+      // an anchor typed by hand: put the settings back (lang= alone is a link: the default trip in its language)
+      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)lang=/.test(location.hash)) {
+        try { history.replaceState(null, '', langHash(state.settings, lang)); } catch (e) { /* the address keeps the anchor */ }
         return;
       }
       fromLink();
@@ -3729,7 +4715,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   /* The settings in short, for the bar at the top: "mar 2027 · 15 dni · Aktywnie", or with dates "28.01–14.02.2027 · …". */
   function summaryText(st) {
-    var term = st.start ? fmtSpan(st.start, tripDate(st.start, st.days)) : T('mon3.' + st.month) + ' ' + st.year;
+    var term = st.start ? span(st.start, tripDate(st.start, st.days)) : T('mon3.' + st.month) + ' ' + st.year;
     return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
   }
 
@@ -3743,8 +4729,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
-    // the printout names this route's address on the public page (as the copied plan does)
-    var url = SITE_URL + linkHash(state.settings);
+    // the printout names this route's address on the public page, in the page's language (as the copied plan does)
+    var url = SITE_URL + langHash(state.settings, lang);
     $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
     tieShortWords(document.body);
   }
@@ -3765,12 +4751,12 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
     if (state.linkWarn) lines.push(T('set.dropped'));
     if (passed) lines.push(T('alert.past'));
-    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: h.name, span: fmtSpan(h.from, h.to) })); });
+    a.hits.forEach(function (h) { lines.push(T('alert.' + h.kind, { name: named(HOLIDAY_NAMES_EN, h.name), span: span(h.from, h.to) })); });
     // a chosen interest whose places on the trip are all in a poor season, or that no place on the trip serves
     interestAlerts(r, st, PLACES, CLIMATE).forEach(function (x) {
       var what = T('int.' + x.interest);
       lines.push(x.none ? T('alert.int_none', { x: what }) : T(x.ids.length > 1 ? 'alert.int_bad_many' : 'alert.int_bad',
-        { x: what, when: x.months.map(inMonth).join(' i '), places: x.ids.map(function (id) { return C(id).short; }).join(' i '),
+        { x: what, when: x.months.map(inMonth).join(' ' + T('and') + ' '), places: x.ids.map(function (id) { return C(id).short; }).join(' ' + T('and') + ' '),
           why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') }));
     });
     if (a.unknown && !passed) lines.push(T('alert.nodata'));
@@ -3800,11 +4786,13 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   /* Why stay i is on the trip ("Wybrane, bo…"), and, on a full card, its weather in the month or months of its days and the
      events of the place that it meets. */
+  // "w marcu i kwietniu dobry sezon", in English "good season in March and April" (the order of season.when)
   function seasonPhrase(months) {
     if (months.every(function (m) { return m.season === months[0].season; })) {
-      return inMonth(months[0].month) + months.slice(1).map(function (m) { return ' i ' + T('monl.' + m.month); }).join('') + ' ' + T('season.' + months[0].season);
+      return T('season.when', { when: inMonth(months[0].month) + months.slice(1).map(function (m) { return ' ' + T('and') + ' ' + T('monl.' + m.month); }).join(''),
+        season: T('season.' + months[0].season) });
     }
-    return months.map(function (m) { return inMonth(m.month) + ' ' + T('season.' + m.season); }).join(', ');
+    return months.map(function (m) { return T('season.when', { when: inMonth(m.month), season: T('season.' + m.season) }); }).join(', ');
   }
   // the weather of a stay, month by month; a number of days of rain keeps its words on its line ("12 dni z deszczem")
   function weatherLine(list) {
@@ -3977,7 +4965,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     }).join('') + '</g>';
   }
   function renderMap() {
-    var L = mapLayout(state.route, state.st, { panels: MAP_PANELS, places: PLACES, content: CONTENT, airports: AIRPORTS, say: T });
+    var L = mapLayout(state.route, state.st, { panels: MAP_PANELS, places: PLACES, content: VIEW, airports: AIRPORTS, say: T });
     var defs = [], body = [];
     mapBoxes = L.panels.map(function (P) { return { y: P.y, h: P.p.h }; });
     L.panels.forEach(function (P) {
@@ -4205,12 +5193,12 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   }
 
   /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
-  function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.name) + '</a>'; }).join(' · '); }
+  function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(named(LINK_NAMES_EN, l.name)) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
     var b = state.budget, r = state.route, st = state.st, moto = state.settings.moto;
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
-    var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return h.name; });
+    var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return named(HOLIDAY_NAMES_EN, h.name); });
     var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
     $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
       '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
@@ -4237,7 +5225,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
     // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
     $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
-      '<p class="b-meta">' + T('know.links') + linksOf(ENTRY.links) + '</p>';
+      '<p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>';
     $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
       return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
     }).join('') + '</ul>';
@@ -4278,7 +5266,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
     lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
-    lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
+    lines.push(T('pt.link') + SITE_URL + langHash(state.settings, lang));
     return lines.join('\n');
   }
   function bindCopy() {
@@ -4415,17 +5403,17 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     document.querySelectorAll('#stops .stop').forEach(function (s) { io.observe(s); });
   }
 
-  // the multi-word names a line may not break inside: the short names of the places, the names of the airports and the
-  // names without a Vietnamese letter that the texts use (KEEP_TOGETHER in content.js)
+  // the multi-word names a line may not break inside: the short names of the places in both languages, the names of the
+  // airports and the names without a Vietnamese letter that the texts use (KEEP_TOGETHER in content.js)
   var TIED_NAMES = Object.keys(CONTENT).map(function (id) { return CONTENT[id].short; })
-    .concat(Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
+    .concat(Object.keys(CONTENT_EN).map(function (id) { return CONTENT_EN[id].short; }), Object.keys(AIRPORTS).map(function (code) { return AIRPORTS[code].name; }), KEEP_TOGETHER)
     .filter(function (n, i, all) { return n.indexOf(' ') > -1 && all.indexOf(n) === i; })
     .sort(function (a, b) { return b.length - a.length; });
-  // a text with the no-break spaces of Polish typography (tieShort) and of the names (tieVietnamese, tieNames), all in page.js
-  function tied(text) { return lang === 'pl' ? tieNames(tieVietnamese(tieShort(text)), TIED_NAMES) : text; }
+  // a text with the no-break spaces of the language's typography (tieShort, tieEnglish) and of the names (tieVietnamese,
+  // tieNames), all in page.js
+  function tied(text) { return tieNames(tieVietnamese(lang === 'pl' ? tieShort(text) : tieEnglish(text)), TIED_NAMES); }
   // every text in root, tied as above
   function tieShortWords(root) {
-    if (lang !== 'pl') return;
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), node;
     while ((node = walker.nextNode())) {
       if (/^(SCRIPT|STYLE|TEXTAREA)$/i.test(node.parentNode.nodeName)) continue;
@@ -4449,8 +5437,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
       // the caption leads to the photo's page on Commons, the licence to its text
-      var m = PHOTO_META[ph], lic = licenceUrl(m.license);
-      return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(m.cap) + '</a>: ' + esc(m.artist) + ', ' +
+      var m = PHOTO_META[ph], lic = licenceUrl(m.license, lang);
+      return '<li><a href="' + esc(m.page) + '" target="_blank" rel="noopener">' + esc(caption(ph)) + '</a>: ' + esc(m.artist) + ', ' +
         (lic ? '<a href="' + esc(lic) + '" target="_blank" rel="noopener">' + esc(licName(m.license)) + '</a>' : esc(licName(m.license))) + '</li>';
     }).join('');
   }
@@ -4463,10 +5451,32 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.getAttribute('data-i18n-aria'))); });
   }
 
+  /* ---------- the language (stage 5) ---------- */
+  /* The page's language, 'en' or 'pl': the texts of the places, the words of the template and of the form, the credits and the
+     switch EN · PL; the caller draws the trip again (apply). */
+  function setLang(l) {
+    lang = l;
+    VIEW = localContent(CONTENT, lang === 'en' ? CONTENT_EN : null);
+    applyStatic();
+    if (F) labelForm();
+    renderCredits();
+    Array.prototype.forEach.call(document.querySelectorAll('#lang-switch [data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
+  }
+  /* EN · PL (decision 1 of 15.10.2026): the texts change at once, without a reload; the trip, its settings and its changes
+     stay, and the address gains or loses lang=pl at its end (apply); the form shows the trip's settings again (syncForm). */
+  function bindLang() {
+    $('#lang-switch').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-lang]');
+      if (!b || b.getAttribute('data-lang') === lang) return;
+      setLang(b.getAttribute('data-lang'));
+      apply(state.settings, state.linkWarn);
+      syncForm();
+    });
+  }
+
   /* ---------- wiring ---------- */
-  applyStatic();
+  setLang(langOf(location.hash));   // the texts first, in the language of the link
   buildForm();
-  renderCredits();
   bindLightbox();
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
@@ -4476,6 +5486,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   bindChanges();
   bindSwaps();
   bindSummary();
+  bindLang();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');
