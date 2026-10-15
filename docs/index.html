@@ -215,7 +215,7 @@ footer .ft-copy { margin-top: 18px; }
 .swap-box { display: grid; gap: 6px; font-size: 14px; border-left: 3px solid var(--warm); padding: 4px 0 4px 12px; }
 /* The budget as the last figure of the facts, a link to its part of "Przed wyjazdem" */
 .facts .f-budget a { display: grid; gap: 2px; color: inherit; text-decoration: none; }
-.facts .f-budget b { font-size: clamp(24px, 2.5vw, 32px); }   /* the widest form, d ddd–dd ddd zł, fits its column (tests/probes/before.js) */
+.facts .f-budget b { font-size: clamp(24px, 2.5vw, 32px); }   /* the widest form, dd–ddd mln VND, fits its column (tests/probes/before.js) */
 .facts .f-budget span { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
 /* Before the trip: the budget, what to book, entry and health, what to pack; two columns on a wide screen */
 .before { display: grid; gap: 28px; }
@@ -651,7 +651,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="before">
       <div class="b-part" id="b-budget"></div>
       <div class="b-part" id="b-book"></div>
-      <div class="b-part" id="b-entry"></div>
+      <div class="b-part" id="b-know"></div>
       <div class="b-part" id="b-pack"></div>
     </div>
   </section>
@@ -1302,7 +1302,7 @@ var REGIONS = ['south', 'centre', 'north'];
 
 /* Names of several words in the texts of the places that have no letter Polish lacks, so tieVietnamese (page.js) cannot
    tell them from Polish words: the page keeps each on one line, as it does the names of the places and the airports. */
-var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'Hang Va', 'La Dao'];
+var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'La Dao'];
 
 /* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
    the name on the map's arrows to another panel, where it differs. */
@@ -1393,13 +1393,12 @@ CONTENT.caobang = {
   region: 'north', maps: 'Cao Bang, Vietnam', pt: [22.67, 106.25], color: 13,
   photos: ['caobang_0', 'caobang_6', 'caobang_1', 'caobang_2', 'caobang_3'],
   days: [
-    { p: 1, o: 1, pace: 'travel', t: 'Wieczór w Cao Bằng', d: 'Nocleg w mieście Cao Bằng, a na kolację kaczka pieczona z siedmioma przyprawami (vịt quay 7 vị), specjalność regionu. Na kolejne dni załatw samochód z kierowcą albo przewodnika na motocyklu (easy rider). Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao i w Khuổi Ky, w obszarze turystycznym, zezwolenie nie jest potrzebne. Gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji, więc nie zbaczaj w boczne drogi ku granicy.',
-      easy: { pace: 'travel', t: 'Wieczór w Cao Bằng', d: 'Nocleg w mieście Cao Bằng, a na kolację kaczka pieczona z siedmioma przyprawami (vịt quay 7 vị), specjalność regionu. Na kolejne dni zarezerwuj wygodny samochód z kierowcą. Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao i w Khuổi Ky, w obszarze turystycznym, zezwolenie nie jest potrzebne. Gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji, więc nie zbaczaj w boczne drogi ku granicy.' },
-      self: { pace: 'travel', t: 'Wieczór w Cao Bằng', d: 'Nocleg w mieście Cao Bằng, a na kolację kaczka pieczona z siedmioma przyprawami (vịt quay 7 vị), specjalność regionu. Wypożyczony motocykl odbierz jeszcze wieczorem: sprawdź hamulce, opony i światła, zrób zdjęcia rys i weź kask z atestem. Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao i w Khuổi Ky, w obszarze turystycznym, zezwolenie nie jest potrzebne. Gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji, więc nie zbaczaj w boczne drogi ku granicy.' } },
+    { p: 1, o: 1, pace: 'travel', t: 'Wieczór w Cao Bằng', d: 'Nocleg w mieście Cao Bằng, a na kolację kaczka pieczona z siedmioma przyprawami (vịt quay 7 vị), specjalność regionu. Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao, w Khuổi Ky i w Pác Bó zezwolenie nie jest potrzebne, ale gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji: nie zbaczaj w boczne drogi ku granicy.',
+      self: { pace: 'travel', t: 'Wieczór w Cao Bằng', d: 'Nocleg w mieście Cao Bằng, a na kolację kaczka pieczona z siedmioma przyprawami (vịt quay 7 vị), specjalność regionu. Wypożyczony motocykl odbierz jeszcze wieczorem. Paszport miej przy sobie, bo pętla prowadzi przez strefę przygraniczną. Przy Bản Giốc, Ngườm Ngao, w Khuổi Ky i w Pác Bó zezwolenie nie jest potrzebne, ale gdzie indziej przy granicy cudzoziemiec potrzebuje zezwolenia policji: nie zbaczaj w boczne drogi ku granicy.' } },
     { p: 3, o: 2, pace: 'nature', cost: [['caobang.car', 'caobang.easyrider']], t: 'Oko Anioła i Pác Bó', d: 'Núi Mắt Thần – góra z otworem na wylot w szczycie, wznosząca się nad trawiastą doliną – i czysty, zielony strumień w Pác Bó przy granicy.',
       self: { pace: 'nature', cost: ['caobang.moto'], t: 'Oko Anioła i Pác Bó motocyklem', d: 'Motocyklem do Núi Mắt Thần – góry z otworem na wylot w szczycie, wznoszącej się nad trawiastą doliną – i nad czysty, zielony strumień w Pác Bó przy granicy. Wróć przed zmrokiem: górskie drogi nie mają oświetlenia.' } },
     { p: 2, o: 3, pace: 'nature', cost: [['caobang.car', 'caobang.easyrider']], t: 'Jeziora, przełęcz, wodospad i jaskinia', d: 'Rano łańcuch krasowych jezior Thang Hen i serpentyny przełęczy Mã Phục, w środku dnia wodospad Bản Giốc, a po południu jaskinia Ngườm Ngao. Do wodospadu dojedziesz w środku dnia, bo w porze suchej, od końca listopada do początku maja, elektrownie w górze rzeki potrafią rano zatrzymywać wodę, a najwięcej jej spada ok. 11:00–14:30. Nocleg w Khuổi Ky, wiosce ludu Tày z kamiennymi domami.',
-      self: { pace: 'nature', cost: ['caobang.moto'], t: 'Jeziora, przełęcz, wodospad i jaskinia motocyklem', d: 'Rano łańcuch krasowych jezior Thang Hen i serpentyny przełęczy Mã Phục: zjeżdżaj powoli, bo na zakrętach bywa żwir, a zza nich wyjeżdżają ciężarówki. W środku dnia wodospad Bản Giốc, a po południu jaskinia Ngườm Ngao. Do wodospadu dojedziesz w środku dnia, bo w porze suchej, od końca listopada do początku maja, elektrownie w górze rzeki potrafią rano zatrzymywać wodę, a najwięcej jej spada ok. 11:00–14:30. Nocleg w Khuổi Ky, wiosce ludu Tày z kamiennymi domami, a następnego ranka ok. 85 km do miasta Cao Bằng, gdzie oddasz motocykl.' } }
+      self: { pace: 'nature', cost: ['caobang.moto'], t: 'Jeziora, przełęcz, wodospad i jaskinia motocyklem', d: 'Rano krasowe jeziora Thang Hen i serpentyny przełęczy Mã Phục: zjeżdżaj powoli, bo na zakrętach bywa żwir, a zza nich wyjeżdżają ciężarówki. W środku dnia wodospad Bản Giốc, bo w porze suchej elektrownie potrafią rano zatrzymywać wodę (najwięcej spada ok. 11:00–14:30), a po południu jaskinia Ngườm Ngao. Nocleg w Khuổi Ky, a rano ok. 85 km do miasta Cao Bằng, gdzie oddasz motocykl.' } }
   ],
   gem: 'Kamienne domy Khuổi Ky i jeziora Thang Hen.',
   poi: { name: 'Bản Giốc', pt: [22.85, 106.72] },
@@ -1438,7 +1437,7 @@ CONTENT.cattien = {
       solo: { pace: 'nature', cost: ['cattien.safari', 'cattien.gibbons'], t: 'Dżungla nocą i o świcie', d: 'Dotrzyj najpóźniej w połowie popołudnia i nocuj w parku; spacer o świcie do gibonów zarezerwuj w parku przed przyjazdem, bo miejsc jest niewiele. Po zmroku nocna przejażdżka w poszukiwaniu jeleni i cywet. Następnego dnia przed świtem wyjście ze strażnikiem parku, żeby posłuchać nawoływania gibonów, potem śniadanie i dalej w drogę.', early: true } },
     { p: 2, o: 2, pace: 'hike', early: true, cost: ['cattien.gibbons', 'cattien.bausau_day'], t: 'Gibony i Jezioro Krokodyli', d: 'Przed świtem wyjście ze strażnikiem parku, żeby posłuchać nawoływania gibonów, potem leśnym szlakiem do Bàu Sấu, czyli Jeziora Krokodyli. Wyjście do gibonów zarezerwuj w parku przed przyjazdem, bo miejsc jest niewiele, a wędrówkę do Bàu Sấu i pozwolenie najpóźniej dzień wcześniej w siedzibie parku.',
       easy: { pace: 'nature', cost: ['cattien.trees'], t: 'Cát Tiên na spokojnie', d: 'Rano spacer z przewodnikiem parku do olbrzymich drzew Tung i Gõ, ok. 2 godzin leśną ścieżką. Po południu muzeum przyrody i ośrodek ratowania dzikich zwierząt tuż obok siedziby parku.', early: false },
-      hard: { pace: 'hike', early: false, late: true, off: [8, 9, 10], cost: ['cattien.bausau_night'], pack: ['torch'], t: 'Noc nad Jeziorem Krokodyli', d: 'Noc w głębi lasu, na stacji strażników nad Bàu Sấu, czyli Jeziorem Krokodyli. Organizuje ją sam park: nocleg, pozwolenie i przewodnika zarezerwuj z wyprzedzeniem w recepcji parku, bo pokoi jest niewiele. Rano bez pośpiechu, a najpóźniej o 14:00 wyjazd z siedziby: 9 km samochodem, potem 5 km pieszo leśną ścieżką z przewodnikiem parku. Wieczorem zachód słońca nad jeziorem i kolacja ze strażnikami. Park zaznacza, że trzeba być w dobrej kondycji, a pokoje są proste, bez wi-fi, klimatyzacji i zasięgu telefonu. Następnego ranka wyjście znad jeziora do 9:00 i 5 km pieszo do samochodu, więc w dalszą podróż ruszysz koło południa: nie rezerwuj na ten dzień wczesnego lotu.' } }
+      hard: { pace: 'hike', early: false, late: true, off: [8, 9, 10], cost: ['cattien.bausau_night'], pack: ['torch'], t: 'Noc nad Jeziorem Krokodyli', d: 'Noc na stacji strażników nad Bàu Sấu z przewodnikiem parku. Najpóźniej o 14:00 wyjazd z siedziby: 9 km autem i 5 km pieszo przez las. Wieczorem zachód słońca nad jeziorem i kolacja ze strażnikami, a nocleg w prostym pokoju, bez zasięgu telefonu. Park wymaga dobrej kondycji. Rano 5 km do auta i w drogę koło południa: nie rezerwuj na ten dzień wczesnego lotu.' } }
   ],
   gem: 'Jeden z ostatnich dużych lasów nizinnych na południu, cztery godziny od Hồ Chí Minh City.',
   events: [
@@ -1456,10 +1455,10 @@ CONTENT.cucphuong = {
     { p: 1, o: 1, pace: 'travel', cost: ['cucphuong.centres', 'cucphuong.night'], t: 'Ratowane naczelne i las nocą', d: 'Zamelduj się w pokoju parku przy bramie albo nad jeziorem Mạc. Po południu ośrodki ratowania, 500 m od kasy: langury Delacoura i z Cát Bà, gibony, lori, żółwie i łuskowce, czynne zwykle do 17:00. Wieczorem nocna przejażdżka melexem po skraju lasu: świetliki, jelenie i lori; zbiórka o 18:30, start o 19:00, a nocujący w parku mają pierwszeństwo.',
       rain: 'muzeum parku i centrum dla zwiedzających są pod dachem, a w ośrodkach ratowania przyda się parasol; o tym, czy nocna przejażdżka pojedzie w ulewie, decyduje park.',
       solo: { pace: 'nature', cost: ['cucphuong.centres', 'cucphuong.night'], t: 'Las nocą i ratowane naczelne rano', d: 'Dotrzyj najpóźniej późnym popołudniem i zamelduj się w pokoju parku przy bramie. O 18:30 zbiórka na nocną przejażdżkę melexem: świetliki, jelenie i lori. Rano od 8:00 ośrodki ratowania, 500 m od kasy: langury Delacoura, gibony i żółwie, a koło 10:30 dalej w drogę.' } },
-    { p: 2, o: 2, pace: 'hike', cost: ['cucphuong.car'], pack: ['torch'], t: 'W głąb lasu, do starych drzew', d: 'Rano 20 km autem w głąb lasu do Bống; nocujący w parku wchodzą w głąb lasu od 7:00. Z Bống pętla przez las pierwotny: jaskinia Động Sơn Cung, pięć drzew Chò chỉ i tysiącletnie drzewo Chò, 7 km i 2–3 godziny, bez przewodnika, ale z latarką do jaskini. Po obiedzie krótka ścieżka do 700-letniego Chò chỉ, a w drodze powrotnej jaskinia Động Người Xưa ze śladami ludzi sprzed 7 500 lat. Z lasu wyjdź przed zmrokiem.',
+    { p: 2, o: 2, pace: 'hike', cost: ['cucphuong.car'], pack: ['torch'], t: 'W głąb lasu, do starych drzew', d: 'Rano 20 km autem do Bống w głębi lasu, gdzie nocujący w parku wchodzą od 7:00. Stamtąd pętla przez las pierwotny: jaskinia Động Sơn Cung i tysiącletnie drzewo Chò, 7 km i 2–3 godziny, bez przewodnika, z latarką do jaskini. Po obiedzie 700-letnie Chò chỉ i jaskinia Động Người Xưa ze śladami ludzi sprzed 7 500 lat. Z lasu wyjdź przed zmrokiem.',
       rain: 'płaska ścieżka do drzew Sấu i krótka do 700-letniego Chò chỉ, bo na mokrym wapieniu jest ślisko, a po południu muzeum parku przy bramie.',
       easy: { pace: 'nature', t: 'Krótkie ścieżki do starych drzew', d: 'Autem do Bống i krótka ścieżka do 700-letniego Chò chỉ, 2 km tam i z powrotem, pół godziny do godziny. W drodze powrotnej jaskinia Động Người Xưa (300 m i ok. 200 schodów) i płaska ścieżka wśród starych drzew Sấu i Đăng, 2 km, ok. godziny.' },
-      hard: { pace: 'hike', off: [5, 6, 7, 8, 9], cost: ['cucphuong.car', 'cucphuong.maybac'], t: 'Na Mây Bạc z przewodnikiem parku', d: 'Mây Bạc, najwyższy szczyt parku (648 m): z Bống przewodnik parku prowadzi stromą ścieżką przez las pierwotny i wapienne zbocza, 7 km tam i z powrotem, 4–5 godzin. Przewodnik jest obowiązkowy i trzeba go zamówić w parku z wyprzedzeniem; trasa jest tylko dla dorosłych w dobrej kondycji. Po obiedzie w Bống, jeśli starczy sił, pętla do tysiącletniego drzewa Chò, 7 km i 2–3 godziny. Z lasu wyjdź przed zmrokiem: po 19:00 w głąb lasu wolno wejść tylko na nocną wycieczkę z przewodnikiem. Park prowadzi też dwudniowy biwak w lesie z nocnymi obserwacjami; zapytaj, czy noclegi w lesie są otwarte, bo park wstrzymuje je po ulewach.' } }
+      hard: { pace: 'hike', off: [5, 6, 7, 8, 9], cost: ['cucphuong.car', 'cucphuong.maybac'], t: 'Na Mây Bạc z przewodnikiem parku', d: 'Mây Bạc, najwyższy szczyt parku (648 m): z Bống stromą ścieżką przez las pierwotny i wapienne zbocza, 7 km tam i z powrotem, 4–5 godzin. Przewodnik parku jest obowiązkowy, a trasa tylko dla dorosłych w dobrej kondycji. Z lasu wyjdź przed zmrokiem: po 19:00 w głąb lasu wolno wejść tylko na nocną wycieczkę z przewodnikiem.' } }
   ],
   gem: 'Najstarszy park narodowy Wietnamu, z tysiącletnim drzewem Chò i ośrodkiem, który ratuje najrzadsze naczelne kraju.',
   skip: 'Wycieczka jednodniowa z Hà Nội: ok. 5,5 godziny w aucie i las w najgorętszej porze dnia.',
@@ -1481,10 +1480,10 @@ CONTENT.dalat = {
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Zmierzch nad doliną Tà Nung', d: 'Omiń centrum i jedź na zachód, na grzbiety nad doliną Tà Nung, by o zmierzchu patrzeć na sosnowe wzgórza i plantacje kawy. Nocleg w pensjonacie za miastem, gdzie noce są ciche i chłodne, a w porze suchej rozgwieżdżone.' },
     { p: 2, o: 2, pace: 'hike', cost: ['dalat.bidoup'], t: 'Las mglisty Bidoup–Núi Bà', d: 'Wędrówka z przewodnikiem wśród starych sosen, omszałego lasu i dzikich storczyków w stronę Hòn Giao. Do szlaku jest ok. 50 km, więc to cały dzień. W porze suchej, od listopada do kwietnia, ścieżki są pewne pod nogami, a w porze deszczowej bywają śliskie. Przewodnika zarezerwuj w centrum informacji turystycznej parku.', easy: { pace: 'nature', cost: ['dalat.cablecar'], t: 'Las sosnowy i klasztor nad jeziorem', d: 'Kolejka linowa z Robin Hill sunie nad lasem sosnowym do Trúc Lâm, cichego klasztoru zen nad jeziorem Tuyền Lâm. Spacer po klasztornych ogrodach, potem niespieszny rejs łódką po jeziorze albo długi obiad nad brzegiem.' },
-      hard: { pace: 'hike', early: true, late: true, off: [5, 6, 7, 8, 9, 10], cost: ['dalat.tanang'], pack: ['torch'], t: 'Szlak Tà Năng–Phan Dũng: przez wzgórza do biwaku', d: 'Pierwszy dzień dwudniowego przejścia szlakiem Tà Năng–Phan Dũng. Biuro odbiera z hotelu przed świtem, śniadanie na targu w Đà Loan i od 9:00 marsz z przewodnikiem przez lasy sosnowe i pola ryżowe na trawiaste wzgórza. Po obiedzie słup, przy którym stykały się trzy dawne prowincje, a przed zmrokiem namiot na wzgórzu, kolacja z grilla i ognisko. To ok. 12–15 km; namioty, jedzenie i wodę niosą porterzy. Na szlak wolno wejść tylko z biurem i przewodnikiem, więc wyjście zarezerwuj wcześniej i zapytaj o licencję biura. Bagaż zostaje w hotelu w Đà Lạt.',
-        rain: 'gdy w górach leje, strumienie w lesie Phan Dũng wzbierają w kilka minut: decyzję o przeprawie zostaw przewodnikowi, a przy złej prognozie przełóż wyjście i zostań w Đà Lạt.',
-        next: { pace: 'hike', t: 'Szlak Tà Năng–Phan Dũng: w dół do lasu Phan Dũng', d: 'Wschód słońca nad wzgórzami, potem w dół przez las sosnowy i suchy las liściasty, z dwiema przeprawami przez strumienie, do bramy lasu Phan Dũng ok. 15:30. Stamtąd auto biura wiezie z powrotem do Đà Lạt, ok. 4,5 godziny, więc w hotelu będziesz ok. 20:00, a w dalszą drogę ruszysz następnego dnia. Przy rezerwacji upewnij się, że powrót do Đà Lạt jest w cenie: wiele biur kończy w Liên Hương nad morzem, skąd do Đà Lạt jeździ jeden minibus dziennie, rano.' } } },
-    { p: 3, o: 3, pace: 'hike', cost: ['dalat.langbiang'], t: 'Szczyt Lang Biang', d: 'Całodniowa wędrówka na Núi Bà (2167 m), najwyższy szczyt góry Lang Biang, 12 km na północ od miasta. Od ośrodka u stóp góry 3–4 km asfaltem do punktu kontrolnego parku Bidoup–Núi Bà, potem ścieżką przez gęsty, wilgotny las i stromymi schodami na szczyt: w sumie 4–6 godzin marszu w obie strony. Ścieżka miejscami ginie w lesie, a w porze deszczowej jest śliska i bywają na niej pijawki. Idź tylko z przewodnikiem. Przy rezerwacji zapytaj, czy szlak jest otwarty i czy biuro ma zgodę parku. Gdy jest zamknięty, park prowadzi własną całodniową trasę z przewodnikiem i obiadem: 10 km od wodospadu Thiên Thai do stacji strażników Đưng Jar Giêng.', easy: { pace: 'culture', cost: ['dalat.train'], t: 'Stara kolej i kwiatowe wioski', d: 'Zabytkowy pociąg z dworca w Đà Lạt, pamiętającego lata 30. XX wieku, do Trại Mát i pagody Linh Phước wyłożonej mozaiką, a potem szklarnie kwiatowej wioski Vạn Thành.' } },
+      hard: { pace: 'hike', early: true, late: true, off: [5, 6, 7, 8, 9, 10], cost: ['dalat.tanang'], pack: ['torch'], t: 'Szlak Tà Năng–Phan Dũng: przez wzgórza do biwaku', d: 'Pierwszy dzień dwudniowego przejścia szlakiem Tà Năng–Phan Dũng. Wyjazd przed świtem, a od 9:00 marsz z przewodnikiem przez lasy sosnowe i pola ryżowe na trawiaste wzgórza, ok. 12–15 km; namioty, jedzenie i wodę niosą porterzy. Przed zmrokiem namiot na wzgórzu, kolacja z grilla i ognisko. Na szlak wolno wejść tylko z biurem i przewodnikiem, a bagaż zostaje w hotelu w Đà Lạt.',
+        rain: 'gdy w górach leje, strumienie w lesie Phan Dũng wzbierają nagle: decyzję o przeprawie zostaw przewodnikowi, a przy złej prognozie przełóż wyjście i zostań w Đà Lạt.',
+        next: { pace: 'hike', t: 'Szlak Tà Năng–Phan Dũng: w dół do lasu Phan Dũng', d: 'Wschód słońca nad wzgórzami, potem w dół przez las sosnowy i suchy las liściasty, z dwiema przeprawami przez strumienie, do bramy lasu Phan Dũng ok. 15:30. Stamtąd auto biura wiezie do Đà Lạt, ok. 4,5 godziny, więc w hotelu będziesz ok. 20:00, a dalej ruszysz następnego dnia. Wiele biur kończy szlak w Liên Hương nad morzem: wybierz takie, które wraca do Đà Lạt.' } } },
+    { p: 3, o: 3, pace: 'hike', cost: ['dalat.langbiang'], t: 'Szczyt Lang Biang', d: 'Całodniowa wędrówka na Núi Bà (2167 m), najwyższy szczyt góry Lang Biang: przez wilgotny las i stromymi schodami na szczyt, 4–6 godzin marszu w obie strony, tylko z przewodnikiem. Ścieżka miejscami ginie w lesie, a w porze deszczowej jest śliska, z pijawkami. Przy rezerwacji zapytaj, czy szlak jest otwarty, bo gdy jest zamknięty, park prowadzi własną trasę: 10 km lasem od wodospadu Thiên Thai.', easy: { pace: 'culture', cost: ['dalat.train'], t: 'Stara kolej i kwiatowe wioski', d: 'Zabytkowy pociąg z dworca w Đà Lạt, pamiętającego lata 30. XX wieku, do Trại Mát i pagody Linh Phước wyłożonej mozaiką, a potem szklarnie kwiatowej wioski Vạn Thành.' } },
     { p: 4, o: 4, pace: 'culture', cost: ['dalat.caudat'], t: 'Herbaciane wzgórza i plantacja kawy', d: 'Wschód słońca nad herbacianymi wzgórzami Cầu Đất, potem rodzinna plantacja kawy ludu K’Ho u stóp góry Lang Biang.', early: true }
   ],
   gem: 'Bidoup–Núi Bà. Większość odwiedzających Đà Lạt w ogóle nie wyjeżdża poza miasto.',
@@ -1503,7 +1502,7 @@ CONTENT.danang = {
     { p: 1, o: 1, pace: 'travel', t: 'Marmurowe Góry i wieczór nad Hàn', d: 'Marmurowe Góry (Ngũ Hành Sơn) na południe od centrum: na Thủy Sơn schodami albo windą, jaskinia Huyền Không i widok z Vọng Giang Đài, czynne 7:00–17:30. Wieczorem kolacja nad rzeką Hàn, a w sobotę i niedzielę o 21:00 Smoczy Most zieje ogniem i wodą.',
       rain: 'w Muzeum Rzeźby Czamskiej (7:00–17:00) zamiast na śliskich schodach Marmurowych Gór.',
       solo: { pace: 'nature', early: true, cost: ['danang.sontra'], t: 'Wieczór nad Hàn i Sơn Trà rano', d: 'Wieczorem kolacja nad rzeką Hàn, a w sobotę i niedzielę o 21:00 pokaz na Smoczym Moście. O świcie kąpiel na Mỹ Khê, gdy dyżurują ratownicy, a od 7:30 autem na Sơn Trà: droga na Bàn Cờ, z której wypatrujesz duków, i pagoda Linh Ứng. Drogi na półwysep zarząd zamyka przy ulewach, więc wieczorem sprawdź jego komunikat. Koło 10:00 dalej w drogę.' } },
-    { p: 2, o: 2, pace: 'nature', early: true, cost: ['danang.sontra'], t: 'Świt na Mỹ Khê i duki z Sơn Trà', d: 'Rano kąpiel na Mỹ Khê, póki dyżurują ratownicy, tylko między flagami. Przed południem Muzeum Rzeźby Czamskiej. Po południu autem z kierowcą, np. Grab na godziny, na półwysep Sơn Trà: od ulicy Yết Kiêu na Bàn Cờ, w dół do Bãi Bắc, pieszo do starego banianu Cây đa di sản, a na koniec pagoda Linh Ứng z posągiem Bodhisattwy. W koronach drzew przy drodze wypatruj duków czerwononogich: zatrzymaj auto i patrz w górę, ale do lasu nie wchodź i zwierząt nie karm. Drogi są otwarte 7:30–17:30, a od marca do września do 18:30; przy ulewach i ostrzeżeniach pogodowych zarząd je zamyka, czasem na kilka dni, więc dzień wcześniej sprawdź jego komunikat.',
+    { p: 2, o: 2, pace: 'nature', early: true, cost: ['danang.sontra'], t: 'Świt na Mỹ Khê i duki z Sơn Trà', d: 'Rano kąpiel na Mỹ Khê, póki dyżurują ratownicy, tylko między flagami, a przed południem Muzeum Rzeźby Czamskiej. Po południu autem na Sơn Trà, na Bàn Cờ i do pagody Linh Ứng. W koronach drzew wypatruj duków czerwononogich, ale do lasu nie wchodź i zwierząt nie karm. Drogi są otwarte 7:30–17:30 (III–IX do 18:30), a przy ulewach zarząd je zamyka: dzień wcześniej sprawdź jego komunikat.',
       rain: 'muzeum i miasto, a na Sơn Trà nie jedź: przy ulewach zarząd zamyka drogi na półwysep, czasem na kilka dni.' }
   ],
   gem: 'Cây đa di sản: stary banian na Sơn Trà, do którego od skrzyżowania przy Bãi Bắc dochodzi się już tylko pieszo.',
@@ -1525,14 +1524,14 @@ CONTENT.hagiang = {
   poi: { name: 'Đồng Văn', pt: [23.29, 105.36] },
   photos: ['hagiang_0', 'hagiang_1', 'hagiang_2', 'hagiang_3', 'hagiang_4'],
   days: [
-    { p: 1, o: 1, pace: 'travel', cost: ['hagiang.permit'], t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, skąd rano ruszysz na pętlę. Na trzy albo cztery dni zarezerwuj samochód z kierowcą albo przewodnika na motocyklu (easy rider) w biurze z licencją, z umową, która wymienia kierowcę, pojazd, trasę i postoje. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej, więc potrzebne jest pozwolenie za 10 USD, które załatwia biuro. Paszport miej zawsze przy sobie.',
+    { p: 1, o: 1, pace: 'travel', cost: ['hagiang.permit'], t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, skąd rano ruszysz na pętlę. Kierowcę albo przewodnika na motocyklu (easy rider) zamawiaj tylko w biurze z licencją. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej, więc potrzebne jest pozwolenie za ok. 230 000–300 000 VND, które załatwia biuro. Paszport miej zawsze przy sobie.',
       rain: 'nic nie zmieniaj, ale zapytaj biuro o prognozę i stan drogi QL4C.',
-      easy: { pace: 'travel', t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, skąd rano ruszysz na pętlę. Na trzy albo cztery dni zarezerwuj samochód z kierowcą w biurze z licencją, z umową, która wymienia kierowcę, pojazd, trasę i postoje. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej, więc potrzebne jest pozwolenie za 10 USD, które załatwia biuro. Paszport miej zawsze przy sobie.' },
-      self: { pace: 'travel', t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang. Motocykl odbierz wieczorem w wypożyczalni, w której oddasz go po pętli: sprawdź hamulce, opony i światła, zrób zdjęcia rys i weź kask z atestem. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej: pozwolenie za 10 USD wydaje urząd imigracyjny policji w mieście, a załatwia je też hotel. Paszport, prawo jazdy i międzynarodowe prawo jazdy miej zawsze przy sobie.' } },
-    { p: 2, o: 2, pace: 'nature', cost: [['hagiang.car', 'hagiang.easyrider']], t: 'Przez Quản Bạ i Yên Minh do Đồng Văn', d: 'Samochodem z kierowcą albo na tylnym siodełku za przewodnikiem na motocyklu przez przełęcz Bắc Sum i Bramę Niebios w Quản Bạ, z widokiem na dwie stożkowe góry Cô Tiên, potem przez Yên Minh i serpentyny Thẩm Mã i Chín Khoanh. Po drodze pałac rodu Vương w Sà Phìn. Razem ok. 150 km, 4–5 godzin samej jazdy. Nocleg w Đồng Văn, a wieczorem spacer po starej dzielnicy.',
+      easy: { pace: 'travel', t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, skąd rano ruszysz na pętlę. Samochód z kierowcą zamawiaj tylko w biurze z licencją. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej, więc potrzebne jest pozwolenie za ok. 230 000–300 000 VND, które załatwia biuro. Paszport miej zawsze przy sobie.' },
+      self: { pace: 'travel', t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, a wieczorem odbiór motocykla w wypożyczalni, w której oddasz go po pętli. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej: pozwolenie za ok. 230 000–300 000 VND wydaje urząd imigracyjny policji w mieście, a załatwia je też hotel. Paszport, prawo jazdy i międzynarodowe prawo jazdy miej zawsze przy sobie.' } },
+    { p: 2, o: 2, pace: 'nature', cost: [['hagiang.car', 'hagiang.easyrider']], t: 'Przez Quản Bạ i Yên Minh do Đồng Văn', d: 'Samochodem z kierowcą albo na tylnym siodełku za przewodnikiem na motocyklu przez przełęcz Bắc Sum i Bramę Niebios w Quản Bạ, z widokiem na stożkowe góry Cô Tiên, potem przez Yên Minh i serpentyny Thẩm Mã i Chín Khoanh, obok pałacu rodu Vương w Sà Phìn. Razem ok. 150 km, 4–5 godzin samej jazdy. Nocleg w Đồng Văn, wieczorem spacer po starej dzielnicy.',
       rain: 'jedź wolniej i na przełęczach licz się z mgłą, a przy ulewie albo ostrzeżeniu przed osuwiskami zapytaj biuro o stan drogi QL4C.',
       easy: { pace: 'nature', cost: ['hagiang.car'], t: 'Przez Quản Bạ i Yên Minh do Đồng Văn', d: 'Samochodem z kierowcą przez przełęcz Bắc Sum i Bramę Niebios w Quản Bạ, z widokiem na dwie stożkowe góry Cô Tiên, potem przez Yên Minh i serpentyny Thẩm Mã i Chín Khoanh. Po drodze pałac rodu Vương w Sà Phìn. Razem ok. 150 km, 4–5 godzin samej jazdy. Nocleg w Đồng Văn, a wieczorem spacer po starej dzielnicy.' },
-      self: { pace: 'nature', cost: ['hagiang.moto'], t: 'Przez Quản Bạ i Yên Minh do Đồng Văn motocyklem', d: 'Motocyklem ok. 140–150 km, 4–5 godzin samej jazdy: ruszaj o 8:00, żeby dojechać przed zmrokiem. Przez przełęcz Bắc Sum i Bramę Niebios w Quản Bạ, Yên Minh, serpentyny Thẩm Mã i Chín Khoanh i obok pałacu rodu Vương w Sà Phìn do Đồng Văn. Na przełęczy Bắc Sum są ostre zakręty, a z naprzeciwka jadą ciężarówki. Policja kontroluje tę drogę, zwłaszcza cudzoziemców na wypożyczonych motocyklach.' } },
+      self: { pace: 'nature', cost: ['hagiang.moto'], t: 'Przez Quản Bạ i Yên Minh do Đồng Văn motocyklem', d: 'Motocyklem ok. 150 km, 4–5 godzin samej jazdy, więc ruszaj o 8:00, żeby dojechać przed zmrokiem: przez przełęcz Bắc Sum i Bramę Niebios w Quản Bạ, Yên Minh, serpentyny Thẩm Mã i Chín Khoanh i obok pałacu rodu Vương w Sà Phìn do Đồng Văn. Na Bắc Sum są ostre zakręty, a z naprzeciwka jadą ciężarówki. Policja kontroluje tę drogę, zwłaszcza cudzoziemców.' } },
     { p: 5, o: 3, pace: 'culture', cost: [['hagiang.car', 'hagiang.easyrider']], t: 'Lũng Cú i wieś pod masztem', d: 'Krótki dzień, ok. 50–60 km: samochodem albo z przewodnikiem na motocyklu do Lũng Cú, na maszt z flagą na najdalej wysuniętym na północ krańcu Wietnamu, po schodach albo wózkiem elektrycznym. Potem wieś Lô Lô Chải pod masztem i powrót do Đồng Văn na drugą noc. Nie zbaczaj w drogi ku granicy.',
       rain: 'przy mgle widok z masztu znika, więc zostań dłużej w starej dzielnicy Đồng Văn i jedź do Lũng Cú, gdy się przejaśni.',
       easy: { pace: 'culture', cost: ['hagiang.car'], t: 'Lũng Cú i wieś pod masztem', d: 'Krótki dzień, ok. 50–60 km: samochodem z kierowcą do Lũng Cú, na maszt z flagą na najdalej wysuniętym na północ krańcu Wietnamu, na górę wózkiem elektrycznym. Potem wieś Lô Lô Chải pod masztem i powrót do Đồng Văn na drugą noc.' },
@@ -1540,7 +1539,7 @@ CONTENT.hagiang = {
     { p: 3, o: 4, pace: 'nature', cost: [['hagiang.car', 'hagiang.easyrider']], t: 'Mã Pí Lèng, kanion Nho Quế i Du Già', d: 'Przez przełęcz Mã Pí Lèng, drogą wykutą w zboczu nad kanionem rzeki Nho Quế, do Mèo Vạc. Jeśli pogoda pozwala, łodzią przez kanion Tu Sản. Po południu przez Mậu Duệ do Du Già, razem ok. 100 km, na nocleg u gospodarzy w dolinie z wodospadem.',
       rain: 'przy ulewie zrezygnuj z łodzi, bo w czasie burz nie pływa, a na przełęczy jedź powoli i nie zatrzymuj się pod skarpą.',
       easy: { pace: 'nature', cost: ['hagiang.car'], t: 'Mã Pí Lèng, kanion Nho Quế i Du Già', d: 'Samochodem z kierowcą przez przełęcz Mã Pí Lèng, drogą wykutą w zboczu nad kanionem rzeki Nho Quế, do Mèo Vạc. Jeśli pogoda pozwala, łodzią przez kanion Tu Sản. Po południu przez Mậu Duệ do Du Già, razem ok. 100 km, na nocleg u gospodarzy w dolinie z wodospadem.' },
-      self: { pace: 'nature', cost: ['hagiang.moto'], t: 'Mã Pí Lèng, kanion Nho Quế i Du Già motocyklem', d: 'Motocyklem ok. 100 km: przez przełęcz Mã Pí Lèng nad kanionem rzeki Nho Quế do Mèo Vạc, a po południu przez Mậu Duệ do Du Già, na nocleg u gospodarzy. Na Mã Pí Lèng jeżdżą ciężarówki i maszyny budowy, a za Mèo Vạc droga bywa w remoncie, więc ruszaj z Đồng Văn rano i jedź powoli. Łodzią przez kanion Tu Sản płyń tylko w kamizelce.' } },
+      self: { pace: 'nature', cost: ['hagiang.moto'], t: 'Mã Pí Lèng, kanion Nho Quế i Du Già motocyklem', d: 'Motocyklem ok. 100 km: przez przełęcz Mã Pí Lèng nad kanionem rzeki Nho Quế do Mèo Vạc, a po południu przez Mậu Duệ do Du Già, na nocleg u gospodarzy. Na Mã Pí Lèng jeżdżą ciężarówki i maszyny budowy, a za Mèo Vạc droga bywa w remoncie, więc ruszaj rano i jedź powoli. Łodzią przez kanion Tu Sản płyń tylko w kamizelce.' } },
     { p: 4, o: 5, pace: 'nature', cost: [['hagiang.car', 'hagiang.easyrider']], t: 'Z Du Già z powrotem do Hà Giang', d: 'Rano spacer do wodospadu w Du Già, potem doliną Lũng Hồ i przez Thái An z powrotem do miasta Hà Giang, ok. 100 km. Nocleg w mieście.',
       rain: 'po ulewie wodospad jest wezbrany i śliski, więc oglądaj go tylko z brzegu, a z Du Già wyjedź wcześniej, żeby wrócić przed zmrokiem.',
       easy: { pace: 'nature', cost: ['hagiang.car'], t: 'Z Du Già z powrotem do Hà Giang', d: 'Rano spacer do wodospadu w Du Già, potem samochodem z kierowcą doliną Lũng Hồ i przez Thái An z powrotem do miasta Hà Giang, ok. 100 km. Nocleg w mieście.' },
@@ -1602,7 +1601,7 @@ CONTENT.hoian = {
       solo: { pace: 'travel', early: true, covers: 2, t: 'Hội An wieczorem i o świcie', d: 'Wieczorem stare miasto w świetle lampionów, najlepiej przed 19:00, zanim tłum będzie największy, i kolacja nad rzeką Thu Bồn. Rano o 6:00 te same uliczki są prawie puste, potem śniadanie i dalej w drogę.' } },
     { p: 2, o: 2, pace: 'culture', early: true, t: 'Stare miasto o 6:00', d: 'Zobacz stare miasto, zanim zjadą się jednodniowi turyści: domy kupieckie i domy zgromadzeń w porannym świetle (do środka wejdziesz od ok. 8:00, z biletem na stare miasto). Po południu wolny czas: krawiec, kawiarnia nad rzeką albo rowerem na plażę An Bàng, 3–4 km od starego miasta.',
       rain: 'domy zgromadzeń na starym mieście albo przymiarki u krawca.' },
-    { p: 3, o: 3, pace: 'culture', early: true, cost: ['hoian.myson'], t: 'Mỹ Sơn o 6:00', d: 'O 5:00 autem z kierowcą do Mỹ Sơn, ok. godziny drogi. Kasa otwiera się o 6:00, a elektryczny wózek wiezie 2 km w głąb doliny, do ruin świątyń Czamów z IV–XIII wieku wśród dżungli. Obejdź grupy B, C, D, A i G, póki chłodno i pusto: ok. 2–3 godziny. O 9:00 u stóp wieży G jest występ tańca Czamów, a koło 9:30 zaczynają zjeżdżać autokary. Trzymaj się oznaczonych ścieżek, bo na zboczach doliny mogą leżeć niewybuchy. Po południu odpoczynek w Hội An, a jeśli kierowca jedzie drugim brzegiem Thu Bồn, wracasz przez pola ryżowe i wsie.',
+    { p: 3, o: 3, pace: 'culture', early: true, cost: ['hoian.myson'], t: 'Mỹ Sơn o 6:00', d: 'O 5:00 autem z kierowcą do Mỹ Sơn, ok. godziny drogi. Kasa otwiera się o 6:00, a wózek wiezie 2 km w głąb doliny, do ruin świątyń Czamów z IV–XIII wieku wśród dżungli: obejdź je, póki chłodno i pusto, bo koło 9:30 zjeżdżają autokary. O 9:00 przy wieży G jest występ tańca Czamów. Trzymaj się oznaczonych ścieżek, bo na zboczach mogą leżeć niewybuchy.',
       rain: 'w lekkim deszczu Mỹ Sơn jest czynne, ale ścieżki są śliskie, a w niższych grupach jest błoto; przy ulewach woda zalewa dolinę i drogę dojazdową, a zarząd zamyka teren, więc rano sprawdź jego komunikat. Wtedy jedź do Muzeum Rzeźby Czamskiej w Đà Nẵng (7:00–17:00), gdzie stoją rzeźby z Mỹ Sơn.',
       easy: { pace: 'boat', early: false, cost: ['hoian.myson_tour'], t: 'Mỹ Sơn z powrotem łodzią', d: 'Wycieczka grupowa z przewodnikiem: odbiór z hotelu ok. 7:00, w Mỹ Sơn ok. 9:00, z występem tańca Czamów, potem obiad, a ok. 13:30 powrót łodzią po Thu Bồn do Hội An. Wygodniej niż o świcie, ale w dolinie będzie gorąco i tłoczno.' } }
   ],
@@ -1660,7 +1659,7 @@ CONTENT.mekong = {
 CONTENT.mucangchai = {
   name: 'Mù Cang Chải i przełęcz Khau Phạ', short: 'Mù Cang Chải',
   sub: 'Tarasy ryżowe Hmông, wzgórze Mâm Xôi i paralotnie nad przełęczą Khau Phạ',
-  region: 'north', maps: 'Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
+  region: 'north', maps: 'Cho Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
   photos: ['mucangchai_0', 'mucangchai_1', 'mucangchai_2', 'mucangchai_3', 'mucangchai_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Tarasy o zachodzie słońca', d: 'Zamelduj się u gospodarzy w La Pán Tẩn albo w miasteczku. Ok. 16:00 wzgórze Móng Ngựa, 2 km od centrum: tarasy ułożone w podkowę, najpiękniejsze przed zachodem słońca, a po 17:00 tłoczno. Na zboczach jest stromo, a na barierkach budek do zdjęć nie stawaj. Na kolację ryba z potoku albo pstrąg z hodowli pod Khau Phạ.',
@@ -1668,7 +1667,7 @@ CONTENT.mucangchai = {
     { p: 2, o: 2, pace: 'hike', cost: ['mucangchai.trek'], t: 'Wioski i tarasy La Pán Tẩn', d: 'Całodniowa wędrówka z lokalnym przewodnikiem: z Chế Cu Nha przez tarasy, las i wioski Hmông do La Pán Tẩn, ok. 10 km, z obiadem po drodze. Na koniec wzgórze Mâm Xôi, tarasy ułożone jak taca kleistego ryżu, skąd ok. 16:00 zabierze cię auto. Po deszczu groble między tarasami są śliskie, więc weź buty z dobrą podeszwą.',
       rain: 'w ulewie zamiast wędrówki autem po punktach widokowych Mâm Xôi i Kim Nọi, a pieszo tylko krótkie odcinki po betonowych drogach.',
       easy: { pace: 'nature', cost: ['mucangchai.car'], t: 'Punkty widokowe autem', d: 'Autem z kierowcą po punktach widokowych: rano Mâm Xôi w La Pán Tẩn (ostatni odcinek mototaksówką), potem tarasy i skała Kim Nọi, ok. 300 m pieszo od drogi, i bambusowy las Mồ Dề, 3,5 km od miasteczka.' } },
-    { p: 3, o: 3, pace: 'nature', cost: ['mucangchai.car', 'mucangchai.paragliding'], t: 'Nad doliną Lìm Mông', d: 'Rano na przełęcz Khau Phạ, ok. 20 km od miasteczka, z widokiem na tarasy doliny Lìm Mông. Kto chce, leci stąd tandemem paralotnią z pilotem: 10–15 minut nad tarasami, z lądowaniem w dolinie, z której operator odwozi na górę. Loty zależą od wiatru, więc zarezerwuj z wyprzedzeniem i miej w zapasie drugi termin. Po południu spacer doliną Lìm Mông i Tú Lệ: cốm prosto z pola i kąpiel w gorących źródłach.',
+    { p: 3, o: 3, pace: 'nature', cost: ['mucangchai.car', 'mucangchai.paragliding'], t: 'Nad doliną Lìm Mông', d: 'Rano na przełęcz Khau Phạ, ok. 20 km od miasteczka, z widokiem na tarasy doliny Lìm Mông. Kto chce, leci stąd tandemem paralotnią z pilotem: 10–15 minut nad tarasami. Loty zależą od wiatru, więc miej w zapasie drugi termin. Po południu dolina Lìm Mông i Tú Lệ: cốm, w sezonie prosto z pola, i kąpiel w gorących źródłach.',
       rain: 'w deszczu paralotnie nie latają, a przełęcz tonie w chmurach: zostań w Tú Lệ przy gorących źródłach albo zamień ten dzień z innym.' }
   ],
   gem: 'Wzgórze Mâm Xôi w La Pán Tẩn: tarasy ułożone jak taca kleistego ryżu, część zabytku narodowego szczególnej klasy.',
@@ -1710,11 +1709,11 @@ CONTENT.phongnha = {
   photos: ['phongnha_0', 'phongnha_1', 'phongnha_2', 'phongnha_3', 'phongnha_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Nad rzeką Son', d: 'Nocleg w miasteczku Phong Nha nad rzeką Son, ok. godziny od lotniska Đồng Hới. Wieczorem rowerem po dolinie Bồng Lai, wśród pól i farm; wiele noclegów pożycza rowery za darmo.' },
-    { p: 2, o: 2, pace: 'hike', cost: ['phongnha.paradise7'], t: '7 km w głąb Paradise Cave', d: 'Całodniowa trasa ośrodka Paradise Cave (Động Thiên Đường): pierwszy kilometr drewnianą kładką, dalej z przewodnikiem i czołówką w ciemności, 7 km w głąb jaskini, z obiadem w środku. Sprzęt wydają o 8:00, koniec ok. 14:30–16:00. Trasa jest od 16 lat i nie dla osób z chorobami serca albo nadciśnieniem; zarezerwuj ją w ośrodku kilka dni wcześniej.',
+    { p: 2, o: 2, pace: 'hike', cost: ['phongnha.paradise7'], t: '7 km w głąb Paradise Cave', d: 'Całodniowa trasa ośrodka Paradise Cave (Động Thiên Đường): pierwszy kilometr drewnianą kładką, dalej z przewodnikiem i czołówką w ciemności, 7 km w głąb jaskini, z obiadem w środku. Sprzęt wydają o 8:00, koniec ok. 14:30–16:00. Trasa jest od 16 lat i nie dla osób z chorobami serca albo nadciśnieniem. W porze deszczowej woda podnosi się i wyprawa zawraca po ok. 4 km.',
       rain: 'kilometr kładki w Paradise Cave, która leży wysoko i działa prawie zawsze; przy kilkudniowych ulewach park wstrzymuje trasę 7 km i łodzie do jaskini Phong Nha.',
       easy: { pace: 'boat', cost: ['phongnha.cave', 'phongnha.paradise'], t: 'Łodzią do jaskini Phong Nha i kładką przez Paradise Cave', d: 'Rano łódź z przystani w miasteczku: pół godziny rzeką Son, potem ok. 1 200 m podziemnej rzeki, już na wiosłach, i suche komory na pomostach, razem ok. 2,5 godziny. Po południu Paradise Cave: autko elektryczne pod górę, schody w dół i kilometr drewnianej kładki wśród nacieków; czynne mniej więcej 7:30–16:00.' },
       hard: { pace: 'hike', late: true, off: [9, 10, 11], cost: ['phongnha.hangen'], pack: ['swim'], t: 'Hang Én: w dół do Rào Thương i noc w jaskini',
-        rain: 'przy ulewach Oxalis odwołuje wyprawę, a woda w Hang Én opada dopiero po kilku dniach: zostaje kilometr kładki w Paradise Cave, która leży wysoko i działa prawie zawsze.', d: 'Dwudniowa wyprawa z Oxalis, jedynym operatorem z pozwoleniem prowincji na tę trasę; prowadzą przewodnicy z asystentami bezpieczeństwa. Odbiór z hotelu o 7:30–8:00, strome zejście do potoku Rào Thương, brody, obiad w wiosce Đoòng, dalej dżunglą do jaskini Nước Lạnh, a nocleg w obozie w Hang Én. Wieczorem kąpiel w jeziorku i kolacja w jaskini. Oxalis wymaga dobrej kondycji (w ostatnim roku wędrówki po co najmniej 6 km i 500 m w górę) i wieku 16–70 lat, a dane o zdrowiu zbiera 45 dni przed wyjściem, więc zarezerwuj ok. 2 miesiące wcześniej. Ten sam operator prowadzi dłuższe wyprawy, np. Tú Làn na 4–5 dni i Hang Va z linami, a Sơn Đoòng, największa jaskinia świata, jest wyprzedana na kilka lat naprzód.',
+        rain: 'przy ulewach Oxalis odwołuje wyprawę, a woda w Hang Én opada dopiero po kilku dniach: zostaje kilometr kładki w Paradise Cave, która leży wysoko i działa prawie zawsze.', d: 'Dwudniowa wyprawa z Oxalis, jedynym operatorem z pozwoleniem prowincji na tę trasę, z przewodnikami i asystentami bezpieczeństwa: strome zejście do potoku Rào Thương, brody, wioska Đoòng, dżunglą do jaskini Nước Lạnh i nocleg w obozie w Hang Én, z kąpielą w jeziorku. Oxalis przyjmuje osoby w wieku 16–70 lat w dobrej kondycji. Sơn Đoòng, największa jaskinia świata, jest wyprzedana na kilka lat naprzód.',
         next: { pace: 'hike', t: 'Hang Én: rano w jaskini, wyjście do drogi', d: 'Po śniadaniu tylna część jaskini i obiad w obozie, potem przez rzeki, ok. 30 przepraw w dwa dni, i 450 m podejścia do drogi, gdzie czeka auto. W Phong Nha ok. 18:00, więc tę noc spędzisz jeszcze tutaj, a w dalszą drogę ruszysz następnego dnia.' } } },
     { p: 3, o: 3, pace: 'boat', cost: ['phongnha.cave', 'phongnha.darkcave'], pack: ['swim'], t: 'Jaskinia Phong Nha z łodzi i Hang Tối', d: 'Rano łodzią z przystani w miasteczku do jaskini Phong Nha: pół godziny rzeką Son, potem ok. 1 200 m podziemnej rzeki na wiosłach. Po południu rzeka Chày i Hang Tối: 400 m tyrolki nad rzeką, jaskinia w ciemności, kąpiel błotna, kajak i kąpiel w rzece, razem ok. 4 godzin (tyrolka od 40 kg).',
       rain: 'kładka w Paradise Cave albo ogród botaniczny, które działają prawie zawsze; przy kilkudniowych ulewach łodzie do jaskini Phong Nha i Hang Tối stoją zwykle przez 2–5 dni.',
@@ -1764,7 +1763,7 @@ CONTENT.puluong = {
     { p: 1, o: 1, pace: 'travel', t: 'W głąb dolin', d: 'Zamelduj się u gospodarzy w bambusowym domu nad tarasami ryżowymi w Bản Đôn albo Kho Mường. Wieczorem spacer po wiosce.' },
     { p: 2, o: 2, pace: 'hike', cost: ['puluong.guide'], t: 'Grzbiety, wioski i wodospad', d: 'Całodniowa wędrówka z przewodnikiem: turkusowe baseny wodospadu Hiêu, wioska Kho Mường i grzbiety między dolinami.',
       easy: { pace: 'nature', cost: ['puluong.car'], t: 'Doliny widziane z drogi', d: 'Samochodem z kierowcą drogą wzdłuż dolin, do dolnych basenów wodospadu Hiêu (krótki, łatwy spacer), potem wioska Kho Mường i długi obiad w domu na palach.' },
-      hard: { pace: 'hike', off: [5, 6, 7, 8, 9], cost: ['puluong.summit'], pack: ['leeches'], t: 'Na szczyt Pù Luông', d: 'Całodniowe wejście na szczyt Pù Luông (1700 m): krótki dojazd od gospodarzy pod górę, potem 8–9 godzin w drodze przez las, z obiadem na szczycie. Podejście jest strome, miejscami ponad 35 stopni, a w lesie bywają pijawki. Idź tylko z przewodnikiem. Rezerwat sam organizuje wejścia na szczyt z przewodnikami z okolicznych wiosek i ogranicza liczbę uczestników, więc zapisz się u niego z wyprzedzeniem i dopytaj o wersję jednodniową. Jeśli rezerwujesz u operatora, zapytaj o jego licencję i zgodę rezerwatu. To bardzo wymagający dzień, dla osób w dobrej kondycji. Gdy pada, zrezygnuj ze szczytu, bo mokra ścieżka jest śliska.' } },
+      hard: { pace: 'hike', off: [5, 6, 7, 8, 9], cost: ['puluong.summit'], pack: ['leeches'], t: 'Na szczyt Pù Luông', d: 'Całodniowe wejście na szczyt Pù Luông (1700 m): 8–9 godzin przez las. Podejście jest strome, miejscami ponad 35 stopni, a w lesie bywają pijawki. Idź tylko z przewodnikiem: rezerwat organizuje wejścia z miejscowymi przewodnikami i ogranicza liczbę miejsc, więc zapisz się wcześniej i dopytaj o wersję jednodniową. To dzień dla osób w dobrej kondycji. Gdy pada, zrezygnuj ze szczytu: mokra ścieżka jest śliska.' } },
     { p: 3, o: 3, pace: 'rest', t: 'Spokojny dzień w dolinie', d: 'Bambusowe koła wodne, bambusowa tratwa na rzece, tkanie w domu na palach i długi obiad u gospodarzy. Po żniwach poranki bywają tu mgliste i ciche.' }
   ],
   gem: 'Turkusowe baseny wodospadu Hiêu.',
@@ -1803,13 +1802,13 @@ CONTENT.sapa = {
   photos: ['sapa_0', 'sapa_1', 'sapa_2', 'sapa_3', 'sapa_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Miasteczko na zboczu', d: 'Zamelduj się w Sa Pa, ok. 1500 m nad morzem, w dawnym francuskim letnisku. Wieczorem spacer po miasteczku. Nawet latem noce są tu chłodne, więc miej pod ręką ciepłą warstwę.' },
-    { p: 2, o: 2, pace: 'hike', cost: ['sapa.trek'], t: 'Wioski doliny Mường Hoa', d: "Całodniowa wędrówka z lokalnym przewodnikiem: z Sa Pa w dół do Ý Linh Hồ i Lao Chải, a potem wzdłuż potoku Mường Hoa do Tả Van, między tarasami ryżowymi ludu H'Mông i Giáy. To ok. 10 km, głównie w dół, z obiadem u rodziny w wiosce. Z Tả Van wrócisz samochodem, a jeśli chcesz zostać dłużej, przenocuj tam u gospodarzy.",
+    { p: 2, o: 2, pace: 'hike', cost: ['sapa.trek'], t: 'Wioski doliny Mường Hoa', d: "Całodniowa wędrówka z lokalnym przewodnikiem: z Sa Pa w dół do Ý Linh Hồ i Lao Chải, a potem wzdłuż potoku Mường Hoa do Tả Van, między tarasami ryżowymi ludu H'Mông i Giáy. To ok. 10 km, głównie w dół, z obiadem u rodziny w wiosce. Z Tả Van wrócisz samochodem.",
       rain: 'wybierz krótszy odcinek doliną albo przełóż wędrówkę, bo ścieżki między tarasami są wtedy śliskie, a w gęstej mgle lepiej przeczekać.',
-      easy: { pace: 'nature', cost: ['sapa.cablecar'], t: 'Fansipan kolejką i wioska Cát Cát', d: 'Rano kolejką linową nad doliną Mường Hoa na Fansipan, 3143 m: z centrum kolejką szynową do dolnej stacji, potem wagonikiem pod szczyt i schodami albo krótką kolejką na sam wierzchołek. Jedź z samego rana, zanim przyjdą chmury, i weź ciepłą kurtkę, czapkę i rękawiczki. Kolejka co roku staje na przegląd, na tydzień albo dłużej (w 2025 na trzy tygodnie), więc sprawdź jej komunikat przed przyjazdem. Po południu spacer w dół do wioski Cát Cát z wodospadem i taksówką z powrotem do miasteczka.' },
-      hard: { pace: 'hike', late: true, off: [5, 6, 7, 8, 9], cost: ['sapa.fansipan'], pack: ['torch'], t: 'Fansipan pieszo: do obozu na 2800 m', d: 'Pierwszy dzień dwudniowego wejścia na Fansipan, 3143 m, szlakiem z Trạm Tôn. Ok. 9:00 samochodem 15 km do stacji strażników parku Hoàng Liên na przełęczy Trạm Tôn, potem w górę przez las: obiad na 2200 m, a po południu nocleg w obozie na 2800 m, bez prądu. Idź tylko z firmą, która załatwi zgodę parku, i z przewodnikiem z kartą wejścia do lasu: samemu wchodzić do lasu nie wolno. Szlak jest stromy i śliski, dla osób w dobrej kondycji.',
+      easy: { pace: 'nature', cost: ['sapa.cablecar'], t: 'Fansipan kolejką i wioska Cát Cát', d: 'Rano kolejką linową nad doliną Mường Hoa na Fansipan, 3143 m: jedź z samego rana, zanim przyjdą chmury, i weź ciepłą kurtkę, czapkę i rękawiczki. Kolejka co roku staje na przegląd, na tydzień albo dłużej (w 2025 na trzy tygodnie), więc przed przyjazdem sprawdź jej komunikat. Po południu spacer w dół do wioski Cát Cát z wodospadem.' },
+      hard: { pace: 'hike', late: true, off: [5, 6, 7, 8, 9], cost: ['sapa.fansipan'], pack: ['torch'], t: 'Fansipan pieszo: do obozu na 2800 m', d: 'Pierwszy dzień dwudniowego wejścia na Fansipan, 3143 m: z przełęczy Trạm Tôn przez las, obiad na 2200 m, a po południu nocleg w obozie na 2800 m, bez prądu. Idź tylko z firmą, która załatwi zgodę parku, i z przewodnikiem z kartą wejścia: na własną rękę do lasu wchodzić nie wolno. Szlak jest stromy i śliski, dla osób w dobrej kondycji.',
         rain: 'przy ulewie albo burzy firma przekłada wejście, a w czasie sztormów urząd turystyki prowincji każe wstrzymać wyjścia w góry: zostań w Sa Pa i wjedź na szczyt kolejką, gdy się przejaśni.',
-        next: { pace: 'hike', cost: ['sapa.descent'], t: 'Fansipan pieszo: szczyt i powrót', d: 'Rano podejście na szczyt, na którym będziesz ok. 10:00–10:30, potem zejście do obozu na obiad i dalej do Trạm Tôn, skąd samochód zawiezie cię do Sa Pa ok. 17:00. Krótsza droga powrotna to kolejka z górnej stacji pod szczytem: bilet kupisz na miejscu, kosztuje tyle co w obie strony, a w Sa Pa będziesz ok. 12:00–13:00. Od końca listopada do lutego na szczycie bywa lód, więc weź rękawiczki i ciepłą kurtkę.' } } },
-    { p: 3, o: 3, pace: 'nature', cost: ['sapa.cablecar'], t: 'Fansipan kolejką i wioska Cát Cát', d: 'Rano kolejką linową nad doliną Mường Hoa na Fansipan, 3143 m: z centrum kolejką szynową do dolnej stacji, potem wagonikiem pod szczyt i schodami albo krótką kolejką na sam wierzchołek. Jedź z samego rana, zanim przyjdą chmury, i weź ciepłą kurtkę, czapkę i rękawiczki. Kolejka co roku staje na przegląd, na tydzień albo dłużej (w 2025 na trzy tygodnie), więc sprawdź jej komunikat przed przyjazdem. Po południu spacer w dół do wioski Cát Cát z wodospadem i taksówką z powrotem do miasteczka.',
+        next: { pace: 'hike', cost: ['sapa.descent'], t: 'Fansipan pieszo: szczyt i powrót', d: 'Rano podejście na szczyt, na którym będziesz ok. 10:00–10:30, potem zejście do obozu na obiad i dalej do Trạm Tôn, a w Sa Pa ok. 17:00. Krócej wraca się kolejką spod szczytu (bilet kosztuje tyle co w obie strony), a wtedy w Sa Pa będziesz ok. 12:00–13:00. Od końca listopada do lutego na szczycie bywa lód, więc weź rękawiczki i ciepłą kurtkę.' } } },
+    { p: 3, o: 3, pace: 'nature', cost: ['sapa.cablecar'], t: 'Fansipan kolejką i wioska Cát Cát', d: 'Rano kolejką linową nad doliną Mường Hoa na Fansipan, 3143 m: jedź z samego rana, zanim przyjdą chmury, i weź ciepłą kurtkę, czapkę i rękawiczki. Kolejka co roku staje na przegląd, na tydzień albo dłużej (w 2025 na trzy tygodnie), więc przed przyjazdem sprawdź jej komunikat. Po południu spacer w dół do wioski Cát Cát z wodospadem.',
       rain: 'kolejka kursuje też w deszczu, ale szczyt bywa wtedy w chmurach: jeśli prognoza jest zła, zamień ten dzień z innym.',
       easy: { pace: 'culture', cost: ['sapa.car'], t: 'Dolina Mường Hoa bez wędrówki', d: 'Samochodem z kierowcą w dół doliny Mường Hoa przez Ý Linh Hồ i Lao Chải do Tả Van, z krótkimi spacerami między tarasami i nad potokiem. Obiad u rodziny w Tả Van, a po południu, jeśli masz ochotę, kąpiel w ziołach ludu Dao w La Dao.' } },
     { p: 4, o: 4, pace: 'nature', cost: ['sapa.car'], t: 'Wodospady pod przełęczą Ô Quy Hồ', d: 'Samochodem z kierowcą drogą na przełęcz Ô Quy Hồ: najpierw wodospad Thác Bạc, kilkaset schodów od drogi, potem przy bramie parku Hoàng Liên ok. 30 minut leśną ścieżką do Thác Tình Yêu, czyli Wodospadu Miłości. Na koniec przełęcz, prawie 2000 m nad morzem, z widokiem na pasmo Hoàng Liên, jeśli nie ma mgły.',
@@ -1835,10 +1834,10 @@ CONTENT.yokdon = {
     { p: 1, o: 1, pace: 'travel', cost: ['yokdon.boat'], t: 'Do lasu nad Sêrêpốk', d: 'Zamelduj się w domu gościnnym parku, przy siedzibie, gdzie zaczynają się wszystkie wycieczki. Po południu łódź po rzece Sêrêpốk, 40–60 minut. Jeśli jedziesz przez Buôn Ma Thuột, zatrzymaj się w Muzeum Kawy, zbudowanym na wzór długiego domu ludu Ê Đê.',
       rain: 'w burzy łódź nie wypłynie: zostań dłużej w Buôn Ma Thuột, w Muzeum Kawy i w muzeum Đắk Lắk o ludach Wyżyny Centralnej, a do parku dojedź na wieczór.',
       solo: { pace: 'nature', cost: ['yokdon.boat', 'yokdon.elephants'], t: 'Yok Đôn wieczorem i rano', d: 'Dotrzyj do parku po południu i zamelduj się w domu gościnnym. O zachodzie łódź po Sêrêpốk. Rano o 8:00 ruszasz z przewodnikiem parku pieszo za słoniami, które same szukają jedzenia w lesie; koło 11:00 wracasz i dalej w drogę.' } },
-    { p: 2, o: 2, pace: 'hike', cost: ['yokdon.elephants', 'yokdon.trek'], t: 'Pieszo za słoniami', d: 'O 8:00 z przewodnikiem parku w las, pieszo tam, gdzie słonie były ostatnio widziane. Słonie przez lata woziły turystów, a od 2018 roku chodzą wolno po lesie i same szukają jedzenia; patrzysz z odległości, bez jazdy, kąpieli i karmienia. Po obiedzie znów z przewodnikiem, tym razem przez suchy las, z kąpielą w strumieniu. Na własną rękę do lasu nie wejdziesz: słonie chodzą po nim swobodnie, więc park wpuszcza tylko z przewodnikiem.',
+    { p: 2, o: 2, pace: 'hike', cost: ['yokdon.elephants', 'yokdon.trek'], t: 'Pieszo za słoniami', d: 'O 8:00 z przewodnikiem parku pieszo w las, tam, gdzie słonie były ostatnio widziane. Słonie przez lata woziły turystów, a od 2018 roku chodzą wolno po lesie i same szukają jedzenia: patrzysz z odległości, bez jazdy, kąpieli i karmienia. Po obiedzie znów z przewodnikiem przez suchy las, z kąpielą w strumieniu. Do lasu park wpuszcza tylko z przewodnikiem.',
       rain: 'rano słonie jak zwykle, w pelerynie, a po południu, gdy przyjdzie burza, zamiast lasu lekcja gotowania w kuchni rodziny Ê Đê, 700 metrów od parku.',
       easy: { pace: 'nature', cost: ['yokdon.elephants', 'yokdon.cooking'], t: 'Słonie rano, kuchnia Ê Đê po południu', d: 'Rano pół dnia za słoniami, 8:00–11:00, z przewodnikiem parku i transportem z biura do lasu. Po południu lekcja gotowania u rodziny Ê Đê w Buôn Jang Lành, 700 metrów od parku: razem z gospodarzami gotujesz i jesz obiad.' },
-      hard: { pace: 'hike', late: true, off: [5, 6, 7, 8, 9, 10], cost: ['yokdon.camp'], pack: ['torch'], t: 'Noc w lesie Yok Đôn', d: 'Noc w lesie z przewodnikiem parku: od rana pieszo przez suchy las, przez zarośla i trawiaste polany, do obozu, zwykle przy wodospadzie Thác Phật, 8 kilometrów od siedziby. Nocleg w hamaku albo w namiocie parku, a rano marsz z powrotem; w dalszą podróż ruszysz koło południa. Park daje hamak, namiot i przewodnika, jedzenie zamów osobno. Słonie chodzą po tym lesie wolno, więc idziesz tylko z przewodnikiem i trzymasz się jego wskazówek. Słonie z programu zobaczysz w dniu przyjazdu, jeśli zdążysz na turę 13:30–16:30.' } }
+      hard: { pace: 'hike', late: true, off: [5, 6, 7, 8, 9, 10], cost: ['yokdon.camp'], pack: ['torch'], t: 'Noc w lesie Yok Đôn', d: 'Noc w lesie z przewodnikiem parku: pieszo przez suchy las do obozu, zwykle przy wodospadzie Thác Phật, 8 km od siedziby, i nocleg w hamaku albo w namiocie parku. Słonie chodzą tu wolno, więc trzymaj się wskazówek przewodnika. W drogę ruszysz koło południa: nie rezerwuj na ten dzień wczesnego lotu. Słonie z programu zobaczysz tylko w dniu przyjazdu, jeśli dotrzesz przed turą 13:30.' } }
   ],
   gem: 'Jedyny w Wietnamie park suchego lasu, w którym słonie po latach wożenia turystów chodzą wolno po lesie, a ty idziesz za nimi pieszo.',
   skip: 'Jazda na słoniu w Lắk albo zdjęcia ze słoniem za ogrodzeniem w Buôn Đôn.',
@@ -1946,7 +1945,7 @@ var PHOTO_META = {
   yokdon_4: { cap: 'Muzeum Đắk Lắk w Buôn Ma Thuột', artist: 'Daaé', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Bao_tang_Dak_Lak_1.JPG' },
   mucangchai_0: { cap: 'Tarasy w La Pán Tẩn', artist: 'Văn Ngọc Tăng (langthangdaydo)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:La_P%C3%A1n_T%E1%BA%A9n_Agriculture_(Unsplash).jpg' },
   mucangchai_1: { cap: 'Tarasy pod przełęczą Khau Phạ', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Khau_Ph%E1%BA%A1_Pass,_Vietnam_(Unsplash).jpg' },
-  mucangchai_2: { cap: 'Tarasy w gminie Chế Cu Nha', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Terraces_in_Che_Cu_Nha_commune,_Mu_Cang_Chai_(Unsplash).jpg' },
+  mucangchai_2: { cap: 'Tarasy w Chế Cu Nha', artist: 'Doan Tuan (danny_pham93)', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:Terraces_in_Che_Cu_Nha_commune,_Mu_Cang_Chai_(Unsplash).jpg' },
   mucangchai_3: { cap: 'Dolina pod przełęczą Khau Phạ z góry', artist: 'Victor311', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Khau_Ph%E1%BA%A1_nh%C3%ACn_t%E1%BB%AB_tr%C3%AAn_cao.jpg' },
   mucangchai_4: { cap: 'Tarasy w porze wody w Dế Xu Phình', artist: 'Gió Đông', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mu_Cang_Chai_02.JPG' },
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
@@ -2009,7 +2008,8 @@ UI.pl = {
   'f.hikes.one': 'dzień z wędrówką', 'f.hikes.few': 'dni z wędrówką', 'f.hikes.many': 'dni z wędrówką',
   'f.longest': 'najdłuższy dzień w drodze',
   'f.budget': 'na osobę, orientacyjnie', 'f.budget.aria': 'Budżet: {x} na osobę, orientacyjnie. Szczegóły w części Przed wyjazdem',
-  'zl': '{a}–{b}\u00a0zł', 'zl.one': '{a}\u00a0zł',
+  'vnd': '{a}–{b}\u00a0VND', 'vnd.one': '{a}\u00a0VND', 'mln': '{a}–{b}\u00a0mln\u00a0VND', 'mln.one': '{a}\u00a0mln\u00a0VND',
+  'vnd.upto': 'do\u00a0{b}\u00a0VND', 'mln.upto': 'do\u00a0{b}\u00a0mln\u00a0VND',
   'term.month': '{month} {year}',
   'alert.past': 'Ten termin już minął. Wybierz nowy miesiąc albo daty, a trasa ułoży się na nowo.',
   'alert.tet': 'Tết, dni wolne ok. {span}: część miejsc jest zamknięta, a transport i noclegi wyprzedają się i drożeją, także tydzień przed i po. Rezerwuj wcześnie.',
@@ -2095,13 +2095,13 @@ UI.pl = {
   'off.shorter': 'Zmieści się bez usuwania innych miejsc, ale skróci pobyt w: {list}.',
   'off.dropped': 'Żeby zmieścić {x}, z trasy wypadło: {list}.', 'off.came': 'Doszło też: {list}.', 'off.came_only': 'Po dodaniu {x} doszło też: {list}.',
   'sw.caobang': 'Pętla po Cao Bằng', 'sw.hagiang': 'Pętla Hà Giang', 'sw.haivan': 'Przez przełęcz Hải Vân', 'sw.driver': 'Z kierowcą', 'sw.self': 'Samodzielnie',
-  'sw.note': 'Samodzielnie tylko z polskim prawem jazdy kategorii A1, A2 albo A i międzynarodowym prawem jazdy według konwencji wiedeńskiej, oba przy sobie. Samo B nie wystarcza nawet na skuter 110–125 cm³.',
+  'sw.note': 'Samodzielnie tylko z prawem jazdy na motocykl i międzynarodowym prawem jazdy według konwencji z 1968 r., oba przy sobie. Samo prawo jazdy na samochód nie wystarcza nawet na skuter 110–125 cm³. Sprawdź, według której konwencji wydaje je twój kraj, bo międzynarodowe prawo jazdy według konwencji z 1949 r. w Wietnamie nie działa.',
   'sw.req.h': 'Wymagania. ', 'sw.risk.h': 'Ryzyko. ', 'sw.tips.h': 'Rady. ',
-  'sw.req': 'Międzynarodowe prawo jazdy wydaje starostwo: 35 zł, zwykle od ręki, ważne do 3 lat. W motocyklu muszą być dowód rejestracyjny i polisa obowiązkowego OC, a kask zgodny z normą trzeba zapiąć, także pasażerowi. Sprawdź w warunkach swojej polisy, czy obejmuje jazdę motocyklem.',
-  'sw.risk': 'Na drogach Wietnamu ginie na mieszkańca ok. 2,7 raza więcej osób niż w Polsce. Po wypadku grozi odpowiedzialność karna, odszkodowanie i zakaz wyjazdu do końca dochodzenia. Bez uprawnień grozi mandat 2–4 mln VND i zatrzymanie motocykla, a polisa może nie zapłacić. Policja kontroluje cudzoziemców.',
-  'sw.tips': 'Przy odbiorze obejrzyj motocykl i zrób zdjęcia rys. Paszportu nie zostawiaj w zastaw, zapytaj o kaucję gotówką. Nie jedź po zmroku, w deszczu i mgle zwolnij, a na serpentynach uważaj na żwir i ciężarówki.',
+  'sw.req': 'W motocyklu muszą być dowód rejestracyjny i polisa obowiązkowego OC, a kask zgodny z normą trzeba zapiąć, także pasażerowi. Sprawdź w warunkach swojej polisy, czy obejmuje jazdę motocyklem.',
+  'sw.risk': 'Na drogach Wietnamu ginie ok. 17 000 osób rocznie (szacunek WHO), a ponad 90% z nich w wypadkach z udziałem motocykla. Po wypadku grozi odpowiedzialność karna, odszkodowanie i zakaz wyjazdu do końca dochodzenia. Bez uprawnień grozi mandat 2–4 mln VND i zatrzymanie motocykla, a polisa może nie zapłacić. Policja kontroluje cudzoziemców.',
+  'sw.tips': 'Paszportu nie zostawiaj w zastaw, zapytaj o kaucję gotówką. Nie jedź po zmroku, w deszczu i mgle zwolnij, a na serpentynach uważaj na żwir i ciężarówki.',
   'sw.tips.caobang': 'Na pętli rozsądnie jest 80–100 km dziennie. Tankuj przy każdej okazji, bo za miastem stacji jest mało.',
-  'sw.tips.hagiang': 'Motocykl weź i oddaj w mieście Hà Giang. Na pętli rozsądnie jest 100–150 km dziennie, więc ruszaj rano; najostrzejsze zakręty i najwięcej ciężarówek są na przełęczach Bắc Sum i Mã Pí Lèng. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej: pozwolenie za 10 USD wydaje urząd imigracyjny policji w mieście Hà Giang, a załatwia je też hotel. Nie zbaczaj w drogi ku granicy.',
+  'sw.tips.hagiang': 'Motocykl weź i oddaj w mieście Hà Giang. Na pętli rozsądnie jest 100–150 km dziennie, więc ruszaj rano; najostrzejsze zakręty i najwięcej ciężarówek są na przełęczach Bắc Sum i Mã Pí Lèng. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej: pozwolenie za ok. 230 000–300 000 VND wydaje urząd imigracyjny policji w mieście Hà Giang, a załatwia je też hotel. Nie zbaczaj w drogi ku granicy.',
   'sw.risk.hagiang': 'Od 12 kwietnia 2026 drogę do Đồng Văn sprawdza policja prowincji, zwłaszcza cudzoziemców na wypożyczonych motocyklach, a część wypożyczalni i biur (ok. 30) zobowiązała się nie wydawać motocykla bez wymaganych uprawnień. W 2026 na pętli zginęły dwie turystki, obie na tylnym siodełku motocykla miejscowego kierowcy.',
   'sw.tips.haivan': 'Przez przełęcz jedzie się tylko górą, bo motocykle nie wjeżdżają do tunelu. Wyjedź rano, przed ruchem i mgłą.',
   'stop.remove': 'Usuń', 'stop.remove.aria': 'Usuń {x} z trasy', 'tag.added': 'Dodane',
@@ -2120,7 +2120,7 @@ UI.pl = {
   'bud.h3': 'Budżet', 'bud.two': 'na osobę, przy dwóch osobach w pokoju i aucie.', 'bud.one': 'W pojedynkę: {x}.',
   'bud.nights': 'Noclegi', 'bud.day': 'Jedzenie i drobne wydatki', 'bud.travel': 'Przejazdy i loty krajowe', 'bud.trips': 'Wycieczki, przewodnicy i rejsy',
   'bud.top': 'Najwięcej kosztują: {x}.', 'bud.item': '{name} ({x})',
-  'bud.note': 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w {month} {year} i przeliczone z euro po kursie NBP z {rate}.',
+  'bud.note': 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w {month} {year}.',
   'bud.tet': 'Ten termin obejmuje Tết: noclegi drożeją zwykle o 20–50%, autobusy o 40–60%, a loty krajowe kosztują 2–3 razy więcej, więc kwoty będą wyższe.',
   'bud.holiday': 'Ten termin obejmuje długi weekend ({x}): ceny bywają wyższe, a miejsc mniej.',
   'bud.holidays': 'Ten termin obejmuje długie weekendy: {x}. Ceny bywają wtedy wyższe, a miejsc mniej.',
@@ -2153,75 +2153,63 @@ UI.pl = {
   'cost.cucphuong.centres': 'ośrodki ratowania w Cúc Phương', 'cost.cucphuong.night': 'nocna przejażdżka w Cúc Phương', 'cost.cucphuong.car': 'auto do Bống',
   'cost.cucphuong.maybac': 'przewodnik na Mây Bạc',
   'cost.danang.sontra': 'auto na Sơn Trà', 'cost.haivan.car_dn': 'auto przez przełęcz Hải Vân z Đà Nẵng', 'cost.haivan.moto_dn': 'motocykl przez przełęcz Hải Vân z Đà Nẵng',
-  'book.h3': 'Zarezerwuj wcześniej', 'book.p': 'Od najpilniejszego. Kwoty na osobę przy dwóch osobach.', 'book.cost': 'ok. {x} na osobę', 'book.both': 'w obie strony',
+  'book.h3': 'Zarezerwuj wcześniej', 'book.p': 'Od najpilniejszego. Kwoty na osobę przy dwóch osobach.', 'book.cost': 'ok. {x} na osobę', 'book.upto': '{x} na osobę', 'book.both': 'w obie strony',
   'book.tet': 'Na Tết rezerwuj z dużym zapasem: loty krajowe 2–3 miesiące wcześniej, rejsy i noclegi u gospodarzy 1–2 miesiące, samochody z kierowcą 3–4 tygodnie.',
   'book.none': 'Na tej trasie nic nie trzeba rezerwować z dużym wyprzedzeniem. Noclegi zarezerwuj tydzień–dwa wcześniej.',
-  'b.phongnha.hangen': 'Wyprawa do Hang Én z Oxalis: ok. 2 miesiące wcześniej, w marcu, kwietniu i latem 3–4 miesiące; dane o zdrowiu operator zbiera 45 dni przed wyjściem.',
+  'b.phongnha.hangen': 'Wyprawa do Hang Én z Oxalis: ok. 2 miesiące wcześniej, w marcu, kwietniu i latem 3–4 miesiące.',
   'b.phongnha.tulan': 'Tú Làn w jeden dzień z Oxalis: 1–2 tygodnie wcześniej, w szczycie 3–4 tygodnie.',
   'b.haivan.car_dn': 'Samochód z kierowcą z Đà Nẵng do Huế przez przełęcz Hải Vân: 1–3 dni wcześniej, na Tết i długie weekendy 1–2 tygodnie.',
-  'b.haivan.moto_dn': 'Motocykl w jedną stronę z Đà Nẵng do Huế, z przewozem bagażu: 2–3 dni wcześniej; odbierasz go w biurze wypożyczalni.',
-  'b.cucphuong.stay': 'Nocleg w pokojach parku Cúc Phương, a z nim nocna przejażdżka, na której nocujący mają pierwszeństwo: w parku telefonem, przez Zalo albo e-mailem, 3–7 dni wcześniej, na weekend 1–2 tygodnie, w porze motyli i świetlików 3–4 tygodnie.',
+  'b.haivan.moto_dn': 'Motocykl w jedną stronę z Đà Nẵng do Huế, z przewozem bagażu: 2–3 dni wcześniej.',
+  'b.cucphuong.stay': 'Nocleg w parku Cúc Phương, a z nim nocna przejażdżka, na której nocujący mają pierwszeństwo: 3–7 dni wcześniej, na weekend 1–2 tygodnie, w porze motyli i świetlików 3–4 tygodnie.',
   'b.cucphuong.maybac': 'Przewodnik parku na Mây Bạc: 2–3 dni wcześniej, w szczycie 1–2 tygodnie.',
-  'b.cucphuong.car': 'Auto z kierowcą na dzień do Bống: dzień wcześniej, przez park albo nocleg.',
-  'b.phongnha.paradise7': '7 km w Paradise Cave: w ośrodku Paradise Cave 3–7 dni wcześniej, w szczycie 1–2 tygodnie.',
+  'b.cucphuong.car': 'Auto z kierowcą na dzień do Bống: dzień wcześniej.',
+  'b.phongnha.paradise7': '7 km w Paradise Cave: 3–7 dni wcześniej, w szczycie 1–2 tygodnie.',
   'b.sapa.fansipan': 'Fansipan pieszo w dwa dni, z firmą, która załatwi zgodę parku: 3–7 dni wcześniej, w szczycie 1–2 tygodnie. Zapytaj o numer licencji firmy i o to, czy przewodnik ma kartę wejścia wydaną przez park.',
-  'b.yokdon.stay': 'Nocleg w domu gościnnym parku Yok Đôn (13 pokoi) i łódź: e-mailem albo przez WhatsApp w parku, 3–7 dni wcześniej, na weekend 1–2 tygodnie, w święta 3–4 tygodnie.',
-  'b.yokdon.elephants': 'Słonie w Yok Đôn, do 10 osób w grupie: w parku 3–7 dni wcześniej, w święta 2–3 tygodnie, bo miejsc jest tyle, ile słoni w programie.',
+  'b.yokdon.stay': 'Nocleg w domu gościnnym parku Yok Đôn i łódź: 3–7 dni wcześniej, na weekend 1–2 tygodnie, w święta 3–4 tygodnie.',
+  'b.yokdon.elephants': 'Słonie w Yok Đôn: 3–7 dni wcześniej, w święta 2–3 tygodnie.',
   'b.yokdon.camp': 'Noc w lesie Yok Đôn z przewodnikiem parku: 3–7 dni wcześniej, w szczycie 2 tygodnie.',
   'b.mucangchai.paragliding': 'Lot tandemem paralotnią z Khau Phạ: 3–5 dni wcześniej, w porze złotych tarasów i w czasie festiwalu 1–2 tygodnie. Loty zależą od wiatru, więc zostaw sobie drugi termin.',
   'b.mucangchai.trek': 'Przewodnik na wędrówkę z Chế Cu Nha do La Pán Tẩn: 2–3 dni wcześniej, w porze złotych tarasów ok. tygodnia.',
-  'b.mucangchai.car': 'Samochód z kierowcą na dzień w okolicy Mù Cang Chải: dzień wcześniej, przez gospodarzy.',
+  'b.mucangchai.car': 'Samochód z kierowcą na dzień w okolicy Mù Cang Chải: dzień wcześniej.',
   'b.sapa.trek': 'Przewodnik na wędrówkę przez Lao Chải i Tả Van: 1–2 dni wcześniej, w porze złotych tarasów i w święta ok. tygodnia.',
-  'b.sapa.car': 'Samochód z kierowcą na dzień w okolicy Sa Pa: dzień wcześniej przez hotel, w szczycie 2–3 dni wcześniej.',
+  'b.sapa.car': 'Samochód z kierowcą na dzień w okolicy Sa Pa: dzień wcześniej, w szczycie 2–3 dni.',
   'b.flights': 'Loty krajowe: {x}. Kupuj ok. 3 tygodnie wcześniej.',
-  'b.cattien.bausau_night': 'Noc nad Bàu Sấu: telefonem, przez Zalo albo e-mailem w parku Cát Tiên, 2–4 tygodnie wcześniej, w święta co najmniej miesiąc; miejsc jest ok. 19.',
+  'b.cattien.bausau_night': 'Noc nad Bàu Sấu w parku Cát Tiên: 2–4 tygodnie wcześniej, w święta co najmniej miesiąc.',
   'b.catba.cruise': 'Rejs po Zatoce Lan Hạ z noclegiem na statku, z wypłynięciem z Cát Bà: 1–2 tygodnie wcześniej, od października do kwietnia 2–4 tygodnie.',
-  'b.homestay': 'Noclegi u gospodarzy: {x}. Rezerwuj 1–2 tygodnie wcześniej, bezpośrednio u gospodarzy.',
+  'b.homestay': 'Noclegi u gospodarzy: {x}. Rezerwuj 1–2 tygodnie wcześniej.',
   'b.homestay.puluong': 'W Pù Luông w porze złotych tarasów i w długie weekendy 4–6 tygodni wcześniej.',
   'b.homestay.hagiang': 'W Đồng Văn i Du Già w porze kwitnienia gryki (X–XII) 2–3 tygodnie wcześniej.',
   'b.homestay.mucangchai': 'W Mù Cang Chải w porze złotych tarasów (koniec VIII – połowa X) i na 2.09 3–4 tygodnie wcześniej.',
-  'b.puluong.summit': 'Wejście na szczyt Pù Luông: formularzem rezerwatu 3–7 dni wcześniej, w szczycie 2–3 tygodnie.',
+  'b.puluong.summit': 'Wejście na szczyt Pù Luông: 3–7 dni wcześniej, w szczycie 2–3 tygodnie.',
   'b.caobang.car': 'Samochód z kierowcą albo przewodnik na motocyklu (easy rider) na pętlę Cao Bằng: 3–7 dni wcześniej, w szczycie 2–4 tygodnie.',
   'b.caobang.easyrider': 'Przewodnik na motocyklu (easy rider) na pętlę Cao Bằng: 3–7 dni wcześniej.',
-  'b.caobang.moto': 'Motocykl na pętlę Cao Bằng, w wypożyczalni w mieście: 1–3 dni wcześniej, w szczycie 1–2 tygodnie.',
+  'b.caobang.moto': 'Motocykl na pętlę Cao Bằng: 1–3 dni wcześniej, w szczycie 1–2 tygodnie.',
   'b.hagiang.car': 'Samochód z kierowcą albo przewodnik na motocyklu (easy rider) na pętlę Hà Giang, w biurze z licencją: 3–7 dni wcześniej, w szczycie 3–4 tygodnie.',
   'b.hagiang.easyrider': 'Przewodnik na motocyklu (easy rider) na pętlę Hà Giang, w biurze z licencją: 3–7 dni wcześniej.',
-  'b.hagiang.moto': 'Motocykl na pętlę Hà Giang, w wypożyczalni w mieście Hà Giang: 1–3 dni wcześniej, w szczycie 1–2 tygodnie.',
+  'b.hagiang.moto': 'Motocykl na pętlę Hà Giang: 1–3 dni wcześniej, w szczycie 1–2 tygodnie.',
   'b.haivan.car': 'Samochód z kierowcą przez przełęcz Hải Vân: 1–3 dni wcześniej.',
   'b.haivan.moto': 'Motocykl w jedną stronę przez przełęcz Hải Vân, z przewozem bagażu: 2–3 dni wcześniej.',
   'b.transfer': 'Minibusy typu limousine i autobusy między miastami: 1–2 dni wcześniej.',
-  'b.airport': 'Samochód z kierowcą na dalekie drogi z lotnisk: {x}. Zamów 2–3 dni wcześniej.',
+  'b.airport': 'Samochód z kierowcą z lotniska albo na lotnisko: {x}. Zamów 2–3 dni wcześniej.',
   'b.dalat.bidoup': 'Przewodnik w parku Bidoup–Núi Bà: 2–3 dni wcześniej.',
   'b.dalat.langbiang': 'Przewodnik na Lang Biang: 2–3 dni wcześniej, gdy park potwierdzi, że szlak jest otwarty.',
-  'b.dalat.tanang': 'Szlak Tà Năng–Phan Dũng z biurem z Đà Lạt: 1–2 tygodnie wcześniej, w szczycie (weekendy I–IV, Tết, 30.04–1.05, 2.09) 3–4 tygodnie. Zapytaj o licencję biura i zgodę zarządcy lasu i upewnij się, że powrót do Đà Lạt jest w cenie.',
+  'b.dalat.tanang': 'Szlak Tà Năng–Phan Dũng z biurem z Đà Lạt: 1–2 tygodnie wcześniej, w weekendy I–IV, na Tết i 30.04 3–4 tygodnie. Zapytaj o licencję biura i zgodę zarządcy lasu i upewnij się, że powrót do Đà Lạt jest w cenie.',
   'b.saigon.cangio': 'Samochód z kierowcą na dzień do Cần Giờ: 1–2 dni wcześniej.',
   'b.hanoi.duonglam': 'Wycieczka do Đường Lâm: 1–2 dni wcześniej.',
   'b.hoian.cooking': 'Lekcja gotowania w Trà Quế: 1–2 dni wcześniej.',
-  'b.hoian.myson': 'Auto z kierowcą do Mỹ Sơn na 5:00: dzień wcześniej, w szczycie (XII–I, Tết, 30.04–1.05, 2.09) 2–3 dni. Bilet kupisz w kasie albo online.',
+  'b.hoian.myson': 'Auto z kierowcą do Mỹ Sơn na 5:00: dzień wcześniej, w szczycie (XII–I, Tết, 30.04–1.05, 2.09) 2–3 dni.',
   'b.hoian.myson_tour': 'Wycieczka grupowa do Mỹ Sơn z powrotem łodzią: 1–2 dni wcześniej, w szczycie 3–7 dni.',
-  'b.cattien.park': '{x}: zapisz się w parku przed przyjazdem albo przy zameldowaniu, najpóźniej dzień wcześniej.',
-  'b.puluong.guide': 'Przewodnik w Pù Luông: przez gospodarzy, najpóźniej dzień wcześniej.',
-  'entry.h3': 'Wjazd i zdrowie', 'entry.check': 'Sprawdź przed wyjazdem: ',
-  'e.visa': 'Wiza: obywatele Polski mogą być w Wietnamie bez wizy do {days} dni, w celach turystycznych. Ta zasada obowiązuje do {until}.',
-  'e.visa_end': 'Twój wyjazd może skończyć się po {until}, a obecne zwolnienie z wiz trwa do tego dnia. Sprawdź aktualne zasady wjazdu.',
-  'e.evisa': 'E-wiza: jeśli jej potrzebujesz, złóż wniosek tylko na rządowej stronie evisa.gov.vn. W sieci są fałszywe strony, które się pod nią podszywają.',
-  'e.passport': 'Paszport: ważny co najmniej 6 miesięcy, najlepiej licząc od dnia powrotu, z dwiema wolnymi stronami.',
-  'e.arrival': 'Karta przylotu: Wietnam wprowadza ją na kolejnych lotniskach, a na Tân Sơn Nhất (Hồ Chí Minh City) od kwietnia 2026. Wypełnia się ją w ciągu 3 dni przed przylotem, bezpłatnie i tylko na stronie urzędu imigracyjnego prearrival.immigration.gov.vn.',
-  'e.vape': 'E-papierosy: razem z podgrzewanym tytoniem są w Wietnamie nielegalne, a za ich przywóz i używanie grożą kary i konfiskata, więc zostaw je w domu.',
-  'e.insurance': 'Ubezpieczenie: przy wjeździe nikt go nie sprawdza, ale weź polisę z kosztami leczenia i transportem medycznym. EKUZ działa tylko w Unii Europejskiej i EFTA.',
-  'e.insurance_moto': 'Motocykl: sprawdź w warunkach polisy, czy obejmuje jazdę motocyklem. Szkody wyrządzone innym na motocyklu zwykle nie są ubezpieczone.',
-  'e.doctor': 'Zdrowie: lekarz medycyny podróży 6–8 tygodni przed wyjazdem. Zwykle zaleca szczepienia przeciw WZW A, WZW B, durowi brzusznemu i tężcowi.',
+  'b.cattien.park': '{x}: zapisz się najpóźniej dzień wcześniej.',
+  'b.puluong.guide': 'Przewodnik w Pù Luông: najpóźniej dzień wcześniej.',
+  'know.h3': 'Warto wiedzieć', 'know.links': 'Tylko strony rządowe: ',
+  'know.visa': 'Wiza: sprawdź, czy twój paszport jej wymaga. E-wizę i kartę przylotu załatwiaj tylko na stronach rządowych, bo w sieci są fałszywe strony, które się pod nie podszywają.',
+  'know.vape': 'E-papierosy: razem z podgrzewanym tytoniem są w Wietnamie nielegalne, także ich przywóz, a za używanie grozi kara 3–5 mln VND i zniszczenie urządzenia, więc zostaw je w domu.',
   'pack.h3': 'Co spakować',
   'p.warm': 'Ciepłą warstwę i czapkę: noce w {x} bywają chłodne, do ok. {t}\u00a0°C.',
   'p.rain': 'Kurtkę przeciwdeszczową albo poncho: w {x} często pada w tym terminie.',
-  'p.boots': 'Buty trekkingowe z dobrą przyczepnością i szybkoschnące ubrania na dni z wędrówką.',
-  'p.shoes': 'Wygodne buty do chodzenia, z dobrą przyczepnością.',
   'p.leeches': 'Skarpety przeciw pijawkom na leśne ścieżki: {x}.', 'p.torch': 'Czołówkę na noc w lesie: {x}.', 'p.swim': 'Strój kąpielowy: {x}.',
   'p.moto': 'Na motocykl własne rękawiczki i kurtkę przeciwdeszczową, a kask z atestem sprawdź przy wypożyczeniu.',
-  'p.sun': 'Krem z filtrem, okulary przeciwsłoneczne i nakrycie głowy.',
   'p.mosquito': 'Środek na komary z DEET i ubranie z długimi rękawami: denga jest w całym kraju, a komary gryzą głównie w dzień.',
-  'p.cash': 'Gotówkę w drobnych nominałach: u gospodarzy, na łodziach i na targach rzadko zapłacisz kartą.',
-  'p.apps': 'W telefonie Grab i mapy offline.',
 
   'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',
   'ft.notes.p': 'Czasy przejazdów to szacunki od drzwi do drzwi, z ok. 1½ godz. na lotnisku przy każdym locie. Połączenia sprawdzono w październiku 2026. Rozkłady lotów, godziny otwarcia, zasady na szlakach i stan morza sprawdź przed wyjazdem u przewoźnika i na miejscu. Trudne dni tylko z licencjonowanym przewodnikiem albo operatorem. Kontury mapy: Natural Earth, domena publiczna.',
@@ -2251,10 +2239,11 @@ var MAP_PANELS = {
    comfortable end. Sources and dates: the tables „Zestawienie” and „Zestawienie wycieczek” in research/ceny-2026-10.md
    and „Zestawienie” in research/motocykl-2026-10.md, for a place of stage 3 the tables „Zestawienie: ceny” and
    „Zestawienie: wycieczki” of its own note (research/<id>-2026-10.md); tests/data.test.js checks every number against them.
-   EUR_PLN, EUR_PLN_DATE: the NBP rate the page converts with and the day of its table (the row NBP-A of
-   research/ceny-2026-10.md, which tests/data.test.js reads); COSTS_CHECKED: the last day the prices were checked, whose
-   month the note under the budget names. */
-var EUR_PLN = 4.3775, EUR_PLN_DATE = '2026-10-09';
+   EUR_VND: the dong to a euro the page shows its amounts in, the rate the research converted the prices of its sources
+   with, so the amounts come back to them (the row EUR-VND of research/ceny-2026-10.md, which tests/data.test.js reads;
+   decision of 15.10.2026: dong only, and no rate on the page); COSTS_CHECKED: the last day the prices were checked,
+   whose month the note under the budget names. */
+var EUR_VND = 29055;
 var COSTS_CHECKED = '2026-10-13';   // the prices of the research notes were checked 11–13.10.2026
 var SHORT_FLIGHT_H = 1.5;           // a flight with at most this many hours in the air is a short one
 var COSTS = {
@@ -2329,7 +2318,7 @@ var COSTS = {
     'cucphuong.night': { pp: [5, 0], group: [0, 21], book: 'cucphuong.stay' },
     'cucphuong.car': { pp: [0, 0], group: [36, 53] },
     'cucphuong.maybac': { pp: [0, 0], group: [17, 86] },
-    'danang.sontra': { pp: [0, 0], group: [22, 52] },
+    'danang.sontra': { pp: [0, 0], group: [24, 52] },
     'haivan.car_dn': { pp: [0, 0], group: [43, 98] },
     'haivan.moto_dn': { pp: [25, 32], group: [0, 0] },
     'hagiang.car': { pp: [0, 0], group: [88, 133] },
@@ -2358,9 +2347,8 @@ var COSTS = {
    of its own note, for a day added to another place's module the note of the day (Mỹ Sơn: research/myson-2026-10.md,
    Tà Năng–Phan Dũng: research/tanang-2026-10.md;
    tests/data.test.js checks them against both); tools/links.sh
-   checks that the links answer. ENTRY: entry for Polish citizens, from research/wjazd-2026-10.md: days without a visa and
-   the last day of the exemption (Nghị quyết 229/NQ-CP; a trip that ends later is told to check the rules), and the official
-   pages to check before the trip. */
+   checks that the links answer. ENTRY: the links of „Warto wiedzieć”, the government's sites of the e-visa and the arrival
+   card (research/wjazd-2026-10.md; decision of 15.10.2026: nothing that depends on the reader's citizenship). */
 var BOOK = {
   'phongnha.hangen': { ahead: 60, links: [{ name: 'Oxalis, Hang Én', url: 'https://oxalisadventure.com/tour/hang-en-adventure-cave-camp/' }, { name: 'Oxalis, wszystkie wyprawy', url: 'https://oxalisadventure.com/tours/' }] },
   'cattien.bausau_night': { ahead: 28, links: [{ name: 'Park Cát Tiên, kontakt', url: 'https://cattiennationalpark.com.vn/lien-he/' }, { name: 'Park Cát Tiên, cennik', url: 'https://cattiennationalpark.com.vn/bang-gia-dich-vu/' }] },
@@ -2409,10 +2397,7 @@ var BOOK = {
   'danang.sontra': { ahead: 0, links: [{ name: 'Grab, wynajem na godziny', url: 'https://www.grab.com/vn/transport/rent/' }, { name: 'Hoi An Transport Service, przejazdy z Đà Nẵng', url: 'https://hoiantransportservice.com/private-car-with-driver-from-da-nang/' }] },
   'hue.citadel': { ahead: 0, links: [{ name: 'Bilety elektroniczne', url: 'https://eticket.hueworldheritage.org.vn/' }, { name: 'Cennik', url: 'https://hueworldheritage.org.vn/Thong-tin-tham-quan/Gia-ve' }] }
 };
-var ENTRY = { visaFreeDays: 45, visaFreeUntil: '2028-08-14', checked: '2026-10-12',
-  links: [{ name: 'Ambasada RP w Hanoi: bez wizy do 45 dni', url: 'https://www.gov.pl/web/wietnam/zwolnienie-z-obowiazku-posiadania-wizy-dla-pobytow-w-celach-turystycznych-nie-dluzszych-niz-45-dni' },
-    { name: 'MSZ: Wietnam w serwisie Odyseusz', url: 'https://odyseusz.gov.pl/VN' },
-    { name: 'GIS: szczepienia dla podróżujących', url: 'https://www.gov.pl/web/gis/zalecane-szczepienia-dla-podrozujacych' }] };
+var ENTRY = { links: [{ name: 'E-wiza: evisa.gov.vn', url: 'https://evisa.gov.vn/' }, { name: 'Karta przylotu: prearrival.immigration.gov.vn', url: 'https://prearrival.immigration.gov.vn/' }] };
 // the places where a stay sleeps with hosts (the plans of their first day say so): their rooms go on the list of what to book
 var HOMESTAYS = ['mekong', 'puluong', 'babe', 'caobang', 'hagiang', 'mucangchai'];
 // the hosts with a peak of their own: the line of the hosts adds the place's sentence (UI key b.homestay.<id>)
@@ -3055,14 +3040,15 @@ function bookList(route, plans, moto, data) {
 }
 
 var PACK_COLD_C = 15;   // a night this cold or colder (the mean low of a month, as the page rounds it) asks for a warm layer
-/* What to pack for this trip: [{ code, places, t }] for the UI keys p.<code>, in this order: warm, the stays with a month
-   whose nights are PACK_COLD_C °C or colder (t: the coldest); rain, the stays in a month of rain (rainyMonth); boots for a
-   trip with a hike, else shoes; leeches, torch and swim, the stays whose plans or events met ask for them (pack, content.js),
-   and swim also the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the trip; then sun, mosquito,
-   cash and apps on every trip. places: the places, each once, in the order of the trip (a night on the way as its node).
+/* What to pack for this trip, only what the trip asks for (decision of 15.10.2026): [{ code, places, t }] for the UI keys
+   p.<code>, in this order: warm, the stays with a month whose nights are PACK_COLD_C °C or colder (t: the coldest); rain,
+   the stays in a month of rain (rainyMonth); leeches, torch and swim, the stays whose plans or events met ask for them
+   (pack, content.js), and swim also the stays by the sea (fit morze 2 or more); moto, when a swap ridden yourself is on the
+   trip; then mosquito (dengue is in the whole country) on every trip. places: the places, each once, in the order of the
+   trip (a night on the way as its node).
    route, plans, moto: as for tripBudget; st: normSettings' result; data: { climate, seasons, content, places, swaps }. */
 function packList(route, plans, st, moto, data) {
-  var lists = { warm: [], rain: [], leeches: [], torch: [], swim: [] }, cold = null, hike = false, out = [];
+  var lists = { warm: [], rain: [], leeches: [], torch: [], swim: [] }, cold = null, out = [];
   function put(code, id) { if (lists[code].indexOf(id) < 0) lists[code].push(id); }
   route.stops.forEach(function (s, i) {
     var id = data.places[s.id].node || s.id;
@@ -3072,35 +3058,14 @@ function packList(route, plans, st, moto, data) {
       cold = cold === null ? w.t[0] : Math.min(cold, w.t[0]);
     });
     for (var d = s.start; d < s.start + s.n; d++) if (rainyMonth(data.climate[s.id], st.months[d - 1] + 1)) put('rain', id);
-    (plans[i] || []).forEach(function (p) {
-      if (p.pace === 'hike') hike = true;
-      p.pack.forEach(function (k) { put(k, id); });
-    });
+    (plans[i] || []).forEach(function (p) { p.pack.forEach(function (k) { put(k, id); }); });
     stayEvents(data.content[s.id], s, st).forEach(function (e) { (e.pack || []).forEach(function (k) { put(k, id); }); });
     if ((data.places[s.id].fit.morze || 0) >= 2) put('swim', id);
   });
   ['warm', 'rain'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: k === 'warm' ? cold : null }); });
-  out.push({ code: hike ? 'boots' : 'shoes', places: [], t: null });
   ['leeches', 'torch', 'swim'].forEach(function (k) { if (lists[k].length) out.push({ code: k, places: lists[k], t: null }); });
   if (ridesOn(route, moto, data.swaps)) out.push({ code: 'moto', places: [], t: null });
-  ['sun', 'mosquito', 'cash', 'apps'].forEach(function (k) { out.push({ code: k, places: [], t: null }); });
-  return out;
-}
-
-/* Entry and health for this trip, from ENTRY (before.js): [{ code, vars }] for the UI keys e.<code>: visa (days without a
-   visa, the last day of the exemption); visa_end when the trip may end after it (in the month mode the trip may start on
-   the month's last day, so its latest end is that day plus the trip); evisa (the only official e-visa site), passport,
-   arrival (the arrival card), vape (e-cigarettes are banned; research/wjazd-2026-10.md, 14.10.2026); insurance, and
-   insurance_moto when riding a motorbike yourself; doctor. st: normSettings' result; riding: a swap ridden yourself is on
-   the trip (ridesOn); entry: ENTRY. */
-function entryNotes(st, riding, entry) {
-  var span = tripSpan(st), until = fmtSpan(entry.visaFreeUntil, entry.visaFreeUntil);
-  var end = span && (st.start ? span[1] : tripDate(span[1], st.days));
-  var out = [{ code: 'visa', vars: { days: entry.visaFreeDays, until: until } }];
-  if (!end || end > entry.visaFreeUntil) out.push({ code: 'visa_end', vars: { until: until } });
-  out.push({ code: 'evisa', vars: {} }, { code: 'passport', vars: {} }, { code: 'arrival', vars: {} }, { code: 'vape', vars: {} }, { code: 'insurance', vars: {} });
-  if (riding) out.push({ code: 'insurance_moto', vars: {} });
-  out.push({ code: 'doctor', vars: {} });
+  out.push({ code: 'mosquito', places: [], t: null });
   return out;
 }
 
@@ -3113,12 +3078,29 @@ function licenceUrl(license) {
   return m ? 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/' + (m[3] ? m[3] + '/' : '') + 'deed.pl' : null;
 }
 
-/* An amount in euros, [from, to], in złoty: each end at rate and rounded to step złoty (100 for the budget, 10 for one
-   item); a from that would round to 0 becomes step. */
-function zlRange(eur, rate, step) {
-  return eur.map(function (v) { return Math.max(step, Math.round(v * rate / step) * step); });
+/* An amount in euros, [from, to], in dong as the page writes it (decision of 15.10.2026): [from, to, millions], the two
+   ends as text and whether they are millions. sum (the budget of a whole trip): whole millions, never under 1 ("17–39"); a
+   part of it or a thing to pay for: millions with one decimal when the dearer end comes to 1 million or more ("0,8–1,5"),
+   never under 0,1, else dong rounded to 10 000 ("260 000"), never under 10 000. rate: dong to a euro (EUR_VND). */
+function vndRange(eur, rate, sum) {
+  var v = eur.map(function (x) { return x * rate; });
+  if (sum) return v.map(function (x) { return String(Math.max(1, Math.round(x / 1e6))); }).concat([true]);
+  if (Math.round(v[1] / 1e5) >= 10) return v.map(function (x) { return (Math.max(1, Math.round(x / 1e5)) / 10).toFixed(1).replace('.', ','); }).concat([true]);
+  return v.map(function (x) { return money(Math.max(1, Math.round(x / 1e4)) * 1e4); }).concat([false]);
 }
-/* A number with its thousands apart (no-break spaces), as Polish writes money: 12400 → '12 400'. */
+
+/* An amount in euros as the page writes it in dong: { key, vars } for the UI keys vnd, vnd.one, mln, mln.one, vnd.upto and
+   mln.upto, with the numbers of vndRange. A thing that may cost nothing (its from is 0, as the flight over Khau Phạ, which
+   is up to the visitor) says only its dearer end, "do 2,2 mln VND", not a from rounded up to a price (the final review of
+   plan B2, 15.10.2026); one number when both ends come out alike; "0 VND" only for what costs nothing. rate and sum: as for
+   vndRange. */
+function vndText(eur, rate, sum) {
+  if (eur[1] <= 0) return { key: 'vnd.one', vars: { a: '0' } };
+  var r = vndRange(eur, rate, sum), m = r[2];
+  if (!sum && eur[0] <= 0) return { key: m ? 'mln.upto' : 'vnd.upto', vars: { b: r[1] } };
+  return r[0] === r[1] ? { key: m ? 'mln.one' : 'vnd.one', vars: { a: r[0] } } : { key: m ? 'mln' : 'vnd', vars: { a: r[0], b: r[1] } };
+}
+/* A number with its thousands apart (no-break spaces), as Polish writes money: 260000 → '260 000'. */
 function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
 
 /* ---------- travel texts ---------- */
@@ -3202,7 +3184,8 @@ function nightForm(n) {
 
 /* Polish typography: a one-letter word (a i o u w z) gets a no-break space after it, so no line ends on it. It must start the text
    or follow white space, ( „ or –. A run like "i w domu" needs several passes (a match uses up the space in front of the next word), so repeat.
-   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm), and ≈ and „ok.” keep their number. A range of numbers
+   A number keeps its unit on the line (5 km, 5½ godz., 25 °C, 64 mm, 2–4 mln VND) and its thousands (17 000, 230 000 VND),
+   and ≈ and „ok.” keep their number. A range of numbers
    (1–3, 140–260, 11:00–14:30) keeps together: a word joiner after its dash, which a browser would break after. */
 function tieShort(text) {
   var before;
@@ -3210,7 +3193,8 @@ function tieShort(text) {
     before = text;
     text = text.replace(/(^|[\s(„–])([aiouwzAIOUWZ]) /g, '$1$2\u00a0');
   } while (text !== before);
-  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C)(?![\p{L}])/gu, '$1\u00a0$2');
+  return text.replace(/≈ /g, '≈\u00a0').replace(/([\d½])–(?=[\d½])/g, '$1–\u2060').replace(/(^|[\s(„–])([Oo]k\.) (?=[\d½])/g, '$1$2\u00a0').replace(/([\d½]) (godz\.|min|km|mm|m|°C|mln|VND)(?![\p{L}])/gu, '$1\u00a0$2')
+    .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u00a0').replace(/mln VND/g, 'mln\u00a0VND');
 }
 
 /* Multi-word names (Ba Bể, Hồ Chí Minh City) do not break across lines: wherever one stands in text, its spaces become
@@ -3561,12 +3545,13 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   // the short names of places, for a sentence
   function names(ids) { return ids.map(function (id) { return C(id).short; }).join(', '); }
   function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
-  // an amount in euros, [from, to], in złoty: rounded to 100 zł (or step), thousands apart: "2 600–5 900 zł", or "30 zł" when
-  // both ends round alike; nothing is "0 zł"
-  function zl(eur, step) {
-    if (eur[1] <= 0) return '0\u00a0zł';
-    var r = zlRange(eur, EUR_PLN, step || 100);
-    return r[0] === r[1] ? T('zl.one', { a: money(r[0]) }) : T('zl', { a: money(r[0]), b: money(r[1]) });
+  // an amount in euros, [from, to], in dong (vndText): the budget of the trip (sum) in whole millions, "17–39 mln VND";
+  // a part of it or a thing in millions with one decimal, "0,8–1,5 mln VND", or under a million to 10 000, "260 000 VND";
+  // a thing that may cost nothing only its dearer end, "do 2,2 mln VND"; one number when both ends come out alike; "0 VND"
+  // only for what costs nothing
+  function vnd(eur, sum) {
+    var v = vndText(eur, EUR_VND, sum);
+    return T(v.key, v.vars);
   }
   // names for a sentence: "A", "A i B", "A, B i C"
   function andList(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' i ' + list[list.length - 1]; }
@@ -3774,7 +3759,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
       '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
-      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: zl(state.budget.two) })) + '"><b>' + zl(state.budget.two) + '</b><span>' + T('f.budget') + '</span></a></li>';
+      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -4219,22 +4204,22 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     });
   }
 
-  /* ---------- before the trip: the budget, what to book (bookList), entry and health (entryNotes), what to pack (packList) ---------- */
+  /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
   function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.name) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
     var b = state.budget, r = state.route, st = state.st, moto = state.settings.moto;
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
     var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return h.name; });
-    var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: zl(x.two, 10) }); });
-    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + zl(b.two) + '</b> ' + esc(T('bud.two')) + '</p>' +
-      '<p>' + esc(T('bud.one', { x: zl(b.one) })) + '</p>' +
+    var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
+    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
+      '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
       '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
-        return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + zl(b.parts[k].two) + '</span></li>';
+        return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + vnd(b.parts[k].two) + '</span></li>';
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
       (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
-      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4), rate: fmtSpan(EUR_PLN_DATE, EUR_PLN_DATE) })) + '</p>';
+      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>';
     var books = bookList(r, state.plans, moto, BOOK_DATA);
     $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
       (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
@@ -4245,12 +4230,14 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
           : e.key === 'airport' ? andList(e.list.map(function (a) { return AIRPORTS[a[0]].name + ' – ' + C(a[1]).short + (a[2] > 1 ? ' ' + T('book.both') : ''); }))
           : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
         var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
-        var meta = [e.two ? esc(T('book.cost', { x: zl(e.two, 10) })) : '', linksOf(e.links)].filter(Boolean);
+        // a thing that may cost nothing says its dearer end without „ok.”: „do 2,2 mln VND na osobę”
+        var meta = [e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
-    $('#b-entry').innerHTML = '<h3>' + T('entry.h3') + '</h3><ul class="b-list">' + entryNotes(st, ridesOn(r, moto, SWAPS), ENTRY).map(function (e) {
-      return '<li>' + esc(T('e.' + e.code, e.vars)) + '</li>';
-    }).join('') + '</ul><p class="b-meta">' + T('entry.check') + linksOf(ENTRY.links) + '</p>';
+    // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
+    // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
+    $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
+      '<p class="b-meta">' + T('know.links') + linksOf(ENTRY.links) + '</p>';
     $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
       return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
     }).join('') + '</ul>';
@@ -4290,7 +4277,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
-    lines.push(T('pt.budget', { x: zl(state.budget.two) }));
+    lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
     lines.push(T('pt.link') + SITE_URL + linkHash(state.settings));
     return lines.join('\n');
   }
