@@ -1,4 +1,5 @@
-/* Every photo the page shows: caption (Polish, the exact place), author, licence and its page on Wikimedia Commons.
+/* Every photo the page shows: caption (Polish, the exact place; in English: site2/src/en/photos.js), author, licence and its
+   page on Wikimedia Commons.
    Allowed licences: CC0, CC BY, CC BY-SA and public domain, no NC or ND (notes/wizja.md). The image files are in
    photos/ (not in git; copied from the December planner and checked 10.10.2026); site2/build.py makes the web copies. */
 var PHOTO_META = {

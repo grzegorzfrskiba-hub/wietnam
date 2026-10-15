@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 J=/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc
 CONTENT_FILES=$(ls site2/src/content/*.js)
 EN_CONTENT_FILES=$(ls site2/src/en/content/*.js)
-SOURCES="site2/src/places.js site2/src/seasons.js site2/src/climate.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/content.js $CONTENT_FILES $EN_CONTENT_FILES site2/src/photos.js site2/src/ui.js site2/src/panels.js site2/src/costs.js site2/src/before.js site2/src/page.js"
+SOURCES="site2/src/places.js site2/src/seasons.js site2/src/climate.js site2/src/travel.js site2/src/engine.js site2/src/holidays.js site2/src/content.js $CONTENT_FILES $EN_CONTENT_FILES site2/src/photos.js site2/src/en/photos.js site2/src/ui.js site2/src/panels.js site2/src/costs.js site2/src/before.js site2/src/en/names.js site2/src/page.js"
 TESTS="tests/engine.test.js tests/page.test.js tests/data.test.js tests/content.test.js tests/combos.test.js"
 MODE=""
 if [ $# -eq 1 ] && [ "$1" = "--full" ]; then

@@ -390,6 +390,26 @@ contentCheck('english places', function (need) {
   need(cave > -1 && /turns back after about 4 km/.test(CONTENT_EN.phongnha.days[cave].d), 'CONTENT_EN.phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');
 });
 
+/* The other English texts (finding 8): a caption for every photo (site2/src/en/photos.js), a name for every holiday and every
+   link of „Przed wyjazdem” (site2/src/en/names.js), each with the facts of its Polish text (finding 14), in British English
+   for every passport (findings 15 and 16), and nothing for a photo, a holiday or a link that is not there. */
+contentCheck('english names', function (need) {
+  function check(w, pl, en) {
+    need(isText(en), w + ': no English text');
+    if (isText(en)) englishProblems(w, en).concat(factProblems(w, pl, en)).forEach(function (p) { need(false, p); });
+  }
+  Object.keys(PHOTO_META).forEach(function (ph) { check('PHOTO_CAPS_EN.' + ph, PHOTO_META[ph].cap, PHOTO_CAPS_EN[ph]); });
+  Object.keys(PHOTO_CAPS_EN).forEach(function (ph) { need(PHOTO_META[ph], 'PHOTO_CAPS_EN.' + ph + ': no such photo in photos.js'); });
+  var holidays = {}, links = {};
+  HOLIDAYS.forEach(function (h) { holidays[h[3]] = true; });
+  Object.keys(BOOK).forEach(function (k) { BOOK[k].links.forEach(function (l) { links[l.name] = true; }); });
+  ENTRY.links.forEach(function (l) { links[l.name] = true; });
+  [['HOLIDAY_NAMES_EN', HOLIDAY_NAMES_EN, holidays], ['LINK_NAMES_EN', LINK_NAMES_EN, links]].forEach(function (x) {
+    Object.keys(x[2]).forEach(function (n) { check(x[0] + '[' + JSON.stringify(n) + ']', n, x[1][n]); });
+    Object.keys(x[1]).forEach(function (n) { need(x[2][n], x[0] + '[' + JSON.stringify(n) + ']: no such name in holidays.js or before.js'); });
+  });
+});
+
 /* Colours only through the variables in :root (the project rule): outside the :root blocks the template's CSS has no hex
    colour and no rgb() or rgba() with numbers (a triplet variable goes in as rgba(var(--black), 0.25)). */
 contentCheck('css colours', function (need) {
