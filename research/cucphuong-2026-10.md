@@ -369,30 +369,30 @@ Licencje, autorzy i rozmiary sprawdzone na stronach plików 13.10.2026 (WebFetch
 
 ## Do sprawdzenia przed publikacją (etap 4)
 
-- Czy park odwołał wstrzymanie noclegów w lesie z 16.09.2026 i czy dotyczyło ono też pokoi w Bống (TT-2026-09-16). Sprawdzone 14.10.2026: nie odwołał, o ile można to ustalić; czy wstrzymanie obejmuje pokoje w Bống, dalej nie wiadomo, to pytanie do parku (sekcja „Bezpieczeństwo i przepisy”, CP-2026-10-14a, CP-2026-10-14e, CP-2026-10-14f).
-- Godziny EPRC i programu żółwi w 2026 (dziś tylko WV ze stanem 1.2024) i czy combo zawiera wstęp do parku (SOV mówi, że tak; CP-COMBO milczy).
-- Cena przewodnika na Mây Bạc, minimalna grupa i czy park prowadzi tam cudzoziemców po angielsku (CP-COMBO, BVH-2025b).
-- Czy przy nocnej przejażdżce para płaci minimum 600 000 VND, czy park łączy małe grupy (CP-NOC). Sprawdzone 14.10.2026: przejażdżka jest w sprzedaży, codziennie 19:00–22:00, 150 000 VND dla nocujących i 210 000 VND dla pozostałych, z minimum 600 000 VND za turę poniżej 4 osób i bez komunikatu o przerwie (CP-2026-10-14b); czy park łączy małe grupy, strona dalej nie mówi.
-- Szczegóły decyzji 195/QĐ-VCP-TCHC (skany w CP-POJAZDY nie dały się odczytać): czy auta gości trzeba zgłaszać, co się dzieje po wyczerpaniu limitu 300 pojazdów i czy elektryczne busy parku wożą pojedyncze osoby do Bống i za ile.
-- Godziny otwarcia bramy: 6:00–19:00 według JB i VNA†, start programów o 8:00 według BVH-2025b; oficjalnej godziny nie znalazłem.
+- Czy park odwołał wstrzymanie noclegów w lesie z 16.09.2026 i czy dotyczyło ono też pokoi w Bống (TT-2026-09-16). Sprawdzone 14.10.2026: nie odwołał, o ile można to ustalić; czy wstrzymanie obejmuje pokoje w Bống, dalej nie wiadomo, to pytanie do parku (sekcja „Bezpieczeństwo i przepisy”, CP-2026-10-14a, CP-2026-10-14e, CP-2026-10-14f). Poza stroną (decyzja z 15.10.2026): zdanie o biwaku i noclegach w lesie wypadło ze skrótu dnia p 2 (wersja trudna, Mây Bạc), a strona nocuje w pokojach parku przy bramie albo nad jeziorem Mạc.
+- Godziny EPRC i programu żółwi w 2026 (dziś tylko WV ze stanem 1.2024) i czy combo zawiera wstęp do parku (SOV mówi, że tak; CP-COMBO milczy). Sprawdzone 15.10.2026: nie da się ustalić; strona EPRC godzin ani dni zamknięcia nie podaje i odsyła do biura turystyki parku, a wyszukiwanie po wietnamsku godzin na 2026 nie dało. Zostają 8:00–11:30 i 13:30–17:00 z Wikivoyage (stan 1.2024), zgodne z „czynne zwykle do 17:00” i „Rano od 8:00” na stronie; wstęp do parku (60 000 VND) to bilet do 5 EUR z kwoty dziennej, więc combo nie sprawdzano (CP-2026-10-15a, WV).
+- Cena przewodnika na Mây Bạc, minimalna grupa i czy park prowadzi tam cudzoziemców po angielsku (CP-COMBO, BVH-2025b). Sprawdzone 15.10.2026: nie da się ustalić; strona combo jednodniowego dalej mówi tylko, że wariant z Mây Bạc (160 000 VND od osoby, 7 km marszu) jest dla dorosłych, bez przewodnika w cenie, a przewodnika parku trzeba zamówić wcześniej w kasie albo przez infolinię 1800 5555 88; nie podaje ceny przewodnika, minimalnej grupy ani tego, czy przewodnicy mówią po angielsku, choć sama ma opis po angielsku. Szacunek `cucphuong.maybac` (17–86 EUR za grupę) zostaje (CP-2026-10-15b).
+- Czy przy nocnej przejażdżce para płaci minimum 600 000 VND, czy park łączy małe grupy (CP-NOC). Sprawdzone 14.10.2026: przejażdżka jest w sprzedaży, codziennie 19:00–22:00, 150 000 VND dla nocujących i 210 000 VND dla pozostałych, z minimum 600 000 VND za turę poniżej 4 osób i bez komunikatu o przerwie (CP-2026-10-14b); czy park łączy małe grupy, strona dalej nie mówi. Poza stroną (decyzja z 15.10.2026): pozycja `cucphuong.night` sięga przy dwóch osobach ok. 10 EUR na osobę, poniżej progu ok. 20 EUR.
+- Szczegóły decyzji 195/QĐ-VCP-TCHC (skany w CP-POJAZDY nie dały się odczytać): czy auta gości trzeba zgłaszać, co się dzieje po wyczerpaniu limitu 300 pojazdów i czy elektryczne busy parku wożą pojedyncze osoby do Bống i za ile. Sprawdzone 15.10.2026: nie da się ustalić; prasa i wyszukiwanie po wietnamsku nie mówią o zgłaszaniu aut, limicie 300 pojazdów ani o cenach elektrycznych busów do Bống, więc zostaje komunikat parku z 20.08.2026 (CP-POJAZDY, CP-2026-10-14c) i szacunek `cucphuong.car`.
+- Godziny otwarcia bramy: 6:00–19:00 według JB i VNA†, start programów o 8:00 według BVH-2025b; oficjalnej godziny nie znalazłem. Poza stroną (decyzja z 15.10.2026): strona godzin bramy nie podaje, a plan dnia opiera się na zasadach parku: zajęcia dzienne do 19:00, w głąb lasu od 7:00 (CP-NOIQUY, CP-POJAZDY).
 - Zarząd parku: czy Ninh Bình przejęła park (THANHTRA†); wtedy adresy stron i cennik mogą się zmienić. Sprawdzone 14.10.2026: nie, park dalej podlega ministerstwu, a decyzji rządu w sprawie wniosku Ninh Bình nie znalazłem (CP-2026-10-14g, CP-2026-10-14h).
-- Program biwaku 2 dni/1 noc (CP-BIWAK): cena, terminy i czy wróci po wstrzymaniu. Sprawdzone 14.10.2026 tylko częściowo: wstrzymania nocowania w lesie nie odwołano (CP-2026-10-14a), a ceny i terminów biwaku nie sprawdzano.
-- Współrzędne bramy (`pt`) z mapy albo strony parku; dziś pochodzą z geotagów dwóch zdjęć z Commons.
-- Licencje kandydatów na zdjęcia na stronach plików, tuż przed publikacją.
+- Program biwaku 2 dni/1 noc (CP-BIWAK): cena, terminy i czy wróci po wstrzymaniu. Sprawdzone 14.10.2026 tylko częściowo: wstrzymania nocowania w lesie nie odwołano (CP-2026-10-14a), a ceny i terminów biwaku nie sprawdzano. Poza stroną (decyzja z 15.10.2026): zdanie o biwaku i noclegach w lesie wypadło ze skrótu dnia p 2 (wersja trudna, Mây Bạc), a strona nocuje w pokojach parku przy bramie albo nad jeziorem Mạc.
+- Współrzędne bramy (`pt`) z mapy albo strony parku; dziś pochodzą z geotagów dwóch zdjęć z Commons. Poza stroną (decyzja z 15.10.2026): współrzędne punktu na mapie, bez wpływu na trasę.
+- Licencje kandydatów na zdjęcia na stronach plików, tuż przed publikacją. Poza stroną (decyzja z 15.10.2026): licencje zdjęć porównuje z Wikimedia Commons `bash tools/licenses.sh` (punkt kontrolny planu B1, 15.10.2026: 97 zdjęć bez problemów).
 
 ## Czego nie ustaliłem
 
-- Tabeli klimatycznej samego parku albo Nho Quan (WebSearch „extended”, Wikipedia po wietnamsku): dlatego stacja zastępcza.
-- Oficjalnego cennika: osobnych biletów do ośrodków ratowania (są tylko combo i ceny z serwisów: 50 000 VND za program w SOV i MIA, 80 000 VND za EPRC w OX), przewodnika na Mây Bạc, programu biwaku, programu Bản Mường i elektrycznych busów.
-- Czy pokoje parku mają śniadanie w cenie.
-- Liczby pokoi w Bống.
-- Dokładnej odległości Động Người Xưa od bramy (WIKI-VI pisze o ok. 2 km, OX o 5 km).
-- Czasu jazdy dla par HAN, Pù Luông, Thọ Xuân, Cát Bà i Ba Bể z Cúc Phương ze źródła dla samej pary: wszystkie pięć to szacunki.
-- Czy w 2024 i 2025 park wstrzymywał cokolwiek z powodu sztormów: nie znalazłem żadnego komunikatu.
-- Urzędowych współrzędnych bramy i siedziby parku (są tylko geotagi zdjęć).
-- Dni zamknięcia ośrodków ratowania: JB pisze, że park jest otwarty codziennie, także w święta i Tết, ale o ośrodkach nic nie wiadomo.
-- Aktualnej ceny rowerów (jest tylko z Wikivoyage, bez daty) i tego, czy park sprzedaje dziś nocne wyjścia piesze poza biwakiem.
-- Ceny przejazdu Nội Bài – Cúc Phương u innych firm niż Hanoi Eco Tour i czy Grab jeździ do parku.
+- Tabeli klimatycznej samego parku albo Nho Quan (WebSearch „extended”, Wikipedia po wietnamsku): dlatego stacja zastępcza. Poza stroną (decyzja z 15.10.2026): kod sezonu ze stacji zastępczej Hòa Bình jest w danych od planu 1 partii A, a bez tabeli parku nie ma z czym go porównać, więc bez nowej decyzji trasy to nie zmieni.
+- Oficjalnego cennika: osobnych biletów do ośrodków ratowania (są tylko combo i ceny z serwisów: 50 000 VND za program w SOV i MIA, 80 000 VND za EPRC w OX), przewodnika na Mây Bạc, programu biwaku, programu Bản Mường i elektrycznych busów. Sprawdzone 15.10.2026: przewodnika na Mây Bạc i elektrycznych busów dalej nie ma w cennikach (punkty o Mây Bạc i o decyzji 195 w „Do sprawdzenia”, CP-2026-10-15b); bilety do ośrodków (do 5 EUR) liczą się w kwocie dziennej, biwak jest na stronie tylko wzmianką w trudnym dniu, a Bản Mường jest poza planami dni.
+- Czy pokoje parku mają śniadanie w cenie. Poza stroną (decyzja z 15.10.2026): śniadanie to posiłek z kwoty dziennej, a cena pokoju idzie z cennika parku.
+- Liczby pokoi w Bống. Poza stroną (decyzja z 15.10.2026): liczba pokoi wypada ze strony (ustalenie 12 z 15.10.2026), a plan nie nocuje w Bống.
+- Dokładnej odległości Động Người Xưa od bramy (WIKI-VI pisze o ok. 2 km, OX o 5 km). Poza stroną (decyzja z 15.10.2026): jaskinia leży 300 m od drogi do Bống i plan dnia podaje tylko to, a odległość od bramy go nie zmienia.
+- Czasu jazdy dla par HAN, Pù Luông, Thọ Xuân, Cát Bà i Ba Bể z Cúc Phương ze źródła dla samej pary: wszystkie pięć to szacunki. Poza stroną (decyzja z 15.10.2026): nawet przy górnej granicy, czyli drodze przez Hà Nội albo Ninh Bình po odcinkach ze źródłami, każda z tych par zostaje po tej samej stronie progów silnika (4 h w dniu przylotu, 7 h dla „długiego dnia”, 10 h drogą), więc źródło dla pary trasy praktycznie nie zmieni.
+- Czy w 2024 i 2025 park wstrzymywał cokolwiek z powodu sztormów: nie znalazłem żadnego komunikatu. Poza stroną (decyzja z 15.10.2026): wstrzymania z 2026 r. dotyczyły nocowania w lesie, którego plany dni nie mają, a ostrzeżenie o nich stoi w wydarzeniu V–IX; 13.10.2026 szukano ich w trybie „extended”, także pod tajfunem Yagi, bez wyniku.
+- Urzędowych współrzędnych bramy i siedziby parku (są tylko geotagi zdjęć). Poza stroną (decyzja z 15.10.2026): współrzędne punktu na mapie, bez wpływu na trasę.
+- Dni zamknięcia ośrodków ratowania: JB pisze, że park jest otwarty codziennie, także w święta i Tết, ale o ośrodkach nic nie wiadomo. Sprawdzone 15.10.2026: nie da się ustalić; strona EPRC dni zamknięcia nie podaje i odsyła do biura turystyki parku (punkt o godzinach EPRC w „Do sprawdzenia”, CP-2026-10-15a).
+- Aktualnej ceny rowerów (jest tylko z Wikivoyage, bez daty) i tego, czy park sprzedaje dziś nocne wyjścia piesze poza biwakiem. Poza stroną (decyzja z 15.10.2026): rowerów i nocnych wyjść pieszych nie ma w planach dni.
+- Ceny przejazdu Nội Bài – Cúc Phương u innych firm niż Hanoi Eco Tour i czy Grab jeździ do parku. Poza stroną (decyzja z 15.10.2026): kwotę drogi z lotniska liczy stawka godzinowa auta (`COSTS.car` w `site2/src/costs.js`), a nie cena jednej firmy.
 
 ## Źródła
 
@@ -462,3 +462,12 @@ Sprawdzenie punktów „Do sprawdzenia przed publikacją (etap 4)”: WebSearch 
 | CP-2026-10-14f | Công an Nhân dân: to samo wstrzymanie; trasy zostaną sprawdzone przed wznowieniem, gdy opadnie woda i będzie bezpiecznie; o Bống i pokojach nic | https://cand.vn/ninh-binh-tam-dung-dieu-chinh-hoat-dong-nhieu-khu-diem-du-lich-do-mua-lu-post822331.html | prasa | 17.09.2026 |
 | CP-2026-10-14g | Tiền Phong: przewodniczący komitetu ludowego Ninh Bình podpisał 24.06 wniosek do rządu i premiera o przekazanie parku prowincji; zmiana nie ruszałaby granic administracyjnych; decyzji brak | https://tienphong.vn/ninh-binh-muon-quan-ly-vuon-quoc-gia-cuc-phuong-post1854055.tpo | prasa | 24.06.2026 |
 | CP-2026-10-14h | VietNamNet: ministerstwo w raporcie 7019 radzi rządowi zostawić mu cztery parki międzyprowincjonalne, w tym Cúc Phương; Ninh Bình chce przejąć park, Thanh Hóa i Phú Thọ chcą obecnego modelu; decyzji rządu brak | https://vietnamnet.vn/bo-nnmt-muon-tiep-tuc-quan-ly-4-vuon-quoc-gia-cuc-phuong-tam-dao-bach-ma-yok-don-2531782.html | prasa | 2.07.2026 |
+
+### Przesiew i sprawdzenie (15.10.2026)
+
+Sprawdzenie ważnych punktów z przesiewu (decyzja z 15.10.2026): WebSearch i WebFetch 15.10.2026, bez zapisywania stron.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| CP-2026-10-15a | EPRC, strona wizyt i kontaktu (pierwszy adres EPRC), odczyt 15.10.2026: wycieczki z przewodnikiem przez biuro turystyki parku (dulichcucphuong@gmail.com), wizyty prywatne przez EPRC; godzin, dni zamknięcia i cen brak. | https://www.eprc.asia/visit-contact-us/ | park/zarządca | brak (© 2020) |
+| CP-2026-10-15b | Combo jednodniowe parku (drugi adres CP-COMBO), odczyt 15.10.2026: wariant z Mây Bạc 160 000 VND od dorosłego, bez przewodnika w cenie, tylko dla dorosłych, przewodnik parku zamawiany wcześniej w kasie albo przez infolinię 1800 5555 88; ceny przewodnika, minimalnej grupy i języka przewodników brak; opis także po angielsku. | https://dulichcucphuong.com.vn/combo-mot-ngay/ | park/zarządca | 21.06.2024, aktualizacja 16.11.2024 |
