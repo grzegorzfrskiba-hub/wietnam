@@ -1,6 +1,6 @@
-# „Wietnam po swojemu” — instrukcja dla Claude
+# Route G („Wietnam po swojemu”) — instrukcja dla Claude
 
-**Status (15.10.2026):** etap 3, partia B: plany B1 i B2 zrobione i opublikowane pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Następny krok: etap 5, angielski (najpierw sesja decyzji: nazwa strony, adres, przełącznik języka, `noindex`), zob. [notes/etapy.md](notes/etapy.md).
+**Status (15.10.2026):** partia B etapu 3 zrobiona i opublikowana pod https://grzegorzfrskiba-hub.github.io/wietnam/, dalej po polsku i z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Etap 5 (angielski): sesja decyzji zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca). Następny krok: plan etapu 5 z suchą próbą, w osobnej sesji, zob. [notes/etapy.md](notes/etapy.md).
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
@@ -9,7 +9,7 @@
 - **Pierwowzór: strona „Vietnam in December”,** trójjęzyczny planer grudniowego wyjazdu grupy (2026).
   - Źródła: `~/Desktop/CLAUDE roboczy plik/vietnam-planner/`. Jej `CLAUDE.md` opisuje budowę, testy i publikację.
   - Publicznie: https://grzegorzfrskiba-hub.github.io/vietnam-december/
-- **Ten projekt: ogólny planer po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
+- **Ten projekt: ogólny planer, dziś po polsku, po etapie 5 „Route G” po angielsku i po polsku.** Każdy ustawia termin, lotniska, 0–2 z pięciu zainteresowań i poziom przygody, a strona sama układa trasę. Pierwsi odbiorcy to przygodowi znajomi.
   - Kod został wzięty z pierwowzoru (`site2/`, `tests/`, `site2/build.py`) jako kopia w planach 1A i 1B.
   - Repo: https://github.com/grzegorzfrskiba-hub/wietnam, publiczne od 14.10.2026, bez wolnej licencji.
   - Strona: https://grzegorzfrskiba-hub.github.io/wietnam/ (GitHub Pages z `docs/` na `main`; nową wersję przygotowuje `bash tools/publish.sh`, a wysyła commit `docs/` i `git push` za zgodą).
@@ -23,7 +23,7 @@ Przeniesione z planera grudniowego i potwierdzone w sesji o wizji 9.10.2026.
 - **Jedna sesja naraz** w tym repo.
 - **Bez zgody użytkownika nie rób:** `git push`, publikacji artifactu, wysyłania plików. Commituj, gdy użytkownik o to prosi.
 - **Repo jest publiczne od 14.10.2026, bez wolnej licencji:** wszystkie prawa zastrzeżone, nie dodawaj pliku LICENSE. Wszystko, co trafi do commita, także `notes/`, widać w internecie. Nie dopisuj danych osobowych ani konkretnych lotów.
-- **Strona tylko po polsku** do etapu angielskiego (etap 5, po partii B; angielski będzie wtedy językiem przewodnim). Mechanizm kluczy tekstów i test kompletności zostają na ten etap. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
+- **Język strony:** do wykonania etapu 5 tylko polski. Po etapie 5 angielski domyślny i polski drugi, z tymi samymi faktami, na jednym adresie z przełącznikiem EN · PL i `&lang=pl` w linku (decyzje z 15.10.2026 w [notes/etapy.md](notes/etapy.md), „Z sesji decyzji etapu 5”); od tej pory każdy nowy tekst od razu w obu językach. Styl tekstów opisuje [notes/wizja.md](notes/wizja.md), sekcja „Treść, bezpieczeństwo, licencje”.
 - **Treść dla podróżnych z całego świata** (decyzja z 15.10.2026): bez porad zależnych od obywatelstwa i bez ogólnej wiedzy podróżniczej, ceny w dongach (od planu B2). Każde nowe zdanie przechodzi test z wizji, sekcja „Treść, bezpieczeństwo, licencje”. Pilnują tego testy treści `for every passport` (bez złotych, euro, dolarów, NBP i polskich urzędów) i `day texts` (opis dnia najwyżej 70 słów).
 - **Zdjęcia tylko na licencjach dopuszczających użytek komercyjny i zmiany** (CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND), z autorem i licencją przy zdjęciu.
 - **Fakty i ceny** zapisuj ze źródłem i datą w `research/`. Nowe miejsce etapu 3 ma własny plik `research/<id>-2026-10.md`, którego tabele „Zestawienie” czyta test danych. Notatki, plany i audyty zapisuj w `notes/`. Po skończonej pracy zaktualizuj status w [notes/etapy.md](notes/etapy.md).

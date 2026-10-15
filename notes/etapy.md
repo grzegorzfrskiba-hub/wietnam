@@ -9,7 +9,7 @@ Plan prac na podstawie [wizja.md](wizja.md). To dokument żywy: po każdym etapi
 | 2. Interfejs | zrobione 12.10.2026: 2A (telefon, powody, pogoda, mapa) 11.10.2026, 2B (budżet, „Przed wyjazdem”, motocykl, przejazdy z lotnisk) 12.10.2026 |
 | 3. Nowe miejsca, partiami | partia A zrobiona 14.10.2026: plan 1 (Phong Nha, Cúc Phương, Đà Nẵng) 13.10.2026, raport tras: [notes/raport-tras-2026-10-13.md](raport-tras-2026-10-13.md); plan 2 (Hà Giang, Sa Pa) 14.10.2026, raport tras: [notes/raport-tras-2026-10-13-3a2.md](raport-tras-2026-10-13-3a2.md); partia B zrobiona 15.10.2026: plan B1 (Yok Đôn, Mù Cang Chải, Tà Năng w Đà Lạt, Mỹ Sơn w Hội An) zrobiony 15.10.2026: [plans/2026-10-14-etap-3b1-miejsca.md](plans/2026-10-14-etap-3b1-miejsca.md), raport tras: [notes/raport-tras-2026-10-14.md](raport-tras-2026-10-14.md); plan B2 (treść dla podróżnych z całego świata: skróty, dongi, przesiew researchu; sesja decyzji 15.10.2026) zrobiony 15.10.2026: [plans/2026-10-15-etap-3b2-tresc.md](plans/2026-10-15-etap-3b2-tresc.md) |
 | 4. Audyt i publikacja (po partii A) | zrobione 14.10.2026: [plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md); strona pod https://grzegorzfrskiba-hub.github.io/wietnam/, na razie bez wyszukiwarek |
-| 5. Angielski | następny, po partii B (decyzja z 14.10.2026): najpierw sesja decyzji (nazwa strony, adres, przełącznik języka, `noindex`); angielski jako język przewodni, polski drugi, jako tłumaczenie z tymi samymi faktami (decyzja z 15.10.2026) |
+| 5. Angielski | w toku: sesja decyzji 15.10.2026 zrobiona (nazwa „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie, `noindex` do samego końca); następny krok: plan z suchą próbą |
 
 ## Etap 1: fundament i silnik na 12 dzisiejszych miejscach
 
@@ -94,13 +94,71 @@ Każda partia kończy się pełnym testem kombinacji.
 
 Wysłanie na GitHuba i publikacja tylko za zgodą. Partia B i kolejne dochodzą później na żywej stronie, każda z pełnym testem.
 
-## Etap 5: angielski (po partii B)
-
-Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji. Decyzja z 15.10.2026: etap 5 przychodzi po planie B2 i tłumaczy już skróconą treść, a polski zostaje tłumaczeniem angielskiego, z tymi samymi faktami; sesja decyzji etapu ustali też nazwę strony.
-
 Plan ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-audyt-i-publikacja.md), sesja decyzji 14.10.2026, zrobiony 14.10.2026): poprawki z listy audytu, PDF jako wersja offline dla podróżnych (przycisk i wydruk na A4), kroje na własnym hostingu i lżejszy plik offline, licencje zdjęć i stopka, fakty z 14.10.2026 i porządki w researchu, wizja i README; potem punkt kontrolny, końcowy przegląd, publikacja z `docs/` z `noindex` (każdy krok za zgodą) i pierwsza runda znajomych.
 
-## Następny krok: etap 5, angielski
+## Etap 5: angielski (po partii B)
+
+Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji. Decyzja z 15.10.2026: etap 5 przychodzi po planie B2 i tłumaczy już skróconą treść, a polski zostaje tłumaczeniem angielskiego, z tymi samymi faktami; sesja decyzji etapu ustali też nazwę strony. Sesja decyzji (15.10.2026): nazwa „Route G”, jeden adres z przełącznikiem EN · PL i angielskim domyślnym, `&lang=pl` w linku przy polskim, adres bez zmian, `noindex` do samego końca, tłumaczenie wszystkiego, co widzi czytelnik; decyzje i 31 ustaleń w „Z sesji decyzji etapu 5” niżej.
+
+## Następny krok: plan etapu 5 (angielski)
+
+Sesja decyzji etapu 5 zrobiona 15.10.2026 (niżej). Następny krok: plan etapu 5 z suchą próbą, jak B1 i B2, w osobnej sesji; wykonanie w świeżej sesji (ustalenie 28). Sesja planu tłumaczy w suchej próbie skróconą treść i przed oddaniem planu pokazuje arkusz PL | EN (ustalenie 29). Plan wprowadza nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `&lang=pl` w linku przy polskim; `noindex` zostaje do samego końca.
+
+### Z sesji decyzji etapu 5 (15.10.2026)
+
+Sesja ustaliła nazwę, adres, przełącznik języka, `noindex`, zakres tłumaczenia, sposób sprawdzania i testy dwóch języków (ustalenie 25 z sesji decyzji planu B2), a przy okazji zdanie pod przełącznikiem motocykla (umowa ASEAN z listy „Po publikacji”) i drobne uwagi z przeglądów B2 i B1, które dotyczą tłumaczonych tekstów. W tle działały agenty: umowa ASEAN o prawach jazdy (tylko strony HTML; wynik w [research/motocykl-2026-10.md](../research/motocykl-2026-10.md), „Umowa ASEAN o prawach jazdy (15.10.2026)”) i dwa sprawdzenia kolizji nazw (wyszukiwarka, sklepy z aplikacjami, znaki towarowe z wyników wyszukiwania, strony pod adresami .com i .vn). Do przetłumaczenia jest ok. 1030 tekstów, razem ok. 12 000 słów: interfejs ok. 3000, teksty miejsc ok. 8000, podpisy zdjęć ok. 660.
+
+Decyzje (osiem; język i kierunek nazwy to wybory użytkownika, reszta według rekomendacji):
+1. Język: jeden adres i mały przełącznik EN · PL w prawym górnym rogu, domyślnie angielski. Wybór użytkownika; rekomendacja była: dwa adresy, angielski pod `/wietnam/` i polski pod `/wietnam/pl/`, z podglądem linku w języku adresu. Skutki: podgląd linku w WhatsAppie jest zawsze po angielsku (WhatsApp czyta plik HTML bez skryptów), a wyszukiwarki zobaczą tylko wersję angielską; osobny adres `/pl/` można dodać później bez psucia linków.
+2. Język w linku: wybór polskiego dopisuje `&lang=pl` do adresu, więc link z paska, plan na WhatsApp i link w PDF otwierają u odbiorcy polską wersję; link bez `lang=`, także każdy, który już krąży, otwiera się po angielsku. Bez pamięci w przeglądarce i bez języka przeglądarki.
+3. Nazwa: „Route G”, jedna dla obu wersji, z podpisem „Vietnam, up to you” po angielsku i „Wietnam po swojemu” po polsku. Kierunek użytkownika: pierwsi kandydaci (m.in. rekomendowane „Vietnam on Your Terms”) byli zbyt generyczni, z drugiej rundy rekomendacja była „Tùy Bạn” („jak chcesz” po wietnamsku), a użytkownik zaproponował nazwę w stylu „G-Routes”; z nazw z G rekomendacja „Route G”, jedyna bez kolizji. Sprawdzone 15.10.2026: nazwy z „your way” to hasło państwowej aplikacji „Visit Vietnam: Travel your way” z planerem tras AI i aplikacji JoyTime, a vietnamyourway.com jest zajęta; „Đi Đâu?” to planer podróży didau.vn; „Phượt” mają serwisy i firma, a w prasie „phượt thủ” kojarzy się z brawurą; „G-Routes” czyta się jak usługa Google (Routes API w Google Maps Platform), a w bazie znaków towarowych jest „G GRAND ROUTES” na usługi biur podróży; routeg.com jest wystawiona na sprzedaż.
+4. Adres: zostaje https://grzegorzfrskiba-hub.github.io/wietnam/ (repo `wietnam`). Według dokumentacji GitHuba po zmianie nazwy repo stary adres strony nie przekierowuje. Własna domena przy otwarciu dla wyszukiwarek.
+5. `noindex` zostaje także po etapie 5: otwarcie dla wyszukiwarek na sam koniec, po opiniach znajomych i wszystkich poprawkach (według rekomendacji; „na sam koniec” to doprecyzowanie użytkownika).
+6. Zakres: tłumaczymy wszystko, co widzi czytelnik (interfejs, teksty miejsc, podpisy zdjęć, święta, nazwy linków, plan na WhatsApp, PDF, podgląd linku, zdanie bez JavaScriptu, plik offline) oraz README; notatki, research, plany i CLAUDE.md zostają po polsku, a identyfikatory w linku (`od`, `do`, `miesiac`, `co=gory`…) bez zmian, żeby stare linki działały.
+7. Sprawdzanie: testy (ustalenia 13–19), arkusz PL | EN w sesji planu do przejrzenia wyrywkowo, przy wykonaniu świeży recenzent na najmocniejszym modelu, który czyta każdy angielski tekst obok polskiego (fakty, zdania o bezpieczeństwie, naturalny angielski), a po publikacji opinie anglojęzycznych testerów.
+8. Motocykl: zasada pod przełącznikiem zostaje, a na końcu dochodzi wyjątek z umów, po polsku „Wyjątki z umów: prawo jazdy z państwa ASEAN i międzynarodowe prawo jazdy z Korei Płd., choć policja przy kontroli może ich nie uznać od ręki.”, po angielsku “Exceptions by agreement: a licence from an ASEAN country and a South Korean permit, though police at a check may not accept them straight away.” (całe zdanie w obu językach: research motocykla, „Co powiedzieć na stronie”). Research z 15.10.2026: Wietnam przystąpił do umowy ASEAN z 1985 r. 22.01.1997, ustawa uznaje takie prawa jazdy bez międzynarodowego, a prawnik w Tuổi Trẻ News (3.06.2026) potwierdza jazdę przy krótkim pobycie; w jedynej znalezionej relacji z kontroli (Nha Trang, 13.05.2026) policja zabrała na posterunek kierowcę z indonezyjskim prawem jazdy bez międzynarodowego; od 23.07.2023 Wietnam uznaje koreańskie międzynarodowe prawo jazdy, choć jest wydane według konwencji z 1949 r., więc dzisiejsze zdanie „wzór z 1949 r. w Wietnamie nie działa” jest dla Koreańczyków nieprawdziwe.
+
+Ustalenia (31, przyjęte w jednym kroku):
+- Przełącznik i link:
+  1. „EN · PL” w prawym górnym rogu zdjęcia na górze strony, na telefonie wygodny do stuknięcia (co najmniej 44 px); przewija się razem ze stroną, aktywny język wyróżniony, w druku ukryty;
+  2. przełączenie od razu zmienia teksty, bez przeładowania; trasa, ustawienia i zmiany „Dodaj/Usuń” zostają, a adres dostaje albo traci `&lang=pl` na końcu;
+  3. `lang=` z inną wartością albo bez wartości: strona po angielsku, bez ostrzeżenia o błędnym linku (język to nie ustawienie trasy);
+  4. plik HTML ma `lang="en"`, a podgląd linku jest po angielsku („Route G · Vietnam, up to you”, opis, `og:locale` en_GB); zdanie dla przeglądarki bez JavaScriptu w obu językach, jedno pod drugim;
+  5. plik offline jeden, z przełącznikiem, pod nazwą `Route-G.html`.
+- Nazwa:
+  6. „Route G” w nagłówku, tytule karty, planie na WhatsApp („Route G: 14 days, March 2027”), w PDF i w stopce („© 2026 Route G. All rights reserved.” / „© 2026 Route G. Wszelkie prawa zastrzeżone.”); pod nazwą podpis „Vietnam, up to you” / „Wietnam po swojemu”; nadtytuł „Vietnam trip planner” / „Planer podróży po Wietnamie”;
+  7. repo zostaje `wietnam`; README po angielsku z akapitem po polsku; opis repo na GitHubie po angielsku przy publikacji, za zgodą.
+- Kod i dane:
+  8. angielskie teksty jako nakładka o tej samej budowie co polskie: `UI.en` z tymi samymi kluczami co `UI.pl`, teksty miejsc w osobnych plikach (po jednym na miejsce, tylko pola tekstowe), podpisy zdjęć, nazwy świąt, nazwy linków rezerwacji i teksty z `build.py`; polskie teksty zostają, gdzie są, więc testy polskiego stylu działają jak dziś;
+  9. zapis zależny od języka: liczba mnoga (1 night, 2 nights), „in March”, daty w pasku dni „Thu 28 Jan”, godziny jak dziś (6:00, 13:30), kropka dziesiętna i przecinek tysięcy, „cc” zamiast „cm³”; nazwy wietnamskie i wielowyrazowe nierozdzielne w obu językach, jednoliterowe wyrazy wiązane tylko po polsku;
+  10. kwoty po angielsku: „17–39M VND”, „0.8–1.5M VND”, „260,000 VND”, „up to 2.2M VND”; pomiar z sesji: „57–114 million VND” nie mieści się w kafelku przy 901 i 1400 px (216 px na 197 px), a „57–114M VND” mieści się przy 360, 390, 641, 768, 901 i 1400 px;
+  11. angielski brytyjski (colour, travellers, centre), jak w planerze grudniowym i w komentarzach kodu; typograficzne cudzysłowy i apostrof (“ ” ’);
+  12. słowniczek (sucha próba może go doszlifować): poziomy Relaxed / Active / Extreme; zainteresowania Culture & history, Food, Wildlife, Mountains & caves, Sea & islands; motocykl With a driver / Ride yourself; sekcje Your trip, At a glance, Day by day, Before you go, Good to know; Picked because… / Not on your route because…, Add / Remove; Copy plan for WhatsApp, Save route as PDF; homestay (po polsku dalej „u gospodarzy”); sezon good / fair / poor; na mapie South China Sea i Gulf of Tonkin, jak polskie nazwy.
+- Testy dwóch języków:
+  13. kompletność: `UI.en` ma dokładnie klucze `UI.pl`, każdy tekst ma wersję angielską, a nakładka nie ma pól spoza tekstów;
+  14. te same fakty: w każdej parze tekstów te same liczby (po sprowadzeniu zapisu: rzymskie miesiące i wieki, nazwy miesięcy, separatory) i te same wietnamskie nazwy; wyjątki na liście w teście, każdy z powodem;
+  15. styl angielski: bez polskich liter i polskich cudzysłowów, bez amerykańskiej pisowni z krótkiej listy (color, center, traveler…), zakresy z półpauzą;
+  16. `for every passport` w obu językach, z uwagą z przeglądu B2: łapie też „euro”, „dolar” i „złotówk”, a po angielsku „dollar”, „zloty”, „Poland” i „Polish”;
+  17. długość opisu dnia: po polsku dalej najwyżej 70 słów, po angielsku limit z pomiaru w suchej próbie, żeby teksty nie urosły (przykład Mỹ Sơn: 63 → 80 słów, ok. +25%);
+  18. sondy w Chrome bez okna w obu językach i nowa sonda języka: przełącznik zachowuje trasę i dopisuje albo zdejmuje `&lang=pl`, plan na WhatsApp i link w PDF niosą język, stary link bez `lang=` otwiera tę samą trasę po angielsku; kwota w kafelku przy 641, 768 i 901 px; wydruk trzech tras w obu językach;
+  19. silnik bez zmian: pełny test `ALL PASS`, liczby z `tools/liczby.sh` takie same przed i po.
+- Uwagi z przeglądów (poprawka w obu językach):
+  20. zdanie o ryzyku: szacunek WHO (ok. 17 000 zabitych rocznie) i dane krajowe (ponad 90% zabitych w 2023 r. w wypadkach z udziałem motocykla) jako dwa osobne fakty, bez „z nich” (WHO-GHO, MOTO-2026-10-15j w researchu motocykla);
+  21. `b.dalat.tanang`: bez dwóch liczb obok siebie („3–4 tygodnie wcześniej na Tết i 30.04”);
+  22. etykieta `know.links` przez `esc()`, jak każdy tekst; stary komentarz „entry and health” w `site2/src/template.html` poprawiony, bo plik i tak się zmienia;
+  23. pozwolenia w Cát Tiên i przy Lang Biang: według researchu treść jest dobra (w Cát Tiên poza biletem i opłatą za Bàu Sấu, z pokojem z recepcji parku, pozwolenia nie ma; przy Lang Biang liczą się przewodnik i otwarty szlak), więc bez zmian, a uwaga schodzi z listy;
+  24. z listy uwag B1, bo te teksty i tak tłumaczymy: plan na deszcz dnia 2 w Yok Đôn bez „zamiast lasu” i z „700 m”, plan na deszcz dnia 2 w Mù Cang Chải bez „zamiast wędrówki” (oba pasują wtedy też do wersji „Spokojnie”), w zimnej porze w Mù Cang Chải „w XII–I kwitnie tớ dày”, jak w researchu.
+- Research i notatki:
+  25. research motocykla: wiersz „Korea Płd.” w tabeli i wniosek poprawione, nowe brzmienie zdania w „Co powiedzieć na stronie” (PL i EN); commit researchu razem z notatkami;
+  26. wizja (pkt 2, 5, 8, 9, „Dla kogo”, „Jak działa strona”, „Treść”, „Otwarte drzwi”, „Technika”, „Na później”) i CLAUDE.md (tytuł, status, zasada języka) zaktualizowane;
+  27. lista „Po publikacji”: punkt o umowie ASEAN schodzi, uwagi z ustaleń 20–24 przechodzą do etapu 5, a otwarcie dla wyszukiwarek idzie na sam koniec, razem z decyzją o domenie (routeg.com wystawiona na sprzedaż 15.10.2026), odświeżeniem cen i ewentualnym osobnym adresem `/pl/`.
+- Proces:
+  28. jeden plan z suchą próbą (jak B1 i B2), wykonanie w świeżej sesji; na końcu jak wcześniej: punkt kontrolny, końcowy przegląd na najmocniejszym modelu (tłumaczenie i kod), publikacja za zgodą, notatki;
+  29. arkusz PL | EN powstaje w sesji planu z suchej próby i idzie do przejrzenia przed oddaniem planu;
+  30. polskie teksty bez zmian treści poza ustaleniami 20–24 i nazwą; jeśli tłumaczenie odkryje niejasność po polsku, poprawka w obu językach z notką w planie;
+  31. commit notatek teraz (notatki, wizja, CLAUDE.md, research motocykla), `git push` razem z planem etapu 5, za zgodą.
+
+### Z planu B2 partii B
 
 Zrobione 15.10.2026: plan B2 partii B ([plans/2026-10-15-etap-3b2-tresc.md](plans/2026-10-15-etap-3b2-tresc.md)), a z nim cała partia B. Strona jest dla samodzielnych podróżnych z całego świata: ramka motocykla podaje prawo jazdy na motocykl i międzynarodowe prawo jazdy według konwencji z 1968 r., ze zdaniem, żeby sprawdzić konwencję swojego kraju, i ryzyko bez porównań z Polską; „Warto wiedzieć” zamiast „Wjazd i zdrowie” ma dwa zdania (wiza według paszportu, e-wiza i karta przylotu tylko na stronach rządowych; e-papierosy) i dwa linki rządowe; rezerwacje mówią, co, kiedy, ile i gdzie; pakowanie wynika tylko z trasy; 25 z 28 najdłuższych opisów dni skrócono do ok. 60 słów (opisy dni razem 5529 → 4874 słów, najdłuższy 66); kwoty są w dongach po kursie researchu (najszersza 57–114 mln VND); z przesiewu researchu doszły fakty: auto na Sơn Trà od 24 EUR, 7 km w Paradise Cave w porze deszczowej zawraca po ok. 4 km, strumienie na szlaku Tà Năng wzbierają nagle, Pác Bó bez zezwolenia, podpis zdjęcia `mucangchai_2`. Testy pilnują długości opisów dni (najwyżej 70 słów) i tekstów dla każdego paszportu. Trasy i silnik bez zmian: liczby z `tools/liczby.sh` są takie same jak przed planem.
 
@@ -109,8 +167,6 @@ Punkt kontrolny planu B2 (15.10.2026): pełny test `ALL PASS` (134 784 ustawieni
 Końcowy przegląd planu B2 (15.10.2026, świeży recenzent): „Gotowe do publikacji: po poprawkach”, bez uwag krytycznych. Recenzent sam powtórzył pełny test i sondy, policzył od nowa arkusz skrótów, sprawdził kwoty na 12 096 trasach, tekst wydruków i całe repo pod kątem danych osobowych; potwierdził, że zdania o bezpieczeństwie przetrwały skróty, a nowe fakty mają pokrycie w researchu. Znalazł dwie ważne sprawy. Pozycje, które mogą nic nie kosztować (lot paralotnią nad Khau Phạ, zjazd kolejką z Fansipanu), pisały dolny koniec zaokrąglony w górę do ceny („0,1–2,2 mln VND” w 5640 liniach rezerwacji i 4376 listach „Najwięcej kosztują”, „10 000–840 000 VND” na 129 trasach); według wyboru użytkownika podają teraz sam górny koniec, „do 2,2 mln VND” i „do 840 000 VND” (poprawka z końcowego przeglądu, z testem `vndText` i sondą `before.js`). Zdanie pod przełącznikiem motocykla („tylko z … międzynarodowym prawem jazdy według konwencji z 1968 r.”) może być za ostre dla obywateli państw ASEAN, bo ustawa uznaje też prawa jazdy z umów międzynarodowych; to błąd po bezpiecznej stronie, więc według rekomendacji poszło na listę „Po publikacji”, razem z drobnymi uwagami recenzenta.
 
 Publikacja (15.10.2026): za zgodą użytkownika strona po planie B2 poszła na GitHub Pages (https://grzegorzfrskiba-hub.github.io/wietnam/, dalej z `noindex`); na żywo są „Warto wiedzieć”, kwoty w dongach i „do 2,2 mln VND” przy locie paralotnią. Drugi rzut oka na komunikaty tego dnia (tylko strony HTML): e-wiza i karta przylotu dalej tylko na stronach rządowych, dekret 90/2026 o e-papierosach bez zmian, półwysep Sơn Trà otwarty (prasa zapowiada ulewy 20–22.10, a strona każe dzień wcześniej sprawdzić komunikat zarządu), szlak na Lang Biang dalej zawieszony, festiwal gryki od 25.10.2026 bez ogłoszonych zasad ruchu, paralotnia Mebayluon lata według cennika na 2026; strona bez zmian.
-
-**Etap 5:** najpierw krótka sesja decyzji: nazwa strony, adres, przełącznik języka i `noindex` (ustalenie 25 z 15.10.2026). Angielski jako język przewodni tłumaczy skróconą treść, a polski zostaje jej tłumaczeniem, z tymi samymi faktami. Plan z suchą próbą, wykonanie w świeżej sesji.
 
 ### Z planu B1 partii B
 
@@ -196,6 +252,7 @@ Publikacja (14.10.2026): repo jest publiczne, a strona działa pod https://grzeg
 
 **Do etapu 3 (partia B i kolejne):**
 - nowe teksty przechodzą test zdania z wizji (decyzja z 15.10.2026: prawdziwe dla każdego paszportu, bez ogólnej wiedzy podróżniczej); opis dnia ma ok. 60 słów, najwyżej 70 (test `day texts`), a kwoty w tekstach są w dongach (test `for every passport`); fakty, które wypadają ze strony, zostają w researchu z adnotacją;
+- po etapie 5 każdy nowy tekst od razu w obu językach, z tymi samymi liczbami i nazwami (testy kompletności i tych samych faktów, ustalenia 13–14 z sesji etapu 5); nowe miejsce dostaje też angielski plik tekstów;
 - każde nowe miejsce dostaje też dane z planu 2B: cenę noclegu w `COSTS.night`, płatne części dni jako pozycje `COSTS.items` wskazane polem `cost` w dniach, wpisy w `BOOK` z wyprzedzeniem i linkami, miejsce w `HOMESTAYS`, gdy nocuje się u gospodarzy, i teksty dalekich dróg z lotnisk w `AIR_KEYS`; liczby stoją w tabelach „Zestawienie” pliku researchu miejsca (`research/<id>-2026-10.md`), a test danych czyta je stamtąd (w wierszu `fit` zainteresowanie „gory” bez „ó”);
 - najszersza kwota budżetu ma postać „dd–ddd mln VND” (najwyższa po planie B2: 57–114 mln VND, 30 dni z Đà Nẵng w obie strony, góry i morze, „Ekstremalnie”, kwiecień); cyfry kroju mają jedną szerokość, więc kafelek mieści każdą kwotę tej postaci, ale kwota z trzema cyframi na obu końcach byłaby szersza: po każdej partii sonda `before.js` przy 641, 768 i 901 px, która od planu B2 bierze właśnie tę trasę;
 - nowe miejsca dostają trudne dni według zasad z [research/trudne-dni-2026-10.md](../research/trudne-dni-2026-10.md) (dziś trudny dzień mają Cát Tiên, Pù Luông, Phong Nha, Cúc Phương, Sa Pa, Đà Lạt ze szlakiem Tà Năng–Phan Dũng i Yok Đôn); wyprawa na dwa dni to trudna wersja z polem `next` i własnym planem na deszcz (`hard.rain`);
@@ -214,7 +271,7 @@ Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
 **Po publikacji (po partii B):**
 - research po przesiewie z 15.10.2026 (plan B2): otwarte punkty mają wynik sprawdzenia albo adnotację „Poza stroną (decyzja z 15.10.2026)”. Zostają: Sa Pa (od III 2026 prowincja Lào Cai zakazuje sprzedaży wycieczek bez licencji, a Sapa O'Chau i Sapa Sisters nie podają jej numeru; `b.sapa.trek` bez dopisku o licencji, decyzja z 15.10.2026), paralotnia w Mù Cang Chải w 2027 (umowa Mebayluon z gminą Tú Lệ do końca 2026; sprawdzić na początku 2027), droga Hà Giang – Mù Cang Chải 7 h i wyjazd koło południa po nocy w lesie Yok Đôn (dalej szacunki);
 - ceny: największe pozycje (rejs, auta, loty, Hang Én, Fansipan) i przedziały z przesiewu z 15.10.2026 (`mekong.market` na progu, trasa zastępcza Lang Biang dla osoby samej, dolna granica noclegu na Phú Quốc w porze suchej) odświeżyć przed otwarciem dla wyszukiwarek, w jednym miejscu (`costs.js` i research), a przy tym kurs 1 EUR = 29 055 VND (wiersz EUR-VND w `research/ceny-2026-10.md`);
-- otwarcie dla wyszukiwarek: `NOINDEX = False` w `site2/build.py`; decyzja z 14.10.2026: `noindex` zostaje do etapu angielskiego i do opinii pierwszej rundy;
+- otwarcie dla wyszukiwarek: na sam koniec, po opiniach znajomych i wszystkich poprawkach (decyzja 5 z sesji etapu 5, 15.10.2026; wcześniej: do etapu angielskiego i do opinii pierwszej rundy), razem z decyzją o własnej domenie (routeg.com wystawiona na sprzedaż 15.10.2026), odświeżeniem cen i ewentualnym osobnym adresem `/pl/` dla polskiej wersji; wtedy `NOINDEX = False` w `site2/build.py`;
 - PDF z iPhone'a: Safari ignoruje `break-after: avoid`, więc nagłówek bywa sam na dole strony; jeśli znajomi to zgłoszą, zgrupować nagłówek z pierwszym dniem;
 - wydruk: ostatnia strona bywa prawie pusta (sama stopka);
 - przed publikacją każdej partii drugi rzut oka na komunikaty, jak w zadaniu 11 etapu 4;
@@ -224,17 +281,9 @@ Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
   - wydruk: na pierwszej stronie zostaje luka, bo nagłówek „Trasa” przechodzi razem z mapą na drugą stronę;
 - uwagi drobne z końcowego przeglądu planu B1 (15.10.2026):
   - lot Đà Nẵng – Buôn Ma Thuột (`FLIGHT_DAYS`, dni w obie strony potwierdzone 15.10.2026 w researchu Yok Đôn): w trybie dat strona mogłaby powiedzieć, czy lot wypada we wtorek, czwartek albo sobotę; obok stoi „wybierz lot po południu”, a tekst „Kopiuj plan na WhatsApp” tej uwagi nie ma;
-  - Mù Cang Chải: tớ dày w wydarzeniu na XII–II, gdy research mówi XII–I;
-  - plany na deszcz z „zamiast” przy wersji „Spokojnie” (Yok Đôn dzień 2: gotowanie, Mù Cang Chải dzień 2: punkty widokowe autem);
-  - zapis „700 metrów” w planie na deszcz dnia 2 w Yok Đôn obok „2 km” w innych tekstach;
+  - tớ dày w zimnej porze Mù Cang Chải, plany na deszcz z „zamiast” przy wersji „Spokojnie” (Yok Đôn i Mù Cang Chải, dzień 2) i „700 metrów” w Yok Đôn: poprawka w etapie 5, przy tłumaczeniu (ustalenie 24 z sesji etapu 5);
 - uwagi z końcowego przeglądu planu B2 (15.10.2026):
-  - umowa państw ASEAN o uznawaniu praw jazdy (ustawa, art. 57 ust. 6): zdanie pod przełącznikiem motocykla („tylko z … międzynarodowym prawem jazdy według konwencji z 1968 r.”) może być za ostre dla obywateli tych państw; to błąd po bezpiecznej stronie, więc sprawdzić przy etapie 5, gdy ramka będzie pisana po angielsku (decyzja użytkownika z 15.10.2026; `research/motocykl-2026-10.md`, „Wyjątek z ustawy”);
-  - zdanie o ryzyku łączy szacunek WHO (ok. 17 000 zabitych, 2021) ze statystyką krajową (ponad 90% zabitych w wypadkach z udziałem motocykla, 2023) przez „z nich”; przy przeróbce najpierw research;
-  - test `for every passport` nie łapie słów „euro”, „dolar” i „złotówk”;
-  - stary komentarz w `site2/src/template.html` („entry and health”);
-  - `b.dalat.tanang`: „na Tết i 30.04 3–4 tygodnie” stawia dwie liczby obok siebie;
-  - `T('know.links')` idzie do HTML bez `esc()` (stały tekst, jak wcześniej `T('entry.check')`);
-  - pozwolenia nazwane tylko pośrednio w trudnym dniu Cát Tiên („z przewodnikiem parku”) i przy Lang Biang („tylko z przewodnikiem”, „czy szlak jest otwarty”);
+  - umowa ASEAN (zdanie pod przełącznikiem motocykla), zdanie o ryzyku, słowa w teście `for every passport`, komentarz w `template.html`, `b.dalat.tanang` i `know.links`: rozstrzygnięte w sesji etapu 5 (15.10.2026), poprawka w etapie 5 (decyzja 8, ustalenia 16 i 20–22); pozwolenia w Cát Tiên i przy Lang Biang sprawdzone w researchu, bez zmian (ustalenie 23);
   - research wjazdu: słowo „bezpłatnie” przy karcie przylotu nie ma pokrycia w WJ-2026-10-14c i WJ-2026-10-14d (strona go nie używa); nowe źródła z 15.10.2026 do dopisania: dekret 292/2026/NĐ-CP (od 5.09.2026 e-papierosy i podgrzewany tytoń na liście towarów zakazanych w imporcie) i komunikat ambasady Wietnamu w Bangkoku z 18.06.2026 (karta przylotu na Tân Sơn Nhất nieobowiązkowa).
 
 Drobniejsze uwagi: [uwagi-z-przegladow-1b.md](uwagi-z-przegladow-1b.md)
