@@ -21,14 +21,15 @@ setTimeout(function () {
   // Cao Bằng ridden yourself
   // the budget before the swap, in euros: on a short loop the motorbike saves less than the 100 zł the amount is rounded to
   var before = ids(), money = JSON.stringify(t.state.budget.two), self = document.querySelector('.swap[data-swap="caobang"] input[value="self"]');
-  check('the Cao Bằng card offers „Z kierowcą” and „Samodzielnie”, with the legal condition', self && /A1, A2 albo A/.test(textOf('#stops .swap[data-swap="caobang"] .swap-note')));
+  check('the Cao Bằng card offers „Z kierowcą” and „Samodzielnie”, with the legal condition', self && /konwencji z 1968 r\./.test(textOf('#stops .swap[data-swap="caobang"] .swap-note')));
   self.click();
   setTimeout(function () {
     var card = document.querySelector('#stops .swap[data-swap="caobang"]').closest('.stop');
     check('„Samodzielnie” writes motocykl=caobang into the link', /motocykl=caobang/.test(location.hash), location.hash);
     check('and the trip stays the same', ids() === before, ids());
     check('the days of the loop ride the motorbike', Array.prototype.some.call(card.querySelectorAll('.day h4'), function (h) { return /motocyklem/.test(h.textContent); }));
-    check('what it takes, the risk and the advice show', !!card.querySelector('.swap-box') && /starostwo/.test(card.querySelector('.swap-box').textContent));
+    check('what it takes, the risk and the advice show', !!card.querySelector('.swap-box') && /dowód rejestracyjny/.test(card.querySelector('.swap-box').textContent) &&
+      /WHO/.test(card.querySelector('.swap-box').textContent) && /zastaw/.test(card.querySelector('.swap-box').textContent));
     check('the budget follows, and the figure and the budget part still say the same amount', JSON.stringify(t.state.budget.two) !== money &&
       textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), money + ' → ' + JSON.stringify(t.state.budget.two) + ', ' + textOf('#facts .f-budget b'));
     check('the focus stays on the choice', document.activeElement && /^swap-caobang-\d+$/.test(document.activeElement.name) && document.activeElement.value === 'self',

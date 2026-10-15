@@ -334,5 +334,11 @@ contentCheck('safety', function (need) {
       if (v[1] && /Sơn Trà/.test(v[1].d)) need(/sprawdź[^.]*komunikat/.test(v[1].d), 'danang day ' + d.p + v[0] + ': a plan on Sơn Trà says to check the notice of the management (sprawdź … komunikat)');
     });
   });
+  // the motorbike ridden yourself, for every passport (decision of 15.10.2026, research/motocykl-2026-10.md): a licence for
+  // the motorbike and an international permit of the 1968 convention, as many countries give only the 1949 one, which
+  // Vietnam does not accept; a car's licence is not enough; the passport is no deposit
+  need(/konwencji z 1968 r\./.test(UI.pl['sw.note']) && /na samochód nie wystarcza/.test(UI.pl['sw.note']) && /według której konwencji wydaje je twój kraj/.test(UI.pl['sw.note']),
+    'sw.note: a motorbike licence and the international permit of the 1968 convention; a car\'s is not enough; which convention your country follows');
+  need(/Paszportu nie zostawiaj w zastaw/.test(UI.pl['sw.tips']), 'sw.tips: the passport is no deposit');
   need(/w ciągu 3 dni przed przylotem/.test(UI.pl['e.arrival']), 'e.arrival: the arrival card is filled within 3 days before the arrival (przed przylotem), as the immigration office counts');
 });

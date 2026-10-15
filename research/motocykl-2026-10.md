@@ -261,6 +261,15 @@ Dekret 168/2024/NĐ-CP obowiązuje od 1.01.2025 (NNMT). Dekret 238/2026/NĐ-CP z
 
 ## Co powiedzieć na stronie
 
+**Od planu B2 (decyzja z 15.10.2026):** strona jest dla podróżnych z całego świata, więc zdanie pod przełącznikiem i ramka „Samodzielnie” podają ogólne wymagania, bez polskich procedur. Na stronie:
+- pod przełącznikiem: „Samodzielnie tylko z prawem jazdy na motocykl i międzynarodowym prawem jazdy według konwencji z 1968 r., oba przy sobie. Samo prawo jazdy na samochód nie wystarcza nawet na skuter 110–125 cm³. Sprawdź, według której konwencji wydaje je twój kraj, bo międzynarodowe prawo jazdy według konwencji z 1949 r. w Wietnamie nie działa.” (VN-LUAT art. 57 ust. 1, 6 i 8; MOTO-2026-10-15i; MOTO-2026-10-15a, MOTO-2026-10-15b, MOTO-2026-10-15e; sekcja „Międzynarodowe prawo jazdy w innych krajach (15.10.2026)”);
+- wymagania: „W motocyklu muszą być dowód rejestracyjny i polisa obowiązkowego OC, a kask zgodny z normą trzeba zapiąć, także pasażerowi. Sprawdź w warunkach swojej polisy, czy obejmuje jazdę motocyklem.” (VN-LUAT art. 33 ust. 2, art. 56 ust. 1; FCDO);
+- ryzyko: „Na drogach Wietnamu ginie ok. 17 000 osób rocznie (szacunek WHO), a ponad 90% z nich w wypadkach z udziałem motocykla. Po wypadku grozi odpowiedzialność karna, odszkodowanie i zakaz wyjazdu do końca dochodzenia. Bez uprawnień grozi mandat 2–4 mln VND i zatrzymanie motocykla, a polisa może nie zapłacić. Policja kontroluje cudzoziemców.” (WHO-GHO, MOTO-2026-10-15j, FCDO, RAB-LEGAL, MOMO-GPLX, NNMT, COR-HG, TIGIT-IDP, VT-LOOP);
+- rady: „Paszportu nie zostawiaj w zastaw, zapytaj o kaucję gotówką. Nie jedź po zmroku, w deszczu i mgle zwolnij, a na serpentynach uważaj na żwir i ciężarówki.” (FCDO, VT-LOOP, LV-HUE, COR-NE);
+- w Hà Giang pozwolenie „za ok. 230 000–300 000 VND” zamiast „za 10 USD” (ustalenie 9; obie kwoty są w research/hagiang-2026-10.md).
+
+Poza stroną zostają tu: polskie kategorie A1, A2 i A i uprawnienie z B tylko w Polsce, międzynarodowe prawo jazdy ze starostwa (35 zł, do 3 lat), porównanie śmiertelności z Polską, warunki polisy Warty, oględziny i zdjęcia rys przy odbiorze. Zdanie o polisie stoi tylko w ramce, bez powtórki w „Warto wiedzieć”. Propozycje niżej są z 11.10.2026.
+
 **Zdanie pod przełącznikiem** (warunek prawny):
 - „Samodzielnie tylko z polskim prawem jazdy kategorii A1, A2 albo A i międzynarodowym prawem jazdy według konwencji wiedeńskiej, oba przy sobie. Samo B nie wystarcza nawet na skuter 110–125 cm³.” (VN-LUAT art. 57 ust. 1, 6 i 8; PL-UKP art. 6; PL-2014; GOV-MPJ)
 
