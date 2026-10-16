@@ -868,3 +868,132 @@ Przejrzane: ok. 280 obrazów (kategoria z podkategoriami podgatunków, ilustracj
    Wyróżnienie: Quality image.
    Ocena: złożone skrzydła w słońcu, duża rozdzielczość.
 
+## Uzupełnienie: cztery brakujące grupy (16.10.2026)
+
+Agent badawczy w sesji planu etapu 6, tą samą metodą (tylko metadane z API Commons): czaple i bociany, gibboniec reliktowy, kiściec annamski i skamielinowiec laotański.
+
+### Uzupełnienie: cztery brakujące grupy (rozpoznanie 16.10.2026)
+
+Metoda jak w sekcji „Metoda” pliku `research/zwierzeta-zdjecia-2026-10.md`: tylko metadane z API Commons, Wikidata i Wikipedii EN/VI (oraz ZH/FR, gdzie EN i VI nie mają zdjęcia), curl/urllib z nagłówkiem `RouteG-research/1.0 (metadata only; https://github.com/grzegorzfrskiba-hub/wietnam)`, ok. 6,5 s między zapytaniami; bez pobierania zdjęć i miniatur. Dla ptaków wodnych dodatkowo wyszukiwanie geograficzne Commons (promień 10 km) wokół Vân Long, Thung Nham, Tràm Chim, ogrodu Bằng Lăng, Cát Tiên (dwa punkty) i Cần Giờ. Wyróżnienia sprawdzone po kategoriach ukrytych (Featured / Quality / Valued): żaden z kandydatów poniżej ich nie ma.
+
+### Ptaki
+
+#### Egretta garzetta i Anastomus oscitans, czapla nadobna i kleszczak azjatycki (czaple i bociany: Bằng Lăng, Vân Long, delta Mekongu)
+
+Przejrzane: kategorie „Ciconiiformes of Vietnam” (4 pliki) i „Pelecaniformes of Vietnam” (14), „Birds of Vietnam” (38 plików, z podkategoriami „by order”), kategorie „<gatunek> in Vietnam” dla czapli nadobnej, czaplki chińskiej, czapli białej, czapli złotawej, kleszczaka, dławigada indyjskiego i bociana białoszyjego (żadna nie istnieje), seria 10 zdjęć „Stork sanctuary, Can Tho / Mekong Delta”, wyszukiwanie po nazwach łacińskich i angielskich z „Vietnam”, „Van Long”, „Ninh Binh”, „Cat Tien”, „Can Gio”, „Mekong”, oraz 614 plików z geotagiem wokół siedmiu miejsc (10 trafień z ptakami). Z miejsc trasy zdjęcia czapli i bocianów są tylko z delty Mekongu (Cần Thơ, Tràm Chim, Gáo Giồng), z Ninh Bình (kleszczak, Thung Nham) i jedno z Cát Tiên; z Vân Long i Cần Giờ nie ma żadnego. Do grupy wybrane dwa gatunki: czapla nadobna (to ją widać w koloniach lęgowych w rodzaju Bằng Lăng) i kleszczak azjatycki (najczęstszy bocian w Ninh Bình i w delcie).
+
+1. **Stork sanctuary, Mekong Delta (45199906095).jpg** — https://commons.wikimedia.org/wiki/File:Stork_sanctuary,_Mekong_Delta_(45199906095).jpg
+   Isabell Schulz · CC BY-SA 2.0 · 5472×3648 (20,0 MP) · 26.11.2018
+   Gdzie: **wolność, Wietnam**, ogród ptaków („stork sanctuary”) koło Cần Thơ (kategoria „Nature of Can Tho”; opis bez nazwy ogrodu, bez geotagu). Kategorie „Egretta garzetta”, „Egretta nests”, „Bird nests with chicks”: dzika kolonia lęgowa czapli nadobnych z pisklętami. Uwaga: w tej samej serii z tego samego dnia są też ptaki w klatkach (dławigad mniejszy i modrzyk „captive”), czyli ogród ma też część z niewolą; czaple w gniazdach do niej nie należą.
+   Wyróżnienie: brak; zdjęcie z Flickra (FlickreviewR: licencja potwierdzona), nieużywane w wiki.
+   Ocena: najlepiej pasuje do opisu Bằng Lăng (listopad to pora lęgów, czaple przy gniazdach); aparat kompaktowy z 1-calową matrycą (Panasonic TZ100), więc jakość niepewna. Zamiennie z tej samej serii, też czapla nadobna, 5472×3648: „Stork sanctuary, Can Tho (46061612272).jpg”, „…(46061612342).jpg”, „Stork sanctuary, Mekong Delta (32240062558).jpg”, młody ptak „Stork sanctuary, Can Tho (46061612222).jpg”, widok z daleka „Stork sanctuary, Mekong Delta (46061405092).jpg”.
+2. **Asian openbill stork in Ninh Binh, Vietnam.jpg** — https://commons.wikimedia.org/wiki/File:Asian_openbill_stork_in_Ninh_Binh,_Vietnam.jpg
+   Prof Flitwick · CC BY-SA 4.0 · 6000×4000 (24,0 MP) · 1.09.2025
+   Gdzie: **najpewniej wolność, Wietnam**, prowincja Ninh Bình (opis „Asian openbill stork in Ninh Binh, Vietnam”; bez geotagu, bez nazwy miejsca, nic nie wskazuje na zoo).
+   Wyróżnienie: brak; nieużywane w wiki, tylko w ogólnej kategorii „Birds of Vietnam”.
+   Ocena: jedyne zdjęcie kleszczaka z Ninh Bình z jednym ptakiem w tytule, świeże i w dużej rozdzielczości (Sony a5100); bez wyróżnień i bez opisu kadru, więc ocena tylko z opisu i rozdzielczości. Zamiennie z Ninh Bình: „Vườn chim Thung Nham .jpg” (Thao 12031993, CC BY-SA 4.0, 4256×2832, EXIF 27.11.2017, kolonia kleszczaków w ogrodzie ptaków Thung Nham, wolność; aparat Nikon D700).
+3. **Anastomus oscitans Tràm Chim 2.JPG** — https://commons.wikimedia.org/wiki/File:Anastomus_oscitans_Tràm_Chim_2.JPG
+   Hungda · CC BY-SA 3.0 · 4320×3240 (14,0 MP) · 23.10.2012
+   Gdzie: **wolność, Wietnam**, Park Narodowy Tràm Chim, Đồng Tháp, delta Mekongu (opis, kategoria „Tram Chim National Park”, geotag 10,71° N 105,50° E).
+   Wyróżnienie: brak; 2 wiki.
+   Ocena: kleszczaki w locie (kategoria „Anastomus oscitans in flight”); pewne miejsce i dziki ptak, ale lot to raczej tło niż portret. Zamiennie: „Anastomus oscitans Tràm Chim 1.JPG” (dwa stada w locie, ten sam autor i dzień).
+
+Inne z Wietnamu: „Wooly-necked stork @ Cat Tien National Park.jpg” (Roy Bateman, CC BY-SA 4.0, 750×1000, data nieznana, Cát Tiên; za małe), „Gao Giong Bird Sanctuary Chinese Pond Heron 01.jpg” i „Gao Giap Bird Sanctuary Chinese Pond Heron 02.jpg” (Neitram, CC BY-SA 3.0, 4000×3000, 17.04.2013, ostoja Gáo Giồng w Đồng Tháp, geotag, wolność; czaplka chińska), „Gao Giap Bird Sanctuary Purple Heron.jpg” (to samo, czapla purpurowa), sylwetki o zachodzie: „White Egrets on Ha Coc at Sunset.JPG” (Quảng Trị) i „Sunset Flight (4446056174).jpg” (Hội An). Dławigad indyjski z Wietnamu jest tylko z zoo w Sajgonie. Pliki PNG „… at Tràm Chim National Park, Vietnam, 19 July 2026.png” (Ckbk123) pokazują nieoznaczone stada, w formacie PNG; pominięte. Główne zdjęcia Wikipedii EN są spoza Wietnamu: kleszczak „Asian openbill (Anastomus oscitans) Pearaing.jpg” (Charles J. Sharp, CC BY-SA 4.0, 4639×3093, ośrodek ochrony przyrody Pearaing, Siem Reap, Kambodża), czapla nadobna i bocian białoszyi Shantanu Kuveskara (Indie, tylko 600 px), czaplka chińska z Hongkongu (1023×874).
+
+#### Lophura edwardsi, kiściec annamski (Edwards's pheasant)
+
+Przejrzane: ok. 40 plików (kategoria „Lophura edwardsi” z podkategoriami „in zoos”, „at Artis” i „(leucistic)”, wyszukiwanie po nazwie łacińskiej, „Edwards's pheasant”, „Vietnamese pheasant”, „Lophura hatinhensis” i „gà lôi lam mào trắng”). Wszystkie zdjęcia żywych ptaków są z niewoli; zdjęcia z wolności nie ma. Pozostałe pliki to 8 zdjęć okazów typowych z MNHN w Paryżu, jajo z Muzeum w Tuluzie, mapa i ilustracja G. E. Lodge’a. Wikipedia EN („Edwards's pheasant”) używa kandydata 3, Wikipedia VI („Gà lôi lam mào trắng”) kandydata 1, Wikidata (P18) „Edwards Pheasant RWD.jpg” i „Lophura edwardsi.JPG”. Ptaki opisane jako „Lophura hatinhensis” (odmiana z białymi piórami w ogonie, na Commons w kategorii „leucistic”) pominięte.
+
+1. **Vietnam Pheasant.jpg** — https://commons.wikimedia.org/wiki/File:Vietnam_Pheasant.jpg
+   Hà Nghĩa VN · CC BY-SA 4.0 · 6000×4000 (24,0 MP) · 1.08.2018
+   Gdzie: **niewola, Wietnam**: opis „Con trống (Ảnh chụp tại Thảo Cầm Viên, hiện nay cá thể này đang được nuôi nhốt tại Vườn Thú Hà Nội)”, czyli samiec sfotografowany w zoo Thảo Cầm Viên w Sajgonie, dziś w zoo w Hanoi (kategorie „Birds in zoos in Vietnam”, „Thủ Lệ Park”).
+   Wyróżnienie: brak; główne zdjęcie Wikipedii VI.
+   Ocena: najlepszy kandydat: samiec, duża rozdzielczość, wybór Wikipedii VI i jedyne duże zdjęcie z Wietnamu. Zamiennie z Wietnamu: „Edwards's pheasant.jpg” (Khoitran1957, CC BY-SA 4.0, 5472×2345, 13.07.2018, samica, zoo w Wietnamie) i „Gà lôi lam mào trắng.jpg” (Khoitran1957, CC BY-SA 4.0, 1600×900, zoo w Hanoi, samiec).
+2. **Bažant Edwardsův.jpg** — https://commons.wikimedia.org/wiki/File:Bažant_Edwardsův.jpg
+   Václav Šilha · CC BY-SA 4.0 · 5052×3368 (17,0 MP) · 21.02.2018
+   Gdzie: **niewola**, Zoo Praga (opis, kategoria „Galliformes in Prague Zoo”; zdjęcie z projektu Wikimedia ČR i Zoo Praha).
+   Wyróżnienie: brak; 6 wiki.
+   Ocena: zdjęcie z profesjonalnej współpracy z zoo, duża rozdzielczość. W polu Credit jest „Zoo Praha”, więc do podpisu: „Václav Šilha, Zoo Praha”. Zamiennie: „Bažant Edwardsův 2.jpg” (ten sam autor i dzień, 4437×2958).
+3. **Male edwards' pheasant.JPG** — https://commons.wikimedia.org/wiki/File:Male_edwards'_pheasant.JPG
+   subhumanfreak · CC BY-SA 3.0 · 1862×1397 (2,6 MP) · 11.2008
+   Gdzie: **niewola**, zoo nieznane (kategoria „Lophura edwardsi in zoos”, opis bez miejsca).
+   Wyróżnienie: brak; główne zdjęcie Wikipedii EN, 25 wiki.
+   Ocena: samiec, najczęściej używane zdjęcie gatunku, ale mała rozdzielczość.
+
+Inne duże z niewoli: „Edwards's pheasant at the Toronto Zoo, July 30 2026.jpg” (Dillan Payne, CC BY-SA 4.0, 6960×4640, Toronto Zoo, z Flickra), „HD Vietnamfasan 4.jpg” i „HD Vietnamfasan 5.jpg” (R. J. Mathar, CC BY 4.0, 6016×4016, zoo w Heidelbergu, 12.04.2025), „Tierpark Walldorf Edwardsfasan.jpg” (R. J. Mathar, CC0, 6016×4016), portret głowy „Edwards's pheasant, Tennōji Zoo (32552751714).jpg” (Jin Kemoole, CC BY 2.0, 2000×3000, Osaka), „Lophura edwardsi.JPG” (Thaisk, CC BY-SA 3.0, 2592×1944, zoo Bojnice, Wikidata, 20 wiki) i „Edwards Pheasant RWD.jpg” (DickDaniels, CC BY-SA 3.0, 2000×1500, Zoo Miami, Wikidata). Ilustracja: „Edward's Kaleege by George Edward Lodge (cropped & cleaned).png” (domena publiczna, 2180×1450, z „A Monograph of the Pheasants” W. Beebe’a, 1921). Pisklę z zoo w Tajpej („Edwards's pheasant chick.jpg”) ma licencję „Attribution” z witryny zoo, niejasną; odrzucone.
+
+### Ssaki
+
+#### Nomascus nasutus, gibboniec reliktowy (cao vit gibbon; Cao Bằng)
+
+Przejrzane: kategoria „Nomascus nasutus” (6 plików: 1 zdjęcie, 4 mapy, 1 rysunek SVG rodzaju), kategoria „Unidentified Nomascus” (15 plików, żaden z Cao Bằng ani z Chin), wyszukiwanie po nazwie łacińskiej, „cao vit gibbon”, „eastern black crested gibbon”, „vượn cao vít”, „东黑冠长臂猿”, „Trung Khanh”, „Cao Bang”, „Bangliang” i starej nazwie „Hylobates nasutus”. Wikipedia EN („Eastern black crested gibbon”) i VI („Vượn mào đen phương Đông”) pokazują tylko mapę zasięgu; Wikidata (P18) i Wikipedia ZH i FR używają kandydata 1.
+
+1. **Nomascus nasutus.jpg** — https://commons.wikimedia.org/wiki/File:Nomascus_nasutus.jpg
+   Laura Flamme · CC BY 4.0 · 1251×1668 (2,1 MP, pion) · 7.08.2024
+   Gdzie: **okaz muzealny**, nie żywe zwierzę: opis „Законсервированный типовой экземпляр. Собран во Вьетнаме” (zakonserwowany okaz typowy, zebrany w Wietnamie); źródło: rekord GBIF 3747748309.
+   Wyróżnienie: brak; Wikidata, Wikipedia ZH i FR, 11 wiki.
+   Ocena: nie nadaje się jako zdjęcie gatunku na stronę o obserwowaniu zwierząt; jedyny plik z tym gatunkiem.
+
+Na Commons nie ma żadnego zdjęcia żywego gibbońca reliktowego, ani z Wietnamu, ani z Chin. „Nomascus nasutus hainanus.jpg” (User:Anna Frodesiak, domena publiczna, 1876×2571, Hajnan) pokazuje gibbońca hajnańskiego, dziś osobny gatunek (kategoria „Nomascus hainanus”), więc nie może zastąpić zdjęcia z Cao Bằng. Do rozważenia: zdjęcie siedliska (las krasowy przy Bản Giốc / Trùng Khánh) zamiast zwierzęcia albo wiersz bez zdjęcia.
+
+#### Laonastes aenigmamus, skamielinowiec laotański (Laotian rock rat, kha-nyou)
+
+Przejrzane: kategoria „Laonastes aenigmamus” (5 plików: 1 zdjęcie, 2 czaszki, 2 mapy), wyszukiwanie po nazwie łacińskiej, „Laonastes”, „Laotian rock rat”, „kha-nyou”, „Diatomyidae”, „chuột núi Lào” (trafienia poza gatunkiem: wymarły Diatomys z muzeum w Tiencinie, nagranie wymowy). Wikipedia EN („Laotian rock rat”) i VI („Chuột núi Lào”) oraz Wikidata (P18) używają kandydata 1.
+
+1. **Laonastes aenigmamus - young male JP Hugot PLOS ONE.jpg** — https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg
+   Jean-Pierre Hugot · CC BY 2.5 · 673×677 (0,5 MP, kwadrat) · 14.11.2012 (data publikacji)
+   Gdzie: **nieznane**; opis bez miejsca. Źródło to ryc. 2 z artykułu PLOS ONE (doi 10.1371/journal.pone.0048145; w Wikidata Q21133919: „A remarkable case of micro-endemism in Laonastes aenigmamus … revealed by nuclear and mitochondrial DNA sequence data”), który dotyczy populacji z Laosu, więc najpewniej zwierzę z Laosu, złapane do badań; czy żywe na wolności, czy trzymane, z opisu nie wynika.
+   Wyróżnienie: brak; główne zdjęcie EN, VI i Wikidata, 39 wiki.
+   Ocena: młody samiec, cały osobnik (z nazwy i opisu), przycięty z ryciny; jedyne zdjęcie żywego zwierzęcia, ale bardzo mała rozdzielczość: najwyżej miniatura w wierszu. Szablon {{plos}}: przy podpisie warto podać artykuł źródłowy.
+2. **Laonastes aenigmamus skull.jpg** — https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_skull.jpg
+   Laurent Marivaux · CC BY-SA 3.0 · 400×254 · 2006
+   Gdzie: **czaszka** (źródło: blog scienceblogs.com).
+   Wyróżnienie: brak; 7 wiki.
+   Ocena: nieprzydatne (czaszka, 400 px).
+3. **Laonastes aenigmamus skull2.jpg** — https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_skull2.jpg
+   Laurent Marivaux · CC BY-SA 3.0 · 432×232 · 2006
+   Gdzie: **czaszka** (źródło: materiały prasowe Carnegie Museum).
+   Wyróżnienie: brak; 1 wiki.
+   Ocena: nieprzydatne.
+
+Trzeciego zdjęcia żywego zwierzęcia na Commons nie ma; z Phong Nha (Wietnam) żadnego.
+
+## Wybór do podstrony (16.10.2026)
+
+Wybór w sesji planu etapu 6 według decyzji 6 (najpierw wolność w Wietnamie, potem wolność za granicą, niewola tylko bez innego wyjścia) i ustalenia 21: 108 miniatur ok. 500 px i 7 miniatur czterech brakujących grup za zgodą użytkownika, arkusze kontaktowe, wybór przyjęty przez użytkownika („Tak, te”), potem kopie 1920 px za zgodą („Tak, te 27”). Pięć plików mniejszych niż 1920 px (gibboniec żółtolicy, kukang, świetliki, sędzioł, skamielinowiec) to oryginały, bo Wikimedia powiększała je do 1920 px.
+
+- **Wybór użytkownika przy dwóch gatunkach:** paw złoty i sędzioł czerwonogłowy mają zdjęcie z wolności w Wietnamie, ale wyraźnie słabsze (dokumentacja z iNaturalist i brunatna samica); użytkownik wybrał piękniejsze zdjęcia z wolności za granicą (Jawa, Khao Yai), z miejscem w podpisie („Piękniejsze z zagranicy”, rekomendacja).
+- **Świetliki:** drzewo pełne świetlików nad rzeką Abatan na Bohol (Charles J. Sharp, 2026), bo pokazuje to, co widać nocą w Cúc Phương; wyróżnione zdjęcie z Laosu przedstawia larwę.
+- **Bez zdjęcia:** saola (dwa pliki o niejasnym pochodzeniu, sekcja „Pseudoryx nghetinhensis”) i gibboniec reliktowy (na Commons tylko okaz muzealny); kafelek mówi, że dobrego zdjęcia nie ma.
+- **Z niewoli albo bez miejsca:** kiściec annamski (zoo w Hồ Chí Minh City; dzikich zdjęć nie ma), skamielinowiec (klatka badaczy, ryc. z PLOS ONE), krokodyl (miejsca autor nie podaje), niedźwiedź himalajski (poza Wietnamem, miejsca autor nie podaje); podpis mówi to wprost.
+- **Pliki:** `photos/wild/<id>.jpg` poza gitem, jak zdjęcia miejsc; sumy SHA-256 poniżej pozwalają sprawdzić kopię.
+
+| id | podpis na stronie | autor | licencja | plik na Commons | rozmiar kopii | SHA-256 kopii |
+|---|---|---|---|---|---|---|
+| `duk` | Duk wspaniały na wolności na półwyspie Sơn Trà w Đà Nẵng | Charles J. Sharp | CC BY-SA 4.0 | Red-shanked_douc_langur_(Pygathrix_nemaeus)_head_Son_Tra.jpg | 1920×1920 | `7925f722ef0200e04ce6262398643574beedbf2da64b833baf0feb4f3191dfd8` |
+| `dukc` | Samica duka czarnonogiego z młodym w Parku Narodowym Cát Tiên | Broobas | CC BY-SA 4.0 | Black-shanked_douc.jpg | 1920×1280 | `c421aa11a11d96a431220d4475f4000cf1d465bd5e18dca624d4e70b379f189a` |
+| `lutungb` | Lutung białozady na wapiennej skale w rezerwacie Vân Long, na wolności | Charles J. Sharp | CC BY-SA 4.0 | Delacour%27s_langur_(Trachypithecus_delacouri)_Van_Long_2.jpg | 1920×1280 | `9911ce4b07c98c1437aa5e5534f7e7aa54aa69ee4added43d78a7b80f0fd2664` |
+| `lutungj` | Lutung jasnogłowy na wolności na wyspie Cát Bà | ALOnIShOnETH | CC BY-SA 4.0 | Cat_Ba_Langur_6_(cropped).jpg | 1920×2722 | `23698b470ab5d7813e175019089fe1d47281eafd3bf626041d8bf1638b600a92` |
+| `gibbon` | Samica gibbońca żółtolicego w Parku Narodowym Cát Tiên | Roy Bateman | CC BY-SA 4.0 | Golden-cheeked_gibbon_female_CTNP.jpg | 1500×2000 | `4cead1b7ea7d601984206af4926bf93b2f5dffadba4c08446b98f0306487afae` |
+| `rokselana` | Dwie rokselany na wolności w północno-wschodnim Wietnamie | Quyet Le | CC BY-SA 2.0 | Tonkin_snub-nosed_monkeys_(Rhinopithecus_avunculus).jpg | 1920×1280 | `ee2408fda46481d185e2d94f5c061a8031f534d352c46fdc1667612d34ab72fe` |
+| `kukang` | Kukang mały na obszarze chronionym Seima w Kambodży | Dr. K.A.I. Nekaris | CC BY-SA 3.0 | Nycticebus_pygmaeus_010.jpg | 1300×1733 | `9cd7cbd508ba6d2d58ef69cb2565d8ac0dee1cb051b74debc858cdd87d88f145` |
+| `slon` | Słonica ze słoniątkiem na wolności w Parku Narodowym Minneriya na Sri Lance | Carlos Delgado | CC BY-SA 4.0 | Elephas_maximus_maximus_-_01.jpg | 1920×1280 | `b3f74be8ab65f65b7b5d9330225bde6533472b544295b7972f34432e18b79841` |
+| `niedzwm` | Niedźwiedź malajski na wolności w Parku Narodowym Kaeng Krachan w Tajlandii | Rushen | CC BY-SA 2.0 | Helarctos_malayanus,_Sun_bear_-_Kaeng_Krachan_National_Park_(50770053781).jpg | 1920×1280 | `ca39eabebf984c08e9aa206b97dac81cc81c9b73a34ac295f238d4f4809334ff` |
+| `niedzwiedz` | Niedźwiedź himalajski poza Wietnamem; miejsca autor nie podaje | Shiv's fotografia | CC BY-SA 4.0 | Moon_bear.jpg | 1920×1280 | `00e38992f74dd0712ea998606561f166862609b9361a6a0b52470b6119f22f07` |
+| `gaur` | Gaur na wolności w Valparai w południowych Indiach | Timothy A. Gonsalves | CC BY-SA 4.0 | Head_Gaur_Sheikalmudi_Valparai_Feb26_A7CR_10338.jpg | 1920×1920 | `f6f682346340e4e2b8664aec1a2053041db7a21a073c6dc3677175e26526c8a9` |
+| `luskowiec` | Łuskowiec jawajski na drzewie na Sumatrze | Frendi Apen Irawan | CC BY-SA 4.0 | Trenggiling_Sunda_Sunda_Pangolin_Manis_javanica.jpg | 1920×1280 | `aeaa0f42b5dc6dab1ba09014b8c185bf70236c48cbee19d0c82ee18f2fafabb3` |
+| `jelenie` | Samiec sambara na wolności w Parku Narodowym Kanha w Indiach | Charles J. Sharp | CC BY-SA 4.0 | Sambar_(Cervus_unicolor_unicolor)_male.jpg | 1920×1280 | `ae853300ed141397c6a8ace7b444f61910e5dfff483b958558ba60ecbf785c9d` |
+| `paw` | Samiec pawia złotego rozkłada tren na wolności w Parku Narodowym Baluran na Jawie | Panji Gusti Akbar | CC BY-SA 4.0 | Javan_Green_Peafowl_in_Baluran_National_Park.jpg | 1920×1371 | `53638914958b4030f50dc8b197aa9daf31fa9f6c3bcf31be62eb6126d676a019` |
+| `wieloszpon` | Wieloszpon wietnamski na wolności w Parku Narodowym Cát Tiên | JJ Harrison | CC BY-SA 4.0 | Germain%27s_Peacock-Pheasant_(male)_IMG_7861_copy.jpg | 1920×1280 | `3426c12894e8dd0f54a08b3507363ddd519e3472f6b081014c56736ea330ed26` |
+| `kisciec` | Kiściec syjamski na wolności w Parku Narodowym Khao Yai w Tajlandii | Rushenb | CC BY-SA 4.0 | Siamese-fireback-Lophura-diardi-khao-yai-national-park.jpg | 1920×1281 | `8b0a5b6524987d16cedeef0d6f50b31bb7cb1c51d84dc436b606f65ec92499aa` |
+| `kurtaczek` | Kurtaczek prążkowany na wolności w Parku Narodowym Cát Tiên | JJ Harrison | CC BY-SA 4.0 | Bar-bellied_Pitta.jpg | 1920×1280 | `f268d5bc53bd41c70bcebfb9794eaca37c7150063d85f03b281eae979dbce7f8` |
+| `dzioborozec` | Dzioborożec wielki na wolności w Parku Narodowym Bardiya w Nepalu | Dasrath Shrestha Beejukchhen (Bablu) | CC0 | Great_hornbill_in_bardiya.jpg | 1920×1280 | `d3b18cb933d463b54b75bcb42eb5631a1cc0bd5ddb21900db71b96d32e73b7d0` |
+| `sedziol` | Samiec sędzioła czerwonogłowego na wolności w Parku Narodowym Khao Yai w Tajlandii | JJ Harrison | CC BY-SA 3.0 | Harpactes_erythrocephalus_-_Khao_Yai.jpg | 1077×1616 | `f1b55dfd3d36b7ec9a15f64ed7896abbfb2f96cb10a79bda0bfc901d3cc686c8` |
+| `kroko` | Krokodyl syjamski; miejsca zdjęcia autor nie podaje | Marco Almbauer | Public domain | Crocodylus_siamensis_(Siam-Krokodil).jpg | 1920×1280 | `1fa5d0a3cffcf2c5a67f927e09f618ac4653e983424f0651403f7a8b99f1bc55` |
+| `zaba` | Żaba mszysta w Parku Narodowym Cúc Phương | Caitlin 0000 | CC BY 4.0 | Theloderma_corticale_C%C3%BAc_Ph%C6%B0%C6%A1ng_06.jpg | 1920×1442 | `ad42dfed303fdc32b469ae90a9bd2861e590028376cc27ac58b0e02ac45eccd5` |
+| `swietliki` | Świetliki na drzewie nad rzeką Abatan na wyspie Bohol na Filipinach | Charles J. Sharp | CC BY-SA 4.0 | Fireflies_(Pteroptyx_mcdermotti)_Bohol.jpg | 1440×1920 | `620c34cf37883a9069e493443f9ddbfe4625fed08b2a90aa3836d89d819ca2e1` |
+| `motyle` | Paź Papilio paris na wolności w Arunachal Pradesh w Indiach | MaheshBaruahwildlife | CC BY-SA 4.0 | Open_wing_moisture_sucking_position_of_Papilio_paris_Linnaeus,_1758_-_Paris_Peacock_1.jpg | 1920×1280 | `e5ea4f0df74f89f5dcc48f2fdbb262d92772d2da7f92a9b5258330ae4824ee00` |
+| `troides` | Samiec Troides aeacus na wolności w Parku Narodowym Bạch Mã | Charles J. Sharp | CC BY-SA 4.0 | Golden_birdwing_(Troides_aeacus)_male_Bach_Ma.jpg | 1920×1280 | `0be91f6de188928f33ec95b9b7126a3a18597d1537dfc6cb7600a781deca9a23` |
+| `czaple` | Kolonia czapli w ogrodzie ptaków koło Cần Thơ w delcie Mekongu | Isabell Schulz | CC BY-SA 2.0 | Stork_sanctuary,_Mekong_Delta_(45199906095).jpg | 1920×1280 | `0b0ba2d66f0d2fedfea25d5c92507053b2108f1022fb1403794341331b4a2daf` |
+| `kisciecann` | Samiec kiśćca annamskiego w zoo w Hồ Chí Minh City, w niewoli | Hà Nghĩa VN | CC BY-SA 4.0 | Vietnam_Pheasant.jpg | 1920×1280 | `372034a1e0bea50bcce1e5b738805c30ba9cb1e6d4576fe7fa15db0ac4975a84` |
+| `skamielinowiec` | Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje | Jean-Pierre Hugot | CC BY 2.5 | Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg | 673×677 | `cae9876ed85f84fe7cb56025a8db573257453cd20c403ff7b66b546ec7b11797` |

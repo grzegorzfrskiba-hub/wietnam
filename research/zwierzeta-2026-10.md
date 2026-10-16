@@ -392,6 +392,142 @@ Porównanie z `site2/src/content/*.js` i `site2/src/en/content/*.js` (stan repo 
 7. **Pierwowzór o Vân Long** (nie na stronie): PW mówi „ok. 200 z ok. 570”. Dziś: ok. 250 w Vân Long (VNEC-2025-11-21), 562–570 na świecie (ND-2026-09-16). Zdanie na stronie („jedne z najrzadszych naczelnych na świecie”) zgadza się z CR i z liczbą ok. 570.
 8. **Bez sprzeczności** (sprawdzone): `cattien` (jelenie i cywety nocą, nawoływanie gibonów, muzeum i ośrodek przy siedzibie, Bàu Sấu), `danang` (duki z dróg, zakaz karmienia, kwitnienie III–VI), `yokdon` (słonie bez jazdy od 2018), `phongnha` (małpy w ogrodzie botanicznym), `cucphuong` (langury Delacoura i z Cát Bà, gibony, lori, żółwie i łuskowce w ośrodkach: ND-2026-09-16, ZL, SVW-EDU).
 
+## Galeria: pięć gatunków bez faktów w makiecie (16.10.2026)
+
+Fakty „czym wyjątkowy” do kafelków galerii (ustalenie 13) dla kurtaczka prążkowanego, sędzioła czerwonogłowego, dzioborożca wielkiego, żaby mszystej i *Troides aeacus*: agent badawczy w sesji planu etapu 6, WebSearch i WebFetch 16.10.2026, bez zapisywania stron. Zdania na podstronie (`site2/src/wild.js`) biorą fakty z tej sekcji. Polskie nazwy żaby i motyla to propozycje: na podstronie żaba jako „żaba mszysta”, motyl pod nazwą łacińską.
+
+Stan: zebrane 16.10.2026 (WebSearch w trybie „standard”, WebFetch). Zasady jak w `research/zwierzeta-2026-10.md`, „Jak czytać”: adresy otwarte 16.10.2026 przez WebFetch, poza oznaczonymi **†** (treść znam tylko z wyników wyszukiwania: strona się nie otworzyła albo to PDF). Data przy źródle to data publikacji albo aktualizacji; „brak”, gdy strona jej nie podaje. Status IUCN z rokiem według przypisu (szablonu `cite iucn`) Wikipedii, sprawdzonego w źródle strony (`action=raw`); strony BirdLife DataZone i IUCN ładują dane skryptem i przez WebFetch są puste. Etykiety z `research/zwierzeta-2026-10.md` (VNE-CP, PL-WIKI, POTOO-CT, BE-2024†) używam bez zmian.
+
+Test zdania (wizja, „Podstrona zwierząt”): prawdziwe, ze źródłem i datą, pomaga zobaczyć zwierzę albo pokazuje, czym jest wyjątkowe; bez porad zależnych od obywatelstwa i ogólnej wiedzy podróżniczej.
+
+### 1. Kurtaczek prążkowany (bar-bellied pitta; *Hydrornis elliotii*)
+
+- **Nazwa polska:** kurtaczek prążkowany, też „kurtaczek prążkobrzuchy” (PL-WIKI-HE).
+- **Nazwa wietnamska:** đuôi cụt bụng vằn (ANBUI-2026; wietnamskiej strony urzędowej ani prasowej z tą nazwą nie znalazłem).
+- **IUCN:** LC (2025; BirdLife International, e.T22698625A280982510, WIKI-BBP). Polska Wikipedia: LC od 2000, wcześniej (1994) NT, liczebność spada przez wycinkę lasu (PL-WIKI-HE).
+
+Fakty do wyboru:
+
+1. **Barwy:** samiec ma niebiesko-zieloną czapeczkę, ciemnozielony grzbiet, białe gardło, żółto-czarne prążki od spodu i granatową plamę na brzuchu; samica ma płową głowę i nie ma granatowej plamy. Długość 19–21 cm (PL-WIKI-HE). Krócej: „samiec jest bardziej niebieski, samica pomarańczowa” (10KB-2024).
+2. **Zasięg:** tylko Wietnam, Laos, Kambodża i południowo-wschodnia Tajlandia (PL-WIKI-HE; WIKI-BBP: Kambodża, Laos, Tajlandia, Wietnam). Bloger-fotograf nazywa go wprost endemitem Indochin (ANBUI-2026); Wikipedia słowa „endemit” nie używa, ale zasięg to właśnie Indochiny. Okaz typowy z Kochinchiny, czyli południowego Wietnamu (PL-WIKI-HE).
+3. **Gdzie i jak:** las wiecznie zielony z bogatym podszytem, często na wapieniu, od poziomu morza do ok. 800 m (PL-WIKI-HE); pokarmu szuka w leśnej ściółce (ANBUI-2026). W Wietnamie: Cát Tiên i Tân Phú, obserwatorzy korzystają z kryjówek (10KB-2024; repo: BE-2024†, BF†); badania z 1988 r. uznały go za pospolitego w Wietnamie, także w Cúc Phương (PL-WIKI-HE). Zdjęcie FP z galerii zrobiono w Cát Tiên (WIKI-BBP, podpis).
+4. **Gniazdo:** kryte, z wejściem z boku, do 5 m nad ziemią (PL-WIKI-HE); w badaniu tylko 2 z 30 gniazd kurtaczków przetrwały do końca, głównie przez ssaki i gady (10KB-2024, za plakatem z badań).
+
+### 2. Sędzioł czerwonogłowy (red-headed trogon; *Harpactes erythrocephalus*)
+
+- **Nazwa polska:** sędzioł czerwonogłowy (PL-WIKI, strona Harpactes; osobnego hasła brak). W pliku zdjęć `research/zwierzeta-zdjecia-2026-10.md` stoi „trogon czerwonogłowy”: do ujednolicenia.
+- **Nazwa wietnamska:** nuốc bụng đỏ (VNE-CP; też „nuốc bụng đỏ trung bộ” w zestawieniu nazw, DIBIRD†).
+- **IUCN:** LC (2016; BirdLife International, T22682854A92964597, WIKI-RHT).
+
+Fakty do wyboru:
+
+1. **Barwy:** samiec ma ciemnokarminową głowę, szyję i górę piersi z wąskim białym paskiem w poprzek piersi, rdzawobrązowy grzbiet i kobaltowy dziób z czarnym końcem; samica ma głowę oliwkowobrązową i jasnoniebieski dziób; długość ok. 34 cm (WIKI-RHT). Wikipedia pisze, że czerwona głowa i pierś samca to cecha „unikalna w grupie trogonów” (WIKI-RHT), ale samiec sędzioła asamskiego (*H. wardi*) też ma czerwonawą głowę, więc tego zdania nie używam.
+2. **Wietnam:** „lasy Wietnamu wydają się jego ostoją” (WIKI-RHT). W Cúc Phương VnExpress wymienia go wśród możliwych spotkań na szlaku do drzewa Đăng (VNE-CP, aktualizacja 14.04.2026; repo).
+3. **Gdzie i jak:** lasy wiecznie zielone na 300–2 600 m w Azji Płd.-Wsch. (WIKI-RHT); siedzi w środkowym piętrze lasu i dolnej części koron (DIBIRD†); dołącza do stad żerujących ptaków i łapie płoszone przez nie owady (WIKI-RHT).
+4. **Gniazdo:** w naturalnych dziuplach 1,5–5 m nad ziemią, czasem w starych dziuplach dzięciołów i brodaczy; wysiadują i karmią oboje rodzice (WIKI-RHT).
+
+### 3. Dzioborożec wielki (great hornbill; *Buceros bicornis*)
+
+- **Nazwa polska:** dzioborożec wielki (PL-WIKI-DW).
+- **Nazwa wietnamska:** hồng hoàng, też phượng hoàng đất (VI-WIKI-HH; ND-2023-08-22, VW-HH).
+- **IUCN:** VU (ocena 2020, BirdLife International, e.T22682453A184603863; VU od 2018, wcześniej NT; WIKI-GH, PL-WIKI-DW). CITES: załącznik I (WIKI-GH, VW-HH). W Wietnamie grupa IB, czyli zakaz pozyskania i użytku w celach handlowych (ND-2023-08-22; TP-HH†, TT-2021†).
+
+Fakty do wyboru:
+
+1. **Rozmiar i hełm:** 95–130 cm długości, rozpiętość skrzydeł ok. 152 cm, 2–4 kg, najcięższy dzioborożec Azji (WIKI-GH); PL-WIKI-DW i ADW-GH: rozpiętość 151–178 cm. Hełm na dziobie żółto-czarny, pusty w środku, nie wiadomo, do czego służy (pewnie dobór płciowy) (WIKI-GH); u samicy cały żółty (VW-HH).
+2. **Gniazdo:** samica wysiaduje 1–2 jaja 38–40 dni w dziupli z zamurowanym wejściem i zostaje w niej, aż pisklęta podrosną; samiec karmi ją przez szczelinę (WIKI-GH, ADW-GH, VI-WIKI-HH). Kto zamurowuje, źródła się różnią: według WIKI-GH i ADW-GH samica od środka, z odchodów; według PL-WIKI-DW samiec, błotem. W zdaniu na stronę piszę tylko o „zamurowanej dziupli”.
+3. **Słychać go:** łopot skrzydeł jest ciężki i słychać go z daleka, porównywany do „sapania ruszającej lokomotywy parowej” (WIKI-GH; ADW-GH: charakterystyczny świst w locie).
+4. **W Wietnamie:** rzadki osiadły na północnym zachodzie, północnym wschodzie i w środkowym Wietnamie, w Nam Bộ „dość rzadki”, m.in. w Cát Tiên i na Phú Quốc (VW-HH). Pierwsze wypuszczenie na wolność w Wietnamie: para 21.08.2023 w Phong Nha-Kẻ Bàng (ND-2023-08-22); ośrodek parku wypuścił kolejne 2 ptaki we IX 2025 (NNMT-2025-09-28). Przy drogach Cát Tiên przewodnik wymienia „dzioborożce” bez gatunku (repo: POTOO-CT).
+5. **Długość życia:** do ok. 50 lat w niewoli, 35–40 lat na wolności (PL-WIKI-DW; WIKI-GH: „prawie 50 lat” w niewoli).
+
+### 4. *Theloderma corticale* (Vietnamese mossy frog)
+
+- **Nazwa polska:** **brak utartej.** Polska Wikipedia ma hasło „Theloderma corticale” tylko pod nazwą łacińską (PL-WIKI-TC), a strona rodzaju też bez polskiej nazwy, rodzina to nogolotkowate (PL-WIKI-THEL); National Geographic Polska pisze „wietnamska Theloderma corticale” (NGP-2018). Propozycja: **żaba mszysta (propozycja)**, kalka z ang. „mossy frog”, już użyta w `research/zwierzeta-zdjecia-2026-10.md`.
+- **Nazwa wietnamska:** ếch cây sần Bắc Bộ (VI-WIKI-TC, NNMT-2025-04-15).
+- **IUCN:** LC (2017; IUCN SSC Amphibian Specialist Group, e.T59033A87476136, WIKI-TC); według PL-WIKI-TC ocena z 2015, opublikowana 2017, wcześniej DD (2004), trend spadkowy.
+
+Fakty do wyboru:
+
+1. **Kamuflaż:** skóra cętkowana zielono-brązowa, guzowata, wygląda jak mech na skale (WIKI-TC; PL-WIKI-TC: zielona z czarnymi plamkami i guzkami); wietnamska prasa o Cúc Phương: „kolorem łudząco przypomina kępkę mchu” (NNMT-2025-04-15).
+2. **Obrona:** przestraszona zwija się w kulkę i udaje martwą (WIKI-TC za WAZA i Newquay Zoo; AMNH-TC; PL-WIKI-TC: udaje martwą).
+3. **Cúc Phương: tak.** Artykuł o płazach Cúc Phương wymienia ếch cây sần Bắc bộ wśród niezwykłych gatunków parku, który ma „prawie 50 gatunków płazów” (NNMT-2025-04-15). Na Commons są zdjęcia „Theloderma corticale im Cúc Phương Nationalpark” z 10.08.2024 (COMMONS-TC, CC BY 4.0; nie wiadomo, czy z terenu, czy z ośrodka). Miejsca i pory, gdzie ją pokazują, nie znalazłem.
+4. **„Endemit północnego Wietnamu”: już nieaktualne.** Tak piszą wietnamska Wikipedia (VI-WIKI-TC: Cao Bằng, Na Hang, Mẫu Sơn, Tam Đảo) i praca z 2012 r. (RAUHAUS-2012†), ale po włączeniu *T. kwangsiense* gatunek żyje też w środkowym Laosie i południowych Chinach (WIKI-TC za Frost 2022; PL-WIKI-TC). Tego zdania nie używać.
+5. **Rozmiar i siedlisko:** samice do 8–9 cm (PL-WIKI-TC, WIKI-TC); strome skały, jaskinie i brzegi potoków w wilgotnym lesie, w Wietnamie głównie 470–1 500 m (PL-WIKI-TC, WIKI-TC); w Tam Đảo także w zbiornikach na deszczówkę w piwnicach starych francuskich willi (VI-WIKI-TC).
+
+### 5. *Troides aeacus* (golden birdwing)
+
+- **Nazwa polska:** **brak.** Polska Wikipedia nie ma hasła ani strony rodzaju *Troides* (oba adresy: 404); polskiej nazwy nie znalazłem. Propozycja: **ptakoskrzydły złoty (propozycja)**, kalka z ang. „golden birdwing”; w `research/bachma-2026-10.md` stoi samo „ptakoskrzydły”.
+- **Nazwa wietnamska:** bướm cánh chim vàng (VI-WIKI-TA; poza Wikipedią nie potwierdziłem). Nazwy „bướm phượng cánh chim chấm liền” nie znalazłem w żadnym źródle; „bướm phượng cánh chim chấm rời” z artykułu o Cúc Phương (ND-2025-07-01) to raczej *T. helena*, nie ten gatunek.
+- **IUCN:** LC (2020, poprawka oceny z 2018; Böhm i in., e.T62160A177265323, WIKI-TA). CITES: załącznik II (WIKI-TA, infobox za Species+, odczyt 25.07.2026).
+
+Fakty do wyboru:
+
+1. **Rozmiar:** rozpiętość skrzydeł zwykle 150–170 mm, do 194 mm (WIKI-TA za Bionotes 2020). Samica z Didihat (Uttarakhand), 194 mm, to od 2020 r. największy motyl Indii, po 88 latach rekordu *T. minos* (190 mm); samiec zmierzony w tej samej pracy miał 106 mm (DRISHTI-2020). China Daily: „największy motyl Chin” (CD-2022). Zdania „największy motyl Wietnamu” nie znalazłem w żadnym źródle (wietnamska prasa daje ten tytuł ćmie *Attacus atlas*), więc go nie używać.
+2. **Barwy:** samiec ma czarne przednie skrzydła z białawo obwiedzionymi żyłkami i jaskrawożółte tylne; samica jest większa, ciemnobrązowa albo czarna; ciało czarne z czerwonymi plamkami na tułowiu (WIKI-TA).
+3. **W Wietnamie:** wśród zagrożonych motyli z badań w Cúc Phương, Hoàng Liên i Tam Đảo w IV 2012 (VVL-2013; streszczenie nie mówi, w którym parku); zdjęcie z galerii zrobiono w Bạch Mã 28.02.2025 (COMMONS-TA). Sách đỏ Việt Nam wymienia go według badań z Na Hang (NAHANG†; strona nie odpowiedziała).
+4. **Ochrona:** CITES, załącznik II (WIKI-TA); gąsienice jedzą kokornaki (*Aristolochia*) i *Thottea* (WIKI-TA).
+
+### Szkice zdań na kafelki (PL do 30 słów na dwa zdania, EN z tymi samymi faktami)
+
+| gatunek | PL (słowa) | EN | źródła |
+|---|---|---|---|
+| kurtaczek prążkowany | Samiec ma ciemnozielony grzbiet, żółto-czarne prążki od spodu i granatową plamę na brzuchu. Żyje tylko w Wietnamie, Laosie, Kambodży i południowo-wschodniej Tajlandii, a pokarmu szuka w leśnej ściółce. (27) | The male has a dark green back, yellow-and-black barred underparts and a dark blue belly patch. It lives only in Vietnam, Laos, Cambodia and south-eastern Thailand, foraging in the leaf litter. | PL-WIKI-HE; ANBUI-2026 |
+| sędzioł czerwonogłowy | Samiec ma karminową głowę i pierś z wąskim białym paskiem, samica oliwkowobrązową głowę. Lasy Wietnamu to jego ostoja, a w Cúc Phương bywa na szlaku do drzewa Đăng. (28) | The male has a crimson head and breast with a narrow white band, the female an olive-brown head. Vietnam's forests are a stronghold, and at Cúc Phương it turns up on the trail to the Đăng tree. | WIKI-RHT; VNE-CP |
+| dzioborożec wielki | Ma ok. 1,5 m rozpiętości skrzydeł i żółto-czarny hełm na dziobie; łopot skrzydeł słychać z daleka. Samica siedzi w zamurowanej dziupli, a samiec karmi ją przez szczelinę. (27) | Its wings span about 1.5 m, its bill carries a yellow-and-black casque, and its wingbeats can be heard from far away. The female sits in a sealed tree hole while the male feeds her through a slit. | WIKI-GH; PL-WIKI-DW; ADW-GH |
+| żaba mszysta (propozycja) | Zielono-brązowa, guzowata skóra wygląda jak mech na skale. Przestraszona zwija się w kulkę i udaje martwą; w Cúc Phương to jeden z prawie 50 gatunków płazów. (26) | Its green-and-brown, warty skin looks like moss on rock. When frightened, it curls into a ball and plays dead; at Cúc Phương it is one of nearly 50 amphibian species. | WIKI-TC; AMNH-TC; NNMT-2025-04-15 |
+| ptakoskrzydły złoty (propozycja) | W Indiach i Chinach to największy motyl: rozpiętość skrzydeł zwykle 15–17 cm, rekord 19,4 cm. Samiec ma czarne przednie skrzydła i jaskrawożółte tylne; handel nim ogranicza CITES (załącznik II). (29) | In India and China it is the largest butterfly: wingspan usually 15–17 cm, record 19.4 cm. The male has black forewings and bright yellow hindwings; CITES (Appendix II) restricts trade in it. | WIKI-TA; DRISHTI-2020; CD-2022 |
+
+Warianty drugiego zdania (gdyby wolał fakt z Wietnamu):
+
+- **dzioborożec:** „W Wietnamie jest ściśle chroniony; w Phong Nha-Kẻ Bàng wypuszczono na wolność 2 ptaki w 2023 r. i 2 w 2025 r.” / „It is strictly protected in Vietnam; Phong Nha-Kẻ Bàng released 2 birds into the wild in 2023 and 2 in 2025.” (ND-2023-08-22, NNMT-2025-09-28)
+- **żaba:** „Żyje w północnym Wietnamie, środkowym Laosie i południowych Chinach, na mokrych skałach i w jaskiniach.” / „It lives in northern Vietnam, central Laos and southern China, on wet rocks and in caves.” (WIKI-TC, PL-WIKI-TC)
+- **kurtaczek:** „W Cát Tiên obserwatorzy widują go z kryjówek przy ścieżkach.” / „At Cát Tiên, birdwatchers see it from hides along the trails.” (10KB-2024; repo BE-2024†)
+
+### Źródła
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| WIKI-BBP | Bar-bellied pitta (LC, ocena BirdLife 2025; zasięg Kambodża, Laos, Tajlandia, Wietnam; zdjęcie z Cát Tiên) | https://en.wikipedia.org/wiki/Bar-bellied_pitta | encyklopedia | brak |
+| PL-WIKI-HE | Kurtaczek prążkowany (barwy, 19–21 cm, zasięg, siedlisko, Cúc Phương 1988, LC od 2000) | https://pl.wikipedia.org/wiki/Kurtaczek_prążkowany | encyklopedia | brak |
+| 10KB-2024 | 10,000 Birds, Kai Pflug, „Some Pittas of South Vietnam”: Cát Tiên i Tân Phú, kryjówki, 2 z 30 gniazd | https://www.10000birds.com/some-pittas-of-south-vietnam.htm | blog ptasi | 26.08.2024 |
+| ANBUI-2026 | An Bui Photography: „Đuôi Cụt Bụng Vằn”, Nam Cát Tiên, „Indochinese endemic”, żeruje w ściółce | https://blog.anbuiphotography.com/2026/04/bar-bellied-pitta-uoi-cut-bung-van.html | blog fotografa | IV 2026 (z adresu) |
+| WIKI-RHT | Red-headed trogon (LC 2016; barwy; „Vietnam … a stronghold”; gniazdo) | https://en.wikipedia.org/wiki/Red-headed_trogon | encyklopedia | brak |
+| DIBIRD† | Dibird: nazwy w innych językach (nuốc bụng đỏ), piętro lasu | https://dibird.com/species/red-headed-trogon/ | serwis ptasi | brak† |
+| WIKI-GH | Great hornbill (VU, ocena 2020, VU od 2018; CITES I; rozmiar; hełm; gniazdo; łopot skrzydeł) | https://en.wikipedia.org/wiki/Great_hornbill | encyklopedia | brak |
+| PL-WIKI-DW | Dzioborożec wielki (95–120 cm, 151–178 cm; samiec zamurowuje; 8 tygodni; VU od 2018; do 50 lat) | https://pl.wikipedia.org/wiki/Dzioborożec_wielki | encyklopedia | brak |
+| ADW-GH | Animal Diversity Web, S. Paruchuri: samica zamurowuje się od środka, ok. 5 tygodni po wykluciu, szczelina, świst w locie | https://animaldiversity.org/accounts/Buceros_bicornis/ | encyklopedia (uniwersytet) | 13.02.2011 |
+| VI-WIKI-HH | Hồng hoàng (phượng hoàng đất; hełm ok. 11% masy ciała; szczelina; CITES I) | https://vi.wikipedia.org/wiki/Hồng_hoàng | encyklopedia | brak |
+| VW-HH | VinWonders Wonderpedia: hồng hoàng, rzadki osiadły, Cát Tiên i Phú Quốc; hełm samicy żółty | https://vinwonders.com/vi/wonderpedia/news/hong-hoang/ | komercyjne | 29.08.2023 |
+| ND-2023-08-22 | Nhân Dân: pierwsze wypuszczenie pary hồng hoàng w Wietnamie, Phong Nha-Kẻ Bàng, 21.08; grupa IB | https://nhandan.vn/viet-nam-lan-dau-tha-cap-chim-hong-hoang-ve-tu-nhien-post768599.html | prasa | 22.08.2023 |
+| NNMT-2025-09-28 | Nông nghiệp và Môi trường: ośrodek Phong Nha-Kẻ Bàng wypuścił 27 zwierząt, w tym 2 hồng hoàng | https://nongnghiepmoitruong.vn/tha-hang-chuc-ca-the-dong-vat-hoang-da-ve-moi-truong-tu-nhien-d775130.html | prasa | 28.09.2025 |
+| TP-HH†, TT-2021† | Tiền Phong i Tuổi Trẻ: hồng hoàng w grupie IB (Thông tư 27, Nghị định 06/2019) | https://tienphong.vn/chim-hong-hoang-hiem-gap-lien-tuc-bay-vao-nha-dan-o-tphcm-post1810189.tpo ; https://tuoitre.vn/tp-hcm-tiep-nhan-cuu-ho-chim-phuong-hoang-dat-khi-mat-do-trong-mua-dich-20210818174817615.htm | prasa | brak† ; 18.08.2021† |
+| WIKI-TC | Theloderma corticale (LC 2017; zasięg za Frost 2022; kamuflaż; kulka za WAZA i Newquay Zoo; 8–9 cm) | https://en.wikipedia.org/wiki/Theloderma_corticale | encyklopedia | brak |
+| PL-WIKI-TC | Theloderma corticale po polsku (bez polskiej nazwy; LC 2015/2017, wcześniej DD; udaje martwą; 470–1 500 m) | https://pl.wikipedia.org/wiki/Theloderma_corticale | encyklopedia | brak |
+| PL-WIKI-THEL | Theloderma (bez polskiej nazwy rodzaju; nogolotkowate) | https://pl.wikipedia.org/wiki/Theloderma | encyklopedia | brak |
+| VI-WIKI-TC | Ếch cây sần Bắc Bộ („đặc hữu” Wietnamu; Cao Bằng, Na Hang, Mẫu Sơn, Tam Đảo; wille w Tam Đảo) | https://vi.wikipedia.org/wiki/Theloderma_corticale | encyklopedia | brak |
+| NNMT-2025-04-15 | Nông nghiệp và Môi trường, „Thưởng thức bản hòa tấu lưỡng cư ở Cúc Phương”: ếch cây sần Bắc bộ w Cúc Phương, prawie 50 gatunków płazów | https://nongnghiepmoitruong.vn/thuong-thuc-ban-hoa-tau-luong-cu-o-cuc-phuong-d748153.html | prasa | 15.04.2025 |
+| AMNH-TC | American Museum of Natural History (Tumblr): zwija się w kulkę i udaje martwą | https://tumblr.amnh.org/post/789528502044098560/you-cant-see-me-the-vietnamese-mossy-frog/amp | muzeum | brak |
+| COMMONS-TC | Commons: „Theloderma corticale Cúc Phương 10.jpg”, Caitlin 0000, CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Theloderma_corticale_C%C3%BAc_Ph%C6%B0%C6%A1ng_10.jpg | zdjęcie | 10.08.2024 |
+| NGP-2018 | National Geographic Polska, 13 dziwacznych żab: „wietnamska Theloderma corticale”, bez polskiej nazwy | https://www.national-geographic.pl/przyroda/moze-i-nie-sa-zaczarowane-ale-nas-oczarowaly-13-dziwacznych-zab/ | prasa | 15.05.2018 |
+| RAUHAUS-2012† | Rauhaus i in., AJCB: „endemic to northern Vietnam” (PDF, nie otwierałem) | https://ajcb.in/journals/full_papers_dec_12/Rauhaus%20et%20al%20_AJCB_1_2_51-66.pdf | praca naukowa | 2012† |
+| WIKI-TA | Troides aeacus (LC 2020, poprawka 2018; CITES II; 150–170 mm, do 194 mm; barwy) | https://en.wikipedia.org/wiki/Troides_aeacus | encyklopedia | brak |
+| VI-WIKI-TA | Bướm cánh chim vàng (zalążek; Wietnam w zasięgu) | https://vi.wikipedia.org/wiki/Troides_aeacus | encyklopedia | brak |
+| DRISHTI-2020 | Drishti IAS: golden birdwing największym motylem Indii po 88 latach, samica 194 mm, samiec 106 mm | https://www.drishtiias.com/daily-updates/daily-news-analysis/golden-birdwing-india-s-largest-butterfly/print_manually | serwis edukacyjny | 8.07.2020 |
+| CD-2022 | China Daily: „the largest butterfly in China” w Shennongjia | https://greenchina.chinadaily.com.cn/s/202207/04/WS62c53417498ea2749279c892/rare-butterfly-found-in-shennongjia-national-park.html | prasa | 4.07.2022 |
+| VVL-2013 | Vũ Văn Liên: motyle Cúc Phương, Hoàng Liên i Tam Đảo w IV 2012; zagrożone: T. helena, T. aeacus, Teinopalpus aureus, T. imperialis; Cúc Phương 99 gatunków | https://sti.vista.gov.vn/publication/view/de3358cacdad583d84eb857858d15771-37890.html | praca naukowa | 2013 |
+| NAHANG† | Badania motyli Na Hang i Hang Kia-Pà Cò: T. aeacus w Sách đỏ Việt Nam (strona: ECONNREFUSED) | https://vjol.info.vn/DHH/en/article/view/21313 | praca naukowa | brak† |
+| ND-2025-07-01 | Nhân Dân: 378 gatunków motyli w Cúc Phương; „bướm phượng cánh chim chấm rời” w CITES | https://nhandan.vn/sac-mau-canh-buom-tai-cuc-phuong-post891070.html | prasa | 1.07.2025 |
+| COMMONS-TA | Commons: samiec Troides aeacus, Bạch Mã, Charles J. Sharp, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Golden_birdwing_(Troides_aeacus)_male_Bach_Ma.jpg | zdjęcie | 28.02.2025 |
+
+### Sprzeczności i uwagi
+
+- **Żaba „endemit północnego Wietnamu”:** nieaktualne po zmianie systematyki (zasięg także Laos i Chiny; WIKI-TC, PL-WIKI-TC); wietnamska Wikipedia i praca z 2012 r. piszą jeszcze „endemit”.
+- **Dzioborożec, kto zamurowuje dziuplę:** samica od środka (WIKI-GH, ADW-GH) albo samiec błotem (PL-WIKI-DW). Zdanie omija to „zamurowaną dziuplą”. Ile tygodni samica siedzi w środku, źródła liczą różnie (PL-WIKI-DW: wychodzi po 8 tygodniach; ADW-GH: kilka tygodni przed wykluciem i ok. 5 po), więc liczby nie podaję.
+- **Sędzioł, „jedyny z czerwoną głową”:** zdanie z WIKI-RHT bez dobrego źródła, a samiec *H. wardi* też ma czerwonawą głowę; nie używać.
+- **Troides aeacus „największy motyl Wietnamu”:** brak źródła; wietnamska prasa daje ten tytuł ćmie *Attacus atlas*.
+- **Nazwy w repo:** „trogon czerwonogłowy” i „pawik brązowoogonowy” w `research/zwierzeta-zdjecia-2026-10.md` wobec „sędzioł czerwonogłowy” i „wieloszpon wietnamski” w `research/zwierzeta-2026-10.md` (PL-WIKI).
+- **Nie ustaliłem:** wietnamskiej nazwy *Troides aeacus* poza Wikipedią i kategorii w Sách đỏ Việt Nam dla dzioborożca i motyla; czy żabę z Cúc Phương na Commons sfotografowano na wolności; miejsca w Cúc Phương, gdzie turysta ją zobaczy.
+
 ## Sprawdzone przed planem etapu 6 (16.10.2026)
 
 Trzy fakty z ustalenia 23 sesji decyzji etapu 6 ([notes/etapy.md](../notes/etapy.md), „Z sesji decyzji etapu 6”): WebSearch w trybie „extended” po wietnamsku i WebFetch 16.10.2026, bez zapisywania stron.
