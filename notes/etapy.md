@@ -185,7 +185,7 @@ Poprawka faktów Cúc Phương (16.10.2026, decyzja 8 i ustalenie 26 z sesji dec
 1. Linki dla anglojęzycznych testerów: kilka przygodowych osób dostaje sam adres strony i trzy pytania, jak w pierwszej rundzie (decyzja 2 z 14.10.2026); opinie zapisujemy w „Pierwsza runda” bez imion i linków, punkt po punkcie, z decyzją, co z nimi zrobić.
 2. Równolegle plan etapu 6 z suchą próbą w nowej sesji (krok 5 „Kolejności” w „Etap 6”): zaczyna od trzech faktów do sprawdzenia (godziny EPRC, czy ośrodek Núi Đôi w Phong Nha przyjmuje gości i czy Đảo Tiên jest otwarty, ustalenie 23) i od wyboru zdjęć, każdy krok za zgodą (ustalenie 21); wykonanie w kolejnej świeżej sesji, zaraz po planie.
 
-Nowe uwagi użytkownika i opinie testerów czekają na następną rundę poprawek, po etapie 6 (decyzja 10 z sesji decyzji etapu 6). Otwarcie dla wyszukiwarek, własna domena i odświeżenie cen na sam koniec (lista „Po publikacji”).
+Nowe uwagi użytkownika i opinie testerów czekają na następną rundę poprawek, po etapie 6 (decyzja 10 z sesji decyzji etapu 6); lista w „Następna runda poprawek (po etapie 6)” niżej; jej poprawka 1 (duża mapa kraju obok listy „Nie ma na twojej trasie”) weszła od razu z wyboru użytkownika. Otwarcie dla wyszukiwarek, własna domena i odświeżenie cen na sam koniec (lista „Po publikacji”).
 
 ### Runda poprawek (od 16.10.2026)
 
@@ -275,6 +275,41 @@ Ustalenia (13, przyjęte w jednym kroku):
   11. druk i PDF: wszystko rozwinięte, więc PDF ma być identyczny jak przed poprawką (liczba stron trzech tras);
   12. natywne rozwijane elementy przeglądarki (`<details>`): klawiatura i czytniki ekranu działają od razu, a w Chrome wyszukiwanie Ctrl+F samo otwiera zwinięty fragment (w Safari nie); ten sam wygląd strzałek co w liście z poprawki 1;
   13. testy i sondy w obu językach, przy 390, 641, 901 i 1400 px: zwinięte na starcie, otwieranie myszą i z klawiatury, pasek dni i `#day-N` otwierają dzień, „Rozwiń wszystkie”, formularz zwinięty przy linku i pełny bez niego, podświetlanie na mapie dalej działa, PDF bez zmian; pomiar wysokości strony przed i po w punkcie kontrolnym.
+
+### Następna runda poprawek (po etapie 6)
+
+Uwagi zbierane od 16.10.2026, po pierwszej rundzie poprawek; plan z suchą próbą dla całej rundy powstaje po etapie 6 (decyzja 10 z sesji decyzji etapu 6). Na tę listę idą też pięć drobnych uwag z końcowego przeglądu pierwszej rundy (wyżej, w „Następny krok”).
+
+**Poprawka 1: duża mapa kraju obok listy „Nie ma na twojej trasie”** (sesja decyzji 16.10.2026). Uwaga użytkownika ze zrzutem: przy przewijaniu listy po prawej jest bardzo pusto; po prawej ma stać duża mapa Wietnamu (kraj jest długi i wąski, więc się zmieści), która przy przewijaniu się nie przesuwa, a miejsce pod kursorem na liście podświetla się na mapie: efekt „wow”, jak na stronach w stylu scrollytelling. Pomiar (kopia `main`, 16.10.2026): przy 1280–1920 px lista ma 760 px szerokości, a w kolumnie strony zostaje obok niej 400 px; mapa kraju 340 px szeroka ma ok. 670 px wysokości i mieści się w oknie pod paskiem; zwinięta lista ma 11–14 wierszy, 980–1250 px, więc mapa stoi przez ok. 400–600 px przewijania, dłużej z otwartym wierszem; przy 1024 px na mapę zostaje ok. 190 px. Efekt przy przewijaniu jest za darmo: kursor stoi, lista jedzie pod nim, więc kropki zapalają się po kolei. W pierwszej rundzie odrzucone było podświetlenie na dużej mapie trasy, bo stoi sekcję niżej (poprawka 1, decyzja 3); ta mapa stoi tuż obok listy.
+
+Decyzje (pięć, wszystkie według rekomendacji):
+1. Mapa i lista w obie strony: najechanie na wiersz zapala kropkę z nazwą, najechanie na kropkę podświetla wiersz, kliknięcie kropki rozwija wiersz i przewija do niego; klawiatura (Tab na wierszu) zapala kropkę jak mysz (odrzucone: tylko lista → mapa, z mapą tylko do patrzenia).
+2. Na mapie twoja trasa cienką linią i każde miejsce z listy kropką w jego kolorze, nazwa tylko przy zapalonej kropce, bo Cúc Phương, Ninh Bình i Pù Luông leżą blisko siebie (odrzucone: wszystkie nazwy naraz, ciasno na północy; same kropki bez trasy, bez odległości od trasy).
+3. Telefon i węższy ekran: bez dużej mapy, w rozwiniętym wierszu zostaje obecna mała mapka; na telefonie nie ma najechania myszą (odrzucone: mapa przyklejona nad listą, ok. 1/3 wysokości telefonu; bez żadnej mapy na wąskim).
+4. Na komputerze, gdy obok stoi duża mapa, mała mapka w rozwiniętym wierszu znika (odrzucone: zostaje zawsze, dwie mapy z tą samą kropką).
+5. Makieta: klikalna kopia prawdziwej strony (lokalny serwer, kopia `main` w notatniku sesji) obejrzana i przyjęta bez uwag („Dalej, tak ma być”); skrypt makiety w [makieta-mapa-listy.py](makieta-mapa-listy.py).
+
+Ustalenia (czternaście, przyjęte w jednym kroku):
+- Układ:
+  1. duża mapa od 1101 px szerokości okna; poniżej strona jak dziś;
+  2. lista do 760 px, odstęp 40 px, mapa do 340 px szerokości (ok. 670 px wysokości), nigdy wyższa niż okno bez paska u góry;
+  3. mapa przyklejona 72 px od góry, pod paskiem, jak mapa w „Trasa”;
+  4. od 1101 px rozwinięty wiersz bez małej mapki, w dwóch kolumnach (zdjęcie, tekst).
+- Mapa:
+  5. nowy zarys kraju pod 340 px z danych Natural Earth z `$TMPDIR/natural-earth/` (`COUNTRY_MAP` z `width: 340`, `geo/make_basemap.py`; w makiecie `OUTLINE` 16 KB zamiast 6,5 KB); mała mapka na telefonie korzysta z tego samego zarysu, pomniejszonego; trzy kadry dużej mapy trasy bez zmian; pobranie danych za zgodą tylko wtedy, gdy system je usunie;
+  6. na mapie: zarys, trasa (drogi linią, loty przerywaną, jak na mapach strony), postoje trasy małymi ciemnymi punktami, miejsca z listy kropkami w kolorach z listy;
+  7. zapalona kropka większa, z pulsującą otoczką (bez ruchu przy „ogranicz ruch”, `prefers-reduced-motion`), z nazwą po prawej, a przy prawej krawędzi po lewej, z obwódką w kolorze tła; reszta kropek blednie.
+- Działanie:
+  8. najechanie albo Tab na wierszu zapala kropkę; najechanie na kropkę obwodzi wiersz; kliknięcie kropki rozwija wiersz i przewija go na środek ekranu;
+  9. gdy kursor wyjdzie z listy i z mapy, zapalona zostaje kropka otwartego wiersza, jeśli jakiś jest otwarty, inaczej żadna (dodatek do makiety);
+  10. mapa ukryta przed czytnikiem ekranu, bo powtarza listę; żadnych nowych tekstów: nazwy z listy, w obu językach;
+  11. wydruk i PDF bez zmian (lista i tak nie idzie do druku).
+- Sprawdzanie i kolejność:
+  12. sonda `offroute.js` rozszerzona: przy 1400 px mapa widoczna, tyle kropek co wierszy, najechanie zapala właściwą kropkę, kliknięcie kropki rozwija wiersz; przy 901 i 1024 px dużej mapy nie ma, a mała jest; zrzuty w jasnym i ciemnym motywie (makieta oglądana tylko w ciemnym); przyklejenie mapy ręcznie w przeglądarce;
+  13. poprawka 1 następnej rundy, po etapie 6, w jednym planie z suchą próbą z resztą rundy; zmienione zaraz po sesji wyborem użytkownika („to na co czekamy wprowadzamy ją teraz”): poprawka weszła od razu, w tej samej sesji, bez osobnego planu, z własnym sprawdzaniem i publikacją za zgodą; etap 6 bez zmian (osobna podstrona);
+  14. skrypt makiety w `notes/makieta-mapa-listy.py`.
+
+Zrobione 16.10.2026 (ta sama sesja): `COUNTRY_MAP` ma 340 px szerokości, a `OUTLINE` w `basemap.js` jest wygenerowany na nowo (`geo/make_basemap.py` z plików Natural Earth w `$TMPDIR/natural-earth/`, nic nie pobierane; trzy kadry mapy trasy bajt w bajt jak przed zmianą, plik 33 → 43 KB). Nowa funkcja `countryMapAll` w `page.js` liczy dużą mapę (odcinki trasy jak `countryMap`, punkty postojów, kropki miejsc listy i stronę nazwy: po lewej tylko tam, gdzie nazwa wyszłaby za prawą krawędź). Mała mapka w wierszu rysuje się w tej samej ramce, pomniejszona, z kreskami przeliczonymi razy 340/120, więc na telefonie wygląda jak przedtem (zrzut przed i po przy 390 px). `app.js` rysuje dużą mapę przy każdej zmianie listy i zapala kropkę myszą i klawiaturą (ustalenia 8 i 9); `template.html` ma dwie kolumny od 1101 px (przy 1101 px mapa ma 221 px szerokości, od ok. 1220 px pełne 340). Testy: `tests/page.test.js` z ramką 340 px i `countryMapAll` (nazwy w mapie, po lewej dokładnie tam, gdzie trzeba), sonda `offroute.js` z mapą przy 1024, 1400 i 1920 px (mapa obok listy, przyklejona, kropka na każdy wiersz na lądzie, najechanie na wiersz i na kropkę, klawiatura, otwarty wiersz po wyjściu kursora, kliknięcie kropki; poniżej 1101 px bez dużej mapy, mała w wierszu). Sprawdzone: `tests/run.sh` ALL PASS; sondy jak w punkcie kontrolnym pierwszej rundy, z `offroute.js` także przy 1024 i 1920 px, 0 z 37 po angielsku i 0 z 35 po polsku; PDF trasy domyślnej z kosztami i bez nich ma tyle samo stron co przed zmianą (13 i 13), bez zakrytych linii; zrzuty w ciemnym i jasnym motywie przy 1400 px; w przeglądarce przez lokalny serwer przyklejenie (po 400 px przewijania mapa stoi 72 px od góry), prawdziwe najechanie myszą i konsola bez błędów.
 
 ### Z etapu 5
 

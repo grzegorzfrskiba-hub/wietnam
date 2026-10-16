@@ -7,11 +7,12 @@
    (stage 3: 18.4° N instead of 17.95); south: Phú Quốc and the Mekong delta to Đà Lạt, Yok Đôn and
    Nha Trang. */
 var MAP_WIDTH = 270;
-/* The small map of the whole country in a row of the list of the places off the trip (fix 1 of the first round of fixes):
-   from 101.9° E, 23.6° N to 109.7° E, 8.3° N, all of the mainland and the islands near it, 120 px wide at the scale of its
-   width (countryMap in page.js); the islands of Hoàng Sa and Trường Sa lie outside it, as on the map of the trip.
+/* The map of the whole country: the big one beside the list of the places off the trip on a wide screen (the next round of
+   fixes, fix 1) and the small one in an open row of that list (fix 1 of the first round of fixes, drawn smaller): from
+   101.9° E, 23.6° N to 109.7° E, 8.3° N, all of the mainland and the islands near it, 340 px wide at the scale of its width
+   (countryMap in page.js); the islands of Hoàng Sa and Trường Sa lie outside it, as on the map of the trip.
    geo/make_basemap.py reads it to cut the outline (OUTLINE in basemap.js). */
-var COUNTRY_MAP = { lon0: 101.9, lat0: 23.6, lon1: 109.7, lat1: 8.3, width: 120 };
+var COUNTRY_MAP = { lon0: 101.9, lat0: 23.6, lon1: 109.7, lat1: 8.3, width: 340 };
 var MAP_PANELS = {
   north: { lon0: 103.45, lat0: 23.45, lon1: 107.6, lat1: 19.3, bar: 'left',
     names: [['m.china', 23.25, 106.0, 'country', 'middle'], ['m.laos', 20.55, 103.55, 'country', 'start'], ['m.tonkin', 19.75, 107.5, 'water', 'end']] },

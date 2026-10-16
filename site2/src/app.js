@@ -744,7 +744,7 @@
       '<path class="cm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
         return g.mode === 'fly' ? '<path class="cm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
           : '<line class="cm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
-      }).join('') + '<circle class="cm-dot" cx="' + r1(m.dot.x) + '" cy="' + r1(m.dot.y) + '" r="5" style="--c:' + stopColor(id) + '"/></svg>' +
+      }).join('') + '<circle class="cm-dot" cx="' + r1(m.dot.x) + '" cy="' + r1(m.dot.y) + '" r="14.2" style="--c:' + stopColor(id) + '"/></svg>' +
       '<figcaption class="cm-legend"><span>' + dot + esc(C(id).short) + '</span><span><svg width="16" height="6" aria-hidden="true"><line class="cm-road" x1="0" x2="16" y1="3" y2="3"/></svg>' +
       T('off.map.route') + '</span></figcaption></figure>';
   }
@@ -766,6 +766,62 @@
         countrySvg(x.id) + '</div></details></li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
+    renderBigMap();
+  }
+  /* The big map of the country beside the list (countryMapAll in page.js; the next round of fixes, fix 1): the outline,
+     the trip as on the small map, its stays as points and every place of the list as a dot with its name, which shows
+     when the dot is lit (lightBig). Hidden from a screen reader, which has the same in the list. */
+  function renderBigMap() {
+    var ids = Array.prototype.map.call(document.querySelectorAll('#offroute-list details'), offId);
+    if (!ids.length) { $('#off-big').innerHTML = ''; return; }
+    var m = countryMapAll(state.route, ids, { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS });
+    $('#off-big').innerHTML = '<svg viewBox="0 0 ' + m.w + ' ' + m.h + '"><path class="bm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
+      return g.mode === 'fly' ? '<path class="bm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
+        : '<line class="bm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
+    }).join('') + m.stays.map(function (p) { return '<circle class="bm-stay" cx="' + r1(p.x) + '" cy="' + r1(p.y) + '" r="3"/>'; }).join('') +
+      m.dots.map(function (d) {
+        var at = 'cx="' + r1(d.x) + '" cy="' + r1(d.y) + '"';
+        return '<g class="bm-pt" data-off="' + d.id + '" style="--c:' + stopColor(d.id) + '"><circle class="bm-halo" ' + at + ' r="9"/><circle class="bm-dot" ' + at + ' r="6"/>' +
+          '<text x="' + r1(d.x + (d.left ? -BIG_NAME_GAP : BIG_NAME_GAP)) + '" y="' + r1(d.y + 5) + '" text-anchor="' + (d.left ? 'end' : 'start') + '">' + esc(C(d.id).short) + '</text></g>';
+      }).join('') + '</svg>';
+    lightBig(null);
+  }
+  function offId(d) { return d.getAttribute('data-fold').replace(/^off-/, ''); }
+  /* Lights a place on the big map and frames its row; null: the open row last opened, or the first open one, or none. */
+  var lastOpenOff = null;
+  function lightBig(id) {
+    if (!id) {
+      var open = Array.prototype.map.call(document.querySelectorAll('#offroute-list details[open]'), offId);
+      id = open.indexOf(lastOpenOff) >= 0 ? lastOpenOff : open[0] || null;
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#off-big .bm-pt'), function (g) { g.classList.toggle('on', g.getAttribute('data-off') === id); });
+    Array.prototype.forEach.call(document.querySelectorAll('#offroute-list details'), function (d) { d.parentNode.classList.toggle('lit', offId(d) === id); });
+    $('#off-big').classList.toggle('any', !!id);
+  }
+  /* The mouse over a row or a dot, or the keyboard on a row, lights its place; out of the list and the map, the open row's
+     place stays lit. A click on a dot opens its row and brings it to the middle of the screen. */
+  function bindBigMap() {
+    function placeAt(el) {
+      var g = el.closest('#off-big .bm-pt');
+      if (g) return g.getAttribute('data-off');
+      var li = el.closest('#offroute-list > li');
+      return li ? offId(li.querySelector('details')) : null;
+    }
+    var split = $('.off-split');
+    split.addEventListener('mouseover', function (e) { var id = placeAt(e.target); if (id) lightBig(id); });
+    split.addEventListener('mouseleave', function () { lightBig(null); });
+    split.addEventListener('focusin', function (e) { var id = placeAt(e.target); if (id) lightBig(id); });
+    split.addEventListener('toggle', function (e) {
+      if (e.target.open && e.target.matches('#offroute-list details')) lastOpenOff = offId(e.target);
+    }, true);
+    $('#off-big').addEventListener('click', function (e) {
+      var g = e.target.closest('.bm-pt'), d = g && document.querySelector('#offroute-list details[data-fold="off-' + g.getAttribute('data-off') + '"]');
+      if (!d) return;
+      d.open = true;
+      lastOpenOff = offId(d);
+      d.parentNode.scrollIntoView({ block: 'center' });
+      lightBig(lastOpenOff);
+    });
   }
   /* After Dodaj: which places left the trip and which came besides the added one (addReport). Its own status line, so
      "Nie zmieściło się" stays; the next change of the trip clears it (apply). Nothing is said when nothing else changed. */
@@ -776,6 +832,7 @@
     $('#dropped').textContent = tied(text);
   }
   function bindChanges() {
+    bindBigMap();
     // the photo of a place off the trip: all its photos on full screen, with their authors and licences
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('.off-photo') : null;

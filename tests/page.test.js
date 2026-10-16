@@ -581,18 +581,33 @@ eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0
     });
   });
 });
-// the small map of a place off the trip (fix 1 of the first round of fixes): the whole country in COUNTRY_MAP (120 px wide,
-// as high as its latitudes at that scale), the trip's legs from point to point, the place as a dot at its point
-var CM = { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS }, cm = countryMap(tA.r, 'mekong', CM);
+// the map of the whole country by the list of the places off the trip (fix 1 of the first round of fixes, fix 1 of the next
+// round): COUNTRY_MAP 340 px wide, as high as its latitudes at that scale, the trip's legs from point to point, the place as
+// a dot at its point
+var CM = { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS }, cm = countryMap(tA.r, 'mekong', CM), CS = 340 / 7.8;
 function r1(v) { return Math.round(v * 10) / 10; }
-eq([cm.w, cm.h, r1(cm.dot.x), r1(cm.dot.y)], [120, 235, 59.7, 208.8], 'countryMap: the frame of the whole country; Mekong at its point [10.03, 105.78]');
+eq([cm.w, cm.h, r1(cm.dot.x), r1(cm.dot.y)], [340, 667, r1((105.78 - 101.9) * CS), r1((23.6 - 10.03) * CS)], 'countryMap: the frame of the whole country; Mekong at its point [10.03, 105.78]');
 var tASegs = tA.r.stops.concat([{ leg: tA.r.home }]).reduce(function (n, s) { return n + s.leg.segs.length; }, 0);
 eq([cm.segs.length, cm.segs.filter(function (g) { return g.mode === 'fly'; }).length > 0, r1(cm.segs[0].x1), r1(cm.segs[0].y1)],
-  [tASegs, true, r1((AIRPORTS.SGN.pt[1] - 101.9) * 120 / 7.8), r1((23.6 - AIRPORTS.SGN.pt[0]) * 120 / 7.8)],
+  [tASegs, true, r1((AIRPORTS.SGN.pt[1] - 101.9) * CS), r1((23.6 - AIRPORTS.SGN.pt[0]) * CS)],
   'every road and flight of the trip, the first from Hồ Chí Minh City airport; flights among them');
 var outside = Object.keys(CONTENT).map(function (id) { return CONTENT[id].pt; }).concat(Object.keys(AIRPORTS).map(function (c) { return AIRPORTS[c].pt; }))
-  .filter(function (pt) { var x = (pt[1] - 101.9) * 120 / 7.8, y = (23.6 - pt[0]) * 120 / 7.8; return x < 6 || x > cm.w - 6 || y < 6 || y > cm.h - 6; });
-eq(outside, [], 'every place and airport lies inside the small map, 6 px or more from its edges');
+  .filter(function (pt) { var x = (pt[1] - 101.9) * CS, y = (23.6 - pt[0]) * CS; return x < 17 || x > cm.w - 17 || y < 17 || y > cm.h - 17; });
+eq(outside, [], 'every place and airport lies inside the map of the country, 17 px or more from its edges (6 px of the small map)');
+// the big map beside the list: the same frame and legs, a point at every stay, a dot at every place of the list, in its
+// order, with its name on the left only where it would cross the right edge
+var offIds = ['mekong', 'phuquoc', 'cattien', 'catba', 'sapa'], all = countryMapAll(tA.r, offIds, CM);
+eq([all.w, all.h, all.segs.length, all.stays.length], [cm.w, cm.h, cm.segs.length, tA.r.stops.length], 'countryMapAll: the frame and legs of countryMap, a point at every stay');
+eq(all.dots.map(function (d) { return d.id; }), offIds, 'countryMapAll: a dot at every place of the list, in its order');
+eq([r1(all.dots[0].x), r1(all.dots[0].y)], [r1(cm.dot.x), r1(cm.dot.y)], 'countryMapAll: Mekong where countryMap puts it');
+all.dots.forEach(function (d) {
+  var w = BIG_NAME_GAP + textWidth(CONTENT[d.id].short, BIG_NAME_PX);
+  ok(d.left ? d.x - w >= 0 : d.x + w <= all.w, 'countryMapAll: the name of ' + d.id + ' inside the map, on the ' + (d.left ? 'left' : 'right'));
+});
+var leftOnes = countryMapAll(tA.r, Object.keys(CONTENT), CM).dots.filter(function (d) { return d.left; }).map(function (d) { return d.id; });
+eq(leftOnes, Object.keys(CONTENT).filter(function (id) { return (CONTENT[id].pt[1] - 101.9) * CS + BIG_NAME_GAP + textWidth(CONTENT[id].short, BIG_NAME_PX) > 340; }),
+  'countryMapAll: a name goes on the left exactly where it would cross the right edge');
+ok(leftOnes.length > 0 && leftOnes.length < Object.keys(CONTENT).length, 'countryMapAll: some names on the left, most on the right (' + leftOnes.join(', ') + ')');
 ok(/\n\/\* The outline of Vietnam[^\n]*\n[^\n]*\*\/\nvar OUTLINE = "M[-\d. Mz]+";\n$/.test(readFile('site2/src/basemap.js')), 'basemap.js ends with the outline of Vietnam (geo/make_basemap.py)');
 print('map ok');
 

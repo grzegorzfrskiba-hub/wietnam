@@ -1,7 +1,7 @@
 """The contours of the map panels for site2/src/basemap.js: the land of Vietnam, the land of its neighbours and the rivers,
 from Natural Earth 1:10m (public domain), clipped to each panel, projected to its pixels and simplified. The panels come
 from site2/src/panels.js (MAP_WIDTH, MAP_PANELS), sized as panelSize in page.js does it. After them, the outline of
-Vietnam alone in the frame of the small maps of the whole country (COUNTRY_MAP in panels.js, sized as countryMap in
+Vietnam alone in the frame of the maps of the whole country (COUNTRY_MAP in panels.js, sized as countryMap in
 page.js does it).
 
 Run:  python3 geo/make_basemap.py <dir>
@@ -31,7 +31,7 @@ def panels():
 
 
 def country_frame():
-    """COUNTRY_MAP from panels.js, the frame of the small maps of the whole country: s = width / (lon1 - lon0) px per
+    """COUNTRY_MAP from panels.js, the frame of the maps of the whole country: s = width / (lon1 - lon0) px per
     degree, h = (lat0 - lat1) * s rounded half up, as countryMap in page.js does it."""
     text = open(os.path.join(SRC, "panels.js"), encoding="utf-8").read()
     m = re.search(r"var COUNTRY_MAP = \{ lon0: ([\d.]+), lat0: ([\d.]+), lon1: ([\d.]+), lat1: ([\d.]+), width: (\d+) \};", text)
@@ -186,7 +186,7 @@ def main(src):
         basemap[name] = {"vn": path(layers["vn"], True), "other": path(layers["other"], True), "rivers": path(layers["rivers"], False)}
         print("%s: %d × %d px, %.1f px per degree, %d + %d land rings, %d river lines" % (
             name, p["w"], p["h"], p["s"], len(layers["vn"]), len(layers["other"]), len(layers["rivers"])))
-    # the outline of Vietnam alone in the frame of the small maps, its islands of Hoàng Sa and Trường Sa cut off by the frame
+    # the outline of Vietnam alone in the frame of the maps of the whole country, its islands of Hoàng Sa and Trường Sa cut off by the frame
     c = country_frame()
     box, rings = (-MARGIN, -MARGIN, c["w"] + MARGIN, c["h"] + MARGIN), []
     for f in countries:
@@ -201,7 +201,7 @@ def main(src):
         out.write("/* Basemap: Natural Earth 1:10m land and rivers (public domain), clipped and projected for the map panels of\n"
                   "   panels.js by geo/make_basemap.py: per panel, the land of Vietnam (vn), of its neighbours (other) and the rivers. */\n")
         out.write("var BASEMAP = " + json.dumps(basemap, separators=(",", ":")) + ";\n")
-        out.write("/* The outline of Vietnam for the small maps of the places off the trip (app.js), in px of COUNTRY_MAP in panels.js;\n"
+        out.write("/* The outline of Vietnam for the maps of the whole country by the list of the places off the trip (app.js), in px of COUNTRY_MAP in panels.js;\n"
                   "   the islands of Hoàng Sa and Trường Sa lie outside its frame, as on the map of the trip. */\n")
         out.write("var OUTLINE = " + json.dumps(path(rings, True)) + ";\n")
     print("%s: %.0f KB" % (os.path.relpath(OUT), os.path.getsize(OUT) / 1024))

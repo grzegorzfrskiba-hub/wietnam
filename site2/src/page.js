@@ -889,6 +889,22 @@ function countryMap(route, id, m) {
   var d = proj(m.content[id].pt);
   return { w: f.width, h: Math.round((f.lat0 - f.lat1) * s), segs: segs, dot: { x: d[0], y: d[1] } };
 }
+/* The big map of the country beside the list of the places off the trip (the next round of fixes, fix 1), in px of the same
+   frame: the trip's roads and flights as countryMap draws them, its stays as points, and every place of the list as a dot
+   with its short name (m.content: the page's language) on the right of it, or on the left when the name, BIG_NAME_PX px
+   in .bm-pt text (template.html), would cross the right edge. ids: the places of the list, in its order. Returns
+   { w, h, segs, stays: [{ x, y }], dots: [{ id, x, y, left }] }. */
+var BIG_NAME_PX = 14, BIG_NAME_GAP = 14;
+function countryMapAll(route, ids, m) {
+  var f = m.frame, s = f.width / (f.lon1 - f.lon0), base = countryMap(route, ids[0], m);
+  function proj(pt) { return { x: (pt[1] - f.lon0) * s, y: (f.lat0 - pt[0]) * s }; }
+  return { w: base.w, h: base.h, segs: base.segs,
+    stays: route.stops.map(function (x) { return proj(m.content[x.id].pt); }),
+    dots: ids.map(function (id) {
+      var p = proj(m.content[id].pt);
+      return { id: id, x: p.x, y: p.y, left: p.x + BIG_NAME_GAP + textWidth(m.content[id].short, BIG_NAME_PX) > base.w };
+    }) };
+}
 
 /* ---------- the map: three panels, the markers and the labels ---------- */
 var PANEL_GAP = 16;                               // between two panels, px
