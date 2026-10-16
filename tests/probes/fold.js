@@ -5,7 +5,9 @@
 // wszystkie dni”; the open rows stay open after a change of the language or of a swap and close on another trip; the
 // printout opens every folded part and closes them back after it. „Przed wyjazdem” has four closed parts, each with its
 // heading and one sentence, the warning of Tết in sight under the bookings' sentence, and a part stays open on another
-// trip; the credits of the photos are closed under one line with their number, the notes and the rights in sight.
+// trip; the credits of the photos are closed under one line with their number, the notes and the rights in sight. The
+// form of the link's trip is folded into three lines; „Ustaw swój wyjazd” in the photo opens it, and it stays open on
+// another trip.
 // tests/probe.sh tests/probes/fold.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
 // and at 641, 901 and 1400 px; a click from a script moves no focus and opens no row by a key, so the keyboard is checked
 // by hand in a browser (Tab, Enter, Space)
@@ -76,6 +78,11 @@ setTimeout(function () {
   var self = document.querySelector('#stops .swap[data-swap="caobang"] input[value="self"]');
   self.click();
   check('after a swap the open rows stay open', /motocykl=caobang/.test(location.hash) && isOpen(key) && isOpen(leg), location.hash);
+  // the form of a link's trip, folded (finding 10 of fix 3): „Ustaw swój wyjazd” opens it, and it stays open
+  var form = document.getElementById('settings-form');
+  check('the form of the link\'s trip is folded into three lines', form.hidden && !document.getElementById('set-sum').hidden && document.querySelectorAll('#set-sum .set-sum-lines span').length === 3);
+  document.querySelector('.hero-cta a[href="#settings"]').click();
+  check('„Ustaw swój wyjazd” opens the whole form', !form.hidden && document.getElementById('set-sum').hidden);
   // the printout opens everything (before printing) and closes back what was closed (after it)
   window.dispatchEvent(new Event('beforeprint'));
   var every = Array.prototype.slice.call(document.querySelectorAll('details'));
@@ -87,6 +94,7 @@ setTimeout(function () {
   setTimeout(function () {
     check('another trip: every day and journey closed', shut(folds('#stops .day').concat(folds('#stops .leg'))));
     check('a part of „Przed wyjazdem” stays open on another trip', isOpen('b-pack'));
+    check('the opened form stays open on another trip', !document.getElementById('settings-form').hidden);
     // a term with Tết (January 2028): its warning stands in sight under the bookings' sentence, the part closed
     goTo('#od=SGN&do=HAN&miesiac=2028-01&dni=15&co=&poziom=2');
     setTimeout(function () {

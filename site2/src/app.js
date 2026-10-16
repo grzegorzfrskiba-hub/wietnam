@@ -224,6 +224,7 @@
       var el = a && document.getElementById(a.getAttribute('href').slice(1));
       if (!el) return;
       e.preventDefault();
+      if (el.id === 'settings') openForm();   // „Ustaw swój wyjazd”, „Ustawienia” and „Zmień” open the folded form
       reveal(el);   // a day of the strip opens (finding 3 of fix 3)
       el.scrollIntoView({ block: 'start' });
       if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
@@ -260,12 +261,26 @@
     return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
   }
 
+  /* The settings in short (finding 10 of fix 3): the form folded into three lines, the term with its days, the airports,
+     and what you like with the level; „Zmień” opens the whole form, which stays open until the page loads again. */
+  function renderSetSum() {
+    var st = state.st;
+    $('#ss-term').textContent = capFirst(T('set.sum', { term: termText(st), days: st.days }));
+    $('#ss-air').textContent = T('pt.route', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name });
+    $('#ss-likes').textContent = (st.interests.length ? st.interests.map(function (k) { return T('int.' + k); }).join(', ') : capFirst(T('pt.any'))) + ' · ' + T('lvl.' + st.level);
+  }
+  function openForm() {
+    $('#set-sum').hidden = true;
+    F.hidden = false;
+  }
+
   function render() {
     // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
     var keep = openFolds(), trip = tripKey(state.route);
     if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
     foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
+    renderSetSum();
     renderFacts();
     renderShape();
     renderOffRoute();
@@ -1022,12 +1037,13 @@
     }
   }
 
-  /* The bar at the top sums up the settings once the form has gone up off the screen (class away on the bar). */
+  /* The bar at the top sums up the settings once the settings, folded or whole, have gone up off the screen (class away on
+     the bar). */
   function bindSummary() {
     if (!('IntersectionObserver' in window)) return;
     new IntersectionObserver(function (es) {
       $('#secnav').classList.toggle('away', !es[0].isIntersecting && es[0].boundingClientRect.bottom < 0);
-    }).observe(F);
+    }).observe($('#settings'));
   }
 
   /* ---------- the footer and the texts in the template ---------- */
@@ -1078,6 +1094,9 @@
   /* ---------- wiring ---------- */
   setLang(langOf(location.hash));   // the texts first, in the language of the link
   buildForm();
+  // a link that holds a trip (its settings, not only lang=) opens with the form folded (finding 10 of fix 3)
+  if (Object.keys(parseLink(location.hash)).length) { F.hidden = true; $('#set-sum').hidden = false; }
+  $('#set-open').addEventListener('click', function () { openForm(); F.querySelector('input[name=mode]:checked').focus(); });
   bindLightbox();
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)

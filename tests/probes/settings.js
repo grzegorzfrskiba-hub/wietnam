@@ -1,13 +1,29 @@
-// The settings on a phone: the form on the first screen, the photo credit clear of the buttons on the photo, the figures
+// The settings on a phone: a link that holds a trip opens with the form folded into three lines and „Zmień”, which opens
+// the whole form (the first round of fixes, finding 10 of fix 3), and a first visit without one opens with the whole form;
+// the form on the first screen, the photo credit clear of the buttons on the photo, the figures
 // of the trip right under the form and following each change, the interests greyed out after two also when a change gives
 // no trip, the changes building on the form, the level's words, the summary for the bar, and a link that was partly wrong.
 // tests/probe.sh tests/probes/settings.js 390 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
+// and as a first visit, with no settings in the link: tests/probe.sh tests/probes/settings.js 390 ''
 // and at 360 px, the narrowest common phone (the two date fields side by side must fit), and at 320 px (the bar at the top):
 // tests/probe.sh tests/probes/settings.js 360 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
 // tests/probe.sh tests/probes/settings.js 320 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
 setTimeout(function () {
   var f = document.getElementById('settings-form'), box = function (el) { return el.getBoundingClientRect(); };
   var top = document.documentElement.getBoundingClientRect().top;   // the page is at its top: positions are page positions
+  // a link with the settings of a trip (more than lang= alone): the form folded into three lines with „Zmień”
+  var sum = document.getElementById('set-sum'), linked = /(^#|&)(od|do|miesiac|dni|start|koniec|co|poziom)=/.test(window.__probeHash);
+  if (linked) {
+    // each line as read, its no-break spaces and joiners (tieShortWords) as plain spaces
+    var lines = Array.prototype.map.call(sum.querySelectorAll('.set-sum-lines span'), function (s) { return s.textContent.replace(/[\s\u2060]+/g, ' '); });
+    check('a link with a trip opens with the form folded: three lines and „Zmień”', !sum.hidden && f.hidden && lines.length === 3 &&
+      L({ en: / · 15 days$/, pl: / · 15 dni$/ }).test(lines[0]) && lines[1] === 'Hồ Chí Minh City → Hà Nội' && lines[2] === L({ en: 'A bit of everything · Active', pl: 'Po trochu wszystkiego · Aktywnie' }) &&
+      textOf('#set-open') === L({ en: 'Change', pl: 'Zmień' }), lines.join(' | '));
+    var gap0 = box(document.querySelector('.facts')).top - box(sum).bottom;
+    check('the figures of the trip come right under the folded form (gap under 110 px)', gap0 >= 0 && gap0 < 110, Math.round(gap0));
+    document.getElementById('set-open').click();
+    check('„Zmień” opens the whole form and takes the focus into it', sum.hidden && !f.hidden && f.contains(document.activeElement), document.activeElement && document.activeElement.name);
+  } else check('a first visit opens with the whole form', sum.hidden && !f.hidden);
   // a phone of 360 px or more is at least 640 px high; the first screen of a 390 × 844 phone is the goal
   if (window.innerWidth >= 360) check('the month field ends on the first screen of a 390 × 844 phone (bottom at most 760 px)', box(f.month).bottom - top <= 760, Math.round(box(f.month).bottom - top));
   // the place of the photo, in the photo's bottom right corner, stays clear of the buttons on the photo
