@@ -147,6 +147,8 @@ ul, ol { padding: 0; list-style: none; }
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
 .facts ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.9fr); }
+/* with the costs hidden (fix 2) five figures, without the budget's wider column */
+@media (min-width: 901px) { .facts ul.no-budget { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .facts li { padding: 18px 0; display: grid; gap: 2px; min-width: 0; }
 .facts li + li { border-left: 1px solid var(--line); padding-left: 18px; }
 .facts b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 36px); line-height: 1; white-space: nowrap; }
@@ -189,14 +191,24 @@ ul, ol { padding: 0; list-style: none; }
 .seg input { position: absolute; opacity: 0; pointer-events: none; }
 .seg label:has(input:checked) { background: var(--surface); box-shadow: 0 0 0 2px var(--accent); font-weight: 600; }
 .seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* on a wide screen the four groups of the form stand in two columns */
-@media (min-width: 900px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; } }
+/* on a wide screen the four groups of the form stand in two columns, the box of the costs under the level */
+@media (min-width: 900px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; } .set-costs { grid-column: 2; } }
+/* the box of the estimated costs (fix 2): a checkbox with its words, 44 px high for a finger */
+.check { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
+/* the button of the budget part while the costs are hidden: as wide as its words */
+.costs-show { justify-self: start; }
 .chip { position: relative; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 15px; }
 .chip input { position: absolute; opacity: 0; pointer-events: none; }
 .chip:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); background: var(--accent-soft); }
 .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .chip:has(input:disabled) { opacity: 0.45; cursor: default; }
 .set-note { font-size: 13px; color: var(--muted); }
+/* the settings in short (fix 3): a link that holds a trip opens with the form folded into three lines (the term, the
+   airports, what you like and the level) and „Zmień”, which opens it */
+.set-sum { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(16px, 2.4vw, 26px); }
+.set-sum-lines { display: grid; gap: 2px; min-width: 0; }
+.set-sum-lines span:first-child { font-weight: 600; }
 .set-msg { font-size: 14.5px; color: var(--wet); }
 .set-msg:not(:empty) { margin-top: 14px; }
 /* Holiday warnings under the facts, and the places that did not fit */
@@ -229,11 +241,17 @@ footer .ft-copy { margin-top: 18px; }
 @media (min-width: 900px) { .before { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 48px; } }
 .b-part { display: grid; gap: 10px; align-content: start; }
 .b-part h3 { font-size: 24px; }
+/* a part folded (fix 3): the heading and one sentence (the sum, how many things…) in the summary, the arrow at the right */
+.b-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.b-title { display: grid; gap: 8px; }
+.b-gist { display: block; color: var(--muted); }
+.b-more { display: grid; gap: 10px; padding-top: 10px; }
+.b-sum { display: block; }
 .b-sum b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 34px); white-space: nowrap; }
 .b-parts { display: grid; }
 .b-parts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding: 5px 0; font-size: 15px; }
 .b-note, .b-meta { font-size: 13.5px; color: var(--muted); }
-.b-warn { font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
+.b-warn { display: block; font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
 .b-book { display: grid; gap: 8px; }
 .b-book li { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 15px; }
 .b-list { display: grid; gap: 6px; }
@@ -244,8 +262,31 @@ footer .ft-copy { margin-top: 18px; }
 .offroute { margin-top: 22px; display: grid; gap: 8px; justify-items: start; }
 .off-p { color: var(--muted); font-size: 14px; max-width: 64ch; }
 .off-list { display: grid; gap: 8px; width: 100%; max-width: 760px; }
-.off-list li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: start; gap: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
-.off-list li > .dot { margin-top: 6px; }
+/* a place off the trip, folded (fix 1): its photo small, the dot, the short name and its sentence in the row; when open the
+   photo on the left (across the row on a phone), the name, the line under it, the reason and Dodaj, and the small map of
+   the country on the right */
+.off-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
+.off-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 44px; }
+.off-thumb img { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; background: var(--line); }
+.off-head { display: grid; gap: 2px; min-width: 0; }
+.off-name { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.off-what { color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+.off-more { display: grid; grid-template-columns: 220px minmax(0, 1fr) 96px; gap: 14px; align-items: start; padding: 12px 0 4px; }
+.off-photo { position: relative; display: block; padding: 0; border: 0; background: var(--line); border-radius: 6px; overflow: hidden; cursor: zoom-in; }
+.off-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.off-photo svg { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; padding: 6px; border-radius: 6px; background: var(--ctl-bg); color: var(--ctl-ink); }
+.off-text { display: grid; gap: 6px; align-content: start; justify-items: start; min-width: 0; }
+.off-stay b { font-weight: 600; }
+.off-sub { color: var(--ink); }
+.off-map { margin: 0; }
+.off-map > svg { display: block; width: 96px; height: auto; }
+.cm-land { fill: var(--land); stroke: var(--border); stroke-width: 0.8; stroke-linejoin: round; }
+.cm-road { stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; fill: none; }
+.cm-fly { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+.cm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 1.5; }
+.cm-legend { display: grid; gap: 2px; margin-top: 6px; font: 11px var(--mono); color: var(--muted); }
+.cm-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.cm-legend svg { flex: none; }
 .off-why { color: var(--muted); }
 .off-drops { color: var(--muted); font-size: 13px; }
 .off-tag { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -331,9 +372,12 @@ footer .ft-copy { margin-top: 18px; }
 .map-legend svg { display: block; }
 
 .stops { display: grid; gap: 22px; min-width: 0; }
-.leg { border: 1px dashed var(--line); border-radius: 8px; padding: 12px 16px; display: grid; gap: 8px; background: transparent; }
+/* a journey: a folded row with its day, its ends, its time and the flag of a long day; its roads, notes and swap when open */
+.leg { border: 1px dashed var(--line); border-radius: 8px; padding: 0 16px; background: transparent; }
 .leg-long { border-color: var(--warm); }
-.leg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.leg-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 44px; padding-block: 8px; }
+.leg-sum { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.leg-more { display: grid; gap: 8px; padding-bottom: 12px; }
 .leg-day { font-size: 12px; color: var(--muted); }
 .leg-route { font-weight: 600; }
 .leg-total { margin-left: auto; font-size: 12.5px; color: var(--muted); }
@@ -386,14 +430,37 @@ footer .ft-copy { margin-top: 18px; }
 .gal-thumb[aria-current="true"] { border-color: var(--accent); opacity: 1; }
 .gal-thumb:hover { opacity: 1; }
 
-/* Days */
+/* Folded parts (the first round of fixes, fix 3): the browser's own details and summary, so a keyboard, a screen reader
+   and the search of the page work as everywhere; the whole summary is the button, with an arrow at its end that turns up
+   when the part is open; the browser's own marker is hidden */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+.fold-arrow { flex: none; color: var(--muted); transition: transform .2s; }
+summary:hover .fold-arrow { color: var(--accent); }
+details[open] > summary .fold-arrow { transform: rotate(180deg); }
+.days-all { justify-self: start; }
+
+/* Days: a row of its own each, the title with its badges and the arrow, at least 44 px high, its number (with the date) in
+   the column on its left; the text and the rain plan under the title when open, as before the fold, so a printout keeps
+   its pages */
 .days { display: grid; }
-.day { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 14px; padding-block: 14px; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
+.day { position: relative; padding: 14px 0 14px 88px; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
 .day:first-child { border-top: 0; padding-top: 0; }
-.day-n { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 44px; }
+.day-body { padding-top: 4px; }
+.day-n { position: absolute; left: 0; top: 14px; width: 74px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day:first-child .day-n { top: 0; }
+/* the number hangs in its column, so a day is at least as high as it: 14 px above, 49 px of the number (68 with the date),
+   14 px below and the line, as when the number and the text stood side by side */
+@media (min-width: 641px) {
+  .day { min-height: 79px; }
+  .day.dated { min-height: 98px; }
+  .day:first-child { min-height: 64px; }
+  .day.dated:first-child { min-height: 83px; }
+}
 .day-date { display: block; font: 12px var(--mono); color: var(--muted); text-transform: none; letter-spacing: 0; margin-top: 4px; white-space: nowrap; }
 .day-n b { display: block; font: 400 30px/1 var(--display); color: var(--ink); letter-spacing: 0; text-transform: none; }
-.day h4 { font-size: 17px; font-weight: 600; line-height: 1.35; margin-bottom: 4px; }
+.day h4 { font-size: 17px; font-weight: 600; line-height: 1.35; }
 .day p { color: var(--ink); }
 /* .day p sets the colour of every paragraph of a day, so the rain plan needs the stronger selector */
 .day .day-rain { margin-top: 6px; font-size: 14px; color: var(--cool); }
@@ -408,6 +475,10 @@ footer .ft-copy { margin-top: 18px; }
 footer { margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: 12.5px; }
 footer h2 { font: 400 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 10px; }
 footer h2:first-child { margin-top: 0; }
+/* the credits of the photos under one line with their number (fix 3), the list when open */
+.ft-photos summary { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.ft-photos summary h2 { margin: 0; }
+.ft-photos[open] summary { margin-bottom: 10px; }
 .credits { columns: 2 340px; column-gap: 32px; }
 .credits li { break-inside: avoid; margin-bottom: 4px; }
 footer a { color: var(--muted); }
@@ -453,10 +524,15 @@ footer a { color: var(--muted); }
   #facts li:nth-child(odd), #facts .f-budget { border-left: 0; padding-left: 0; }
   #facts li:nth-child(n+3) { border-top: 1px solid var(--line); }
   #facts li:nth-last-child(2):nth-child(odd), #facts .f-budget { grid-column: 1 / -1; }
+  /* five figures (the costs hidden): the last across both columns */
+  #facts.no-budget li:last-child { grid-column: 1 / -1; }
   .strip { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   .cell { aspect-ratio: 1 / 1; }
-  .day { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .day-n { display: flex; gap: 8px; align-items: baseline; }
+  /* a day's row: the number over the title, the arrow at the right; the text under them, as wide as the card */
+  .day { padding-left: 0; }
+  .day-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .day-row .fold-arrow { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .day-n { position: static; width: auto; display: flex; gap: 8px; align-items: baseline; }
   .day-n b { display: inline; font-size: 24px; }
   .day-date { display: inline; margin: 0; }
   .gal-thumbs { display: none; }
@@ -467,9 +543,11 @@ footer a { color: var(--muted); }
   /* a road's text takes the width of its card, and its time goes under it (the long texts of plan 2B) */
   .leg-segs li { grid-template-columns: 18px minmax(0, 1fr); }
   .leg-segs li > .mono { grid-column: 2; }
-  /* Dodaj under its reason, at the left: the button "Na górę" (bottom right) cannot cover it */
-  .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
-  .off-list li > .btn-small { grid-column: 2; justify-self: start; }
+  /* an open place off the trip: the photo across the row, the text and the small map under it; Dodaj at the left, where the
+     button "Na górę" (bottom right) cannot cover it */
+  .off-more { grid-template-columns: minmax(0, 1fr) 80px; }
+  .off-photo { grid-column: 1 / -1; }
+  .off-map > svg { width: 80px; }
 }
 /* the narrowest phones (320 px): the line over the name, longest in Polish, starts under the language switch */
 @media (max-width: 359px) {
@@ -509,7 +587,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
+  /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
+     a day's row as high as its title */
+  details::details-content { content-visibility: visible; }
+  .day-row { min-height: 0; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
@@ -535,7 +617,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
      choice may break between its paragraphs, its heading stays with the switch */
   .before, .b-part, .b-book, .b-list, .b-parts, .swap { display: block !important; }
   .before > * + * { margin-top: 24px; }
-  .b-part > * + *, .b-book li + li, .b-list li + li, .swap > * + * { margin-top: 8px; }
+  .b-more, .b-title { display: block !important; }
+  .b-part > * + *, .b-title > * + *, .b-more > *, .b-book li + li, .b-list li + li, .swap > * + * { margin-top: 8px; }
+  /* the folded parts of „Przed wyjazdem” and of the footer as high on paper as before the fold */
+  .b-more { padding-top: 0; }
+  .ft-photos summary { min-height: 0; }
   .b-book li, .b-list li, .b-parts li, .swap-seg, .swap p { break-inside: avoid; }
   .swap-h { break-after: avoid; }
   .credits { columns: 3; column-gap: 20px; font-size: 9px; line-height: 1.35; }
@@ -579,6 +665,10 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <h2 data-i18n="set.h2"></h2>
       <p data-i18n="set.p"></p>
     </div>
+    <div class="set-sum" id="set-sum" hidden>
+      <p class="set-sum-lines"><span id="ss-term"></span><span id="ss-air"></span><span id="ss-likes"></span></p>
+      <button type="button" class="btn-ghost" id="set-open" data-i18n="nav.change"></button>
+    </div>
     <form class="settings" id="settings-form" novalidate>
       <fieldset class="set-group">
         <legend data-i18n="set.term"></legend>
@@ -614,6 +704,10 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
         <div class="seg" id="level-list"></div>
         <p class="set-note" id="level-note"></p>
       </fieldset>
+      <div class="set-group set-costs">
+        <label class="check"><input type="checkbox" name="costs"><span data-i18n="set.costs"></span></label>
+        <p class="set-note" data-i18n="set.costs.note"></p>
+      </div>
     </form>
     <p class="set-msg" id="settings-msg" role="status"></p>
   </section>
@@ -648,7 +742,8 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="block-head">
       <p class="eyebrow" data-i18n="days.eyebrow"></p>
       <h2 data-i18n="days.h2"></h2>
-      <p><span data-i18n="days.p"></span> <span class="days-map" data-i18n="days.p_map"></span></p>
+      <p><span data-i18n="days.p"></span> <span class="days-map" data-i18n="days.p_map"></span> <span class="days-click" data-i18n="days.click"></span></p>
+      <button type="button" class="btn-ghost days-all" id="days-all"></button>
     </div>
     <div class="map-print" id="map-print"></div>
     <div class="route">
@@ -674,8 +769,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 
 <footer>
   <div class="wrap">
-    <h2 data-i18n="ft.photos"></h2>
-    <ul class="credits" id="credits"></ul>
+    <details class="ft-photos" data-fold="credits"><summary id="ft-photos"></summary><ul class="credits" id="credits"></ul></details>
     <h2 data-i18n="ft.notes"></h2>
     <p data-i18n="ft.notes.p"></p>
     <p class="ft-copy" data-i18n="ft.copy"></p>
@@ -1275,6 +1369,8 @@ var TET_MARGIN_DAYS = 7;   // the week before and after Tết is busy too: peopl
    Written once for every month, in Polish, to one reader (ty), without gendered forms (notes/wizja.md).
    The fields of a place:
    - name, short, sub: the full name; the short name for the strip, the map and lists; one line under the name;
+   - what: what the place is and where it lies, in a sentence of about 20 words, for the list of the places off the trip
+     only (fix 1 of the first round of fixes); facts and sources: research/opisy-miejsc-2026-10.md; a night on the way has none;
    - region: one of REGIONS; maps: where Google Maps directions start or end; pt: [lat, lon] on the map;
    - color: the place's colour, a number of the palette in template.html (--pal-1…); a night on the way has none, it takes
      the colour of its node; poi: { name, pt } a point of interest the map shows next to the stay (Bản Giốc by Cao Bằng);
@@ -1391,6 +1487,7 @@ var SWAPS = {
 CONTENT.babe = {
   name: 'Ba Bể', short: 'Ba Bể',
   sub: 'Górskie jezioro otoczone wioskami ludu Tày',
+  what: 'Największe naturalne jezioro słodkowodne Wietnamu, w parku narodowym wśród wapiennych gór i lasów, ok. 240 km na północ od Hà Nội.',
   region: 'north', maps: 'Ba Be National Park, Vietnam', pt: [22.41, 105.62], color: 12,
   photos: ['babe_0', 'babe_1', 'babe_2', 'babe_3', 'babe_5'],
   days: [
@@ -1408,6 +1505,7 @@ CONTENT.babe = {
 CONTENT.caobang = {
   name: 'Cao Bằng', short: 'Cao Bằng',
   sub: 'Wodospad Bản Giốc i krasowe pogranicze',
+  what: 'Kraina wapiennych gór, rzek i jaskiń na północnym wschodzie, przy granicy z Chinami, ze światowym geoparkiem UNESCO od 2018 roku.',
   region: 'north', maps: 'Cao Bang, Vietnam', pt: [22.67, 106.25], color: 13,
   photos: ['caobang_0', 'caobang_6', 'caobang_1', 'caobang_2', 'caobang_3'],
   days: [
@@ -1429,6 +1527,7 @@ CONTENT.caobang = {
 CONTENT.catba = {
   name: 'Cát Bà & Zatoka Lan Hạ', short: 'Cát Bà',
   sub: 'Wyspa porośnięta dżunglą po spokojnej stronie Hạ Long',
+  what: 'Największa wapienna wyspa Wietnamu, na skraju Zatoki Hạ Long na północnym wschodzie kraju, obok skalistych wysepek Zatoki Lan Hạ.',
   region: 'north', maps: 'Cat Ba Island, Vietnam', pt: [20.73, 107.05], color: 10,
   photos: ['catba_0', 'catba_3', 'catba_1', 'catba_2', 'catba_6'],
   days: [
@@ -1448,6 +1547,7 @@ CONTENT.catba = {
 CONTENT.cattien = {
   name: 'Park Narodowy Cát Tiên', short: 'Cát Tiên',
   sub: 'Nizinna dżungla, gibony i nocne safari',
+  what: 'Park narodowy chroniący las tropikalny nad rzeką Đồng Nai, ok. 150 km na północny wschód od Hồ Chí Minh City.',
   region: 'south', maps: 'Cat Tien National Park, Vietnam', pt: [11.43, 107.43], color: 4,
   photos: ['cattien_0', 'cattien_1', 'cattien_3', 'cattien_4'],
   days: [
@@ -1467,6 +1567,7 @@ CONTENT.cattien = {
 CONTENT.cucphuong = {
   name: 'Park Narodowy Cúc Phương', short: 'Cúc Phương',
   sub: 'Ratowane naczelne, tysiącletnie drzewa i las nocą',
+  what: 'Najstarszy park narodowy Wietnamu, od 1962 roku chroniący tropikalny las na wapiennych grzbietach, ok. 120 km na południe od Hà Nội.',
   region: 'north', maps: 'Cuc Phuong National Park, Ninh Binh, Vietnam', pt: [20.25, 105.71], color: 15,
   photos: ['cucphuong_0', 'cucphuong_1', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4'],
   days: [
@@ -1493,6 +1594,7 @@ CONTENT.cucphuong = {
 CONTENT.dalat = {
   name: 'Wyżyna wokół Đà Lạt', short: 'Đà Lạt',
   sub: 'Sosnowe wzgórza, ciche pensjonaty i chłodne noce',
+  what: 'Górskie miasto na wysokości 1500 m, dawny letni kurort Francuzów, ok. 300 km na północny wschód od Hồ Chí Minh City.',
   region: 'south', maps: 'Da Lat, Vietnam', pt: [11.94, 108.44], color: 5,
   photos: ['dalat_4', 'dalat_1', 'dalat_2', 'dalat_0', 'dalat_3'],
   days: [
@@ -1514,6 +1616,7 @@ CONTENT.dalat = {
 CONTENT.danang = {
   name: 'Đà Nẵng i półwysep Sơn Trà', short: 'Đà Nẵng',
   sub: 'Duki czerwononogie na Sơn Trà, plaża Mỹ Khê i Marmurowe Góry',
+  what: 'Największe miasto środkowego Wietnamu, nad morzem, ok. 30 km na północ od Hội An, z zalesionym półwyspem Sơn Trà.',
   region: 'centre', maps: 'My Khe Beach, Da Nang, Vietnam', pt: [16.06, 108.25], color: 16,
   photos: ['danang_0', 'danang_1', 'danang_2', 'danang_3', 'danang_4'],
   days: [
@@ -1538,6 +1641,7 @@ CONTENT.danang = {
 CONTENT.hagiang = {
   name: 'Hà Giang i płaskowyż Đồng Văn', short: 'Hà Giang',
   sub: 'Pętla przez płaskowyż Đồng Văn i przełęcz Mã Pí Lèng',
+  what: 'Wapienny płaskowyż pełen skalnych szczytów i kanionów, na samej północy kraju, przy granicy z Chinami: pierwszy w Wietnamie światowy geopark UNESCO.',
   region: 'north', maps: 'Ha Giang, Vietnam', pt: [22.83, 104.99], color: 19,
   poi: { name: 'Đồng Văn', pt: [23.29, 105.36] },
   photos: ['hagiang_0', 'hagiang_1', 'hagiang_2', 'hagiang_3', 'hagiang_4'],
@@ -1579,6 +1683,7 @@ CONTENT.hagiang = {
 CONTENT.hanoi = {
   name: 'Hà Nội', short: 'Hà Nội',
   sub: 'Stolica: Stare Miasto, świątynie i wioski rzemieślników',
+  what: 'Stolica Wietnamu nad Rzeką Czerwoną, na północy kraju, przeniesiona tu z Hoa Lư w 1010 roku.',
   region: 'north', maps: 'Hanoi, Vietnam', pt: [21.03, 105.85], color: 11,
   photos: ['hanoi_0', 'hanoi_1', 'hanoi_3', 'hanoi_5'],
   days: [
@@ -1610,6 +1715,7 @@ CONTENT.hanoiStop = {
 CONTENT.hoian = {
   name: 'Hội An', short: 'Hội An',
   sub: 'Stare miasto o świcie, wioski warzywników i kanały wśród wodnych palm',
+  what: 'Dawny port handlowy w środkowym Wietnamie, ok. 30 km na południe od Đà Nẵng, ze starym miastem na liście UNESCO.',
   region: 'centre', maps: 'Hoi An, Quang Nam, Vietnam', pt: [15.88, 108.34], color: 6,
   photos: ['hoian_0', 'hoian_1', 'hoian_6', 'hoian_4', 'hoian_5'],
   days: [
@@ -1636,6 +1742,7 @@ CONTENT.hoian = {
 CONTENT.hue = {
   name: 'Huế', short: 'Huế',
   sub: 'Cesarskie Miasto, grobowce nad Rzeką Perfumową i pola ryżowe wokół',
+  what: 'Dawna stolica cesarska w środkowym Wietnamie, siedziba dynastii Nguyễn do 1945 roku, ok. 100 km na północny zachód od Đà Nẵng.',
   region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59], color: 7,
   photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
   days: [
@@ -1657,6 +1764,7 @@ CONTENT.hue = {
 CONTENT.mekong = {
   name: 'Delta Mekongu', short: 'Mekong',
   sub: 'Kanały, sady i pływający targ z pokładu małej łodzi',
+  what: 'Płaska delta na samym południu kraju, gdzie Mekong uchodzi do morza i gdzie rośnie ponad połowa wietnamskiego ryżu.',
   region: 'south', maps: 'Phong Dien, Can Tho, Vietnam', pt: [10.03, 105.78], color: 2,
   photos: ['mekong_0', 'mekong_2', 'mekong_3', 'mekong_1'],
   days: [
@@ -1677,6 +1785,7 @@ CONTENT.mekong = {
 CONTENT.mucangchai = {
   name: 'Mù Cang Chải i przełęcz Khau Phạ', short: 'Mù Cang Chải',
   sub: 'Tarasy ryżowe Hmông, wzgórze Mâm Xôi i paralotnie nad przełęczą Khau Phạ',
+  what: 'Górski region na północnym zachodzie, ok. 300 km od Hà Nội, którego tarasy ryżowe są zabytkiem narodowym szczególnej klasy.',
   region: 'north', maps: 'Cho Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
   photos: ['mucangchai_0', 'mucangchai_1', 'mucangchai_2', 'mucangchai_3', 'mucangchai_4'],
   days: [
@@ -1703,6 +1812,7 @@ CONTENT.mucangchai = {
 CONTENT.ninhbinh = {
   name: 'Ninh Bình', short: 'Ninh Bình',
   sub: 'Łodzie wiosłowe wśród wapiennych turni',
+  what: 'Wapienne turnie wśród pól ryżowych ok. 100 km na południe od Hà Nội, wokół Tràng An, od 2014 roku na liście UNESCO.',
   region: 'north', maps: 'Tam Coc, Ninh Binh, Vietnam', pt: [20.25, 105.9], color: 9,
   photos: ['ninhbinh_0', 'ninhbinh_3', 'ninhbinh_4', 'ninhbinh_5', 'ninhbinh_6'],
   days: [
@@ -1723,6 +1833,7 @@ CONTENT.ninhbinh = {
 CONTENT.phongnha = {
   name: 'Park Narodowy Phong Nha–Kẻ Bàng', short: 'Phong Nha',
   sub: 'Jaskinie z łodzi i pieszo wśród krasowych dolin',
+  what: 'Park narodowy na liście UNESCO, z jaskiniami w wapiennych górach przy granicy z Laosem, ok. 200 km na północny zachód od Huế.',
   region: 'centre', maps: 'Phong Nha, Quang Tri, Vietnam', pt: [17.61, 106.31], color: 14,
   photos: ['phongnha_0', 'phongnha_1', 'phongnha_2', 'phongnha_3', 'phongnha_4'],
   days: [
@@ -1755,6 +1866,7 @@ CONTENT.phongnha = {
 CONTENT.phuquoc = {
   name: 'Cicha północ Phú Quốc', short: 'Phú Quốc',
   sub: 'Rybackie wioski, płycizny z rozgwiazdami i park narodowy',
+  what: 'Największa wyspa Wietnamu, długa na ok. 50 km, leżąca w Zatoce Tajlandzkiej u południowo-zachodniego wybrzeża kraju.',
   region: 'south', maps: 'Ganh Dau, Phu Quoc, Vietnam', pt: [10.33, 103.97], color: 3,
   photos: ['phuquoc_0', 'phuquoc_1', 'phuquoc_2', 'phuquoc_5'],
   days: [
@@ -1764,7 +1876,7 @@ CONTENT.phuquoc = {
     { p: 3, o: 4, pace: 'culture', cost: ['phuquoc.east'], t: 'Wioski rybackie i pusta plaża', d: 'Wschodnie wybrzeże: obiad z krabami na molo w Hàm Ninh, plantacja pieprzu, potem zachód słońca na plaży Vũng Bầu.' }
   ],
   gem: 'Płycizny z rozgwiazdami w Rạch Vẹm na północnym wybrzeżu.',
-  skip: 'Sunset Town, kolejka linowa na Hòn Thơm i VinWonders na południu.',
+  skip: 'Sunset Town i kolejka linowa na Hòn Thơm na południu oraz VinWonders na północy.',
   instead: 'północne wybrzeże i park narodowy.',
   events: [
     { from: [11, 1], to: [4, 30], t: 'Pora rozgwiazd: od listopada do kwietnia morze przy Rạch Vẹm jest spokojne, a woda czysta, więc rozgwiazdy dobrze widać. Patrz, nie podnoś.' }
@@ -1775,6 +1887,7 @@ CONTENT.phuquoc = {
 CONTENT.puluong = {
   name: 'Pù Luông', short: 'Pù Luông',
   sub: 'Bambusowe domy gospodarzy, ryżowe doliny i wędrówki grzbietami',
+  what: 'Rezerwat przyrody w górach, ok. 160 km na południowy zachód od Hà Nội, z wioskami ludów Thái i Mường wśród tarasów ryżowych.',
   region: 'north', maps: 'Pu Luong Nature Reserve, Vietnam', pt: [20.45, 105.18], color: 8,
   photos: ['puluong_1', 'puluong_2', 'puluong_3', 'puluong_0', 'puluong_5'],
   days: [
@@ -1798,6 +1911,7 @@ CONTENT.puluong = {
 CONTENT.saigon = {
   name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
   sub: 'Namorzyny Cần Giờ, Chợ Lớn i Sajgon od kuchni',
+  what: 'Największe miasto i główny ośrodek gospodarczy Wietnamu, dawny Sajgon, nad rzeką o tej samej nazwie na południu kraju.',
   region: 'south', maps: 'Ho Chi Minh City, Vietnam', pt: [10.78, 106.7], color: 1,
   photos: ['saigon_0', 'saigon_1', 'saigon_2', 'saigon_3', 'saigon_4'],
   days: [
@@ -1816,6 +1930,7 @@ CONTENT.saigon = {
 CONTENT.sapa = {
   name: 'Sa Pa i Fansipan', short: 'Sa Pa',
   sub: "Tarasy doliny Mường Hoa, wioski H'Mông i Giáy oraz Fansipan, dach Indochin",
+  what: 'Górskie miasteczko na ok. 1500 m, dawne francuskie letnisko na północnym zachodzie, ok. 320 km od Hà Nội.',
   region: 'north', maps: 'Sa Pa, Lao Cai, Vietnam', pt: [22.34, 103.84], color: 17,
   photos: ['sapa_0', 'sapa_1', 'sapa_2', 'sapa_3', 'sapa_4'],
   days: [
@@ -1846,6 +1961,7 @@ CONTENT.sapa = {
 CONTENT.yokdon = {
   name: 'Park Narodowy Yok Đôn', short: 'Yok Đôn',
   sub: 'Słonie bez jazdy, suchy las i rzeka Sêrêpốk',
+  what: 'Park narodowy na Wyżynie Centralnej przy granicy z Kambodżą, jedyny w Wietnamie, który chroni suchy las zrzucający liście.',
   region: 'south', maps: 'Yok Don National Park Headquarters, Buon Don, Dak Lak', pt: [12.87, 107.81], color: 18,
   photos: ['yokdon_0', 'yokdon_1', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
   days: [
@@ -1871,6 +1987,7 @@ CONTENT.yokdon = {
 CONTENT_EN.babe = {
   name: 'Ba Bể', short: 'Ba Bể',
   sub: 'A mountain lake ringed by Tày villages',
+  what: 'Vietnam’s largest natural freshwater lake, in a national park among limestone mountains and forests, about 240 km north of Hà Nội.',
   days: [
     { t: 'Arrival at the lake', d: 'Check in at a homestay in a Tày stilt house in Pác Ngòi, and at dusk take a walk along the lakeshore.',
       solo: { t: 'The lake in one afternoon', d: 'Arrive by early afternoon at the latest, check in at a homestay in a Tày stilt house in Pác Ngòi and, while it is still light, take a boat to Puông Cave and Bà Góa island. Dusk on the lakeshore, then breakfast in the morning and on your way.' } },
@@ -1887,6 +2004,7 @@ CONTENT_EN.babe = {
 CONTENT_EN.caobang = {
   name: 'Cao Bằng', short: 'Cao Bằng',
   sub: 'The Bản Giốc waterfall and the karst borderlands',
+  what: 'A land of limestone mountains, rivers and caves in the north-east, on the border with China, with a UNESCO Global Geopark since 2018.',
   days: [
     { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.',
       self: { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Pick up your hired motorbike the same evening. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.' } },
@@ -1907,6 +2025,7 @@ CONTENT_EN.caobang = {
 CONTENT_EN.catba = {
   name: 'Cát Bà & Lan Hạ Bay', short: 'Cát Bà',
   sub: 'A jungle-covered island on the quiet side of Hạ Long',
+  what: 'Vietnam’s largest limestone island, on the edge of Hạ Long Bay in the country’s north-east, beside Lan Hạ Bay’s rocky islets.',
   days: [
     { t: 'To the island', d: 'Stay in Cát Bà town. In the evening, a walk along the waterfront, where the fishing boats moor, and dinner at one of the small eateries.' },
     { t: 'Việt Hải and the national park', d: 'A hike up Ngự Lâm peak in Cát Bà National Park, then on by bike to Việt Hải, a car-free village ringed by cliffs.',
@@ -1925,6 +2044,7 @@ CONTENT_EN.catba = {
 CONTENT_EN.cattien = {
   name: 'Cát Tiên National Park', short: 'Cát Tiên',
   sub: 'Lowland jungle, gibbons and a night safari',
+  what: 'A national park protecting tropical forest along the Đồng Nai river, about 150 km north-east of Hồ Chí Minh City.',
   days: [
     { t: 'Into the jungle', d: 'Cross the Đồng Nai river on a small ferry to the park headquarters and spend the night inside the park. After dark, a night drive in search of deer and civets.',
       solo: { t: 'The jungle by night and at dawn', d: 'Arrive by mid-afternoon at the latest and spend the night in the park; book the dawn gibbon walk with the park before you arrive, as places are limited. After dark, a night drive in search of deer and civets. Before dawn the next day, go out with a park ranger to hear the gibbons calling, then breakfast and on your way.' } },
@@ -1943,6 +2063,7 @@ CONTENT_EN.cattien = {
 CONTENT_EN.cucphuong = {
   name: 'Cúc Phương National Park', short: 'Cúc Phương',
   sub: 'Rescued primates, thousand-year-old trees and the forest at night',
+  what: 'Vietnam’s oldest national park, protecting tropical forest on limestone ridges since 1962, about 120 km south of Hà Nội.',
   days: [
     { t: 'Rescued primates and the forest at night', d: 'Check into one of the park’s rooms, at the gate or by Mạc lake. In the afternoon, the rescue centres, 500 m from the ticket office and usually open until 17:00: Delacour’s and Cát Bà langurs, gibbons, lorises, turtles and pangolins. In the evening, a night ride by electric buggy along the edge of the forest: fireflies, deer and lorises; gather at 18:30 for a 19:00 start, and guests staying in the park get priority.',
       rain: 'the park museum and the visitor centre are under cover, and an umbrella comes in handy at the rescue centres; the park decides whether the night ride goes ahead in a downpour.',
@@ -1967,6 +2088,7 @@ CONTENT_EN.cucphuong = {
 CONTENT_EN.dalat = {
   name: 'Highlands around Đà Lạt', short: 'Đà Lạt',
   sub: 'Pine-covered hills, quiet guesthouses and cool nights',
+  what: 'A mountain town at 1,500 m, once a summer retreat of the French, about 300 km north-east of Hồ Chí Minh City.',
   days: [
     { t: 'Dusk over the Tà Nung valley', d: 'Skip the centre and head west to the ridges above the Tà Nung valley to watch the pine-covered hills and coffee plantations at dusk. Stay at a guesthouse out of town, where the nights are quiet and cool, and starry in the dry season.' },
     { t: 'Bidoup–Núi Bà cloud forest', d: 'A guided hike towards Hòn Giao among old pines, mossy forest and wild orchids. The trail is about 50 km away, so this takes the whole day. In the dry season, from November to April, the paths are firm underfoot; in the rainy season they can be slippery. Book your guide at the park’s tourist information centre.',
@@ -1988,6 +2110,7 @@ CONTENT_EN.dalat = {
 CONTENT_EN.danang = {
   name: 'Đà Nẵng and the Sơn Trà peninsula', short: 'Đà Nẵng',
   sub: 'Red-shanked doucs on Sơn Trà, Mỹ Khê beach and the Marble Mountains',
+  what: 'The largest city in central Vietnam, on the coast, about 30 km north of Hội An, with the forested Sơn Trà peninsula.',
   days: [
     { t: 'The Marble Mountains and an evening by the Hàn', d: 'The Marble Mountains (Ngũ Hành Sơn), south of the centre: up Thủy Sơn by the steps or the lift, Huyền Không Cave and the view from Vọng Giang Đài; open 7:00–17:30. In the evening, dinner by the Hàn river, and on Saturdays and Sundays at 21:00 the Dragon Bridge breathes fire and water.',
       rain: 'the Museum of Cham Sculpture (7:00–17:00) instead of the slippery steps of the Marble Mountains.',
@@ -2010,6 +2133,7 @@ CONTENT_EN.danang = {
 CONTENT_EN.hagiang = {
   name: 'Hà Giang and the Đồng Văn plateau', short: 'Hà Giang',
   sub: 'A loop over the Đồng Văn plateau and the Mã Pí Lèng pass',
+  what: 'A limestone plateau of rocky peaks and canyons in the far north, on the border with China: Vietnam’s first UNESCO Global Geopark.',
   poi: { name: 'Đồng Văn' },
   days: [
     { t: 'An evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a driver or a motorbike guide (easy rider) only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.',
@@ -2050,6 +2174,7 @@ CONTENT_EN.hagiang = {
 CONTENT_EN.hanoi = {
   name: 'Hà Nội', short: 'Hà Nội',
   sub: 'The capital: the Old Quarter, temples and craft villages',
+  what: 'Vietnam’s capital, on the Red River in the north of the country, moved here from Hoa Lư in 1010.',
   days: [
     { t: 'The Old Quarter and Hoàn Kiếm lake', d: 'A walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter.',
       solo: { t: 'An evening in Hà Nội', d: 'At dusk, a walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter, with street food for dinner: bún chả or bánh cuốn. In the morning, egg coffee, then on your way.' } },
@@ -2078,6 +2203,7 @@ CONTENT_EN.hanoiStop = {
 CONTENT_EN.hoian = {
   name: 'Hội An', short: 'Hội An',
   sub: 'The Old Town at dawn, vegetable-growing villages and canals among water palms',
+  what: 'A former trading port in central Vietnam, about 30 km south of Đà Nẵng, with a UNESCO-listed Old Town.',
   days: [
     { t: 'Hội An’s back roads', d: 'When you arrive, get a bike and ride to the vegetable village of Trà Quế, then on to the canals among the water coconut palms of Cẩm Thanh.',
       rain: 'a lantern-making workshop, plus the covered market.',
@@ -2103,6 +2229,7 @@ CONTENT_EN.hoian = {
 CONTENT_EN.hue = {
   name: 'Huế', short: 'Huế',
   sub: 'The Imperial City, tombs along the Perfume River and rice fields all around',
+  what: 'The former imperial capital in central Vietnam, the seat of the Nguyễn dynasty until 1945, about 100 km north-west of Đà Nẵng.',
   days: [
     { t: 'The Imperial City', d: 'When you arrive, the Imperial City (Đại Nội): the walls, gates and courtyards of the former capital of the Nguyễn dynasty. The ticket offices close around 17:00, and from mid-March to mid-October around 17:30. Towards evening, a walk along the Perfume River and bún bò Huế for dinner.',
       rain: 'the covered galleries of the Imperial City and the Museum of Royal Antiquities.' },
@@ -2123,6 +2250,7 @@ CONTENT_EN.hue = {
 CONTENT_EN.mekong = {
   name: 'Mekong Delta', short: 'Mekong',
   sub: 'Canals, orchards and a floating market from a small boat',
+  what: 'The flat delta in the far south of Vietnam, where the Mekong meets the sea and over half the country’s rice grows.',
   days: [
     { t: 'The canals of Phong Điền', d: 'Check in at a canal-side homestay in Phong Điền, just outside Cần Thơ. In the late afternoon, take a small sampan through the canals among the fruit orchards.',
       solo: { t: 'The delta at dusk and dawn', d: 'Reach your canal-side homestay in Phong Điền, just outside Cần Thơ, by mid-afternoon at the latest, and take a sampan through the canals among the orchards. The next morning at 5:30, a small boat to the Cái Răng floating market; be back at your homestay before 9:00, in time to move on.' } },
@@ -2143,6 +2271,7 @@ CONTENT_EN.mekong = {
 CONTENT_EN.mucangchai = {
   name: 'Mù Cang Chải and the Khau Phạ pass', short: 'Mù Cang Chải',
   sub: 'Hmông rice terraces, Mâm Xôi hill and paragliding over the Khau Phạ pass',
+  what: 'A mountain region in the north-west, about 300 km from Hà Nội, whose rice terraces are a special national monument.',
   days: [
     { t: 'Terraces at sunset', d: 'Check in at a homestay in La Pán Tẩn or in the town. At about 16:00, Móng Ngựa hill, 2 km from the centre: terraces laid out in a horseshoe, at their best before sunset, and crowded after 17:00. The slopes are steep; do not stand on the railings of the photo platforms. For dinner, stream fish or trout farmed below Khau Phạ.',
       rain: 'after rain the paths on the slopes of Móng Ngựa are slippery: stay at the upper viewpoint or save the terraces for tomorrow.' },
@@ -2168,6 +2297,7 @@ CONTENT_EN.mucangchai = {
 CONTENT_EN.ninhbinh = {
   name: 'Ninh Bình', short: 'Ninh Bình',
   sub: 'Rowing boats among limestone karsts',
+  what: 'Limestone peaks among rice fields about 100 km south of Hà Nội, around Tràng An, a UNESCO World Heritage Site since 2014.',
   days: [
     { t: 'Into the karst hills', d: 'Stay in the lanes behind Tam Cốc. If you get there by mid-afternoon at the latest, fit in a rowing-boat trip on the Vân Long wetlands; the last boats leave in the late afternoon.',
       solo: { t: 'Karst hills in the evening and morning', d: 'Stay in the lanes behind Tam Cốc, and arrive by mid-afternoon at the latest so you can still fit in a rowing-boat trip on the Vân Long wetlands before the last boats leave. The next morning, be at the Tràng An boat wharf at 7:00, when it opens, take the boat route through the caves, then travel on.' } },
@@ -2187,6 +2317,7 @@ CONTENT_EN.ninhbinh = {
 CONTENT_EN.phongnha = {
   name: 'Phong Nha–Kẻ Bàng National Park', short: 'Phong Nha',
   sub: 'Caves by boat and on foot, among karst valleys',
+  what: 'A UNESCO-listed national park of caves and limestone mountains on the border with Laos, about 200 km north-west of Huế.',
   days: [
     { t: 'By the Son river', d: 'You stay in the small town of Phong Nha, on the Son river, about an hour from Đồng Hới airport. In the evening, cycle round the Bồng Lai valley, among fields and farms; many places to stay lend bikes for free.' },
     { t: '7 km into Paradise Cave', d: 'Paradise Cave (Động Thiên Đường) runs a full-day trek: the first kilometre along a wooden boardwalk, then with a guide and a head torch in the dark, 7 km into the cave, with lunch inside. Gear is handed out at 8:00; you finish around 14:30–16:00. Ages 16 and over; not for anyone with heart disease or high blood pressure. In the rainy season the water rises and the trek turns back after about 4 km.',
@@ -2218,6 +2349,7 @@ CONTENT_EN.phongnha = {
 CONTENT_EN.phuquoc = {
   name: 'Phú Quốc’s quiet north', short: 'Phú Quốc',
   sub: 'Fishing villages, starfish shallows and a national park',
+  what: 'Vietnam’s largest island, about 50 km long, lying in the Gulf of Thailand off the south-west coast of the country.',
   days: [
     { t: 'Island pace', d: 'Stay on the north coast near Gành Dầu, away from the strip of resorts in the south. Sunset over the Gulf of Thailand.' },
     { t: 'Starfish in the shallows, and the forest', d: 'In the morning, Rạch Vẹm, where starfish lie in the shallows (look, do not pick them up). They are easiest to see from November to April, when the sea is calm and the water clear. In the afternoon, the forest roads of Phú Quốc National Park, which covers most of the north.' },
@@ -2225,7 +2357,7 @@ CONTENT_EN.phuquoc = {
     { t: 'Fishing villages and an empty beach', d: 'The east coast: a crab lunch on the pier at Hàm Ninh, a pepper plantation, then sunset on Vũng Bầu beach.' }
   ],
   gem: 'The starfish shallows of Rạch Vẹm on the north coast.',
-  skip: 'Sunset Town, the cable car to Hòn Thơm and VinWonders in the south.',
+  skip: 'Sunset Town and the cable car to Hòn Thơm in the south, and VinWonders in the north.',
   instead: 'the north coast and the national park.',
   events: [
     { t: 'Starfish season: from November to April the sea at Rạch Vẹm is calm and the water clear, so the starfish are easy to see. Look, do not pick them up.' }
@@ -2237,6 +2369,7 @@ CONTENT_EN.phuquoc = {
 CONTENT_EN.puluong = {
   name: 'Pù Luông', short: 'Pù Luông',
   sub: 'Bamboo homestays, rice valleys and hikes along the ridges',
+  what: 'A nature reserve in the mountains, about 160 km south-west of Hà Nội, with Thái and Mường villages among rice terraces.',
   days: [
     { t: 'Into the valleys', d: 'Check in at a bamboo homestay above the rice terraces in Bản Đôn or Kho Mường. In the evening, a walk around the village.' },
     { t: 'Ridges, villages and a waterfall', d: 'A full-day hike with a guide: the turquoise pools of the Hiêu waterfall, Kho Mường village and the ridges between the valleys.',
@@ -2259,6 +2392,7 @@ CONTENT_EN.puluong = {
 CONTENT_EN.saigon = {
   name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
   sub: 'Cần Giờ mangroves, Chợ Lớn and Saigon behind the scenes',
+  what: 'Vietnam’s largest city and main economic centre, formerly Saigon, on the river of the same name in the south of the country.',
   days: [
     { t: 'A breather', d: 'No plan, on purpose: rest after the journey, then coffee at a nearby cafe, a massage and the pool. At sunset, the Saigon Waterbus (if it is running) from Bạch Đằng pier upriver to Thảo Điền, and dinner by the water.',
       solo: { t: 'An evening by the Saigon river', d: 'One night, with no forced plan: coffee at one of the cafes in the old apartment blocks, a massage, and at sunset the Saigon Waterbus (if it is running) from Bạch Đằng pier to Thảo Điền, then dinner by the water. In the morning, breakfast and on your way.' } },
@@ -2276,6 +2410,7 @@ CONTENT_EN.saigon = {
 CONTENT_EN.sapa = {
   name: 'Sa Pa and Fansipan', short: 'Sa Pa',
   sub: 'Terraces of the Mường Hoa valley, H’Mông and Giáy villages, and Fansipan, the roof of Indochina',
+  what: 'A mountain town at about 1,500 m, a former French hill station in the north-west, about 320 km from Hà Nội.',
   days: [
     { t: 'A hillside town', d: 'Settle in at Sa Pa, a former French hill station about 1,500 m above sea level. In the evening, a stroll round the town. Even in summer the nights here are cool, so keep a warm layer to hand.' },
     { t: 'Villages of the Mường Hoa valley', d: 'A full-day hike with a local guide: from Sa Pa down to Ý Linh Hồ and Lao Chải, then along the Mường Hoa stream to Tả Van, among the rice terraces of the H’Mông and Giáy. About 10 km, mostly downhill, with lunch at a family home in a village. From Tả Van you return by car.',
@@ -2304,6 +2439,7 @@ CONTENT_EN.sapa = {
 CONTENT_EN.yokdon = {
   name: 'Yok Đôn National Park', short: 'Yok Đôn',
   sub: 'Elephants without rides, dry forest and the Sêrêpốk river',
+  what: 'A national park in the Central Highlands on the border with Cambodia, the only one in Vietnam that protects dry deciduous forest.',
   days: [
     { t: 'To the forest on the Sêrêpốk', d: 'Check in at the park’s guesthouse by the headquarters, where every tour starts. In the afternoon, a boat on the Sêrêpốk river, 40–60 minutes. If you come through Buôn Ma Thuột, stop at the World Coffee Museum, built in the style of an Ê Đê longhouse.',
       rain: 'in a storm the boat stays in: spend longer in Buôn Ma Thuột, at the World Coffee Museum and the Đắk Lắk Museum, on the peoples of the Central Highlands, and reach the park for the evening.',
@@ -2549,11 +2685,12 @@ UI.pl = {
   'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',
   'set.term': 'Termin', 'set.mode.month': 'Miesiąc i liczba dni', 'set.mode.dates': 'Dokładne daty',
   'set.month': 'Miesiąc', 'set.days': 'Liczba dni', 'set.start': 'Dzień przylotu', 'set.end': 'Dzień wylotu',
-  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.',
+  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.', 'set.sum': '{term} · {days} dni',
   'set.airports': 'Lotniska', 'set.from': 'Przylot do', 'set.to': 'Wylot z',
   'set.interests': 'Co lubisz (najwyżej dwie rzeczy)',
   'set.interests.none': 'Bez wyboru trasa ma po trochu wszystkiego.',
   'set.level': 'Poziom przygody',
+  'set.costs': 'Pokaż szacowane koszty', 'set.costs.note': 'Budżet na osobę i ceny przy rezerwacjach.',
   'int.kultura': 'Kultura i historia', 'int.jedzenie': 'Jedzenie', 'int.przyroda': 'Dzika przyroda', 'int.gory': 'Góry i jaskinie', 'int.morze': 'Morze i wyspy',
   'lvl.1': 'Spokojnie', 'lvl.2': 'Aktywnie', 'lvl.3': 'Ekstremalnie',
   'lvlp.1': 'Spacery, wycieczki jednodniowe i łatwe wersje dni.',
@@ -2608,6 +2745,7 @@ UI.pl = {
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
   'days.p': 'Każde miejsce ze zdjęciami, planem na każdy dzień i opisem dojazdu.', 'days.p_map': 'Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu.',
+  'days.click': 'Kliknij dzień albo przejazd, żeby zobaczyć szczegóły.', 'days.open': 'Rozwiń wszystkie dni', 'days.close': 'Zwiń wszystkie dni',
   'pace.travel': 'Dzień w drodze', 'pace.hike': 'Aktywna wędrówka', 'pace.nature': 'Przyroda bez wysiłku', 'pace.boat': 'Dzień na wodzie',
   'pace.culture': 'Zwiedzanie bez wysiłku', 'pace.rest': 'Dzień odpoczynku',
   'badge.easy': 'Wersja spokojna', 'badge.hard': 'Trudny dzień', 'badge.self': 'Motocykl samodzielnie', 'early': 'Pobudka przed 6',
@@ -2664,7 +2802,8 @@ UI.pl = {
   'm.sea': 'Morze Południowochińskie', 'm.tonkin': 'Zatoka Tonkińska', 'm.road': 'Droga', 'm.flight': 'Lot', 'm.airports': 'Lotnisko przylotu i wylotu',
   'm.scale': 'Każdy kadr ma swoją skalę i podziałkę', 'm.km': '{n} km', 'm.zoom': 'Kliknij mapę, żeby ją powiększyć', 'm.close': 'Zamknij dużą mapę',
   'm.dialog': 'Mapa trasy, powiększona', 'm.title': 'Mapa trasy: ',
-  'off.h3': 'Nie ma na twojej trasie', 'off.p': 'Przy każdym miejscu jest powód. „Dodaj” układa trasę na nowo razem z tym miejscem.',
+  'off.h3': 'Nie ma na twojej trasie', 'off.p': 'Rozwiń miejsce, żeby zobaczyć, co tam jest, dlaczego nie ma go na trasie i co wypadnie po dodaniu.',
+  'off.usual': 'zwykle {n} {nights}', 'off.map.aria': 'Mapa Wietnamu: {x} i twoja trasa', 'off.map.route': 'Twoja trasa',
   'off.add': 'Dodaj', 'off.add.aria': 'Dodaj {x} do trasy', 'off.missing': 'nie zmieściło się', 'off.reset': 'Wróć do trasy bez zmian',
   'off.r.removed': 'usunięte przez ciebie', 'off.r.level': 'tylko na poziomie „{lvl}”', 'off.r.closed': 'zamknięte w tym terminie', 'off.r.closed_part': 'zamknięte w części tego terminu',
   'off.r.season': 'poza sezonem ({why})', 'off.r.profile': 'nie pasuje do tego, co lubisz', 'off.r.far': 'za daleko na tyle dni',
@@ -2695,7 +2834,7 @@ UI.pl = {
 
   'before.eyebrow': 'Przed wyjazdem', 'before.h2': 'Budżet, rezerwacje i pakowanie',
   'before.p': 'Wszystko policzone dla tej trasy. Ceny i terminy rezerwacji sprawdź jeszcze u przewoźników i operatorów.',
-  'bud.h3': 'Budżet', 'bud.two': 'na osobę, przy dwóch osobach w pokoju i aucie.', 'bud.one': 'W pojedynkę: {x}.',
+  'bud.h3': 'Budżet', 'bud.off': 'Szacowane koszty są schowane.', 'bud.two': 'na osobę, przy dwóch osobach w pokoju i aucie.', 'bud.one': 'W pojedynkę: {x}.',
   'bud.nights': 'Noclegi', 'bud.day': 'Jedzenie i drobne wydatki', 'bud.travel': 'Przejazdy i loty krajowe', 'bud.trips': 'Wycieczki, przewodnicy i rejsy',
   'bud.top': 'Najwięcej kosztują: {x}.', 'bud.item': '{name} ({x})',
   'bud.note': 'Bez lotów do Wietnamu, ubezpieczenia i pamiątek. Ceny sprawdzone w {month} {year}.',
@@ -2731,7 +2870,10 @@ UI.pl = {
   'cost.cucphuong.centres': 'ośrodki ratowania w Cúc Phương', 'cost.cucphuong.night': 'nocna przejażdżka w Cúc Phương', 'cost.cucphuong.car': 'auto do Bống',
   'cost.cucphuong.maybac': 'przewodnik na Mây Bạc',
   'cost.danang.sontra': 'auto na Sơn Trà', 'cost.haivan.car_dn': 'auto przez przełęcz Hải Vân z Đà Nẵng', 'cost.haivan.moto_dn': 'motocykl przez przełęcz Hải Vân z Đà Nẵng',
-  'book.h3': 'Zarezerwuj wcześniej', 'book.p': 'Od najpilniejszego. Kwoty na osobę przy dwóch osobach.', 'book.cost': 'ok. {x} na osobę', 'book.upto': '{x} na osobę', 'book.both': 'w obie strony',
+  'book.h3': 'Zarezerwuj wcześniej', 'book.p': 'Od najpilniejszego.', 'book.amounts': 'Kwoty na osobę przy dwóch osobach.', 'book.cost': 'ok. {x} na osobę', 'book.upto': '{x} na osobę', 'book.both': 'w obie strony',
+  'book.gist': '{n} {things}, najpilniejsze: {x}.', 'book.gist1': 'Jedna rzecz: {x}.', 'things.one': 'rzecz', 'things.few': 'rzeczy', 'things.many': 'rzeczy',
+  'bn.airport': 'samochód z lotniska albo na lotnisko', 'bn.transfer': 'minibusy i autobusy między miastami', 'bn.homestay': 'noclegi u gospodarzy',
+  'bn.cucphuong': 'nocleg w parku Cúc Phương', 'bn.yokdon': 'nocleg w domu gościnnym parku Yok Đôn',
   'book.tet': 'Na Tết rezerwuj z dużym zapasem: loty krajowe 2–3 miesiące wcześniej, rejsy i noclegi u gospodarzy 1–2 miesiące, samochody z kierowcą 3–4 tygodnie.',
   'book.none': 'Na tej trasie nic nie trzeba rezerwować z dużym wyprzedzeniem. Noclegi zarezerwuj tydzień–dwa wcześniej.',
   'b.phongnha.hangen': 'Wyprawa do Hang Én z Oxalis: ok. 2 miesiące wcześniej, w marcu, kwietniu i latem 3–4 miesiące.',
@@ -2779,17 +2921,17 @@ UI.pl = {
   'b.hoian.myson_tour': 'Wycieczka grupowa do Mỹ Sơn z powrotem łodzią: 1–2 dni wcześniej, w szczycie 3–7 dni.',
   'b.cattien.park': '{x}: zapisz się najpóźniej dzień wcześniej.',
   'b.puluong.guide': 'Przewodnik w Pù Luông: najpóźniej dzień wcześniej.',
-  'know.h3': 'Warto wiedzieć', 'know.links': 'Tylko strony rządowe: ',
+  'know.h3': 'Warto wiedzieć', 'know.links': 'Tylko strony rządowe: ', 'know.gist': 'Wiza, e-papierosy i strony rządowe.',
   'know.visa': 'Wiza: sprawdź, czy twój paszport jej wymaga. E-wizę i kartę przylotu załatwiaj tylko na stronach rządowych, bo w sieci są fałszywe strony, które się pod nie podszywają.',
   'know.vape': 'E-papierosy: razem z podgrzewanym tytoniem są w Wietnamie nielegalne, także ich przywóz, a za używanie grozi kara 3–5 mln VND i zniszczenie urządzenia, więc zostaw je w domu.',
-  'pack.h3': 'Co spakować',
+  'pack.h3': 'Co spakować', 'pack.gist': '{n} {things} na tę trasę.',
   'p.warm': 'Ciepłą warstwę i czapkę: noce w {x} bywają chłodne, do ok. {t}\u00a0°C.',
   'p.rain': 'Kurtkę przeciwdeszczową albo poncho: w {x} często pada w tym terminie.',
   'p.leeches': 'Skarpety przeciw pijawkom na leśne ścieżki: {x}.', 'p.torch': 'Czołówkę na noc w lesie: {x}.', 'p.swim': 'Strój kąpielowy: {x}.',
   'p.moto': 'Na motocykl własne rękawiczki i kurtkę przeciwdeszczową, a kask z atestem sprawdź przy wypożyczeniu.',
   'p.mosquito': 'Środek na komary z DEET i ubranie z długimi rękawami: denga jest w całym kraju, a komary gryzą głównie w dzień.',
 
-  'ft.photos': 'Zdjęcia · Wikimedia Commons', 'ft.notes': 'Uwagi',
+  'ft.photos': 'Zdjęcia: autorzy i licencje ({n})', 'ft.notes': 'Uwagi',
   'ft.notes.p': 'Czasy przejazdów to szacunki od drzwi do drzwi, z ok. 1½ godz. na lotnisku przy każdym locie. Połączenia sprawdzono w październiku 2026. Rozkłady lotów, godziny otwarcia, zasady na szlakach i stan morza sprawdź przed wyjazdem u przewoźnika i na miejscu. Trudne dni tylko z licencjonowanym przewodnikiem albo operatorem. Kontury mapy: Natural Earth, domena publiczna.',
   'ft.pd': 'domena publiczna',
   'ft.copy': '© 2026 Route G. Wszelkie prawa zastrzeżone.'
@@ -2814,11 +2956,12 @@ UI.en = {
   'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',
   'set.term': 'Dates', 'set.mode.month': 'By month', 'set.mode.dates': 'Exact dates',
   'set.month': 'Month', 'set.days': 'Number of days', 'set.start': 'Arrival day', 'set.end': 'Departure day',
-  'set.days.note': 'Days count from arrival to departure, both included.',
+  'set.days.note': 'Days count from arrival to departure, both included.', 'set.sum': '{term} · {days} days',
   'set.airports': 'Airports', 'set.from': 'Fly into', 'set.to': 'Fly out of',
   'set.interests': 'What you like (two at most)',
   'set.interests.none': 'With nothing chosen, the route has a bit of everything.',
   'set.level': 'Adventure level',
+  'set.costs': 'Show estimated costs', 'set.costs.note': 'The budget per person and the prices of what to book.',
   'int.kultura': 'Culture & history', 'int.jedzenie': 'Food', 'int.przyroda': 'Wildlife', 'int.gory': 'Mountains & caves', 'int.morze': 'Sea & islands',
   'lvl.1': 'Relaxed', 'lvl.2': 'Active', 'lvl.3': 'Extreme',
   'lvlp.1': 'Walks, day trips and the easy versions of days.',
@@ -2873,6 +3016,7 @@ UI.en = {
 
   'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',
   'days.p': 'Every place with photos, a plan for each day and how to get there.', 'days.p_map': 'The map is to scale, and on a large screen it stays in view as you scroll.',
+  'days.click': 'Click a day or a journey to see its details.', 'days.open': 'Expand all days', 'days.close': 'Collapse all days',
   'pace.travel': 'Travel day', 'pace.hike': 'Active hike', 'pace.nature': 'Easy nature', 'pace.boat': 'Day on the water',
   'pace.culture': 'Easy sightseeing', 'pace.rest': 'Rest day',
   'badge.easy': 'Relaxed version', 'badge.hard': 'Hard day', 'badge.self': 'Riding yourself', 'early': 'Up before 6',
@@ -2929,7 +3073,8 @@ UI.en = {
   'm.sea': 'South China Sea', 'm.tonkin': 'Gulf of Tonkin', 'm.road': 'Road', 'm.flight': 'Flight', 'm.airports': 'Arrival and departure airport',
   'm.scale': 'Each panel has its own scale and scale bar', 'm.km': '{n} km', 'm.zoom': 'Click the map to enlarge it', 'm.close': 'Close the large map',
   'm.dialog': 'Route map, enlarged', 'm.title': 'Route map: ',
-  'off.h3': 'Not on your route', 'off.p': 'Each place has its reason. “Add” plans the route again with that place.',
+  'off.h3': 'Not on your route', 'off.p': 'Open a place to see what is there, why it is not on your route and what would leave the route if you add it.',
+  'off.usual': 'usually {n} {nights}', 'off.map.aria': 'Map of Vietnam: {x} and your route', 'off.map.route': 'Your route',
   'off.add': 'Add', 'off.add.aria': 'Add {x} to the route', 'off.missing': 'did not fit', 'off.reset': 'Back to the route without changes',
   'off.r.removed': 'removed by you', 'off.r.level': 'only at the “{lvl}” level', 'off.r.closed': 'closed on these dates', 'off.r.closed_part': 'closed for part of these dates',
   'off.r.season': 'out of season ({why})', 'off.r.profile': 'does not match what you like', 'off.r.far': 'too far for this many days',
@@ -2960,7 +3105,7 @@ UI.en = {
 
   'before.eyebrow': 'Before you go', 'before.h2': 'Budget, bookings and packing',
   'before.p': 'Everything worked out for this route. Check prices and booking times with the carriers and operators too.',
-  'bud.h3': 'Budget', 'bud.two': 'per person, two sharing a room and a car.', 'bud.one': 'Travelling alone: {x}.',
+  'bud.h3': 'Budget', 'bud.off': 'The estimated costs are hidden.', 'bud.two': 'per person, two sharing a room and a car.', 'bud.one': 'Travelling alone: {x}.',
   'bud.nights': 'Accommodation', 'bud.day': 'Food and small expenses', 'bud.travel': 'Transport and domestic flights', 'bud.trips': 'Tours, guides and cruises',
   'bud.top': 'The biggest costs: {x}.', 'bud.item': '{name} ({x})',
   'bud.note': 'Without flights to Vietnam, insurance and souvenirs. Prices checked in {month} {year}.',
@@ -2996,7 +3141,10 @@ UI.en = {
   'cost.cucphuong.centres': 'the rescue centres in Cúc Phương', 'cost.cucphuong.night': 'the night ride in Cúc Phương', 'cost.cucphuong.car': 'a car to Bống',
   'cost.cucphuong.maybac': 'a guide to Mây Bạc',
   'cost.danang.sontra': 'a car on Sơn Trà', 'cost.haivan.car_dn': 'a car over the Hải Vân pass from Đà Nẵng', 'cost.haivan.moto_dn': 'a motorbike over the Hải Vân pass from Đà Nẵng',
-  'book.h3': 'Book ahead', 'book.p': 'Most urgent first. Amounts per person, for two people.', 'book.cost': 'about {x} per person', 'book.upto': '{x} per person', 'book.both': 'both ways',
+  'book.h3': 'Book ahead', 'book.p': 'Most urgent first.', 'book.amounts': 'Amounts per person, for two people.', 'book.cost': 'about {x} per person', 'book.upto': '{x} per person', 'book.both': 'both ways',
+  'book.gist': '{n} {things}, the most urgent: {x}.', 'book.gist1': 'One thing: {x}.', 'things.one': 'thing', 'things.few': 'things', 'things.many': 'things',
+  'bn.airport': 'a car from or to the airport', 'bn.transfer': 'limousine vans and intercity buses', 'bn.homestay': 'homestays',
+  'bn.cucphuong': 'a night in Cúc Phương park', 'bn.yokdon': 'a night at the Yok Đôn park guesthouse',
   'book.tet': 'For Tết, book well ahead: domestic flights 2–3 months before, cruises and homestays 1–2 months, cars with a driver 3–4 weeks.',
   'book.none': 'Nothing on this route needs booking far ahead. Book your rooms a week or two before.',
   'b.phongnha.hangen': 'The Hang Én expedition with Oxalis: about 2 months ahead; for March, April and the summer 3–4 months.',
@@ -3044,17 +3192,17 @@ UI.en = {
   'b.hoian.myson_tour': 'A group tour to Mỹ Sơn with the return by boat: 1–2 days ahead, at peak times 3–7 days.',
   'b.cattien.park': '{x}: sign up the day before at the latest.',
   'b.puluong.guide': 'A guide in Pù Luông: the day before at the latest.',
-  'know.h3': 'Good to know', 'know.links': 'Government sites only: ',
+  'know.h3': 'Good to know', 'know.links': 'Government sites only: ', 'know.gist': 'The visa, e-cigarettes and the government sites.',
   'know.visa': 'Visa: check whether your passport needs one. Apply for an e-visa and fill in the arrival card only on the government sites, as fake sites pretend to be them.',
   'know.vape': 'E-cigarettes: together with heated tobacco they are illegal in Vietnam, bringing them in included, and using one can mean a fine of 3–5M VND and the device destroyed, so leave them at home.',
-  'pack.h3': 'What to pack',
+  'pack.h3': 'What to pack', 'pack.gist': '{n} {things} for this route.',
   'p.warm': 'A warm layer and a hat: nights in {x} can be cool, down to about {t}\u00a0°C.',
   'p.rain': 'A rain jacket or poncho: it often rains in {x} at this time of year.',
   'p.leeches': 'Leech socks for forest trails: {x}.', 'p.torch': 'A head torch for the night in the forest: {x}.', 'p.swim': 'Swimwear: {x}.',
   'p.moto': 'For the motorbike, your own gloves and rain jacket; when you rent, check that the helmet is certified.',
   'p.mosquito': 'Insect repellent with DEET and long sleeves: dengue occurs across the country, and the mosquitoes bite mostly by day.',
 
-  'ft.photos': 'Photos · Wikimedia Commons', 'ft.notes': 'Notes',
+  'ft.photos': 'Photos: authors and licences ({n})', 'ft.notes': 'Notes',
   'ft.notes.p': 'Travel times are door-to-door estimates, with about 1½ h at the airport for each flight. Connections were checked in October 2026. Before you go, check flight timetables, opening hours, trail rules and sea conditions with the carrier and on the spot. Hard days only with a licensed guide or operator. Map outlines: Natural Earth, public domain.',
   'ft.pd': 'public domain',
   'ft.copy': '© 2026 Route G. All rights reserved.'
@@ -3069,6 +3217,11 @@ UI.en = {
    (stage 3: 18.4° N instead of 17.95); south: Phú Quốc and the Mekong delta to Đà Lạt, Yok Đôn and
    Nha Trang. */
 var MAP_WIDTH = 270;
+/* The small map of the whole country in a row of the list of the places off the trip (fix 1 of the first round of fixes):
+   from 101.9° E, 23.6° N to 109.7° E, 8.3° N, all of the mainland and the islands near it, 120 px wide at the scale of its
+   width (countryMap in page.js); the islands of Hoàng Sa and Trường Sa lie outside it, as on the map of the trip.
+   geo/make_basemap.py reads it to cut the outline (OUTLINE in basemap.js). */
+var COUNTRY_MAP = { lon0: 101.9, lat0: 23.6, lon1: 109.7, lat1: 8.3, width: 120 };
 var MAP_PANELS = {
   north: { lon0: 103.45, lat0: 23.45, lon1: 107.6, lat1: 19.3, bar: 'left',
     names: [['m.china', 23.25, 106.0, 'country', 'middle'], ['m.laos', 20.55, 103.55, 'country', 'start'], ['m.tonkin', 19.75, 107.5, 'water', 'end']] },
@@ -3386,9 +3539,14 @@ function linkHash(s) {
    (decision of 15.10.2026). The language is no setting of the trip: lang with another value, or without one, is English,
    with no warning of a wrong link, and parseLink leaves it out. */
 function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')) ? 'pl' : 'en'; }
-/* The address of the settings in a language: Polish adds lang=pl at the end, so a link copied, sent or printed opens the
-   same trip in Polish; English adds nothing, so every link from before stage 5 opens in English. */
-function langHash(s, lang) { return linkHash(s) + (lang === 'pl' ? '&lang=pl' : ''); }
+/* The estimated costs, shown or hidden (the first round of fixes, fix 2, 16.10.2026): shown only when the link says
+   koszty=1; another value, or none, hides them, with no warning of a wrong link: the costs are no setting of the trip, as
+   the language is not, and parseLink leaves them out. */
+function costsOf(hash) { return /(?:^#?|&)koszty=1(?:&|$)/.test(String(hash || '')); }
+/* The address of the settings in the page's view: koszty=1 when the costs show, then lang=pl at the end in Polish, so a
+   link copied, sent or printed opens the same trip as its sender sees it; English and hidden costs add nothing, so every
+   link from before opens in English with the costs hidden. */
+function pageHash(s, lang, costs) { return linkHash(s) + (costs ? '&koszty=1' : '') + (lang === 'pl' ? '&lang=pl' : ''); }
 /* The texts of the places in a language. content: CONTENT, with the Polish texts; overlay: for English CONTENT_EN, the same
    fields where a place has a text (tests/content.test.js checks it), lists in the same order. Returns a copy of content
    with the overlay's texts over the Polish ones and the data (p, pace, cost…) as it was; without an overlay, content. */
@@ -3405,6 +3563,11 @@ function localContent(content, overlay) {
   Object.keys(content).forEach(function (id) { out[id] = over(content[id], overlay[id]); });
   return out;
 }
+
+/* The trip as the folded rows of „Dzień po dniu” see it (the first round of fixes, 16.10.2026): its stays, each with its first
+   day and nights, and its days. A new rendering of the same trip (a change of the language, a swap) keeps the open days and
+   journeys open; on another trip they close, as its days are others. route: planRoute's trip. */
+function tripKey(route) { return route.stops.map(function (s) { return s.id + ' ' + s.start + ' ' + s.n; }).join(', ') + ' / ' + route.days; }
 
 /* A copy of the settings with lists of its own; add, remove and moto are never missing. */
 function copySettings(s) {
@@ -4187,6 +4350,25 @@ function tieVietnamese(text) {
   return parts.join('');
 }
 
+/* ---------- the small map of the whole country (fix 1 of the first round of fixes, finding 6) ---------- */
+/* What the small map of a place off the trip draws, in px of the frame COUNTRY_MAP (panels.js; its outline is OUTLINE in
+   basemap.js): every road and flight of the trip from point to point, as mode, x1, y1, x2, y2 (app.js draws a flight
+   dashed, as on the map of the trip), and the place as a dot at its point. route: planRoute's trip; id: the place; m:
+   { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS }. Returns { w, h, segs, dot: { x, y } }. */
+function countryMap(route, id, m) {
+  var f = m.frame, s = f.width / (f.lon1 - f.lon0), segs = [];
+  function proj(pt) { return [(pt[1] - f.lon0) * s, (f.lat0 - pt[0]) * s]; }
+  function where(n) { return m.airports[n] ? m.airports[n].pt : m.content[n].pt; }
+  route.stops.map(function (x) { return x.leg; }).concat([route.home]).forEach(function (L) {
+    L.segs.forEach(function (g) {
+      var a = proj(where(g.from)), b = proj(where(g.to));
+      segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] });
+    });
+  });
+  var d = proj(m.content[id].pt);
+  return { w: f.width, h: Math.round((f.lat0 - f.lat1) * s), segs: segs, dot: { x: d[0], y: d[1] } };
+}
+
 /* ---------- the map: three panels, the markers and the labels ---------- */
 var PANEL_GAP = 16;                               // between two panels, px
 /* A panel's scale (px per degree) and height from its corners (panels.js): MAP_WIDTH px wide. geo/make_basemap.py works
@@ -4460,8 +4642,11 @@ function mapLayout(route, st, m) {
 /* Basemap: Natural Earth 1:10m land and rivers (public domain), clipped and projected for the map panels of
    panels.js by geo/make_basemap.py: per panel, the land of Vietnam (vn), of its neighbours (other) and the rivers. */
 var BASEMAP = {"north":{"vn":"M41.6 276 36.8 274.2 34 274.9 30 272.4 28.8 270.4 25.9 270 27.3 268.3 30.7 266.6 32.7 264.1 37.1 262.5 38.3 262.7 39.7 258.9 41.6 258.1 41.9 257.3 41.2 256.4 40.4 253.1 36.9 250.5 35.6 247.1 35.8 245.2 37.2 245.2 41.6 247.1 42.9 246.9 44.7 244.8 50.7 243.6 53.8 245 55 246.9 58 245.1 60.5 244.9 62.8 247.2 68.7 250.3 71.3 250.4 73.5 249.3 75.7 250 78.4 244.1 79.8 242.4 83.7 241 88.2 238.1 88.9 234.3 85.3 233.5 84.9 233.1 85.3 231.9 86.6 230.4 91.6 227.4 92.6 225.6 96.7 225.5 97.6 224.8 97.2 220.1 98.5 219.5 98 218.5 95.5 216.9 94.7 215.7 94.9 213.1 89.1 210.1 86.5 210.2 80.7 211.7 78.5 210.6 78.3 207.1 78.6 206.3 80.1 205.8 80.6 204.9 80.3 202.8 79.1 201.6 75.6 199.9 74.1 198 73.2 197.5 63.9 197.7 61.3 197.1 59.2 195.8 59.6 194.6 63.4 192.2 64.7 189.7 66.3 190.9 68 191.2 71.1 189.6 75.3 184.2 75.8 182.4 74.9 181.5 67.8 178.8 65.2 174.8 61.1 174.3 59.7 172.2 56.8 170.2 55 167.2 52.7 166 50.2 166.4 48.4 164 43.8 163.1 41.8 161.9 39.5 162.1 36.5 165.4 32.7 165.9 26.6 167.9 24.5 169.3 21.8 169.4 20 172.7 20.1 175.7 16.7 177.5 16.5 179 17.2 180.8 15.3 181.7 13.7 181.5 8.3 176.8 2.6 175.5 -0.6 171.4 -1.5 171.1 -3.8 172.8 -6 173.2 -6 43.9 -3.1 46.3 -3 49.5 -0.2 54.1 1.5 55.8 3.5 56.5 6.6 52.6 6.3 48.8 9.1 44.4 12.8 42.4 18 47.7 22.4 51.4 25.1 55.1 27.1 56.9 28.9 57.3 30.4 59.6 33.1 61.3 34.8 60 34.8 57.2 36.3 53.3 37.3 47.5 41.4 42.8 44.1 42.5 49.7 40.7 51.5 40.7 50.7 43.4 51.2 46.1 52 47 57.9 49.7 65 45.9 71.8 39.9 74.1 41.8 75.5 40.8 78.9 41.6 81.4 41.1 83.2 39.7 86.2 36 89.4 34.2 89.6 32.3 87.7 23.7 90.2 22.8 91.8 21.5 92.4 18.6 94 18.2 96.6 19.2 99.6 16.9 104.8 14.2 110.1 12.8 111 11.9 113.9 12.8 115 12 116.2 8.5 119.9 5.4 121.2 5.5 122.5 8.6 124.2 10.3 126.2 11.4 128.6 11.5 131.7 16.6 135.2 19.2 136 24.4 136.7 25.4 145.8 26.4 147.7 28 149.9 28.9 156.4 35.5 157.8 33.9 160.3 34.2 163.4 33.7 165.9 30.9 171 30.5 174.5 30.9 177 31.5 179.1 32.7 180.4 35 180.7 37.4 182.5 38.7 186.4 38.8 195.7 36.5 196.7 36 197 34.5 197.6 34.1 203.7 36.1 205.6 38.8 207.1 39.1 208.1 37.9 209.3 37.9 212.4 40.6 213.4 42.4 217.3 42.5 217.9 43.3 217.4 44.1 214.5 45.9 213.8 49.1 211.3 53.3 210.2 56.6 209.4 57.3 208 57.3 205.4 54.7 204.2 54.8 203.5 55.6 201.4 63.6 200.2 65.8 201.2 71.9 202 72.7 206.1 73.3 207.1 74.2 209 79.8 207.5 81.9 208.9 85 208.8 87.1 209.6 88.3 209.4 91.6 208.1 94.6 208.4 96.4 209.8 96.8 213.3 93.8 216.7 96 222.2 96.4 224.4 99 225.8 99.7 229.1 98.5 231.6 99.1 232.3 100 232.3 101.3 230.1 104.4 230.3 105.8 231.2 106.7 235.2 107.6 242.2 112.9 244.8 113.5 248.7 112.7 250.7 114.6 252.4 119.3 253.6 120.4 258.7 117 260 117.3 260.7 118.3 261 120.6 263.6 121.6 264.7 121.2 265.6 119.8 270.9 120 276 118.7 276 133.3 274.5 132.6 274.1 134.8 272.3 134.5 272.8 135.8 272 136.3 272.8 137.1 271.4 137.6 271.9 138 270.5 137.6 269.9 140 269.4 140.3 267 139.6 265.8 136.9 264.9 136.7 265.1 139.4 265.9 139.8 265.2 140 261.7 139.6 260.7 138.7 258 138 257.6 138.9 259.8 140.7 254.9 141.6 255.3 142.5 254.4 143.8 254 146.9 255.1 147.6 256.2 147.4 255.4 151.8 254.4 152.8 254.9 153.7 254 154 255.3 157.6 252.7 159 246.9 159.2 244.7 159.9 246 160.3 246 160.8 244.9 161 243.5 162.5 243.8 163.5 240.7 163.5 240.7 163.9 239.7 163 235.3 162.1 237.2 159.4 240.7 157.2 240.7 156.8 238.2 157.2 236.4 159 236.6 157.6 236.2 157.2 235.1 158.8 234.9 157.2 234.4 157.2 234 159.4 233.9 157.8 232.6 157.2 233.5 158.5 232.6 158.5 233.5 159.4 232 159.1 230.8 158.1 230.7 159 232.3 160.3 232.6 161.2 231 162.6 227.5 162.4 223.5 159.8 222.7 159.6 222.3 160.3 221.5 159.9 223.3 162 225.9 163.5 226.6 164.9 227.3 165.2 227.3 165.7 224.6 165.4 223.3 163.5 222.8 163.5 223.7 165.2 222.4 167 221.3 165.3 220.1 164.3 220.1 163.5 218.3 163.8 216.2 162.2 219.3 161 219.2 160.3 217.9 159.3 218.7 158.5 217.8 157.8 216.6 157.6 217 158.5 213.4 157.5 212.1 158.1 212.6 159 208.8 157.8 207.7 158.1 210.3 159 210.3 159.4 208.6 159 209.9 162.1 215 163.4 215.1 165.4 214.3 167 212.6 165.7 211.4 167 214.3 169.2 214.9 170.7 214.6 172.1 213.8 172.7 212.6 171.9 215.1 175.6 216.2 176.4 216.6 175.9 218.3 180.4 215.8 178 212.5 179.5 209 179 209 179.5 211.6 180.8 211.6 181.5 209.5 183 207.4 183.6 205.7 183.1 204.1 181.3 204.9 182.9 206.7 184.3 206.6 185.8 203.8 187.7 199.6 189.3 201.7 189.8 203.6 188.9 202.8 190.3 203.9 192.2 203.6 193.3 200.8 194.4 199.6 196 202.4 194.9 203.9 194.7 204.6 195.3 203.9 199.6 203.2 200.5 202.8 199.6 202.3 200 203.5 201.1 204.5 206.5 203.7 207.3 200.8 204.3 198.3 204.4 199.3 205.3 200 204.4 201.6 205.5 203.1 208.4 203 209.4 191.6 211.1 192 210.3 190.7 210.7 191.1 211.6 188.9 213 188 214.7 182.8 220.5 178.7 223.6 179.6 221.8 179.1 221.4 177.4 225 172.9 226.7 172.5 225.8 173.4 222.3 172.9 222.3 171.3 226.7 167.5 224.5 166.4 226.2 163 229.3 162.6 230.9 163.1 232.5 161.7 234.3 161.3 237.9 160.4 237 157.3 239.2 157.7 239.7 161.3 238.8 160.9 239.6 159.1 242.6 157.2 242.6 154.6 247.7 154.1 251.3 154 249.8 153.1 249.6 152.3 250.3 152.4 251.3 153.2 249.9 154.1 252.2 153.4 259.5 153.7 262 152.8 261.5 151.9 263.3 151 262.9 151 263.3 151.8 263.9 153.7 269.5 152.4 268.7 152.8 270 153.6 270 153.2 271.8 151.7 272.3 151.1 274.2 149.4 274.1 148.9 276zM236.2 172.4 237.1 173.2 235.8 172.7 235.3 171.5 235.1 172.5 235.7 173.7 234.9 174 233 173.2 233.4 174.6 235.3 175.7 235.7 176.8 234.9 176.4 234 178.6 234 177.2 233 177.7 233 177.2 232.6 177.7 232.2 177.2 232.2 176.8 233.5 176.8 233 175.9 232.2 176.4 230.8 175.5 231.3 176.8 230 176 227.7 173.2 225.1 171.2 225.3 170 227.3 169.2 228.2 167.4 227.7 167.9 228.6 168.8 230.6 169 231.3 169.7 231.7 169.7 231.8 168.6 233.3 168.7 234 169.2 233.8 170.4 236.6 171 238 172.4 236.2 171.9zM220.6 167.2 223.3 171 223.6 172.7 222.7 173.1 221 172.6 219.2 167.4 218.8 168.6 219.2 169.7 216 168.6 215.7 167.4 217 163.9 219.5 164.9zM265.1 165.2 267 161.2 267.4 162.1 267 163.6 262.5 171 261.1 171.5 262.3 168.2 261.6 167 263.9 166.7zM265.6 158.1 266.9 156.9 267.3 157.1 264.3 164.3 256.7 166.1 263 161.7 263.8 158.1 264.8 158.5 265.6 156.8zM271.4 151.8 272.1 151.7 272.1 152.1 269.7 156.9 268.7 160.5 267.4 160.3 268.1 160.1 267.8 158.3 269 156.8 269.6 153.6zM268.7 145.6 270.4 145.3 269.4 146.8 266.6 149.2 265.1 149 261.6 153.2 258.5 154.5 256.3 156.3 255.2 155.5 257.2 151.2 258.2 146.6 259.3 147.1 260.3 146.1 260 142.9 260.6 141.5 261.6 141.5 263.8 143.8 265 144.4 265.6 146.5zM255 170.7 256 171.6 255.9 172.5 253.8 171.7 253.2 169.6zM255.8 166.7 256.7 167.3 256.3 168 254.9 168.6 252.6 167 253 166.5z","other":"M-6 -6 276 -6 276 118.7 270.9 120 265.6 119.8 264.7 121.2 263.6 121.6 261 120.6 260.7 118.3 260 117.3 258.7 117 253.6 120.4 252.4 119.3 250.7 114.6 248.7 112.7 244.8 113.5 242.2 112.9 235.2 107.6 231.2 106.7 230.3 105.8 230.1 104.4 232.3 101.3 232.3 100 231.6 99.1 229.1 98.5 225.8 99.7 224.4 99 222.2 96.4 216.7 96 213.3 93.8 209.8 96.8 208.4 96.4 208.1 94.6 209.4 91.6 209.6 88.3 208.8 87.1 208.9 85 207.5 81.9 209 79.8 207.1 74.2 206.1 73.3 202 72.7 201.2 71.9 200.2 65.8 201.4 63.6 203.5 55.6 204.2 54.8 205.4 54.7 208 57.3 209.4 57.3 210.2 56.6 211.3 53.3 213.8 49.1 214.5 45.9 217.4 44.1 217.9 43.3 217.3 42.5 213.4 42.4 212.4 40.6 209.3 37.9 208.1 37.9 207.1 39.1 205.6 38.8 203.7 36.1 197.6 34.1 197 34.5 196.7 36 195.7 36.5 186.4 38.8 182.5 38.7 180.7 37.4 180.4 35 179.1 32.7 177 31.5 174.5 30.9 171 30.5 165.9 30.9 163.4 33.7 160.3 34.2 157.8 33.9 156.4 35.5 149.9 28.9 147.7 28 145.8 26.4 136.7 25.4 136 24.4 135.2 19.2 131.7 16.6 128.6 11.5 126.2 11.4 123.2 9.5 121.2 5.5 119.9 5.4 116.8 7.8 115 12 113.9 12.8 111 11.9 110.1 12.8 104.8 14.2 99.6 16.9 96.6 19.2 94 18.2 92.4 18.6 91.8 21.5 90.2 22.8 87.7 23.7 89.6 32.3 89.4 34.2 86.2 36 83.2 39.7 81.4 41.1 78.9 41.6 75.5 40.8 74.1 41.8 71.8 39.9 65 45.9 57.9 49.7 52 47 51.2 46.1 50.7 43.4 51.5 40.7 49.7 40.7 44.1 42.5 41.4 42.8 37.3 47.5 36.3 53.3 34.8 57.2 34.8 60 33.1 61.3 30.4 59.6 28.9 57.3 27.1 56.9 25.1 55.1 22.4 51.4 18 47.7 12.8 42.4 9.1 44.4 6.3 48.8 6.3 53.3 4.2 56.1 2.3 56.3 -0.2 54.1 -2.5 50.4 -3.1 46.3 -6 43.9zM-6 276 -6 173.2 -3.8 172.8 -1.5 171.1 -0.6 171.4 2.6 175.5 8.3 176.8 13.7 181.5 14.7 181.7 17.2 180.8 16.5 179 16.7 177.5 19.8 176.1 20 172.7 21.8 169.4 24.5 169.3 26.6 167.9 32.7 165.9 36.5 165.4 39.5 162.1 41.8 161.9 43.8 163.1 48.4 164 50.2 166.4 52.7 166 53.9 166.5 55 167.2 57.7 171.2 59.7 172.2 61.1 174.3 65.2 174.8 67.8 178.8 74.9 181.5 75.8 182.4 75.3 184.2 71.1 189.6 68 191.2 66.3 190.9 64.7 189.7 63.4 192.2 59.6 194.6 59.2 195.8 61.3 197.1 63.9 197.7 73.2 197.5 75.6 199.9 80.1 202.3 80.6 204.9 80.1 205.8 78.6 206.3 78.5 210.6 80.7 211.7 86.5 210.2 89.1 210.1 94.9 213.1 94.7 215.7 95.5 216.9 98 218.5 98.5 219.5 97.2 220.1 97.6 224.8 96.7 225.5 92.6 225.6 91.6 227.4 86.6 230.4 84.9 233.1 88.9 234.3 88.2 238.1 83.7 241 79.8 242.4 78.4 244.1 75.7 250 73.5 249.3 71.3 250.4 68.7 250.3 62.8 247.2 60.5 244.9 58 245.1 55 246.9 53.8 245 50.7 243.6 44.7 244.8 42.9 246.9 41.6 247.1 37.2 245.2 35.8 245.2 35.6 247.1 36.9 250.5 40.4 253.1 41.2 256.4 41.9 257.3 41.6 258.1 39.7 258.9 38.3 262.7 37.1 262.5 32.7 264.1 30.7 266.6 27.3 268.3 25.9 270 28.8 270.4 30 272.4 34 274.9 36.8 274.2 41.6 276z","rivers":"M198.5 205 197.2 206 195.5 205.9 188.6 200.7 183.3 202.9 184.1 198.9 182.9 197.7 180.2 197.5 180.1 194 177.9 192.5 176.8 188.9 174.4 186.2 174 183.8 173.2 183.4 169.8 184.3 167.6 181.3 167.8 178.4 164.7 177.8 163 173.3 160.4 171.8 161 166.8 159.1 165.4 159.4 163.7 158.4 162.7 159.5 159.4 156.2 156.8 155.1 154.2 148.9 152 144.4 149.1 133 148.1 130.5 145.8 127.8 139.4 123.8 139.8 122.3 142.5 119.8 142.1 118 140.5 118.9 138.7 117.6 134.9 115.5 133 113.8 137.3 113.1 137.1 109.8 131.3 104 126.7 98.4 120.2 95.6 119.4 96.7 117.3 96.4 116.1 94.4 114.1 92.6 114.3 88.1 109.7 87.8 107.9 85.7 107.4 77.8 100.5 77.4 99.2 76.2 99.7 74.5 98.4 74.3 97 62.3 87.2 59.2 83.2 58 83.6 56.5 81 52 76.9 32.6 60.7 30.4 59.6 28.9 57.3 27.1 56.9 8.8 38.3 7.5 38.3 4.5 35.1 -6 28.2M249.7 -6 252.8 -3 257.6 -0.2 258 1.6 259.4 2 266.1 8.2 272 10.5 273.1 15 276 17.1M-6 84.1 -3.2 85.5 -2.2 89 0.1 91.2 0.8 95 3.1 96.4 6.1 101.3 8.8 111 12.5 115.7 19.5 117 23.8 123.1 33.1 125.7 34.7 127.3 36 127.1 38.8 130 42.7 131.3 46.2 135.7 46.7 138.5 49.4 140.2 50.3 141.7 53.8 142.9 55.2 144.7 59.5 145.5 63.7 150.1 66.5 151.3 69 153.6 69.3 154.6 70.4 154.9 71.8 154 73.1 156.3 74.3 155.9 76 157.1 78.3 157.1 81.9 154.9 87.7 157 92.2 157.2 95.2 161.8 100.6 167.4 106.5 171.6 106.9 172.8 106.2 174.6 108.4 175 110.4 174.2 113.6 174.1 116.7 172.2 120.7 171.7 123 170.5 123.4 169.5 122.1 168.1 122.3 160.6 119.4 155.9 120.7 151.2 119.2 148.3 119.4 146.9 123.1 143.9 123 141.6M24.9 231 25.3 232.9 29.3 235.3 31.1 237.9 33.5 239.1 34.5 241.9 36.2 243.2 42.3 244.8 46.1 244.8 53.3 242.9 57.1 242.8 58 245.7 56.4 248.6 57.1 250.6 67.2 252.6 74.5 256.2 75.3 258.3 74.3 259.7 69.4 263.1 66.9 267 64.3 267.6 62.3 269.1 63.7 271.6 71.7 274.9 77.7 276M159.5 33.6 164.7 42.7 166.8 45 176.1 47.7 178.1 49.8 179.2 49.4 180.9 50 184.8 52.2 192.5 58.4 193.7 57.3 195 57.4 213.1 69.6 227 73.5 228.5 73.2 232 69.8 232.4 70.4 233.3 70 235.1 68.2 237.6 67.4 240 67.8 241.1 70.6 247 71.2 247.8 69.5 252.9 66.7 254.3 64.4 259.2 60 264.3 62.6 264.9 61.1 268.1 58.5 271 52.6 272.6 51.4 276 51.1"},"centre":{"vn":"M151.1 276 151.8 275.4 157 274.2 161.8 274.3 162.7 273.4 162 270.3 164.9 267.1 165.9 262.1 166.6 261.4 168.1 261.9 168.9 256.2 167.2 253.8 162.5 250.1 161.4 244.5 160 244.2 156.5 244.7 155 243.8 154.4 238.8 153.3 238.2 152.2 238.6 150.8 236.5 149.9 237 147.7 236.6 145.8 238.2 144.8 237.6 140.4 230 136.3 227.6 134.1 225.4 133 219.5 127.7 216.1 126.7 214.9 126.8 213.2 128.9 208.8 129.8 207.9 133.8 208.2 139.5 204.6 145.3 203 148.7 197.7 150.9 195.5 149.9 193.2 150.2 190.7 148.2 190.4 141.3 191.8 139 191.1 134.1 185.7 132 184.4 128.4 183.5 126.2 181.9 125 179.9 124.1 175.5 123.4 174.5 118.9 172.2 111.9 171.8 111 171.2 110.1 168 106.2 165.4 104.4 162.2 102.8 162.4 103.7 158.4 103.4 155.1 102 153 100.1 152.9 98 157.1 94.8 159.3 94.3 161.3 93.5 161.9 92.1 162.2 91.9 161 89.4 161.4 87.6 160 85.2 154.6 85.1 148.4 79.6 146.2 77.7 144.2 77 142.4 76.5 140.4 76.4 116.8 75.6 115.4 73.4 117.5 68.5 116.1 66.4 114.9 64.4 110.7 65 109 64.2 107.6 60.3 104 57.8 100.1 57.4 98 58.1 96 56.3 93.8 56 91.2 54 90.9 51.8 93.9 50.9 94.5 49.7 94.4 47.9 93.5 34.3 82.3 20.1 65.6 15.3 62 10.1 59.4 8.3 55 3.6 47.4 0.4 44.7 -0.5 41.9 0.5 35.7 -0.8 33.1 -3.3 31.5 -4.4 27.9 -6 26.8 -6 -6 28.6 -5.8 29.4 -2.7 30.9 -0.2 41.7 10.2 41.9 11.2 40.4 11.6 41.2 12.1 46.3 11 47.5 11.5 51.8 14.7 54.9 16 57.2 18.9 61 21.9 61.7 23.3 59.2 23.1 57.8 24.5 58.9 25 60.6 24.5 60.1 25.5 61.1 27.9 61.4 25.9 62.2 24.5 63.1 24.1 65 24.5 67.3 22.2 68.3 22.6 67.3 25 67.7 26.8 75.7 36.8 75.7 37.4 72.4 39.6 70 42.4 68.4 42.4 68.4 43 69.6 43.7 69 45.3 70.4 49.1 71.2 53.3 73.5 56.4 72.8 57.1 71.9 57 69.4 56 68.4 54 63.4 51.9 56.6 50.9 56.1 51.4 59.1 52.9 67.8 54.7 67.8 55.3 65.7 54.7 64.1 55.7 63.8 57.4 66.2 58.7 65 57 66.9 56.2 69.5 56.6 74 58.7 83 72.1 84.7 76.1 86.6 77.4 95.2 87.1 123.7 107.3 125 109.7 124.5 113 131.2 121.2 129.5 122.9 126.1 124.8 126.1 125.4 130.1 124.8 130 123.4 132.3 122.1 145.5 133.1 155.3 140 164 147.6 166.5 148.3 166.5 148.9 163.3 148 153.3 142.9 150.8 143.3 157.1 146.7 159.9 147.5 160.7 148.7 162.5 148.8 163.2 148.3 164.5 149.8 166.5 150.6 166.5 151.2 164.8 150.6 164.3 151.8 168.8 151.2 167.6 153.7 168.5 154.4 168.8 155.7 169.6 155.7 171.6 153.8 172.8 155.7 176.6 158.5 178.5 161.4 180 162.4 181.8 164.7 183.4 165.3 182.2 165.8 179.7 164.7 181 170.7 183.9 172.5 185.9 172.2 186.7 173.6 187.5 173.1 187.9 173.6 191.3 170.8 190.6 167.5 191.9 167.2 195.6 169.8 197.3 170.3 198.9 168.3 199.9 168 200.7 171.4 204.1 177 200.6 174.9 200.1 176.1 200.8 177.1 203.8 177.8 205.2 177.5 208.7 178.6 213.1 178.6 209 182.4 208 184.2 208 186.6 211.3 188.9 212.5 190.5 214.4 188.9 215 189 215.9 192.1 215.4 193.3 212.5 196.1 216.8 194.5 217.6 195.5 216.2 190.2 216.6 186.3 214.8 186 216.4 183.1 217.2 183.5 218.1 183.1 219.8 184.5 222.3 185.3 223.5 183.7 224.9 185.3 222.4 187.2 222.1 188.2 221.3 187.6 219.2 188 218.1 187.6 217.5 190.6 219.2 196.7 221.4 200 228.1 204.7 228.8 206.1 227.1 207 227.7 207.2 229.3 206 229.9 206.1 231.1 212.3 233.6 217.1 247 234.9 249.2 236.1 252.3 235.8 251 238.7 250.1 237.5 247.9 238.4 247.2 239.3 247.8 240.9 249.8 242.3 251.1 241.5 252.9 238.1 253.4 238.1 254 241.8 259.6 246.5 259.7 249.4 260.2 250.4 259.6 251.6 260.2 251.6 260.8 249.9 263.6 249.9 263.6 249.3 261.5 249 260.9 247.6 261.5 245.9 263 244.8 261.8 243.1 263 243.5 264.1 243.1 265 247.6 268.6 250.7 268.4 253.7 268.9 254.8 272 257.2 274.2 257.7 272.7 259.6 270.3 259.9 270.3 260.6 271.6 260.6 272 261.7 270.8 261.1 269.8 265.6 268.5 265 267.4 265.1 266.9 265.7 267.5 266.7 269.4 266.6 269.8 268.4 270.3 268.4 270.8 266.2 271.6 273.5 272.3 276z","other":"M276 -6 276 1.7 274.3 -0.2 268.8 -2.2 263.6 -6zM-6 26.8 -4.4 27.9 -3.3 31.5 -0.8 33.1 0.5 35.7 -0.5 41.9 0.4 44.7 3.6 47.4 8.3 55 10.1 59.4 18 63.7 34.3 82.3 47.9 93.5 50.9 94.5 53 92.8 54 90.9 56 91.2 56.3 93.8 58.1 96 57.4 98 57.8 100.1 60.3 104 64.2 107.6 65 109 64.4 110.7 66.4 114.9 68.5 116.1 73.4 117.5 75.6 115.4 76.4 116.8 76.5 140.4 77 142.4 77.7 144.2 79.6 146.2 85.1 148.4 85.2 154.6 87.6 160 89.4 161.4 91.9 161 92.1 162.2 93.5 161.9 94.3 161.3 94.8 159.3 98 157.1 100.1 152.9 102 153 103.4 155.1 103.7 158.4 102.8 162.4 104.4 162.2 106.2 165.4 110.1 168 111 171.2 111.9 171.8 118.9 172.2 123.4 174.5 124.1 175.5 125 179.9 126.2 181.9 128.4 183.5 132 184.4 134.1 185.7 139 191.1 141.3 191.8 148.2 190.4 150.2 190.7 149.9 193.2 150.9 195.5 148.7 197.7 145.3 203 139.5 204.6 133.8 208.2 129.8 207.9 128.9 208.8 126.8 213.2 126.7 214.9 127.7 216.1 133 219.5 134.1 225.4 136.3 227.6 140.4 230 144.8 237.6 145.8 238.2 147.7 236.6 149.9 237 150.8 236.5 152.2 238.6 153.3 238.2 154.4 238.8 155 243.8 156.5 244.7 160 244.2 161.4 244.5 162.5 250.1 168.3 255.1 168.9 257.5 168.3 261.4 167.5 262 166.6 261.4 165.9 262.1 164.9 267.1 162 270.3 162.8 272.5 162.7 273.4 161.8 274.3 157 274.2 151.8 275.4 151.1 276 -5.1 276 -6 274.7 -6 257.8 -2.9 255.9 -2.9 253.7 -3.4 251.6 -6 251.9 -6 246 -3.9 245.3 0.4 242.2 1.3 235.5 3.3 230.5 4.2 226.3 3.3 222.4 1.1 219.2 -2.6 216.9 -6 215.7zM-6 276 -6 215.7 -2.6 216.9 1.1 219.2 3.3 222.4 4.2 226.3 3.3 230.5 1.3 235.5 0.4 242.2 -3.9 245.3 -6 246 -6 251.9 -3.4 251.6 -2.9 253.7 -2.9 255.9 -6 257.8 -6 274.7 -5.1 276z","rivers":"M-6 215.7 1 219.1 3.3 222.4 4.1 226.2 1.3 235.5 0.3 242.2 -3.9 245.3 -6 245.9M-6 251.9 -0.5 251 2.7 252 4.9 254.6 6.2 259.4 13.6 267.3M14.9 268.3 19.1 270.7 20.9 274.8 22.2 276M144.6 187.6 140.7 181.5 135.8 177.7 130.9 178.1 127.2 179.7 121.7 184.2 122.4 185.8 118.9 184.8 119.3 187.6 117.5 192.5 110.2 197.8 106.3 206.3 104.3 207.8 96.6 208.8 94.8 210 95.9 214.3 94.8 218.5 99.2 219.3 99.4 222.4 100.9 221.9 100.6 223.2 98.1 224.8 97.5 226 97 233.3 98.7 235.3 94.2 237.3 92.5 241.5 94.3 240.9 96.4 245.1 96.5 247.5 90.9 251.1 92.4 254.8 95.3 256.1 96.6 257.8 100.9 269.5 104.5 271.1 105.4 272.3 103.9 273.9 104.2 276"},"south":{"vn":"M273.7 -6 272.7 -5.1 271.2 -6 269.7 -6 269.1 -4.5 271.4 -2.5 272.4 -3.1 272.7 -2.5 272.7 -1.6 271.8 -1.5 272.1 0.1 271.1 -0.5 270.4 0.1 272.1 3.1 272.6 -0.2 273.3 0.5 272.7 8 273.7 10.3 276 13.1 276 31.5 275.4 30.8 274.4 30.6 276 28.8 275.4 24.2 274.7 24.1 274.2 25.2 269.2 29.3 267.8 31.2 267.6 33.9 268.1 36.2 269.5 34.5 269.1 33.9 270 34.1 269.1 36.3 269.4 37.2 272.3 39.3 272.3 41.5 274.6 43.2 274 43.7 274.4 44 274 44.3 273.5 43.7 272.3 45.3 271.5 45.1 268.4 41.1 266.9 40.2 265.5 40.4 266.2 41.4 265.2 41.1 266.5 43 267.4 42.9 268.3 46.2 269.6 47.5 269.3 48.2 268.5 48 267.8 49.6 266.5 48.9 268.1 50.2 267.8 51 268.8 52.5 267.5 52.2 266.9 52.9 267.8 52.9 268.9 55.5 268.1 56.9 268.6 59.7 270 62.2 271.8 63.7 270.8 66.4 272.1 68.3 270.5 68.5 269.5 67.6 268.8 67.9 268.5 61.4 267 56.5 266.5 55.9 265.9 56.8 266.8 58.3 266.5 59.6 268.1 61.9 268 63.2 266.7 65.9 264.6 67.1 264.1 68.6 264.3 70.2 265.9 70.5 267.8 68.4 267.3 70.4 267.8 71.2 267.8 72.4 269.7 74.8 269.1 75.8 268.8 75.4 268.5 75.8 266.9 79.4 264.6 82.7 261.3 82 260.1 79.4 259 79.7 260 81.2 260 84 258.6 84 259.4 85.2 259.4 87.2 259.1 92.3 258.3 93.5 255.7 95.1 252 94 250.3 94.1 247.3 96.1 245.1 101.2 241.6 100.7 237.9 101.4 235.7 102.6 234.2 104.1 232.8 107.4 227.9 108.8 226.8 112.1 225.3 112.6 224.6 114.1 223.9 112.6 222.6 112.2 215.4 113.8 213.4 116.2 210.2 124.3 206.4 123.2 201.9 124.6 199.2 126.6 190.2 130.4 186.9 133.7 183 135.3 178.4 136 175.5 139.6 171.6 138.3 172.8 136.9 170.9 134.9 169.3 134.7 169 135.4 167.4 134.3 165.3 134.7 165.3 133.4 164 135 163.7 133.7 162.1 134.7 162.2 134 164 132.6 164 128.7 163 127.2 163.7 127.5 163.6 126.3 161.7 124.3 161.5 125 163 126.4 162.6 128.2 163.7 128.8 163 130.8 163.8 131.7 163.4 132.2 162.4 131.5 162.7 131.1 162.1 130.4 162.1 127.8 161.7 130.6 163 132.8 160.7 135.4 160.7 133.7 159.5 131.5 159.8 129 156.8 126.5 154.3 127.6 152.2 125.2 151.6 124.9 150.4 125.5 149.9 126.2 151 127.1 151.6 128.8 149.7 132.7 147.6 133.6 146.8 133.6 146 132.8 146.6 134.1 143.1 136.7 142.4 134.4 142.5 136.1 143.2 137 144.1 136.8 146 135 146.7 137 147.7 137 148.8 135.3 150.1 135.3 152.4 138.9 152.5 144.1 151.8 144.5 148.3 143.9 143.3 143.9 134.9 142.6 137.6 144.3 149.1 148.2 152.8 150.2 152.5 152.4 149.9 155.1 148.3 155.4 148.5 154.1 148 153.7 146.6 156.2 147.4 157.1 146.4 157.4 145.7 158.9 142.9 158.6 137.1 154.9 131.9 147.2 130.5 145.8 128.6 145.2 131.4 147.4 132.3 150.2 136.8 156 148 162.6 146.6 165.2 147 164.1 146.4 163.3 146.1 164.9 145.2 166 143.9 166.4 142.7 166.2 138.8 162.2 133.6 158.9 121.6 146.8 120.5 146.2 120.1 146.5 122.2 148.4 123.9 152 128.2 155.3 133.3 160.9 137.4 164.3 138.6 165.6 140.4 169.6 142.2 170.2 142.4 172.1 141.6 176.1 140.7 177.5 138.5 179.2 136.9 179 135.7 179.6 133.7 179.6 126.7 175.3 117.8 167.1 111.5 159.8 106 157.3 118.2 169.7 119.1 172.4 124.1 179.6 124.8 183 58.8 183 60 170.2 61.8 164.8 65.5 164.7 66.6 163 70.6 160.4 72.3 164.5 71.7 158.9 67.1 153.3 65.2 152.6 62.2 153 60.6 152.2 57.6 147.8 56 146.9 52.9 147.1 51.7 148.2 50.2 150.8 48.4 150.8 47.3 145.2 45.5 143.6 44.8 144.2 44.7 142.9 43 140 44.2 139.1 44.2 137.7 41.6 139.6 40.8 139.5 40.7 137.6 42.2 137.7 42.7 137.3 46.2 132.5 49 132.2 56.1 133.1 59.9 132.3 63.6 127.6 70.1 123.6 70.1 122 67.6 117.1 67.4 115.5 68.3 114 70.6 112.4 71.6 114 79 115.5 82.1 117.6 84 114.3 86.5 111.7 89.5 112.7 97.1 111.2 101.6 109 102.9 109.2 106.2 113.8 107.4 116.8 108.9 118.1 110.3 117.6 111.4 114.9 115.5 118.5 118.1 119.6 122.1 120.2 123.2 121.1 121.9 116.5 120.5 113.5 121 111.4 123.7 111 122.4 107.4 120.9 105.9 120.1 105.8 118.8 107.2 114.2 101.5 109.9 99.5 109.3 97.1 107.3 96.1 108.7 89.4 107.9 84.3 107.1 83.4 105.3 82.9 104.7 81.8 104.8 80.9 107.1 78.5 111.5 79.2 115.4 73.1 125.4 75.3 127.8 77.6 131.6 76.9 135 78.3 135.5 77.5 133.7 73.5 135.7 68.6 133.5 63.6 135.8 63.3 137.3 64.4 138.8 63.4 145.2 64 144.8 63.3 148.2 63.5 150.5 59.6 151.6 59 156.7 59.1 160.3 58.2 169.8 48.9 172.6 47.5 177.8 46.4 178.9 47.1 181.3 50 182.4 50 184 47.8 186.4 46.6 189.1 39.5 188.7 37.8 189.6 34.7 188.1 23.9 185.8 20.5 184.8 16.6 185.5 14.9 184.5 13.3 191.5 -3.3 191.6 -6zM124.8 175.8 128.6 177.5 128.6 178.7 127.6 179.9 126.4 179.9 126.6 178.7 124.1 176.3 123.8 176.6 125.5 178.5 124.1 178.2 120.7 173.4 120.3 171.5 118.9 169.4 119.2 169.1zM149.3 144.9 150.8 145.4 151 146 149.3 146.9 147.7 145.7 141.4 144.5 139.1 143.6 142.8 144.5zM170.7 135.5 172.6 137.4 171.6 137 170.4 139 169 139.6 166.6 142.3 166 139.9 166.3 139 169.6 137.8zM159.4 136.7 161.4 138.3 157.1 140 156.5 137.4 157.5 134.7 157.1 135.4 156.7 134.3 157.1 133.6 159 132.8 160 133.5 158.8 137.4zM158.1 132.3 157.8 132.8 157.2 132.6 155.5 130.8 156.3 128.7 155.5 127.5 157.1 127.4 159.1 129.1 158.8 131.8 157.5 130.2zM273.7 51.6 274.7 52.5 273.7 53.2 272.8 52.7 272.4 52.9 272.7 53.2 270.9 52.6 269.8 51.2 271.1 51.6 271.1 50.9zM138.5 162.9 140.7 165.4 140.3 165.9 139.6 165.5 138.4 163.7 134.9 160.6zM23 140 23.2 145.8 20.7 153.1 21.6 154.4 21.6 157.3 19.6 156.2 17.1 146.5 16.1 145 12.3 142.4 11.8 140 15.9 140.2 17.6 138.5 18.3 136.6 19.3 136.1zM156.5 135.7 153.9 135.4 154.5 135.4 155.8 137.1 155.7 138 154.8 138.3 153.7 137.9 151.5 135.5 150.8 133.6 150.6 130.6 151.9 130.2 152.2 129 150.6 125.9 152.2 126 153.3 127.4 155.2 128.4 155.5 129.8 154.8 131 156.4 133.1 154.8 134.1 156 134.4zM255.3 131.3 256.1 132 256.2 133.7 254.7 133.1 254.7 131.7zM276 34.9 273 32.8 273.4 32.1 276 32.2z","other":"M191.6 -6 191.5 -3.3 184.5 13.3 185.5 14.9 184.8 16.6 185.8 20.5 188.1 23.9 189.6 34.7 188.7 37.8 189.1 39.5 186.4 46.6 184 47.8 182.4 50 181.3 50 178.9 47.1 177.8 46.4 172.6 47.5 169.8 48.9 160.3 58.2 156.7 59.1 151.6 59 150.5 59.6 148.2 63.5 144.8 63.3 145.2 64 138.8 63.4 137.3 64.4 135.8 63.3 133.5 63.6 135.7 68.6 133.7 73.5 135.5 77.5 135 78.3 131.6 76.9 127.8 77.6 125.4 75.3 115.4 73.1 111.5 79.2 107.1 78.5 104.8 80.9 104.7 81.8 105.3 82.9 107.1 83.4 107.9 84.3 108.7 89.4 107.3 96.1 109.3 97.1 109.9 99.5 114.2 101.5 118.8 107.2 120.1 105.8 120.9 105.9 122.4 107.4 123.7 111 121 111.4 120.5 113.5 121.9 116.5 123.2 121.1 122.1 120.2 118.1 119.6 115.5 118.5 111.4 114.9 110.3 117.6 108.9 118.1 107.4 116.8 106.2 113.8 103.7 110.1 102.9 109.2 101.6 109 97.1 111.2 89.5 112.7 86.5 111.7 84 114.3 82.1 117.6 79 115.5 71.6 114 70.6 112.4 68.3 114 67.4 115.5 67.6 117.1 70.1 122 70.1 123.6 68.9 124.7 64.2 127 59.9 132.3 58.2 133 49 132.2 46.2 132.5 42.2 137.7 40.7 137.6 39.8 136.4 38.6 136.4 36.5 134.4 33.3 134.7 32.8 131.9 31.1 130.4 29.8 130.4 29 131.4 25.3 130.8 23.4 131.2 16.5 129.6 15.2 128.5 14.1 126.2 13.1 126.2 12.7 124.3 12.4 125.2 12.7 128 12.2 129.7 9.9 132 7.4 132 6.5 131.1 4.9 130.8 6.8 132.5 7 133.4 6 133.7 1.8 134.1 1.1 133.8 0.3 131.1 -1.4 131.2 -2.7 129.2 -3.6 128.5 -4.4 128.8 -4.5 127.3 -3.4 126.5 -1.6 123 4.2 122.3 3.5 121.5 3.7 119.4 5.4 118 5.9 116.8 5.9 114.9 2.8 108.5 3.6 106.9 0.2 105.6 -0.8 103.5 -3.2 102.1 -4.6 102 -4.3 102.3 -4.9 103.3 -6 102.7 -6 103.5 -6 -6zM8.8 133.1 9.8 134.6 9.3 136 7.8 135.9 6.9 134.7 7.8 134.1 7.7 133.1z","rivers":"M4.2 3.6 7.1 4.4 26.6 24 29.9 28.2M29.9 28.2 25.4 28.6M29.9 28.2 39.9 36.8 43.2 37.3 44.6 39.7 48 42.2 48.4 43.9M29.9 28.2 29.9 28.2M48.5 43.9 51.8 46.7 53.7 50.8 56.6 49.8 59.5 53.2 59.5 54.3 56.3 58.4 56.6 61.2 58.2 62.9 58.4 65.5 56.8 68.3 60 77.4 63.8 80.2 64.6 81.7M232.4 -6 232.7 -3.7 233.8 -3.4 233.8 -4.5 235.8 -2.7 238.8 -1.7 239 0.1 240 0.5 240.2 2.5 241.9 3.7 242.2 5.5 246.2 7 245.2 8 247.2 8.3 247.2 9.4 249.1 9.9 252 13.2 254.4 13.2 254.7 11.1 257.2 12.9 261 12.7 262.3 11.9 265.8 14.9 269.5 13.5 273.7 10.3M-6 2.3 -3.4 2.8 -1.1 1.6M-6 46.9 -3.6 48 -1.9 47.4 2 48 8.6 43.2 10.7 38.2 15.1 37.3 16.7 34.9 21.6 30.4 25.4 28.6M134.9 142.6 131.6 141.5 121.3 143.5M121.3 143.5 114.9 142.4 111.6 144M121.3 143.5 121.3 143.5M128.6 145.2 124.2 146.3 121.3 143.5M213.4 67.6 214.7 65.8 214.5 65 211.4 61.8 210.9 59.9 209.6 59 209.6 57.8 210.2 56.1 212.8 55.1 215.7 55.3 216.4 52.5 212.5 48.2 209.3 47.4 207.5 45.2 207.2 41.8 209.2 41.4 210.5 38.9 206 36.4 206 35.1 207.7 34.2 207.8 33.3 206.1 26.6 203.9 25.6 204 23.6 202.3 23.2 201.7 20.8 199.6 20.2 200.3 18.5 199.4 18.8 195.6 17.3 193.4 15 188.9 15.4 188.2 14.2 182.8 11.1 180.5 3M110.3 -6 110.5 -4.2 112.6 -1.6 113.2 2.5 116.2 5.6 116.9 7.4 116.7 12.7 112.7 23.4 115 28 115.5 33.5 114.6 37.1 116.5 41.2 117.1 45.6 116.5 47.7 114.7 49.4 106.4 50 95.8 47.8 94.2 48.1 92.6 50.9 93.5 55.4 91.9 59.5 89.6 61.7 88.8 65.2 86.5 66.4 83.5 65.2 75.7 65 74 66 72.7 68.8 66.6 69.8 66.1 71.3 67.9 73.2 64.4 77.2 64.6 81.5M64.5 81.6 64.6 81.7M64.6 81.7 64.6 81.7M64.6 81.7 66.2 83.4 74.4 87 79.2 90.9 80.8 98.8 78.2 102.5 76.2 108.8 77.2 117.3 78.4 119.2 81.9 119.6 83.5 121.2 85.4 129.1 91.5 132.4 94 135.9 97.1 137.8 100.9 138.5 105.1 142.4 113.9 144.1 120.4 146.3M64.6 81.7 64.8 83.2 64 84.7 64.6 86.9 69.3 88.7 67.6 91.8 69.6 94.8 69 99.2 70.3 101.5 70 110.7 70.9 112 72.3 112.3 71.6 114.7 72.1 117 71 118.8 73 121.7 73.4 123.7 77.1 125.5 79 130.2 82.9 131.7 83.8 135.4 87.9 137.9 98.6 150.6 106.9 157.5M-6 -2.8 -4.5 -3 -2.1 1.1 4.2 3.6M180.5 3 179.5 -0.6 177.1 -0.5 175.5 -3.1 174.6 -3.3 172.1 -0.7 169.3 -1.1 167.6 -0.5 163.8 -6"}};
+/* The outline of Vietnam for the small maps of the places off the trip (app.js), in px of COUNTRY_MAP in panels.js;
+   the islands of Hoàng Sa and Trường Sa lie outside its frame, as on the map of the trip. */
+var OUTLINE = "M86.5 136.9 86 135.3 87 134.1 85.6 133 85.3 131.9 87.5 131.4 88.7 128.2 87.5 127 87.3 126 86.1 125.8 86 124.9 84.1 124.7 82.1 122.4 81.9 121.3 80.8 120.4 81.3 119.1 84.2 118.2 85.3 116.8 85.2 115.9 83.1 115.9 80.6 114.2 80.1 112.8 77.8 112.2 76.2 110.5 76.1 108.8 74.5 110.4 73.4 110.1 72.9 107.9 71.4 106.8 71.1 101.7 70.7 102.1 69.4 101.6 67.8 98.8 67.5 97.2 65.9 97.6 60.3 92 58.8 91.2 57 88.4 57 86.7 54.9 83.4 54 83 53.3 83.8 52.2 83.1 52.2 82.3 51.3 82.3 50.2 81.4 50.2 80.5 48.9 79.2 49.4 77.2 50.3 76.7 49.4 75.4 43.2 73.9 40 71.3 38.7 71 36.3 69.2 35.5 69.2 34.6 68 31.9 67.3 30 66.2 31.6 64.8 32.9 64.4 33.7 63.3 32.3 60.3 33.7 60.7 35.8 59.9 36.9 60.7 38.2 60.2 40.1 61.5 41.8 61.4 42.7 59.6 44.7 58.6 44.9 57.7 43.9 57.4 44.3 56.8 45.8 55.7 46.9 55.5 47.1 54.2 46.2 53.3 46.3 52.7 44.9 52 42.4 52.1 42.8 50.1 41.2 49 37.8 48.6 39.2 47.2 39.9 47.5 40.7 47.1 41.8 45.4 39.9 44.6 39.3 43.6 38.3 43.5 36.6 41.7 33.7 40.6 29 42.4 28.5 44 27.8 44.3 27.9 45.1 27.3 45.3 25.8 44.1 24.5 43.8 23.7 42.8 22.3 43.2 18.7 42 17.1 39.4 16.2 38.9 15.2 37.4 15.2 36.5 13.9 36.1 15 35.3 15.7 33.1 14.6 33.5 16.5 31.1 16.1 28.7 14.6 29.2 13.9 27.1 13.1 29.5 11.5 29.9 10.6 26.1 8.9 25.3 9 24.3 4.7 20.8 3.4 18.5 4.9 18.3 5.4 17 7.3 15.1 7 14.3 8.3 12.8 9.5 13.2 9.8 13.9 10.6 13.6 14.3 15.4 15.4 17.3 17.4 18 17.6 17.1 19.1 16.3 19.1 15.3 20.7 14.3 21.7 12.5 23.1 13.3 23.8 15.1 24.7 15.7 26 12.8 26.9 12.3 31.7 16.8 32.7 13.6 33.6 12.4 36 11.9 36 13.2 37.5 14.1 40.8 11.8 41.4 12.2 43.1 12 45 10.4 44.6 7.9 45.6 7.4 45.7 6.7 46.7 6.9 48.6 5.7 50.8 5.3 52.5 3.6 55.8 6.8 56.2 8.3 58.3 8.6 60.8 10.7 63.1 9.6 65.1 9.6 66.2 10 67 11.5 70.1 10.9 70.6 10.4 72.5 11.5 73.3 11.3 74.3 12.3 75.2 12.4 73.5 15.7 72 15.5 71.2 17.9 71.4 19.3 72.8 19.9 73.3 21.2 73.1 25.1 74.3 24.5 77.2 25.9 78.6 25.7 78.5 27.5 81.1 29 82.7 28.9 83.8 30.8 85 30 86.2 31.1 90.4 29.9 93.7 32.5 92.8 33.2 92.5 31.9 91.7 31.8 91.3 32.5 91.2 31.9 91.1 32.4 90.3 32 90.6 32.9 90 33.7 88.2 34.1 88.3 34.7 87.5 35.5 86.5 34.6 86.6 35.4 84.9 34.9 85.3 35.6 84.1 35.8 84 36.3 83.9 37.1 84.4 37.2 83.9 38.7 84.2 39.6 81.7 40.1 81.5 41 79.5 40.6 80.8 39.4 79.8 39.9 79.3 39.5 79.2 40 78.9 39.5 79.1 40 78.4 39.7 78.9 40.4 78.5 40.8 76.2 40.1 77.6 41.4 76.5 41 76.4 41.8 75 40.7 75.7 40.4 75.4 39.6 73 39.7 73.6 39.9 73.2 39.9 73.5 40.6 74.7 40.9 74.5 41.8 73.8 41.8 74.5 42.3 74.6 43 74.1 43 75.5 45 74.9 44.4 73.3 44.6 73.9 45.2 72.9 45.7 72.1 45.2 72.7 46.2 71.1 47.1 72 47 72 48 71.1 48.7 72.2 48.5 71.7 49.6 72.2 51.1 70.7 50.6 71.5 50.9 71.8 51.8 68.9 52.1 65.8 55.5 64.7 55.9 64.7 54.9 64.4 55.9 63.5 55.4 62.4 56.5 62 58.6 61 58.9 61.9 59 61 59.7 60.3 61.7 59.9 61.5 60.3 61.9 60.2 64.3 59.6 64.6 60.1 66.5 59.1 67.2 59 69.1 57.6 69.8 57.1 71 57.5 72.2 58.7 73 58.1 73 58.3 73.4 59.3 74.1 59.2 76 59.7 74.7 60.4 77 64.8 81.9 64.5 82.2 65.6 82.1 67.2 83 68.4 84.1 67.8 84.6 68.3 84.6 68.4 85.2 68.6 84.6 69.8 84.3 69.7 85 71.1 86.9 69.8 88 70.7 90.6 67.5 89.7 69.7 90.3 69 90.5 69.4 91 69.5 90.6 70.8 91 72.8 94.3 74.8 96.4 80.2 100.2 80.3 101.3 81.6 102.8 80.6 103.6 81.8 103 88.2 107.9 85.3 107 87.6 107.9 88.2 108.3 87.8 108.5 88.7 108.4 88.7 109.3 89.2 108.9 91.4 111.1 90.7 111 91 112.1 92.3 112.6 92.9 112.1 92.8 111.5 94 112 94.5 111.6 95.3 113.3 94.6 112.9 94.7 113.3 97 113.6 96 114.6 96.9 115.8 97.4 115.5 96.9 116.9 97.8 116.8 97.3 115 97.6 114.4 98.9 114.5 98.7 115.4 97.9 115.3 98.1 117 99.8 118.5 99.6 118.9 100.2 118.8 100.9 120.8 103.4 124.2 104.4 124.3 103.5 125.3 103.9 125.6 104.6 124.8 105.7 126.4 105.7 127.3 106.5 127 106 126.6 106.6 125.7 107.5 127.9 108.5 128.5 107.7 128.9 107.7 129.9 107.1 130 107.7 130.5 107.8 130.1 109 134.8 110.6 136.7 110.2 139 112.9 145.6 111.9 145.3 112.7 146.1 113.3 148.9 114 149.6 113.9 151.4 113.4 151.5 113.1 149.4 112.6 150.7 113.2 151.1 112.7 152 113.8 154.9 112.5 153.4 114.5 155.9 114 156.8 113.4 156.4 113.9 156 113 155.6 112.8 157 114 157.6 113.8 158.5 113.2 158.5 113.8 159.5 114.1 158.6 114 161 116.4 164.4 116.3 165.4 115.9 165.5 116 164.9 114.9 165.8 115.7 167.8 116.5 168.4 116.2 169.7 115.5 169 115.4 167.9 115 168.6 114.5 168.3 115.2 167.5 114.8 166.2 112.4 168.5 112.4 170 113.1 169.5 112.9 170.4 114.6 172.4 113.8 173.1 112.1 171.4 111.5 171.7 113 173.8 112.4 174.4 112 174.2 112.7 175.4 112.1 175.5 112.7 176.3 112.6 177.7 113.6 179 113.3 179.8 113.8 180.4 112.7 180.3 112.6 178.2 111.7 176.7 112.4 178.8 111.3 180.1 111.3 181.1 112.4 180.5 112.4 181.8 113 182.5 111.3 185.1 109.5 184.1 109.9 185.5 109.4 185.5 109.3 188.6 108.5 189.1 106.7 188.8 105.8 189.4 105.1 191.1 102 191.5 101.1 193 99.5 193.5 98.5 195.2 97.8 194.6 95.5 195.1 93.8 198.5 92.6 198.1 91.1 198.6 86.3 201.5 83.6 202.3 82.6 203.4 81.4 203 81.8 202.5 81.2 201.9 79.4 201.8 79.4 201.4 78.3 201.8 79 201.1 79 199.9 78.2 198.5 78.9 200.9 78.4 200.8 78.3 199.6 78.6 201.2 77.9 202.1 77.6 200 76.6 199.2 75.8 199.5 75.2 198.8 74.6 198.9 75 199.9 74.4 201.2 73.2 201.2 73.4 201.6 72.2 202.5 72 201.7 72 202.3 72.5 202.5 73.2 201.9 73.7 202.6 74.5 202 75.2 203.2 75.2 204.8 69.6 204.4 75.3 206.8 74.4 208.4 73.9 208.5 73.8 207.9 73.1 209.6 70.3 208.3 68.6 205.8 67.6 205.2 70.2 208.7 73.8 210.8 73.4 211.6 73.3 211 72.9 211.9 72.1 212 64.8 205.6 71.9 213.2 71.4 215.6 70.5 216.2 69 216.2 66.9 214.9 62 209.9 60.3 209.1 64.2 213.1 66.1 216.3 66.3 217.4 65.7 218.2 66.1 218.9 56 222.6 54 224.6 52.5 227.5 50.5 228.6 49.3 230.2 45.5 231.3 43.4 230.7 45.2 229.8 45.1 229.2 46.3 229.5 47.1 228.9 45.4 229 46.6 228.5 46.5 227.5 44.9 228.1 44.2 227.4 44.8 225.6 45.5 213.3 46 211.5 47.2 211.5 48.5 210.3 49 210.2 49.4 211.4 49.3 210 47.7 207.8 46.2 207.7 44.2 205.7 43.2 205.8 42.3 207 41.7 207 41.4 205.2 40.6 204.9 40 203.5 40.4 202.8 39.5 203.4 39.3 202.8 39.9 202.7 41 201.1 45.5 201.1 46.6 199.5 48.7 198.2 47.9 195.6 48.9 194.7 52.6 196.3 54 194.4 55 194.8 59.3 193.6 61.2 196.5 62 195.4 63.4 196.6 65.8 197.4 65 195 65.1 194.3 66 194.2 65.5 193 64.8 192.5 64.4 193 60.7 189.4 61.1 187 60.8 185.4 59.9 184.8 60.1 184.2 60.9 183.7 62.1 184 63.3 182 66.5 182.7 67.3 183.4 69.6 183.7 69.2 182.1 69.8 180.6 69.1 178.9 73.9 178.9 75 177.4 77.7 177.2 81.7 173.8 83.4 173.4 84.9 174.6 86.4 173.2 87.2 169.1 85.5 162.7 87.8 157.4 87.8 155.4 85.3 151 85.1 147.9 83.9 147.7 83.4 145.8 83.9 142.4 84.4 141.2 85.6 140.8zM33.6 203.5 33.6 205.4 32.8 207.8 33.1 209.1 32.5 208.8 31.6 205.6 30.1 204.3 29.9 203.5 31.3 203.6 32.4 202.3zM76.5 202.1 75.7 202.1 76.3 202.6 76 203 74.9 202.1 74.6 200.5 75.2 200 74.6 199 76.1 199.8 76.5 201.3 76 201.6zM79.7 43.1 79 43.3 79.6 44.1 79.2 44.6 77.1 42.5 77.8 41.9 79 42.2zM87.4 36.7 85.7 38.5 84.2 39.1 85.5 35.8 86.7 36.9z";
 
-var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_0-480.jpg 480w, img/saigon_0-960.jpg 960w, img/saigon_0.jpg 1400w"}, "saigon_1": {"src": "img/saigon_1.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_1-480.jpg 480w, img/saigon_1-960.jpg 960w, img/saigon_1.jpg 1400w"}, "saigon_2": {"src": "img/saigon_2.jpg", "w": 1400, "h": 883, "srcset": "img/saigon_2-480.jpg 480w, img/saigon_2-960.jpg 960w, img/saigon_2.jpg 1400w"}, "saigon_3": {"src": "img/saigon_3.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_3-480.jpg 480w, img/saigon_3-960.jpg 960w, img/saigon_3.jpg 1400w"}, "saigon_4": {"src": "img/saigon_4.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_4-480.jpg 480w, img/saigon_4-960.jpg 960w, img/saigon_4.jpg 1400w"}, "mekong_0": {"src": "img/mekong_0.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_0-480.jpg 480w, img/mekong_0-960.jpg 960w, img/mekong_0.jpg 1400w"}, "mekong_2": {"src": "img/mekong_2.jpg", "w": 1400, "h": 929, "srcset": "img/mekong_2-480.jpg 480w, img/mekong_2-960.jpg 960w, img/mekong_2.jpg 1400w"}, "mekong_3": {"src": "img/mekong_3.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_3-480.jpg 480w, img/mekong_3-960.jpg 960w, img/mekong_3.jpg 1400w"}, "mekong_1": {"src": "img/mekong_1.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_1-480.jpg 480w, img/mekong_1-960.jpg 960w, img/mekong_1.jpg 1400w"}, "phuquoc_0": {"src": "img/phuquoc_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phuquoc_0-480.jpg 480w, img/phuquoc_0-960.jpg 960w, img/phuquoc_0.jpg 1400w"}, "phuquoc_1": {"src": "img/phuquoc_1.jpg", "w": 1400, "h": 933, "srcset": "img/phuquoc_1-480.jpg 480w, img/phuquoc_1-960.jpg 960w, img/phuquoc_1.jpg 1400w"}, "phuquoc_2": {"src": "img/phuquoc_2.jpg", "w": 1400, "h": 1054, "srcset": "img/phuquoc_2-480.jpg 480w, img/phuquoc_2-960.jpg 960w, img/phuquoc_2.jpg 1400w"}, "phuquoc_5": {"src": "img/phuquoc_5.jpg", "w": 1400, "h": 954, "srcset": "img/phuquoc_5-480.jpg 480w, img/phuquoc_5-960.jpg 960w, img/phuquoc_5.jpg 1400w"}, "cattien_0": {"src": "img/cattien_0.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_0-480.jpg 480w, img/cattien_0-960.jpg 960w, img/cattien_0.jpg 1400w"}, "cattien_1": {"src": "img/cattien_1.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_1-480.jpg 480w, img/cattien_1-960.jpg 960w, img/cattien_1.jpg 1400w"}, "cattien_3": {"src": "img/cattien_3.jpg", "w": 1400, "h": 933, "srcset": "img/cattien_3-480.jpg 480w, img/cattien_3-960.jpg 960w, img/cattien_3.jpg 1400w"}, "cattien_4": {"src": "img/cattien_4.jpg", "w": 1400, "h": 996, "srcset": "img/cattien_4-480.jpg 480w, img/cattien_4-960.jpg 960w, img/cattien_4.jpg 1400w"}, "dalat_0": {"src": "img/dalat_0.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_0-480.jpg 480w, img/dalat_0-960.jpg 960w, img/dalat_0.jpg 1400w"}, "dalat_1": {"src": "img/dalat_1.jpg", "w": 1400, "h": 1052, "srcset": "img/dalat_1-480.jpg 480w, img/dalat_1-960.jpg 960w, img/dalat_1.jpg 1400w"}, "dalat_2": {"src": "img/dalat_2.jpg", "w": 1400, "h": 933, "srcset": "img/dalat_2-480.jpg 480w, img/dalat_2-960.jpg 960w, img/dalat_2.jpg 1400w"}, "dalat_4": {"src": "img/dalat_4.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_4-480.jpg 480w, img/dalat_4-960.jpg 960w, img/dalat_4.jpg 1400w"}, "dalat_3": {"src": "img/dalat_3.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_3-480.jpg 480w, img/dalat_3-960.jpg 960w, img/dalat_3.jpg 1400w"}, "hoian_0": {"src": "img/hoian_0.jpg", "w": 1400, "h": 930, "srcset": "img/hoian_0-480.jpg 480w, img/hoian_0-960.jpg 960w, img/hoian_0.jpg 1400w"}, "hoian_1": {"src": "img/hoian_1.jpg", "w": 1400, "h": 936, "srcset": "img/hoian_1-480.jpg 480w, img/hoian_1-960.jpg 960w, img/hoian_1.jpg 1400w"}, "hoian_4": {"src": "img/hoian_4.jpg", "w": 1400, "h": 917, "srcset": "img/hoian_4-480.jpg 480w, img/hoian_4-960.jpg 960w, img/hoian_4.jpg 1400w"}, "hoian_5": {"src": "img/hoian_5.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_5-480.jpg 480w, img/hoian_5-960.jpg 960w, img/hoian_5.jpg 1400w"}, "hoian_6": {"src": "img/hoian_6.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_6-480.jpg 480w, img/hoian_6-960.jpg 960w, img/hoian_6.jpg 1400w"}, "hue_0": {"src": "img/hue_0.jpg", "w": 1400, "h": 933, "srcset": "img/hue_0-480.jpg 480w, img/hue_0-960.jpg 960w, img/hue_0.jpg 1400w"}, "hue_1": {"src": "img/hue_1.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_1-480.jpg 480w, img/hue_1-960.jpg 960w, img/hue_1.jpg 1400w"}, "hue_2": {"src": "img/hue_2.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_2-480.jpg 480w, img/hue_2-960.jpg 960w, img/hue_2.jpg 1400w"}, "hue_6": {"src": "img/hue_6.jpg", "w": 1400, "h": 933, "srcset": "img/hue_6-480.jpg 480w, img/hue_6-960.jpg 960w, img/hue_6.jpg 1400w"}, "hue_4": {"src": "img/hue_4.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_4-480.jpg 480w, img/hue_4-960.jpg 960w, img/hue_4.jpg 1400w"}, "puluong_1": {"src": "img/puluong_1.jpg", "w": 1400, "h": 1050, "srcset": "img/puluong_1-480.jpg 480w, img/puluong_1-960.jpg 960w, img/puluong_1.jpg 1400w"}, "puluong_2": {"src": "img/puluong_2.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_2-480.jpg 480w, img/puluong_2-960.jpg 960w, img/puluong_2.jpg 1400w"}, "puluong_3": {"src": "img/puluong_3.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_3-480.jpg 480w, img/puluong_3-960.jpg 960w, img/puluong_3.jpg 1400w"}, "puluong_0": {"src": "img/puluong_0.jpg", "w": 1400, "h": 933, "srcset": "img/puluong_0-480.jpg 480w, img/puluong_0-960.jpg 960w, img/puluong_0.jpg 1400w"}, "puluong_5": {"src": "img/puluong_5.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_5-480.jpg 480w, img/puluong_5-960.jpg 960w, img/puluong_5.jpg 1400w"}, "ninhbinh_1": {"src": "img/ninhbinh_1.jpg", "w": 1920, "h": 1282, "srcset": "img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w"}, "ninhbinh_0": {"src": "img/ninhbinh_0.jpg", "w": 1400, "h": 894, "srcset": "img/ninhbinh_0-480.jpg 480w, img/ninhbinh_0-960.jpg 960w, img/ninhbinh_0.jpg 1400w"}, "ninhbinh_3": {"src": "img/ninhbinh_3.jpg", "w": 1400, "h": 937, "srcset": "img/ninhbinh_3-480.jpg 480w, img/ninhbinh_3-960.jpg 960w, img/ninhbinh_3.jpg 1400w"}, "ninhbinh_4": {"src": "img/ninhbinh_4.jpg", "w": 1400, "h": 933, "srcset": "img/ninhbinh_4-480.jpg 480w, img/ninhbinh_4-960.jpg 960w, img/ninhbinh_4.jpg 1400w"}, "ninhbinh_5": {"src": "img/ninhbinh_5.jpg", "w": 1400, "h": 935, "srcset": "img/ninhbinh_5-480.jpg 480w, img/ninhbinh_5-960.jpg 960w, img/ninhbinh_5.jpg 1400w"}, "ninhbinh_6": {"src": "img/ninhbinh_6.jpg", "w": 1400, "h": 940, "srcset": "img/ninhbinh_6-480.jpg 480w, img/ninhbinh_6-960.jpg 960w, img/ninhbinh_6.jpg 1400w"}, "catba_0": {"src": "img/catba_0.jpg", "w": 1400, "h": 887, "srcset": "img/catba_0-480.jpg 480w, img/catba_0-960.jpg 960w, img/catba_0.jpg 1400w"}, "catba_3": {"src": "img/catba_3.jpg", "w": 1400, "h": 935, "srcset": "img/catba_3-480.jpg 480w, img/catba_3-960.jpg 960w, img/catba_3.jpg 1400w"}, "catba_1": {"src": "img/catba_1.jpg", "w": 1400, "h": 892, "srcset": "img/catba_1-480.jpg 480w, img/catba_1-960.jpg 960w, img/catba_1.jpg 1400w"}, "catba_2": {"src": "img/catba_2.jpg", "w": 1400, "h": 935, "srcset": "img/catba_2-480.jpg 480w, img/catba_2-960.jpg 960w, img/catba_2.jpg 1400w"}, "catba_6": {"src": "img/catba_6.jpg", "w": 1400, "h": 935, "srcset": "img/catba_6-480.jpg 480w, img/catba_6-960.jpg 960w, img/catba_6.jpg 1400w"}, "hanoi_0": {"src": "img/hanoi_0.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_0-480.jpg 480w, img/hanoi_0-960.jpg 960w, img/hanoi_0.jpg 1400w"}, "hanoi_1": {"src": "img/hanoi_1.jpg", "w": 1400, "h": 934, "srcset": "img/hanoi_1-480.jpg 480w, img/hanoi_1-960.jpg 960w, img/hanoi_1.jpg 1400w"}, "hanoi_3": {"src": "img/hanoi_3.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_3-480.jpg 480w, img/hanoi_3-960.jpg 960w, img/hanoi_3.jpg 1400w"}, "hanoi_5": {"src": "img/hanoi_5.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_5-480.jpg 480w, img/hanoi_5-960.jpg 960w, img/hanoi_5.jpg 1400w"}, "babe_0": {"src": "img/babe_0.jpg", "w": 1400, "h": 1050, "srcset": "img/babe_0-480.jpg 480w, img/babe_0-960.jpg 960w, img/babe_0.jpg 1400w"}, "babe_1": {"src": "img/babe_1.jpg", "w": 1400, "h": 914, "srcset": "img/babe_1-480.jpg 480w, img/babe_1-960.jpg 960w, img/babe_1.jpg 1400w"}, "babe_2": {"src": "img/babe_2.jpg", "w": 1400, "h": 933, "srcset": "img/babe_2-480.jpg 480w, img/babe_2-960.jpg 960w, img/babe_2.jpg 1400w"}, "babe_3": {"src": "img/babe_3.jpg", "w": 1400, "h": 933, "srcset": "img/babe_3-480.jpg 480w, img/babe_3-960.jpg 960w, img/babe_3.jpg 1400w"}, "babe_5": {"src": "img/babe_5.jpg", "w": 1400, "h": 907, "srcset": "img/babe_5-480.jpg 480w, img/babe_5-960.jpg 960w, img/babe_5.jpg 1400w"}, "caobang_0": {"src": "img/caobang_0.jpg", "w": 1400, "h": 934, "srcset": "img/caobang_0-480.jpg 480w, img/caobang_0-960.jpg 960w, img/caobang_0.jpg 1400w"}, "caobang_6": {"src": "img/caobang_6.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_6-480.jpg 480w, img/caobang_6-960.jpg 960w, img/caobang_6.jpg 1400w"}, "caobang_1": {"src": "img/caobang_1.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_1-480.jpg 480w, img/caobang_1-960.jpg 960w, img/caobang_1.jpg 1400w"}, "caobang_2": {"src": "img/caobang_2.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_2-480.jpg 480w, img/caobang_2-960.jpg 960w, img/caobang_2.jpg 1400w"}, "caobang_3": {"src": "img/caobang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_3-480.jpg 480w, img/caobang_3-960.jpg 960w, img/caobang_3.jpg 1400w"}, "phongnha_0": {"src": "img/phongnha_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phongnha_0-480.jpg 480w, img/phongnha_0-960.jpg 960w, img/phongnha_0.jpg 1400w"}, "phongnha_1": {"src": "img/phongnha_1.jpg", "w": 1400, "h": 852, "srcset": "img/phongnha_1-480.jpg 480w, img/phongnha_1-960.jpg 960w, img/phongnha_1.jpg 1400w"}, "phongnha_2": {"src": "img/phongnha_2.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_2-480.jpg 480w, img/phongnha_2-960.jpg 960w, img/phongnha_2.jpg 1400w"}, "phongnha_3": {"src": "img/phongnha_3.jpg", "w": 1400, "h": 1049, "srcset": "img/phongnha_3-480.jpg 480w, img/phongnha_3-960.jpg 960w, img/phongnha_3.jpg 1400w"}, "phongnha_4": {"src": "img/phongnha_4.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_4-480.jpg 480w, img/phongnha_4-960.jpg 960w, img/phongnha_4.jpg 1400w"}, "cucphuong_0": {"src": "img/cucphuong_0.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_0-480.jpg 480w, img/cucphuong_0-960.jpg 960w, img/cucphuong_0.jpg 1400w"}, "cucphuong_1": {"src": "img/cucphuong_1.jpg", "w": 1400, "h": 930, "srcset": "img/cucphuong_1-480.jpg 480w, img/cucphuong_1-960.jpg 960w, img/cucphuong_1.jpg 1400w"}, "cucphuong_2": {"src": "img/cucphuong_2.jpg", "w": 1400, "h": 1867, "srcset": "img/cucphuong_2-480.jpg 480w, img/cucphuong_2-960.jpg 960w, img/cucphuong_2.jpg 1400w"}, "cucphuong_3": {"src": "img/cucphuong_3.jpg", "w": 1400, "h": 1050, "srcset": "img/cucphuong_3-480.jpg 480w, img/cucphuong_3-960.jpg 960w, img/cucphuong_3.jpg 1400w"}, "cucphuong_4": {"src": "img/cucphuong_4.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_4-480.jpg 480w, img/cucphuong_4-960.jpg 960w, img/cucphuong_4.jpg 1400w"}, "danang_0": {"src": "img/danang_0.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_0-480.jpg 480w, img/danang_0-960.jpg 960w, img/danang_0.jpg 1400w"}, "danang_1": {"src": "img/danang_1.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_1-480.jpg 480w, img/danang_1-960.jpg 960w, img/danang_1.jpg 1400w"}, "danang_2": {"src": "img/danang_2.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_2-480.jpg 480w, img/danang_2-960.jpg 960w, img/danang_2.jpg 1400w"}, "danang_3": {"src": "img/danang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_3-480.jpg 480w, img/danang_3-960.jpg 960w, img/danang_3.jpg 1400w"}, "danang_4": {"src": "img/danang_4.jpg", "w": 1400, "h": 876, "srcset": "img/danang_4-480.jpg 480w, img/danang_4-960.jpg 960w, img/danang_4.jpg 1400w"}, "hagiang_0": {"src": "img/hagiang_0.jpg", "w": 1400, "h": 933, "srcset": "img/hagiang_0-480.jpg 480w, img/hagiang_0-960.jpg 960w, img/hagiang_0.jpg 1400w"}, "hagiang_1": {"src": "img/hagiang_1.jpg", "w": 1400, "h": 788, "srcset": "img/hagiang_1-480.jpg 480w, img/hagiang_1-960.jpg 960w, img/hagiang_1.jpg 1400w"}, "hagiang_2": {"src": "img/hagiang_2.jpg", "w": 1400, "h": 935, "srcset": "img/hagiang_2-480.jpg 480w, img/hagiang_2-960.jpg 960w, img/hagiang_2.jpg 1400w"}, "hagiang_3": {"src": "img/hagiang_3.jpg", "w": 1400, "h": 536, "srcset": "img/hagiang_3-480.jpg 480w, img/hagiang_3-960.jpg 960w, img/hagiang_3.jpg 1400w"}, "hagiang_4": {"src": "img/hagiang_4.jpg", "w": 1400, "h": 952, "srcset": "img/hagiang_4-480.jpg 480w, img/hagiang_4-960.jpg 960w, img/hagiang_4.jpg 1400w"}, "sapa_0": {"src": "img/sapa_0.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_0-480.jpg 480w, img/sapa_0-960.jpg 960w, img/sapa_0.jpg 1400w"}, "sapa_1": {"src": "img/sapa_1.jpg", "w": 1400, "h": 933, "srcset": "img/sapa_1-480.jpg 480w, img/sapa_1-960.jpg 960w, img/sapa_1.jpg 1400w"}, "sapa_2": {"src": "img/sapa_2.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_2-480.jpg 480w, img/sapa_2-960.jpg 960w, img/sapa_2.jpg 1400w"}, "sapa_3": {"src": "img/sapa_3.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_3-480.jpg 480w, img/sapa_3-960.jpg 960w, img/sapa_3.jpg 1400w"}, "yokdon_0": {"src": "img/yokdon_0.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_0-480.jpg 480w, img/yokdon_0-960.jpg 960w, img/yokdon_0.jpg 1400w"}, "yokdon_1": {"src": "img/yokdon_1.jpg", "w": 1400, "h": 933, "srcset": "img/yokdon_1-480.jpg 480w, img/yokdon_1-960.jpg 960w, img/yokdon_1.jpg 1400w"}, "yokdon_2": {"src": "img/yokdon_2.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_2-480.jpg 480w, img/yokdon_2-960.jpg 960w, img/yokdon_2.jpg 1400w"}, "yokdon_3": {"src": "img/yokdon_3.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_3-480.jpg 480w, img/yokdon_3-960.jpg 960w, img/yokdon_3.jpg 1400w"}, "yokdon_4": {"src": "img/yokdon_4.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_4-480.jpg 480w, img/yokdon_4-960.jpg 960w, img/yokdon_4.jpg 1400w"}, "mucangchai_0": {"src": "img/mucangchai_0.jpg", "w": 1400, "h": 933, "srcset": "img/mucangchai_0-480.jpg 480w, img/mucangchai_0-960.jpg 960w, img/mucangchai_0.jpg 1400w"}, "mucangchai_1": {"src": "img/mucangchai_1.jpg", "w": 1400, "h": 935, "srcset": "img/mucangchai_1-480.jpg 480w, img/mucangchai_1-960.jpg 960w, img/mucangchai_1.jpg 1400w"}, "mucangchai_2": {"src": "img/mucangchai_2.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_2-480.jpg 480w, img/mucangchai_2-960.jpg 960w, img/mucangchai_2.jpg 1400w"}, "mucangchai_3": {"src": "img/mucangchai_3.jpg", "w": 1400, "h": 788, "srcset": "img/mucangchai_3-480.jpg 480w, img/mucangchai_3-960.jpg 960w, img/mucangchai_3.jpg 1400w"}, "mucangchai_4": {"src": "img/mucangchai_4.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_4-480.jpg 480w, img/mucangchai_4-960.jpg 960w, img/mucangchai_4.jpg 1400w"}, "sapa_4": {"src": "img/sapa_4.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_4-480.jpg 480w, img/sapa_4-960.jpg 960w, img/sapa_4.jpg 1400w"}};
+var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_0-160.jpg 160w, img/saigon_0-480.jpg 480w, img/saigon_0-960.jpg 960w, img/saigon_0.jpg 1400w"}, "saigon_1": {"src": "img/saigon_1.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_1-160.jpg 160w, img/saigon_1-480.jpg 480w, img/saigon_1-960.jpg 960w, img/saigon_1.jpg 1400w"}, "saigon_2": {"src": "img/saigon_2.jpg", "w": 1400, "h": 883, "srcset": "img/saigon_2-160.jpg 160w, img/saigon_2-480.jpg 480w, img/saigon_2-960.jpg 960w, img/saigon_2.jpg 1400w"}, "saigon_3": {"src": "img/saigon_3.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_3-160.jpg 160w, img/saigon_3-480.jpg 480w, img/saigon_3-960.jpg 960w, img/saigon_3.jpg 1400w"}, "saigon_4": {"src": "img/saigon_4.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_4-160.jpg 160w, img/saigon_4-480.jpg 480w, img/saigon_4-960.jpg 960w, img/saigon_4.jpg 1400w"}, "mekong_0": {"src": "img/mekong_0.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_0-160.jpg 160w, img/mekong_0-480.jpg 480w, img/mekong_0-960.jpg 960w, img/mekong_0.jpg 1400w"}, "mekong_2": {"src": "img/mekong_2.jpg", "w": 1400, "h": 929, "srcset": "img/mekong_2-160.jpg 160w, img/mekong_2-480.jpg 480w, img/mekong_2-960.jpg 960w, img/mekong_2.jpg 1400w"}, "mekong_3": {"src": "img/mekong_3.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_3-160.jpg 160w, img/mekong_3-480.jpg 480w, img/mekong_3-960.jpg 960w, img/mekong_3.jpg 1400w"}, "mekong_1": {"src": "img/mekong_1.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_1-160.jpg 160w, img/mekong_1-480.jpg 480w, img/mekong_1-960.jpg 960w, img/mekong_1.jpg 1400w"}, "phuquoc_0": {"src": "img/phuquoc_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phuquoc_0-160.jpg 160w, img/phuquoc_0-480.jpg 480w, img/phuquoc_0-960.jpg 960w, img/phuquoc_0.jpg 1400w"}, "phuquoc_1": {"src": "img/phuquoc_1.jpg", "w": 1400, "h": 933, "srcset": "img/phuquoc_1-160.jpg 160w, img/phuquoc_1-480.jpg 480w, img/phuquoc_1-960.jpg 960w, img/phuquoc_1.jpg 1400w"}, "phuquoc_2": {"src": "img/phuquoc_2.jpg", "w": 1400, "h": 1054, "srcset": "img/phuquoc_2-160.jpg 160w, img/phuquoc_2-480.jpg 480w, img/phuquoc_2-960.jpg 960w, img/phuquoc_2.jpg 1400w"}, "phuquoc_5": {"src": "img/phuquoc_5.jpg", "w": 1400, "h": 954, "srcset": "img/phuquoc_5-160.jpg 160w, img/phuquoc_5-480.jpg 480w, img/phuquoc_5-960.jpg 960w, img/phuquoc_5.jpg 1400w"}, "cattien_0": {"src": "img/cattien_0.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_0-160.jpg 160w, img/cattien_0-480.jpg 480w, img/cattien_0-960.jpg 960w, img/cattien_0.jpg 1400w"}, "cattien_1": {"src": "img/cattien_1.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_1-160.jpg 160w, img/cattien_1-480.jpg 480w, img/cattien_1-960.jpg 960w, img/cattien_1.jpg 1400w"}, "cattien_3": {"src": "img/cattien_3.jpg", "w": 1400, "h": 933, "srcset": "img/cattien_3-160.jpg 160w, img/cattien_3-480.jpg 480w, img/cattien_3-960.jpg 960w, img/cattien_3.jpg 1400w"}, "cattien_4": {"src": "img/cattien_4.jpg", "w": 1400, "h": 996, "srcset": "img/cattien_4-160.jpg 160w, img/cattien_4-480.jpg 480w, img/cattien_4-960.jpg 960w, img/cattien_4.jpg 1400w"}, "dalat_0": {"src": "img/dalat_0.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_0-160.jpg 160w, img/dalat_0-480.jpg 480w, img/dalat_0-960.jpg 960w, img/dalat_0.jpg 1400w"}, "dalat_1": {"src": "img/dalat_1.jpg", "w": 1400, "h": 1052, "srcset": "img/dalat_1-160.jpg 160w, img/dalat_1-480.jpg 480w, img/dalat_1-960.jpg 960w, img/dalat_1.jpg 1400w"}, "dalat_2": {"src": "img/dalat_2.jpg", "w": 1400, "h": 933, "srcset": "img/dalat_2-160.jpg 160w, img/dalat_2-480.jpg 480w, img/dalat_2-960.jpg 960w, img/dalat_2.jpg 1400w"}, "dalat_4": {"src": "img/dalat_4.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_4-160.jpg 160w, img/dalat_4-480.jpg 480w, img/dalat_4-960.jpg 960w, img/dalat_4.jpg 1400w"}, "dalat_3": {"src": "img/dalat_3.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_3-160.jpg 160w, img/dalat_3-480.jpg 480w, img/dalat_3-960.jpg 960w, img/dalat_3.jpg 1400w"}, "hoian_0": {"src": "img/hoian_0.jpg", "w": 1400, "h": 930, "srcset": "img/hoian_0-160.jpg 160w, img/hoian_0-480.jpg 480w, img/hoian_0-960.jpg 960w, img/hoian_0.jpg 1400w"}, "hoian_1": {"src": "img/hoian_1.jpg", "w": 1400, "h": 936, "srcset": "img/hoian_1-160.jpg 160w, img/hoian_1-480.jpg 480w, img/hoian_1-960.jpg 960w, img/hoian_1.jpg 1400w"}, "hoian_4": {"src": "img/hoian_4.jpg", "w": 1400, "h": 917, "srcset": "img/hoian_4-160.jpg 160w, img/hoian_4-480.jpg 480w, img/hoian_4-960.jpg 960w, img/hoian_4.jpg 1400w"}, "hoian_5": {"src": "img/hoian_5.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_5-160.jpg 160w, img/hoian_5-480.jpg 480w, img/hoian_5-960.jpg 960w, img/hoian_5.jpg 1400w"}, "hoian_6": {"src": "img/hoian_6.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_6-160.jpg 160w, img/hoian_6-480.jpg 480w, img/hoian_6-960.jpg 960w, img/hoian_6.jpg 1400w"}, "hue_0": {"src": "img/hue_0.jpg", "w": 1400, "h": 933, "srcset": "img/hue_0-160.jpg 160w, img/hue_0-480.jpg 480w, img/hue_0-960.jpg 960w, img/hue_0.jpg 1400w"}, "hue_1": {"src": "img/hue_1.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_1-160.jpg 160w, img/hue_1-480.jpg 480w, img/hue_1-960.jpg 960w, img/hue_1.jpg 1400w"}, "hue_2": {"src": "img/hue_2.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_2-160.jpg 160w, img/hue_2-480.jpg 480w, img/hue_2-960.jpg 960w, img/hue_2.jpg 1400w"}, "hue_6": {"src": "img/hue_6.jpg", "w": 1400, "h": 933, "srcset": "img/hue_6-160.jpg 160w, img/hue_6-480.jpg 480w, img/hue_6-960.jpg 960w, img/hue_6.jpg 1400w"}, "hue_4": {"src": "img/hue_4.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_4-160.jpg 160w, img/hue_4-480.jpg 480w, img/hue_4-960.jpg 960w, img/hue_4.jpg 1400w"}, "puluong_1": {"src": "img/puluong_1.jpg", "w": 1400, "h": 1050, "srcset": "img/puluong_1-160.jpg 160w, img/puluong_1-480.jpg 480w, img/puluong_1-960.jpg 960w, img/puluong_1.jpg 1400w"}, "puluong_2": {"src": "img/puluong_2.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_2-160.jpg 160w, img/puluong_2-480.jpg 480w, img/puluong_2-960.jpg 960w, img/puluong_2.jpg 1400w"}, "puluong_3": {"src": "img/puluong_3.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_3-160.jpg 160w, img/puluong_3-480.jpg 480w, img/puluong_3-960.jpg 960w, img/puluong_3.jpg 1400w"}, "puluong_0": {"src": "img/puluong_0.jpg", "w": 1400, "h": 933, "srcset": "img/puluong_0-160.jpg 160w, img/puluong_0-480.jpg 480w, img/puluong_0-960.jpg 960w, img/puluong_0.jpg 1400w"}, "puluong_5": {"src": "img/puluong_5.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_5-160.jpg 160w, img/puluong_5-480.jpg 480w, img/puluong_5-960.jpg 960w, img/puluong_5.jpg 1400w"}, "ninhbinh_1": {"src": "img/ninhbinh_1.jpg", "w": 1920, "h": 1282, "srcset": "img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w"}, "ninhbinh_0": {"src": "img/ninhbinh_0.jpg", "w": 1400, "h": 894, "srcset": "img/ninhbinh_0-160.jpg 160w, img/ninhbinh_0-480.jpg 480w, img/ninhbinh_0-960.jpg 960w, img/ninhbinh_0.jpg 1400w"}, "ninhbinh_3": {"src": "img/ninhbinh_3.jpg", "w": 1400, "h": 937, "srcset": "img/ninhbinh_3-160.jpg 160w, img/ninhbinh_3-480.jpg 480w, img/ninhbinh_3-960.jpg 960w, img/ninhbinh_3.jpg 1400w"}, "ninhbinh_4": {"src": "img/ninhbinh_4.jpg", "w": 1400, "h": 933, "srcset": "img/ninhbinh_4-160.jpg 160w, img/ninhbinh_4-480.jpg 480w, img/ninhbinh_4-960.jpg 960w, img/ninhbinh_4.jpg 1400w"}, "ninhbinh_5": {"src": "img/ninhbinh_5.jpg", "w": 1400, "h": 935, "srcset": "img/ninhbinh_5-160.jpg 160w, img/ninhbinh_5-480.jpg 480w, img/ninhbinh_5-960.jpg 960w, img/ninhbinh_5.jpg 1400w"}, "ninhbinh_6": {"src": "img/ninhbinh_6.jpg", "w": 1400, "h": 940, "srcset": "img/ninhbinh_6-160.jpg 160w, img/ninhbinh_6-480.jpg 480w, img/ninhbinh_6-960.jpg 960w, img/ninhbinh_6.jpg 1400w"}, "catba_0": {"src": "img/catba_0.jpg", "w": 1400, "h": 887, "srcset": "img/catba_0-160.jpg 160w, img/catba_0-480.jpg 480w, img/catba_0-960.jpg 960w, img/catba_0.jpg 1400w"}, "catba_3": {"src": "img/catba_3.jpg", "w": 1400, "h": 935, "srcset": "img/catba_3-160.jpg 160w, img/catba_3-480.jpg 480w, img/catba_3-960.jpg 960w, img/catba_3.jpg 1400w"}, "catba_1": {"src": "img/catba_1.jpg", "w": 1400, "h": 892, "srcset": "img/catba_1-160.jpg 160w, img/catba_1-480.jpg 480w, img/catba_1-960.jpg 960w, img/catba_1.jpg 1400w"}, "catba_2": {"src": "img/catba_2.jpg", "w": 1400, "h": 935, "srcset": "img/catba_2-160.jpg 160w, img/catba_2-480.jpg 480w, img/catba_2-960.jpg 960w, img/catba_2.jpg 1400w"}, "catba_6": {"src": "img/catba_6.jpg", "w": 1400, "h": 935, "srcset": "img/catba_6-160.jpg 160w, img/catba_6-480.jpg 480w, img/catba_6-960.jpg 960w, img/catba_6.jpg 1400w"}, "hanoi_0": {"src": "img/hanoi_0.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_0-160.jpg 160w, img/hanoi_0-480.jpg 480w, img/hanoi_0-960.jpg 960w, img/hanoi_0.jpg 1400w"}, "hanoi_1": {"src": "img/hanoi_1.jpg", "w": 1400, "h": 934, "srcset": "img/hanoi_1-160.jpg 160w, img/hanoi_1-480.jpg 480w, img/hanoi_1-960.jpg 960w, img/hanoi_1.jpg 1400w"}, "hanoi_3": {"src": "img/hanoi_3.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_3-160.jpg 160w, img/hanoi_3-480.jpg 480w, img/hanoi_3-960.jpg 960w, img/hanoi_3.jpg 1400w"}, "hanoi_5": {"src": "img/hanoi_5.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_5-160.jpg 160w, img/hanoi_5-480.jpg 480w, img/hanoi_5-960.jpg 960w, img/hanoi_5.jpg 1400w"}, "babe_0": {"src": "img/babe_0.jpg", "w": 1400, "h": 1050, "srcset": "img/babe_0-160.jpg 160w, img/babe_0-480.jpg 480w, img/babe_0-960.jpg 960w, img/babe_0.jpg 1400w"}, "babe_1": {"src": "img/babe_1.jpg", "w": 1400, "h": 914, "srcset": "img/babe_1-160.jpg 160w, img/babe_1-480.jpg 480w, img/babe_1-960.jpg 960w, img/babe_1.jpg 1400w"}, "babe_2": {"src": "img/babe_2.jpg", "w": 1400, "h": 933, "srcset": "img/babe_2-160.jpg 160w, img/babe_2-480.jpg 480w, img/babe_2-960.jpg 960w, img/babe_2.jpg 1400w"}, "babe_3": {"src": "img/babe_3.jpg", "w": 1400, "h": 933, "srcset": "img/babe_3-160.jpg 160w, img/babe_3-480.jpg 480w, img/babe_3-960.jpg 960w, img/babe_3.jpg 1400w"}, "babe_5": {"src": "img/babe_5.jpg", "w": 1400, "h": 907, "srcset": "img/babe_5-160.jpg 160w, img/babe_5-480.jpg 480w, img/babe_5-960.jpg 960w, img/babe_5.jpg 1400w"}, "caobang_0": {"src": "img/caobang_0.jpg", "w": 1400, "h": 934, "srcset": "img/caobang_0-160.jpg 160w, img/caobang_0-480.jpg 480w, img/caobang_0-960.jpg 960w, img/caobang_0.jpg 1400w"}, "caobang_6": {"src": "img/caobang_6.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_6-160.jpg 160w, img/caobang_6-480.jpg 480w, img/caobang_6-960.jpg 960w, img/caobang_6.jpg 1400w"}, "caobang_1": {"src": "img/caobang_1.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_1-160.jpg 160w, img/caobang_1-480.jpg 480w, img/caobang_1-960.jpg 960w, img/caobang_1.jpg 1400w"}, "caobang_2": {"src": "img/caobang_2.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_2-160.jpg 160w, img/caobang_2-480.jpg 480w, img/caobang_2-960.jpg 960w, img/caobang_2.jpg 1400w"}, "caobang_3": {"src": "img/caobang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_3-160.jpg 160w, img/caobang_3-480.jpg 480w, img/caobang_3-960.jpg 960w, img/caobang_3.jpg 1400w"}, "phongnha_0": {"src": "img/phongnha_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phongnha_0-160.jpg 160w, img/phongnha_0-480.jpg 480w, img/phongnha_0-960.jpg 960w, img/phongnha_0.jpg 1400w"}, "phongnha_1": {"src": "img/phongnha_1.jpg", "w": 1400, "h": 852, "srcset": "img/phongnha_1-160.jpg 160w, img/phongnha_1-480.jpg 480w, img/phongnha_1-960.jpg 960w, img/phongnha_1.jpg 1400w"}, "phongnha_2": {"src": "img/phongnha_2.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_2-160.jpg 160w, img/phongnha_2-480.jpg 480w, img/phongnha_2-960.jpg 960w, img/phongnha_2.jpg 1400w"}, "phongnha_3": {"src": "img/phongnha_3.jpg", "w": 1400, "h": 1049, "srcset": "img/phongnha_3-160.jpg 160w, img/phongnha_3-480.jpg 480w, img/phongnha_3-960.jpg 960w, img/phongnha_3.jpg 1400w"}, "phongnha_4": {"src": "img/phongnha_4.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_4-160.jpg 160w, img/phongnha_4-480.jpg 480w, img/phongnha_4-960.jpg 960w, img/phongnha_4.jpg 1400w"}, "cucphuong_0": {"src": "img/cucphuong_0.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_0-160.jpg 160w, img/cucphuong_0-480.jpg 480w, img/cucphuong_0-960.jpg 960w, img/cucphuong_0.jpg 1400w"}, "cucphuong_1": {"src": "img/cucphuong_1.jpg", "w": 1400, "h": 930, "srcset": "img/cucphuong_1-160.jpg 160w, img/cucphuong_1-480.jpg 480w, img/cucphuong_1-960.jpg 960w, img/cucphuong_1.jpg 1400w"}, "cucphuong_2": {"src": "img/cucphuong_2.jpg", "w": 1400, "h": 1867, "srcset": "img/cucphuong_2-160.jpg 160w, img/cucphuong_2-480.jpg 480w, img/cucphuong_2-960.jpg 960w, img/cucphuong_2.jpg 1400w"}, "cucphuong_3": {"src": "img/cucphuong_3.jpg", "w": 1400, "h": 1050, "srcset": "img/cucphuong_3-160.jpg 160w, img/cucphuong_3-480.jpg 480w, img/cucphuong_3-960.jpg 960w, img/cucphuong_3.jpg 1400w"}, "cucphuong_4": {"src": "img/cucphuong_4.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_4-160.jpg 160w, img/cucphuong_4-480.jpg 480w, img/cucphuong_4-960.jpg 960w, img/cucphuong_4.jpg 1400w"}, "danang_0": {"src": "img/danang_0.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_0-160.jpg 160w, img/danang_0-480.jpg 480w, img/danang_0-960.jpg 960w, img/danang_0.jpg 1400w"}, "danang_1": {"src": "img/danang_1.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_1-160.jpg 160w, img/danang_1-480.jpg 480w, img/danang_1-960.jpg 960w, img/danang_1.jpg 1400w"}, "danang_2": {"src": "img/danang_2.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_2-160.jpg 160w, img/danang_2-480.jpg 480w, img/danang_2-960.jpg 960w, img/danang_2.jpg 1400w"}, "danang_3": {"src": "img/danang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_3-160.jpg 160w, img/danang_3-480.jpg 480w, img/danang_3-960.jpg 960w, img/danang_3.jpg 1400w"}, "danang_4": {"src": "img/danang_4.jpg", "w": 1400, "h": 876, "srcset": "img/danang_4-160.jpg 160w, img/danang_4-480.jpg 480w, img/danang_4-960.jpg 960w, img/danang_4.jpg 1400w"}, "hagiang_0": {"src": "img/hagiang_0.jpg", "w": 1400, "h": 933, "srcset": "img/hagiang_0-160.jpg 160w, img/hagiang_0-480.jpg 480w, img/hagiang_0-960.jpg 960w, img/hagiang_0.jpg 1400w"}, "hagiang_1": {"src": "img/hagiang_1.jpg", "w": 1400, "h": 788, "srcset": "img/hagiang_1-160.jpg 160w, img/hagiang_1-480.jpg 480w, img/hagiang_1-960.jpg 960w, img/hagiang_1.jpg 1400w"}, "hagiang_2": {"src": "img/hagiang_2.jpg", "w": 1400, "h": 935, "srcset": "img/hagiang_2-160.jpg 160w, img/hagiang_2-480.jpg 480w, img/hagiang_2-960.jpg 960w, img/hagiang_2.jpg 1400w"}, "hagiang_3": {"src": "img/hagiang_3.jpg", "w": 1400, "h": 536, "srcset": "img/hagiang_3-160.jpg 160w, img/hagiang_3-480.jpg 480w, img/hagiang_3-960.jpg 960w, img/hagiang_3.jpg 1400w"}, "hagiang_4": {"src": "img/hagiang_4.jpg", "w": 1400, "h": 952, "srcset": "img/hagiang_4-160.jpg 160w, img/hagiang_4-480.jpg 480w, img/hagiang_4-960.jpg 960w, img/hagiang_4.jpg 1400w"}, "sapa_0": {"src": "img/sapa_0.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_0-160.jpg 160w, img/sapa_0-480.jpg 480w, img/sapa_0-960.jpg 960w, img/sapa_0.jpg 1400w"}, "sapa_1": {"src": "img/sapa_1.jpg", "w": 1400, "h": 933, "srcset": "img/sapa_1-160.jpg 160w, img/sapa_1-480.jpg 480w, img/sapa_1-960.jpg 960w, img/sapa_1.jpg 1400w"}, "sapa_2": {"src": "img/sapa_2.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_2-160.jpg 160w, img/sapa_2-480.jpg 480w, img/sapa_2-960.jpg 960w, img/sapa_2.jpg 1400w"}, "sapa_3": {"src": "img/sapa_3.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_3-160.jpg 160w, img/sapa_3-480.jpg 480w, img/sapa_3-960.jpg 960w, img/sapa_3.jpg 1400w"}, "yokdon_0": {"src": "img/yokdon_0.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_0-160.jpg 160w, img/yokdon_0-480.jpg 480w, img/yokdon_0-960.jpg 960w, img/yokdon_0.jpg 1400w"}, "yokdon_1": {"src": "img/yokdon_1.jpg", "w": 1400, "h": 933, "srcset": "img/yokdon_1-160.jpg 160w, img/yokdon_1-480.jpg 480w, img/yokdon_1-960.jpg 960w, img/yokdon_1.jpg 1400w"}, "yokdon_2": {"src": "img/yokdon_2.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_2-160.jpg 160w, img/yokdon_2-480.jpg 480w, img/yokdon_2-960.jpg 960w, img/yokdon_2.jpg 1400w"}, "yokdon_3": {"src": "img/yokdon_3.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_3-160.jpg 160w, img/yokdon_3-480.jpg 480w, img/yokdon_3-960.jpg 960w, img/yokdon_3.jpg 1400w"}, "yokdon_4": {"src": "img/yokdon_4.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_4-160.jpg 160w, img/yokdon_4-480.jpg 480w, img/yokdon_4-960.jpg 960w, img/yokdon_4.jpg 1400w"}, "mucangchai_0": {"src": "img/mucangchai_0.jpg", "w": 1400, "h": 933, "srcset": "img/mucangchai_0-160.jpg 160w, img/mucangchai_0-480.jpg 480w, img/mucangchai_0-960.jpg 960w, img/mucangchai_0.jpg 1400w"}, "mucangchai_1": {"src": "img/mucangchai_1.jpg", "w": 1400, "h": 935, "srcset": "img/mucangchai_1-160.jpg 160w, img/mucangchai_1-480.jpg 480w, img/mucangchai_1-960.jpg 960w, img/mucangchai_1.jpg 1400w"}, "mucangchai_2": {"src": "img/mucangchai_2.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_2-160.jpg 160w, img/mucangchai_2-480.jpg 480w, img/mucangchai_2-960.jpg 960w, img/mucangchai_2.jpg 1400w"}, "mucangchai_3": {"src": "img/mucangchai_3.jpg", "w": 1400, "h": 788, "srcset": "img/mucangchai_3-160.jpg 160w, img/mucangchai_3-480.jpg 480w, img/mucangchai_3-960.jpg 960w, img/mucangchai_3.jpg 1400w"}, "mucangchai_4": {"src": "img/mucangchai_4.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_4-160.jpg 160w, img/mucangchai_4-480.jpg 480w, img/mucangchai_4-960.jpg 960w, img/mucangchai_4.jpg 1400w"}, "sapa_4": {"src": "img/sapa_4.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_4-160.jpg 160w, img/sapa_4-480.jpg 480w, img/sapa_4-960.jpg 960w, img/sapa_4.jpg 1400w"}};
 /* Page logic: reads the settings (the link or the form), plans the trip with the engine (engine.js) and renders the facts,
    the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js,
    and in English (stage 5) en/: the page's language comes from the link and the switch EN · PL (setLang). */
@@ -4478,6 +4663,9 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   /* ---------- texts ---------- */
   // the page's language, 'en' or 'pl' (setLang): English unless the link says lang=pl (decision of 15.10.2026)
   var lang = 'en';
+  // the estimated costs shown (fix 2 of the first round of fixes): hidden unless the link says koszty=1 or the visitor shows
+  // them (setCosts)
+  var costs = false;
   // the texts of the places in that language (localContent in page.js), set by setLang
   var VIEW = CONTENT;
   function T(k, vars) {
@@ -4550,8 +4738,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
-  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with lang=pl at the end
-     when the page is in Polish (langHash in page.js). Otherwise keep the
+  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with koszty=1 when the
+     costs show and lang=pl at the end when the page is in Polish (pageHash in page.js). Otherwise keep the
      last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong. The settings
      are copied with their lists (copySettings), so a caller may leave out add, remove and moto.
      Returns whether the trip changed. */
@@ -4573,7 +4761,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     state.budget = tripBudget(r, state.plans, s.moto, BUDGET_DATA);
     msg('');
     $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
-    var h = langHash(s, lang);
+    var h = pageHash(s, lang, costs);
     if (location.hash !== h) {
       try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
     }
@@ -4583,9 +4771,11 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
      without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. A link
-     with lang=pl opens in Polish, every other one in English (langOf in page.js). */
+     with lang=pl opens in Polish, every other one in English (langOf in page.js); a link with koszty=1 shows the costs,
+     every other one hides them (costsOf). */
   function fromLink() {
     if (langOf(location.hash) !== lang) setLang(langOf(location.hash));
+    costs = costsOf(location.hash);
     var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
@@ -4643,6 +4833,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     F.from.value = s.from;
     F.to.value = s.to;
     F.level.value = String(s.level);
+    F.costs.checked = costs;
     Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) { b.checked = s.interests.indexOf(b.value) > -1; });
     syncLocks();
   }
@@ -4661,6 +4852,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
      and the same length, or the month of the arrival day and the same number of days. */
   function onFormChange(e) {
     var s, st = state.st;
+    if (e.target.name === 'costs') { setCosts(e.target.checked); return; }   // no setting of the trip (fix 2)
     if (e.target.name === 'mode') {
       s = copySettings(state.settings);
       if (e.target.value === 'dates' && !s.start) {
@@ -4688,16 +4880,20 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       var el = a && document.getElementById(a.getAttribute('href').slice(1));
       if (!el) return;
       e.preventDefault();
+      if (el.id === 'settings') openForm();   // „Ustaw swój wyjazd”, „Ustawienia” and „Zmień” open the folded form
+      reveal(el);   // a day of the strip opens (finding 3 of fix 3)
       el.scrollIntoView({ block: 'start' });
       if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
     });
     window.addEventListener('hashchange', function () {
-      if (state.settings && location.hash === langHash(state.settings, lang)) return;
+      if (state.settings && location.hash === pageHash(state.settings, lang, costs)) return;
       var bad = [];
-      // an anchor typed by hand: put the settings back (lang= alone is a link: the default trip in its language)
-      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)lang=/.test(location.hash)) {
-        try { history.replaceState(null, '', langHash(state.settings, lang)); } catch (e) { /* the address keeps the anchor */ }
+      // an anchor typed by hand: put the settings back (lang= or koszty= alone is a link: the default trip in its view)
+      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)(lang|koszty)=/.test(location.hash)) {
+        var at = document.getElementById(location.hash.slice(1));
+        if (at) { reveal(at); at.scrollIntoView({ block: 'start' }); }   // a day typed as #day-5 opens
+        try { history.replaceState(null, '', pageHash(state.settings, lang, costs)); } catch (e) { /* the address keeps the anchor */ }
         return;
       }
       fromLink();
@@ -4710,7 +4906,9 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     road: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v7h-2v-2H7v2H5zm2.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM7 11h10l-1-3.5H8z"/></svg>',
     prev: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>',
     next: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>',
-    expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+    expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+    // the arrow at the end of a folded row (a summary), turned up when the row is open (template.html: .fold-arrow)
+    fold: '<svg class="fold-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>'
   };
 
   /* The settings in short, for the bar at the top: "mar 2027 · 15 dni · Aktywnie", or with dates "28.01–14.02.2027 · …". */
@@ -4719,8 +4917,26 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
   }
 
+  /* The settings in short (finding 10 of fix 3): the form folded into three lines, the term with its days, the airports,
+     and what you like with the level; „Zmień” opens the whole form, which stays open until the page loads again. */
+  function renderSetSum() {
+    var st = state.st;
+    $('#ss-term').textContent = capFirst(T('set.sum', { term: termText(st), days: st.days }));
+    $('#ss-air').textContent = T('pt.route', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name });
+    $('#ss-likes').textContent = (st.interests.length ? st.interests.map(function (k) { return T('int.' + k); }).join(', ') : capFirst(T('pt.any'))) + ' · ' + T('lvl.' + st.level);
+  }
+  function openForm() {
+    $('#set-sum').hidden = true;
+    F.hidden = false;
+  }
+
   function render() {
+    // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
+    var keep = openFolds(), trip = tripKey(state.route);
+    if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
+    foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
+    renderSetSum();
     renderFacts();
     renderShape();
     renderOffRoute();
@@ -4729,10 +4945,16 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
-    // the printout names this route's address on the public page, in the page's language (as the copied plan does)
-    var url = SITE_URL + langHash(state.settings, lang);
-    $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
+    renderPrintLink();
     tieShortWords(document.body);
+    reopenFolds(keep);
+    syncDaysAll();
+  }
+
+  // the printout names this route's address on the public page, in the page's view (as the copied plan does)
+  function renderPrintLink() {
+    var url = SITE_URL + pageHash(state.settings, lang, costs);
+    $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
   }
 
   function renderFacts() {
@@ -4745,7 +4967,9 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
       '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
-      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
+      // the budget only with the costs shown (fix 2); without it the five figures fill their rows (no-budget, template.html)
+      (costs ? '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>' : '');
+    $('#facts').classList.toggle('no-budget', !costs);
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -4818,14 +5042,20 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     return html;
   }
 
-  // one day of a stay; its rain plan only when wet: in a month with many days of rain (rainyMonth in page.js)
+  /* A day as a folded row (finding 1 of fix 3): its number (with the date), its title (head) and the arrow in the row, its
+     text (body) when open. */
+  function dayFold(day, head, body) {
+    return '<li class="day' + (dateLabel(day) ? ' dated' : '') + '" id="day-' + day + '"><details data-fold="day-' + day + '"><summary class="day-row"><span class="day-n mono">' + T('day') + ' <b>' + day + '</b>' +
+      (dateLabel(day) ? '<span class="day-date">' + esc(dateLabel(day)) + '</span>' : '') + '</span>' + head + ICON.fold + '</summary>' +
+      '<div class="day-body">' + body + '</div></details></li>';
+  }
+  // one day of a stay: its title and badges; its text, and its rain plan only when wet: in a month with many days of rain
+  // (rainyMonth in page.js)
   function dayItem(d, wet) {
-    return '<li class="day" id="day-' + d.day + '"><div class="day-n mono">' + T('day') + ' <b>' + d.day + '</b>' +
-      (dateLabel(d.day) ? '<span class="day-date">' + esc(dateLabel(d.day)) + '</span>' : '') + '</div>' +
-      '<div class="day-body"><h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
+    return dayFold(d.day, '<h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
       (d.variant ? ' <span class="pace pace-' + d.variant + '">' + T('badge.' + d.variant) + '</span>' : '') +
-      (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>' +
-      '<p>' + esc(d.d) + '</p>' + (d.rain && wet ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : '') + '</div></li>';
+      (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>',
+      '<p>' + esc(d.d) + '</p>' + (d.rain && wet ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : ''));
   }
   function tips(c) {
     var t = '';
@@ -4887,18 +5117,19 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       .concat(ferryNotes({ segs: cardSegs(L.segs, AIRPORTS) }, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }))
       .concat(flightNotes(L, FLIGHT_DAYS).map(function (n) { return T(n.key, { a: AIRPORTS[n.a].name, b: AIRPORTS[n.b].name, days: T(n.days) }); }));
     var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to), sw = swapOfLeg(L);
-    return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
-      '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
+    // a folded row (finding 6 of fix 3): its day, its ends, its time and the flag of a long day in the row; when open, its
+    // roads and flights, the notes, the link to Google Maps and the swap of a road
+    return '<div class="leg' + (long ? ' leg-long' : '') + '"><details data-fold="leg-' + day + '"><summary class="leg-head"><span class="leg-sum">' +
+      '<span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
-      '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
-      '<ul class="leg-segs">' + cardSegs(L.segs, AIRPORTS).map(function (g) {
+      '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span>' + (long ? '<span class="flag">' + T('longday') + '</span>' : '') + '</span>' + ICON.fold + '</summary>' +
+      '<div class="leg-more"><ul class="leg-segs">' + cardSegs(L.segs, AIRPORTS).map(function (g) {
         var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads, AIR_KEYS));
         return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
       }).join('') + '</ul>' +
-      (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
-        esc(notes.join(' ')) +
-        (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
-      (sw ? swapBlock(sw, day) : '') + '</div>';
+      (notes.length || maps ? '<p class="leg-foot">' + esc(notes.join(' ')) +
+        (maps ? (notes.length ? ' ' : '') + '<a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
+      (sw ? swapBlock(sw, day) : '') + '</div></details></div>';
   }
   function mapsLink(a, b) {
     function where(n) { return AIRPORTS[n] ? AIRPORTS[n].maps : C(n).maps; }
@@ -4910,9 +5141,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     var r = state.route, d = T('home.d') + (r.home.total >= 2 ? ' ' + T('home.far', { time: approx(r.home.total) }) : '');
     return '<section class="stop stop-compact stop-home" id="stop-home"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
       '<div class="stop-title"><p class="eyebrow">' + T('day') + ' ' + r.days + '</p><h3>' + esc(T('home.h3', { airport: AIRPORTS[state.st.to].name })) + '</h3></div></header>' +
-      '<ol class="days"><li class="day" id="day-' + r.days + '"><div class="day-n mono">' + T('day') + ' <b>' + r.days + '</b>' +
-      (dateLabel(r.days) ? '<span class="day-date">' + esc(dateLabel(r.days)) + '</span>' : '') + '</div><div class="day-body">' +
-      '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4><p>' + esc(d) + '</p></div></li></ol></section>';
+      '<ol class="days">' + dayFold(r.days, '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4>', '<p>' + esc(d) + '</p>') + '</ol></section>';
   }
 
   /* The stays in order, each after the journey that leads to it; a second stay in the same city (a round trip) without
@@ -5145,23 +5374,45 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       (canRemove(s.id) ? '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>' : '');
   }
   /* "Nie ma na twojej trasie, bo…": every place off the trip with why it is not on it (whyOff in page.js), and Dodaj where it
-     can put the place on the trip, with what would leave the trip for it. */
+     can put the place on the trip, with what would leave the trip for it. Each place is a folded row (fix 1 of the first
+     round of fixes): its first photo small, its dot, its short name and its sentence „what it is and where” in the row;
+     when open, the photo (all the place's photos on full screen), the full name with the usual stay, the line under the
+     name, why it is not on the trip, what would leave it and Dodaj, and the small map of the country (countrySvg). */
   function offReason(r, x) {
     if (r === 'level') return T('off.r.level', { lvl: T('lvl.' + PLACES[x.id].level) });
     if (r === 'season') return T('off.r.season', { why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') });
     if (r === 'beaten') return T('off.r.beaten', { days: state.st.days });
     return T('off.r.' + r);
   }
+  // the small map of the country of a place off the trip (countryMap in page.js): the outline of Vietnam (OUTLINE in
+  // basemap.js), the trip as thin dark lines (a flight dashed, as on the map of the trip), the place as a dot in its colour,
+  // and a short legend
+  function countrySvg(id) {
+    var m = countryMap(state.route, id, { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS }), dot = '<span class="dot" style="--c:' + stopColor(id) + '"></span>';
+    return '<figure class="off-map"><svg viewBox="0 0 ' + m.w + ' ' + m.h + '" role="img" aria-label="' + esc(T('off.map.aria', { x: C(id).short })) + '">' +
+      '<path class="cm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
+        return g.mode === 'fly' ? '<path class="cm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
+          : '<line class="cm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
+      }).join('') + '<circle class="cm-dot" cx="' + r1(m.dot.x) + '" cy="' + r1(m.dot.y) + '" r="5" style="--c:' + stopColor(id) + '"/></svg>' +
+      '<figcaption class="cm-legend"><span>' + dot + esc(C(id).short) + '</span><span><svg width="16" height="6" aria-hidden="true"><line class="cm-road" x1="0" x2="16" y1="3" y2="3"/></svg>' +
+      T('off.map.route') + '</span></figcaption></figure>';
+  }
   function renderOffRoute() {
     var s = state.settings;
     $('#offroute-list').innerHTML = whyOff(state.route, s, state.st, DATA, CLIMATE).map(function (x) {
-      var c = C(x.id);
-      return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><div class="off-body"><b>' + esc(c.short) + '</b>' +
-        (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') +
+      var c = C(x.id), n = PLACES[x.id].nights[1];
+      return '<li><details data-fold="off-' + x.id + '"><summary class="off-row"><span class="off-thumb">' + img(c.photos[0], '', '64px') + '</span>' +
+        '<span class="off-head"><span class="off-name"><span class="dot" style="--c:' + stopColor(x.id) + '"></span><b>' + esc(c.short) + '</b>' +
+        (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') + '</span><span class="off-what">' + esc(c.what) + '</span></span>' + ICON.fold + '</summary>' +
+        '<div class="off-more"><button type="button" class="off-photo" data-photos="' + x.id + '" aria-label="' + esc(T('g.open', { i: 1, n: c.photos.length })) + '">' +
+        img(c.photos[0], '', '(max-width: 640px) calc(100vw - 58px), 220px') + ICON.expand + '</button>' +
+        '<div class="off-text"><p class="off-stay"><b>' + esc(c.name) + '</b> · ' + esc(T('off.usual', { n: n, nights: countWord('nights', n) })) + '</p>' +
+        '<p class="off-sub">' + esc(c.sub) + '</p>' +
         '<p class="off-why">' + esc(capFirst(x.reasons.map(function (r) { return offReason(r, x); }).join('; '))) + '.</p>' +
         (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) })
-          : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') + '</div>' +
-        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</li>';
+          : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') +
+        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</div>' +
+        countrySvg(x.id) + '</div></details></li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
   }
@@ -5174,6 +5425,11 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     $('#dropped').textContent = tied(text);
   }
   function bindChanges() {
+    // the photo of a place off the trip: all its photos on full screen, with their authors and licences
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.off-photo') : null;
+      if (b) openLightbox(C(b.getAttribute('data-photos')).photos, 0, b);
+    });
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-add], [data-remove], #reset-changes') : null;
       if (!b) return;
@@ -5193,6 +5449,16 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   }
 
   /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
+  /* A part of „Przed wyjazdem” as a folded part (finding 7 of fix 3): its heading and one sentence (gist) in the summary, with
+     what stays in sight under the sentence (the warning of Tết at the bookings, finding 8); the rest (body) when open. */
+  function beforeFold(key, h3, gist, body) {
+    return '<details data-fold="' + key + '"><summary class="b-head"><span class="b-title"><h3>' + h3 + '</h3>' + gist + '</span>' + ICON.fold + '</summary>' +
+      '<div class="b-more">' + body + '</div></details>';
+  }
+  // what to book, by its name, for the sentence of its part: the flights, a car from an airport, the transfers, the hosts and
+  // the stays in the parks by their own words; anything else by its first thing (its cost key)
+  var BOOK_NAMES = { airport: 'bn.airport', transfer: 'bn.transfer', homestay: 'bn.homestay', 'cucphuong.stay': 'bn.cucphuong', 'yokdon.stay': 'bn.yokdon' };
+  function bookName(e) { return BOOK_NAMES[e.key] ? T(BOOK_NAMES[e.key]) : T('cost.' + (e.key === 'flights' ? 'flights' : e.items[0])); }
   function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(named(LINK_NAMES_EN, l.name)) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
@@ -5200,18 +5466,24 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
     var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return named(HOLIDAY_NAMES_EN, h.name); });
     var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
-    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
+    // with the costs hidden (fix 2) the budget says so and offers to show them, without folding, and is not printed (b-off)
+    $('#b-budget').classList.toggle('b-off', !costs);
+    $('#b-budget').innerHTML = !costs ? '<h3>' + T('bud.h3') + '</h3><p>' + esc(T('bud.off')) + '</p><button type="button" class="btn-ghost costs-show" id="costs-show">' + T('set.costs') + '</button>'
+      : beforeFold('b-budget', T('bud.h3'), '<span class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</span>',
       '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
       '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
         return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + vnd(b.parts[k].two) + '</span></li>';
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
       (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
-      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>';
-    var books = bookList(r, state.plans, moto, BOOK_DATA);
-    $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
-      (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
-      (books.length ? '<ol class="b-book">' + books.map(function (e) {
+      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>');
+    var books = bookList(r, state.plans, moto, BOOK_DATA), warn = tet ? '<span class="b-warn">' + esc(T('book.tet')) + '</span>' : '';
+    // how many things and the most urgent; a trip with nothing to book ahead says so, without folding
+    var gist = books.length > 1 ? T('book.gist', { n: books.length, things: countWord('things', books.length), x: bookName(books[0]) })
+      : books.length ? T('book.gist1', { x: bookName(books[0]) }) : '';
+    $('#b-book').innerHTML = !books.length ? '<h3>' + T('book.h3') + '</h3>' + warn + '<p>' + esc(T('book.none')) + '</p>'
+      : beforeFold('b-book', T('book.h3'), '<span class="b-gist">' + esc(gist) + '</span>' + warn, '<p class="b-note">' + T('book.p') + (costs ? ' ' + T('book.amounts') : '') + '</p>' +
+      '<ol class="b-book">' + books.map(function (e) {
         // what the line is about: the flights, the roads from airports (both ways said so), the hosts' places, the things
         // booked under the key (a park's services); a place with a peak of its own for its hosts adds its sentence
         var x = e.key === 'flights' ? e.list.map(function (f) { return AIRPORTS[f[0]].name + ' → ' + AIRPORTS[f[1]].name; }).join(', ')
@@ -5219,16 +5491,43 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
           : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
         var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
         // a thing that may cost nothing says its dearer end without „ok.”: „do 2,2 mln VND na osobę”
-        var meta = [e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
+        var meta = [costs && e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
-      }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
+      }).join('') + '</ol>');
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
     // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
-    $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
-      '<p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>';
-    $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
-      return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
-    }).join('') + '</ul>';
+    $('#b-know').innerHTML = beforeFold('b-know', T('know.h3'), '<span class="b-gist">' + esc(T('know.gist')) + '</span>',
+      '<ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul><p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>');
+    var pack = packList(r, state.plans, st, moto, PACK_DATA);
+    $('#b-pack').innerHTML = beforeFold('b-pack', T('pack.h3'), '<span class="b-gist">' + esc(T('pack.gist', { n: pack.length, things: countWord('things', pack.length) })) + '</span>',
+      '<ul class="b-list">' + pack.map(function (p) { return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>'; }).join('') + '</ul>');
+  }
+
+  /* ---------- the estimated costs (fix 2 of the first round of fixes, 16.10.2026) ---------- */
+  /* Shown or hidden by the box of the form or by „Pokaż szacowane koszty” in „Przed wyjazdem”: only the amounts come or go
+     (the figure of the budget, the budget part, the amounts of what to book), and the address gains or loses koszty=1; the
+     trip is not planned again, the page does not move, the history gets no entry, and „Wróć do trasy bez zmian” does not
+     count it as a change of the trip. */
+  function setCosts(on) {
+    var keep = openFolds(), h;
+    costs = on;
+    F.costs.checked = on;
+    renderFacts();
+    renderBefore();
+    renderPrintLink();
+    tieShortWords($('#shape'));
+    tieShortWords($('#before'));
+    reopenFolds(keep);
+    h = pageHash(state.settings, lang, costs);
+    try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
+  }
+  // „Pokaż szacowane koszty” in „Przed wyjazdem” is the same switch; the focus goes to the budget part it brings
+  function bindCosts() {
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('#costs-show')) return;
+      setCosts(true);
+      $('#b-budget summary').focus();
+    });
   }
 
   /* „Z kierowcą” or „Samodzielnie” in a card: the trip stays, its days, texts and budget follow; the choice builds on the
@@ -5252,6 +5551,41 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     });
   }
 
+  /* ---------- folded parts (the first round of fixes, fix 3, 16.10.2026) ---------- */
+  // the trip whose days and journeys the folded rows show (tripKey in page.js)
+  var foldTrip = '';
+  // the keys (data-fold) of the folded parts that are open
+  function openFolds() { return Array.prototype.map.call(document.querySelectorAll('details[data-fold][open]'), function (d) { return d.getAttribute('data-fold'); }); }
+  function reopenFolds(keys) { keys.forEach(function (k) { var d = document.querySelector('details[data-fold="' + k + '"]'); if (d) d.open = true; }); }
+  // an element a link leads to, in sight: its own folded part (a day's row) and every folded part around it open
+  function reveal(el) {
+    var d = el.querySelector(':scope > details');
+    if (d) d.open = true;
+    for (d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+  }
+  // the days and journeys of „Dzień po dniu”; „Rozwiń wszystkie dni” opens them all, and when all are open the button
+  // closes them (finding 4 of fix 3)
+  function dayFolds() { return Array.prototype.slice.call(document.querySelectorAll('#stops details[data-fold]')); }
+  function syncDaysAll() {
+    $('#days-all').textContent = T(dayFolds().every(function (d) { return d.open; }) ? 'days.close' : 'days.open');
+  }
+  function bindFolds() {
+    $('#days-all').addEventListener('click', function () {
+      var open = !dayFolds().every(function (d) { return d.open; });
+      dayFolds().forEach(function (d) { d.open = open; });
+      syncDaysAll();
+    });
+    // a row opened or closed by hand: the button follows (toggle does not bubble, so it is caught on its way down)
+    $('#stops').addEventListener('toggle', syncDaysAll, true);
+    // the printout shows everything (finding 11 of fix 3): every folded part opens before printing, and those that were
+    // closed close again after it
+    var closed = [];
+    window.addEventListener('beforeprint', function () {
+      closed = Array.prototype.filter.call(document.querySelectorAll('details:not([open])'), function (d) { d.open = true; return true; });
+    });
+    window.addEventListener('afterprint', function () { closed.forEach(function (d) { d.open = false; }); closed = []; });
+  }
+
   /* ---------- the plan as text, for WhatsApp ---------- */
   function planText() {
     var r = state.route, st = state.st, lines = [], flights = [];
@@ -5265,8 +5599,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
-    lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
-    lines.push(T('pt.link') + SITE_URL + langHash(state.settings, lang));
+    if (costs) lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
+    lines.push(T('pt.link') + SITE_URL + pageHash(state.settings, lang, costs));
     return lines.join('\n');
   }
   function bindCopy() {
@@ -5422,12 +5756,13 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     }
   }
 
-  /* The bar at the top sums up the settings once the form has gone up off the screen (class away on the bar). */
+  /* The bar at the top sums up the settings once the settings, folded or whole, have gone up off the screen (class away on
+     the bar). */
   function bindSummary() {
     if (!('IntersectionObserver' in window)) return;
     new IntersectionObserver(function (es) {
       $('#secnav').classList.toggle('away', !es[0].isIntersecting && es[0].boundingClientRect.bottom < 0);
-    }).observe(F);
+    }).observe($('#settings'));
   }
 
   /* ---------- the footer and the texts in the template ---------- */
@@ -5435,6 +5770,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     var used = {};
     used[HERO_PHOTO] = true;
     Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
+    $('#ft-photos').innerHTML = '<h2>' + esc(T('ft.photos', { n: Object.keys(used).length })) + '</h2>' + ICON.fold;
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
       // the caption leads to the photo's page on Commons, the licence to its text
       var m = PHOTO_META[ph], lic = licenceUrl(m.license, lang);
@@ -5477,6 +5813,9 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   /* ---------- wiring ---------- */
   setLang(langOf(location.hash));   // the texts first, in the language of the link
   buildForm();
+  // a link that holds a trip (its settings, not only lang=) opens with the form folded (finding 10 of fix 3)
+  if (Object.keys(parseLink(location.hash)).length) { F.hidden = true; $('#set-sum').hidden = false; }
+  $('#set-open').addEventListener('click', function () { openForm(); F.querySelector('input[name=mode]:checked').focus(); });
   bindLightbox();
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
@@ -5487,6 +5826,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   bindSwaps();
   bindSummary();
   bindLang();
+  bindFolds();
+  bindCosts();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');
