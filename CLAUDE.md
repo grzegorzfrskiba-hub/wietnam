@@ -1,6 +1,6 @@
 # Route G („Wietnam po swojemu”) — instrukcja dla Claude
 
-**Status (15.10.2026):** etap 5 zrobiony: Route G jest po angielsku i po polsku pod https://grzegorzfrskiba-hub.github.io/wietnam/ (domyślnie po angielsku, przełącznik EN · PL, `&lang=pl` w linku), dalej z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Następny krok: pierwsza runda anglojęzycznych testerów, zob. [notes/etapy.md](notes/etapy.md).
+**Status (16.10.2026):** etap 5 zrobiony: Route G jest po angielsku i po polsku pod https://grzegorzfrskiba-hub.github.io/wietnam/ (domyślnie po angielsku, przełącznik EN · PL, `&lang=pl` w linku), dalej z `noindex`; strona jest dla podróżnych z całego świata, z cenami w dongach. Następny krok: plan z suchą próbą dla pierwszej rundy poprawek użytkownika (poprawki 1–3: lista „Nie ma na twojej trasie” z opisem, zdjęciem i mapką; koszty domyślnie schowane; najpierw ogóły, szczegóły po kliknięciu), a po jej publikacji pierwsza runda anglojęzycznych testerów, zob. [notes/etapy.md](notes/etapy.md), „Runda poprawek”.
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 

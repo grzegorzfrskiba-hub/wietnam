@@ -100,7 +100,7 @@ Plan ([plans/2026-10-14-etap-4-audyt-i-publikacja.md](plans/2026-10-14-etap-4-au
 
 Decyzja z 14.10.2026: większość pierwszych testerów mówi po angielsku, więc po partii B strona dostaje angielski jako język przewodni, a polski zostaje drugim. Mechanizm kluczy tekstów i test kompletności już są (wizja, pkt 2). Zakres etapu (teksty miejsc, przełącznik języka, adres, `noindex`) ustali jego sesja decyzji. Decyzja z 15.10.2026: etap 5 przychodzi po planie B2 i tłumaczy już skróconą treść, a polski zostaje tłumaczeniem angielskiego, z tymi samymi faktami; sesja decyzji etapu ustali też nazwę strony. Sesja decyzji (15.10.2026): nazwa „Route G”, jeden adres z przełącznikiem EN · PL i angielskim domyślnym, `&lang=pl` w linku przy polskim, adres bez zmian, `noindex` do samego końca, tłumaczenie wszystkiego, co widzi czytelnik; decyzje i 31 ustaleń w „Z sesji decyzji etapu 5” niżej.
 
-## Następny krok: pierwsza runda anglojęzycznych testerów
+## Następny krok: runda poprawek, potem pierwsza runda anglojęzycznych testerów
 
 Zrobione 15.10.2026: etap 5 ([plans/2026-10-15-etap-5-angielski.md](plans/2026-10-15-etap-5-angielski.md)). Strona Route G jest po angielsku i po polsku pod jednym adresem: domyślnie po angielsku, z przełącznikiem EN · PL w prawym górnym rogu zdjęcia; polski dopisuje `&lang=pl` na końcu linku, także w planie na WhatsApp i w PDF, a link bez `lang=` (każdy sprzed etapu 5) otwiera się po angielsku. Po angielsku są teksty 21 miejsc, podpisy 97 zdjęć, święta, nazwy linków i interfejs (`site2/src/en/`), daty („Thu 28 Jan”, „6–12 Feb 2027”) i kwoty („17–39M VND”); podgląd linku jest po angielsku („Route G · Vietnam, up to you”), zdanie bez JavaScriptu w obu językach, plik offline to `Route-G.html`, a README jest po angielsku z akapitem po polsku. Po polsku doszły nazwa Route G z podpisem „Wietnam po swojemu”, wyjątek z umów pod przełącznikiem motocykla (ASEAN, Korea Płd.), ryzyko jako dwa fakty i poprawki z ustaleń 20–24. Testy pilnują obu języków: kompletność, te same liczby i nazwy wietnamskie w każdej z 1050 par tekstów, styl brytyjski, teksty dla każdego paszportu, angielski opis dnia najwyżej 80 słów i zdania o bezpieczeństwie po angielsku; sondy chodzą w obu językach, a sonda `lang.js` sprawdza przełącznik i język w linku. Trasy i silnik bez zmian: liczby z `tools/liczby.sh` są takie same jak przed planem.
 
@@ -110,7 +110,94 @@ Końcowy przegląd etapu 5 (15.10.2026, świeży recenzent): „Gotowe do publik
 
 Publikacja (15.10.2026): za zgodą użytkownika strona po etapie 5 poszła na GitHub Pages (https://grzegorzfrskiba-hub.github.io/wietnam/, dalej z `noindex`); na żywo są Route G po angielsku, przełącznik EN · PL i podgląd linku „Route G · Vietnam, up to you”, a opis repo na GitHubie jest po angielsku („Route G · Vietnam, up to you: a trip planner for Vietnam, in English and Polish”, za osobną zgodą). Drugi rzut oka na komunikaty tego dnia (tylko strony HTML): półwysep Sơn Trà otwarty (prasa zapowiada ulewy 20–22.10, a strona każe dzień wcześniej sprawdzić komunikat zarządu), szlak na Lang Biang dalej zawieszony, festiwal gryki w Đồng Văn od 25.10.2026 bez ogłoszonych zasad ruchu, paralotnia Mebayluon nad Khau Phạ lata według cennika na 2026, e-wiza i karta przylotu dalej tylko na stronach rządowych, dekret 90/2026 o e-papierosach bez zmian; strona bez zmian.
 
-**Następny krok:** pierwsza runda anglojęzycznych testerów: kilka przygodowych osób dostaje sam adres strony i trzy pytania, jak w pierwszej rundzie (decyzja 2 z 14.10.2026); opinie zapisujemy w „Pierwsza runda” bez imion i linków, punkt po punkcie, z decyzją, co z nimi zrobić. Otwarcie dla wyszukiwarek, własna domena i odświeżenie cen na sam koniec (lista „Po publikacji”).
+**Następny krok:** plan z suchą próbą dla pierwszej rundy poprawek (poprawki 1–3 w „Runda poprawek” niżej), w nowej sesji; wykonanie w kolejnej świeżej sesji, jak dotąd. Dalsze poprawki użytkownik zgłosi później, w następnej rundzie. Po publikacji poprawek pierwsza runda anglojęzycznych testerów: kilka przygodowych osób dostaje sam adres strony i trzy pytania, jak w pierwszej rundzie (decyzja 2 z 14.10.2026); opinie zapisujemy w „Pierwsza runda” bez imion i linków, punkt po punkcie, z decyzją, co z nimi zrobić. Otwarcie dla wyszukiwarek, własna domena i odświeżenie cen na sam koniec (lista „Po publikacji”).
+
+### Runda poprawek (od 16.10.2026)
+
+Po etapie 5, przed pierwszą rundą anglojęzycznych testerów, użytkownik przegląda stronę i zgłasza poprawki. Według rekomendacji poprawki zbieramy w jedną listę, a gdy będzie pełna, powstaje jeden plan z suchą próbą dla wszystkich: jedna runda sprawdzania i publikacji zamiast kilku, a poprawki w tym samym kodzie się nie zderzą. Wykonanie jak dotąd: świeża sesja, punkt kontrolny, końcowy przegląd na najmocniejszym modelu, publikacja za zgodą, notatki. Pod koniec sesji decyzji (16.10.2026) użytkownik zamknął pierwszą rundę na poprawkach 1–3 („póki co to tyle, dalsze poprawki przyjdą później”): plan dla nich powstaje w nowej sesji, a dalsze poprawki pójdą w następnej rundzie.
+
+**Poprawka 1: lista „Nie ma na twojej trasie” z opisem, zdjęciem i mapką** (sesja decyzji 16.10.2026). Uwaga użytkownika: lista pokazuje same nazwy, a ktoś, kto nie zna Wietnamu, nie wie, czym są te miejsca, więc nie wie, czy chce je dodać do planu; każde miejsce potrzebuje minimalnego kontekstu (co tam jest, co można tam robić), choćby małego zdjęcia i znacznika na mapce Wietnamu, a lista ma być rozwijaną harmonijką, żeby nie było za dużo przewijania. Stan na 16.10.2026: każde miejsce ma podpis `sub` w obu językach („Kanały, sady i pływający targ z pokładu małej łodzi”) i 3–5 zdjęć, ale lista pokazuje tylko krótką nazwę (`short`); mapa w części „Trasa” pokazuje miejsca spoza trasy jako blade kropki z nazwami, ale stoi sekcję niżej, daleko od listy.
+
+Decyzje (cztery, wszystkie według rekomendacji):
+1. Wiersz przed rozwinięciem: miniatura, nazwa i jedno zdanie, więc listę da się przejrzeć bez otwierania wierszy; reszta po rozwinięciu (odrzucone: nazwa i zdanie bez zdjęcia; sama nazwa, przy której nazwy znów nic nie mówią).
+2. Tekst: nowe zdanie „czym to jest i gdzie” w wierszu, po polsku i po angielsku, z faktami z researchu; po rozwinięciu obecny podpis i typowa długość pobytu (odrzucone: same istniejące teksty, które nie mówią, czym jest miejsce ani gdzie leży; dłuższy opis jak w przewodniku, bliżej ogólnej wiedzy podróżniczej, której strona unika).
+3. Mapa: po rozwinięciu mała mapka całego kraju z trasą cienką linią i miejscem kropką, z jednorazowym pobraniem konturów Natural Earth za zgodą (odrzucone: kadr z mapy trasy, bez zarysu kraju; podświetlenie kropki na dużej mapie, która jest sekcję niżej, a na telefonie poza ekranem).
+4. „Dodaj” po rozwinięciu, obok powodu i tego, co wypadnie, żeby decyzja zapadała, gdy wiadomo, czym jest miejsce i co kosztuje (odrzucone: w wierszu, jak dziś, bo łatwo dodać miejsce w ciemno).
+
+Ustalenia (15, przyjęte w jednym kroku):
+- Wiersz:
+  1. każde miejsce to rozwijany wiersz; na starcie wszystkie zwinięte, otwartych może być kilka naraz; otwarte zostają otwarte po zmianie języka i po zmianie trasy, jeśli miejsce dalej jest na liście;
+  2. w wierszu miniatura pierwszego zdjęcia miejsca, kolorowa kropka jak dziś, krótka nazwa, nowe zdanie i strzałka; znacznik „nie zmieściło się” zostaje przy nazwie;
+  3. nowe zdanie pod nagłówkiem, w obu językach: „Rozwiń miejsce, żeby zobaczyć, co tam jest, dlaczego nie ma go na trasie i co wypadnie po dodaniu.”
+- Po rozwinięciu:
+  4. większe zdjęcie: na telefonie na całą szerokość, na komputerze z lewej; kliknięcie otwiera przeglądarkę zdjęć na pełnym ekranie ze wszystkimi 3–5 zdjęciami miejsca, z autorem i licencją, a zdjęcia trafiają też na listę autorów na dole strony;
+  5. linia z pełną nazwą i typową długością pobytu („Delta Mekongu · zwykle 2 noce”, `nights[1]` z `places.js`), pod nią obecny podpis `sub`;
+  6. mała mapka po prawej: zarys Wietnamu, trasa ciemną cienką linią (lot przerywaną, jak na dużej mapie) i to miejsce dużą kropką w jego kolorze, z krótką legendą; wyspy Hoàng Sa i Trường Sa poza kadrem, jak na dzisiejszej mapie;
+  7. na dole bez zmian w tekstach: powód, „Po dodaniu wypadnie…” i „Dodaj”; gdy miejsca nie da się dodać, sam powód.
+- Nowe zdania:
+  8. jedno zdanie na miejsce, 20 miejsc (wszystkie poza nocą w drodze, `hanoiStop`), w obu językach, ok. 20 słów: czym jest miejsce i gdzie leży względem znanego punktu („na samym południu kraju”, „w górach przy granicy z Chinami”); bez godzin dojazdu, bo zależą od trasy; fakty z researchu;
+  9. zdania tylko na tej liście; karty miejsc na trasie bez zmian, bo mają podpis, zdjęcia i plan dni.
+- Technika:
+  10. mniejsza kopia każdego zdjęcia na miniatury (ok. 160 px), ładowana dopiero przy przewijaniu; plik offline korzysta z tych samych zdjęć co dziś;
+  11. zarys kraju dochodzi do konturów mapy (`site2/src/basemap.js`) jako jeden dodatkowy kształt; trzy dzisiejsze kadry mapy zostają bez zmian, co sprawdza porównanie pliku;
+  12. testy: każde miejsce ma zdanie w obu językach, w każdej parze te same fakty, limit długości; nowa sonda w Chrome bez okna, w obu językach, przy 390, 641, 901 i 1400 px: wiersze zwinięte na starcie, rozwijanie myszą i klawiaturą, kropka na mapce w dobrym miejscu, „Dodaj” działa; w druku lista dalej ukryta.
+- Proces:
+  13. plan z suchą próbą dla całej rundy poprawek, wykonanie w świeżej sesji, z punktem kontrolnym, końcowym przeglądem na najmocniejszym modelu i publikacją za zgodą;
+  14. przed oddaniem planu użytkownik dostaje arkusz 20 zdań PL | EN i zrzuty listy, zwiniętej i rozwiniętej, przy 390 i 1400 px;
+  15. do mapki potrzebny jest `ne_10m_admin_0_countries.geojson` (13,3 MB, Natural Earth na GitHubie, domena publiczna; ten sam plik co w planie 2A), poza repo; zgoda na pobranie osobno, w sesji planu. Uzupełnienie (16.10.2026, świeży recenzent zapisu): oba pliki z planu 2A (`ne_10m_admin_0_countries.geojson`, 13 287 234 B, i `ne_10m_rivers_lake_centerlines.geojson`, 7 307 743 B, z 13.10.2026) leżą jeszcze w `$TMPDIR/natural-earth/`, więc plan ich używa i nic nie pobiera; pobranie za zgodą tylko wtedy, gdy system je usunie. Recenzent nie miał innych pytań do użytkownika.
+
+**Poprawka 2: koszty domyślnie schowane, z przełącznikiem** (sesja decyzji 16.10.2026). Propozycja użytkownika: nie ma potrzeby, żeby wszystkie ceny i kwoty były od razu widoczne; w ustawieniach wyjazdu checkbox „pokaż koszty”, domyślnie wyłączony, żeby szacowane koszty dało się zobaczyć jednym kliknięciem. Moja opinia w sesji: dobry pomysł, bo kwoty to szacunki z szerokimi widełkami (domyślna trasa: 17–39 mln VND na osobę), a przy pierwszym oglądaniu trasy to szum; zastrzeżenie: pytanie o koszty pada zwykle wcześnie, więc schowany budżet musi być łatwy do znalezienia także tam, gdzie się go szuka. Stan na 16.10.2026: kwoty wyliczone przez stronę są w pięciu miejscach (kafelek budżetu w „W skrócie”, część „Budżet” w „Przed wyjazdem”, kwota przy 5 z 7 pozycji „Zarezerwuj wcześniej” na domyślnej trasie, linia budżetu w planie na WhatsApp, to samo w PDF), a trzy kwoty stoją w zdaniach z faktami (pozwolenie na strefę przygraniczną w Hà Giang, mandat za jazdę bez uprawnień, kara za e-papierosy).
+
+Decyzje (domyślnie wyłączone to wybór użytkownika; trzy pozostałe według rekomendacji):
+1. Koszty domyślnie schowane; jedno kliknięcie je pokazuje.
+2. Przełącznik chowa wyliczone koszty: kafelek budżetu, część „Budżet”, kwoty przy „Zarezerwuj wcześniej” (lista zostaje), linię budżetu w planie na WhatsApp i w PDF; kwoty w zdaniach (pozwolenie, mandat, kara) zostają, bo to nie koszt wyjazdu, tylko fakty potrzebne do działania i bezpieczeństwa (odrzucone: wszystkie kwoty, bo znika informacja o bezpieczeństwie i o tym, co trzeba załatwić; sam budżet, bo kwoty przy rezerwacjach zostałyby na stronie).
+3. Przełącznik w dwóch miejscach: checkbox w ustawieniach na górze, jak w propozycji, i przycisk w „Przed wyjazdem” w miejscu budżetu, ten sam przełącznik (odrzucone: tylko w ustawieniach, bo kto przewinie do „Przed wyjazdem”, nie dowie się, że budżet istnieje).
+4. Włączone koszty idą do linku jak język: `&koszty=1`, więc plan na WhatsApp i link w PDF otwierają się u odbiorcy tak, jak widzi je nadawca; link bez tego, także każdy sprzed poprawki, otwiera się z kosztami schowanymi (odrzucone: zawsze schowane na start, bo nadawca widziałby co innego niż odbiorca).
+
+Ustalenia (11, przyjęte w jednym kroku):
+- Przełącznik:
+  1. checkbox w ustawieniach pod „Poziom przygody” (na telefonie na dole formularza): „Pokaż szacowane koszty” / “Show estimated costs”, z notką „Budżet na osobę i ceny przy rezerwacjach.”; zmiana tylko pokazuje albo chowa kwoty: trasa się nie przelicza, strona nie przewija się do trasy, w historii przeglądarki nie przybywa wpisów, a „Wróć do trasy bez zmian” nie traktuje go jako zmiany trasy;
+  2. w „Przed wyjazdem” część „Budżet” zostaje z nagłówkiem, a przy schowanych kosztach ma zdanie „Szacowane koszty są schowane.” i przycisk „Pokaż szacowane koszty”; przycisk włącza ten sam przełącznik (checkbox na górze też się zaznacza), a fokus przechodzi na nagłówek budżetu; wyłącza się tylko checkboxem na górze;
+  3. nagłówek „Budżet, rezerwacje i pakowanie” i zdanie pod nim bez zmian, bo część „Budżet” zostaje.
+- Co znika przy schowanych kosztach:
+  4. kafelek budżetu; w rzędzie zostaje 5 liczb, ułożonych porządnie przy każdej szerokości (390, 641, 768, 901 i 1400 px);
+  5. w „Zarezerwuj wcześniej” kwota „ok. … na osobę” przy pozycjach i zdanie „Kwoty na osobę przy dwóch osobach.”; lista, terminy i linki zostają;
+  6. ostrzeżenia o cenach w części „Budżet” (Tết, długie weekendy) i notka „Ceny sprawdzone w…” tylko z kosztami; ostrzeżenie o Tết przy rezerwacjach i ostrzeżenia na górze strony zostają zawsze;
+  7. linia budżetu w planie na WhatsApp; w druku i PDF część „Budżet” przy schowanych kosztach nie drukuje się wcale.
+- Link:
+  8. `koszty=1` przed `lang=pl`, więc język dalej na końcu; każda inna wartość albo brak to koszty schowane, bez ostrzeżenia o błędnym linku, jak przy języku.
+- Teksty i testy:
+  9. nowe teksty od razu w obu językach; README (angielski i akapit polski) mówi, że budżet pokazuje się po zaznaczeniu;
+  10. sondy, które czytają budżet, dostają `koszty=1`; nowe kontrole w obu językach: domyślnie na stronie i w planie na WhatsApp nie ma żadnej wyliczonej kwoty; checkbox i przycisk włączają koszty i dopisują `koszty=1`; link z `koszty=1` otwiera się z kosztami; kolejność przy `koszty=1&lang=pl`; druk w obu stanach;
+  11. silnik i trasy bez zmian: liczby z `tools/liczby.sh` takie same przed i po.
+
+**Poprawka 3: najpierw ogóły, szczegóły po kliknięciu** (sesja decyzji 16.10.2026). Uwaga użytkownika: czasem ma wrażenie, że przewija stronę w nieskończoność; część szczegółów ma być rozwijana, żeby na początku były ogóły, a każdą interesującą informację dało się rozwinąć; za dużo tekstu na początku zniechęca, a przy ścianie tekstu strona przestaje być czytelna. Pomiar 16.10.2026 (domyślna trasa, 15 dni, po polsku): na telefonie (390 px) ok. 23 750 px, na komputerze (1400 px) ok. 15 600 px; najwięcej na telefonie zajmują opisy dni (ok. 3800 px), lista autorów zdjęć w stopce (ok. 3600 px, autorzy wszystkich 97 zdjęć niezależnie od trasy), lista „Nie ma na twojej trasie” (ok. 2260 px, poprawka 1), „Przed wyjazdem” (ok. 2340 px), przejazdy (ok. 1900 px) i wskazówki przy miejscach (ok. 1200 px). Zgrubna symulacja w Chrome bez okna (opisy dni, szczegóły przejazdów, wskazówki, części „Przed wyjazdem” i lista autorów zwinięte): na telefonie ok. 13 300 px (trasa 21 dni: z 27 400 do ok. 14 400), na komputerze ok. 12 000 px; bez zwijania wskazówek, według wyboru użytkownika niżej, na telefonie ok. 900 px więcej.
+
+Decyzje (trzy):
+1. Dni w kartach miejsc: tytuły dni widoczne, opis dnia i plan na deszcz po kliknięciu w dzień (rekomendacja); zdjęcia widoczne od razu, bez rozwijania, bo według użytkownika obrazy przyciągają ludzi bardziej niż ściany tekstu (odrzucone: cała karta zwinięta, bo bez tytułów dni trudno zobaczyć całą wyprawę bez klikania; opisy widoczne i zwinięte tylko dodatki, bo największy kawałek tekstu by został).
+2. Zwinięte też: przejazdy do jednej linii, „Przed wyjazdem” z podsumowaniami i lista autorów zdjęć (rekomendacja); wskazówki przy miejscach („Ukryta perełka”, „Do pominięcia”) zostają widoczne (wybór użytkownika; rekomendacja była zwinąć je pod jednym „Wskazówki”).
+3. Formularz ustawień przy otwarciu linku z gotową trasą zwinięty do podsumowania z przyciskiem „Zmień” (rekomendacja; odrzucone: zawsze pełny, jak dziś).
+
+Ustalenia (13, przyjęte w jednym kroku):
+- Dni:
+  1. wiersz dnia: „Dzień 3” (z datą w trybie dat), tytuł, znaczniki (tempo, wersja, wczesny start) i strzałka; cały wiersz jest przyciskiem, co najmniej 44 px wysokości; po kliknięciu opis dnia i plan na deszcz (gdy pada); ostatni dzień, powrót na lotnisko, tak samo;
+  2. na starcie wszystko zwinięte, otwartych może być kilka naraz; otwarte zostają otwarte po zmianie języka, a po zmianie trasy wszystko się zwija, bo dni się przesuwają;
+  3. kliknięcie dnia w pasku „W skrócie” albo link z `#day-5` przenosi do dnia i od razu go rozwija;
+  4. na górze „Dzień po dniu” przycisk „Rozwiń wszystkie dni” / „Zwiń wszystkie dni”;
+  5. bez zmian zostają: nagłówek miejsca, „Wybrane, bo…”, pogoda, wydarzenia i ostrzeżenia, zdjęcia, wybór motocykla i wskazówki; zdanie pod nagłówkiem sekcji dostaje dopisek, że szczegóły dnia i przejazdu są po kliknięciu.
+- Przejazdy:
+  6. zwinięta linia to dzisiejszy nagłówek („Dzień 3 · Hồ Chí Minh City → Đà Lạt · ok. 5 h od drzwi do drzwi”) ze znacznikiem długiego dnia; po kliknięciu odcinki z czasami, uwagi o promach, lotach i dojazdach z lotnisk, link do Map Google i wybór motocykla przez przełęcz Hải Vân.
+- Przed wyjazdem:
+  7. cztery części zwinięte, każda z jednym zdaniem: Budżet: suma („17–39 mln VND na osobę…”) albo, przy schowanych kosztach (poprawka 2), od razu zdanie i przycisk „Pokaż szacowane koszty”, bez rozwijania; Zarezerwuj wcześniej: „7 rzeczy, najpilniejsze: loty krajowe.”; Warto wiedzieć: „Wiza, e-papierosy i strony rządowe.”; Co spakować: „5 rzeczy na tę trasę.”;
+  8. ostrzeżenie o Tết przy rezerwacjach zostaje widoczne pod podsumowaniem, bo jest pilne.
+- Autorzy zdjęć:
+  9. „Zdjęcia: autorzy i licencje (97)” zwinięte; notka o źródłach i prawa zastrzeżone zostają widoczne; autor i licencja dalej przy każdym zdjęciu na pełnym ekranie, jak dziś.
+- Ustawienia:
+  10. gdy link ma ustawienia trasy, formularz startuje jako podsumowanie w trzech linijkach (termin i liczba dni; lotniska; zainteresowania i poziom) z przyciskiem „Zmień”; bez ustawień w linku (pierwsza wizyta) i po kliknięciu „Ustaw swój wyjazd” w nagłówku strony formularz jest pełny i zostaje otwarty do przeładowania strony.
+- Wspólne:
+  11. druk i PDF: wszystko rozwinięte, więc PDF ma być identyczny jak przed poprawką (liczba stron trzech tras);
+  12. natywne rozwijane elementy przeglądarki (`<details>`): klawiatura i czytniki ekranu działają od razu, a w Chrome wyszukiwanie Ctrl+F samo otwiera zwinięty fragment (w Safari nie); ten sam wygląd strzałek co w liście z poprawki 1;
+  13. testy i sondy w obu językach, przy 390, 641, 901 i 1400 px: zwinięte na starcie, otwieranie myszą i z klawiatury, pasek dni i `#day-N` otwierają dzień, „Rozwiń wszystkie”, formularz zwinięty przy linku i pełny bez niego, podświetlanie na mapie dalej działa, PDF bez zmian; pomiar wysokości strony przed i po w punkcie kontrolnym.
 
 ### Z sesji decyzji etapu 5 (15.10.2026)
 
