@@ -224,6 +224,7 @@
       var el = a && document.getElementById(a.getAttribute('href').slice(1));
       if (!el) return;
       e.preventDefault();
+      reveal(el);   // a day of the strip opens (finding 3 of fix 3)
       el.scrollIntoView({ block: 'start' });
       if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
@@ -233,6 +234,8 @@
       var bad = [];
       // an anchor typed by hand: put the settings back (lang= alone is a link: the default trip in its language)
       if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)lang=/.test(location.hash)) {
+        var at = document.getElementById(location.hash.slice(1));
+        if (at) { reveal(at); at.scrollIntoView({ block: 'start' }); }   // a day typed as #day-5 opens
         try { history.replaceState(null, '', langHash(state.settings, lang)); } catch (e) { /* the address keeps the anchor */ }
         return;
       }
@@ -246,7 +249,9 @@
     road: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v7h-2v-2H7v2H5zm2.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM7 11h10l-1-3.5H8z"/></svg>',
     prev: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>',
     next: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>',
-    expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+    expand: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+    // the arrow at the end of a folded row (a summary), turned up when the row is open (template.html: .fold-arrow)
+    fold: '<svg class="fold-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>'
   };
 
   /* The settings in short, for the bar at the top: "mar 2027 · 15 dni · Aktywnie", or with dates "28.01–14.02.2027 · …". */
@@ -256,6 +261,10 @@
   }
 
   function render() {
+    // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
+    var keep = openFolds(), trip = tripKey(state.route);
+    if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
+    foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
     renderFacts();
     renderShape();
@@ -269,6 +278,8 @@
     var url = SITE_URL + langHash(state.settings, lang);
     $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
     tieShortWords(document.body);
+    reopenFolds(keep);
+    syncDaysAll();
   }
 
   function renderFacts() {
@@ -354,14 +365,20 @@
     return html;
   }
 
-  // one day of a stay; its rain plan only when wet: in a month with many days of rain (rainyMonth in page.js)
+  /* A day as a folded row (finding 1 of fix 3): its number (with the date), its title (head) and the arrow in the row, its
+     text (body) when open. */
+  function dayFold(day, head, body) {
+    return '<li class="day' + (dateLabel(day) ? ' dated' : '') + '" id="day-' + day + '"><details data-fold="day-' + day + '"><summary class="day-row"><span class="day-n mono">' + T('day') + ' <b>' + day + '</b>' +
+      (dateLabel(day) ? '<span class="day-date">' + esc(dateLabel(day)) + '</span>' : '') + '</span>' + head + ICON.fold + '</summary>' +
+      '<div class="day-body">' + body + '</div></details></li>';
+  }
+  // one day of a stay: its title and badges; its text, and its rain plan only when wet: in a month with many days of rain
+  // (rainyMonth in page.js)
   function dayItem(d, wet) {
-    return '<li class="day" id="day-' + d.day + '"><div class="day-n mono">' + T('day') + ' <b>' + d.day + '</b>' +
-      (dateLabel(d.day) ? '<span class="day-date">' + esc(dateLabel(d.day)) + '</span>' : '') + '</div>' +
-      '<div class="day-body"><h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
+    return dayFold(d.day, '<h4>' + esc(d.t) + ' <span class="pace pace-' + d.pace + '">' + T('pace.' + d.pace) + '</span>' +
       (d.variant ? ' <span class="pace pace-' + d.variant + '">' + T('badge.' + d.variant) + '</span>' : '') +
-      (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>' +
-      '<p>' + esc(d.d) + '</p>' + (d.rain && wet ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : '') + '</div></li>';
+      (d.early ? ' <span class="pace pace-early">' + T('early') + '</span>' : '') + '</h4>',
+      '<p>' + esc(d.d) + '</p>' + (d.rain && wet ? '<p class="day-rain"><b>' + T('t.rain') + '</b>' + esc(d.rain) + '</p>' : ''));
   }
   function tips(c) {
     var t = '';
@@ -423,18 +440,19 @@
       .concat(ferryNotes({ segs: cardSegs(L.segs, AIRPORTS) }, FERRY, AIRPORTS).map(function (n) { return T(n.key, { x: C(n.place).short, last: n.last, land: n.land, first: n.first, at: n.at }); }))
       .concat(flightNotes(L, FLIGHT_DAYS).map(function (n) { return T(n.key, { a: AIRPORTS[n.a].name, b: AIRPORTS[n.b].name, days: T(n.days) }); }));
     var long = L.total >= LONG_LEG_H, maps = L.flights ? '' : mapsLink(L.from, L.to), sw = swapOfLeg(L);
-    return '<div class="leg' + (long ? ' leg-long' : '') + '">' +
-      '<div class="leg-head"><span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
+    // a folded row (finding 6 of fix 3): its day, its ends, its time and the flag of a long day in the row; when open, its
+    // roads and flights, the notes, the link to Google Maps and the swap of a road
+    return '<div class="leg' + (long ? ' leg-long' : '') + '"><details data-fold="leg-' + day + '"><summary class="leg-head"><span class="leg-sum">' +
+      '<span class="leg-day mono">' + T('day') + ' ' + day + '</span>' +
       '<span class="leg-route">' + esc(from) + ' → ' + esc(to) + '</span>' +
-      '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span></div>' +
-      '<ul class="leg-segs">' + cardSegs(L.segs, AIRPORTS).map(function (g) {
+      '<span class="leg-total mono">' + approx(L.total) + ' ' + T('door') + '</span>' + (long ? '<span class="flag">' + T('longday') + '</span>' : '') + '</span>' + ICON.fold + '</summary>' +
+      '<div class="leg-more"><ul class="leg-segs">' + cardSegs(L.segs, AIRPORTS).map(function (g) {
         var text = g.mode === 'fly' ? T('fly') + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name : T.apply(null, segKey(g, AIRPORTS, ROAD_KEYS, selfSwaps(state.settings.moto, SWAPS).roads, AIR_KEYS));
         return '<li>' + ICON[g.mode] + '<span>' + esc(text) + '</span><span class="mono">' + fmtH(g.h) + '</span></li>';
       }).join('') + '</ul>' +
-      (notes.length || long || maps ? '<p class="leg-foot">' + (long ? '<span class="flag">' + T('longday') + '</span> ' : '') +
-        esc(notes.join(' ')) +
-        (maps ? ' <a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
-      (sw ? swapBlock(sw, day) : '') + '</div>';
+      (notes.length || maps ? '<p class="leg-foot">' + esc(notes.join(' ')) +
+        (maps ? (notes.length ? ' ' : '') + '<a href="' + esc(maps) + '" target="_blank" rel="noopener">' + T('maps') + '</a>' : '') + '</p>' : '') +
+      (sw ? swapBlock(sw, day) : '') + '</div></details></div>';
   }
   function mapsLink(a, b) {
     function where(n) { return AIRPORTS[n] ? AIRPORTS[n].maps : C(n).maps; }
@@ -446,9 +464,7 @@
     var r = state.route, d = T('home.d') + (r.home.total >= 2 ? ' ' + T('home.far', { time: approx(r.home.total) }) : '');
     return '<section class="stop stop-compact stop-home" id="stop-home"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
       '<div class="stop-title"><p class="eyebrow">' + T('day') + ' ' + r.days + '</p><h3>' + esc(T('home.h3', { airport: AIRPORTS[state.st.to].name })) + '</h3></div></header>' +
-      '<ol class="days"><li class="day" id="day-' + r.days + '"><div class="day-n mono">' + T('day') + ' <b>' + r.days + '</b>' +
-      (dateLabel(r.days) ? '<span class="day-date">' + esc(dateLabel(r.days)) + '</span>' : '') + '</div><div class="day-body">' +
-      '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4><p>' + esc(d) + '</p></div></li></ol></section>';
+      '<ol class="days">' + dayFold(r.days, '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4>', '<p>' + esc(d) + '</p>') + '</ol></section>';
   }
 
   /* The stays in order, each after the journey that leads to it; a second stay in the same city (a round trip) without
@@ -788,6 +804,41 @@
     });
   }
 
+  /* ---------- folded parts (the first round of fixes, fix 3, 16.10.2026) ---------- */
+  // the trip whose days and journeys the folded rows show (tripKey in page.js)
+  var foldTrip = '';
+  // the keys (data-fold) of the folded parts that are open
+  function openFolds() { return Array.prototype.map.call(document.querySelectorAll('details[data-fold][open]'), function (d) { return d.getAttribute('data-fold'); }); }
+  function reopenFolds(keys) { keys.forEach(function (k) { var d = document.querySelector('details[data-fold="' + k + '"]'); if (d) d.open = true; }); }
+  // an element a link leads to, in sight: its own folded part (a day's row) and every folded part around it open
+  function reveal(el) {
+    var d = el.querySelector(':scope > details');
+    if (d) d.open = true;
+    for (d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+  }
+  // the days and journeys of „Dzień po dniu”; „Rozwiń wszystkie dni” opens them all, and when all are open the button
+  // closes them (finding 4 of fix 3)
+  function dayFolds() { return Array.prototype.slice.call(document.querySelectorAll('#stops details[data-fold]')); }
+  function syncDaysAll() {
+    $('#days-all').textContent = T(dayFolds().every(function (d) { return d.open; }) ? 'days.close' : 'days.open');
+  }
+  function bindFolds() {
+    $('#days-all').addEventListener('click', function () {
+      var open = !dayFolds().every(function (d) { return d.open; });
+      dayFolds().forEach(function (d) { d.open = open; });
+      syncDaysAll();
+    });
+    // a row opened or closed by hand: the button follows (toggle does not bubble, so it is caught on its way down)
+    $('#stops').addEventListener('toggle', syncDaysAll, true);
+    // the printout shows everything (finding 11 of fix 3): every folded part opens before printing, and those that were
+    // closed close again after it
+    var closed = [];
+    window.addEventListener('beforeprint', function () {
+      closed = Array.prototype.filter.call(document.querySelectorAll('details:not([open])'), function (d) { d.open = true; return true; });
+    });
+    window.addEventListener('afterprint', function () { closed.forEach(function (d) { d.open = false; }); closed = []; });
+  }
+
   /* ---------- the plan as text, for WhatsApp ---------- */
   function planText() {
     var r = state.route, st = state.st, lines = [], flights = [];
@@ -1023,6 +1074,7 @@
   bindSwaps();
   bindSummary();
   bindLang();
+  bindFolds();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');

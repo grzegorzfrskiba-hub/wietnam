@@ -50,9 +50,11 @@ setTimeout(function () {
       check('each swap in a card is a radio group of its own', names.every(function (n, i) { return /^swap-[a-z]+-\d+$/.test(n) && names.indexOf(n) === i; }), names.join(', '));
       check('the card of the road between Hội An and Huế offers the swap', !!road && !!road.closest('.leg'));
       if (!road) { done(); return; }
+      road.closest('details').querySelector('summary').click();   // the journey's row opens, as a visitor opens it
       road.click();
       setTimeout(function () {
         var leg = document.querySelector('.swap[data-swap="haivan"]').closest('.leg');
+        check('the journey stays open after the swap', leg.querySelector('details').open);
         check('the road is ridden yourself: its text says so, the link too', L({ en: /Motorbike rented one way/, pl: /Motocykl wypożyczony w jedną stronę/ }).test(leg.textContent.replace(/\s+/g, ' ')) && /motocykl=haivan/.test(location.hash), location.hash);
         // on a phone (640 px or less) the road's text takes the width of the card and its time stands under it (template.html)
         var seg = leg.querySelector('.leg-segs li'), segW = seg.getBoundingClientRect().width, txt = seg.children[1].getBoundingClientRect(), time = seg.children[2].getBoundingClientRect();

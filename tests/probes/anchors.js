@@ -6,8 +6,9 @@
 setTimeout(function () {
   document.documentElement.style.scrollBehavior = 'auto';
   var before = location.hash;
-  document.querySelector('#strip a.cell').click();
-  check('a day in the strip scrolls and keeps the address', window.scrollY > 0 && location.hash === before, window.scrollY + ' ' + location.hash);
+  var cell = document.querySelector('#strip a.cell'), day = document.getElementById(cell.getAttribute('href').slice(1));
+  cell.click();
+  check('a day in the strip scrolls, opens its day and keeps the address', window.scrollY > 0 && day.querySelector('details').open && location.hash === before, window.scrollY + ' ' + location.hash);
   document.querySelector('.secnav a[href="#days"]').click();
   check('the menu link keeps the address', location.hash === before, location.hash);
   check('the map has its pins', document.querySelectorAll('#map .pin').length > 1);

@@ -290,9 +290,12 @@ footer .ft-copy { margin-top: 18px; }
 .map-legend svg { display: block; }
 
 .stops { display: grid; gap: 22px; min-width: 0; }
-.leg { border: 1px dashed var(--line); border-radius: 8px; padding: 12px 16px; display: grid; gap: 8px; background: transparent; }
+/* a journey: a folded row with its day, its ends, its time and the flag of a long day; its roads, notes and swap when open */
+.leg { border: 1px dashed var(--line); border-radius: 8px; padding: 0 16px; background: transparent; }
 .leg-long { border-color: var(--warm); }
-.leg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.leg-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 44px; padding-block: 8px; }
+.leg-sum { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.leg-more { display: grid; gap: 8px; padding-bottom: 12px; }
 .leg-day { font-size: 12px; color: var(--muted); }
 .leg-route { font-weight: 600; }
 .leg-total { margin-left: auto; font-size: 12.5px; color: var(--muted); }
@@ -345,14 +348,37 @@ footer .ft-copy { margin-top: 18px; }
 .gal-thumb[aria-current="true"] { border-color: var(--accent); opacity: 1; }
 .gal-thumb:hover { opacity: 1; }
 
-/* Days */
+/* Folded parts (the first round of fixes, fix 3): the browser's own details and summary, so a keyboard, a screen reader
+   and the search of the page work as everywhere; the whole summary is the button, with an arrow at its end that turns up
+   when the part is open; the browser's own marker is hidden */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+.fold-arrow { flex: none; color: var(--muted); transition: transform .2s; }
+summary:hover .fold-arrow { color: var(--accent); }
+details[open] > summary .fold-arrow { transform: rotate(180deg); }
+.days-all { justify-self: start; }
+
+/* Days: a row of its own each, the title with its badges and the arrow, at least 44 px high, its number (with the date) in
+   the column on its left; the text and the rain plan under the title when open, as before the fold, so a printout keeps
+   its pages */
 .days { display: grid; }
-.day { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 14px; padding-block: 14px; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
+.day { position: relative; padding: 14px 0 14px 88px; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
 .day:first-child { border-top: 0; padding-top: 0; }
-.day-n { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 44px; }
+.day-body { padding-top: 4px; }
+.day-n { position: absolute; left: 0; top: 14px; width: 74px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day:first-child .day-n { top: 0; }
+/* the number hangs in its column, so a day is at least as high as it: 14 px above, 49 px of the number (68 with the date),
+   14 px below and the line, as when the number and the text stood side by side */
+@media (min-width: 641px) {
+  .day { min-height: 79px; }
+  .day.dated { min-height: 98px; }
+  .day:first-child { min-height: 64px; }
+  .day.dated:first-child { min-height: 83px; }
+}
 .day-date { display: block; font: 12px var(--mono); color: var(--muted); text-transform: none; letter-spacing: 0; margin-top: 4px; white-space: nowrap; }
 .day-n b { display: block; font: 400 30px/1 var(--display); color: var(--ink); letter-spacing: 0; text-transform: none; }
-.day h4 { font-size: 17px; font-weight: 600; line-height: 1.35; margin-bottom: 4px; }
+.day h4 { font-size: 17px; font-weight: 600; line-height: 1.35; }
 .day p { color: var(--ink); }
 /* .day p sets the colour of every paragraph of a day, so the rain plan needs the stronger selector */
 .day .day-rain { margin-top: 6px; font-size: 14px; color: var(--cool); }
@@ -414,8 +440,11 @@ footer a { color: var(--muted); }
   #facts li:nth-last-child(2):nth-child(odd), #facts .f-budget { grid-column: 1 / -1; }
   .strip { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   .cell { aspect-ratio: 1 / 1; }
-  .day { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .day-n { display: flex; gap: 8px; align-items: baseline; }
+  /* a day's row: the number over the title, the arrow at the right; the text under them, as wide as the card */
+  .day { padding-left: 0; }
+  .day-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .day-row .fold-arrow { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .day-n { position: static; width: auto; display: flex; gap: 8px; align-items: baseline; }
   .day-n b { display: inline; font-size: 24px; }
   .day-date { display: inline; margin: 0; }
   .gal-thumbs { display: none; }
@@ -468,7 +497,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click { display: none !important; }
+  /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
+     a day's row as high as its title */
+  details::details-content { content-visibility: visible; }
+  .day-row { min-height: 0; }
   .hero-text { color: var(--ink); text-shadow: none; padding-block: 0 24px; }
   .hero .eyebrow { color: var(--muted); }
   /* the map: its three panels apart across the page, north and centre side by side, the south under them with the
@@ -605,7 +638,8 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <div class="block-head">
       <p class="eyebrow" data-i18n="days.eyebrow"></p>
       <h2 data-i18n="days.h2"></h2>
-      <p><span data-i18n="days.p"></span> <span class="days-map" data-i18n="days.p_map"></span></p>
+      <p><span data-i18n="days.p"></span> <span class="days-map" data-i18n="days.p_map"></span> <span class="days-click" data-i18n="days.click"></span></p>
+      <button type="button" class="btn-ghost days-all" id="days-all"></button>
     </div>
     <div class="map-print" id="map-print"></div>
     <div class="route">

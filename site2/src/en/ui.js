@@ -76,6 +76,7 @@ UI.en = {
 
   'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',
   'days.p': 'Every place with photos, a plan for each day and how to get there.', 'days.p_map': 'The map is to scale, and on a large screen it stays in view as you scroll.',
+  'days.click': 'Click a day or a journey to see its details.', 'days.open': 'Expand all days', 'days.close': 'Collapse all days',
   'pace.travel': 'Travel day', 'pace.hike': 'Active hike', 'pace.nature': 'Easy nature', 'pace.boat': 'Day on the water',
   'pace.culture': 'Easy sightseeing', 'pace.rest': 'Rest day',
   'badge.easy': 'Relaxed version', 'badge.hard': 'Hard day', 'badge.self': 'Riding yourself', 'early': 'Up before 6',

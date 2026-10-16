@@ -77,6 +77,7 @@ UI.pl = {
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
   'days.p': 'Każde miejsce ze zdjęciami, planem na każdy dzień i opisem dojazdu.', 'days.p_map': 'Mapa jest w skali, a na dużym ekranie zostaje w widoku przy przewijaniu.',
+  'days.click': 'Kliknij dzień albo przejazd, żeby zobaczyć szczegóły.', 'days.open': 'Rozwiń wszystkie dni', 'days.close': 'Zwiń wszystkie dni',
   'pace.travel': 'Dzień w drodze', 'pace.hike': 'Aktywna wędrówka', 'pace.nature': 'Przyroda bez wysiłku', 'pace.boat': 'Dzień na wodzie',
   'pace.culture': 'Zwiedzanie bez wysiłku', 'pace.rest': 'Dzień odpoczynku',
   'badge.easy': 'Wersja spokojna', 'badge.hard': 'Trudny dzień', 'badge.self': 'Motocykl samodzielnie', 'early': 'Pobudka przed 6',

@@ -53,6 +53,11 @@ var badL = [];
 eq([parseLink('#od=SGN&lang=pl', badL), parseLink('#od=SGN&lang=xx', badL), badL], [{ from: 'SGN' }, { from: 'SGN' }, []], 'parseLink leaves the language out and names no wrong field');
 eq([langHash(round, 'pl'), langHash(round, 'en')], [linkHash(round) + '&lang=pl', linkHash(round)], 'langHash: lang=pl at the end in Polish, nothing in English');
 eq(parseLink(langHash(roundM, 'pl')), roundM, 'langHash, then parseLink: the same settings');
+// the trip as the folded rows of „Dzień po dniu” see it (the first round of fixes): its stays with their days, so a change
+// that keeps them keeps the open days open, and another trip closes them
+var KEY_A = { stops: [{ id: 'saigon', start: 1, n: 3 }, { id: 'dalat', start: 4, n: 3 }], days: 7 };
+eq([tripKey(KEY_A), tripKey({ stops: KEY_A.stops, days: 8 }), tripKey({ stops: [KEY_A.stops[0], { id: 'dalat', start: 4, n: 2 }], days: 7 })],
+  ['saigon 1 3, dalat 4 3 / 7', 'saigon 1 3, dalat 4 3 / 8', 'saigon 1 3, dalat 4 2 / 7'], 'tripKey: the stays with their first day and nights, and the days of the trip');
 // the texts of the places in a language: the overlay's texts over the Polish ones, the data kept, the base unchanged
 var BASE_T = { a: { name: 'Miejsce', short: 'A', pt: [1, 2], days: [{ p: 1, t: 'Dzień', d: 'Opis.', cost: ['x.y'], easy: { pace: 'rest', t: 'Łatwo', d: 'Spokojnie.' } }],
   events: [{ from: [1, 1], to: [2, 1], t: 'Uwaga.' }] } };

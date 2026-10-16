@@ -80,6 +80,11 @@ function localContent(content, overlay) {
   return out;
 }
 
+/* The trip as the folded rows of „Dzień po dniu” see it (the first round of fixes, 16.10.2026): its stays, each with its first
+   day and nights, and its days. A new rendering of the same trip (a change of the language, a swap) keeps the open days and
+   journeys open; on another trip they close, as its days are others. route: planRoute's trip. */
+function tripKey(route) { return route.stops.map(function (s) { return s.id + ' ' + s.start + ' ' + s.n; }).join(', ') + ' / ' + route.days; }
+
 /* A copy of the settings with lists of its own; add, remove and moto are never missing. */
 function copySettings(s) {
   var o = {};
