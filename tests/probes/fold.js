@@ -45,17 +45,25 @@ setTimeout(function () {
   check('„Zwiń wszystkie dni” closes them all', shut(days.concat(legs)) && all.textContent === L({ en: 'Expand all days', pl: 'Rozwiń wszystkie dni' }));
   // „Przed wyjazdem”: four closed parts, each with its heading and one sentence (finding 7 of fix 3)
   // a part's row as heading | sentence, spaces folded
-  var parts = folds('#before .b-part'), gist = parts.map(function (d) {
+  // the costs hidden (fix 2): the budget part says so, without folding; the other three parts fold
+  check('„Przed wyjazdem”: the budget with the costs hidden, not folded', !folds('#before .b-part')[0] && !!document.getElementById('costs-show'));
+  var parts = folds('#before .b-part').slice(1), gist = parts.map(function (d) {
     return d ? [d.querySelector('h3'), d.querySelector('.b-sum, .b-gist')].map(function (e) { return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }).join(' | ') : '';
   });
-  check('„Przed wyjazdem” has four closed parts', parts.length === 4 && shut(parts), parts.length);
-  check('the budget: its sum per person in the row', L({ en: /^Budget \| \d+(–\u2060?\d+)?M VND per person, two sharing a room and a car\.$/, pl: /^Budżet \| \d+(–\u2060?\d+)? mln VND na osobę, przy dwóch osobach w pokoju i aucie\.$/ }).test(gist[0]), gist[0]);
-  check('the bookings: how many, and the most urgent', L({ en: /^Book ahead \| \d+ things, the most urgent: [^.]+\.$/, pl: /^Zarezerwuj wcześniej \| \d+ rzeczy, najpilniejsze: [^.]+\.$/ }).test(gist[1]), gist[1]);
-  check('good to know: what it is about', gist[2] === L({ en: 'Good to know | The visa, e-cigarettes and the government sites.', pl: 'Warto wiedzieć | Wiza, e-papierosy i strony rządowe.' }), gist[2]);
-  check('what to pack: how many things for this route', L({ en: /^What to pack \| \d+ things? for this route\.$/, pl: /^Co spakować \| \d+ rzeczy? na tę trasę\.$/ }).test(gist[3]), gist[3]);
+  check('the other three parts of „Przed wyjazdem” are closed', parts.length === 3 && shut(parts), parts.length);
+  check('the bookings: how many, and the most urgent', L({ en: /^Book ahead \| \d+ things, the most urgent: [^.]+\.$/, pl: /^Zarezerwuj wcześniej \| \d+ rzeczy, najpilniejsze: [^.]+\.$/ }).test(gist[0]), gist[0]);
+  check('good to know: what it is about', gist[1] === L({ en: 'Good to know | The visa, e-cigarettes and the government sites.', pl: 'Warto wiedzieć | Wiza, e-papierosy i strony rządowe.' }), gist[1]);
+  check('what to pack: how many things for this route', L({ en: /^What to pack \| \d+ things? for this route\.$/, pl: /^Co spakować \| \d+ rzeczy? na tę trasę\.$/ }).test(gist[2]), gist[2]);
   check('closed, the parts hide their lists', !seen(document.querySelector('#b-book .b-book')) && !seen(document.querySelector('#b-pack .b-list')));
-  parts[3].querySelector('summary').click();
-  check('a click opens a part: its list in sight', parts[3].open && seen(document.querySelector('#b-pack .b-list')));
+  // with the costs shown the budget part folds too, with its sum per person in the row
+  document.getElementById('costs-show').click();
+  var budget = folds('#before .b-part')[0], sumText = budget ? [budget.querySelector('h3'), budget.querySelector('.b-sum')].map(function (e) { return e.textContent.replace(/\s+/g, ' ').trim(); }).join(' | ') : '';
+  check('with the costs shown, the budget: closed, its sum per person in the row', !!budget && !budget.open &&
+    L({ en: /^Budget \| \d+(–\u2060?\d+)?M VND per person, two sharing a room and a car\.$/, pl: /^Budżet \| \d+(–\u2060?\d+)? mln VND na osobę, przy dwóch osobach w pokoju i aucie\.$/ }).test(sumText), sumText);
+  document.getElementById('settings-form').costs.click();
+  parts = folds('#before .b-part').slice(1);   // drawn again without the costs
+  parts[2].querySelector('summary').click();
+  check('a click opens a part: its list in sight', parts[2].open && seen(document.querySelector('#b-pack .b-list')));
   // the credits of the photos: closed, one line with their number; the notes and the rights stay in sight (finding 9)
   var cr = document.querySelector('footer details[data-fold="credits"]');
   check('the credits of the photos are closed, under one line with their number', !!cr && !cr.open && textOf('footer summary') === L({ en: 'Photos: authors and licences (97)', pl: 'Zdjęcia: autorzy i licencje (97)' }) &&

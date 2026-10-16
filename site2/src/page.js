@@ -60,9 +60,14 @@ function linkHash(s) {
    (decision of 15.10.2026). The language is no setting of the trip: lang with another value, or without one, is English,
    with no warning of a wrong link, and parseLink leaves it out. */
 function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')) ? 'pl' : 'en'; }
-/* The address of the settings in a language: Polish adds lang=pl at the end, so a link copied, sent or printed opens the
-   same trip in Polish; English adds nothing, so every link from before stage 5 opens in English. */
-function langHash(s, lang) { return linkHash(s) + (lang === 'pl' ? '&lang=pl' : ''); }
+/* The estimated costs, shown or hidden (the first round of fixes, fix 2, 16.10.2026): shown only when the link says
+   koszty=1; another value, or none, hides them, with no warning of a wrong link: the costs are no setting of the trip, as
+   the language is not, and parseLink leaves them out. */
+function costsOf(hash) { return /(?:^#?|&)koszty=1(?:&|$)/.test(String(hash || '')); }
+/* The address of the settings in the page's view: koszty=1 when the costs show, then lang=pl at the end in Polish, so a
+   link copied, sent or printed opens the same trip as its sender sees it; English and hidden costs add nothing, so every
+   link from before opens in English with the costs hidden. */
+function pageHash(s, lang, costs) { return linkHash(s) + (costs ? '&koszty=1' : '') + (lang === 'pl' ? '&lang=pl' : ''); }
 /* The texts of the places in a language. content: CONTENT, with the Polish texts; overlay: for English CONTENT_EN, the same
    fields where a place has a text (tests/content.test.js checks it), lists in the same order. Returns a copy of content
    with the overlay's texts over the Polish ones and the data (p, pace, cost…) as it was; without an overlay, content. */

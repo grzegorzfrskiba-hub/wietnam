@@ -16,8 +16,11 @@ function soon(k) {
 // the page's language (stage 5): English unless the link says lang=pl; L({ en: …, pl: … }) is what a check expects in it
 var LANG = document.documentElement.lang;
 function L(texts) { return texts[LANG]; }
-// a new link in the page's language, as a visitor's next link would be: the settings, and lang=pl when the page is in Polish
-function goTo(hash) { location.hash = hash + (LANG === 'pl' ? '&lang=pl' : ''); }
+// the costs shown by the probe's link (koszty=1, fix 2 of the first round of fixes)
+var COSTS = /(^#|&)koszty=1(&|$)/.test(window.__probeHash);
+// a new link in the page's view, as a visitor's next link would be: the settings, koszty=1 when the probe's link showed the
+// costs, and lang=pl when the page is in Polish
+function goTo(hash) { location.hash = hash + (COSTS ? '&koszty=1' : '') + (LANG === 'pl' ? '&lang=pl' : ''); }
 // the text of an element, spaces folded; '' when there is none
 function textOf(sel) { var e = document.querySelector(sel); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
 // a form control set as a visitor would: the value, then the change event the page listens to

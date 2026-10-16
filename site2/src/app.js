@@ -14,6 +14,9 @@
   /* ---------- texts ---------- */
   // the page's language, 'en' or 'pl' (setLang): English unless the link says lang=pl (decision of 15.10.2026)
   var lang = 'en';
+  // the estimated costs shown (fix 2 of the first round of fixes): hidden unless the link says koszty=1 or the visitor shows
+  // them (setCosts)
+  var costs = false;
   // the texts of the places in that language (localContent in page.js), set by setLang
   var VIEW = CONTENT;
   function T(k, vars) {
@@ -86,8 +89,8 @@
 
   function msg(text) { $('#settings-msg').textContent = tied(text); }
 
-  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with lang=pl at the end
-     when the page is in Polish (langHash in page.js). Otherwise keep the
+  /* New settings: plan the trip; when there is one, show it and write the settings into the address, with koszty=1 when the
+     costs show and lang=pl at the end when the page is in Polish (pageHash in page.js). Otherwise keep the
      last trip and say why under the settings. linkWarn: the settings come from a link that was partly wrong. The settings
      are copied with their lists (copySettings), so a caller may leave out add, remove and moto.
      Returns whether the trip changed. */
@@ -109,7 +112,7 @@
     state.budget = tripBudget(r, state.plans, s.moto, BUDGET_DATA);
     msg('');
     $('#dropped').textContent = '';   // the sentence of the last Dodaj is about the trip that is gone
-    var h = langHash(s, lang);
+    var h = pageHash(s, lang, costs);
     if (location.hash !== h) {
       try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
     }
@@ -119,9 +122,11 @@
 
   /* The settings in the address: a link someone sent, or the defaults. A link whose Dodaj and Usuń leave no trip opens
      without them. A link that was partly wrong says so as the first of the warnings above the figures of the trip. A link
-     with lang=pl opens in Polish, every other one in English (langOf in page.js). */
+     with lang=pl opens in Polish, every other one in English (langOf in page.js); a link with koszty=1 shows the costs,
+     every other one hides them (costsOf). */
   function fromLink() {
     if (langOf(location.hash) !== lang) setLang(langOf(location.hash));
+    costs = costsOf(location.hash);
     var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
@@ -179,6 +184,7 @@
     F.from.value = s.from;
     F.to.value = s.to;
     F.level.value = String(s.level);
+    F.costs.checked = costs;
     Array.prototype.forEach.call(F.querySelectorAll('input[name=interest]'), function (b) { b.checked = s.interests.indexOf(b.value) > -1; });
     syncLocks();
   }
@@ -197,6 +203,7 @@
      and the same length, or the month of the arrival day and the same number of days. */
   function onFormChange(e) {
     var s, st = state.st;
+    if (e.target.name === 'costs') { setCosts(e.target.checked); return; }   // no setting of the trip (fix 2)
     if (e.target.name === 'mode') {
       s = copySettings(state.settings);
       if (e.target.value === 'dates' && !s.start) {
@@ -231,13 +238,13 @@
       el.focus({ preventScroll: true });
     });
     window.addEventListener('hashchange', function () {
-      if (state.settings && location.hash === langHash(state.settings, lang)) return;
+      if (state.settings && location.hash === pageHash(state.settings, lang, costs)) return;
       var bad = [];
-      // an anchor typed by hand: put the settings back (lang= alone is a link: the default trip in its language)
-      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)lang=/.test(location.hash)) {
+      // an anchor typed by hand: put the settings back (lang= or koszty= alone is a link: the default trip in its view)
+      if (!Object.keys(parseLink(location.hash, bad)).length && !bad.length && !/(?:^#|&)(lang|koszty)=/.test(location.hash)) {
         var at = document.getElementById(location.hash.slice(1));
         if (at) { reveal(at); at.scrollIntoView({ block: 'start' }); }   // a day typed as #day-5 opens
-        try { history.replaceState(null, '', langHash(state.settings, lang)); } catch (e) { /* the address keeps the anchor */ }
+        try { history.replaceState(null, '', pageHash(state.settings, lang, costs)); } catch (e) { /* the address keeps the anchor */ }
         return;
       }
       fromLink();
@@ -289,12 +296,16 @@
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
-    // the printout names this route's address on the public page, in the page's language (as the copied plan does)
-    var url = SITE_URL + langHash(state.settings, lang);
-    $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
+    renderPrintLink();
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
+  }
+
+  // the printout names this route's address on the public page, in the page's view (as the copied plan does)
+  function renderPrintLink() {
+    var url = SITE_URL + pageHash(state.settings, lang, costs);
+    $('#print-link').innerHTML = esc(T('pt.link')) + '<a href="' + esc(url) + '">' + esc(url) + '</a>';
   }
 
   function renderFacts() {
@@ -307,7 +318,9 @@
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
       '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
-      '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
+      // the budget only with the costs shown (fix 2); without it the five figures fill their rows (no-budget, template.html)
+      (costs ? '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>' : '');
+    $('#facts').classList.toggle('no-budget', !costs);
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -777,7 +790,10 @@
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
     var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return named(HOLIDAY_NAMES_EN, h.name); });
     var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
-    $('#b-budget').innerHTML = beforeFold('b-budget', T('bud.h3'), '<span class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</span>',
+    // with the costs hidden (fix 2) the budget says so and offers to show them, without folding, and is not printed (b-off)
+    $('#b-budget').classList.toggle('b-off', !costs);
+    $('#b-budget').innerHTML = !costs ? '<h3>' + T('bud.h3') + '</h3><p>' + esc(T('bud.off')) + '</p><button type="button" class="btn-ghost costs-show" id="costs-show">' + T('set.costs') + '</button>'
+      : beforeFold('b-budget', T('bud.h3'), '<span class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</span>',
       '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
       '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
         return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + vnd(b.parts[k].two) + '</span></li>';
@@ -790,7 +806,7 @@
     var gist = books.length > 1 ? T('book.gist', { n: books.length, things: countWord('things', books.length), x: bookName(books[0]) })
       : books.length ? T('book.gist1', { x: bookName(books[0]) }) : '';
     $('#b-book').innerHTML = !books.length ? '<h3>' + T('book.h3') + '</h3>' + warn + '<p>' + esc(T('book.none')) + '</p>'
-      : beforeFold('b-book', T('book.h3'), '<span class="b-gist">' + esc(gist) + '</span>' + warn, '<p class="b-note">' + T('book.p') + '</p>' +
+      : beforeFold('b-book', T('book.h3'), '<span class="b-gist">' + esc(gist) + '</span>' + warn, '<p class="b-note">' + T('book.p') + (costs ? ' ' + T('book.amounts') : '') + '</p>' +
       '<ol class="b-book">' + books.map(function (e) {
         // what the line is about: the flights, the roads from airports (both ways said so), the hosts' places, the things
         // booked under the key (a park's services); a place with a peak of its own for its hosts adds its sentence
@@ -799,7 +815,7 @@
           : e.key === 'homestay' ? placesOf(e.list) : capFirst(andList(e.items.map(function (k) { return T('cost.' + k); })));
         var more = e.key === 'homestay' ? e.list.filter(function (id) { return HOMESTAY_NOTES.indexOf(id) > -1; }).map(function (id) { return ' ' + T('b.homestay.' + id); }).join('') : '';
         // a thing that may cost nothing says its dearer end without „ok.”: „do 2,2 mln VND na osobę”
-        var meta = [e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
+        var meta = [costs && e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
       }).join('') + '</ol>');
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
@@ -809,6 +825,33 @@
     var pack = packList(r, state.plans, st, moto, PACK_DATA);
     $('#b-pack').innerHTML = beforeFold('b-pack', T('pack.h3'), '<span class="b-gist">' + esc(T('pack.gist', { n: pack.length, things: countWord('things', pack.length) })) + '</span>',
       '<ul class="b-list">' + pack.map(function (p) { return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>'; }).join('') + '</ul>');
+  }
+
+  /* ---------- the estimated costs (fix 2 of the first round of fixes, 16.10.2026) ---------- */
+  /* Shown or hidden by the box of the form or by „Pokaż szacowane koszty” in „Przed wyjazdem”: only the amounts come or go
+     (the figure of the budget, the budget part, the amounts of what to book), and the address gains or loses koszty=1; the
+     trip is not planned again, the page does not move, the history gets no entry, and „Wróć do trasy bez zmian” does not
+     count it as a change of the trip. */
+  function setCosts(on) {
+    var keep = openFolds(), h;
+    costs = on;
+    F.costs.checked = on;
+    renderFacts();
+    renderBefore();
+    renderPrintLink();
+    tieShortWords($('#shape'));
+    tieShortWords($('#before'));
+    reopenFolds(keep);
+    h = pageHash(state.settings, lang, costs);
+    try { history.replaceState(null, '', h); } catch (e) { location.replace(h); }
+  }
+  // „Pokaż szacowane koszty” in „Przed wyjazdem” is the same switch; the focus goes to the budget part it brings
+  function bindCosts() {
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('#costs-show')) return;
+      setCosts(true);
+      $('#b-budget summary').focus();
+    });
   }
 
   /* „Z kierowcą” or „Samodzielnie” in a card: the trip stays, its days, texts and budget follow; the choice builds on the
@@ -880,8 +923,8 @@
       s.leg.segs.forEach(function (g) { if (g.mode === 'fly') flights.push(T('day') + ' ' + s.start + ' ' + AIRPORTS[g.from].name + ' → ' + AIRPORTS[g.to].name); });
     });
     if (flights.length) lines.push(T('pt.flights') + flights.join('; '));
-    lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
-    lines.push(T('pt.link') + SITE_URL + langHash(state.settings, lang));
+    if (costs) lines.push(T('pt.budget', { x: vnd(state.budget.two, true) }));
+    lines.push(T('pt.link') + SITE_URL + pageHash(state.settings, lang, costs));
     return lines.join('\n');
   }
   function bindCopy() {
@@ -1108,6 +1151,7 @@
   bindSummary();
   bindLang();
   bindFolds();
+  bindCosts();
   fromLink();
   /* back-to-top button: shown once the photo opener has scrolled away */
   var totop = $('#totop'), hero = $('.hero');

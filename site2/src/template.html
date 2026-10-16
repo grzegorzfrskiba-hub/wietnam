@@ -106,6 +106,8 @@ ul, ol { padding: 0; list-style: none; }
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
 .facts ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.9fr); }
+/* with the costs hidden (fix 2) five figures, without the budget's wider column */
+@media (min-width: 901px) { .facts ul.no-budget { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .facts li { padding: 18px 0; display: grid; gap: 2px; min-width: 0; }
 .facts li + li { border-left: 1px solid var(--line); padding-left: 18px; }
 .facts b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 36px); line-height: 1; white-space: nowrap; }
@@ -148,8 +150,13 @@ ul, ol { padding: 0; list-style: none; }
 .seg input { position: absolute; opacity: 0; pointer-events: none; }
 .seg label:has(input:checked) { background: var(--surface); box-shadow: 0 0 0 2px var(--accent); font-weight: 600; }
 .seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* on a wide screen the four groups of the form stand in two columns */
-@media (min-width: 900px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; } }
+/* on a wide screen the four groups of the form stand in two columns, the box of the costs under the level */
+@media (min-width: 900px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; } .set-costs { grid-column: 2; } }
+/* the box of the estimated costs (fix 2): a checkbox with its words, 44 px high for a finger */
+.check { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
+/* the button of the budget part while the costs are hidden: as wide as its words */
+.costs-show { justify-self: start; }
 .chip { position: relative; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 15px; }
 .chip input { position: absolute; opacity: 0; pointer-events: none; }
 .chip:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); background: var(--accent-soft); }
@@ -453,6 +460,8 @@ footer a { color: var(--muted); }
   #facts li:nth-child(odd), #facts .f-budget { border-left: 0; padding-left: 0; }
   #facts li:nth-child(n+3) { border-top: 1px solid var(--line); }
   #facts li:nth-last-child(2):nth-child(odd), #facts .f-budget { grid-column: 1 / -1; }
+  /* five figures (the costs hidden): the last across both columns */
+  #facts.no-budget li:last-child { grid-column: 1 / -1; }
   .strip { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   .cell { aspect-ratio: 1 / 1; }
   /* a day's row: the number over the title, the arrow at the right; the text under them, as wide as the card */
@@ -512,7 +521,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -627,6 +636,10 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
         <div class="seg" id="level-list"></div>
         <p class="set-note" id="level-note"></p>
       </fieldset>
+      <div class="set-group set-costs">
+        <label class="check"><input type="checkbox" name="costs"><span data-i18n="set.costs"></span></label>
+        <p class="set-note" data-i18n="set.costs.note"></p>
+      </div>
     </form>
     <p class="set-msg" id="settings-msg" role="status"></p>
   </section>

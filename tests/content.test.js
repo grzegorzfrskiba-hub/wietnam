@@ -535,6 +535,8 @@ contentCheck('printout', function (need) {
   need(/\n@page \{ size: A4; margin: 12mm; \}\n/.test(tpl), 'template.html: @page { size: A4; margin: 12mm; }');
   need(/id="copy-plan"[^>]*><\/button>\s*<button type="button" class="btn-ghost" id="pdf-plan" data-i18n="pdf.btn"><\/button>/.test(tpl), 'template.html: the PDF button right after „Kopiuj plan”');
   need(/<div class="map-print" id="map-print"><\/div>/.test(tpl) && /<p class="print-link" id="print-link"><\/p>/.test(tpl), 'template.html: the map and the link of the printout');
+  // with the costs hidden (fix 2 of the first round of fixes) the budget part is not printed at all
+  need(/@media print \{[\s\S]*, \.b-off[,\s][^{]*\{ display: none !important; \}/.test(tpl), 'template.html: the budget part with the costs hidden (.b-off) is not printed');
 });
 
 /* The language switch (stage 5, findings 1 and 2): EN · PL in the photo at the top, two buttons with their languages,

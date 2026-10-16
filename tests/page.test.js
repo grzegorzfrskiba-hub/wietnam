@@ -51,8 +51,15 @@ eq(['#od=SGN&do=HAN&miesiac=2027-03&dni=15&co=&poziom=2', '#od=SGN&do=HAN&miesia
   'langOf: Polish only with lang=pl');
 var badL = [];
 eq([parseLink('#od=SGN&lang=pl', badL), parseLink('#od=SGN&lang=xx', badL), badL], [{ from: 'SGN' }, { from: 'SGN' }, []], 'parseLink leaves the language out and names no wrong field');
-eq([langHash(round, 'pl'), langHash(round, 'en')], [linkHash(round) + '&lang=pl', linkHash(round)], 'langHash: lang=pl at the end in Polish, nothing in English');
-eq(parseLink(langHash(roundM, 'pl')), roundM, 'langHash, then parseLink: the same settings');
+// the estimated costs (fix 2 of the first round of fixes): shown only with koszty=1; no setting of the trip either
+eq(['#od=SGN&koszty=1', '#od=SGN&koszty=1&lang=pl', '#koszty=1', '#od=SGN', '#od=SGN&koszty=0', '#od=SGN&koszty=', '#od=SGN&koszty=11', '#od=SGN&koszty'].map(costsOf),
+  [true, true, true, false, false, false, false, false], 'costsOf: shown only with koszty=1');
+var badK = [];
+eq([parseLink('#od=SGN&koszty=1', badK), parseLink('#od=SGN&koszty=xx', badK), badK], [{ from: 'SGN' }, { from: 'SGN' }, []], 'parseLink leaves the costs out and names no wrong field');
+eq([pageHash(round, 'pl', false), pageHash(round, 'en', false), pageHash(round, 'en', true), pageHash(round, 'pl', true)],
+  [linkHash(round) + '&lang=pl', linkHash(round), linkHash(round) + '&koszty=1', linkHash(round) + '&koszty=1&lang=pl'],
+  'pageHash: koszty=1 when the costs show, lang=pl at the very end in Polish, nothing for English and hidden costs');
+eq([parseLink(pageHash(roundM, 'pl', true)), langOf(pageHash(roundM, 'pl', true)), costsOf(pageHash(roundM, 'pl', true))], [roundM, 'pl', true], 'pageHash, then parseLink, langOf and costsOf: the same settings and view');
 // the trip as the folded rows of „Dzień po dniu” see it (the first round of fixes): its stays with their days, so a change
 // that keeps them keeps the open days open, and another trip closes them
 var KEY_A = { stops: [{ id: 'saigon', start: 1, n: 3 }, { id: 'dalat', start: 4, n: 3 }], days: 7 };
