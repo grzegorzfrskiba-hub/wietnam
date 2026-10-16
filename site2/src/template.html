@@ -222,48 +222,40 @@ footer .ft-copy { margin-top: 18px; }
 .off-p { color: var(--muted); font-size: 14px; max-width: 64ch; }
 .off-list { display: grid; gap: 8px; width: 100%; max-width: 760px; }
 /* a place off the trip, folded (fix 1): its photo small, the dot, the short name and its sentence in the row; when open the
-   photo on the left (across the row on a phone), the name, the line under it, the reason and Dodaj, and the small map of
-   the country on the right */
+   photo on the left (across the row on a phone), the name, the line under it, the reason and Dodaj; the place on the map
+   of the country beside the list (on a phone above it) */
 .off-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
 .off-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 44px; }
 .off-thumb img { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; background: var(--line); }
 .off-head { display: grid; gap: 2px; min-width: 0; }
 .off-name { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 .off-what { color: var(--muted); font-size: 13.5px; line-height: 1.45; }
-.off-more { display: grid; grid-template-columns: 220px minmax(0, 1fr) 96px; gap: 14px; align-items: start; padding: 12px 0 4px; }
+.off-more { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 14px; align-items: start; padding: 12px 0 4px; }
 .off-photo { position: relative; display: block; padding: 0; border: 0; background: var(--line); border-radius: 6px; overflow: hidden; cursor: zoom-in; }
 .off-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .off-photo svg { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; padding: 6px; border-radius: 6px; background: var(--ctl-bg); color: var(--ctl-ink); }
 .off-text { display: grid; gap: 6px; align-content: start; justify-items: start; min-width: 0; }
 .off-stay b { font-weight: 600; }
 .off-sub { color: var(--ink); }
-.off-map { margin: 0; }
-.off-map > svg { display: block; width: 96px; height: auto; }
-/* in px of COUNTRY_MAP (panels.js, 340 px wide), drawn 96 px wide, so 340 / 120 times the lines of the small map of the
-   first round of fixes, which was 120 px wide; the line in the legend is drawn at its size */
-.cm-land { fill: var(--land); stroke: var(--border); stroke-width: 2.3; stroke-linejoin: round; }
-.cm-road { stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; fill: none; }
-.cm-fly { stroke: var(--ink); stroke-width: 2.8; stroke-dasharray: 8.5 8.5; fill: none; }
-.cm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 4.25; }
-.cm-legend .cm-road { stroke-width: 1.2; }
-.cm-legend { display: grid; gap: 2px; margin-top: 6px; font: 11px var(--mono); color: var(--muted); }
-.cm-legend span { display: inline-flex; align-items: center; gap: 6px; }
-.cm-legend svg { flex: none; }
-/* the big map of the country beside the list (the next round of fixes, fix 1): on a wide screen only, sticky under the bar
-   at the top while the list scrolls by; the trip as on the small map, its stays as points, every place of the list as a
-   dot in its colour. A place under the mouse or the keyboard in the list, or under the mouse on the map, is lit (class on):
-   its dot bigger, with a pulse around it and its name, the other dots faded; its row in the list gets a frame (class lit).
-   Below 1101 px there is no room beside the list, and the small map stays in an open row. */
-.off-split { display: block; width: 100%; }
-.off-big { display: none; }
+/* the map of the country by the list (the next round of fixes, fix 1), sticky while the list scrolls by: the trip as on the
+   map of the trip, its stays as points, every place of the list as a dot in its colour. A lit place (class on) has its dot
+   bigger, with a pulse around it, and its name; the other dots fade; its row in the list gets a frame (class lit). From
+   1101 px the map stands beside the list, under the bar at the top, and the mouse or the keyboard on a row or the mouse
+   on a dot lights it, the name on the map; below, a band over the list under the bar: the map 180 px high on the left,
+   the lit place's name beside it, and the row across the middle of the screen under the band lights while the list
+   scrolls (app.js). */
+.off-split { display: flex; flex-direction: column; width: 100%; }
+.off-big { order: -1; position: sticky; top: 46px; z-index: 5; display: flex; align-items: center; gap: 16px; margin-bottom: 8px; padding: 5px 0;
+  background: var(--paper); border-bottom: 1px solid var(--line); }
+.off-big svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
+.off-list li { transition: border-color .15s, box-shadow .15s; }
+.off-list li.lit { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.bm-name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; min-width: 0; }
 @media (min-width: 1101px) {
   .off-split { display: grid; grid-template-columns: minmax(0, 760px) minmax(0, 1fr); gap: 40px; align-items: start; }
-  .off-big { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 72px); }
-  .off-big svg { display: block; width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 100px); overflow: visible; }
-  .off-list .off-map { display: none; }
-  .off-more { grid-template-columns: 220px minmax(0, 1fr); }
-  .off-list li { transition: border-color .15s, box-shadow .15s; }
-  .off-list li.lit { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .off-big { order: 0; display: block; top: calc(env(safe-area-inset-top, 0px) + 72px); margin: 0; padding: 0; background: none; border: 0; }
+  .off-big svg { width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 100px); }
+  .bm-name { display: none; }
 }
 .bm-land { fill: var(--land); stroke: var(--border); stroke-width: 1; stroke-linejoin: round; }
 .bm-road { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.75; }
@@ -272,6 +264,7 @@ footer .ft-copy { margin-top: 18px; }
 .bm-pt { cursor: pointer; }
 .bm-pt .bm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 2; transition: r .2s, opacity .2s; }
 .bm-pt .bm-halo { fill: var(--c); opacity: 0; }
+.bm-hit { fill: transparent; }
 /* the name: 14 px (BIG_NAME_PX in page.js), 14 px from the dot (BIG_NAME_GAP) */
 .bm-pt text { font: 600 14px var(--body); fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; opacity: 0; transition: opacity .2s; pointer-events: none; }
 .bm-pt.on .bm-dot { r: 9px; }
@@ -280,6 +273,21 @@ footer .ft-copy { margin-top: 18px; }
 .off-big.any .bm-pt:not(.on) .bm-dot { opacity: 0.45; }
 @keyframes bm-pulse { 0% { r: 9px; opacity: 0.45; } 100% { r: 26px; opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { animation: none; r: 16px; opacity: 0.25; } }
+/* the band: the map drawn 180 px high, about 0.27 of its px, so its lines, dots and the place to tap one are drawn bigger
+   in its px; the names stand beside the map */
+@media (max-width: 1100px) {
+  .bm-land { stroke-width: 3; }
+  .bm-road { stroke-width: 5; }
+  .bm-fly { stroke-width: 4.5; stroke-dasharray: 12 12; }
+  .bm-stay { r: 8px; }
+  .bm-pt .bm-dot { r: 15px; stroke-width: 5; }
+  .bm-pt.on .bm-dot { r: 26px; }
+  .bm-pt.on .bm-halo { animation-name: bm-pulse-band; }
+  .bm-hit { r: 40px; }
+  .bm-pt text { display: none; }
+  @keyframes bm-pulse-band { 0% { r: 26px; opacity: 0.45; } 100% { r: 70px; opacity: 0; } }
+}
+@media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { r: 44px; } }
 .off-why { color: var(--muted); }
 .off-drops { color: var(--muted); font-size: 13px; }
 .off-tag { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -536,11 +544,9 @@ footer a { color: var(--muted); }
   /* a road's text takes the width of its card, and its time goes under it (the long texts of plan 2B) */
   .leg-segs li { grid-template-columns: 18px minmax(0, 1fr); }
   .leg-segs li > .mono { grid-column: 2; }
-  /* an open place off the trip: the photo across the row, the text and the small map under it; Dodaj at the left, where the
-     button "Na górę" (bottom right) cannot cover it */
-  .off-more { grid-template-columns: minmax(0, 1fr) 80px; }
-  .off-photo { grid-column: 1 / -1; }
-  .off-map > svg { width: 80px; }
+  /* an open place off the trip: the photo across the row, the text under it; Dodaj at the left, where the button "Na górę"
+     (bottom right) cannot cover it */
+  .off-more { grid-template-columns: minmax(0, 1fr); }
 }
 /* the narrowest phones (320 px): the line over the name, longest in Polish, starts under the language switch */
 @media (max-width: 359px) {

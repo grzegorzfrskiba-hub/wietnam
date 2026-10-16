@@ -136,7 +136,7 @@ UI.pl = {
   'm.scale': 'Każdy kadr ma swoją skalę i podziałkę', 'm.km': '{n} km', 'm.zoom': 'Kliknij mapę, żeby ją powiększyć', 'm.close': 'Zamknij dużą mapę',
   'm.dialog': 'Mapa trasy, powiększona', 'm.title': 'Mapa trasy: ',
   'off.h3': 'Nie ma na twojej trasie', 'off.p': 'Rozwiń miejsce, żeby zobaczyć, co tam jest, dlaczego nie ma go na trasie i co wypadnie po dodaniu.',
-  'off.usual': 'zwykle {n} {nights}', 'off.map.aria': 'Mapa Wietnamu: {x} i twoja trasa', 'off.map.route': 'Twoja trasa',
+  'off.usual': 'zwykle {n} {nights}',
   'off.add': 'Dodaj', 'off.add.aria': 'Dodaj {x} do trasy', 'off.missing': 'nie zmieściło się', 'off.reset': 'Wróć do trasy bez zmian',
   'off.r.removed': 'usunięte przez ciebie', 'off.r.level': 'tylko na poziomie „{lvl}”', 'off.r.closed': 'zamknięte w tym terminie', 'off.r.closed_part': 'zamknięte w części tego terminu',
   'off.r.season': 'poza sezonem ({why})', 'off.r.profile': 'nie pasuje do tego, co lubisz', 'off.r.far': 'za daleko na tyle dni',

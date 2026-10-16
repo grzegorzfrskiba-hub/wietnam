@@ -728,25 +728,13 @@
      can put the place on the trip, with what would leave the trip for it. Each place is a folded row (fix 1 of the first
      round of fixes): its first photo small, its dot, its short name and its sentence „what it is and where” in the row;
      when open, the photo (all the place's photos on full screen), the full name with the usual stay, the line under the
-     name, why it is not on the trip, what would leave it and Dodaj, and the small map of the country (countrySvg). */
+     name, why it is not on the trip, what would leave it and Dodaj; the place on the map of the country by the list
+     (renderBigMap). */
   function offReason(r, x) {
     if (r === 'level') return T('off.r.level', { lvl: T('lvl.' + PLACES[x.id].level) });
     if (r === 'season') return T('off.r.season', { why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') });
     if (r === 'beaten') return T('off.r.beaten', { days: state.st.days });
     return T('off.r.' + r);
-  }
-  // the small map of the country of a place off the trip (countryMap in page.js): the outline of Vietnam (OUTLINE in
-  // basemap.js), the trip as thin dark lines (a flight dashed, as on the map of the trip), the place as a dot in its colour,
-  // and a short legend
-  function countrySvg(id) {
-    var m = countryMap(state.route, id, { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS }), dot = '<span class="dot" style="--c:' + stopColor(id) + '"></span>';
-    return '<figure class="off-map"><svg viewBox="0 0 ' + m.w + ' ' + m.h + '" role="img" aria-label="' + esc(T('off.map.aria', { x: C(id).short })) + '">' +
-      '<path class="cm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
-        return g.mode === 'fly' ? '<path class="cm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
-          : '<line class="cm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
-      }).join('') + '<circle class="cm-dot" cx="' + r1(m.dot.x) + '" cy="' + r1(m.dot.y) + '" r="14.2" style="--c:' + stopColor(id) + '"/></svg>' +
-      '<figcaption class="cm-legend"><span>' + dot + esc(C(id).short) + '</span><span><svg width="16" height="6" aria-hidden="true"><line class="cm-road" x1="0" x2="16" y1="3" y2="3"/></svg>' +
-      T('off.map.route') + '</span></figcaption></figure>';
   }
   function renderOffRoute() {
     var s = state.settings;
@@ -763,14 +751,15 @@
         (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) })
           : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') +
         (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</div>' +
-        countrySvg(x.id) + '</div></details></li>';
+        '</div></details></li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
     renderBigMap();
   }
-  /* The big map of the country beside the list (countryMapAll in page.js; the next round of fixes, fix 1): the outline,
-     the trip as on the small map, its stays as points and every place of the list as a dot with its name, which shows
-     when the dot is lit (lightBig). Hidden from a screen reader, which has the same in the list. */
+  /* The map of the country by the list (countryMapAll in page.js; the next round of fixes, fix 1): the outline, the trip as
+     on the map of the trip, its stays as points and every place of the list as a dot with its name, which shows when the
+     dot is lit (lightBig); on a phone the name stands beside the map (.bm-name). Hidden from a screen reader, which has the
+     same in the list. */
   function renderBigMap() {
     var ids = Array.prototype.map.call(document.querySelectorAll('#offroute-list details'), offId);
     if (!ids.length) { $('#off-big').innerHTML = ''; return; }
@@ -782,14 +771,17 @@
       m.dots.map(function (d) {
         var at = 'cx="' + r1(d.x) + '" cy="' + r1(d.y) + '"';
         return '<g class="bm-pt" data-off="' + d.id + '" style="--c:' + stopColor(d.id) + '"><circle class="bm-halo" ' + at + ' r="9"/><circle class="bm-dot" ' + at + ' r="6"/>' +
-          '<text x="' + r1(d.x + (d.left ? -BIG_NAME_GAP : BIG_NAME_GAP)) + '" y="' + r1(d.y + 5) + '" text-anchor="' + (d.left ? 'end' : 'start') + '">' + esc(C(d.id).short) + '</text></g>';
-      }).join('') + '</svg>';
+          '<text x="' + r1(d.x + (d.left ? -BIG_NAME_GAP : BIG_NAME_GAP)) + '" y="' + r1(d.y + 5) + '" text-anchor="' + (d.left ? 'end' : 'start') + '">' + esc(C(d.id).short) + '</text>' +
+          '<circle class="bm-hit" ' + at + ' r="12"/></g>';
+      }).join('') + '</svg><p class="bm-name"></p>';
     lightBig(null);
   }
   function offId(d) { return d.getAttribute('data-fold').replace(/^off-/, ''); }
-  /* Lights a place on the big map and frames its row; null: the open row last opened, or the first open one, or none. */
-  var lastOpenOff = null;
+  /* Lights a place on the map and frames its row; null: on a phone (the band, below 1101 px) the row across the middle of
+     the screen under the band (scrollRow), else the open row last opened, or the first open one, or none. */
+  var lastOpenOff = null, BAND = window.matchMedia('(max-width: 1100px)');
   function lightBig(id) {
+    if (!id && BAND.matches) id = scrollRow();
     if (!id) {
       var open = Array.prototype.map.call(document.querySelectorAll('#offroute-list details[open]'), offId);
       id = open.indexOf(lastOpenOff) >= 0 ? lastOpenOff : open[0] || null;
@@ -797,6 +789,20 @@
     Array.prototype.forEach.call(document.querySelectorAll('#off-big .bm-pt'), function (g) { g.classList.toggle('on', g.getAttribute('data-off') === id); });
     Array.prototype.forEach.call(document.querySelectorAll('#offroute-list details'), function (d) { d.parentNode.classList.toggle('lit', offId(d) === id); });
     $('#off-big').classList.toggle('any', !!id);
+    var name = $('#off-big .bm-name');
+    if (name) name.innerHTML = id ? '<span class="dot" style="--c:' + stopColor(id) + '"></span>' + esc(C(id).short) : '';
+  }
+  /* The line a row lights on in the band's mode: the middle of the screen under the band (under the bar at the top on a
+     wide screen); scrollRow: the row across it, the first row while the list is under the line, the last once it is above. */
+  function middleLine() {
+    var band = $('#off-big').getBoundingClientRect();
+    return BAND.matches ? (Math.max(band.bottom, 0) + window.innerHeight) / 2 : window.innerHeight / 2;
+  }
+  function scrollRow() {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('#offroute-list > li'));
+    if (!rows.length) return null;
+    var line = middleLine(), at = rows.filter(function (li) { return li.getBoundingClientRect().bottom > line; })[0] || rows[rows.length - 1];
+    return offId(at.querySelector('details'));
   }
   /* The mouse over a row or a dot, or the keyboard on a row, lights its place; out of the list and the map, the open row's
      place stays lit. A click on a dot opens its row and brings it to the middle of the screen. */
@@ -807,7 +813,10 @@
       var li = el.closest('#offroute-list > li');
       return li ? offId(li.querySelector('details')) : null;
     }
+    // a browser sends scroll at most once a frame, and lightBig reads the boxes of the 11–14 rows only
     var split = $('.off-split');
+    window.addEventListener('scroll', function () { if (BAND.matches) lightBig(null); }, { passive: true });
+    BAND.addEventListener('change', function () { lightBig(null); });
     split.addEventListener('mouseover', function (e) { var id = placeAt(e.target); if (id) lightBig(id); });
     split.addEventListener('mouseleave', function () { lightBig(null); });
     split.addEventListener('focusin', function (e) { var id = placeAt(e.target); if (id) lightBig(id); });
@@ -819,7 +828,8 @@
       if (!d) return;
       d.open = true;
       lastOpenOff = offId(d);
-      d.parentNode.scrollIntoView({ block: 'center' });
+      var r = d.parentNode.getBoundingClientRect();
+      window.scrollBy(0, (r.top + r.bottom) / 2 - middleLine());
       lightBig(lastOpenOff);
     });
   }

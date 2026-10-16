@@ -135,7 +135,7 @@ UI.en = {
   'm.scale': 'Each panel has its own scale and scale bar', 'm.km': '{n} km', 'm.zoom': 'Click the map to enlarge it', 'm.close': 'Close the large map',
   'm.dialog': 'Route map, enlarged', 'm.title': 'Route map: ',
   'off.h3': 'Not on your route', 'off.p': 'Open a place to see what is there, why it is not on your route and what would leave the route if you add it.',
-  'off.usual': 'usually {n} {nights}', 'off.map.aria': 'Map of Vietnam: {x} and your route', 'off.map.route': 'Your route',
+  'off.usual': 'usually {n} {nights}',
   'off.add': 'Add', 'off.add.aria': 'Add {x} to the route', 'off.missing': 'did not fit', 'off.reset': 'Back to the route without changes',
   'off.r.removed': 'removed by you', 'off.r.level': 'only at the “{lvl}” level', 'off.r.closed': 'closed on these dates', 'off.r.closed_part': 'closed for part of these dates',
   'off.r.season': 'out of season ({why})', 'off.r.profile': 'does not match what you like', 'off.r.far': 'too far for this many days',
