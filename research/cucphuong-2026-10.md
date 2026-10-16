@@ -1,6 +1,6 @@
 # Cúc Phương: research miejsca (sprawdzone 13.10.2026)
 
-Najstarszy park narodowy Wietnamu (1962), las pierwotny na wapiennych grzbietach 120 km na południowy zachód od Hà Nội (WIKI-EN, CP-STARA). Jedzie się tu po ośrodki ratowania zwierząt przy bramie (naczelne EPRC, żółwie, łuskowce), po stare drzewa Chò w głębi lasu, po nocną przejażdżkę melexem ze świetlikami i po noc w parku. Plik zbiera dane do modułu `cucphuong` w etapie 3, partia A: sezon, dni, ceny, rezerwacje, drogi i zdjęcia.
+Najstarszy park narodowy Wietnamu (1962), las pierwotny na wapiennych grzbietach 120 km na południe od Hà Nội (WIKI-EN, CP-STARA; kierunek według NBCA i strony parku, sprawdzone 16.10.2026: `research/opisy-miejsc-2026-10.md`, sekcja „cucphuong”). Jedzie się tu po ośrodki ratowania zwierząt przy bramie (naczelne EPRC, żółwie, łuskowce), po stare drzewa Chò w głębi lasu, po nocną przejażdżkę melexem ze świetlikami i po noc w parku. Plik zbiera dane do modułu `cucphuong` w etapie 3, partia A: sezon, dni, ceny, rezerwacje, drogi i zdjęcia.
 
 - **Wynik w skrócie:**
   - **Sezon `SSSDSSSSSDDS`**, stacja zastępcza Hòa Bình (K4), ta sama co dla `puluong`. Miesiące graniczne: V i VI (Nam Định ma tam poniżej 13 dni z deszczem) oraz XII (noce 14,8 °C). Bez Z i bez X: noclegi w głębi lasu park wstrzymał w VIII i IX 2026, ale to jeden rok.
