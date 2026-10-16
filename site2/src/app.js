@@ -293,6 +293,7 @@
     renderOffRoute();
     renderMap();
     renderStops();
+    renderMini();
     renderBefore();
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
@@ -628,37 +629,86 @@
       .replace(/viewBox="[^"]*"/, 'viewBox="-6 ' + (b.y - 6) + ' ' + (MAP_WIDTH + 12) + ' ' + (b.h + 12) + '"');
   }
 
-  /* ---------- map zoom (desktop): the three panels grow out of the sidebar into a side-by-side view ---------- */
+  /* ---------- the small map on a phone (the next round of fixes, fix 2; .minimap in template.html) ---------- */
+  /* Up to 900 px: the map's three panels side by side, copies of the map (panelSvg), shown while the map is off the
+     screen above the days and the days still go by under the strip; the stay across the middle of the screen under it
+     lit, its panel framed. A tap on a panel enlarges it (openMapZoom with one panel). */
+  var MINI = window.matchMedia('(max-width: 900px)'), MINI_TOP = 46;   // the strip stands under the bar at the top, 47 px high
+  function renderMini() {
+    var svg = $('#map svg').outerHTML;
+    $('#minimap').innerHTML = '<div class="mini-row">' + mapBoxes.map(function (b, i) {
+      return '<div class="mini-panel" data-mini="' + i + '">' + panelSvg(svg, b, 'n' + i) + '</div>';
+    }).join('') + '</div>';
+    syncMini();
+  }
+  function syncMini() {
+    var box = $('#minimap'), map = $('#map svg'), stops = $('#stops');
+    if (!map || !box.firstChild) return;
+    var h = box.offsetHeight, show = MINI.matches && (mz.open && mz.one != null || map.getBoundingClientRect().bottom < MINI_TOP &&
+      stops.getBoundingClientRect().bottom > MINI_TOP + h + 60);
+    box.classList.toggle('on', show);
+    if (!show) return;
+    // the stay across the middle of the screen under the strip: the first whose bottom is under that line
+    var line = (MINI_TOP + h + window.innerHeight) / 2, all = Array.prototype.slice.call(stops.querySelectorAll('.stop'));
+    var at = all.filter(function (s) { return s.getBoundingClientRect().bottom > line; })[0] || all[all.length - 1], key = at ? at.getAttribute('data-pin') : null;
+    box.querySelectorAll('.pin').forEach(function (p) { p.classList.toggle('on', p.getAttribute('data-pin') === key); });
+    box.querySelectorAll('.mini-panel').forEach(function (d) {
+      // a copy holds every panel (one group each, renderMap), shown through its viewBox: the panel's own group
+      var g = d.querySelectorAll('svg > g')[+d.getAttribute('data-mini')];
+      d.classList.toggle('lit', !!(g && g.querySelector('.pin.on')));
+    });
+    box.classList.toggle('any', !!key);
+  }
+  function bindMini() {
+    window.addEventListener('scroll', function () { if (MINI.matches) syncMini(); }, { passive: true });
+    window.addEventListener('resize', syncMini);
+    $('#minimap').addEventListener('click', function (e) {
+      var d = e.target.closest('.mini-panel');
+      if (d) openMapZoom(false, +d.getAttribute('data-mini'));
+    });
+  }
+
+  /* ---------- map zoom (desktop): the three panels grow out of the sidebar into a side-by-side view; on a phone one panel
+     of the small map grows to the width of the screen (one: its index in mapBoxes) ---------- */
   var MZ_MS = 480;
-  var mz = { open: false, busy: false, opener: null, kb: false };
+  var mz = { open: false, busy: false, opener: null, kb: false, one: null };
   function mzWide() { return window.matchMedia('(min-width: 901px)').matches; }
-  // on-screen boxes of the panels inside the sidebar map (viewBox MAP_WIDTH + 12 wide, a margin of 6 all around)
-  function mzSource() {
+  function mzBoxes(one) { return one == null ? mapBoxes : [mapBoxes[one]]; }
+  // on-screen boxes of the panels inside the sidebar map (viewBox MAP_WIDTH + 12 wide, a margin of 6 all around), or of
+  // the one panel of the small map
+  function mzSource(one) {
+    if (one != null) {
+      var q = $('#minimap .mini-panel[data-mini="' + one + '"] svg').getBoundingClientRect();
+      return [{ x: q.left, y: q.top, w: q.width, h: q.height }];
+    }
     var r = $('#map svg').getBoundingClientRect(), k = r.width / (MAP_WIDTH + 12);
     return mapBoxes.map(function (b) { return { x: r.left, y: r.top + b.y * k, w: r.width, h: (b.h + 12) * k }; });
   }
-  // the panels side by side, at one scale, as large as the window allows
-  function mzTarget() {
-    var pad = 28, gap = 24, top = 64, vw = MAP_WIDTH + 12, n = mapBoxes.length;
-    var tallest = Math.max.apply(null, mapBoxes.map(function (b) { return b.h + 12; }));
+  // the panels side by side, at one scale, as large as the window allows (one panel: 16 px from the sides on a phone)
+  function mzTarget(one) {
+    var boxes = mzBoxes(one), pad = one == null ? 28 : 16, gap = 24, top = 64, vw = MAP_WIDTH + 12, n = boxes.length;
+    var tallest = Math.max.apply(null, boxes.map(function (b) { return b.h + 12; }));
     var f = Math.min((window.innerWidth - 2 * pad - gap * (n - 1)) / (n * vw), (window.innerHeight - top - pad) / tallest);
     var x0 = (window.innerWidth - (n * vw * f + gap * (n - 1))) / 2;
-    return mapBoxes.map(function (b, i) { return { x: x0 + i * (vw * f + gap), y: top, w: vw * f, h: (b.h + 12) * f }; });
+    return boxes.map(function (b, i) { return { x: x0 + i * (vw * f + gap), y: top, w: vw * f, h: (b.h + 12) * f }; });
   }
   function mzPlace(el, t, from) {
     el.style.left = t.x + 'px'; el.style.top = t.y + 'px'; el.style.width = t.w + 'px'; el.style.height = t.h + 'px';
     el.style.transform = from ? 'translate(' + (from.x - t.x) + 'px,' + (from.y - t.y) + 'px) scale(' + (from.w / t.w) + ')' : 'none';
   }
 
-  function openMapZoom(kb) {
-    if (mz.open || mz.busy || !mzWide()) return;
-    var src = mzSource(), dst = mzTarget(), box = $('#mapzoom'), svg = $('#map svg').outerHTML;
-    var panels = mapBoxes.map(function (b, i) {
+  function openMapZoom(kb, one) {
+    one = one == null ? null : one;
+    if (mz.open || mz.busy || (one == null && !mzWide())) return;
+    var src = mzSource(one), dst = mzTarget(one), box = $('#mapzoom'), svg = $('#map svg').outerHTML;
+    var panels = mzBoxes(one).map(function (b, i) {
       var d = document.createElement('div');
       d.className = 'mz-panel';
-      d.innerHTML = panelSvg(svg, b, 'z' + i);
+      d.innerHTML = panelSvg(svg, b, 'z' + (one == null ? i : one));
       return d;
     });
+    mz.one = one;
+    mz.hid = one == null ? $('#map') : $('#minimap .mini-panel[data-mini="' + one + '"]');
     box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
     panels.forEach(function (d, i) { box.appendChild(d); mzPlace(d, dst[i], src[i]); });
     mz.open = mz.busy = true;
@@ -666,7 +716,7 @@
     mz.kb = !!kb;
     box.hidden = false;
     document.body.classList.add('mz-open');
-    $('#map').classList.add('mz-hide');
+    mz.hid.classList.add('mz-hide');
     void box.offsetWidth;
     box.classList.add('on');
     panels.forEach(function (d, i) { mzPlace(d, dst[i]); });
@@ -675,16 +725,18 @@
   }
   function closeMapZoom() {
     if (!mz.open || mz.busy) return;
-    var box = $('#mapzoom'), src = mzSource(), dst = mzTarget();
+    var box = $('#mapzoom'), src = mzSource(mz.one), dst = mzTarget(mz.one);
     mz.busy = true;
     box.classList.remove('on');
     box.querySelectorAll('.mz-panel').forEach(function (d, i) { mzPlace(d, dst[i], src[i]); });
     setTimeout(function () {
       box.hidden = true;
       box.querySelectorAll('.mz-panel').forEach(function (n) { n.remove(); });
-      $('#map').classList.remove('mz-hide');
+      mz.hid.classList.remove('mz-hide');
       document.body.classList.remove('mz-open');
       mz.open = mz.busy = false;
+      mz.one = null;
+      syncMini();
       // keyboard users get their focus back; mouse users get no leftover focus ring
       if (mz.kb && mz.opener && mz.opener.focus) mz.opener.focus({ preventScroll: true });
       else if (document.activeElement) document.activeElement.blur();
@@ -706,8 +758,8 @@
     });
     window.addEventListener('resize', function () {
       if (!mz.open || mz.busy) return;
-      if (!mzWide()) { closeMapZoom(); return; }
-      var dst = mzTarget();
+      if (mz.one == null ? !mzWide() : !MINI.matches) { closeMapZoom(); return; }
+      var dst = mzTarget(mz.one);
       $('#mapzoom').querySelectorAll('.mz-panel').forEach(function (d, i) { mzPlace(d, dst[i]); });
     });
   }
@@ -1240,6 +1292,7 @@
   $('#pdf-plan').addEventListener('click', function () { window.print(); });
   bindAnchors();
   bindMapZoom();
+  bindMini();
   bindChanges();
   bindSwaps();
   bindSummary();
