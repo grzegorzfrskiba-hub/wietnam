@@ -3,6 +3,7 @@
 CONTENT_EN.saigon = {
   name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
   sub: 'Cần Giờ mangroves, Chợ Lớn and Saigon behind the scenes',
+  what: 'Vietnam’s largest city and main economic centre, formerly Saigon, on the river of the same name in the south of the country.',
   days: [
     { t: 'A breather', d: 'No plan, on purpose: rest after the journey, then coffee at a nearby cafe, a massage and the pool. At sunset, the Saigon Waterbus (if it is running) from Bạch Đằng pier upriver to Thảo Điền, and dinner by the water.',
       solo: { t: 'An evening by the Saigon river', d: 'One night, with no forced plan: coffee at one of the cafes in the old apartment blocks, a massage, and at sunset the Saigon Waterbus (if it is running) from Bạch Đằng pier to Thảo Điền, then dinner by the water. In the morning, breakfast and on your way.' } },

@@ -3,6 +3,7 @@
 CONTENT_EN.catba = {
   name: 'Cát Bà & Lan Hạ Bay', short: 'Cát Bà',
   sub: 'A jungle-covered island on the quiet side of Hạ Long',
+  what: 'Vietnam’s largest limestone island, on the edge of Hạ Long Bay in the country’s north-east, beside Lan Hạ Bay’s rocky islets.',
   days: [
     { t: 'To the island', d: 'Stay in Cát Bà town. In the evening, a walk along the waterfront, where the fishing boats moor, and dinner at one of the small eateries.' },
     { t: 'Việt Hải and the national park', d: 'A hike up Ngự Lâm peak in Cát Bà National Park, then on by bike to Việt Hải, a car-free village ringed by cliffs.',

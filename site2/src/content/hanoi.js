@@ -2,6 +2,7 @@
 CONTENT.hanoi = {
   name: 'Hà Nội', short: 'Hà Nội',
   sub: 'Stolica: Stare Miasto, świątynie i wioski rzemieślników',
+  what: 'Stolica Wietnamu nad Rzeką Czerwoną, na północy kraju, przeniesiona tu z Hoa Lư w 1010 roku.',
   region: 'north', maps: 'Hanoi, Vietnam', pt: [21.03, 105.85], color: 11,
   photos: ['hanoi_0', 'hanoi_1', 'hanoi_3', 'hanoi_5'],
   days: [

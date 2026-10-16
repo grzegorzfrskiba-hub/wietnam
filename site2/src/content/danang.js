@@ -3,6 +3,7 @@
 CONTENT.danang = {
   name: 'Đà Nẵng i półwysep Sơn Trà', short: 'Đà Nẵng',
   sub: 'Duki czerwononogie na Sơn Trà, plaża Mỹ Khê i Marmurowe Góry',
+  what: 'Największe miasto środkowego Wietnamu, nad morzem, ok. 30 km na północ od Hội An, z zalesionym półwyspem Sơn Trà.',
   region: 'centre', maps: 'My Khe Beach, Da Nang, Vietnam', pt: [16.06, 108.25], color: 16,
   photos: ['danang_0', 'danang_1', 'danang_2', 'danang_3', 'danang_4'],
   days: [

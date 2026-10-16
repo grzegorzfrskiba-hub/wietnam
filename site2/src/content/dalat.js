@@ -3,6 +3,7 @@
 CONTENT.dalat = {
   name: 'Wyżyna wokół Đà Lạt', short: 'Đà Lạt',
   sub: 'Sosnowe wzgórza, ciche pensjonaty i chłodne noce',
+  what: 'Górskie miasto na wysokości 1500 m, dawny letni kurort Francuzów, ok. 300 km na północny wschód od Hồ Chí Minh City.',
   region: 'south', maps: 'Da Lat, Vietnam', pt: [11.94, 108.44], color: 5,
   photos: ['dalat_4', 'dalat_1', 'dalat_2', 'dalat_0', 'dalat_3'],
   days: [

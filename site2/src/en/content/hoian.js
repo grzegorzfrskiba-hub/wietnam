@@ -3,6 +3,7 @@
 CONTENT_EN.hoian = {
   name: 'Hội An', short: 'Hội An',
   sub: 'The Old Town at dawn, vegetable-growing villages and canals among water palms',
+  what: 'A former trading port in central Vietnam, about 30 km south of Đà Nẵng, with a UNESCO-listed Old Town.',
   days: [
     { t: 'Hội An’s back roads', d: 'When you arrive, get a bike and ride to the vegetable village of Trà Quế, then on to the canals among the water coconut palms of Cẩm Thanh.',
       rain: 'a lantern-making workshop, plus the covered market.',

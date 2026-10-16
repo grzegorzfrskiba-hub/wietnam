@@ -2,6 +2,7 @@
 CONTENT.phuquoc = {
   name: 'Cicha północ Phú Quốc', short: 'Phú Quốc',
   sub: 'Rybackie wioski, płycizny z rozgwiazdami i park narodowy',
+  what: 'Największa wyspa Wietnamu, długa na ok. 50 km, leżąca w Zatoce Tajlandzkiej u południowo-zachodniego wybrzeża kraju.',
   region: 'south', maps: 'Ganh Dau, Phu Quoc, Vietnam', pt: [10.33, 103.97], color: 3,
   photos: ['phuquoc_0', 'phuquoc_1', 'phuquoc_2', 'phuquoc_5'],
   days: [
@@ -11,7 +12,7 @@ CONTENT.phuquoc = {
     { p: 3, o: 4, pace: 'culture', cost: ['phuquoc.east'], t: 'Wioski rybackie i pusta plaża', d: 'Wschodnie wybrzeże: obiad z krabami na molo w Hàm Ninh, plantacja pieprzu, potem zachód słońca na plaży Vũng Bầu.' }
   ],
   gem: 'Płycizny z rozgwiazdami w Rạch Vẹm na północnym wybrzeżu.',
-  skip: 'Sunset Town, kolejka linowa na Hòn Thơm i VinWonders na południu.',
+  skip: 'Sunset Town i kolejka linowa na Hòn Thơm na południu oraz VinWonders na północy.',
   instead: 'północne wybrzeże i park narodowy.',
   events: [
     { from: [11, 1], to: [4, 30], t: 'Pora rozgwiazd: od listopada do kwietnia morze przy Rạch Vẹm jest spokojne, a woda czysta, więc rozgwiazdy dobrze widać. Patrz, nie podnoś.' }

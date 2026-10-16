@@ -3,6 +3,7 @@
 CONTENT.yokdon = {
   name: 'Park Narodowy Yok Đôn', short: 'Yok Đôn',
   sub: 'Słonie bez jazdy, suchy las i rzeka Sêrêpốk',
+  what: 'Park narodowy na Wyżynie Centralnej przy granicy z Kambodżą, jedyny w Wietnamie, który chroni suchy las zrzucający liście.',
   region: 'south', maps: 'Yok Don National Park Headquarters, Buon Don, Dak Lak', pt: [12.87, 107.81], color: 18,
   photos: ['yokdon_0', 'yokdon_1', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
   days: [

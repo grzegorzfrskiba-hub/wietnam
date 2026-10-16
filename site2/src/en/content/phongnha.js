@@ -3,6 +3,7 @@
 CONTENT_EN.phongnha = {
   name: 'Phong Nha–Kẻ Bàng National Park', short: 'Phong Nha',
   sub: 'Caves by boat and on foot, among karst valleys',
+  what: 'A UNESCO-listed national park of caves and limestone mountains on the border with Laos, about 200 km north-west of Huế.',
   days: [
     { t: 'By the Son river', d: 'You stay in the small town of Phong Nha, on the Son river, about an hour from Đồng Hới airport. In the evening, cycle round the Bồng Lai valley, among fields and farms; many places to stay lend bikes for free.' },
     { t: '7 km into Paradise Cave', d: 'Paradise Cave (Động Thiên Đường) runs a full-day trek: the first kilometre along a wooden boardwalk, then with a guide and a head torch in the dark, 7 km into the cave, with lunch inside. Gear is handed out at 8:00; you finish around 14:30–16:00. Ages 16 and over; not for anyone with heart disease or high blood pressure. In the rainy season the water rises and the trek turns back after about 4 km.',

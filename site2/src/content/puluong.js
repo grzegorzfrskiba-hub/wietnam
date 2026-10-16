@@ -2,6 +2,7 @@
 CONTENT.puluong = {
   name: 'Pù Luông', short: 'Pù Luông',
   sub: 'Bambusowe domy gospodarzy, ryżowe doliny i wędrówki grzbietami',
+  what: 'Rezerwat przyrody w górach, ok. 160 km na południowy zachód od Hà Nội, z wioskami ludów Thái i Mường wśród tarasów ryżowych.',
   region: 'north', maps: 'Pu Luong Nature Reserve, Vietnam', pt: [20.45, 105.18], color: 8,
   photos: ['puluong_1', 'puluong_2', 'puluong_3', 'puluong_0', 'puluong_5'],
   days: [

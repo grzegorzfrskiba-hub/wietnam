@@ -3,6 +3,7 @@
 CONTENT_EN.cattien = {
   name: 'Cát Tiên National Park', short: 'Cát Tiên',
   sub: 'Lowland jungle, gibbons and a night safari',
+  what: 'A national park protecting tropical forest along the Đồng Nai river, about 150 km north-east of Hồ Chí Minh City.',
   days: [
     { t: 'Into the jungle', d: 'Cross the Đồng Nai river on a small ferry to the park headquarters and spend the night inside the park. After dark, a night drive in search of deer and civets.',
       solo: { t: 'The jungle by night and at dawn', d: 'Arrive by mid-afternoon at the latest and spend the night in the park; book the dawn gibbon walk with the park before you arrive, as places are limited. After dark, a night drive in search of deer and civets. Before dawn the next day, go out with a park ranger to hear the gibbons calling, then breakfast and on your way.' } },

@@ -23,7 +23,7 @@ var CITIES = {};   // the airports' cities: on a round trip they come twice
 Object.keys(HUBS).forEach(function (code) { CITIES[HUBS[code]] = true; });
 
 contentCheck('content', function (need) {
-  var PLACE_KEYS = ['name', 'short', 'sub', 'region', 'maps', 'pt', 'color', 'poi', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
+  var PLACE_KEYS = ['name', 'short', 'sub', 'what', 'region', 'maps', 'pt', 'color', 'poi', 'photos', 'days', 'again', 'gem', 'skip', 'instead', 'events'];
   var PALETTE = (readFile('site2/src/template.html').match(/--pal-\d+:/g) || []).length / 3, colours = {};   // light, dark, dark again
   function monthDay(v) { return Array.isArray(v) && v.length === 2 && v[0] % 1 === 0 && v[0] >= 1 && v[0] <= 12 && v[1] % 1 === 0 && v[1] >= 1 && v[1] <= 31; }
   var DAY_KEYS = ['p', 'o', 'pace', 't', 'd', 'early', 'rain', 'cost', 'pack', 'easy', 'hard', 'solo', 'self'];
@@ -264,7 +264,7 @@ contentCheck('for every passport', function (need) {
 
 /* ---------- two languages (stage 5, decisions of 15.10.2026) ---------- */
 // The fields that hold a text in a place's content (content.js): an overlay in another language has these, and only these.
-var TEXT_KEYS = ['name', 'short', 'sub', 't', 'd', 'rain', 'gem', 'skip', 'instead'];
+var TEXT_KEYS = ['name', 'short', 'sub', 'what', 't', 'd', 'rain', 'gem', 'skip', 'instead'];
 // every text of a place as [path, text]: the strings under TEXT_KEYS (poi.name too); the data (maps, region, pace, cost…) not
 function placeTexts(v, path, out) {
   if (Array.isArray(v)) v.forEach(function (x, i) { placeTexts(x, path + '.' + i, out); });
@@ -388,6 +388,20 @@ contentCheck('english places', function (need) {
   });
   var cave = CONTENT.phongnha.days.map(function (d) { return d.t; }).indexOf('7 km w głąb Paradise Cave');
   need(cave > -1 && /turns back after about 4 km/.test(CONTENT_EN.phongnha.days[cave].d), 'CONTENT_EN.phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');
+});
+
+/* The sentence „what it is and where” of each place (the first round of fixes, fix 1, finding 8): the list „Nie ma na
+   twojej trasie” shows it in the place's row; every place but a night on the way has one in both languages (the same facts:
+   english places, above), about 20 words, at most WHAT_WORDS (the longest of the dry run: 23). */
+var WHAT_WORDS = 24;
+contentCheck('place sentences', function (need) {
+  Object.keys(PLACES).forEach(function (id) {
+    var pl = CONTENT[id].what, en = (CONTENT_EN[id] || {}).what;
+    if (PLACES[id].node) { need(pl === undefined, id + ': a night on the way has no sentence'); return; }
+    need(isText(pl) && isText(en), id + ': a sentence what in both languages');
+    if (isText(pl)) need(wordCount(pl) <= WHAT_WORDS, id + '.what: ' + wordCount(pl) + ' words, at most ' + WHAT_WORDS);
+    if (isText(en)) need(wordCount(en) <= WHAT_WORDS, 'CONTENT_EN.' + id + '.what: ' + wordCount(en) + ' words, at most ' + WHAT_WORDS);
+  });
 });
 
 /* The other English texts (finding 8): a caption for every photo (site2/src/en/photos.js), a name for every holiday and every

@@ -2,6 +2,7 @@
 CONTENT.catba = {
   name: 'Cát Bà & Zatoka Lan Hạ', short: 'Cát Bà',
   sub: 'Wyspa porośnięta dżunglą po spokojnej stronie Hạ Long',
+  what: 'Największa wapienna wyspa Wietnamu, na skraju Zatoki Hạ Long na północnym wschodzie kraju, obok skalistych wysepek Zatoki Lan Hạ.',
   region: 'north', maps: 'Cat Ba Island, Vietnam', pt: [20.73, 107.05], color: 10,
   photos: ['catba_0', 'catba_3', 'catba_1', 'catba_2', 'catba_6'],
   days: [

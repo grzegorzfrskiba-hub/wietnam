@@ -3,6 +3,7 @@
 CONTENT_EN.puluong = {
   name: 'Pù Luông', short: 'Pù Luông',
   sub: 'Bamboo homestays, rice valleys and hikes along the ridges',
+  what: 'A nature reserve in the mountains, about 160 km south-west of Hà Nội, with Thái and Mường villages among rice terraces.',
   days: [
     { t: 'Into the valleys', d: 'Check in at a bamboo homestay above the rice terraces in Bản Đôn or Kho Mường. In the evening, a walk around the village.' },
     { t: 'Ridges, villages and a waterfall', d: 'A full-day hike with a guide: the turquoise pools of the Hiêu waterfall, Kho Mường village and the ridges between the valleys.',

@@ -3,6 +3,7 @@
 CONTENT.hagiang = {
   name: 'Hà Giang i płaskowyż Đồng Văn', short: 'Hà Giang',
   sub: 'Pętla przez płaskowyż Đồng Văn i przełęcz Mã Pí Lèng',
+  what: 'Wapienny płaskowyż pełen skalnych szczytów i kanionów, na samej północy kraju, przy granicy z Chinami: pierwszy w Wietnamie światowy geopark UNESCO.',
   region: 'north', maps: 'Ha Giang, Vietnam', pt: [22.83, 104.99], color: 19,
   poi: { name: 'Đồng Văn', pt: [23.29, 105.36] },
   photos: ['hagiang_0', 'hagiang_1', 'hagiang_2', 'hagiang_3', 'hagiang_4'],

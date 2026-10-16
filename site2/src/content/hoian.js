@@ -3,6 +3,7 @@
 CONTENT.hoian = {
   name: 'Hội An', short: 'Hội An',
   sub: 'Stare miasto o świcie, wioski warzywników i kanały wśród wodnych palm',
+  what: 'Dawny port handlowy w środkowym Wietnamie, ok. 30 km na południe od Đà Nẵng, ze starym miastem na liście UNESCO.',
   region: 'centre', maps: 'Hoi An, Quang Nam, Vietnam', pt: [15.88, 108.34], color: 6,
   photos: ['hoian_0', 'hoian_1', 'hoian_6', 'hoian_4', 'hoian_5'],
   days: [

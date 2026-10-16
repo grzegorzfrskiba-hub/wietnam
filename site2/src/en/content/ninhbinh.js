@@ -3,6 +3,7 @@
 CONTENT_EN.ninhbinh = {
   name: 'Ninh Bình', short: 'Ninh Bình',
   sub: 'Rowing boats among limestone karsts',
+  what: 'Limestone peaks among rice fields about 100 km south of Hà Nội, around Tràng An, a UNESCO World Heritage Site since 2014.',
   days: [
     { t: 'Into the karst hills', d: 'Stay in the lanes behind Tam Cốc. If you get there by mid-afternoon at the latest, fit in a rowing-boat trip on the Vân Long wetlands; the last boats leave in the late afternoon.',
       solo: { t: 'Karst hills in the evening and morning', d: 'Stay in the lanes behind Tam Cốc, and arrive by mid-afternoon at the latest so you can still fit in a rowing-boat trip on the Vân Long wetlands before the last boats leave. The next morning, be at the Tràng An boat wharf at 7:00, when it opens, take the boat route through the caves, then travel on.' } },

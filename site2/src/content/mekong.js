@@ -2,6 +2,7 @@
 CONTENT.mekong = {
   name: 'Delta Mekongu', short: 'Mekong',
   sub: 'Kanały, sady i pływający targ z pokładu małej łodzi',
+  what: 'Płaska delta na samym południu kraju, gdzie Mekong uchodzi do morza i gdzie rośnie ponad połowa wietnamskiego ryżu.',
   region: 'south', maps: 'Phong Dien, Can Tho, Vietnam', pt: [10.03, 105.78], color: 2,
   photos: ['mekong_0', 'mekong_2', 'mekong_3', 'mekong_1'],
   days: [

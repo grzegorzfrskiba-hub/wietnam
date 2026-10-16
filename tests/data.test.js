@@ -261,6 +261,19 @@ dataCheck('costs', function (need) {
   need(rate && EUR_VND === +(rate[1] + rate[2]), 'EUR_VND as in the row EUR-VND of research/ceny-2026-10.md');
   need(isoDay(COSTS_CHECKED) !== null, 'COSTS_CHECKED: a real day');
 });
+/* The sentences „what it is and where” (fix 1 of the first round of fixes) as the table „Zestawienie” of
+   research/opisy-miejsc-2026-10.md gives them, in both languages, whose facts and sources stand there. */
+dataCheck('place sentences', function (need) {
+  var rows = {};
+  researchRows('research/opisy-miejsc-2026-10.md', '## Zestawienie\n').forEach(function (r) { rows[r[0]] = r; });
+  Object.keys(PLACES).forEach(function (id) {
+    if (PLACES[id].node) return;
+    var r = rows[id];
+    need(r, id + ': no row in research/opisy-miejsc-2026-10.md');
+    if (r) need(CONTENT[id].what === r[1] && CONTENT_EN[id].what === r[2], id + ': the sentence as in the research (' + JSON.stringify(CONTENT[id].what) + ')');
+  });
+  Object.keys(rows).forEach(function (id) { need(PLACES[id] && !PLACES[id].node, id + ': a row of the research for no place'); });
+});
 dataCheck('booking', function (need) {
   var rows = {};
   researchRows('research/rezerwacje-2026-10.md', '## Zestawienie\n').forEach(function (r) { rows[r[0]] = r; });

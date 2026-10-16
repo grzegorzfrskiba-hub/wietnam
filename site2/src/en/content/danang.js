@@ -3,6 +3,7 @@
 CONTENT_EN.danang = {
   name: 'Đà Nẵng and the Sơn Trà peninsula', short: 'Đà Nẵng',
   sub: 'Red-shanked doucs on Sơn Trà, Mỹ Khê beach and the Marble Mountains',
+  what: 'The largest city in central Vietnam, on the coast, about 30 km north of Hội An, with the forested Sơn Trà peninsula.',
   days: [
     { t: 'The Marble Mountains and an evening by the Hàn', d: 'The Marble Mountains (Ngũ Hành Sơn), south of the centre: up Thủy Sơn by the steps or the lift, Huyền Không Cave and the view from Vọng Giang Đài; open 7:00–17:30. In the evening, dinner by the Hàn river, and on Saturdays and Sundays at 21:00 the Dragon Bridge breathes fire and water.',
       rain: 'the Museum of Cham Sculpture (7:00–17:00) instead of the slippery steps of the Marble Mountains.',

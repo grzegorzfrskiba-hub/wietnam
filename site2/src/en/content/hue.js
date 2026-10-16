@@ -3,6 +3,7 @@
 CONTENT_EN.hue = {
   name: 'Huế', short: 'Huế',
   sub: 'The Imperial City, tombs along the Perfume River and rice fields all around',
+  what: 'The former imperial capital in central Vietnam, the seat of the Nguyễn dynasty until 1945, about 100 km north-west of Đà Nẵng.',
   days: [
     { t: 'The Imperial City', d: 'When you arrive, the Imperial City (Đại Nội): the walls, gates and courtyards of the former capital of the Nguyễn dynasty. The ticket offices close around 17:00, and from mid-March to mid-October around 17:30. Towards evening, a walk along the Perfume River and bún bò Huế for dinner.',
       rain: 'the covered galleries of the Imperial City and the Museum of Royal Antiquities.' },

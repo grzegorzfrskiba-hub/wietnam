@@ -3,6 +3,7 @@
 CONTENT.mucangchai = {
   name: 'Mù Cang Chải i przełęcz Khau Phạ', short: 'Mù Cang Chải',
   sub: 'Tarasy ryżowe Hmông, wzgórze Mâm Xôi i paralotnie nad przełęczą Khau Phạ',
+  what: 'Górski region na północnym zachodzie, ok. 300 km od Hà Nội, którego tarasy ryżowe są zabytkiem narodowym szczególnej klasy.',
   region: 'north', maps: 'Cho Mu Cang Chai, Lao Cai, Vietnam', pt: [21.85, 104.09], color: 20,
   photos: ['mucangchai_0', 'mucangchai_1', 'mucangchai_2', 'mucangchai_3', 'mucangchai_4'],
   days: [

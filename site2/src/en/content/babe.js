@@ -3,6 +3,7 @@
 CONTENT_EN.babe = {
   name: 'Ba Bể', short: 'Ba Bể',
   sub: 'A mountain lake ringed by Tày villages',
+  what: 'Vietnam’s largest natural freshwater lake, in a national park among limestone mountains and forests, about 240 km north of Hà Nội.',
   days: [
     { t: 'Arrival at the lake', d: 'Check in at a homestay in a Tày stilt house in Pác Ngòi, and at dusk take a walk along the lakeshore.',
       solo: { t: 'The lake in one afternoon', d: 'Arrive by early afternoon at the latest, check in at a homestay in a Tày stilt house in Pác Ngòi and, while it is still light, take a boat to Puông Cave and Bà Góa island. Dusk on the lakeshore, then breakfast in the morning and on your way.' } },

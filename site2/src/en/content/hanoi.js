@@ -3,6 +3,7 @@
 CONTENT_EN.hanoi = {
   name: 'Hà Nội', short: 'Hà Nội',
   sub: 'The capital: the Old Quarter, temples and craft villages',
+  what: 'Vietnam’s capital, on the Red River in the north of the country, moved here from Hoa Lư in 1010.',
   days: [
     { t: 'The Old Quarter and Hoàn Kiếm lake', d: 'A walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter.',
       solo: { t: 'An evening in Hà Nội', d: 'At dusk, a walk around Hoàn Kiếm lake and through the narrow streets of the Old Quarter, with street food for dinner: bún chả or bánh cuốn. In the morning, egg coffee, then on your way.' } },

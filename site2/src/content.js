@@ -2,6 +2,8 @@
    Written once for every month, in Polish, to one reader (ty), without gendered forms (notes/wizja.md).
    The fields of a place:
    - name, short, sub: the full name; the short name for the strip, the map and lists; one line under the name;
+   - what: what the place is and where it lies, in a sentence of about 20 words, for the list of the places off the trip
+     only (fix 1 of the first round of fixes); facts and sources: research/opisy-miejsc-2026-10.md; a night on the way has none;
    - region: one of REGIONS; maps: where Google Maps directions start or end; pt: [lat, lon] on the map;
    - color: the place's colour, a number of the palette in template.html (--pal-1…); a night on the way has none, it takes
      the colour of its node; poi: { name, pt } a point of interest the map shows next to the stay (Bản Giốc by Cao Bằng);

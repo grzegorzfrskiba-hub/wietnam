@@ -3,6 +3,7 @@
 CONTENT_EN.mucangchai = {
   name: 'Mù Cang Chải and the Khau Phạ pass', short: 'Mù Cang Chải',
   sub: 'Hmông rice terraces, Mâm Xôi hill and paragliding over the Khau Phạ pass',
+  what: 'A mountain region in the north-west, about 300 km from Hà Nội, whose rice terraces are a special national monument.',
   days: [
     { t: 'Terraces at sunset', d: 'Check in at a homestay in La Pán Tẩn or in the town. At about 16:00, Móng Ngựa hill, 2 km from the centre: terraces laid out in a horseshoe, at their best before sunset, and crowded after 17:00. The slopes are steep; do not stand on the railings of the photo platforms. For dinner, stream fish or trout farmed below Khau Phạ.',
       rain: 'after rain the paths on the slopes of Móng Ngựa are slippery: stay at the upper viewpoint or save the terraces for tomorrow.' },

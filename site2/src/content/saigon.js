@@ -2,6 +2,7 @@
 CONTENT.saigon = {
   name: 'Hồ Chí Minh City', short: 'Hồ Chí Minh City',
   sub: 'Namorzyny Cần Giờ, Chợ Lớn i Sajgon od kuchni',
+  what: 'Największe miasto i główny ośrodek gospodarczy Wietnamu, dawny Sajgon, nad rzeką o tej samej nazwie na południu kraju.',
   region: 'south', maps: 'Ho Chi Minh City, Vietnam', pt: [10.78, 106.7], color: 1,
   photos: ['saigon_0', 'saigon_1', 'saigon_2', 'saigon_3', 'saigon_4'],
   days: [

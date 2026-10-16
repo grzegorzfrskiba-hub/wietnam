@@ -3,6 +3,7 @@
 CONTENT.sapa = {
   name: 'Sa Pa i Fansipan', short: 'Sa Pa',
   sub: "Tarasy doliny Mường Hoa, wioski H'Mông i Giáy oraz Fansipan, dach Indochin",
+  what: 'Górskie miasteczko na ok. 1500 m, dawne francuskie letnisko na północnym zachodzie, ok. 320 km od Hà Nội.',
   region: 'north', maps: 'Sa Pa, Lao Cai, Vietnam', pt: [22.34, 103.84], color: 17,
   photos: ['sapa_0', 'sapa_1', 'sapa_2', 'sapa_3', 'sapa_4'],
   days: [

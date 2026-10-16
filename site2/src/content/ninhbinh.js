@@ -2,6 +2,7 @@
 CONTENT.ninhbinh = {
   name: 'Ninh Bình', short: 'Ninh Bình',
   sub: 'Łodzie wiosłowe wśród wapiennych turni',
+  what: 'Wapienne turnie wśród pól ryżowych ok. 100 km na południe od Hà Nội, wokół Tràng An, od 2014 roku na liście UNESCO.',
   region: 'north', maps: 'Tam Coc, Ninh Binh, Vietnam', pt: [20.25, 105.9], color: 9,
   photos: ['ninhbinh_0', 'ninhbinh_3', 'ninhbinh_4', 'ninhbinh_5', 'ninhbinh_6'],
   days: [

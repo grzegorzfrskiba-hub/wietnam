@@ -3,6 +3,7 @@
 CONTENT_EN.cucphuong = {
   name: 'Cúc Phương National Park', short: 'Cúc Phương',
   sub: 'Rescued primates, thousand-year-old trees and the forest at night',
+  what: 'Vietnam’s oldest national park, protecting tropical forest on limestone ridges since 1962, about 120 km south of Hà Nội.',
   days: [
     { t: 'Rescued primates and the forest at night', d: 'Check into one of the park’s rooms, at the gate or by Mạc lake. In the afternoon, the rescue centres, 500 m from the ticket office and usually open until 17:00: Delacour’s and Cát Bà langurs, gibbons, lorises, turtles and pangolins. In the evening, a night ride by electric buggy along the edge of the forest: fireflies, deer and lorises; gather at 18:30 for a 19:00 start, and guests staying in the park get priority.',
       rain: 'the park museum and the visitor centre are under cover, and an umbrella comes in handy at the rescue centres; the park decides whether the night ride goes ahead in a downpour.',

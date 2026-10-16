@@ -2,6 +2,7 @@
 CONTENT.babe = {
   name: 'Ba Bể', short: 'Ba Bể',
   sub: 'Górskie jezioro otoczone wioskami ludu Tày',
+  what: 'Największe naturalne jezioro słodkowodne Wietnamu, w parku narodowym wśród wapiennych gór i lasów, ok. 240 km na północ od Hà Nội.',
   region: 'north', maps: 'Ba Be National Park, Vietnam', pt: [22.41, 105.62], color: 12,
   photos: ['babe_0', 'babe_1', 'babe_2', 'babe_3', 'babe_5'],
   days: [

@@ -3,6 +3,7 @@
 CONTENT_EN.hagiang = {
   name: 'Hà Giang and the Đồng Văn plateau', short: 'Hà Giang',
   sub: 'A loop over the Đồng Văn plateau and the Mã Pí Lèng pass',
+  what: 'A limestone plateau of rocky peaks and canyons in the far north, on the border with China: Vietnam’s first UNESCO Global Geopark.',
   poi: { name: 'Đồng Văn' },
   days: [
     { t: 'An evening in Hà Giang', d: 'A night in Hà Giang town, where the loop starts in the morning. Book a driver or a motorbike guide (easy rider) only through a licensed agency. Đồng Văn, Mã Pí Lèng and Lũng Cú lie in the border zone, so you need a permit for about 230,000–300,000 VND, which the agency arranges. Always carry your passport.',

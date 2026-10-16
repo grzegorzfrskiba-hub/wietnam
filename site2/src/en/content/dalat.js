@@ -3,6 +3,7 @@
 CONTENT_EN.dalat = {
   name: 'Highlands around Đà Lạt', short: 'Đà Lạt',
   sub: 'Pine-covered hills, quiet guesthouses and cool nights',
+  what: 'A mountain town at 1,500 m, once a summer retreat of the French, about 300 km north-east of Hồ Chí Minh City.',
   days: [
     { t: 'Dusk over the Tà Nung valley', d: 'Skip the centre and head west to the ridges above the Tà Nung valley to watch the pine-covered hills and coffee plantations at dusk. Stay at a guesthouse out of town, where the nights are quiet and cool, and starry in the dry season.' },
     { t: 'Bidoup–Núi Bà cloud forest', d: 'A guided hike towards Hòn Giao among old pines, mossy forest and wild orchids. The trail is about 50 km away, so this takes the whole day. In the dry season, from November to April, the paths are firm underfoot; in the rainy season they can be slippery. Book your guide at the park’s tourist information centre.',

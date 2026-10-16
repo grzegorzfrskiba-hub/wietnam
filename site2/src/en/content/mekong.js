@@ -3,6 +3,7 @@
 CONTENT_EN.mekong = {
   name: 'Mekong Delta', short: 'Mekong',
   sub: 'Canals, orchards and a floating market from a small boat',
+  what: 'The flat delta in the far south of Vietnam, where the Mekong meets the sea and over half the country’s rice grows.',
   days: [
     { t: 'The canals of Phong Điền', d: 'Check in at a canal-side homestay in Phong Điền, just outside Cần Thơ. In the late afternoon, take a small sampan through the canals among the fruit orchards.',
       solo: { t: 'The delta at dusk and dawn', d: 'Reach your canal-side homestay in Phong Điền, just outside Cần Thơ, by mid-afternoon at the latest, and take a sampan through the canals among the orchards. The next morning at 5:30, a small boat to the Cái Răng floating market; be back at your homestay before 9:00, in time to move on.' } },

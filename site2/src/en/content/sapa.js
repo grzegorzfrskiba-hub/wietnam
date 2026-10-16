@@ -3,6 +3,7 @@
 CONTENT_EN.sapa = {
   name: 'Sa Pa and Fansipan', short: 'Sa Pa',
   sub: 'Terraces of the Mường Hoa valley, H’Mông and Giáy villages, and Fansipan, the roof of Indochina',
+  what: 'A mountain town at about 1,500 m, a former French hill station in the north-west, about 320 km from Hà Nội.',
   days: [
     { t: 'A hillside town', d: 'Settle in at Sa Pa, a former French hill station about 1,500 m above sea level. In the evening, a stroll round the town. Even in summer the nights here are cool, so keep a warm layer to hand.' },
     { t: 'Villages of the Mường Hoa valley', d: 'A full-day hike with a local guide: from Sa Pa down to Ý Linh Hồ and Lao Chải, then along the Mường Hoa stream to Tả Van, among the rice terraces of the H’Mông and Giáy. About 10 km, mostly downhill, with lunch at a family home in a village. From Tả Van you return by car.',

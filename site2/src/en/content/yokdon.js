@@ -3,6 +3,7 @@
 CONTENT_EN.yokdon = {
   name: 'Yok Đôn National Park', short: 'Yok Đôn',
   sub: 'Elephants without rides, dry forest and the Sêrêpốk river',
+  what: 'A national park in the Central Highlands on the border with Cambodia, the only one in Vietnam that protects dry deciduous forest.',
   days: [
     { t: 'To the forest on the Sêrêpốk', d: 'Check in at the park’s guesthouse by the headquarters, where every tour starts. In the afternoon, a boat on the Sêrêpốk river, 40–60 minutes. If you come through Buôn Ma Thuột, stop at the World Coffee Museum, built in the style of an Ê Đê longhouse.',
       rain: 'in a storm the boat stays in: spend longer in Buôn Ma Thuột, at the World Coffee Museum and the Đắk Lắk Museum, on the peoples of the Central Highlands, and reach the park for the evening.',

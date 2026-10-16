@@ -2,6 +2,7 @@
 CONTENT.cucphuong = {
   name: 'Park Narodowy Cúc Phương', short: 'Cúc Phương',
   sub: 'Ratowane naczelne, tysiącletnie drzewa i las nocą',
+  what: 'Najstarszy park narodowy Wietnamu, od 1962 roku chroniący tropikalny las na wapiennych grzbietach, ok. 120 km na południe od Hà Nội.',
   region: 'north', maps: 'Cuc Phuong National Park, Ninh Binh, Vietnam', pt: [20.25, 105.71], color: 15,
   photos: ['cucphuong_0', 'cucphuong_1', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4'],
   days: [

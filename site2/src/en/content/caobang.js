@@ -3,6 +3,7 @@
 CONTENT_EN.caobang = {
   name: 'Cao Bằng', short: 'Cao Bằng',
   sub: 'The Bản Giốc waterfall and the karst borderlands',
+  what: 'A land of limestone mountains, rivers and caves in the north-east, on the border with China, with a UNESCO Global Geopark since 2018.',
   days: [
     { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.',
       self: { t: 'An evening in Cao Bằng', d: 'A night in the city of Cao Bằng and, for dinner, duck roasted with seven spices (vịt quay 7 vị), the region’s speciality. Pick up your hired motorbike the same evening. Keep your passport on you, as the loop runs through the border zone. At Bản Giốc, Ngườm Ngao, Khuổi Ky and Pác Bó you need no permit, but elsewhere near the border foreigners need a police permit: do not turn off onto side roads towards the border.' } },

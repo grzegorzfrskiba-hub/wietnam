@@ -2,6 +2,7 @@
 CONTENT.phongnha = {
   name: 'Park Narodowy Phong Nha–Kẻ Bàng', short: 'Phong Nha',
   sub: 'Jaskinie z łodzi i pieszo wśród krasowych dolin',
+  what: 'Park narodowy na liście UNESCO, z jaskiniami w wapiennych górach przy granicy z Laosem, ok. 200 km na północny zachód od Huế.',
   region: 'centre', maps: 'Phong Nha, Quang Tri, Vietnam', pt: [17.61, 106.31], color: 14,
   photos: ['phongnha_0', 'phongnha_1', 'phongnha_2', 'phongnha_3', 'phongnha_4'],
   days: [

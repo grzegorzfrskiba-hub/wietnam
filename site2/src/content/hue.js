@@ -2,6 +2,7 @@
 CONTENT.hue = {
   name: 'Huế', short: 'Huế',
   sub: 'Cesarskie Miasto, grobowce nad Rzeką Perfumową i pola ryżowe wokół',
+  what: 'Dawna stolica cesarska w środkowym Wietnamie, siedziba dynastii Nguyễn do 1945 roku, ok. 100 km na północny zachód od Đà Nẵng.',
   region: 'centre', maps: 'Hue, Vietnam', pt: [16.46, 107.59], color: 7,
   photos: ['hue_0', 'hue_1', 'hue_2', 'hue_6', 'hue_4'],
   days: [

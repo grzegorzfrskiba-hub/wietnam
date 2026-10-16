@@ -2,6 +2,7 @@
 CONTENT.caobang = {
   name: 'Cao Bằng', short: 'Cao Bằng',
   sub: 'Wodospad Bản Giốc i krasowe pogranicze',
+  what: 'Kraina wapiennych gór, rzek i jaskiń na północnym wschodzie, przy granicy z Chinami, ze światowym geoparkiem UNESCO od 2018 roku.',
   region: 'north', maps: 'Cao Bang, Vietnam', pt: [22.67, 106.25], color: 13,
   photos: ['caobang_0', 'caobang_6', 'caobang_1', 'caobang_2', 'caobang_3'],
   days: [
