@@ -2,7 +2,7 @@
 
 Ustalona w sesji o wizji 9.10.2026. Tło i rozpoznanie: [pomysl-planer-dla-znajomych.md](pomysl-planer-dla-znajomych.md). Plan prac: [etapy.md](etapy.md).
 
-Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę. Sesja decyzji etapu 5 (15.10.2026) ustaliła nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `noindex` do samego końca; na stronie od etapu 5, 15.10.2026 (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji etapu 5”).
+Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę. Sesja decyzji etapu 5 (15.10.2026) ustaliła nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `noindex` do samego końca; na stronie od etapu 5, 15.10.2026 (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji etapu 5”). Pierwsza runda poprawek (sesja decyzji 16.10.2026, na stronie od 16.10.2026): najpierw ogóły, a szczegóły po kliknięciu, koszty domyślnie schowane i lista miejsc poza trasą z opisem, zdjęciem i mapką kraju (szczegóły w [etapy.md](etapy.md), „Runda poprawek”).
 
 ## W skrócie
 
@@ -113,8 +113,10 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - **„Nie ma na twojej trasie, bo…”** podaje powód: poza sezonem, za daleko na tyle dni, nie twój profil albo tylko na poziomie ekstremalnie.
   - Przy każdym miejscu jest przycisk „Dodaj”. Silnik układa wtedy trasę na nowo z tym miejscem i mówi, co wypadło.
   - Tak poprawia się gotową trasę. Nie jest to panel przełączników na start, przed którym ostrzegało badanie z 8.10.
+  - Od pierwszej rundy poprawek (16.10.2026) każde miejsce to zwinięty wiersz z miniaturą i zdaniem „czym to jest i gdzie”, a po rozwinięciu ze zdjęciem, typową długością pobytu, małą mapką całego kraju z trasą, powodem i „Dodaj”.
 - **Zamiany albo–albo** działają wewnątrz modułów: motocykl z kierowcą albo samodzielnie w Cao Bằng, na przełęczy Hải Vân i w Hà Giang.
-- **Budżet** opisuje pkt 7. Do tego **ostrzeżenia:** Tết, święta, zamknięcia.
+- **Budżet** opisuje pkt 7; od pierwszej rundy poprawek (16.10.2026) szacowane koszty są domyślnie schowane, a pokazuje je „Pokaż szacowane koszty” w ustawieniach albo w „Przed wyjazdem” (w linku `&koszty=1`). Do tego **ostrzeżenia:** Tết, święta, zamknięcia.
+- **Najpierw ogóły** (pierwsza runda poprawek, 16.10.2026): dni i przejazdy, części „Przed wyjazdem” i lista autorów zdjęć są zwinięte do jednej linii, a formularz przy linku z trasą do trzech linijek; szczegóły po kliknięciu, zdjęcia i wskazówki na wierzchu, w druku wszystko rozwinięte.
 - **„Przed wyjazdem”** (etap 2, od planu B2 według decyzji z 15.10.2026): budżet w dongach z podziałem i kwotą w pojedynkę; rezerwacje od najpilniejszej: co, kiedy, za ile i gdzie, z licencją biura tam, gdzie chroni; „Warto wiedzieć” (wiza według paszportu, e-wiza i karta przylotu tylko na stronach rządowych, e-papierosy); pakowanie tylko z tego, co wynika z trasy.
 - **Link z ustawieniami** (rozszerzony `variantHash`), kopiowanie planu do WhatsAppa i zapis trasy jako PDF (przycisk „Zapisz trasę jako PDF”, wydruk na A4).
 - **Język** (decyzja z 15.10.2026, na stronie od etapu 5, 15.10.2026): przełącznik EN · PL w prawym górnym rogu zdjęcia na górze strony, domyślnie angielski; polski dopisuje `&lang=pl` do linku, a trasa przy przełączeniu zostaje.
