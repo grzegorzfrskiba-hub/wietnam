@@ -3,7 +3,9 @@
 // button at least 44 px high that a keyboard reaches; a click opens it and leaves the others as they are; the photos stay
 // in sight; a day of the strip opens its day; „Rozwiń wszystkie dni” opens every day and journey and turns into „Zwiń
 // wszystkie dni”; the open rows stay open after a change of the language or of a swap and close on another trip; the
-// printout opens every folded part and closes them back after it.
+// printout opens every folded part and closes them back after it. „Przed wyjazdem” has four closed parts, each with its
+// heading and one sentence, the warning of Tết in sight under the bookings' sentence, and a part stays open on another
+// trip; the credits of the photos are closed under one line with their number, the notes and the rights in sight.
 // tests/probe.sh tests/probes/fold.js 390 'od=HAN&do=HAN&miesiac=MIESIAC&dni=14&co=przyroda,gory&poziom=2&dodaj=caobang'
 // and at 641, 901 and 1400 px; a click from a script moves no focus and opens no row by a key, so the keyboard is checked
 // by hand in a browser (Tab, Enter, Space)
@@ -39,6 +41,28 @@ setTimeout(function () {
   check('it opens every day and journey and turns into „Zwiń wszystkie dni”', days.concat(legs).every(function (d) { return d.open; }) && all.textContent === L({ en: 'Collapse all days', pl: 'Zwiń wszystkie dni' }), all.textContent);
   all.click();
   check('„Zwiń wszystkie dni” closes them all', shut(days.concat(legs)) && all.textContent === L({ en: 'Expand all days', pl: 'Rozwiń wszystkie dni' }));
+  // „Przed wyjazdem”: four closed parts, each with its heading and one sentence (finding 7 of fix 3)
+  // a part's row as heading | sentence, spaces folded
+  var parts = folds('#before .b-part'), gist = parts.map(function (d) {
+    return d ? [d.querySelector('h3'), d.querySelector('.b-sum, .b-gist')].map(function (e) { return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }).join(' | ') : '';
+  });
+  check('„Przed wyjazdem” has four closed parts', parts.length === 4 && shut(parts), parts.length);
+  check('the budget: its sum per person in the row', L({ en: /^Budget \| \d+(–\u2060?\d+)?M VND per person, two sharing a room and a car\.$/, pl: /^Budżet \| \d+(–\u2060?\d+)? mln VND na osobę, przy dwóch osobach w pokoju i aucie\.$/ }).test(gist[0]), gist[0]);
+  check('the bookings: how many, and the most urgent', L({ en: /^Book ahead \| \d+ things, the most urgent: [^.]+\.$/, pl: /^Zarezerwuj wcześniej \| \d+ rzeczy, najpilniejsze: [^.]+\.$/ }).test(gist[1]), gist[1]);
+  check('good to know: what it is about', gist[2] === L({ en: 'Good to know | The visa, e-cigarettes and the government sites.', pl: 'Warto wiedzieć | Wiza, e-papierosy i strony rządowe.' }), gist[2]);
+  check('what to pack: how many things for this route', L({ en: /^What to pack \| \d+ things? for this route\.$/, pl: /^Co spakować \| \d+ rzeczy? na tę trasę\.$/ }).test(gist[3]), gist[3]);
+  check('closed, the parts hide their lists', !seen(document.querySelector('#b-book .b-book')) && !seen(document.querySelector('#b-pack .b-list')));
+  parts[3].querySelector('summary').click();
+  check('a click opens a part: its list in sight', parts[3].open && seen(document.querySelector('#b-pack .b-list')));
+  // the credits of the photos: closed, one line with their number; the notes and the rights stay in sight (finding 9)
+  var cr = document.querySelector('footer details[data-fold="credits"]');
+  check('the credits of the photos are closed, under one line with their number', !!cr && !cr.open && textOf('footer summary') === L({ en: 'Photos: authors and licences (97)', pl: 'Zdjęcia: autorzy i licencje (97)' }) &&
+    !seen(document.getElementById('credits')), textOf('footer summary'));
+  check('the notes and the rights stay in sight', seen(document.querySelector('.ft-copy')) && L({ en: /Natural Earth/, pl: /Natural Earth/ }).test(textOf('footer')) &&
+    seen(document.querySelector('[data-i18n="ft.notes.p"]')));
+  cr.querySelector('summary').click();
+  check('a click opens the credits: the photos with their authors and licences', cr.open && document.querySelectorAll('#credits li').length === 97 && seen(document.getElementById('credits')));
+  cr.querySelector('summary').click();
   // open rows stay open after a change of the language and of a swap (the same trip), and close on another trip
   days[2].querySelector('summary').click();
   legs[2].querySelector('summary').click();
@@ -47,7 +71,7 @@ setTimeout(function () {
   var other = sw.querySelector('[aria-pressed="false"]');
   other.focus();
   other.click();
-  check('after a change of the language the open rows stay open', isOpen(key) && isOpen(leg) && !isOpen(days[0].getAttribute('data-fold')), key + ', ' + leg);
+  check('after a change of the language the open rows stay open', isOpen(key) && isOpen(leg) && isOpen('b-pack') && !isOpen(days[0].getAttribute('data-fold')), key + ', ' + leg);
   sw.querySelector('[aria-pressed="false"]').click();
   var self = document.querySelector('#stops .swap[data-swap="caobang"] input[value="self"]');
   self.click();
@@ -62,6 +86,13 @@ setTimeout(function () {
   goTo('#od=SGN&do=HAN&miesiac=' + at.year + '-' + (at.month < 10 ? '0' : '') + at.month + '&dni=15&co=&poziom=2');
   setTimeout(function () {
     check('another trip: every day and journey closed', shut(folds('#stops .day').concat(folds('#stops .leg'))));
-    done();
+    check('a part of „Przed wyjazdem” stays open on another trip', isOpen('b-pack'));
+    // a term with Tết (January 2028): its warning stands in sight under the bookings' sentence, the part closed
+    goTo('#od=SGN&do=HAN&miesiac=2028-01&dni=15&co=&poziom=2');
+    setTimeout(function () {
+      check('Tết: the warning of the bookings in sight under their sentence, the part closed', !isOpen('b-book') && seen(document.querySelector('#b-book .b-warn')) &&
+        /Tết/.test(textOf('#b-book .b-warn')), textOf('#b-book .b-warn'));
+      done();
+    }, 500);
   }, 500);
 }, 1500);

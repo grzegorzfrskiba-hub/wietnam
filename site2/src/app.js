@@ -292,7 +292,7 @@
       '<li><b>' + k.hikes + '</b><span>' + countWord('f.hikes', k.hikes) + '</span></li>' +
       // the longest day: its number large and its unit small, so the widest (8½ godz.) fits its tile (tests/probes/before.js)
       '<li><b>' + approx(k.longest).replace('≈ ', '').replace(' ' + T('h'), '') + '<small>\u00a0' + T('h') + '</small></b><span>' + T('f.longest') + '</span></li>' +
-      '<li class="f-budget"><a href="#before" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
+      '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>';
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -745,6 +745,16 @@
   }
 
   /* ---------- before the trip: the budget, what to book (bookList), what is worth knowing (ENTRY), what to pack (packList) ---------- */
+  /* A part of „Przed wyjazdem” as a folded part (finding 7 of fix 3): its heading and one sentence (gist) in the summary, with
+     what stays in sight under the sentence (the warning of Tết at the bookings, finding 8); the rest (body) when open. */
+  function beforeFold(key, h3, gist, body) {
+    return '<details data-fold="' + key + '"><summary class="b-head"><span class="b-title"><h3>' + h3 + '</h3>' + gist + '</span>' + ICON.fold + '</summary>' +
+      '<div class="b-more">' + body + '</div></details>';
+  }
+  // what to book, by its name, for the sentence of its part: the flights, a car from an airport, the transfers, the hosts and
+  // the stays in the parks by their own words; anything else by its first thing (its cost key)
+  var BOOK_NAMES = { airport: 'bn.airport', transfer: 'bn.transfer', homestay: 'bn.homestay', 'cucphuong.stay': 'bn.cucphuong', 'yokdon.stay': 'bn.yokdon' };
+  function bookName(e) { return BOOK_NAMES[e.key] ? T(BOOK_NAMES[e.key]) : T('cost.' + (e.key === 'flights' ? 'flights' : e.items[0])); }
   function linksOf(list) { return list.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(named(LINK_NAMES_EN, l.name)) + '</a>'; }).join(' · '); }
   function placesOf(ids) { return andList(ids.map(function (id) { return C(id).short; })); }
   function renderBefore() {
@@ -752,18 +762,21 @@
     var hits = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS).hits, tet = hits.some(function (h) { return h.kind === 'tet'; });
     var holidays = hits.filter(function (h) { return h.kind === 'holiday'; }).map(function (h) { return named(HOLIDAY_NAMES_EN, h.name); });
     var top = b.items.slice(0, 3).map(function (x) { return T('bud.item', { name: T('cost.' + x.key), x: vnd(x.two) }); });
-    $('#b-budget').innerHTML = '<h3>' + T('bud.h3') + '</h3><p class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</p>' +
+    $('#b-budget').innerHTML = beforeFold('b-budget', T('bud.h3'), '<span class="b-sum"><b>' + vnd(b.two, true) + '</b> ' + esc(T('bud.two')) + '</span>',
       '<p>' + esc(T('bud.one', { x: vnd(b.one, true) })) + '</p>' +
       '<ul class="b-parts">' + ['nights', 'day', 'travel', 'trips'].map(function (k) {
         return '<li><span>' + T('bud.' + k) + '</span><span class="mono">' + vnd(b.parts[k].two) + '</span></li>';
       }).join('') + '</ul>' +
       (top.length ? '<p>' + esc(T('bud.top', { x: andList(top) })) + '</p>' : '') +
       (tet ? '<p class="b-warn">' + esc(T('bud.tet')) + '</p>' : holidays.length ? '<p class="b-warn">' + esc(T(holidays.length > 1 ? 'bud.holidays' : 'bud.holiday', { x: andList(holidays) })) + '</p>' : '') +
-      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>';
-    var books = bookList(r, state.plans, moto, BOOK_DATA);
-    $('#b-book').innerHTML = '<h3>' + T('book.h3') + '</h3><p class="b-note">' + T('book.p') + '</p>' +
-      (tet ? '<p class="b-warn">' + esc(T('book.tet')) + '</p>' : '') +
-      (books.length ? '<ol class="b-book">' + books.map(function (e) {
+      '<p class="b-note">' + esc(T('bud.note', { month: T('monl.' + +COSTS_CHECKED.slice(5, 7)), year: COSTS_CHECKED.slice(0, 4) })) + '</p>');
+    var books = bookList(r, state.plans, moto, BOOK_DATA), warn = tet ? '<span class="b-warn">' + esc(T('book.tet')) + '</span>' : '';
+    // how many things and the most urgent; a trip with nothing to book ahead says so, without folding
+    var gist = books.length > 1 ? T('book.gist', { n: books.length, things: countWord('things', books.length), x: bookName(books[0]) })
+      : books.length ? T('book.gist1', { x: bookName(books[0]) }) : '';
+    $('#b-book').innerHTML = !books.length ? '<h3>' + T('book.h3') + '</h3>' + warn + '<p>' + esc(T('book.none')) + '</p>'
+      : beforeFold('b-book', T('book.h3'), '<span class="b-gist">' + esc(gist) + '</span>' + warn, '<p class="b-note">' + T('book.p') + '</p>' +
+      '<ol class="b-book">' + books.map(function (e) {
         // what the line is about: the flights, the roads from airports (both ways said so), the hosts' places, the things
         // booked under the key (a park's services); a place with a peak of its own for its hosts adds its sentence
         var x = e.key === 'flights' ? e.list.map(function (f) { return AIRPORTS[f[0]].name + ' → ' + AIRPORTS[f[1]].name; }).join(', ')
@@ -773,14 +786,14 @@
         // a thing that may cost nothing says its dearer end without „ok.”: „do 2,2 mln VND na osobę”
         var meta = [e.two ? esc(T(e.two[0] > 0 ? 'book.cost' : 'book.upto', { x: vnd(e.two) })) : '', linksOf(e.links)].filter(Boolean);
         return '<li><p>' + esc(T('b.' + e.key, { x: x }) + more) + '</p>' + (meta.length ? '<p class="b-meta">' + meta.join(' · ') + '</p>' : '') + '</li>';
-      }).join('') + '</ol>' : '<p>' + esc(T('book.none')) + '</p>');
+      }).join('') + '</ol>');
     // what is worth knowing (decision of 15.10.2026): the visa as a question for one's own passport, the e-visa and the
     // arrival card on the government's sites (the links of ENTRY), the ban on e-cigarettes
-    $('#b-know').innerHTML = '<h3>' + T('know.h3') + '</h3><ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul>' +
-      '<p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>';
-    $('#b-pack').innerHTML = '<h3>' + T('pack.h3') + '</h3><ul class="b-list">' + packList(r, state.plans, st, moto, PACK_DATA).map(function (p) {
-      return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>';
-    }).join('') + '</ul>';
+    $('#b-know').innerHTML = beforeFold('b-know', T('know.h3'), '<span class="b-gist">' + esc(T('know.gist')) + '</span>',
+      '<ul class="b-list"><li>' + esc(T('know.visa')) + '</li><li>' + esc(T('know.vape')) + '</li></ul><p class="b-meta">' + esc(T('know.links')) + linksOf(ENTRY.links) + '</p>');
+    var pack = packList(r, state.plans, st, moto, PACK_DATA);
+    $('#b-pack').innerHTML = beforeFold('b-pack', T('pack.h3'), '<span class="b-gist">' + esc(T('pack.gist', { n: pack.length, things: countWord('things', pack.length) })) + '</span>',
+      '<ul class="b-list">' + pack.map(function (p) { return '<li>' + esc(T('p.' + p.code, { x: placesOf(p.places), t: p.t })) + '</li>'; }).join('') + '</ul>');
   }
 
   /* „Z kierowcą” or „Samodzielnie” in a card: the trip stays, its days, texts and budget follow; the choice builds on the
@@ -1022,6 +1035,7 @@
     var used = {};
     used[HERO_PHOTO] = true;
     Object.keys(CONTENT).forEach(function (id) { CONTENT[id].photos.forEach(function (ph) { used[ph] = true; }); });
+    $('#ft-photos').innerHTML = '<h2>' + esc(T('ft.photos', { n: Object.keys(used).length })) + '</h2>' + ICON.fold;
     $('#credits').innerHTML = Object.keys(used).map(function (ph) {
       // the caption leads to the photo's page on Commons, the licence to its text
       var m = PHOTO_META[ph], lic = licenceUrl(m.license, lang);

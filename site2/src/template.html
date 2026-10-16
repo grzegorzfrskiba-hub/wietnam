@@ -188,11 +188,17 @@ footer .ft-copy { margin-top: 18px; }
 @media (min-width: 900px) { .before { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 48px; } }
 .b-part { display: grid; gap: 10px; align-content: start; }
 .b-part h3 { font-size: 24px; }
+/* a part folded (fix 3): the heading and one sentence (the sum, how many things…) in the summary, the arrow at the right */
+.b-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.b-title { display: grid; gap: 8px; }
+.b-gist { display: block; color: var(--muted); }
+.b-more { display: grid; gap: 10px; padding-top: 10px; }
+.b-sum { display: block; }
 .b-sum b { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 34px); white-space: nowrap; }
 .b-parts { display: grid; }
 .b-parts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding: 5px 0; font-size: 15px; }
 .b-note, .b-meta { font-size: 13.5px; color: var(--muted); }
-.b-warn { font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
+.b-warn { display: block; font-size: 14px; background: var(--warm-soft); border-left: 3px solid var(--warm); padding: 8px 12px; border-radius: 4px; }
 .b-book { display: grid; gap: 8px; }
 .b-book li { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 15px; }
 .b-list { display: grid; gap: 6px; }
@@ -393,6 +399,10 @@ details[open] > summary .fold-arrow { transform: rotate(180deg); }
 footer { margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: 12.5px; }
 footer h2 { font: 400 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 10px; }
 footer h2:first-child { margin-top: 0; }
+/* the credits of the photos under one line with their number (fix 3), the list when open */
+.ft-photos summary { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.ft-photos summary h2 { margin: 0; }
+.ft-photos[open] summary { margin-bottom: 10px; }
 .credits { columns: 2 340px; column-gap: 32px; }
 .credits li { break-inside: avoid; margin-bottom: 4px; }
 footer a { color: var(--muted); }
@@ -497,7 +507,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click { display: none !important; }
+  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -527,7 +537,11 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
      choice may break between its paragraphs, its heading stays with the switch */
   .before, .b-part, .b-book, .b-list, .b-parts, .swap { display: block !important; }
   .before > * + * { margin-top: 24px; }
-  .b-part > * + *, .b-book li + li, .b-list li + li, .swap > * + * { margin-top: 8px; }
+  .b-more, .b-title { display: block !important; }
+  .b-part > * + *, .b-title > * + *, .b-more > *, .b-book li + li, .b-list li + li, .swap > * + * { margin-top: 8px; }
+  /* the folded parts of „Przed wyjazdem” and of the footer as high on paper as before the fold */
+  .b-more { padding-top: 0; }
+  .ft-photos summary { min-height: 0; }
   .b-book li, .b-list li, .b-parts li, .swap-seg, .swap p { break-inside: avoid; }
   .swap-h { break-after: avoid; }
   .credits { columns: 3; column-gap: 20px; font-size: 9px; line-height: 1.35; }
@@ -665,8 +679,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 
 <footer>
   <div class="wrap">
-    <h2 data-i18n="ft.photos"></h2>
-    <ul class="credits" id="credits"></ul>
+    <details class="ft-photos" data-fold="credits"><summary id="ft-photos"></summary><ul class="credits" id="credits"></ul></details>
     <h2 data-i18n="ft.notes"></h2>
     <p data-i18n="ft.notes.p"></p>
     <p class="ft-copy" data-i18n="ft.copy"></p>

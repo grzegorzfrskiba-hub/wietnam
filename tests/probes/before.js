@@ -1,4 +1,4 @@
-// The budget and "Przed wyjazdem", and the motorbike swaps, in the page's language (L in lib.js): the budget figure leads to its part; the section has its four
+// The budget and "Przed wyjazdem", and the motorbike swaps, in the page's language (L in lib.js): the budget figure leads to its part and opens it; the section has its four
 // parts; „Samodzielnie” in the Cao Bằng card and in the card of the road over the Hải Vân pass writes the link, changes the
 // days or the road's text and the budget, shows what it takes, keeps the trip, and leaves the focus on the choice; the plan
 // for WhatsApp says the budget; the widest budget and every other figure fit their tiles; a term with Tết warns in both
@@ -11,10 +11,13 @@ setTimeout(function () {
   var t = window.__trip;
   function ids() { return t.state.route.stops.map(function (s) { return s.id; }).join(','); }
   var fig = document.querySelector('#facts .f-budget a');
-  check('the budget is the last figure of the facts, a link to „Przed wyjazdem”, in millions of dong', fig && fig.getAttribute('href') === '#before' && L({ en: /^\d+(–\u2060?\d+)?M VND/, pl: /^\d+(–\u2060?\d+)? mln VND/ }).test(fig.textContent.replace(/\s+/g, ' ')), fig && fig.textContent);
+  check('the budget is the last figure of the facts, a link to its part of „Przed wyjazdem”, in millions of dong', fig && fig.getAttribute('href') === '#b-budget' && L({ en: /^\d+(–\u2060?\d+)?M VND/, pl: /^\d+(–\u2060?\d+)? mln VND/ }).test(fig.textContent.replace(/\s+/g, ' ')), fig && fig.textContent);
   var parts = Array.prototype.map.call(document.querySelectorAll('#before .b-part h3'), function (h) { return h.textContent.replace(/\s+/g, ' '); });
   check('„Przed wyjazdem” has its four parts', parts.join(' | ') === L({ en: 'Budget | Book ahead | Good to know | What to pack', pl: 'Budżet | Zarezerwuj wcześniej | Warto wiedzieć | Co spakować' }), parts.join(' | '));
   check('the figure and the budget part say the same amount', textOf('#b-budget .b-sum b') === textOf('#facts .f-budget b'), textOf('#b-budget .b-sum b'));
+  document.documentElement.style.scrollBehavior = 'auto';
+  fig.click();
+  check('the figure opens the budget part (folded since the first round of fixes)', document.querySelector('#b-budget details').open);
   check('the list of what to book has its items, each with a sentence', document.querySelectorAll('#b-book .b-book li').length > 0);
   check('the note under the budget names the month of the prices (costs.js) and no rate',
     textOf('#b-budget .b-note') === L({ en: 'Without flights to Vietnam, insurance and souvenirs. Prices checked in October 2026.',
