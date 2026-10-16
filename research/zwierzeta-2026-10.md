@@ -392,6 +392,24 @@ Porównanie z `site2/src/content/*.js` i `site2/src/en/content/*.js` (stan repo 
 7. **Pierwowzór o Vân Long** (nie na stronie): PW mówi „ok. 200 z ok. 570”. Dziś: ok. 250 w Vân Long (VNEC-2025-11-21), 562–570 na świecie (ND-2026-09-16). Zdanie na stronie („jedne z najrzadszych naczelnych na świecie”) zgadza się z CR i z liczbą ok. 570.
 8. **Bez sprzeczności** (sprawdzone): `cattien` (jelenie i cywety nocą, nawoływanie gibonów, muzeum i ośrodek przy siedzibie, Bàu Sấu), `danang` (duki z dróg, zakaz karmienia, kwitnienie III–VI), `yokdon` (słonie bez jazdy od 2018), `phongnha` (małpy w ogrodzie botanicznym), `cucphuong` (langury Delacoura i z Cát Bà, gibony, lori, żółwie i łuskowce w ośrodkach: ND-2026-09-16, ZL, SVW-EDU).
 
+## Sprawdzone przed planem etapu 6 (16.10.2026)
+
+Trzy fakty z ustalenia 23 sesji decyzji etapu 6 ([notes/etapy.md](../notes/etapy.md), „Z sesji decyzji etapu 6”): WebSearch w trybie „extended” po wietnamsku i WebFetch 16.10.2026, bez zapisywania stron.
+
+1. **Godziny EPRC w Cúc Phương: dalej nieustalone.** Strona parku o zwiedzaniu centrum dla zwiedzających, EPRC i ośrodka żółwi (CP-EPRC-TOUR, aktualizacja 31.07.2024) podaje tylko przyjazd do parku ok. 9:00, bez godzin, cen i zasad przewodnika. Serwisy podają różne godziny: 9:30–16:30 codziennie (TRAVELOKA-EPRC†, strona z ok. 2025 r.), 8:00–16:30 (LUXURY-CP†, bez źródła); VNPPA (stan ok. 2015) pisze o grupach do 20 osób, zawsze z przewodnikiem parku, 9:00–11:00 i 13:00–16:00 (VNPPA-EPRC). Strona EPRC odsyła do biura turystyki parku (EPRC, odczyt 16.10.2026). Wniosek dla podstrony: przy EPRC bez godzin, tylko „wizyty z przewodnikiem parku przez biuro turystyki”; „zwykle do 17:00” na stronie z trasą zostaje (Wikivoyage, stan 1.2024).
+2. **Núi Đôi w Phong Nha: nie da się potwierdzić, że przyjmuje gości w 2026.** Ostatnia oferta dla turystów: VnExpress 17.04.2021, wybieg Núi Đôi 5 km na południowy zachód od centrum turystyki parku, 87 gatunków kręgowców, bilet 20 000 VND (VNE-PN-2021). Strona parku (PNKB-CCH, bez daty, zdjęcia z XII 2025) mówi tylko, że ośrodek ratowania zarządza półdzikim wybiegiem Núi Đôi i prowadzi „zwiedzanie i edukację” dla uczniów i studentów, bez godzin i bez oferty dla turystów. Ośrodek działa: 8.10.2026 park wypuścił do lasu 17 zwierząt, m.in. makaki, lutungi z Hà Tĩnh, łuskowce i kukangi (TT-2026-10-08†). Wniosek dla podstrony: Núi Đôi nie jako spotkanie w „Na trasie”, najwyżej uwaga w „Przewodniku”, że wybieg był otwarty dla turystów, a dziś trzeba zapytać park.
+3. **Đảo Tiên w Cát Tiên: dalej zamknięty.** VnExpress, przewodnik po parku z aktualizacją 25.05.2026: ośrodek naczelnych Đảo Tiên i ośrodek grzybów „są dziś zamknięte i nie mają daty otwarcia” (CT-VNE, odczyt 16.10.2026). Nowszej wiadomości o otwarciu nie znalazłem; strony biur, które opisują Đảo Tiên jako otwarty, nie podają daty i nie są dowodem.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| CP-EPRC-TOUR | Du lịch Cúc Phương: zwiedzanie centrum dla zwiedzających, EPRC, ośrodka żółwi, Động Người Xưa i „nowego drzewa Đăng” (1 km pieszo); przyjazd ok. 9:00; bez godzin ośrodków, cen i wieku drzewa | https://dulichcucphuong.com.vn/tham-quan-trung-tam-du-khach-chuong-trinh-cuu-ho-linh-truong-nguy-cap-eprc-chuong-trinh-bao-ton-rua-dong-nguoi-xua-03km-di-bo-cay-dang-moi-1km-di-bo/ | park/zarządca | aktualizacja 31.07.2024 |
+| TRAVELOKA-EPRC† | Traveloka: EPRC przy bramie, 9:30–16:30 codziennie | https://www.traveloka.com/vi-vn/destination/landmark/endangered-primate-rescue-center-91566482034332 | serwis komercyjny | ok. 2025 |
+| LUXURY-CP† | LuxuryTravel: park i ośrodki 8:00–16:30 | https://luxurytravel.vn/vuon-quoc-gia-cuc-phuong/ | serwis komercyjny | brak |
+| VNPPA-EPRC | VNPPA: EPRC, grupy do 20 osób z przewodnikiem parku, 9:00–11:00 i 13:00–16:00 | https://vnppa.org/diem-du-lich-cuc-phuong-trung-tam-cuu-ho-linh-truong.html | organizacja | ok. 2015 |
+| VNE-PN-2021 | VnExpress: dwa miejsca na dzikie zwierzęta w Phong Nha: wybieg Núi Đôi (87 gatunków kręgowców, 20 000 VND) i ogród botaniczny | https://vnexpress.net/2-diem-den-kham-pha-the-gioi-hoang-da-tai-phong-nha-4259508.html | prasa | 17.04.2021 |
+| PNKB-CCH | Park Phong Nha-Kẻ Bàng: Trung tâm Cứu hộ, bảo tồn và Phát triển sinh vật, zadania (m.in. wybieg Núi Đôi, edukacja dla uczniów); bez godzin i oferty dla turystów | https://phongnhakebang.vn/gioi-thieu/trung-tam-cuu-ho-bao-ton-va-phat-trien-sinh-vat | park/zarządca | brak (zdjęcia z XII 2025) |
+| TT-2026-10-08† | Tuổi Trẻ: Phong Nha-Kẻ Bàng wypuścił 17 zwierząt (makaki, lutungi z Hà Tĩnh, łuskowce, kukangi) | https://tuoitre.vn/17-dong-vat-hoang-da-duoc-tro-ve-nha-giua-rung-phong-nha-ke-bang-100261008155307998.htm | prasa | 8.10.2026 |
+
 ## Nie ustaliłem
 
 - Oficjalnych godzin i cen EPRC i ośrodka żółwi na 2026 r. oraz aktualnej liczby żółwi i gatunków w TCC (strona Asian Turtle Program zwraca 425).
