@@ -4,6 +4,8 @@
 
 **Zacznij od** [notes/wizja.md](notes/wizja.md) (decyzje i zasady), potem przeczytaj [notes/etapy.md](notes/etapy.md) (plan etapów i następny krok). Tło: rozpoznanie w [notes/pomysl-planer-dla-znajomych.md](notes/pomysl-planer-dla-znajomych.md).
 
+**Etap 6 (zwierzęta):** sesja decyzji 16.10.2026, podstrona `…/wietnam/wildlife/` z zakładkami „Na trasie”, „Galeria” i „Przewodnik”. Kolejność: wykonanie i publikacja pierwszej rundy poprawek, gałąź `etap-6-zwierzeta` do `main`, poprawka faktów Cúc Phương, linki dla testerów, a w tym czasie plan etapu 6 z suchą próbą i zaraz po nim wykonanie; zob. [notes/etapy.md](notes/etapy.md), „Etap 6”.
+
 ## Skąd to się wzięło
 
 - **Pierwowzór: strona „Vietnam in December”,** trójjęzyczny planer grudniowego wyjazdu grupy (2026).
