@@ -4,6 +4,8 @@ Ustalona w sesji o wizji 9.10.2026. Tło i rozpoznanie: [pomysl-planer-dla-znajo
 
 Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte później stoją przy punktach, których dotyczą, z datą. Sesja decyzji planu B2 (15.10.2026) zmieniła odbiorców i zakres treści: strona jest dla samodzielnych podróżnych z całego świata, bez porad zależnych od obywatelstwa, z cenami w dongach (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji planu B2”). Plan B2 (15.10.2026) wprowadził te zmiany na stronę. Sesja decyzji etapu 5 (15.10.2026) ustaliła nazwę „Route G”, angielski domyślny z przełącznikiem EN · PL na tym samym adresie i `noindex` do samego końca; na stronie od etapu 5, 15.10.2026 (szczegóły w [etapy.md](etapy.md), „Z sesji decyzji etapu 5”).
 
+Sesja decyzji etapu 6 (16.10.2026) dodała podstronę zwierząt `…/wietnam/wildlife/` z trzema zakładkami, „Na trasie”, „Galeria” i „Przewodnik”, i własną zasadę treści tej podstrony (szczegóły w [etapy.md](etapy.md), „Etap 6”).
+
 ## W skrócie
 
 Każdy ustawia sobie:
@@ -118,6 +120,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
 - **„Przed wyjazdem”** (etap 2, od planu B2 według decyzji z 15.10.2026): budżet w dongach z podziałem i kwotą w pojedynkę; rezerwacje od najpilniejszej: co, kiedy, za ile i gdzie, z licencją biura tam, gdzie chroni; „Warto wiedzieć” (wiza według paszportu, e-wiza i karta przylotu tylko na stronach rządowych, e-papierosy); pakowanie tylko z tego, co wynika z trasy.
 - **Link z ustawieniami** (rozszerzony `variantHash`), kopiowanie planu do WhatsAppa i zapis trasy jako PDF (przycisk „Zapisz trasę jako PDF”, wydruk na A4).
 - **Język** (decyzja z 15.10.2026, na stronie od etapu 5, 15.10.2026): przełącznik EN · PL w prawym górnym rogu zdjęcia na górze strony, domyślnie angielski; polski dopisuje `&lang=pl` do linku, a trasa przy przełączeniu zostaje.
+- **Zwierzęta** (decyzja z 16.10.2026, etap 6): podstrona `…/wietnam/wildlife/` z trzema zakładkami, każda z własnym linkiem. „Na trasie”: zwierzęta, które naprawdę da się spotkać w miejscach Route G, na wolności albo w ośrodku ratowania, z gdzie, kiedy i szansą; z linkiem ze strony z trasą podstrona liczy tę samą trasę i mówi, czy zwierzę jest na trasie, w planie dnia i w terminie, a „Dodaj do trasy” z zapowiedzią, co wypadnie, wraca do strony z trasą. „Galeria”: najpiękniejsze zwierzęta, także legendy, bez gdzie i kiedy. „Przewodnik”: według miejsc, z ptakami, „Czego unikać” i „Poza Route G”. Na stronie z trasą tylko wejścia: link „Zwierzęta” i „Zwierzęta tutaj →” przy miejscach.
 - **Tempo nie jest ustawieniem** w pierwszej wersji. Silnik ma stałe zasady: minimum nocy zapisane w module i karę za przeprowadzki. Tempo dodamy, jeśli okaże się potrzebne.
 
 ## Silnik
@@ -176,6 +179,7 @@ Strona od razu układa trasę po Wietnamie: miejsca, plan dni, przejazdy, mapę,
   - 3–5 na miejsce, podpis z dokładnym miejscem;
   - tylko licencje dopuszczające użytek komercyjny i zmiany: CC0, CC BY, CC BY-SA, domena publiczna; bez NC i ND;
   - autor i licencja zapisane przy zdjęciu.
+- **Podstrona zwierząt (decyzja z 16.10.2026):** zdanie zostaje, gdy jest prawdziwe, ma źródło i datę w `research/` i pomaga zobaczyć zwierzę albo pokazuje, czym jest wyjątkowe; przy gatunkach, których turysta nie zobaczy, stoi to wprost. Bez porad zależnych od obywatelstwa i bez ogólnej wiedzy podróżniczej. Zdjęcie zwierzęcia to najlepsze zdjęcie gatunku: najpierw z wolności w Wietnamie, potem z wolności w innym kraju, z niewoli tylko bez innego wyjścia, z miejscem zrobienia w podpisie; licencje jak wyżej.
 
 ## Otwarte drzwi
 
