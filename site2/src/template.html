@@ -221,8 +221,31 @@ footer .ft-copy { margin-top: 18px; }
 .offroute { margin-top: 22px; display: grid; gap: 8px; justify-items: start; }
 .off-p { color: var(--muted); font-size: 14px; max-width: 64ch; }
 .off-list { display: grid; gap: 8px; width: 100%; max-width: 760px; }
-.off-list li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: start; gap: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
-.off-list li > .dot { margin-top: 6px; }
+/* a place off the trip, folded (fix 1): its photo small, the dot, the short name and its sentence in the row; when open the
+   photo on the left (across the row on a phone), the name, the line under it, the reason and Dodaj, and the small map of
+   the country on the right */
+.off-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
+.off-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 44px; }
+.off-thumb img { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; background: var(--line); }
+.off-head { display: grid; gap: 2px; min-width: 0; }
+.off-name { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.off-what { color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+.off-more { display: grid; grid-template-columns: 220px minmax(0, 1fr) 96px; gap: 14px; align-items: start; padding: 12px 0 4px; }
+.off-photo { position: relative; display: block; padding: 0; border: 0; background: var(--line); border-radius: 6px; overflow: hidden; cursor: zoom-in; }
+.off-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.off-photo svg { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; padding: 6px; border-radius: 6px; background: var(--ctl-bg); color: var(--ctl-ink); }
+.off-text { display: grid; gap: 6px; align-content: start; justify-items: start; min-width: 0; }
+.off-stay b { font-weight: 600; }
+.off-sub { color: var(--ink); }
+.off-map { margin: 0; }
+.off-map > svg { display: block; width: 96px; height: auto; }
+.cm-land { fill: var(--land); stroke: var(--border); stroke-width: 0.8; stroke-linejoin: round; }
+.cm-road { stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; fill: none; }
+.cm-fly { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+.cm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 1.5; }
+.cm-legend { display: grid; gap: 2px; margin-top: 6px; font: 11px var(--mono); color: var(--muted); }
+.cm-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.cm-legend svg { flex: none; }
 .off-why { color: var(--muted); }
 .off-drops { color: var(--muted); font-size: 13px; }
 .off-tag { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -479,9 +502,11 @@ footer a { color: var(--muted); }
   /* a road's text takes the width of its card, and its time goes under it (the long texts of plan 2B) */
   .leg-segs li { grid-template-columns: 18px minmax(0, 1fr); }
   .leg-segs li > .mono { grid-column: 2; }
-  /* Dodaj under its reason, at the left: the button "Na górę" (bottom right) cannot cover it */
-  .off-list li { grid-template-columns: 10px minmax(0, 1fr); }
-  .off-list li > .btn-small { grid-column: 2; justify-self: start; }
+  /* an open place off the trip: the photo across the row, the text and the small map under it; Dodaj at the left, where the
+     button "Na górę" (bottom right) cannot cover it */
+  .off-more { grid-template-columns: minmax(0, 1fr) 80px; }
+  .off-photo { grid-column: 1 / -1; }
+  .off-map > svg { width: 80px; }
 }
 /* the narrowest phones (320 px): the line over the name, longest in Polish, starts under the language switch */
 @media (max-width: 359px) {

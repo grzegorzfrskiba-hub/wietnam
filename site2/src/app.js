@@ -725,23 +725,45 @@
       (canRemove(s.id) ? '<button type="button" class="stop-remove" data-remove="' + s.id + '" aria-label="' + esc(T('stop.remove.aria', { x: C(s.id).short })) + '">' + T('stop.remove') + '</button>' : '');
   }
   /* "Nie ma na twojej trasie, bo…": every place off the trip with why it is not on it (whyOff in page.js), and Dodaj where it
-     can put the place on the trip, with what would leave the trip for it. */
+     can put the place on the trip, with what would leave the trip for it. Each place is a folded row (fix 1 of the first
+     round of fixes): its first photo small, its dot, its short name and its sentence „what it is and where” in the row;
+     when open, the photo (all the place's photos on full screen), the full name with the usual stay, the line under the
+     name, why it is not on the trip, what would leave it and Dodaj, and the small map of the country (countrySvg). */
   function offReason(r, x) {
     if (r === 'level') return T('off.r.level', { lvl: T('lvl.' + PLACES[x.id].level) });
     if (r === 'season') return T('off.r.season', { why: x.why.map(function (w) { return T('wx.' + w); }).join(', ') });
     if (r === 'beaten') return T('off.r.beaten', { days: state.st.days });
     return T('off.r.' + r);
   }
+  // the small map of the country of a place off the trip (countryMap in page.js): the outline of Vietnam (OUTLINE in
+  // basemap.js), the trip as thin dark lines (a flight dashed, as on the map of the trip), the place as a dot in its colour,
+  // and a short legend
+  function countrySvg(id) {
+    var m = countryMap(state.route, id, { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS }), dot = '<span class="dot" style="--c:' + stopColor(id) + '"></span>';
+    return '<figure class="off-map"><svg viewBox="0 0 ' + m.w + ' ' + m.h + '" role="img" aria-label="' + esc(T('off.map.aria', { x: C(id).short })) + '">' +
+      '<path class="cm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
+        return g.mode === 'fly' ? '<path class="cm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
+          : '<line class="cm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
+      }).join('') + '<circle class="cm-dot" cx="' + r1(m.dot.x) + '" cy="' + r1(m.dot.y) + '" r="5" style="--c:' + stopColor(id) + '"/></svg>' +
+      '<figcaption class="cm-legend"><span>' + dot + esc(C(id).short) + '</span><span><svg width="16" height="6" aria-hidden="true"><line class="cm-road" x1="0" x2="16" y1="3" y2="3"/></svg>' +
+      T('off.map.route') + '</span></figcaption></figure>';
+  }
   function renderOffRoute() {
     var s = state.settings;
     $('#offroute-list').innerHTML = whyOff(state.route, s, state.st, DATA, CLIMATE).map(function (x) {
-      var c = C(x.id);
-      return '<li><span class="dot" style="--c:' + stopColor(x.id) + '"></span><div class="off-body"><b>' + esc(c.short) + '</b>' +
-        (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') +
+      var c = C(x.id), n = PLACES[x.id].nights[1];
+      return '<li><details data-fold="off-' + x.id + '"><summary class="off-row"><span class="off-thumb">' + img(c.photos[0], '', '64px') + '</span>' +
+        '<span class="off-head"><span class="off-name"><span class="dot" style="--c:' + stopColor(x.id) + '"></span><b>' + esc(c.short) + '</b>' +
+        (x.added ? ' <span class="off-tag">' + T('off.missing') + '</span>' : '') + '</span><span class="off-what">' + esc(c.what) + '</span></span>' + ICON.fold + '</summary>' +
+        '<div class="off-more"><button type="button" class="off-photo" data-photos="' + x.id + '" aria-label="' + esc(T('g.open', { i: 1, n: c.photos.length })) + '">' +
+        img(c.photos[0], '', '(max-width: 640px) calc(100vw - 58px), 220px') + ICON.expand + '</button>' +
+        '<div class="off-text"><p class="off-stay"><b>' + esc(c.name) + '</b> · ' + esc(T('off.usual', { n: n, nights: countWord('nights', n) })) + '</p>' +
+        '<p class="off-sub">' + esc(c.sub) + '</p>' +
         '<p class="off-why">' + esc(capFirst(x.reasons.map(function (r) { return offReason(r, x); }).join('; '))) + '.</p>' +
         (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) })
-          : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') + '</div>' +
-        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</li>';
+          : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') +
+        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</div>' +
+        countrySvg(x.id) + '</div></details></li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
   }
@@ -754,6 +776,11 @@
     $('#dropped').textContent = tied(text);
   }
   function bindChanges() {
+    // the photo of a place off the trip: all its photos on full screen, with their authors and licences
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.off-photo') : null;
+      if (b) openLightbox(C(b.getAttribute('data-photos')).photos, 0, b);
+    });
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-add], [data-remove], #reset-changes') : null;
       if (!b) return;

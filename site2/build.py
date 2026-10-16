@@ -18,9 +18,10 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
            + sorted("content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "content", "*.js")))
            + sorted("en/content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "en", "content", "*.js")))
            + ["photos.js", "en/photos.js", "ui.js", "en/ui.js", "panels.js", "costs.js", "before.js", "en/names.js", "page.js", "basemap.js"])
-# Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo.
+# Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo; 160 px for the
+# small photos of the places off the trip and of the galleries (the first round of fixes, fix 1).
 # The offline file keeps one embedded size per photo, small enough for a file of about 6 MB: width and JPEG quality.
-SMALLER = {"photo": (480, 960), "hero": (960, 1400)}
+SMALLER = {"photo": (160, 480, 960), "hero": (960, 1400)}
 OFFLINE = {"photo": (640, 60), "hero": (1280, 62)}
 
 # the public address, written once: var SITE_URL in page.js (the copied plan links to it)

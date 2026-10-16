@@ -41,8 +41,10 @@ setTimeout(function () {
     var b = r.getBoundingClientRect();
     return b.bottom <= sw.top || b.top >= sw.bottom || b.right <= sw.left || b.left >= sw.right;
   }), Math.round(sw.left) + '–' + Math.round(sw.right) + ' × ' + Math.round(sw.top) + '–' + Math.round(sw.bottom));
-  // Dodaj in the list of places off the trip stands at the left, clear of the button „Na górę” (44 px, 16 px from the right edge)
-  var adds = document.querySelectorAll('#offroute-list [data-add]'), right = Math.max.apply(null, Array.prototype.map.call(adds, function (b) { return box(b).right; }));
+  // Dodaj in the list of places off the trip stands at the left, clear of the button „Na górę” (44 px, 16 px from the right edge),
+  // in a row opened as a visitor opens it (fix 1)
+  document.querySelector('#offroute-list [data-add]').closest('details').open = true;
+  var adds = document.querySelectorAll('#offroute-list details[open] [data-add]'), right = Math.max.apply(null, Array.prototype.map.call(adds, function (b) { return box(b).right; }));
   check('Dodaj stays clear of the button „Na górę” (right edge at most the screen width less 60 px)', adds.length > 0 && right <= document.documentElement.clientWidth - 60,
     Math.round(right) + ' of ' + document.documentElement.clientWidth);
   var gap = box(document.querySelector('.facts')).top - box(document.getElementById('settings-msg')).bottom;
