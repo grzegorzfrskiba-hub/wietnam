@@ -70,7 +70,7 @@ var PHOTO_CAPS_EN = {
   phongnha_4: 'Boats on the Son river at Phong Nha',
   cucphuong_0: 'A grey-shanked douc at the primate rescue centre in Cúc Phương',
   cucphuong_1: 'A forest path in Cúc Phương park',
-  cucphuong_2: 'The thousand-year-old Chò tree deep in the Cúc Phương forest',
+  cucphuong_2: 'The thousand-year-old Chò tree deep in the Cúc Phương forest in 2016, before it died',
   cucphuong_3: 'A pangolin with its young at the pangolin rescue centre in Cúc Phương',
   cucphuong_4: 'An Asian forest tortoise at the turtle rescue centre in Cúc Phương',
   danang_0: 'A female red-shanked douc with her young on the Sơn Trà peninsula',

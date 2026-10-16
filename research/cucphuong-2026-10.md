@@ -38,7 +38,7 @@ Propozycja do `site2/src/places.js` i nagłówka `site2/src/content/cucphuong.js
 | name (places.js) | 'Cúc Phương' | krótka nazwa jak 'Cát Tiên' |
 | name (content) | 'Park Narodowy Cúc Phương' | jak „Park Narodowy Cát Tiên” |
 | short | 'Cúc Phương' | pasek, mapa, listy |
-| sub | 'Ratowane naczelne, tysiącletnie drzewa i las nocą' | trzy rzeczy, po które się tu jedzie |
+| sub | 'Ratowane naczelne, stare drzewa i las nocą' | trzy rzeczy, po które się tu jedzie; do 16.10.2026 „tysiącletnie drzewa”, zmienione, bo tysiącletnie Chò nie żyje, a żadne inne drzewo parku nie ma w źródłach tysiąca lat (sekcja „Poprawka faktów (16.10.2026)”) |
 | region | 'north' | Ninh Bình, północ kraju (WIKI-EN) |
 | pt | [20.25, 105.71] | brama i siedziba parku, gdzie się nocuje. Urzędowych współrzędnych bramy nie znalazłem; biorę geotagi zdjęć z Commons: ośrodek naczelnych 500 m od kasy 20°14′24″N 105°42′36″E i zdjęcie z okolic bramy 20°15′00″N 105°42′50″E (sekcja „Zdjęcia”; plik Flickr „Parque Nacional de Cuc Phuong (5182009321)”, pululante, 2010). Środek parku według WIKI-EN to 20°19′N 105°36′30″E, czyli okolice Bống |
 | maps | 'Cuc Phuong National Park, Ninh Binh, Vietnam' | nazwa parku jak w `cattien` i w Rome2Rio (R2R); do sprawdzenia, czy Google Maps prowadzi pod nią do bramy |
@@ -47,7 +47,7 @@ Propozycja do `site2/src/places.js` i nagłówka `site2/src/content/cucphuong.js
 | level | 1 | decyzja; dni mają wersje Spokojnie, Aktywnie i Ekstremalnie |
 | fit | { kultura: 0, jedzenie: 0, przyroda: 3, gory: 1, morze: 0 } | jak `cattien`: las z ośrodkami ratowania i nocną przejażdżką; góry 1 za wapienne grzbiety, jaskinie i Mây Bạc; kultura 0, bo Động Người Xưa i muzeum to drobiazgi, a wieś Mường jest tylko w programie 3-dniowym |
 | HOMESTAYS | nie | nocuje się w pokojach parku (CP-POKOJE); dom na palach u gospodarzy jest tylko w Bản Mường, poza planem |
-| gem | 'Najstarszy park narodowy Wietnamu, z tysiącletnim drzewem Chò i ośrodkiem, który ratuje najrzadsze naczelne kraju.' | 1962 (WIKI-EN), Chò ngàn năm (CP-SZLAKI), EPRC od 1993 (WIKI-EN) |
+| gem | 'Najstarszy park narodowy Wietnamu, z 700-letnim drzewem Chò chỉ i ośrodkiem, który ratuje najrzadsze naczelne kraju.' | 1962 (WIKI-EN), Chò chỉ 700 lat (CP-SZLAKI), EPRC od 1993 (WIKI-EN); do 16.10.2026 „z tysiącletnim drzewem Chò” (sekcja „Poprawka faktów (16.10.2026)”) |
 | skip | 'Wycieczka jednodniowa z Hà Nội: ok. 5,5 godziny w aucie i las w najgorętszej porze dnia.' | Hà Nội – Cúc Phương to 2,75 h w jedną stronę (sekcja „Dojazd”); plan dnia z VNE-2025: wyjazd 6:00, przyjazd 9:00, powrót od 16:00 |
 | instead | 'Noc w parku: wieczorem nocna przejażdżka, rano las od 7:00.' | nocna przejażdżka daje pierwszeństwo nocującym (VNE-2024, CP-NOC); wejście w głąb lasu od 7:00 (CP-POJAZDY) |
 
@@ -105,6 +105,8 @@ Pobyt najdłuższy to 2 noce, więc są dwa dni. Teksty to propozycje do `site2/
 
 ### p 1, o 1: Ratowane naczelne i las nocą
 
+Tekst na stronie od 16.10.2026 (dzień i solo) różni się od propozycji niżej: świetliki tylko od końca IV do początku VI, ośrodek lori albo łuskowców na przejażdżce, łuskowce do 20:00; zob. „Poprawka faktów (16.10.2026)”.
+
 - **p:** 1. **o:** 1. **pace:** travel. **early:** nie.
 - **Tytuł (t):** „Ratowane naczelne i las nocą”.
 - **Fakty:**
@@ -125,6 +127,8 @@ Pobyt najdłuższy to 2 noce, więc są dwa dni. Teksty to propozycje do `site2/
 - **pack:** ['torch'] (Động Người Xưa wymaga światła: CP-DROGA).
 
 ### p 2, o 2: W głąb lasu, do starych drzew
+
+Tekst na stronie od 16.10.2026 różni się od propozycji niżej: zamiast żywego tysiącletniego drzewa Chò jego pień, suchy od ok. 2018 r.; zob. „Poprawka faktów (16.10.2026)”.
 
 - **p:** 2. **o:** 2. **pace:** hike. **early:** nie (start ok. 7:30–8:00, bo przed 7:00 nocujący nie wchodzą w głąb lasu: CP-POJAZDY).
 - **Tytuł (t):** „W głąb lasu, do starych drzew”.
@@ -471,3 +475,23 @@ Sprawdzenie ważnych punktów z przesiewu (decyzja z 15.10.2026): WebSearch i We
 |---|---|---|---|---|
 | CP-2026-10-15a | EPRC, strona wizyt i kontaktu (pierwszy adres EPRC), odczyt 15.10.2026: wycieczki z przewodnikiem przez biuro turystyki parku (dulichcucphuong@gmail.com), wizyty prywatne przez EPRC; godzin, dni zamknięcia i cen brak. | https://www.eprc.asia/visit-contact-us/ | park/zarządca | brak (© 2020) |
 | CP-2026-10-15b | Combo jednodniowe parku (drugi adres CP-COMBO), odczyt 15.10.2026: wariant z Mây Bạc 160 000 VND od dorosłego, bez przewodnika w cenie, tylko dla dorosłych, przewodnik parku zamawiany wcześniej w kasie albo przez infolinię 1800 5555 88; ceny przewodnika, minimalnej grupy i języka przewodników brak; opis także po angielsku. | https://dulichcucphuong.com.vn/combo-mot-ngay/ | park/zarządca | 21.06.2024, aktualizacja 16.11.2024 |
+
+### Poprawka faktów (16.10.2026)
+
+Poprawka z sesji decyzji etapu 6 (decyzja 8 i ustalenie 26 w [notes/etapy.md](../notes/etapy.md), „Z sesji decyzji etapu 6”). Źródła z [research/zwierzeta-2026-10.md](zwierzeta-2026-10.md), sekcja „Sprzeczności ze stroną”, punkty 1–4; DT-2023, VNE-CP i SVW-EDU otwarte jeszcze raz przez WebFetch 16.10.2026, bez zapisywania stron.
+
+- **Tysiącletnie drzewo Chò (Chò ngàn năm) nie żyje, a pień stoi.** Według mieszkańców drzewo uschło ok. 5 lat przed lipcem 2023, czyli ok. 2018 r., a jego suchy pień „wciąż stoi” w lesie (DT-2023); „od ok. 5–6 lat drzewo jest suche, spróchniałe i puste” (VNE-CP, aktualizacja 14.04.2026); „teraz martwe” (POTOO-CP, 1.12.2024). Pętla z Bống prowadzi do niego dalej (CP-SZLAKI). Na stronie: dzień p 2 „pień tysiącletniego drzewa Chò, suchego od ok. 2018 roku”; `gem` zamiast niego żywe 700-letnie Chò chỉ (CP-SZLAKI).
+- **Czy żyje inne tysiącletnie drzewo parku (Đăng):** nie znalazłem źródła, które podaje wiek drzewa Đăng. VNE-CP: „drzewo Đăng ma 45 m wysokości i 5 m średnicy, a korzenie na powierzchni ziemi ciągną się ok. 20 m”, bez wieku; DT-2023: Chò, Đăng i Sấu mają ponad 50 m, bez wieku; artykuł VTC z 2012 r. (VTC-2012†) opisuje „stare drzewo Đăng” 45 m, bez wieku. Strony turystyczne nazywają „tysiącletnim” drzewo Chò chỉ, co przeczy parkowi (700 lat, CP-SZLAKI). Dlatego `sub` mówi „stare drzewa” zamiast „tysiącletnie drzewa”.
+- **Świetliki tylko od końca IV do początku VI** (BVH-2025; ND-2024b: IV–V; VNE-CP: „w IV–V białe motyle i świetliki”), w 2026 o 2–3 tygodnie wcześniej (NNMT-2026). Przejażdżka jeździ cały rok (CP-NOC), więc dzień p 1 i solo mówią o świetlikach z porą roku, jak wydarzenie [4, 10]–[6, 10].
+- **Lori tylko w jednym wariancie przejażdżki.** Park sprzedaje dwa warianty: z ośrodkiem lori albo z ośrodkiem drapieżników i łuskowców (CP-NOC, oba adresy, aktualizacja 13.09.2026); blogerka w wariancie grupowym widziała cywety i łuskowce (POTOO-CP). Na stronie: „ośrodek lori albo łuskowców”.
+- **Ośrodek łuskowców czynny do 20:00.** Ośrodek edukacji o drapieżnikach i łuskowcach Save Vietnam's Wildlife: codziennie, także w święta, 9:00–11:00 i 14:00–20:00, najlepiej 15:00–20:00, gdy zwierzęta są najbardziej aktywne; wstęp w combo z biletem do parku (SVW-EDU). Godziny EPRC i żółwi dalej tylko z Wikivoyage (8:00–11:30 i 13:30–17:00, WV), więc „zwykle do 17:00” zostaje przy nich, a łuskowce mają osobno „do 20:00, najlepiej po 15:00”.
+- **Podpis zdjęcia `cucphuong_2`** (zdjęcie z 5.12.2016, sekcja „Zdjęcia: kandydaci”, wybór użytkownika 16.10.2026): „Tysiącletnie drzewo Chò w głębi lasu Cúc Phương w 2016 roku, przed uschnięciem”, po angielsku „…in 2016, before it died”.
+- **Opisy dni po poprawce:** dzień p 1 68 słów po polsku i 80 po angielsku, solo 65 i 80, dzień p 2 68 i 80 (test `day texts`: najwyżej 70 i 80).
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| DT-2023 | Dân trí: tysiącletnie Chò uschło ok. 5 lat wcześniej, pień pusty, ale stoi; Chò, Đăng i Sấu ponad 50 m, bez wieku; innego tysiącletniego drzewa artykuł nie wymienia | https://dantri.com.vn/thoi-su/cay-cho-nghin-nam-tuoi-chet-kho-van-sung-sung-giua-rung-cuc-phuong-20230715025417064.htm | prasa | 17.07.2023 |
+| VNE-CP | VnExpress, przewodnik po Cúc Phương: tysiącletnie Chò od 5–6 lat suche i puste; drzewo Đăng 45 m, 5 m średnicy, bez wieku; białe motyle i świetliki w IV–V; nocna przejażdżka codziennie 19:00–22:00 | https://vnexpress.net/cam-nang-du-lich-vuon-quoc-gia-cuc-phuong-4779568.html | prasa | 22.08.2024, aktualizacja 14.04.2026 |
+| SVW-EDU | Save Vietnam's Wildlife, programy edukacyjne: ośrodek o drapieżnikach i łuskowcach w Cúc Phương, codziennie, także w święta, 9:00–11:00 i 14:00–20:00, najlepiej 15:00–20:00; wstęp w combo z biletem do parku | https://www.svw.vn/en/education-and-raising-awareness-program | organizacja | brak (otwarcie centrum II 2016) |
+| POTOO-CP | Potoo, przewodnik po Cúc Phương: nocna wycieczka grupowa to ośrodki po zmroku (cywety, łuskowce), tysiącletnie Chò „teraz martwe” | https://potoo.is/guide-to-visiting-cuc-phuong-national-park-a-treasure-of-nature-in-vietnam/ | blog | 1.12.2024 |
+| VTC-2012† | VTC News: „stare drzewo Đăng”, 45 m wysokości, 5 m średnicy, ok. 2 km za Động Người Xưa przy drodze, bez wieku | https://vtcnews.vn/cuc-phuong-ngay-nang-ar98784.html | prasa | 30.11.2012 |
