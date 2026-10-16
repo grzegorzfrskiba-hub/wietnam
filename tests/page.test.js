@@ -581,6 +581,19 @@ eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0
     });
   });
 });
+// the small map of a place off the trip (fix 1 of the first round of fixes): the whole country in COUNTRY_MAP (120 px wide,
+// as high as its latitudes at that scale), the trip's legs from point to point, the place as a dot at its point
+var CM = { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS }, cm = countryMap(tA.r, 'mekong', CM);
+function r1(v) { return Math.round(v * 10) / 10; }
+eq([cm.w, cm.h, r1(cm.dot.x), r1(cm.dot.y)], [120, 235, 59.7, 208.8], 'countryMap: the frame of the whole country; Mekong at its point [10.03, 105.78]');
+var tASegs = tA.r.stops.concat([{ leg: tA.r.home }]).reduce(function (n, s) { return n + s.leg.segs.length; }, 0);
+eq([cm.segs.length, cm.segs.filter(function (g) { return g.mode === 'fly'; }).length > 0, r1(cm.segs[0].x1), r1(cm.segs[0].y1)],
+  [tASegs, true, r1((AIRPORTS.SGN.pt[1] - 101.9) * 120 / 7.8), r1((23.6 - AIRPORTS.SGN.pt[0]) * 120 / 7.8)],
+  'every road and flight of the trip, the first from Hồ Chí Minh City airport; flights among them');
+var outside = Object.keys(CONTENT).map(function (id) { return CONTENT[id].pt; }).concat(Object.keys(AIRPORTS).map(function (c) { return AIRPORTS[c].pt; }))
+  .filter(function (pt) { var x = (pt[1] - 101.9) * 120 / 7.8, y = (23.6 - pt[0]) * 120 / 7.8; return x < 6 || x > cm.w - 6 || y < 6 || y > cm.h - 6; });
+eq(outside, [], 'every place and airport lies inside the small map, 6 px or more from its edges');
+ok(/\n\/\* The outline of Vietnam[^\n]*\n[^\n]*\*\/\nvar OUTLINE = "M[-\d. Mz]+";\n$/.test(readFile('site2/src/basemap.js')), 'basemap.js ends with the outline of Vietnam (geo/make_basemap.py)');
 print('map ok');
 
 /* ---------- the places of stage 3, on the real data ---------- */

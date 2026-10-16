@@ -871,6 +871,25 @@ function tieVietnamese(text) {
   return parts.join('');
 }
 
+/* ---------- the small map of the whole country (fix 1 of the first round of fixes, finding 6) ---------- */
+/* What the small map of a place off the trip draws, in px of the frame COUNTRY_MAP (panels.js; its outline is OUTLINE in
+   basemap.js): every road and flight of the trip from point to point, as mode, x1, y1, x2, y2 (app.js draws a flight
+   dashed, as on the map of the trip), and the place as a dot at its point. route: planRoute's trip; id: the place; m:
+   { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS }. Returns { w, h, segs, dot: { x, y } }. */
+function countryMap(route, id, m) {
+  var f = m.frame, s = f.width / (f.lon1 - f.lon0), segs = [];
+  function proj(pt) { return [(pt[1] - f.lon0) * s, (f.lat0 - pt[0]) * s]; }
+  function where(n) { return m.airports[n] ? m.airports[n].pt : m.content[n].pt; }
+  route.stops.map(function (x) { return x.leg; }).concat([route.home]).forEach(function (L) {
+    L.segs.forEach(function (g) {
+      var a = proj(where(g.from)), b = proj(where(g.to));
+      segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] });
+    });
+  });
+  var d = proj(m.content[id].pt);
+  return { w: f.width, h: Math.round((f.lat0 - f.lat1) * s), segs: segs, dot: { x: d[0], y: d[1] } };
+}
+
 /* ---------- the map: three panels, the markers and the labels ---------- */
 var PANEL_GAP = 16;                               // between two panels, px
 /* A panel's scale (px per degree) and height from its corners (panels.js): MAP_WIDTH px wide. geo/make_basemap.py works
