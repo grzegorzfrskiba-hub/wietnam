@@ -202,7 +202,7 @@ contentCheck('typography', function (need) {
 
 /* The style of plan 1B: to one reader (ty), no gendered forms, nothing tied to December. list: [path, text] pairs. */
 // words ending in -cie that are no plural address (nouns, adverbs); add one only when it really is not a verb form
-var NOT_PLURAL = ['aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
+var NOT_PLURAL = ['duecie', 'powrocie', 'rezerwacie', 'delcie', 'pobycie', 'aucie', 'nakrycie', 'mieście', 'moście', 'liście', 'świcie', 'szczycie', 'otwarcie', 'wejście', 'wyjście', 'przejście', 'zejście', 'podejście', 'dojście',
   'życie', 'zdjęcie', 'zamknięcie', 'skrócie', 'locie', 'całkowicie', 'obficie', 'znakomicie', 'należycie', 'dystrykcie', 'pensjonacie',
   'porcie', 'świecie', 'remoncie', 'namiocie', 'punkcie'];
 function styleOk(need, list) {
@@ -595,4 +595,118 @@ contentCheck('safety', function (need) {
     'phongnha: the day of 7 km in Paradise Cave says that in the rainy season the trek turns back after about 4 km');
   need(/twój paszport/.test(UI.pl['know.visa']) && /stronach rządowych/.test(UI.pl['know.visa']), 'know.visa: whether your passport needs a visa; the e-visa and the arrival card on the government\'s sites only');
   need(ENTRY.links.length === 2 && ENTRY.links.every(function (l) { return /^https:\/\/[a-z.]+\.gov\.vn\/$/.test(l.url); }), 'ENTRY.links: the two sites of the government (.gov.vn)');
+});
+
+/* ---------- the wildlife subpage (stage 6, decisions of 16.10.2026) ---------- */
+/* Its data (wild.js, finding 22): every species in a group, with a card On your route (route, finding 7) and its
+   encounters, or a tile in the Gallery (gallery, finding 12), or both; an encounter at a place of the planner, its kind,
+   a chance of 1–3, its months 1–12 or the whole year, and the day plans whose text names it among the place's plans;
+   a photo for every species but one with none (nophoto), and no photo of no species (wildphotos.js). */
+var WILD_KINDS = ['wild', 'rescue', 'program'], WILD_IUCN = ['CR', 'EN', 'VU', 'NT', 'LC'];
+contentCheck('wildlife', function (need) {
+  var route = 0, gallery = 0;
+  Object.keys(WILD).forEach(function (id) {
+    var x = WILD[id], w = 'WILD.' + id;
+    Object.keys(x).forEach(function (k) { need(['name', 'alt', 'vn', 'lat', 'iucn', 'group', 'route', 'gallery', 'why', 'meet', 'nophoto'].indexOf(k) > -1, w + ': unknown field ' + k); });
+    ['name', 'vn', 'lat', 'why'].forEach(function (k) { need(isText(x[k]), w + ': ' + k); });
+    need(x.alt == null || isText(x.alt), w + ': alt');
+    need(x.iucn == null || WILD_IUCN.indexOf(x.iucn) > -1, w + ': iucn ' + x.iucn);
+    need(WILD_GROUPS.indexOf(x.group) > -1, w + ': group ' + x.group);
+    need(x.route === true || x.gallery === true, w + ': a card On your route, a tile in the Gallery or both');
+    need(!!x.route === Array.isArray(x.meet) && (!x.meet || x.meet.length > 0), w + ': encounters exactly with a card On your route');
+    need(x.group !== 'legends' || (!x.route && x.gallery), w + ': a legend is in the Gallery only (finding 12)');
+    need(x.nophoto ? !WILD_PHOTOS[id] : !!WILD_PHOTOS[id], w + ': a photo in wildphotos.js, or nophoto');
+    if (x.route) route++;
+    if (x.gallery) gallery++;
+    (x.meet || []).forEach(function (m, i) {
+      var mw = w + '.meet.' + i;
+      Object.keys(m).forEach(function (k) { need(['place', 'kind', 'where', 'chance', 'chanceNote', 'when', 'months', 'season', 'plan'].indexOf(k) > -1, mw + ': unknown field ' + k); });
+      need(PLACES[m.place] && !PLACES[m.place].node, mw + ': a place of the planner, not ' + m.place);
+      need(WILD_KINDS.indexOf(m.kind) > -1, mw + ': kind ' + m.kind);
+      need([1, 2, 3].indexOf(m.chance) > -1, mw + ': a chance of 1–3');
+      ['where', 'when'].forEach(function (k) { need(isText(m[k]), mw + ': ' + k); });
+      need(m.chanceNote == null || isText(m.chanceNote), mw + ': chanceNote');
+      need(m.months === null || (Array.isArray(m.months) && m.months.length > 0 && m.months.length < 12 && m.months.every(function (k) { return k % 1 === 0 && k >= 1 && k <= 12; })), mw + ': months null or 1–12');
+      need(m.months ? isText(m.season) : m.season === undefined, mw + ': season exactly with months');
+      need(m.plan === null || (Array.isArray(m.plan) && m.plan.length > 0), mw + ': plan null or [[p, version]]');
+      (m.plan || []).forEach(function (x) {
+        var d = CONTENT[m.place] && CONTENT[m.place].days.filter(function (y) { return y.p === x[0]; })[0];
+        need(d && ['', 'easy', 'hard', 'solo'].indexOf(x[1]) > -1 && (x[1] === '' || d[x[1]]), mw + ': no plan ' + x[0] + ' ' + x[1] + ' in ' + m.place);
+      });
+    });
+  });
+  need(route === 16, route + ' species On your route, the 16 of finding 7');
+  need(gallery >= 20 && gallery <= 30, gallery + ' species in the Gallery, about 25 (finding 12)');
+  Object.keys(WILD_PHOTOS).forEach(function (id) {
+    var p = WILD_PHOTOS[id];
+    need(WILD[id], 'WILD_PHOTOS.' + id + ': no such species');
+    need(isText(p.cap) && isText(p.artist) && /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(p.page), 'WILD_PHOTOS.' + id + ': caption, author and the file page on Commons');
+    need(/^(CC0|CC BY(-SA)? \d\.\d|Public domain)$/.test(p.license), 'WILD_PHOTOS.' + id + ': a licence allowing changes and commercial use (CC0, CC BY, CC BY-SA, public domain), not ' + p.license);
+  });
+  // the field guide (finding 14): its places, from south to north, the same as the page with the route links to
+  need(JSON.stringify(Object.keys(WILD_GUIDE)) === JSON.stringify(WILD_GUIDE_PLACES), 'WILD_GUIDE: the places of WILD_GUIDE_PLACES (content.js), in that order');
+  var axis = Object.keys(WILD_GUIDE).map(function (p) { return PLACES[p] && PLACES[p].axis; });
+  need(axis.every(function (a, i) { return a != null && (i === 0 || a >= axis[i - 1]); }), 'WILD_GUIDE: from south to north (the axis of places.js)');
+  Object.keys(WILD_GUIDE).forEach(function (p) {
+    var g = WILD_GUIDE[p];
+    need(isText(g.where) && Array.isArray(g.rows), 'WILD_GUIDE.' + p + ': where and rows');
+    need(g.rows.length || Object.keys(WILD).some(function (id) { return (WILD[id].meet || []).some(function (m) { return m.place === p; }); }), 'WILD_GUIDE.' + p + ': rows or encounters');
+    g.rows.forEach(function (r, i) {
+      need(['wild', 'rescue', 'note'].indexOf(r.kind) > -1 && isText(r.name) && isText(r.how), 'WILD_GUIDE.' + p + '.rows.' + i + ': kind, name and how');
+      need(r.kind === 'note' ? r.chance === undefined && r.when === undefined : [0, 1, 2, 3].indexOf(r.chance) > -1, 'WILD_GUIDE.' + p + '.rows.' + i + ': a chance 0–3, none for a note');
+    });
+  });
+  Object.keys(WILD).forEach(function (id) { (WILD[id].meet || []).forEach(function (m) { need(WILD_GUIDE[m.place], 'WILD.' + id + ': ' + m.place + ' has no section in the field guide'); }); });
+  need(WILD_AVOID.length === 5 && WILD_AVOID.every(isText), 'WILD_AVOID: five points (finding 15)');
+  need(WILD_OUTSIDE.length === 5 && WILD_OUTSIDE.every(function (o) { return isText(o.name) && isText(o.text); }), 'WILD_OUTSIDE: five places (finding 15)');
+});
+
+/* Its texts in both languages (finding 19): every text of wild.js and wildphotos.js in English (en/wild.js, en/wildphotos.js),
+   with the same numbers and Vietnamese names, in British English for every passport, in Polish to one reader without a
+   gendered form; the sentences short: a species' sentence of at most WILD_WHY_WORDS words, an encounter's where and when
+   and a row of the guide of at most WILD_LINE_WORDS (the longest of the dry run), in English 6 more. */
+var WILD_WHY_WORDS = 32, WILD_LINE_WORDS = 30;
+function wildPairs() {
+  var out = [];
+  function add(path, pl, en, max) { out.push([path, pl, en, max]); }
+  Object.keys(WILD).forEach(function (id) {
+    var x = WILD[id], e = WILD_EN[id] || {}, w = 'WILD.' + id;
+    add(w + '.name', x.name, e.name);
+    if (x.alt != null || e.alt != null) add(w + '.alt', x.alt, e.alt);
+    add(w + '.why', x.why, e.why, WILD_WHY_WORDS);
+    (x.meet || []).forEach(function (m, i) {
+      var me = (e.meet || [])[i] || {};
+      ['where', 'when', 'chanceNote', 'season'].forEach(function (k) { if (m[k] != null || me[k] != null) add(w + '.meet.' + i + '.' + k, m[k], me[k], WILD_LINE_WORDS); });
+    });
+  });
+  Object.keys(WILD_GUIDE).forEach(function (p) {
+    var g = WILD_GUIDE[p], ge = WILD_GUIDE_EN[p] || {};
+    add('WILD_GUIDE.' + p + '.where', g.where, ge.where, WILD_LINE_WORDS);
+    g.rows.forEach(function (r, i) {
+      var re = (ge.rows || [])[i] || {};
+      ['name', 'how', 'when'].forEach(function (k) { if (r[k] != null || re[k] != null) add('WILD_GUIDE.' + p + '.rows.' + i + '.' + k, r[k], re[k], WILD_LINE_WORDS); });
+    });
+  });
+  WILD_AVOID.forEach(function (t, i) { add('WILD_AVOID.' + i, t, WILD_AVOID_EN[i], WILD_LINE_WORDS); });
+  WILD_OUTSIDE.forEach(function (o, i) { var oe = WILD_OUTSIDE_EN[i] || {}; add('WILD_OUTSIDE.' + i + '.name', o.name, oe.name); add('WILD_OUTSIDE.' + i + '.text', o.text, oe.text, WILD_LINE_WORDS); });
+  Object.keys(WILD_PHOTOS).forEach(function (id) { add('WILD_PHOTOS.' + id + '.cap', WILD_PHOTOS[id].cap, WILD_CAPS_EN[id]); });
+  return out;
+}
+contentCheck('wildlife in two languages', function (need) {
+  wildPairs().forEach(function (x) {
+    need(isText(x[1]) && isText(x[2]), x[0] + ': a text in both languages');
+    if (!isText(x[1]) || !isText(x[2])) return;
+    englishProblems(x[0] + ' (en)', x[2]).concat(factProblems(x[0], x[1], x[2])).forEach(function (p) { need(false, p); });
+    if (x[3]) {
+      need(wordCount(x[1]) <= x[3], x[0] + ': ' + wordCount(x[1]) + ' words, at most ' + x[3]);
+      need(wordCount(x[2]) <= x[3] + 6, x[0] + ' (en): ' + wordCount(x[2]) + ' words, at most ' + (x[3] + 6));
+    }
+    need(!/(^|[^\p{L}])(zł|PLN|EUR|USD)(?!\p{L})|[€$]|(^|[^\p{L}])(euro(?!p)|dolar|złotówk)/iu.test(x[1]), x[0] + ': money other than dong');
+    need(!/[Pp]olsk|Polak|Polsce/.test(x[1]), x[0] + ': no advice for the citizens of one country');
+  });
+  styleOk(need, wildPairs().filter(function (x) { return isText(x[1]); }).map(function (x) { return [x[0], x[1]]; }));
+  Object.keys(WILD_EN).forEach(function (id) { need(WILD[id], 'WILD_EN.' + id + ': no such species'); });
+  Object.keys(WILD_GUIDE_EN).forEach(function (p) { need(WILD_GUIDE[p], 'WILD_GUIDE_EN.' + p + ': no such place'); });
+  Object.keys(WILD_CAPS_EN).forEach(function (id) { need(WILD_PHOTOS[id], 'WILD_CAPS_EN.' + id + ': no such photo'); });
+  need(WILD_AVOID_EN.length === WILD_AVOID.length && WILD_OUTSIDE_EN.length === WILD_OUTSIDE.length, 'WILD_AVOID_EN and WILD_OUTSIDE_EN: as many as in Polish');
 });

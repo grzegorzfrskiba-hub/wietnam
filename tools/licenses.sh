@@ -1,5 +1,6 @@
 #!/bin/bash
-# Checks the photos of the page (PHOTO_META in site2/src/photos.js) against Wikimedia Commons: asks the Commons API for each
+# Checks the photos of the page (PHOTO_META in site2/src/photos.js) and of the wildlife subpage (WILD_PHOTOS in
+# site2/src/wildphotos.js, stage 6) against Wikimedia Commons: asks the Commons API for each
 # file's licence and author (extmetadata, 50 files a query) and prints the photos whose licence differs from photos.js, is
 # no longer CC0, CC BY, CC BY-SA or public domain (notes/wizja.md), or whose author in photos.js has a word that neither the
 # author nor the attribution on Commons has (a hint to read the file's page). Nothing is saved.
@@ -9,13 +10,16 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 python3 -I - <<'PY'
 import html, json, re, sys, urllib.parse, urllib.request
-src = open('site2/src/photos.js', encoding='utf-8').read()
 meta = {}
-for m in re.finditer(r"^  ([a-z]+_\d+): \{ cap: '((?:[^'\\]|\\.)*)', artist: '((?:[^'\\]|\\.)*)', license: '([^']*)', page: '([^']*)' \}", src, re.M):
-    meta[m.group(1)] = {'artist': m.group(3).replace("\\'", "'"), 'license': m.group(4), 'title': urllib.parse.unquote(m.group(5).split('/wiki/', 1)[1]).replace('_', ' ')}
-n_src = len(re.findall(r"^  [a-z]+_\d+: \{", src, re.M))
-if len(meta) != n_src:
-    print('licenses.sh: read %d of %d entries of photos.js' % (len(meta), n_src)); sys.exit(1)
+for name, idre, prefix in (('photos.js', r'[a-z]+_\d+', ''), ('wildphotos.js', r'[a-z]+', 'wild:')):
+    src = open('site2/src/' + name, encoding='utf-8').read()
+    n = 0
+    for m in re.finditer(r"^  (" + idre + r"): \{ cap: '((?:[^'\\]|\\.)*)', artist: '((?:[^'\\]|\\.)*)', license: '([^']*)', page: '([^']*)' \}", src, re.M):
+        meta[prefix + m.group(1)] = {'artist': m.group(3).replace("\\'", "'"), 'license': m.group(4), 'title': urllib.parse.unquote(m.group(5).split('/wiki/', 1)[1]).replace('_', ' ')}
+        n += 1
+    n_src = len(re.findall(r"^  " + idre + r": \{", src, re.M))
+    if n != n_src:
+        print('licenses.sh: read %d of %d entries of %s' % (n, n_src, name)); sys.exit(1)
 def plain(s): return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', s or ''))).strip()
 def norm(s): return re.sub(r'\s+', ' ', s.replace('Public Domain', 'Public domain')).strip()
 def words(s): return set(re.sub(r'[()\[\],.©/]', ' ', s.lower()).split())

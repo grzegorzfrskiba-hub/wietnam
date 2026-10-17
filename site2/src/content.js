@@ -51,6 +51,10 @@ var REGIONS = ['south', 'centre', 'north'];
    tell them from Polish words: the page keeps each on one line, as it does the names of the places and the airports. */
 var KEEP_TOGETHER = ['Lang Biang', 'Thang Hen', 'Tam Giang', 'Kim Long', 'Paradise Cave', 'La Dao'];
 
+/* The places with a section in the field guide of the wildlife subpage (WILD_GUIDE in wild.js, stage 6): their stays get
+   „Zwierzęta tutaj →” on the page with the route (finding 5), which does not load the subpage's data. */
+var WILD_GUIDE_PLACES = ['mekong', 'saigon', 'cattien', 'yokdon', 'danang', 'phongnha', 'cucphuong', 'ninhbinh', 'catba', 'babe'];
+
 /* The airports of the travel data: name in texts, place for Google Maps directions, point on the map [lat, lon]; short:
    the name on the map's arrows to another panel, where it differs. */
 var AIRPORTS = {
