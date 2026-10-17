@@ -198,7 +198,9 @@ function plainDay(x, variant) {
   return { pace: x.pace, t: x.t, d: x.d, early: !!x.early, rain: null, variant: variant || null, cost: (x.cost || []).slice(), pack: (x.pack || []).slice() };
 }
 
-/* The day plans of one stay: [{ day, pace, t, d, early, rain, variant, cost, pack }], one per night, from the stay's first day.
+/* The day plans of one stay: [{ day, pace, t, d, early, rain, variant, cost, pack, plan }], one per night, from the stay's first day;
+   plan: { p, v }, the plan of the place's texts the day comes from and its version ('' the usual one, 'easy', 'hard', 'self',
+   'solo', or 'again' with p 0), which the wildlife subpage reads to say whether an encounter is in the day's plan (stage 6).
    c: the place's content; stop: { n, start } from planRoute; done: nights spent there earlier in the trip (on a round trip
    the airport's city comes back at the end); level: 1–3; months: st.months, the month (0–11) of each trip day.
    A first stay takes the n plans with the lowest p, in their order o; a one-night stay the solo version of the p 1 plan
@@ -222,6 +224,7 @@ function stopDays(c, stop, done, level, months, next, self) {
     picked = byP.slice(from, from + stop.n - 1);
     if (picked.length !== stop.n - 1) return null;
     out.push(plainDay(c.again));
+    out[0].plan = { p: 0, v: 'again' };
   } else {
     picked = byP.slice(0, stop.n);
     if (picked.length !== stop.n) return null;
@@ -230,11 +233,12 @@ function stopDays(c, stop, done, level, months, next, self) {
   picked.sort(function (a, b) { return a.o - b.o; }).forEach(function (d) {
     var k = stop.start - 1 + out.length, last = out.length === stop.n - 1, two = d.hard && d.hard.next;
     if (second) { out.push(second); second = null; return; }
-    if (stop.n === 1 && d.solo) { out.push(plainDay(d.solo)); return; }
+    if (stop.n === 1 && d.solo) { out.push(plainDay(d.solo)); out[out.length - 1].plan = { p: d.p, v: 'solo' }; return; }
     // a late hard version stays off the last day before a long leg, and a two-day one off the last day of any stay
     var away = last && (notLate || !!two);
     var v = variantOf(d, level, months[k] + 1, away, self);
-    if (two && v.variant === 'hard') second = plainDay(d.hard.next, 'hard');
+    v.plan = { p: d.p, v: v.variant || '' };
+    if (two && v.variant === 'hard') { second = plainDay(d.hard.next, 'hard'); second.plan = { p: d.p, v: 'hard' }; }
     out.push(v);
   });
   out.forEach(function (d, k) { d.day = stop.start + k; });
