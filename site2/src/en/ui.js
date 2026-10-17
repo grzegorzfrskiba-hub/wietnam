@@ -11,7 +11,7 @@ UI.en = {
   'hero.h1': 'Route G',
   'hero.tag': 'Vietnam, up to you',
   'hero.lede': 'Set your dates, your airports, what you like and how adventurous you are. The page plans a route at once: the places, a plan for every day, the journeys and a map. You can then change it and send it as a link.',
-  'hero.cta1': 'Set up your trip', 'hero.cta2': 'See the route',
+  'hero.cta1': 'Set up your trip', 'hero.cta2': 'See the route', 'nav.wild': 'Wildlife', 'stop.wild': 'Wildlife here →',
 
   'set.eyebrow': 'Step 1', 'set.h2': 'Your trip',
   'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',

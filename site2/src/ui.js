@@ -12,7 +12,7 @@ UI.pl = {
   'hero.h1': 'Route G',
   'hero.tag': 'Wietnam po swojemu',
   'hero.lede': 'Ustaw termin, lotniska, to, co lubisz, i poziom przygody. Strona od razu ułoży trasę: miejsca, plan każdego dnia, przejazdy i mapę. Potem możesz ją poprawić i wysłać linkiem.',
-  'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę',
+  'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę', 'nav.wild': 'Zwierzęta', 'stop.wild': 'Zwierzęta tutaj →',
 
   'set.eyebrow': 'Krok 1', 'set.h2': 'Twój wyjazd',
   'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',

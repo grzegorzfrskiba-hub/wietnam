@@ -298,11 +298,19 @@
     $('#copy-status').textContent = '';
     $('#copy-fallback').hidden = true;
     renderPrintLink();
+    $('#wild-hero').href = $('#wild-top').href = $('#wild-nav').href = wildLink('route');
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
   }
 
+  /* The wildlife subpage (stage 6, finding 5) with this trip: its tab (route, or guide-<place> for a stay's „Zwierzęta
+     tutaj →”), then the trip in the page's view (pageHash), so the subpage plans the same trip; always the public page's
+     address, so the link works from the offline file too. */
+  function wildLink(tab) { return SITE_URL + 'wildlife/#' + tab + '&' + pageHash(state.settings, lang, costs).slice(1); }
+  function wildHere(id) {
+    return WILD_GUIDE_PLACES.indexOf(id) > -1 ? '<p class="stop-wild"><a href="' + esc(wildLink('guide-' + id)) + '">' + T('stop.wild') + '</a></p>' : '';
+  }
   // the printout names this route's address on the public page, in the page's view (as the copied plan does)
   function renderPrintLink() {
     var url = SITE_URL + pageHash(state.settings, lang, costs);
@@ -510,7 +518,7 @@
         '<div class="why">' + stayFacts(i, compact) + '</div>' +
         (again ? '' : gallery(s.id)) + (sw ? swapBlock(sw, s.start) : '') + '<ol class="days">' + state.plans[i].map(function (d) {
           return dayItem(d, rainyMonth(CLIMATE[s.id], state.st.months[d.day - 1] + 1));
-        }).join('') + '</ol>' + (again ? '' : tips(c)) + '</section>';
+        }).join('') + '</ol>' + (again ? '' : tips(c) + wildHere(s.id)) + '</section>';
     });
     html += legCard(r.home, r.days, r.stops[r.stops.length - 1], null) + homeCard();
     $('#stops').innerHTML = html;
