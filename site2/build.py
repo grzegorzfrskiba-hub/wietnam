@@ -1,6 +1,7 @@
 """Build the page: a fragment with separate image and font files (out/web, for a private artifact), the same page as a full
 document for GitHub Pages (out/pages, with the link preview and the robots tag) and one offline file with the images and
-the fonts inside (out/offline), for a computer or Chrome on Android (an iPhone does not run its scripts)."""
+the fonts inside (out/offline), for a computer or Chrome on Android (an iPhone does not run its scripts). Next to the page,
+for GitHub Pages only, the wildlife subpage (stage 6): out/pages/wildlife/index.html, its photos in out/pages/img/wild/."""
 import base64, glob, io, json, os, re, shutil
 from PIL import Image
 
@@ -18,6 +19,14 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
            + sorted("content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "content", "*.js")))
            + sorted("en/content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "en", "content", "*.js")))
            + ["photos.js", "en/photos.js", "ui.js", "en/ui.js", "panels.js", "costs.js", "before.js", "en/names.js", "page.js", "basemap.js"])
+# The wildlife subpage's scripts (stage 6): those of the page that plan a trip and name its places, then its own helpers,
+# data and texts (English after Polish); its logic, wildapp.js, comes after them, as app.js does. Not in the offline file
+# and not in out/web (finding 4 of stage 6).
+WILD_SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
+                + [n for n in SCRIPTS if n.startswith(("content/", "en/content/"))]
+                + ["ui.js", "en/ui.js", "page.js", "wildpage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
+WILD_PHOTO_DIR = os.path.join(PHOTO_DIR, "wild")
+WILD_SMALLER = (480, 960)   # srcset of a wildlife photo: the gallery's tiles and a phone pick these
 # Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo; 160 px for the
 # small photos of the places off the trip and of the galleries (the first round of fixes, fix 1).
 # The offline file keeps one embedded size per photo, small enough for a file of about 6 MB: width and JPEG quality.
@@ -29,10 +38,19 @@ SITE_URL = re.search(r"^var SITE_URL = '([^']+)';", open(os.path.join(SRC, "page
 # Link preview (WhatsApp and others), only on the public page, whose address it names; in English, the page's default
 # language (decision 1 of stage 5: one address, so WhatsApp, which reads the file without its scripts, shows English).
 PREVIEW = {
+    "url": SITE_URL, "image": SITE_URL + "img/og.jpg",
     "title": "Route G · Vietnam, up to you",
     "description": "Set your dates, your airports, what you like and how adventurous you are, and the page plans a route around Vietnam: the places, a plan for each day, the journeys and a map.",
     "alt": "A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình",
 }
+# the wildlife subpage's own link preview, in English, with the red-shanked douc (finding 2 of stage 6)
+WILD_PREVIEW = {
+    "url": SITE_URL + "wildlife/", "image": SITE_URL + "img/og-wild.jpg",
+    "title": "Wildlife of Vietnam · Route G",
+    "description": "The animals you can really see on a route around Vietnam, where, when and how likely, a gallery of the most beautiful species and a field guide to the places.",
+    "alt": "A red-shanked douc in the wild on the Sơn Trà peninsula in Đà Nẵng",
+}
+WILD_OG = "duk"
 OG_SIZE = (1200, 630)
 # The public page stays out of search engines while the first friends try it (decision of 14.10.2026); to open it, set
 # NOINDEX = False, build and publish again.
@@ -54,26 +72,27 @@ ICON = ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width
 
 
 def head_extras(preview):
-    """Tab icon for every full document; the link preview tags and, while NOINDEX, the robots tag only for the public page."""
+    """Tab icon for every full document; the link preview tags (preview: PREVIEW or WILD_PREVIEW) and, while NOINDEX, the
+    robots tag only for the public pages."""
     from urllib.parse import quote
     out = '<link rel="icon" href="data:image/svg+xml,%s">\n' % quote(ICON, safe="/:=' ")
     if preview and NOINDEX:
         out += '<meta name="robots" content="noindex">\n'
     if preview:
         esc = lambda t: t.replace("&", "&amp;").replace('"', "&quot;")
-        out += ('<meta name="description" content="%s">\n' % esc(PREVIEW["description"])
+        out += ('<meta name="description" content="%s">\n' % esc(preview["description"])
                 + '<meta property="og:type" content="website">\n<meta property="og:locale" content="en_GB">\n'
-                + '<meta property="og:url" content="%s">\n' % SITE_URL
-                + '<meta property="og:title" content="%s">\n' % esc(PREVIEW["title"])
-                + '<meta property="og:description" content="%s">\n' % esc(PREVIEW["description"])
-                + '<meta property="og:image" content="%simg/og.jpg">\n' % SITE_URL
+                + '<meta property="og:url" content="%s">\n' % preview["url"]
+                + '<meta property="og:title" content="%s">\n' % esc(preview["title"])
+                + '<meta property="og:description" content="%s">\n' % esc(preview["description"])
+                + '<meta property="og:image" content="%s">\n' % preview["image"]
                 + '<meta property="og:image:width" content="%d">\n<meta property="og:image:height" content="%d">\n' % OG_SIZE
-                + '<meta property="og:image:alt" content="%s">\n' % esc(PREVIEW["alt"])
+                + '<meta property="og:image:alt" content="%s">\n' % esc(preview["alt"])
                 + '<meta name="twitter:card" content="summary_large_image">\n')
     return out
 
 
-def full_document(fragment, preview=False):
+def full_document(fragment, preview=None):
     """The page fragment as a complete HTML document: doctype, charset and viewport, tab icon, no body margin."""
     return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
@@ -98,6 +117,61 @@ def fonts_css(inline):
         assert os.path.exists(path), "no font file " + path
         return "url(data:font/woff2;base64,%s)" % base64.b64encode(open(path, "rb").read()).decode() if inline else m.group(0)
     return re.sub(r"url\(fonts/([a-z0-9-]+\.woff2)\)", one, open(os.path.join(FONT_DIR, "fonts.css"), encoding="utf-8").read())
+
+
+def og_image(im, path, low):
+    """A link preview image: the photo cut to OG_SIZE, the cut taken at the height low (0 top, 1 bottom)."""
+    ow, oh = OG_SIZE
+    k = max(ow / im.width, oh / im.height)
+    big = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    top = round((big.height - oh) * low)
+    left = (big.width - ow) // 2
+    big.crop((left, top, left + ow, top + oh)).save(path, "JPEG", quality=78, optimize=True, progressive=True)
+
+
+def wild_photo_ids():
+    """The photo ids of the wildlife subpage in wildphotos.js (one entry per line, '  id: { cap: …'); each needs its file in
+    photos/wild/."""
+    text = open(os.path.join(SRC, "wildphotos.js"), encoding="utf-8").read()
+    ids = re.findall(r"^  ([a-z]+): \{ cap: ", text, re.M)
+    assert len(ids) == len(set(ids)), "an id twice in wildphotos.js"
+    missing = [p for p in ids if not os.path.exists(os.path.join(WILD_PHOTO_DIR, p + ".jpg"))]
+    assert not missing, "no file in photos/wild/ for %s" % missing
+    return ids
+
+
+def wild_page(template, fonts):
+    """The wildlife subpage for GitHub Pages: out/pages/wildlife/index.html, with the colours of the page with the route (its
+    :root tokens and their dark versions, cut from template.html), the fonts and images one folder up, and its photos in
+    out/pages/img/wild/ with smaller copies for the tiles."""
+    ids = wild_photo_ids()
+    os.makedirs(os.path.join(OUT_PAGES, "img", "wild"))
+    pics = {}
+    for pid in ids:
+        im = Image.open(os.path.join(WILD_PHOTO_DIR, pid + ".jpg")).convert("RGB")
+        (w, h), b = encode(im, 1400, 74)
+        open(os.path.join(OUT_PAGES, "img", "wild", pid + ".jpg"), "wb").write(b)
+        pics[pid] = dict(src="../img/wild/%s.jpg" % pid, w=w, h=h)
+        srcset = []
+        for sw in WILD_SMALLER:
+            if sw < w:
+                (vw, _), vb = encode(im, sw, 74)
+                open(os.path.join(OUT_PAGES, "img", "wild", "%s-%d.jpg" % (pid, vw)), "wb").write(vb)
+                srcset.append("../img/wild/%s-%d.jpg %dw" % (pid, vw, vw))
+        if srcset:
+            pics[pid]["srcset"] = ", ".join(srcset + ["../img/wild/%s.jpg %dw" % (pid, w)])
+        if pid == WILD_OG:
+            og_image(im, os.path.join(OUT_PAGES, "img", "og-wild.jpg"), 0.3)
+    page_tpl = open(os.path.join(SRC, "template.html"), encoding="utf-8").read()
+    tokens = page_tpl[page_tpl.index(":root {"):page_tpl.index("\n* { box-sizing")]
+    js = "\n".join(open(os.path.join(SRC, name), encoding="utf-8").read() for name in WILD_SCRIPTS)
+    script = (js + "\nvar WILD_PICS = " + json.dumps(pics, ensure_ascii=False) + ";\n"
+              + open(os.path.join(SRC, "wildapp.js"), encoding="utf-8").read()).replace("</script", "<\\/script")
+    page = (template.replace("/* __FONTS__ */", fonts.replace("url(fonts/", "url(../fonts/")).replace("/* __TOKENS__ */", tokens)
+            .replace("__NOSCRIPT__", "".join('<p class="noscript" lang="%s">%s</p>' % x for x in NOSCRIPT["page"])).replace("__SCRIPT__", script))
+    os.makedirs(os.path.join(OUT_PAGES, "wildlife"))
+    open(os.path.join(OUT_PAGES, "wildlife", "index.html"), "w", encoding="utf-8").write(full_document(page, preview=WILD_PREVIEW))
+    return len(ids)
 
 
 def photo_ids():
@@ -144,12 +218,7 @@ def main():
         off[pid] = dict(src="data:image/jpeg;base64," + base64.b64encode(b).decode(), w=w, h=h)
         if pid == hero:
             # link preview image: the hero cut to 1200 x 630, kept low so the rower stays in the picture
-            ow, oh = OG_SIZE
-            k = max(ow / im.width, oh / im.height)
-            big = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
-            top = round((big.height - oh) * 0.95)
-            left = (big.width - ow) // 2
-            big.crop((left, top, left + ow, top + oh)).save(os.path.join(OUT_WEB, "img", "og.jpg"), "JPEG", quality=78, optimize=True, progressive=True)
+            og_image(im, os.path.join(OUT_WEB, "img", "og.jpg"), 0.95)
 
     def page(photos, fonts, kind):
         script = js + "\nvar PHOTOS = " + json.dumps(photos, ensure_ascii=False) + ";\n" + app_js
@@ -163,15 +232,17 @@ def main():
     web_page = page(web, fonts_css(False), "page")
     open(os.path.join(OUT_WEB, "index.html"), "w", encoding="utf-8").write(web_page)
     # GitHub Pages serves files as they are, so it gets the full document and its own copy of the images
-    open(os.path.join(OUT_PAGES, "index.html"), "w", encoding="utf-8").write(full_document(web_page, preview=True))
+    open(os.path.join(OUT_PAGES, "index.html"), "w", encoding="utf-8").write(full_document(web_page, preview=PREVIEW))
     shutil.copytree(os.path.join(OUT_WEB, "img"), os.path.join(OUT_PAGES, "img"))
     shutil.copytree(os.path.join(OUT_WEB, "fonts"), os.path.join(OUT_PAGES, "fonts"))
+    n_wild = wild_page(open(os.path.join(SRC, "wild.html"), encoding="utf-8").read(), fonts_css(False))
     open(os.path.join(OUT_OFF, OFFLINE_NAME), "w", encoding="utf-8").write(full_document(page(off, fonts_css(True), "offline")))
 
     size = lambda p: os.path.getsize(p) / 1e6
     img_total = sum(size(os.path.join(OUT_WEB, "img", f)) for f in os.listdir(os.path.join(OUT_WEB, "img")))
     print("web page %.2f MB + %d images %.1f MB" % (size(os.path.join(OUT_WEB, "index.html")), len(web), img_total))
     print("pages page %.2f MB + copy of the images" % size(os.path.join(OUT_PAGES, "index.html")))
+    print("wildlife subpage %.2f MB + %d photos" % (size(os.path.join(OUT_PAGES, "wildlife", "index.html")), n_wild))
     print("offline file %.1f MB" % size(os.path.join(OUT_OFF, OFFLINE_NAME)))
 
 

@@ -710,3 +710,25 @@ contentCheck('wildlife in two languages', function (need) {
   Object.keys(WILD_CAPS_EN).forEach(function (id) { need(WILD_PHOTOS[id], 'WILD_CAPS_EN.' + id + ': no such photo'); });
   need(WILD_AVOID_EN.length === WILD_AVOID.length && WILD_OUTSIDE_EN.length === WILD_OUTSIDE.length, 'WILD_AVOID_EN and WILD_OUTSIDE_EN: as many as in Polish');
 });
+
+/* The subpage's interface (wildui.js, finding 19): the same keys in both languages and in the same order, British English,
+   Polish to one reader; each key used by the subpage (wildapp.js, wild.html), and each key the subpage asks for there, in
+   WUI or, for the words both pages share, in UI. */
+contentCheck('wildlife interface', function (need) {
+  styleOk(need, strings(WUI.pl, 'WUI.pl', []));
+  need(JSON.stringify(Object.keys(WUI.pl)) === JSON.stringify(Object.keys(WUI.en)), 'WUI.en: the keys of WUI.pl in the same order');
+  Object.keys(WUI.en).forEach(function (k) {
+    need(isText(WUI.pl[k]) && isText(WUI.en[k]), 'WUI: ' + k + ' in both languages');
+    if (isText(WUI.en[k])) englishProblems('WUI.en.' + k, WUI.en[k]).forEach(function (p) { need(false, p); });
+  });
+  var app = readFile('site2/src/wildapp.js'), tpl = readFile('site2/src/wild.html'), used = {};
+  (app.match(/\bT\('[^']+'/g) || []).forEach(function (m) { used[m.slice(3, -1)] = true; });
+  (app.match(/\bT\([^'()]{1,80}\? *'[^']+' *: *'[^']+'/g) || []).forEach(function (m) { m.match(/'[^']+'/g).forEach(function (q) { used[q.slice(1, -1)] = true; }); });
+  (tpl.match(/data-i18n(?:-aria)?="[^"]+"/g) || []).forEach(function (m) { used[m.split('"')[1]] = true; });
+  Object.keys(used).forEach(function (k) { need(/\.$/.test(k) || k in WUI.pl || k in UI.pl, 'the subpage asks for the missing key ' + k); });
+  // keys built from a prefix: w.kind., w.chance., w.iucn., w.g.
+  Object.keys(WUI.pl).forEach(function (k) {
+    var prefix = /^w\.(kind|chance|iucn|g)\./.test(k);
+    need(used[k] || prefix, 'WUI.pl[\'' + k + '\'] is used nowhere');
+  });
+});

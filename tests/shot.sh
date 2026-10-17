@@ -5,15 +5,18 @@
 # [height]: capture height in px; the default is 2600 (measure the page first to shoot all of it; heights past 16000 px work).
 # Shoots site2/out/pages/index.html, the full document a visitor gets (doctype, no body margin). The fragment in site2/out/web
 # has no doctype, so Chrome opens it in quirks mode with an 8 px margin around the page.
+# PAGE=wildlife shoots the wildlife subpage instead (stage 6, site2/out/pages/wildlife/index.html), e.g.
+#   PAGE=wildlife tests/shot.sh 'gallery&lang=pl' 390 /tmp/g.png 4000
 # Headless Chrome writes the PNG but never exits here, so we poll for the file and kill Chrome.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-[ -s site2/out/pages/index.html ] || { echo "shot.sh: run python3 site2/build.py first" >&2; exit 1; }
-head -c 15 site2/out/pages/index.html | grep -qi '^<!doctype html>' || { echo "shot.sh: site2/out/pages/index.html has no doctype, so Chrome would use quirks mode" >&2; exit 1; }
+P="site2/out/pages/${PAGE:+$PAGE/}index.html"
+[ -s "$P" ] || { echo "shot.sh: run python3 site2/build.py first" >&2; exit 1; }
+head -c 15 "$P" | grep -qi '^<!doctype html>' || { echo "shot.sh: $P has no doctype, so Chrome would use quirks mode" >&2; exit 1; }
 C="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 TMP=$(mktemp -d)
 rm -f "$3"
-URL="file://$PWD/site2/out/pages/index.html#${1//MIESIAC/$(date -v+5m +%Y-%m)}"
+URL="file://$PWD/$P#${1//MIESIAC/$(date -v+5m +%Y-%m)}"
 WIN="$2"
 H="${4:-2600}"
 # Headless Chrome clamps the window to ~500 px wide, so narrow shots go through an iframe wrapper.
