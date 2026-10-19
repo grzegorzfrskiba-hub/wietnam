@@ -189,6 +189,7 @@ main { padding-block: 28px 48px; }
    thumbnail on the left of the rest */
 .w-row { display: grid; grid-template-columns: 96px minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
 .w-row.w-note { grid-template-columns: 1fr; color: var(--muted); }
+.w-row.w-note.w-note-pic { grid-template-columns: 96px minmax(0, 1fr); }   /* a note with its photo (20.10.2026) */
 .w-row-photo { width: 96px; border-radius: 6px; overflow: hidden; }
 .w-row-photo img { width: 96px; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
 .w-row-photo:hover img { transform: scale(1.06); }
@@ -200,8 +201,10 @@ main { padding-block: 28px 48px; }
   .w-row.w-row-nopic { grid-template-columns: 1fr; }
   .w-row.w-row-nopic > .w-row-photo { display: none; }
   .w-row.w-row-nopic > :not(.w-row-photo) { grid-column: 1; }
-  .w-row.w-note { grid-template-columns: 1fr; }   /* a note: no thumbnail's column, its text from the left edge */
+  .w-row.w-note { grid-template-columns: 1fr; }   /* a note without a photo: no thumbnail's column, its text from the left */
   .w-row.w-note > p { grid-column: 1; }
+  .w-row.w-note.w-note-pic { grid-template-columns: 80px minmax(0, 1fr); }
+  .w-row.w-note.w-note-pic > p { grid-column: 2; }
 }
 .w-box { margin-top: 26px; padding: 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
 .w-avoid { background: var(--wet-soft); border-color: transparent; }
@@ -3969,8 +3972,8 @@ function guideRows(wild, guide, p) {
    home (a species of the Gallery only, without meet): the places its tile lights on the map of the subpage, places of the
    field guide or points beyond Route G of WILD_SPOTS; none where the research confirms no place (the map of the subpage,
    research/zwierzeta-2026-10.md, „Mapa podstrony”).
-   A row of the field guide: name, kind, how, when?, chance?; pic: a species whose photo (WILD_PHOTOS) shows the row's
-   animal, for a row of its own (the guide's thumbnails, 19.10.2026).
+   A row of the field guide: name, kind, how, when?, chance?; pic: its photo (WILD_PHOTOS), of a species that shows the
+   row's animal (the guide's thumbnails, 19.10.2026) or the guide's own, also for a note (20.10.2026).
    Facts and sources: research/zwierzeta-2026-10.md; the bar-bellied pitta, the red-headed trogon, the great hornbill, the mossy
    frog and the golden birdwing: the gallery research of 16.10.2026. */
 var WILD = {
@@ -4116,33 +4119,33 @@ var WILD = {
 var WILD_GUIDE = {
   mekong: { where: 'okolice Cần Thơ', rows: [] },
   saigon: { where: 'Cần Giờ, namorzyny na południe od miasta', rows: [
-    { name: 'Rudawki', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; setki wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
-    { name: 'Makaki na Đảo Khỉ', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych; wyrywają aparaty, torby i jedzenie' } ] },
+    { name: 'Rudawki', pic: 'rudawka', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; setki wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
+    { name: 'Makaki na Đảo Khỉ', pic: 'makakcg', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych; wyrywają aparaty, torby i jedzenie' } ] },
   cattien: { where: 'dżungla, najlepsze miejsce Route G na zwierzęta na wolności', rows: [
     { name: 'Kukang mały', pic: 'kukang', kind: 'wild', how: 'wieczorem w bambusach przy drodze po zachodniej stronie rzeki', when: 'nie przed 20:00', chance: 1 },
     { name: 'Ptaki przy drogach', pic: 'dzioborozec', kind: 'wild', how: 'dzioborożce, kraski, żołny, brodacze i gołębie; wieloszpon wietnamski głównie z kryjówek przewodników ptasich', when: 'ok. 7:00 przy centrum dla zwiedzających', chance: 3 },
-    { name: 'Kobry królewskie', kind: 'note', how: 'żyją w wysokiej trawie przy wieżach obserwacyjnych: przez trawę nie chodź' },
-    { name: 'Đảo Tiên', kind: 'note', how: 'wyspa z ośrodkiem naczelnych jest zamknięta i nie ma daty otwarcia (stan z V 2026)' } ] },
+    { name: 'Kobry królewskie', pic: 'kobra', kind: 'note', how: 'żyją w wysokiej trawie przy wieżach obserwacyjnych: przez trawę nie chodź' },
+    { name: 'Đảo Tiên', pic: 'cattienlas', kind: 'note', how: 'wyspa z ośrodkiem naczelnych jest zamknięta i nie ma daty otwarcia (stan z V 2026)' } ] },
   yokdon: { where: 'suchy las z programem słoni bez jazdy', rows: [
-    { name: 'Ptaki suchego lasu', kind: 'wild', how: 'ponad 300 gatunków, m.in. dzięcioły i sokoliki; z przewodnikiem ptasim parku, bo bez przewodnika do lasu wejść nie wolno', when: '5:00–8:00 i 15:00–18:00', chance: 2 },
-    { name: 'Bantengi', kind: 'wild', how: 'stado widziały tylko fotopułapki parku (IV 2026)', chance: 0 } ] },
+    { name: 'Ptaki suchego lasu', pic: 'sokolyd', kind: 'wild', how: 'ponad 300 gatunków, m.in. dzięcioły i sokoliki; z przewodnikiem ptasim parku, bo bez przewodnika do lasu wejść nie wolno', when: '5:00–8:00 i 15:00–18:00', chance: 2 },
+    { name: 'Bantengi', pic: 'banteng', kind: 'wild', how: 'stado widziały tylko fotopułapki parku (IV 2026)', chance: 0 } ] },
   danang: { where: 'półwysep Sơn Trà', rows: [
-    { name: 'Las Sơn Trà', kind: 'note', how: 'zamknięty dla trekkingu i obserwacji zwierząt, a nocne wyjścia są zakazane: duki ogląda się tylko z dróg' },
-    { name: 'Makaki przy pagodzie Linh Ứng', kind: 'note', how: 'to nie duki: nie karm ich i pilnuj torby' } ] },
+    { name: 'Las Sơn Trà', pic: 'sontralas', kind: 'note', how: 'zamknięty dla trekkingu i obserwacji zwierząt, a nocne wyjścia są zakazane: duki ogląda się tylko z dróg' },
+    { name: 'Makaki przy pagodzie Linh Ứng', pic: 'rezusy', kind: 'note', how: 'to nie duki: nie karm ich i pilnuj torby' } ] },
   phongnha: { where: 'las pełen rzadkich zwierząt, prawie niewidocznych dla turysty', rows: [
-    { name: 'Małpy w ogrodzie botanicznym', kind: 'wild', how: 'w koronach drzew; gatunku park nie podaje, a najczęstszy naczelny na jego fotopułapkach to makak niedźwiedzi', when: 'w dzień', chance: 1 },
+    { name: 'Małpy w ogrodzie botanicznym', pic: 'makakn', kind: 'wild', how: 'w koronach drzew; gatunku park nie podaje, a najczęstszy naczelny na jego fotopułapkach to makak niedźwiedzi', when: 'w dzień', chance: 1 },
     { name: 'Lutung pręgogłowy, duk wspaniały, skamielinowiec laotański', pic: 'duk', kind: 'wild', how: 'żyją w parku, ale widzą je tylko fotopułapki', chance: 0 },
-    { name: 'Wybieg Núi Đôi', kind: 'note', how: 'półdziki wybieg ośrodka ratowania parku przyjmował turystów jeszcze w 2021 r.; czy przyjmuje dziś, trzeba zapytać w parku' } ] },
+    { name: 'Wybieg Núi Đôi', pic: 'phongnhagory', kind: 'note', how: 'półdziki wybieg ośrodka ratowania parku przyjmował turystów jeszcze w 2021 r.; czy przyjmuje dziś, trzeba zapytać w parku' } ] },
   cucphuong: { where: 'trzy ośrodki ratowania przy bramie i las nocą', rows: [
-    { name: 'Ośrodek żółwi', kind: 'rescue', how: 'żółwie lądowe i słodkowodne, obok EPRC; zwiedzanie trwa ok. 20 min', when: 'w dzień', chance: 3 },
+    { name: 'Ośrodek żółwi', pic: 'zolwtcc', kind: 'rescue', how: 'żółwie lądowe i słodkowodne, obok EPRC; zwiedzanie trwa ok. 20 min', when: 'w dzień', chance: 3 },
     { name: 'Ptaki', pic: 'sedziol', kind: 'wild', how: 'ponad 300 gatunków; na szlaku do drzewa Đăng m.in. sędzioł czerwonogłowy, dzięcioły i kiściec srebrzysty', chance: 2 },
-    { name: 'Wielkoloty', kind: 'wild', how: 'duże latające wiewiórki: na ścieżce do drzewa Chò i nocą przy drodze koło restauracji w centrum parku', chance: 1 } ] },
+    { name: 'Wielkoloty', pic: 'wielkolot', kind: 'wild', how: 'duże latające wiewiórki: na ścieżce do drzewa Chò i nocą przy drodze koło restauracji w centrum parku', chance: 1 } ] },
   ninhbinh: { where: 'mokradła Vân Long pod wapiennymi turniami', rows: [
     { name: 'Ptaki wodne Vân Long', pic: 'czaple', kind: 'wild', how: 'zimorodki, czaple i bociany; bociany wracają do gniazd późnym popołudniem', when: 'cały rok, zimą też ptaki przelotne', chance: 3 } ] },
   catba: { where: 'wyspa i zatoka Lan Hạ', rows: [
-    { name: 'Makaki na Monkey Island', kind: 'note', how: 'to nie lutungi: wyrywają jedzenie, telefony i torby, a relacje mówią o ugryzieniach' } ] },
+    { name: 'Makaki na Monkey Island', pic: 'makakhl', kind: 'note', how: 'to nie lutungi: wyrywają jedzenie, telefony i torby, a relacje mówią o ugryzieniach' } ] },
   babe: { where: 'jezioro Ba Bể i jaskinia Puông', rows: [
-    { name: 'Nietoperze w jaskini Puông', kind: 'wild', how: '5–10 tys. nietoperzy z 18 gatunków; z łodzi słychać je i czuć, ale na wysokim stropie trudno je wypatrzyć', when: 'cały rok, w dzień', chance: 2 } ] }
+    { name: 'Nietoperze w jaskini Puông', pic: 'puong', kind: 'wild', how: '5–10 tys. nietoperzy z 18 gatunków; z łodzi słychać je i czuć, ale na wysokim stropie trudno je wypatrzyć', when: 'cały rok, w dzień', chance: 2 } ] }
 };
 
 // "Czego unikać": five points, each the object of "avoid" (in Polish in the genitive)
@@ -4360,7 +4363,7 @@ var WILD_OUTSIDE_EN = [
   { name: 'Tràm Chim', text: 'sarus cranes from Thailand in breeding pens (2026); the sources are silent on wild ones, and it is unclear whether visitors can see the birds in the pens.' }
 ];
 
-/* The photos of the wildlife subpage (stage 6): one per species, in the order of the gallery, from Wikimedia Commons, the
+/* The photos of the wildlife subpage (stage 6): one per species, in the order of the gallery, then the field guide's own, from Wikimedia Commons, the
    caption saying where it was taken (decision 6 of stage 6: the wild in Vietnam first, then the wild elsewhere, captivity only
    when nothing else; notes/wizja.md). Licences as in photos.js: CC0, CC BY, CC BY-SA or public domain, never NC or ND.
    The files are photos/wild/<id>.jpg (not in git; see notes/etapy.md); sources: research/zwierzeta-zdjecia-2026-10.md. */
@@ -4391,7 +4394,23 @@ var WILD_PHOTOS = {
   troides: { cap: 'Samiec Troides aeacus na wolności w Parku Narodowym Bạch Mã', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Golden_birdwing_(Troides_aeacus)_male_Bach_Ma.jpg' },
   czaple: { cap: 'Kolonia czapli w ogrodzie ptaków koło Cần Thơ w delcie Mekongu', artist: 'Isabell Schulz', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Stork_sanctuary,_Mekong_Delta_(45199906095).jpg' },
   kisciecann: { cap: 'Samiec kiśćca annamskiego w zoo w Hồ Chí Minh City, w niewoli', artist: 'Hà Nghĩa VN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Vietnam_Pheasant.jpg' },
-  skamielinowiec: { cap: 'Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje', artist: 'Jean-Pierre Hugot', license: 'CC BY 2.5', page: 'https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg' }
+  skamielinowiec: { cap: 'Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje', artist: 'Jean-Pierre Hugot', license: 'CC BY 2.5', page: 'https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg' },
+  // the field guide's own photos (20.10.2026): rows and notes without a species' photo (pic in wild.js), no species of WILD;
+  // sources: research/zwierzeta-zdjecia-2026-10.md, „Zdjęcia do wierszy i notatek przewodnika”
+  rudawka: { cap: 'Rudawka (Pteropus lylei) w locie w Tajlandii', artist: 'lonelyshrimp', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:YT_0072_Lyle%27s_flying_fox_(35959946475).jpg' },
+  sokolyd: { cap: 'Sokół Neohierax insignis na wolności w Krông Na (Đắk Lắk), przy Yok Đôn', artist: 'christoph_moning', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Neohierax_insignis,_Kr%C3%B4ng_Na,_%C4%90%E1%BA%AFk_L%E1%BA%AFk_Province,_Vietnam_1.jpg' },
+  banteng: { cap: 'Dzikie bantengi w rezerwacie Huai Kha Khaeng w Tajlandii', artist: 'Rushen, Thai National Parks', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Bos_javanicus,_(wild)_Banteng_-_Huai_Kha_Khaeng_(20536293581).jpg' },
+  makakn: { cap: 'Makak niedźwiedzi na wolności koło Parku Narodowego Kaeng Krachan w Tajlandii', artist: 'Thomas Galewski', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Macaca_arctoides_624873256.jpg' },
+  wielkolot: { cap: 'Wielkolot nocą na wolności na Tajwanie', artist: '鄭宇希', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:%E5%A4%9C%E6%99%9A%E7%9A%84%E5%B0%8F%E7%B2%BE%E9%9D%88-%E5%A4%A7%E8%B5%A4%E9%BC%AF%E9%BC%A0.jpg' },
+  puong: { cap: 'Jaskinia Puông w Parku Narodowym Ba Bể', artist: 'Ba Be National Park', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:Ba_Be_Lake_-_Puong_cave.JPG' },
+  kobra: { cap: 'Samica kobry królewskiej na wolności w Parku Narodowym Kaeng Krachan w Tajlandii', artist: 'Rushen, Thai National Parks', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Ophiophagus_hannah,_King_cobra_(female)_-_Kaeng_Krachan_National_Park_(25458697183).jpg' },
+  zolwtcc: { cap: 'Żółw Cyclemys pulchristriata w ośrodku żółwi w Parku Narodowym Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-29-Cyclemys_pulchristriata-3451.jpg' },
+  makakcg: { cap: 'Makak na Đảo Khỉ w Cần Giờ', artist: 'Wahan Shahbazian', license: 'CC BY 3.0', page: 'https://commons.wikimedia.org/wiki/File:Lost_In_Thoughts_(101278339).jpeg' },
+  cattienlas: { cap: 'Nizinny las tropikalny w Parku Narodowym Cát Tiên', artist: 'Vyacheslav Argenberg', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Cat_Tien_Park,_Vietnam,_lowland_tropical_forest.jpg' },
+  sontralas: { cap: 'Las na półwyspie Sơn Trà, w tle morze', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Son_Tra_Mountain_6.jpg' },
+  rezusy: { cap: 'Samiec i samica rezusa na wolności na półwyspie Sơn Trà', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Rhesus_macaques_(Macaca_mulatta)_male_female_Son_Tra.jpg' },
+  phongnhagory: { cap: 'Wapienne góry porośnięte lasem w Parku Narodowym Phong Nha-Kẻ Bàng', artist: 'Tansincos', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Part_of_mountain_range_in_Phong_Nha_-_Ke_Bang_National_Park.jpg' },
+  makakhl: { cap: 'Rezus w zatoce Hạ Long', artist: 'shankar s.', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Rhesus_macaque,_Ha_Long_Bay,_Vietnam_(31489200272).jpg' }
 };
 
 /* The frame of a photo on a card of On your route (19.10.2026), where the usual one, 3:2 around the middle, would cut the
@@ -4433,7 +4452,21 @@ var WILD_CAPS_EN = {
   troides: 'A male golden birdwing in the wild in Bạch Mã National Park',
   czaple: 'A colony of egrets in a bird sanctuary near Cần Thơ in the Mekong delta',
   kisciecann: 'A male Edwards’s pheasant at the zoo in Hồ Chí Minh City, in captivity',
-  skamielinowiec: 'A young Laotian rock rat in a researchers’ cage; the source does not give the place'
+  skamielinowiec: 'A young Laotian rock rat in a researchers’ cage; the source does not give the place',
+  rudawka: 'A Lyle’s flying fox (Pteropus lylei) in flight in Thailand',
+  sokolyd: 'A white-rumped falcon in the wild at Krông Na (Đắk Lắk), by Yok Đôn',
+  banteng: 'Wild banteng in the Huai Kha Khaeng sanctuary, Thailand',
+  makakn: 'A stump-tailed macaque in the wild near Kaeng Krachan National Park, Thailand',
+  wielkolot: 'A giant flying squirrel at night in the wild in Taiwan',
+  puong: 'Puông cave in Ba Bể National Park',
+  kobra: 'A female king cobra in the wild in Kaeng Krachan National Park, Thailand',
+  zolwtcc: 'A Cyclemys pulchristriata turtle at the turtle centre in Cúc Phương National Park',
+  makakcg: 'A macaque on Đảo Khỉ in Cần Giờ',
+  cattienlas: 'Lowland tropical forest in Cát Tiên National Park',
+  sontralas: 'Forest on the Sơn Trà peninsula, the sea behind',
+  rezusy: 'A male and a female rhesus macaque in the wild on the Sơn Trà peninsula',
+  phongnhagory: 'Forested limestone mountains in Phong Nha-Kẻ Bàng National Park',
+  makakhl: 'A rhesus macaque in Hạ Long Bay'
 };
 
 /* The interface texts of the wildlife subpage (stage 6): Polish; English is WUI.en in site2/src/en/wildui.js, with exactly
@@ -4512,7 +4545,7 @@ WUI.en = {
   'w.credits.note': 'Photos from Wikimedia Commons, under CC0, CC BY or CC BY-SA or in the public domain; each caption says where it was taken.'
 };
 
-var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/duk-480.jpg 480w, ../img/wild/duk-960.jpg 960w, ../img/wild/duk.jpg 1400w"}, "dukc": {"src": "../img/wild/dukc.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dukc-480.jpg 480w, ../img/wild/dukc-960.jpg 960w, ../img/wild/dukc.jpg 1400w"}, "lutungb": {"src": "../img/wild/lutungb.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/lutungb-480.jpg 480w, ../img/wild/lutungb-960.jpg 960w, ../img/wild/lutungb.jpg 1400w"}, "lutungj": {"src": "../img/wild/lutungj.jpg", "w": 1400, "h": 1985, "srcset": "../img/wild/lutungj-480.jpg 480w, ../img/wild/lutungj-960.jpg 960w, ../img/wild/lutungj.jpg 1400w"}, "gibbon": {"src": "../img/wild/gibbon.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/gibbon-480.jpg 480w, ../img/wild/gibbon-960.jpg 960w, ../img/wild/gibbon.jpg 1400w"}, "rokselana": {"src": "../img/wild/rokselana.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rokselana-480.jpg 480w, ../img/wild/rokselana-960.jpg 960w, ../img/wild/rokselana.jpg 1400w"}, "kukang": {"src": "../img/wild/kukang.jpg", "w": 1300, "h": 1733, "srcset": "../img/wild/kukang-480.jpg 480w, ../img/wild/kukang-960.jpg 960w, ../img/wild/kukang.jpg 1300w"}, "slon": {"src": "../img/wild/slon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/slon-480.jpg 480w, ../img/wild/slon-960.jpg 960w, ../img/wild/slon.jpg 1400w"}, "niedzwm": {"src": "../img/wild/niedzwm.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwm-480.jpg 480w, ../img/wild/niedzwm-960.jpg 960w, ../img/wild/niedzwm.jpg 1400w"}, "niedzwiedz": {"src": "../img/wild/niedzwiedz.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwiedz-480.jpg 480w, ../img/wild/niedzwiedz-960.jpg 960w, ../img/wild/niedzwiedz.jpg 1400w"}, "gaur": {"src": "../img/wild/gaur.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/gaur-480.jpg 480w, ../img/wild/gaur-960.jpg 960w, ../img/wild/gaur.jpg 1400w"}, "luskowiec": {"src": "../img/wild/luskowiec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/luskowiec-480.jpg 480w, ../img/wild/luskowiec-960.jpg 960w, ../img/wild/luskowiec.jpg 1400w"}, "jelenie": {"src": "../img/wild/jelenie.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/jelenie-480.jpg 480w, ../img/wild/jelenie-960.jpg 960w, ../img/wild/jelenie.jpg 1400w"}, "paw": {"src": "../img/wild/paw.jpg", "w": 1400, "h": 1000, "srcset": "../img/wild/paw-480.jpg 480w, ../img/wild/paw-960.jpg 960w, ../img/wild/paw.jpg 1400w"}, "wieloszpon": {"src": "../img/wild/wieloszpon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/wieloszpon-480.jpg 480w, ../img/wild/wieloszpon-960.jpg 960w, ../img/wild/wieloszpon.jpg 1400w"}, "kisciec": {"src": "../img/wild/kisciec.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/kisciec-480.jpg 480w, ../img/wild/kisciec-960.jpg 960w, ../img/wild/kisciec.jpg 1400w"}, "kurtaczek": {"src": "../img/wild/kurtaczek.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kurtaczek-480.jpg 480w, ../img/wild/kurtaczek-960.jpg 960w, ../img/wild/kurtaczek.jpg 1400w"}, "dzioborozec": {"src": "../img/wild/dzioborozec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dzioborozec-480.jpg 480w, ../img/wild/dzioborozec-960.jpg 960w, ../img/wild/dzioborozec.jpg 1400w"}, "sedziol": {"src": "../img/wild/sedziol.jpg", "w": 1077, "h": 1616, "srcset": "../img/wild/sedziol-480.jpg 480w, ../img/wild/sedziol-960.jpg 960w, ../img/wild/sedziol.jpg 1077w"}, "kroko": {"src": "../img/wild/kroko.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kroko-480.jpg 480w, ../img/wild/kroko-960.jpg 960w, ../img/wild/kroko.jpg 1400w"}, "zaba": {"src": "../img/wild/zaba.jpg", "w": 1400, "h": 1051, "srcset": "../img/wild/zaba-480.jpg 480w, ../img/wild/zaba-960.jpg 960w, ../img/wild/zaba.jpg 1400w"}, "swietliki": {"src": "../img/wild/swietliki.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/swietliki-480.jpg 480w, ../img/wild/swietliki-960.jpg 960w, ../img/wild/swietliki.jpg 1400w"}, "motyle": {"src": "../img/wild/motyle.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/motyle-480.jpg 480w, ../img/wild/motyle-960.jpg 960w, ../img/wild/motyle.jpg 1400w"}, "troides": {"src": "../img/wild/troides.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/troides-480.jpg 480w, ../img/wild/troides-960.jpg 960w, ../img/wild/troides.jpg 1400w"}, "czaple": {"src": "../img/wild/czaple.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/czaple-480.jpg 480w, ../img/wild/czaple-960.jpg 960w, ../img/wild/czaple.jpg 1400w"}, "kisciecann": {"src": "../img/wild/kisciecann.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kisciecann-480.jpg 480w, ../img/wild/kisciecann-960.jpg 960w, ../img/wild/kisciecann.jpg 1400w"}, "skamielinowiec": {"src": "../img/wild/skamielinowiec.jpg", "w": 673, "h": 677, "srcset": "../img/wild/skamielinowiec-480.jpg 480w, ../img/wild/skamielinowiec.jpg 673w"}};
+var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/duk-480.jpg 480w, ../img/wild/duk-960.jpg 960w, ../img/wild/duk.jpg 1400w"}, "dukc": {"src": "../img/wild/dukc.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dukc-480.jpg 480w, ../img/wild/dukc-960.jpg 960w, ../img/wild/dukc.jpg 1400w"}, "lutungb": {"src": "../img/wild/lutungb.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/lutungb-480.jpg 480w, ../img/wild/lutungb-960.jpg 960w, ../img/wild/lutungb.jpg 1400w"}, "lutungj": {"src": "../img/wild/lutungj.jpg", "w": 1400, "h": 1985, "srcset": "../img/wild/lutungj-480.jpg 480w, ../img/wild/lutungj-960.jpg 960w, ../img/wild/lutungj.jpg 1400w"}, "gibbon": {"src": "../img/wild/gibbon.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/gibbon-480.jpg 480w, ../img/wild/gibbon-960.jpg 960w, ../img/wild/gibbon.jpg 1400w"}, "rokselana": {"src": "../img/wild/rokselana.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rokselana-480.jpg 480w, ../img/wild/rokselana-960.jpg 960w, ../img/wild/rokselana.jpg 1400w"}, "kukang": {"src": "../img/wild/kukang.jpg", "w": 1300, "h": 1733, "srcset": "../img/wild/kukang-480.jpg 480w, ../img/wild/kukang-960.jpg 960w, ../img/wild/kukang.jpg 1300w"}, "slon": {"src": "../img/wild/slon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/slon-480.jpg 480w, ../img/wild/slon-960.jpg 960w, ../img/wild/slon.jpg 1400w"}, "niedzwm": {"src": "../img/wild/niedzwm.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwm-480.jpg 480w, ../img/wild/niedzwm-960.jpg 960w, ../img/wild/niedzwm.jpg 1400w"}, "niedzwiedz": {"src": "../img/wild/niedzwiedz.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwiedz-480.jpg 480w, ../img/wild/niedzwiedz-960.jpg 960w, ../img/wild/niedzwiedz.jpg 1400w"}, "gaur": {"src": "../img/wild/gaur.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/gaur-480.jpg 480w, ../img/wild/gaur-960.jpg 960w, ../img/wild/gaur.jpg 1400w"}, "luskowiec": {"src": "../img/wild/luskowiec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/luskowiec-480.jpg 480w, ../img/wild/luskowiec-960.jpg 960w, ../img/wild/luskowiec.jpg 1400w"}, "jelenie": {"src": "../img/wild/jelenie.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/jelenie-480.jpg 480w, ../img/wild/jelenie-960.jpg 960w, ../img/wild/jelenie.jpg 1400w"}, "paw": {"src": "../img/wild/paw.jpg", "w": 1400, "h": 1000, "srcset": "../img/wild/paw-480.jpg 480w, ../img/wild/paw-960.jpg 960w, ../img/wild/paw.jpg 1400w"}, "wieloszpon": {"src": "../img/wild/wieloszpon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/wieloszpon-480.jpg 480w, ../img/wild/wieloszpon-960.jpg 960w, ../img/wild/wieloszpon.jpg 1400w"}, "kisciec": {"src": "../img/wild/kisciec.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/kisciec-480.jpg 480w, ../img/wild/kisciec-960.jpg 960w, ../img/wild/kisciec.jpg 1400w"}, "kurtaczek": {"src": "../img/wild/kurtaczek.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kurtaczek-480.jpg 480w, ../img/wild/kurtaczek-960.jpg 960w, ../img/wild/kurtaczek.jpg 1400w"}, "dzioborozec": {"src": "../img/wild/dzioborozec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dzioborozec-480.jpg 480w, ../img/wild/dzioborozec-960.jpg 960w, ../img/wild/dzioborozec.jpg 1400w"}, "sedziol": {"src": "../img/wild/sedziol.jpg", "w": 1077, "h": 1616, "srcset": "../img/wild/sedziol-480.jpg 480w, ../img/wild/sedziol-960.jpg 960w, ../img/wild/sedziol.jpg 1077w"}, "kroko": {"src": "../img/wild/kroko.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kroko-480.jpg 480w, ../img/wild/kroko-960.jpg 960w, ../img/wild/kroko.jpg 1400w"}, "zaba": {"src": "../img/wild/zaba.jpg", "w": 1400, "h": 1051, "srcset": "../img/wild/zaba-480.jpg 480w, ../img/wild/zaba-960.jpg 960w, ../img/wild/zaba.jpg 1400w"}, "swietliki": {"src": "../img/wild/swietliki.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/swietliki-480.jpg 480w, ../img/wild/swietliki-960.jpg 960w, ../img/wild/swietliki.jpg 1400w"}, "motyle": {"src": "../img/wild/motyle.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/motyle-480.jpg 480w, ../img/wild/motyle-960.jpg 960w, ../img/wild/motyle.jpg 1400w"}, "troides": {"src": "../img/wild/troides.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/troides-480.jpg 480w, ../img/wild/troides-960.jpg 960w, ../img/wild/troides.jpg 1400w"}, "czaple": {"src": "../img/wild/czaple.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/czaple-480.jpg 480w, ../img/wild/czaple-960.jpg 960w, ../img/wild/czaple.jpg 1400w"}, "kisciecann": {"src": "../img/wild/kisciecann.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kisciecann-480.jpg 480w, ../img/wild/kisciecann-960.jpg 960w, ../img/wild/kisciecann.jpg 1400w"}, "skamielinowiec": {"src": "../img/wild/skamielinowiec.jpg", "w": 673, "h": 677, "srcset": "../img/wild/skamielinowiec-480.jpg 480w, ../img/wild/skamielinowiec.jpg 673w"}, "rudawka": {"src": "../img/wild/rudawka.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rudawka-480.jpg 480w, ../img/wild/rudawka-960.jpg 960w, ../img/wild/rudawka.jpg 1400w"}, "sokolyd": {"src": "../img/wild/sokolyd.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/sokolyd-480.jpg 480w, ../img/wild/sokolyd-960.jpg 960w, ../img/wild/sokolyd.jpg 1400w"}, "banteng": {"src": "../img/wild/banteng.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/banteng-480.jpg 480w, ../img/wild/banteng-960.jpg 960w, ../img/wild/banteng.jpg 1400w"}, "makakn": {"src": "../img/wild/makakn.jpg", "w": 1400, "h": 1005, "srcset": "../img/wild/makakn-480.jpg 480w, ../img/wild/makakn-960.jpg 960w, ../img/wild/makakn.jpg 1400w"}, "wielkolot": {"src": "../img/wild/wielkolot.jpg", "w": 1400, "h": 2100, "srcset": "../img/wild/wielkolot-480.jpg 480w, ../img/wild/wielkolot-960.jpg 960w, ../img/wild/wielkolot.jpg 1400w"}, "puong": {"src": "../img/wild/puong.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/puong-480.jpg 480w, ../img/wild/puong-960.jpg 960w, ../img/wild/puong.jpg 1400w"}, "kobra": {"src": "../img/wild/kobra.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/kobra-480.jpg 480w, ../img/wild/kobra-960.jpg 960w, ../img/wild/kobra.jpg 1400w"}, "zolwtcc": {"src": "../img/wild/zolwtcc.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/zolwtcc-480.jpg 480w, ../img/wild/zolwtcc-960.jpg 960w, ../img/wild/zolwtcc.jpg 1400w"}, "makakcg": {"src": "../img/wild/makakcg.jpg", "w": 1400, "h": 937, "srcset": "../img/wild/makakcg-480.jpg 480w, ../img/wild/makakcg-960.jpg 960w, ../img/wild/makakcg.jpg 1400w"}, "cattienlas": {"src": "../img/wild/cattienlas.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/cattienlas-480.jpg 480w, ../img/wild/cattienlas-960.jpg 960w, ../img/wild/cattienlas.jpg 1400w"}, "sontralas": {"src": "../img/wild/sontralas.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/sontralas-480.jpg 480w, ../img/wild/sontralas-960.jpg 960w, ../img/wild/sontralas.jpg 1400w"}, "rezusy": {"src": "../img/wild/rezusy.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rezusy-480.jpg 480w, ../img/wild/rezusy-960.jpg 960w, ../img/wild/rezusy.jpg 1400w"}, "phongnhagory": {"src": "../img/wild/phongnhagory.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/phongnhagory-480.jpg 480w, ../img/wild/phongnhagory-960.jpg 960w, ../img/wild/phongnhagory.jpg 1400w"}, "makakhl": {"src": "../img/wild/makakhl.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/makakhl-480.jpg 480w, ../img/wild/makakhl-960.jpg 960w, ../img/wild/makakhl.jpg 1400w"}};
 /* The wildlife subpage (stage 6, …/wildlife/): three tabs, On your route, Gallery and Field guide, each with its own address
    (wildView in wildpage.js). With the settings of a trip in the address it plans the same trip as the page with the route
    (engine.js) and says for each encounter whether its place is on the trip, in the day's plan and in the term; Dodaj goes
@@ -4582,11 +4615,12 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
     return '<img src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
       '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' loading="lazy" decoding="async">';
   }
-  // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame
+  // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame; id: a species, or
+  // a photo of the field guide's own (20.10.2026), named by its caption
   function photoBox(id, cls) {
-    if (SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
+    if (SP[id] && SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
     var crop = cls === 'w-card-photo' && WILD_CROPS[id];
-    return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id].name })) + '">' +
+    return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id] ? SP[id].name : caption(id) })) + '">' +
       img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : cls === 'w-row-photo' ? '96px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
   }
   function kind(k) { return '<span class="w-kind w-kind-' + k + '">' + esc(T('w.kind.' + k)) + '</span>'; }
@@ -4662,7 +4696,7 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
   function guideRow(r) {
     if (r.row) {
       var x = r.row;
-      if (x.kind === 'note') return '<li class="w-row w-note"><p><b>' + esc(x.name) + ':</b> ' + esc(tied(x.how)) + '</p></li>';
+      if (x.kind === 'note') return '<li class="w-row w-note' + (x.pic ? ' w-note-pic' : '') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '') + '<p><b>' + esc(x.name) + ':</b> ' + esc(tied(x.how)) + '</p></li>';
       return '<li class="w-row' + (x.pic ? '' : ' w-row-nopic') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '<span class="w-row-photo"></span>') +
         '<p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
         (x.when ? '<p class="w-muted">' + esc(T('w.when', { when: tied(x.when) })) + '</p>' : '') + '</div><p class="w-chance">' + chance(x.chance) + '</p></li>';
@@ -4884,14 +4918,16 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
   var opener = null;
+  // a species: its photo, names and sentence; a photo of the field guide's own (no species, 20.10.2026): its caption as the
+  // title, and only the author and the licence under it
   function openViewer(id, from) {
-    var x = SP[id], d = $('#w-viewer');
+    var x = SP[id] || { nophoto: false }, d = $('#w-viewer');
     opener = from;
     $('#wv-photo').innerHTML = x.nophoto ? '<div class="w-nophoto"><span>' + esc(T('w.nophoto')) + '</span></div>' : img(id, '(max-width: 900px) 100vw, 900px');
-    $('#wv-name').textContent = x.name + (x.alt ? ' (' + x.alt + ')' : '');
-    $('#wv-sci').innerHTML = esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '');
-    $('#wv-why').textContent = tied(x.why);
-    $('#wv-cap').innerHTML = x.nophoto ? '' : esc(caption(id)) + ' · ' + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
+    $('#wv-name').textContent = SP[id] ? x.name + (x.alt ? ' (' + x.alt + ')' : '') : caption(id);
+    $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
+    $('#wv-why').textContent = SP[id] ? tied(x.why) : '';
+    $('#wv-cap').innerHTML = x.nophoto ? '' : (SP[id] ? esc(caption(id)) + ' · ' : '') + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
     if (d.showModal) d.showModal(); else d.setAttribute('open', '');
   }
   function closeViewer() {
