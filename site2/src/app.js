@@ -309,7 +309,7 @@
      address, so the link works from the offline file too. */
   function wildLink(tab) { return SITE_URL + 'wildlife/#' + tab + '&' + pageHash(state.settings, lang, costs).slice(1); }
   function wildHere(id) {
-    return WILD_GUIDE_PLACES.indexOf(id) > -1 ? '<p class="stop-wild"><a href="' + esc(wildLink('guide-' + id)) + '">' + T('stop.wild') + '</a></p>' : '';
+    return WILD_GUIDE_PLACES.indexOf(id) > -1 ? '<p class="stop-wild"><a href="' + esc(wildLink('guide-' + id)) + '">' + esc(T('stop.wild')) + '</a></p>' : '';
   }
   // the printout names this route's address on the public page, in the page's view (as the copied plan does)
   function renderPrintLink() {

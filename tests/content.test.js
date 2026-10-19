@@ -753,6 +753,8 @@ contentCheck('wildlife interface', function (need) {
   // the note on a species without a photo says what is missing: a good photo on a free licence, not any photo at all (final
   // review of stage 6: photos of the saola and the Cao Vit gibbon exist, none on a licence the page can use)
   need(/wolnej licencji/.test(WUI.pl['w.nophoto']) && /freely licensed/.test(WUI.en['w.nophoto']), 'w.nophoto: no good photo on a free licence, in both languages');
+  // the page with the route puts its “Wildlife here →” through esc() like every text it inserts (final review of stage 6)
+  need(/esc\(T\('stop\.wild'\)\)/.test(readFile('site2/src/app.js')), 'app.js: the text of “Wildlife here →” through esc()');
   // keys built from a prefix: w.kind., w.chance., w.iucn., w.g.
   Object.keys(WUI.pl).forEach(function (k) {
     var prefix = /^w\.(kind|chance|iucn|g)\./.test(k);
