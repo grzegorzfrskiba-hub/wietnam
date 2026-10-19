@@ -109,6 +109,40 @@ function routeOrder(wild, onTrip) {
   return { on: sorted(ids.filter(onTrip)), off: sorted(ids.filter(function (id) { return !onTrip(id); })) };
 }
 
+/* ---------- the map of the subpage (19.10.2026, notes/plans/2026-10-19-mapa-zwierzat-projekt.md) ---------- */
+/* The places a species lights on the map: those of its encounters, in their order, once each, or of its home (a species of
+   the Gallery only: places of the field guide or points of WILD_SPOTS); [] for a species without a confirmed place.
+   sp: a species of WILD. */
+function speciesPlaces(sp) {
+  var out = [];
+  (sp.meet ? sp.meet.map(function (m) { return m.place; }) : sp.home || []).forEach(function (p) { if (out.indexOf(p) < 0) out.push(p); });
+  return out;
+}
+
+/* The map beside the tabs: countryMapAll (page.js) with the trip when there is one, a dot at every place of the field guide
+   (guide: their ids) and at every point beyond Route G (spots: ids of m.spots, WILD_SPOTS), in that order. Each dot also
+   says whether it is a point beyond Route G (spot) and whether its place is on the trip (trip; stays: tripStays, or null
+   without a trip). m: { frame, content, airports, spots }; content: the places' texts in the page's language.
+   Returns { w, h, segs, stays, dots: [{ id, x, y, left, spot, trip }] }. */
+function wildMapData(route, stays, guide, spots, m) {
+  var content = {};
+  Object.keys(m.content).forEach(function (id) { content[id] = m.content[id]; });
+  spots.forEach(function (id) { content[id] = m.spots[id]; });
+  var out = countryMapAll(route, guide.concat(spots), { frame: m.frame, content: content, airports: m.airports });
+  out.dots.forEach(function (d) { d.spot = spots.indexOf(d.id) > -1; d.trip = !!(stays && stays[d.id]); });
+  return out;
+}
+
+/* Which item of a list a line across the screen falls on, as the band of the list of the places off the trip lights its
+   row (scrollRow in app.js): the first item whose bottom is below the line, so the first while the list is still under
+   it and the last once the list is above it; -1 for no items. boxes: [{ top, bottom }] of the items in their order, in px
+   of the screen; line: its y. */
+function midItem(boxes, line) {
+  if (!boxes.length) return -1;
+  for (var i = 0; i < boxes.length; i++) if (boxes[i].bottom > line) return i;
+  return boxes.length - 1;
+}
+
 /* The encounters of the field guide's place p (finding 14): every encounter of a species there, in the order of WILD, then
    the guide's own rows. Returns [{ id, i } | { row }]: id and the index of its encounter, or the row of WILD_GUIDE. */
 function guideRows(wild, guide, p) {

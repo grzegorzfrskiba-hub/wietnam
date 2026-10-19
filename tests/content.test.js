@@ -607,7 +607,7 @@ contentCheck('wildlife', function (need) {
   var route = 0, gallery = 0;
   Object.keys(WILD).forEach(function (id) {
     var x = WILD[id], w = 'WILD.' + id;
-    Object.keys(x).forEach(function (k) { need(['name', 'alt', 'vn', 'lat', 'iucn', 'group', 'route', 'gallery', 'why', 'meet', 'nophoto'].indexOf(k) > -1, w + ': unknown field ' + k); });
+    Object.keys(x).forEach(function (k) { need(['name', 'alt', 'vn', 'lat', 'iucn', 'group', 'route', 'gallery', 'why', 'meet', 'nophoto', 'home'].indexOf(k) > -1, w + ': unknown field ' + k); });
     ['name', 'vn', 'lat', 'why'].forEach(function (k) { need(isText(x[k]), w + ': ' + k); });
     need(x.alt == null || isText(x.alt), w + ': alt');
     need(x.iucn == null || WILD_IUCN.indexOf(x.iucn) > -1, w + ': iucn ' + x.iucn);
@@ -659,6 +659,39 @@ contentCheck('wildlife', function (need) {
   Object.keys(WILD).forEach(function (id) { (WILD[id].meet || []).forEach(function (m) { need(WILD_GUIDE[m.place], 'WILD.' + id + ': ' + m.place + ' has no section in the field guide'); }); });
   need(WILD_AVOID.length === 5 && WILD_AVOID.every(isText), 'WILD_AVOID: five points (finding 15)');
   need(WILD_OUTSIDE.length === 5 && WILD_OUTSIDE.every(function (o) { return isText(o.name) && isText(o.text); }), 'WILD_OUTSIDE: five places (finding 15)');
+});
+
+/* The places of the map of the subpage (19.10.2026): a home only for a species of the Gallery without encounters, each of its
+   places a place of the field guide or a point of WILD_SPOTS, as the table of the research says („Mapa podstrony” in
+   research/zwierzeta-2026-10.md); the points inside the map of the country, at the research's coordinates; every place of
+   "Poza Route G" with its point; a place on the map for every species of the Gallery but the two the research has none for. */
+contentCheck('wildlife map', function (need) {
+  var res = readFile('research/zwierzeta-2026-10.md'), sec = res.slice(res.indexOf('## Mapa podstrony'));
+  sec = sec.slice(0, sec.indexOf('\n## ', 5));
+  var homes = {}, spots = {};
+  sec.split('\n').forEach(function (line) {
+    var h = /^\| [^|]*\(`(\w+)`[^|]*\) \| ([a-z, ]+|żadne) \|/.exec(line), p = /^\| [^|]*\(`(\w+)`\) \| ([\d,]+) N, ([\d,]+) E \|/.exec(line);
+    if (h) homes[h[1]] = h[2] === 'żadne' ? [] : h[2].split(', ');
+    if (p) spots[p[1]] = [parseFloat(p[2].replace(',', '.')), parseFloat(p[3].replace(',', '.'))];
+  });
+  need(Object.keys(homes).length === 9 && Object.keys(spots).length === 5, 'the research: 9 species and 5 points in „Mapa podstrony”, not ' + Object.keys(homes).length + ' and ' + Object.keys(spots).length);
+  Object.keys(WILD).forEach(function (id) {
+    var x = WILD[id], w = 'WILD.' + id;
+    if (x.home === undefined) return;
+    need(!x.meet && x.gallery && Array.isArray(x.home) && x.home.length > 0, w + ': home only for a species of the Gallery without encounters, with a place');
+    x.home.forEach(function (p) { need(WILD_GUIDE[p] || WILD_SPOTS[p], w + ': ' + p + ' is no place of the field guide and no point of WILD_SPOTS'); });
+  });
+  Object.keys(homes).forEach(function (id) { need(WILD[id] && JSON.stringify(WILD[id].home || []) === JSON.stringify(homes[id]), 'WILD.' + id + ': home as the research says, ' + JSON.stringify(homes[id])); });
+  var f = COUNTRY_MAP;
+  need(JSON.stringify(Object.keys(WILD_SPOTS)) === JSON.stringify(Object.keys(spots)), 'WILD_SPOTS: the points of the research, in its order');
+  Object.keys(WILD_SPOTS).forEach(function (k) {
+    var s = WILD_SPOTS[k];
+    need(isText(s.short) && JSON.stringify(s.pt) === JSON.stringify(spots[k]), 'WILD_SPOTS.' + k + ': a name and the research\u2019s coordinates');
+    need(s.pt[0] < f.lat0 && s.pt[0] > f.lat1 && s.pt[1] > f.lon0 && s.pt[1] < f.lon1, 'WILD_SPOTS.' + k + ': inside the map of the country');
+  });
+  need(WILD_OUTSIDE.every(function (o) { return WILD_SPOTS[o.spot] && WILD_SPOTS[o.spot].short === o.name; }), 'WILD_OUTSIDE: each place with its point of WILD_SPOTS, of the same name');
+  var none = Object.keys(WILD).filter(function (id) { return WILD[id].gallery && !speciesPlaces(WILD[id]).length; });
+  need(JSON.stringify(none) === '["troides","saola"]', 'a place on the map for every species of the Gallery but the golden birdwing and the saola, not ' + none.join(', '));
 });
 
 /* Its texts in both languages (finding 19): every text of wild.js and wildphotos.js in English (en/wild.js, en/wildphotos.js),

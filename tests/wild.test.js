@@ -92,3 +92,24 @@ eq(routeOrder(W, null), { on: [], off: ['b', 'c', 'e', 'a'] }, 'routeOrder witho
 eq(routeOrder(W, function (id) { return W[id].meet.some(function (m) { return m.place === 'cattien'; }); }), { on: ['c', 'a'], off: ['b', 'e'] }, 'routeOrder with a trip: on it first');
 eq(guideRows(W, { cattien: { rows: [{ name: 'x' }] } }, 'cattien'), [{ id: 'a', i: 0 }, { id: 'c', i: 0 }, { row: { name: 'x' } }], 'guideRows: the encounters, then the guide’s rows');
 print('order ok');
+
+/* ---------- the map of the subpage (19.10.2026) ---------- */
+// the places a species lights: its encounters' places once each, else its home; none for the two without a confirmed place
+eq([speciesPlaces(WILD.lutungb), speciesPlaces(WILD.niedzwiedz), speciesPlaces(WILD.kukang), speciesPlaces(WILD.rokselana), speciesPlaces(WILD.skamielinowiec), speciesPlaces(WILD.troides), speciesPlaces(WILD.saola)],
+  [['ninhbinh', 'cucphuong'], ['cucphuong', 'cattien'], ['cattien', 'cucphuong'], ['khauca'], ['phongnha'], [], []], 'speciesPlaces: the encounters, else the home, else none');
+eq(speciesPlaces({ meet: [{ place: 'cattien' }, { place: 'cattien' }, { place: 'yokdon' }], home: ['danang'] }), ['cattien', 'yokdon'], 'speciesPlaces: each place once, the encounters before a home');
+var GP = Object.keys(WILD_GUIDE), SPOTS = Object.keys(WILD_SPOTS), MM = { frame: COUNTRY_MAP, content: CONTENT, airports: AIRPORTS, spots: WILD_SPOTS };
+var m0 = wildMapData(null, null, GP, SPOTS, MM), m2 = wildMapData(T2.route, T2.stays, GP, SPOTS, MM);
+eq([m0.w, m0.h, m0.segs.length, m0.stays.length, m0.dots.map(function (d) { return d.id; })], [340, 667, 0, 0, GP.concat(SPOTS)],
+  'wildMapData without a trip: the frame of the country, no legs and no stays, a dot at every place of the guide, then every point beyond Route G');
+eq([m0.dots.map(function (d) { return d.spot; }), m0.dots.some(function (d) { return d.trip; })], [GP.map(function () { return false; }).concat(SPOTS.map(function () { return true; })), false],
+  'wildMapData: the points beyond Route G marked, no place on a trip without one');
+ok(m0.dots.every(function (d) { return d.x > 0 && d.x < m0.w && d.y > 0 && d.y < m0.h; }), 'wildMapData: every dot inside the map');
+eq([m2.segs.length > 0, m2.stays.length, m2.dots.filter(function (d) { return d.trip; }).map(function (d) { return d.id; })], [true, T2.route.stops.length, GP.filter(function (p) { return !!T2.stays[p]; })],
+  'wildMapData with a trip: its legs and stays, the places on it marked');
+var dotOf = function (id) { return m0.dots.filter(function (d) { return d.id === id; })[0]; }, hg = countryMapAll(null, ['hagiang'], MM).dots[0];
+ok(dotOf('khauca').x > hg.x && Math.abs(dotOf('khauca').y - hg.y) < 3, 'Khau Ca a little east of Hà Giang, 15–20 km (research, „Mapa podstrony”)');
+var B = [{ top: 100, bottom: 200 }, { top: 210, bottom: 300 }, { top: 310, bottom: 400 }];
+eq([midItem([], 100), midItem(B, 50), midItem(B, 150), midItem(B, 250), midItem(B, 350), midItem(B, 900)], [-1, 0, 0, 1, 2, 2],
+  'midItem: the item across the line, the first while the list is under it, the last once it is above');
+print('map ok');

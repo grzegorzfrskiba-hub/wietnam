@@ -4,6 +4,9 @@
    gallery (a tile in the Gallery), why, meet (only with route): { place, kind, where, chance, chanceNote?, when, months,
    season?, plan }; plan: the day plans of the place, as [p, version] ('' the usual one, 'easy', 'hard', 'solo'), whose
    text names the encounter, or null.
+   home (a species of the Gallery only, without meet): the places its tile lights on the map of the subpage, places of the
+   field guide or points beyond Route G of WILD_SPOTS; none where the research confirms no place (the map of the subpage,
+   research/zwierzeta-2026-10.md, „Mapa podstrony”).
    Facts and sources: research/zwierzeta-2026-10.md; the bar-bellied pitta, the red-headed trogon, the great hornbill, the mossy
    frog and the golden birdwing: the gallery research of 16.10.2026. */
 var WILD = {
@@ -116,32 +119,32 @@ var WILD = {
         when: 'od VIII do I, w porze lęgów; od ok. 16:00 do zmierzchu', months: [8, 9, 10, 11, 12, 1], season: 'od VIII do I', plan: null }
     ] },
   // only in the Gallery
-  kukang: { name: 'Kukang mały', alt: 'lori mały', vn: 'cu li nhỏ', lat: 'Xanthonycticebus pygmaeus', iucn: 'EN', group: 'primates', route: false, gallery: true,
+  kukang: { name: 'Kukang mały', alt: 'lori mały', vn: 'cu li nhỏ', lat: 'Xanthonycticebus pygmaeus', iucn: 'EN', group: 'primates', route: false, gallery: true, home: ['cattien', 'cucphuong'],
     why: 'Ma jadowite ugryzienie: wydzielina z gruczołów na łokciach miesza się ze śliną.' },
-  niedzwm: { name: 'Niedźwiedź malajski', vn: 'gấu chó', lat: 'Helarctos malayanus', iucn: 'VU', group: 'mammals', route: false, gallery: true,
+  niedzwm: { name: 'Niedźwiedź malajski', vn: 'gấu chó', lat: 'Helarctos malayanus', iucn: 'VU', group: 'mammals', route: false, gallery: true, home: ['cucphuong', 'cattien'],
     why: 'Najmniejszy niedźwiedź świata, ok. 70 cm w kłębie. Bardzo długim językiem wyjada owady i miód.' },
-  kurtaczek: { name: 'Kurtaczek prążkowany', vn: 'đuôi cụt bụng vằn', lat: 'Hydrornis elliotii', iucn: 'LC', group: 'birds', route: false, gallery: true,
+  kurtaczek: { name: 'Kurtaczek prążkowany', vn: 'đuôi cụt bụng vằn', lat: 'Hydrornis elliotii', iucn: 'LC', group: 'birds', route: false, gallery: true, home: ['cattien'],
     why: 'Samiec ma ciemnozielony grzbiet, żółto-czarne prążki od spodu i granatową plamę na brzuchu. Żyje tylko w Wietnamie, Laosie, Kambodży i południowo-wschodniej Tajlandii, a pokarmu szuka w leśnej ściółce.' },
-  wieloszpon: { name: 'Wieloszpon wietnamski', vn: 'gà tiền mặt đỏ', lat: 'Polyplectron germaini', iucn: 'VU', group: 'birds', route: false, gallery: true,
+  wieloszpon: { name: 'Wieloszpon wietnamski', vn: 'gà tiền mặt đỏ', lat: 'Polyplectron germaini', iucn: 'VU', group: 'birds', route: false, gallery: true, home: ['cattien'],
     why: 'Żyje tylko na południu Indochin.' },
-  sedziol: { name: 'Sędzioł czerwonogłowy', vn: 'nuốc bụng đỏ', lat: 'Harpactes erythrocephalus', iucn: 'LC', group: 'birds', route: false, gallery: true,
+  sedziol: { name: 'Sędzioł czerwonogłowy', vn: 'nuốc bụng đỏ', lat: 'Harpactes erythrocephalus', iucn: 'LC', group: 'birds', route: false, gallery: true, home: ['cucphuong'],
     why: 'Samiec ma karminową głowę i pierś z wąskim białym paskiem, samica oliwkowobrązową głowę. Lasy Wietnamu wydają się jego ostoją, a w Cúc Phương można go spotkać na szlaku do drzewa Đăng.' },
-  dzioborozec: { name: 'Dzioborożec wielki', vn: 'hồng hoàng', lat: 'Buceros bicornis', iucn: 'VU', group: 'birds', route: false, gallery: true,
+  dzioborozec: { name: 'Dzioborożec wielki', vn: 'hồng hoàng', lat: 'Buceros bicornis', iucn: 'VU', group: 'birds', route: false, gallery: true, home: ['cattien'],
     why: 'Ma ok. 1,5 m rozpiętości skrzydeł i żółto-czarny hełm na dziobie; łopot jego skrzydeł słychać z daleka. Samica siedzi w zamurowanej dziupli, a samiec karmi ją przez szczelinę.' },
-  zaba: { name: 'Żaba mszysta', vn: 'ếch cây sần Bắc Bộ', lat: 'Theloderma corticale', iucn: 'LC', group: 'reptiles', route: false, gallery: true,
+  zaba: { name: 'Żaba mszysta', vn: 'ếch cây sần Bắc Bộ', lat: 'Theloderma corticale', iucn: 'LC', group: 'reptiles', route: false, gallery: true, home: ['cucphuong'],
     why: 'Zielono-brązowa, guzowata skóra wygląda jak mech na skale. Przestraszona zwija się w kulkę i udaje martwą; w Cúc Phương to jeden z prawie 50 gatunków płazów.' },
   troides: { name: 'Troides aeacus', vn: 'bướm cánh chim vàng', lat: 'Troides aeacus', iucn: 'LC', group: 'insects', route: false, gallery: true,
     why: 'W Indiach i Chinach to największy motyl: rozpiętość skrzydeł zwykle 15–17 cm, rekord 19,4 cm. Samiec ma czarne przednie skrzydła i jaskrawożółte tylne, a handel nim ogranicza konwencja CITES.' },
   // the legends: in the Gallery, with a plain word that a traveller will not see them
-  rokselana: { name: 'Rokselana zadartonosa', vn: 'voọc mũi hếch', lat: 'Rhinopithecus avunculus', iucn: 'CR', group: 'legends', route: false, gallery: true,
+  rokselana: { name: 'Rokselana zadartonosa', vn: 'voọc mũi hếch', lat: 'Rhinopithecus avunculus', iucn: 'CR', group: 'legends', route: false, gallery: true, home: ['khauca'],
     why: 'Ma niebieską twarz i zadarty nos. W Khau Ca żyje szacunkowo 104–130 osobników w dwóch grupach (koniec 2025); turysta praktycznie jej nie zobaczy.' },
   saola: { name: 'Saola', vn: 'sao la', lat: 'Pseudoryx nghetinhensis', iucn: 'CR', group: 'legends', route: false, gallery: true, nophoto: true,
     why: 'Opisana dopiero w 1993 r. Naukowcy nigdy nie widzieli jej na wolności, a ostatni pewny ślad to zdjęcie z fotopułapki z 2013 r.' },
-  gibbonr: { name: 'Gibboniec reliktowy', alt: 'gibon Cao vit', vn: 'vượn Cao vít', lat: 'Nomascus nasutus', iucn: 'CR', group: 'legends', route: false, gallery: true, nophoto: true,
+  gibbonr: { name: 'Gibboniec reliktowy', alt: 'gibon Cao vit', vn: 'vượn Cao vít', lat: 'Nomascus nasutus', iucn: 'CR', group: 'legends', route: false, gallery: true, nophoto: true, home: ['trungkhanh'],
     why: 'Uznany za wymarły, odnaleziony w 2002 r. w Trùng Khánh. Dziś ok. 74 osobniki w 11 grupach przy granicy z Chinami; wycieczek do nich nie ma.' },
-  kisciecann: { name: 'Kiściec annamski', vn: 'gà lôi lam mào trắng', lat: 'Lophura edwardsi', iucn: 'CR', group: 'legends', route: false, gallery: true,
+  kisciecann: { name: 'Kiściec annamski', vn: 'gà lôi lam mào trắng', lat: 'Lophura edwardsi', iucn: 'CR', group: 'legends', route: false, gallery: true, home: ['bachma'],
     why: 'BirdLife uznaje go za możliwie wymarłego na wolności. W Bạch Mã park wypuszcza ptaki z hodowli, ale szansa, że zobaczy je turysta, jest mała.' },
-  skamielinowiec: { name: 'Skamielinowiec laotański', vn: 'chuột đá Trường Sơn', lat: 'Laonastes aenigmamus', group: 'legends', route: false, gallery: true,
+  skamielinowiec: { name: 'Skamielinowiec laotański', vn: 'chuột đá Trường Sơn', lat: 'Laonastes aenigmamus', group: 'legends', route: false, gallery: true, home: ['phongnha'],
     why: '„Żywa skamieniałość” z rodziny uznanej za wymarłą 11 mln lat temu. W Phong Nha to najczęstsze zwierzę na fotopułapkach, ale turysta go nie zobaczy.' }
 };
 
@@ -187,11 +190,22 @@ var WILD_AVOID = [
   'Miejsc, które pozwalają przytulać zwierzęta, karmić je z ręki albo robić sobie z nimi zdjęcia: prawdziwe ośrodki ratowania nie pozwalają ich dotykać.'
 ];
 
-// "Poza Route G": five places, one sentence each, shown after the name and a colon
+/* The points beyond Route G on the map of the subpage (the map of the subpage, decision 7): where a legend lives and the
+   places of "Poza Route G", a grey dot only while lit; short: the name on the map, the same in English; pt: [lat, lon] from
+   research/zwierzeta-2026-10.md, „Mapa podstrony”. */
+var WILD_SPOTS = {
+  khauca: { short: 'Khau Ca', pt: [22.84, 105.12] },
+  trungkhanh: { short: 'Trùng Khánh', pt: [22.85, 106.72] },
+  bachma: { short: 'Bạch Mã', pt: [16.2, 107.87] },
+  condao: { short: 'Côn Đảo', pt: [8.69, 106.63] },
+  tramchim: { short: 'Tràm Chim', pt: [10.73, 105.52] }
+};
+
+// "Poza Route G": five places, one sentence each, and the point of each on the map (spot, WILD_SPOTS), shown after the name and a colon
 var WILD_OUTSIDE = [
-  { name: 'Khau Ca', text: 'rokselany zadartonose, szacunkowo 104–130 w dwóch grupach (koniec 2025); tylko wyprawa z pozwoleniem i 2–3 h marszu, a szansa i tak prawie żadna.' },
-  { name: 'Trùng Khánh', text: 'gibbońce reliktowe przy Bản Giốc w Cao Bằng, ok. 74 w 11 grupach; wycieczek do nich nie ma.' },
-  { name: 'Bạch Mã', text: '363 gatunki ptaków, kiściec annamski z hodowli wypuszczany do lasu i ok. 6 grup duków; droga na szczyt jest przerwana od X 2025.' },
-  { name: 'Côn Đảo', text: 'żółwie zielone składają jaja w IV–X, najwięcej w VI–X; tylko na wycieczce z pracownikami stacji ochrony żółwi, w małych grupach.' },
-  { name: 'Tràm Chim', text: 'żurawie indyjskie z Tajlandii w zagrodach do rozrodu (2026); o dzikich źródła milczą, a czy turysta zobaczy ptaki w zagrodach, nie wiadomo.' }
+  { name: 'Khau Ca', spot: 'khauca', text: 'rokselany zadartonose, szacunkowo 104–130 w dwóch grupach (koniec 2025); tylko wyprawa z pozwoleniem i 2–3 h marszu, a szansa i tak prawie żadna.' },
+  { name: 'Trùng Khánh', spot: 'trungkhanh', text: 'gibbońce reliktowe przy Bản Giốc w Cao Bằng, ok. 74 w 11 grupach; wycieczek do nich nie ma.' },
+  { name: 'Bạch Mã', spot: 'bachma', text: '363 gatunki ptaków, kiściec annamski z hodowli wypuszczany do lasu i ok. 6 grup duków; droga na szczyt jest przerwana od X 2025.' },
+  { name: 'Côn Đảo', spot: 'condao', text: 'żółwie zielone składają jaja w IV–X, najwięcej w VI–X; tylko na wycieczce z pracownikami stacji ochrony żółwi, w małych grupach.' },
+  { name: 'Tràm Chim', spot: 'tramchim', text: 'żurawie indyjskie z Tajlandii w zagrodach do rozrodu (2026); o dzikich źródła milczą, a czy turysta zobaczy ptaki w zagrodach, nie wiadomo.' }
 ];

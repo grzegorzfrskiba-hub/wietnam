@@ -608,6 +608,8 @@ var leftOnes = countryMapAll(tA.r, Object.keys(CONTENT), CM).dots.filter(functio
 eq(leftOnes, Object.keys(CONTENT).filter(function (id) { return (CONTENT[id].pt[1] - 101.9) * CS + BIG_NAME_GAP + textWidth(CONTENT[id].short, BIG_NAME_PX) > 340; }),
   'countryMapAll: a name goes on the left exactly where it would cross the right edge');
 ok(leftOnes.length > 0 && leftOnes.length < Object.keys(CONTENT).length, 'countryMapAll: some names on the left, most on the right (' + leftOnes.join(', ') + ')');
+var noTrip = countryMapAll(null, offIds, CM);
+eq([noTrip.w, noTrip.h, noTrip.segs, noTrip.stays, noTrip.dots], [all.w, all.h, [], [], all.dots], 'countryMapAll without a trip (the wildlife subpage): the same dots, no legs and no stays');
 ok(/\n\/\* The outline of Vietnam[^\n]*\n[^\n]*\*\/\nvar OUTLINE = "M[-\d. Mz]+";\n$/.test(readFile('site2/src/basemap.js')), 'basemap.js ends with the outline of Vietnam (geo/make_basemap.py)');
 print('map ok');
 
