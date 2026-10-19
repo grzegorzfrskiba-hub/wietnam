@@ -7,6 +7,7 @@
 - **dane i czyste funkcje mapy:** miejsca gatunków z Galerii bez spotkań (`home`) i punkty poza Route G (`WILD_SPOTS`) według researchu, `speciesPlaces`, `wildMapData`, `midItem`;
 - **mapa na podstronie:** obok zakładek od 1101 px, węziej pasmo nad nimi; zapalanie przy przewijaniu, kursorze i klawiaturze; podpis z dniami na trasie; kropka obwodzi swoje karty i przewija do pierwszej; mapa w wydruku;
 - **duże karty:** jedna w rzędzie, zdjęcie na szerokość kolumny w kadrze, który nie ucina zwierzęcia; „gdzie” i „kiedy” zwinięte; karty łagodnie wjeżdżają na ekran;
+- **miniaturki w przewodniku:** każdy wiersz gatunku i pięć wierszy samego przewodnika ze zdjęciem, które otwiera podgląd (uwaga użytkownika po suchej próbie: żadnego suchego tekstu, strona ma być jak atlas zwierząt); pozostałe 14 wierszy dostanie zdjęcia z Commons w osobnym kroku po tym planie (wybór użytkownika, pobranie za zgodą);
 - na końcu punkt kontrolny, końcowy przegląd świeżego recenzenta, publikacja za zgodą i notatki.
 
 **Architektura:**
@@ -21,7 +22,7 @@
 **Specyfikacja:**
 - [notes/plans/2026-10-19-mapa-zwierzat-projekt.md](2026-10-19-mapa-zwierzat-projekt.md): opis projektu przyjęty przez użytkownika 19.10.2026 (ustalenia 1–26, odpowiedzi po przeglądzie opisu w ustaleniu 7);
 - [research/zwierzeta-2026-10.md](../../research/zwierzeta-2026-10.md), sekcja „Mapa podstrony: miejsca gatunków z Galerii i punkty poza Route G (19.10.2026)”: miejsca 9 gatunków i współrzędne 5 punktów, ze źródłami;
-- sucha próba obejrzana przez użytkownika w przeglądarce 19.10.2026 i przyjęta („jest super. tak ma działać”); ten plan odtwarza ją krok po kroku.
+- sucha próba obejrzana przez użytkownika w przeglądarce 19.10.2026 i przyjęta („jest super. tak ma działać”), z jedną uwagą: w przewodniku brakowało zdjęć; miniaturki ze zdjęć, które już są, to zadanie 5 (wybór „Dwa kroki”), a zdjęcia do pozostałych wierszy to osobny krok po planie; ten plan odtwarza suchą próbę krok po kroku.
 
 ## Ograniczenia globalne
 
@@ -41,7 +42,7 @@ Dotyczą każdego zadania.
 - **Ruch:** przy `prefers-reduced-motion: reduce` nic nie wjeżdża i nic nie pulsuje; wydruk pokazuje wszystko.
 - **`noindex` zostaje** na obu stronach (`NOINDEX = True` w `site2/build.py`).
 - **Testy:** `bash tests/run.sh` kończy się `ALL PASS` po każdym zadaniu; pełny test (`--full`) w punkcie kontrolnym. `tests/run.sh` zatrzymuje się na pierwszym pliku testów z błędem, więc krok 2 pokazuje też błąd samego nowego testu przez `jsc.sh` (zadanie 1).
-- **Commity:** jeden na zadanie 2–4, pliki po nazwie (`git add <pliki>`), opis po polsku, na końcu `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. `git push` tylko za zgodą użytkownika (zadania 7 i 8).
+- **Commity:** jeden na zadanie 2–5, pliki po nazwie (`git add <pliki>`), opis po polsku, na końcu `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. `git push` tylko za zgodą użytkownika (zadania 8 i 9).
 - **Repo jest publiczne:** do commita nie trafiają dane osobowe ani linki z terminami znajomych.
 
 ## Na co uważać przy przeglądzie
@@ -51,11 +52,11 @@ Pięć sytuacji, w których mapa najłatwiej zawiedzie odwiedzającego, a który
 1. **Przewijanie na telefonie, pod pasmem z mapą.**
    - Ryzyko: zapala się karta schowana pod pasmem albo pierwsza na stronie, a nie ta, którą widać.
    - Oczekiwane: poniżej 1101 px liczy się środek części ekranu pod pasmem; zanim lista tam dojedzie, pierwsza pozycja, za nią ostatnia.
-   - Sprawdzenie: sonda `wildmap.js` przy 320 i 390 px we wszystkich zakładkach (zadanie 3), ręcznie na telefonie w punkcie kontrolnym (zadanie 5, krok 6).
+   - Sprawdzenie: sonda `wildmap.js` przy 320 i 390 px we wszystkich zakładkach (zadanie 3), ręcznie na telefonie w punkcie kontrolnym (zadanie 6, krok 6).
 2. **Mysz, palec i klawiatura.**
    - Ryzyko: tknięcie palcem „przykleja” zapalenie do miejsca tknięcia, a przewijanie przestaje zmieniać mapę; kursor nad odstępem między kartami gasi mapę.
    - Oczekiwane: tylko mysz (`pointerType === 'mouse'`) zapala pozycję pod kursorem; poza pozycją i poza zakładkami liczy się środek ekranu; Tab na pozycji zapala ją.
-   - Sprawdzenie: sonda `wildmap.js` (mysz na karcie, mysz poza zakładkami), ręcznie na telefonie i klawiaturą (zadanie 5, krok 6).
+   - Sprawdzenie: sonda `wildmap.js` (mysz na karcie, mysz poza zakładkami), ręcznie na telefonie i klawiaturą (zadanie 6, krok 6).
 3. **Gatunek bez miejsca i legenda poza trasą.**
    - Ryzyko: kafelek Troides albo saoli zostawia zapalone miejsca poprzedniego rzędu, a szara kropka legendy zostaje na mapie po przewinięciu dalej.
    - Oczekiwane: rząd samych gatunków bez miejsca gasi kropki i mówi „Bez potwierdzonego miejsca do pokazania na mapie.”; szare punkty widać tylko zapalone.
@@ -71,7 +72,7 @@ Pięć sytuacji, w których mapa najłatwiej zawiedzie odwiedzającego, a który
 
 ## Kontekst dla wykonawcy
 
-- **Gałąź suchej próby `sucha-proba-mapa`** (commity w repo): `e984454` research (na `main` jako osobny commit przed planem), `eb07ec2` zadanie 2, `91e47ad` zadanie 3, `4ee09d5` zadanie 4. Po każdym zadaniu `git diff <commit suchej próby> HEAD -- site2 tests tools` nic nie wypisuje.
+- **Gałąź suchej próby `sucha-proba-mapa`** (commity w repo): `e984454` research (na `main` jako osobny commit `aa6ec25` przed planem), `eb07ec2` zadanie 2, `6e6e360` zadanie 3, `3a8762e` zadanie 4, `6a249b1` zadanie 5. Po każdym zadaniu `git diff <commit suchej próby> HEAD -- site2 tests tools` nic nie wypisuje.
 - **Mapa strony z trasą, na której wzorowana jest mapa podstrony:** `renderBigMap`, `lightBig`, `scrollRow`, `middleLine`, `bindBigMap` w `site2/src/app.js`; style `.off-big` i `.bm-*` w `site2/src/template.html`. Podstrona ma własną kopię stylów `.bm-*` w `wild.html` (build kopiuje z `template.html` tylko tokeny `:root`).
 - **Podstrona:** `site2/src/wild.html` (szablon i style), `wildapp.js` (logika z DOM), `wildpage.js` (czyste funkcje), `wild.js` z `en/wild.js` (dane), `wildphotos.js` z `en/wildphotos.js`, `wildui.js` z `en/wildui.js`; `build.py` buduje `site2/out/pages/wildlife/index.html` (`WILD_SCRIPTS`).
 - **Sondy:** `PAGE=wildlife bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<link>'`; ramka 900 px wysokości; Chrome bez okna nie uruchamia IntersectionObserver i przejść CSS nie trzeba w nim czekać (sonda `wildmap.js` wyłącza przejścia).
@@ -83,7 +84,7 @@ Pięć sytuacji, w których mapa najłatwiej zawiedzie odwiedzającego, a który
 
 ## Struktura plików
 
-- Zmień: `site2/src/page.js` (`countryMapAll` bez trasy), `site2/src/wildpage.js` (cztery funkcje), `site2/src/wild.js` (`home`, `WILD_SPOTS`, `spot`), `site2/src/wildphotos.js` (`WILD_CROPS`), `site2/src/wildapp.js` (mapa, zapalanie, karty, wjeżdżanie, wydruk), `site2/src/wild.html` (układ i style), `site2/src/wildui.js` i `site2/src/en/wildui.js` (trzy teksty), `site2/build.py` (`WILD_SCRIPTS`).
+- Zmień: `site2/src/page.js` (`countryMapAll` bez trasy), `site2/src/wildpage.js` (cztery funkcje), `site2/src/wild.js` (`home`, `WILD_SPOTS`, `spot`, `pic` przy wierszach przewodnika), `site2/src/wildphotos.js` (`WILD_CROPS`), `site2/src/wildapp.js` (mapa, zapalanie, karty, wjeżdżanie, wydruk, miniaturki przewodnika), `site2/src/wild.html` (układ i style), `site2/src/wildui.js` i `site2/src/en/wildui.js` (trzy teksty), `site2/build.py` (`WILD_SCRIPTS`).
 - Testy: `tests/wild.test.js`, `tests/page.test.js`, `tests/content.test.js`, `tests/probes/wild.js`; nowa sonda `tests/probes/wildmap.js`.
 - Bez zmian: silnik, dane tras, `app.js`, `template.html`, zdjęcia, research (zmieniony w commicie researchu przed planem).
 
@@ -589,13 +590,28 @@ Ustalenia 1–8, 16–18 (mapa i ruch kropek), 21–23 (pasmo i wydruk) i 24 (so
 
 **Pliki:**
 - Zmień: `site2/build.py`, `site2/src/en/wildui.js`, `site2/src/wild.html`, `site2/src/wildapp.js`, `site2/src/wildpage.js`, `site2/src/wildui.js`
-- Testy: `tests/probes/wildmap.js`, `tests/wild.test.js`
+- Testy: `tests/probes/wild.js`, `tests/probes/wildmap.js`, `tests/wild.test.js`
 
 **Interfejsy:**
 - Bierze: `speciesPlaces`, `wildMapData`, `midItem`, `WILD_SPOTS`, `WILD_OUTSIDE[i].spot` (zadanie 2).
 - Daje: `labelSides([{ id, x, y, left, w }], gap, width, h) → { id: left }`; w `wildapp.js` `mapEls()` (elementy otwartej zakładki: karty, kafelki albo miejsca i ramki przewodnika), `all(sel)`, `lightNow()` (zadanie 4 dopisuje wjeżdżanie obok nich); klasa `w-out` na ramce „Poza Route G”.
 
 - [ ] **Krok 1: Testy, które nie przechodzą**
+
+W `tests/probes/wild.js` zamień:
+
+```js
+    check('the place of the guide on the screen', Math.abs(sec.getBoundingClientRect().top) < 60, sec.getBoundingClientRect().top);
+```
+
+na:
+
+```js
+    // under the band with the map below 1101 px (the map of the subpage, 19.10.2026), at the top of the screen above it; the
+    // fonts load after the page has moved there, so the text above it may still shrink by about 30 px in headless Chrome
+    var band = innerWidth <= 1100 && document.getElementById('w-map') ? document.getElementById('w-map').getBoundingClientRect().bottom : 0;
+    check('the place of the guide on the screen' + (band ? ', under the band' : ''), Math.abs(sec.getBoundingClientRect().top - band) < 60, Math.round(sec.getBoundingClientRect().top) + ' / ' + Math.round(band));
+```
 
 Utwórz `tests/probes/wildmap.js`:
 
@@ -838,6 +854,9 @@ na:
 .w-map { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; margin: -8px 0 12px; padding: 6px 0;
   background: var(--paper); border-bottom: 1px solid var(--line); }
 .w-map svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
+/* a place of the field guide or a card the page brings to the top (a link with #guide-<place>, a name in the guide) stands
+   under the band, not behind it */
+@media (max-width: 1100px) { .w-place, .w-card { scroll-margin-top: 210px; } }
 .w-map-cap { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .w-map-names { display: flex; flex-direction: column; gap: 2px; font-weight: 600; font-size: 15px; line-height: 1.35; }
 .w-map-names:empty { display: none; }
@@ -1177,7 +1196,7 @@ Oczekiwane: `ALL PASS`; grep nic nie wypisuje; trzy razy `done, all checks ok`.
 - [ ] **Krok 5: Commit**
 
 ```bash
-git add site2/build.py site2/src/en/wildui.js site2/src/wild.html site2/src/wildapp.js site2/src/wildpage.js site2/src/wildui.js tests/probes/wildmap.js tests/wild.test.js
+git add site2/build.py site2/src/en/wildui.js site2/src/wild.html site2/src/wildapp.js site2/src/wildpage.js site2/src/wildui.js tests/probes/wild.js tests/probes/wildmap.js tests/wild.test.js
 git commit -q -F - <<'EOF'
 Mapa kraju na podstronie zwierząt: przyklejona obok zakładek od 1101 px, węziej pasmo nad nimi; kropki miejsc przewodnika (pierścień dla miejsca poza trasą), trasa i szare punkty poza Route G; w każdej zakładce rząd kart, kafelków albo miejsce na środku ekranu (albo pod myszą) zapala swoje miejsca, a podpis podaje ich nazwy z dniami na trasie; kropka obwodzi swoje karty i po kliknięciu przewija do pierwszej; w wydruku mapa raz, z nazwami wszystkich miejsc; labelSides rozsuwa bliskie nazwy; sonda wildmap.js
 
@@ -1186,7 +1205,7 @@ EOF
 git status --short
 ```
 
-Oczekiwane: `git status --short` nic nie wypisuje. Porównaj z suchą próbą: `git diff 91e47ad HEAD -- site2 tests tools` nic nie wypisuje.
+Oczekiwane: `git status --short` nic nie wypisuje. Porównaj z suchą próbą: `git diff 6e6e360 HEAD -- site2 tests tools` nic nie wypisuje.
 
 ---
 
@@ -1269,6 +1288,20 @@ na:
   check('the print: every card shown, where and when unfolded', !document.querySelector('.w-pre') && !document.querySelector('details.w-more:not([open])'));
   window.dispatchEvent(new Event('afterprint'));
   check('after the print: folded again', !document.querySelector('#p-route details.w-more[open]'));
+```
+
+W `tests/probes/wild.js` zamień:
+
+```js
+    check('a tab link shows its tab', W.view().tab === to && vis('#p-' + to));
+```
+
+na:
+
+```js
+    check('a tab link shows its tab', W.view().tab === to && vis('#p-' + to));
+    // its cards, tiles or places on the screen are in sight at once, not waiting to come in (19.10.2026)
+    check('the new tab: nothing on the screen waits hidden', !Array.prototype.some.call(document.querySelectorAll('#p-' + to + ' .w-pre'), function (e) { return e.getBoundingClientRect().top < innerHeight - 40; }));
 ```
 
 
@@ -1479,6 +1512,18 @@ na:
 W `site2/src/wildapp.js` zamień:
 
 ```js
+    if (view.place) { var s = $('#guide-' + view.place); if (s) { s.scrollIntoView(); s.focus({ preventScroll: true }); } }
+```
+
+na:
+
+```js
+    if (view.place) bring($('#guide-' + view.place));
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
   window.addEventListener('afterprint', lightNow);
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
@@ -1494,8 +1539,17 @@ na:
      reduced motion. The printout shows them all, with every encounter's where and when unfolded. */
   var STILL = window.matchMedia('(prefers-reduced-motion: reduce)'), unfolded = [];
   function prepRise() {
+    all('.w-pre').forEach(function (el) { el.classList.remove('w-pre'); });   // another tab's, from its last visit
     if (STILL.matches) return;
     mapEls().forEach(function (el) { if (el.getBoundingClientRect().top > window.innerHeight) el.classList.add('w-pre'); });
+  }
+  // a place or a card the page moves to (a link with #guide-<place>, a name in the guide): in sight at once, then to the top
+  function bring(el) {
+    if (!el) return;
+    el.classList.remove('w-pre');
+    el.scrollIntoView();
+    el.focus({ preventScroll: true });
+    rise();
   }
   function rise() { all('.w-pre').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.remove('w-pre'); }); }
   window.addEventListener('scroll', rise, { passive: true });
@@ -1508,6 +1562,18 @@ na:
   window.addEventListener('afterprint', function () { unfolded.forEach(function (d) { d.open = false; }); unfolded = []; });
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
+      if (el) { el.scrollIntoView(); el.focus({ preventScroll: true }); }
+```
+
+na:
+
+```js
+      bring(el);
 ```
 
 W `site2/src/wildphotos.js` zamień:
@@ -1558,13 +1624,274 @@ EOF
 git status --short
 ```
 
-Oczekiwane: `git status --short` nic nie wypisuje. Porównaj z suchą próbą: `git diff 4ee09d5 HEAD -- site2 tests tools` nic nie wypisuje.
+Oczekiwane: `git status --short` nic nie wypisuje. Porównaj z suchą próbą: `git diff 3a8762e HEAD -- site2 tests tools` nic nie wypisuje.
 
 ---
 
-### Zadanie 5: Punkt kontrolny
+### Zadanie 5: Miniaturki w przewodniku
 
-Wszystko w porównaniu z zadaniem 1 i z suchą próbą. Wyniki do `$TMPDIR/wietnam-mapa/punkt.md`, z którego zadanie 8 bierze akapit do notatek.
+Uwaga użytkownika po obejrzeniu suchej próby (19.10.2026): w „Przewodniku” wiersze to sam tekst z odsyłaczem, a strona ma być jak atlas zwierząt, z ilustracją przy wszystkim, „nawet jeśli małą”, którą da się powiększyć. Wybór „Dwa kroki”: w tym planie miniaturki ze zdjęć, które już są; zdjęcia do pozostałych 14 wierszy przewodnika osobno, po planie (kandydaci z Commons, arkusz do wyboru, pobranie za zgodą).
+
+Każdy wiersz gatunku (22) dostaje miniaturkę jego zdjęcia, 96 px w proporcji 4:3 (na telefonie 80 px po lewej od tekstu), która otwiera podgląd zdjęcia jak kafelek Galerii. Pięć wierszy samego przewodnika pokazuje zdjęcie gatunku, o którym mówią (pole `pic`): „Kukang mały” (kukang) i „Ptaki przy drogach” (dzioborożec) w Cát Tiên, „Lutung pręgogłowy, duk wspaniały, skamielinowiec laotański” (duk) w Phong Nha, „Ptaki” (sędzioł) w Cúc Phương, „Ptaki wodne Vân Long” (czaple). Wiersze bez zdjęcia mają pustą kolumnę miniaturki (na telefonie bez niej); notatki (`kind: 'note'`) zostają bez miniaturki.
+
+**Pliki:**
+- Zmień: `site2/src/wild.html`, `site2/src/wild.js`, `site2/src/wildapp.js`
+- Testy: `tests/content.test.js`, `tests/probes/wild.js`
+
+**Interfejsy:**
+- Bierze: `photoBox(id, cls)` i podgląd zdjęcia (`data-view`) w `wildapp.js`, `prepRise` (zadanie 4).
+- Daje: `WILD_GUIDE.<miejsce>.rows[i].pic` (gatunek z `WILD_PHOTOS`); klasy `w-row-photo` (miniaturka) i `w-row-nopic` (wiersz bez zdjęcia), do których krok ze zdjęciami z Commons dopisze nowe zdjęcia.
+
+- [ ] **Krok 1: Testy, które nie przechodzą**
+
+W `tests/content.test.js` zamień:
+
+```js
+      need(r.kind === 'note' ? r.chance === undefined && r.when === undefined : [0, 1, 2, 3].indexOf(r.chance) > -1, 'WILD_GUIDE.' + p + '.rows.' + i + ': a chance 0–3, none for a note');
+```
+
+na:
+
+```js
+      need(r.kind === 'note' ? r.chance === undefined && r.when === undefined : [0, 1, 2, 3].indexOf(r.chance) > -1, 'WILD_GUIDE.' + p + '.rows.' + i + ': a chance 0–3, none for a note');
+      // the guide's thumbnails (19.10.2026): a row of its own may show the photo of a species (pic), not a note
+      need(r.pic === undefined || r.kind !== 'note' && !!WILD_PHOTOS[r.pic], 'WILD_GUIDE.' + p + '.rows.' + i + ': pic, the photo of a species, not on a note');
+```
+
+W `tests/content.test.js` zamień:
+
+```js
+  });
+  var none = Object.keys(WILD).filter(function (id) { return WILD[id].gallery && !speciesPlaces(WILD[id]).length; });
+```
+
+na:
+
+```js
+  });
+  var pics = [];
+  Object.keys(WILD_GUIDE).forEach(function (p) { WILD_GUIDE[p].rows.forEach(function (r) { if (r.pic) pics.push(p + ':' + r.pic); }); });
+  need(pics.join(' ') === 'cattien:kukang cattien:dzioborozec phongnha:duk cucphuong:sedziol ninhbinh:czaple', 'the rows of the field guide with a photo of a species: ' + pics.join(' '));
+  var none = Object.keys(WILD).filter(function (id) { return WILD[id].gallery && !speciesPlaces(WILD[id]).length; });
+```
+
+W `tests/probes/wild.js` zamień:
+
+```js
+  check('each place of the guide: on the trip, or Dodaj', Array.prototype.every.call(places, function (p) { return !!p.querySelector('.w-ok, .w-add, .w-muted'); }));
+```
+
+na:
+
+```js
+  check('each place of the guide: on the trip, or Dodaj', Array.prototype.every.call(places, function (p) { return !!p.querySelector('.w-ok, .w-add, .w-muted'); }));
+  // the guide's thumbnails (19.10.2026): every row of a species with its photo, and the five rows of the guide's own with one
+  var thumbs = document.querySelectorAll('#p-guide .w-row .w-row-photo[data-view] img'), rowsAll = document.querySelectorAll('#p-guide .w-row:not(.w-note)');
+  check('the field guide: 27 rows with a thumbnail, the others without', thumbs.length === 27 && document.querySelectorAll('#p-guide .w-row-nopic').length === rowsAll.length - 27, thumbs.length + ' / ' + rowsAll.length);
+  var tb0 = document.querySelector('#p-guide .w-row-photo[data-view]'), y0 = window.scrollY;
+  tb0.focus({ preventScroll: true }); tb0.click();
+  check('a thumbnail opens the viewer with its species', document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent.indexOf(WILD[tb0.getAttribute('data-view')] && (LANG === 'en' ? WILD_EN : WILD)[tb0.getAttribute('data-view')].name) === 0);
+  document.querySelector('#w-viewer').close();
+  window.scrollTo(0, y0);   // the focus back on the thumbnail may have moved the page
+```
+
+
+- [ ] **Krok 2: Uruchom i sprawdź, że testy nie przechodzą**
+
+```bash
+bash "$TMPDIR/wietnam-mapa/jsc.sh" tests/content.test.js 2>&1 | grep -m 1 "rows of the field guide"
+```
+
+Oczekiwane: `  wildlife map: the rows of the field guide with a photo of a species: ` (bez wierszy z `pic`). Sonda `wild.js` przejdzie dopiero po kroku 3.
+
+- [ ] **Krok 3: Kod**
+
+W `site2/src/wild.html` zamień:
+
+```html
+.w-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+```
+
+na:
+
+```html
+/* a row: its thumbnail (96 px, 4:3; the photo viewer on a click), the name, how and when, the chance; on a phone the
+   thumbnail on the left of the rest */
+.w-row { display: grid; grid-template-columns: 96px minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
+```
+
+W `site2/src/wild.html` zamień:
+
+```html
+@media (max-width: 640px) { .w-row { grid-template-columns: 1fr; } }
+```
+
+na:
+
+```html
+.w-row-photo { width: 96px; border-radius: 6px; overflow: hidden; }
+.w-row-photo img { width: 96px; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
+.w-row-photo:hover img { transform: scale(1.06); }
+@media (max-width: 640px) {
+  .w-row { grid-template-columns: 80px minmax(0, 1fr); }
+  .w-row > .w-row-photo { grid-row: 1 / span 3; width: 80px; }
+  .w-row > .w-row-photo img { width: 80px; }
+  .w-row > :not(.w-row-photo) { grid-column: 2; }
+  .w-row.w-row-nopic { grid-template-columns: 1fr; }
+  .w-row.w-row-nopic > .w-row-photo { display: none; }
+  .w-row.w-row-nopic > :not(.w-row-photo) { grid-column: 1; }
+}
+```
+
+W `site2/src/wild.js` zamień:
+
+```js
+   research/zwierzeta-2026-10.md, „Mapa podstrony”).
+```
+
+na:
+
+```js
+   research/zwierzeta-2026-10.md, „Mapa podstrony”).
+   A row of the field guide: name, kind, how, when?, chance?; pic: a species whose photo (WILD_PHOTOS) shows the row's
+   animal, for a row of its own (the guide's thumbnails, 19.10.2026).
+```
+
+W `site2/src/wild.js` zamień:
+
+```js
+    { name: 'Kukang mały', kind: 'wild', how: 'wieczorem w bambusach przy drodze po zachodniej stronie rzeki', when: 'nie przed 20:00', chance: 1 },
+    { name: 'Ptaki przy drogach', kind: 'wild', how: 'dzioborożce, kraski, żołny, brodacze i gołębie; wieloszpon wietnamski głównie z kryjówek przewodników ptasich', when: 'ok. 7:00 przy centrum dla zwiedzających', chance: 3 },
+```
+
+na:
+
+```js
+    { name: 'Kukang mały', pic: 'kukang', kind: 'wild', how: 'wieczorem w bambusach przy drodze po zachodniej stronie rzeki', when: 'nie przed 20:00', chance: 1 },
+    { name: 'Ptaki przy drogach', pic: 'dzioborozec', kind: 'wild', how: 'dzioborożce, kraski, żołny, brodacze i gołębie; wieloszpon wietnamski głównie z kryjówek przewodników ptasich', when: 'ok. 7:00 przy centrum dla zwiedzających', chance: 3 },
+```
+
+W `site2/src/wild.js` zamień:
+
+```js
+    { name: 'Lutung pręgogłowy, duk wspaniały, skamielinowiec laotański', kind: 'wild', how: 'żyją w parku, ale widzą je tylko fotopułapki', chance: 0 },
+```
+
+na:
+
+```js
+    { name: 'Lutung pręgogłowy, duk wspaniały, skamielinowiec laotański', pic: 'duk', kind: 'wild', how: 'żyją w parku, ale widzą je tylko fotopułapki', chance: 0 },
+```
+
+W `site2/src/wild.js` zamień:
+
+```js
+    { name: 'Ptaki', kind: 'wild', how: 'ponad 300 gatunków; na szlaku do drzewa Đăng m.in. sędzioł czerwonogłowy, dzięcioły i kiściec srebrzysty', chance: 2 },
+```
+
+na:
+
+```js
+    { name: 'Ptaki', pic: 'sedziol', kind: 'wild', how: 'ponad 300 gatunków; na szlaku do drzewa Đăng m.in. sędzioł czerwonogłowy, dzięcioły i kiściec srebrzysty', chance: 2 },
+```
+
+W `site2/src/wild.js` zamień:
+
+```js
+    { name: 'Ptaki wodne Vân Long', kind: 'wild', how: 'zimorodki, czaple i bociany; bociany wracają do gniazd późnym popołudniem', when: 'cały rok, zimą też ptaki przelotne', chance: 3 } ] },
+```
+
+na:
+
+```js
+    { name: 'Ptaki wodne Vân Long', pic: 'czaple', kind: 'wild', how: 'zimorodki, czaple i bociany; bociany wracają do gniazd późnym popołudniem', when: 'cały rok, zimą też ptaki przelotne', chance: 3 } ] },
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
+      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
+```
+
+na:
+
+```js
+      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : cls === 'w-row-photo' ? '96px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
+  }
+  function guideRow(r) {
+```
+
+na:
+
+```js
+  }
+  /* A row of the field guide with its thumbnail, which opens the photo viewer (19.10.2026: no row of text alone): a species'
+     photo, or for a row of the guide's own the photo of its pic; a row without one keeps the thumbnail's column empty. */
+  function guideRow(r) {
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
+      return '<li class="w-row"><p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
+```
+
+na:
+
+```js
+      return '<li class="w-row' + (x.pic ? '' : ' w-row-nopic') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '<span class="w-row-photo"></span>') +
+        '<p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
+```
+
+W `site2/src/wildapp.js` zamień:
+
+```js
+    return '<li class="w-row"><p class="w-row-name"><a href="' + esc(wildHash({ tab: 'route', place: null }, trip && trip.settings, lang, costs)) + '" data-card="' + r.id + '"><b>' + esc(s.name) + '</b></a> ' + kind(m.kind) + '</p>' +
+```
+
+na:
+
+```js
+    return '<li class="w-row">' + photoBox(r.id, 'w-row-photo') + '<p class="w-row-name"><a href="' + esc(wildHash({ tab: 'route', place: null }, trip && trip.settings, lang, costs)) + '" data-card="' + r.id + '"><b>' + esc(s.name) + '</b></a> ' + kind(m.kind) + '</p>' +
+```
+
+
+- [ ] **Krok 4: Uruchom i sprawdź, że testy i sondy przechodzą** (ok. 3 min)
+
+```bash
+bash tests/run.sh 2>&1 | tail -n 1
+grep -rnIe $'\xc2\xa0' -e $'\xe2\x81\xa0' site2/src tests tools research | grep -v "var NB"
+python3 site2/build.py > /dev/null
+for a in "1400 guide-cattien&lang=pl" "390 guide" "320 guide-cucphuong&od=SGN&do=HAN&miesiac=2027-05&dni=15&co=przyroda&poziom=2"; do
+  PAGE=wildlife bash tests/probe.sh tests/probes/wild.js ${a%% *} "${a#* }" | tail -n 1; done
+```
+
+Oczekiwane: `ALL PASS`; grep nic nie wypisuje; trzy razy `done, all checks ok`.
+
+- [ ] **Krok 5: Commit**
+
+```bash
+git add site2/src/wild.html site2/src/wild.js site2/src/wildapp.js tests/content.test.js tests/probes/wild.js
+git commit -q -F - <<'EOF'
+Miniaturki w przewodniku podstrony zwierząt: każdy wiersz gatunku ze zdjęciem 96 px (na telefonie 80 px po lewej), które otwiera podgląd; pięć wierszy samego przewodnika ze zdjęciem gatunku, który pokazują (pic: kukang i dzioborożec w Cát Tiên, duk w Phong Nha, sędzioł w Cúc Phương, czaple w Vân Long); wiersze bez zdjęcia czekają na zdjęcia z Commons; test treści i sonda wild.js
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+EOF
+git status --short
+```
+
+Oczekiwane: `git status --short` nic nie wypisuje. Porównaj z suchą próbą: `git diff 6a249b1 HEAD -- site2 tests tools` nic nie wypisuje.
+
+---
+
+### Zadanie 6: Punkt kontrolny
+
+Wszystko w porównaniu z zadaniem 1 i z suchą próbą. Wyniki do `$TMPDIR/wietnam-mapa/punkt.md`, z którego zadanie 9 bierze akapit do notatek.
 
 - [ ] **Krok 1: Pełny test** (ok. 3 min)
 
@@ -1594,7 +1921,7 @@ Oczekiwane: `sondy: 0 z 24 nie przeszło` i `sondy (pl): 0 z 24 nie przeszło` (
 paste -d '\n' "$TMPDIR/wietnam-mapa/pdf-przed.txt" "$TMPDIR/wietnam-mapa/pdf-po.txt" | cut -c1-40
 ```
 
-Oczekiwane (sucha próba): „Na trasie” z trasą z maja 16 → 9 stron (karty po dwie w rzędzie, wszystko rozwinięte), „Galeria” 6 → 6, „Przewodnik” 8 → 9 (mapa na pierwszej stronie), strona z trasą bez zmian (14 → 14); w żadnym PDF stron poniżej 45% ani zakrytych linii. Pierwsza strona każdego PDF podstrony ma mapę z nazwami miejsc przewodnika (obejrzyj jedną).
+Oczekiwane (sucha próba): „Na trasie” z trasą z maja 16 → 9 stron (karty po dwie w rzędzie, wszystko rozwinięte), „Galeria” 6 → 6, „Przewodnik” 8 → 10 (mapa na pierwszej stronie, miniaturki przy wierszach), strona z trasą bez zmian (14 → 14); w żadnym PDF stron poniżej 45% ani zakrytych linii. Pierwsza strona każdego PDF podstrony ma mapę z nazwami miejsc przewodnika (obejrzyj jedną).
 
 - [ ] **Krok 4: Zrzuty do przeglądu** (ok. 5 min)
 
@@ -1621,7 +1948,7 @@ Sprawdź i zapisz wynik w `$TMPDIR/wietnam-mapa/punkt.md`:
 
 Strona z komputera w domowej sieci (`python3 -m http.server <port> --bind 0.0.0.0 --directory site2/out/pages`, na telefonie `http://<IP komputera>:<port>/wildlife/#route&…`) albo żywa strona po publikacji. Lista dla użytkownika, krok po kroku: pasmo z mapą stoi u góry przy przewijaniu każdej zakładki; zapala się karta na środku widocznej części; tknięcie karty niczego nie „przykleja” (dalsze przewijanie zmienia mapę); tknięcie kropki przewija do karty; zdjęcia ostre i całe; strzałka rozwija „gdzie i kiedy”.
 
-### Zadanie 6: Końcowy przegląd przed publikacją
+### Zadanie 7: Końcowy przegląd przed publikacją
 
 - [ ] **Krok 1: Świeży recenzent na najmocniejszym modelu** (Agent z `model: fable`, w tle, we własnym worktree z podlinkowanym `photos/` i własnym `TMPDIR`)
 
@@ -1631,7 +1958,7 @@ Zadanie dla recenzenta: przeczytaj cały diff od commitu planu do `HEAD`, ten pl
 
 Każdą uwagę krytyczną i ważną sprawdź sam (research, kod, sonda), potem pokaż użytkownikowi z rekomendacją; poprawki w osobnych commitach „Poprawka z końcowego przeglądu mapy podstrony: …”, każda z testem albo sondą, która najpierw nie przechodzi; drobne na listę następnej rundy albo do poprawki, według wyboru użytkownika.
 
-### Zadanie 7: Publikacja (każdy krok za wyraźną zgodą użytkownika)
+### Zadanie 8: Publikacja (każdy krok za wyraźną zgodą użytkownika)
 
 - [ ] **Krok 1: Strona do `docs/`** (za zgodą)
 
@@ -1664,11 +1991,11 @@ curl -s https://grzegorzfrskiba-hub.github.io/wietnam/wildlife/ | grep -c 'id="w
 
 Oczekiwane po zbudowaniu GitHub Pages (`built`): `1`.
 
-### Zadanie 8: Notatki: status i następny krok
+### Zadanie 9: Notatki: status i następny krok
 
 - [ ] **Krok 1: `notes/etapy.md` i `CLAUDE.md`**
 
-W `notes/etapy.md`, w „Następna runda poprawek (po etapie 6)”, akapit „**Mapa kraju na podstronie zwierząt** (sesja decyzji 19.10.2026)” z odnośnikami do opisu projektu i tego planu, „Zrobione <data>: …” (co jest na stronie), „Punkt kontrolny (<data>): …” (z `$TMPDIR/wietnam-mapa/punkt.md`), „Końcowy przegląd (<data>): …” (z `$TMPDIR/przeglad-mapa.txt` i decyzji użytkownika) i „Publikacja (<data>): …”; w „## Następny krok” usuń punkt o tym planie. W `CLAUDE.md`: linia `**Status (…)**` z mapą na podstronie zwierząt, a w „Jak sprawdzać” przy sondach `wildmap.js` (z `PAGE=wildlife`: mapa podstrony, zapalanie w trzech zakładkach, pasmo, wydruk).
+W `notes/etapy.md`, w „Następna runda poprawek (po etapie 6)”, akapit „**Mapa kraju na podstronie zwierząt** (sesja decyzji 19.10.2026)” z odnośnikami do opisu projektu i tego planu, „Zrobione <data>: …” (co jest na stronie), „Punkt kontrolny (<data>): …” (z `$TMPDIR/wietnam-mapa/punkt.md`), „Końcowy przegląd (<data>): …” (z `$TMPDIR/przeglad-mapa.txt` i decyzji użytkownika) i „Publikacja (<data>): …”; w „## Następny krok” zamiast punktu o tym planie punkt o drugim kroku zdjęć przewodnika: zdjęcia z Wikimedia Commons do 14 wierszy przewodnika bez miniaturki (klasa `w-row-nopic`; kandydaci na wolnych licencjach, arkusz do wyboru użytkownika, pobranie za zgodą, jak przy zdjęciach etapu 6). W `CLAUDE.md`: linia `**Status (…)**` z mapą na podstronie zwierząt, a w „Jak sprawdzać” przy sondach `wildmap.js` (z `PAGE=wildlife`: mapa podstrony, zapalanie w trzech zakładkach, pasmo, wydruk).
 
 - [ ] **Krok 2: Commit notatek** (za zgodą), push za osobną zgodą
 
@@ -1687,5 +2014,5 @@ Na koniec zapytaj użytkownika o `git push` i o usunięcie gałęzi `sucha-proba
 
 - `bash tests/run.sh` → `ALL PASS` po każdym zadaniu; `--full` w punkcie kontrolnym.
 - Sondy: `bash "$TMPDIR/wietnam-mapa/sondy.sh" [pl]` (zadanie 1), pojedynczo `PAGE=wildlife bash tests/probe.sh tests/probes/<sonda>.js <szerokość> '<link>'`.
-- Każde zadanie 2–4 porównaj z jego commitem na gałęzi `sucha-proba-mapa` (`git diff <commit suchej próby> HEAD -- site2 tests tools` nic nie wypisuje).
+- Każde zadanie 2–5 porównaj z jego commitem na gałęzi `sucha-proba-mapa` (`git diff <commit suchej próby> HEAD -- site2 tests tools` nic nie wypisuje).
 - Grep twardych spacji z „Ograniczeń globalnych” po każdym zadaniu.
