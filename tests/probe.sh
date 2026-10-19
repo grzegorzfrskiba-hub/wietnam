@@ -12,6 +12,8 @@
 #   PAGE=wildlife tests/probe.sh tests/probes/wild.js 390 'route&od=SGN&do=HAN&miesiac=2027-05&dni=15&co=przyroda&poziom=2'
 # Pitfalls: the page scrolls smoothly, so set document.documentElement.style.scrollBehavior = 'auto' before scrollTo;
 # headless Chrome loads lazy images at once, so do not measure lazy loading here (read img.currentSrc instead);
+# H=<height> before the command sets the height of the window (900 px without it), e.g. H=768 for a laptop:
+#   H=768 PAGE=wildlife tests/probe.sh tests/probes/wildmap.js 1440 'guide'
 # in zsh, loop over pairs with `for w d in 390 2 1400 1` (an unquoted "$a" is not split into words).
 set -uo pipefail
 cd "$(dirname "$0")/.."
@@ -22,10 +24,10 @@ ln -s "$PWD/site2/out/pages/img" "$D/img"
 ln -s "$PWD/site2/out/pages/fonts" "$D/fonts"
 HASH="${3:-}"; HASH="${HASH//MIESIAC/$(date -v+5m +%Y-%m)}"
 { cat "site2/out/pages/${SUB}index.html"; echo "<script>window.__probeHash = '#$HASH';"; cat tests/probes/lib.js "$1"; echo "</script>"; } > "$D/${SUB}index.html"
-printf '<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style><iframe src="%sindex.html#%s" width="%s" height="900"></iframe>' "$SUB" "$HASH" "$2" > "$D/wrap.html"
+printf '<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style><iframe src="%sindex.html#%s" width="%s" height="%s"></iframe>' "$SUB" "$HASH" "$2" "${H:-900}" > "$D/wrap.html"
 U=$(mktemp -d)
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --user-data-dir="$U" --allow-file-access-from-files \
-  --force-device-scale-factor="${4:-1}" --high-dpi-support=1 --window-size=1400,900 --enable-logging=stderr --v=0 --virtual-time-budget=10000 \
+  --force-device-scale-factor="${4:-1}" --high-dpi-support=1 --window-size=1400,${H:-900} --enable-logging=stderr --v=0 --virtual-time-budget=10000 \
   --screenshot="$D/shot.png" "file://$D/wrap.html" > "$D/log.txt" 2>&1 &
 PID=$!
 for _ in $(seq 40); do [ -s "$D/shot.png" ] && break; sleep 1; done

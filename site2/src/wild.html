@@ -134,8 +134,11 @@ main { padding-block: 28px 48px; }
   .w-main { display: grid; grid-template-columns: minmax(0, 780px) minmax(0, 1fr); gap: 40px; align-items: start; }
   .w-panels { grid-column: 1; grid-row: 1; }
   .w-map { grid-column: 2; grid-row: 1; top: 16px; display: block; margin: 0; padding: 0; background: none; border: 0; }
-  .w-map svg { width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 150px); }
-  .w-map-cap { margin-top: 10px; min-height: 48px; }
+  /* the map and its caption fit above the footer, so at the end of a tab the map stays where it sticks with every lit dot on
+     the screen (final review of the map, 19.10.2026): 16 px above the map, 10 px to the caption, the caption's room for five
+     names and the key (Poza Route G, 136 px), the footer with the space above it (208 px); smaller only on a low window */
+  .w-map svg { width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 370px); }
+  .w-map-cap { margin-top: 10px; min-height: 136px; }
 }
 .bm-land { fill: var(--land); stroke: var(--border); stroke-width: 1; stroke-linejoin: round; }
 .bm-road { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.75; }

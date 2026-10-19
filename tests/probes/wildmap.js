@@ -151,9 +151,25 @@
         toMiddle([document.querySelector('#p-guide .w-out')], function () {
           check('Beyond Route G lights its five points', lit() === SPOTS.slice().sort().join(' ') && pts().filter(function (g) { return g.classList.contains('spot'); }).every(shown), lit());
           check('no sideways scroll at the end', document.documentElement.scrollWidth <= innerWidth, document.documentElement.scrollWidth + ' > ' + innerWidth);
-          done();
+          ends(['route', 'gallery', 'guide']);
         });
       });
+    });
+  }
+
+  // the end of each tab (final review of the map, 19.10.2026): the map stays where it sticks, every lit dot on the screen,
+  // also on a laptop's low screen (H=768 before probe.sh)
+  function ends(list) {
+    if (!list.length) return done();
+    tab(list[0], function () {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      window.dispatchEvent(new Event('scroll'));
+      setTimeout(function () {
+        var top = map.getBoundingClientRect().top, off = pts().filter(function (g) { return g.classList.contains('on') && g.querySelector('.bm-dot').getBoundingClientRect().top < 0; });
+        check('the end of ' + list[0] + ': the map where it sticks, every lit dot on the screen', (wide ? top >= 15.5 : top >= -0.5) && !off.length,
+          'top ' + Math.round(top) + (off.length ? ', above the screen: ' + off.map(function (g) { return g.getAttribute('data-p'); }).join(' ') : ''));
+        ends(list.slice(1));
+      }, 450);
     });
   }
 })();
