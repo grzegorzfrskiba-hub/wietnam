@@ -546,6 +546,42 @@ Trzy fakty z ustalenia 23 sesji decyzji etapu 6 ([notes/etapy.md](../notes/etapy
 | PNKB-CCH | Park Phong Nha-Kẻ Bàng: Trung tâm Cứu hộ, bảo tồn và Phát triển sinh vật, zadania (m.in. wybieg Núi Đôi, edukacja dla uczniów); bez godzin i oferty dla turystów | https://phongnhakebang.vn/gioi-thieu/trung-tam-cuu-ho-bao-ton-va-phat-trien-sinh-vat | park/zarządca | brak (zdjęcia z XII 2025) |
 | TT-2026-10-08† | Tuổi Trẻ: Phong Nha-Kẻ Bàng wypuścił 17 zwierząt (makaki, lutungi z Hà Tĩnh, łuskowce, kukangi) | https://tuoitre.vn/17-dong-vat-hoang-da-duoc-tro-ve-nha-giua-rung-phong-nha-ke-bang-100261008155307998.htm | prasa | 8.10.2026 |
 
+## Mapa podstrony: miejsca gatunków z Galerii i punkty poza Route G (19.10.2026)
+
+Do mapy kraju na podstronie zwierząt (opis projektu: [notes/plans/2026-10-19-mapa-zwierzat-projekt.md](../notes/plans/2026-10-19-mapa-zwierzat-projekt.md), ustalenie 7). 13 gatunków z Galerii nie ma spotkań (`meet`), więc nie wiadomo, które miejsce zapalić przy ich kafelku. Niżej to, co potwierdza ten plik (etykiety źródeł jak wyżej, odczyty z 16.10.2026), i pięć punktów poza Route G ze współrzędnymi. Miejsce wpisuję tylko tam, gdzie gatunek w nim żyje albo jest w ośrodku, nie tam, gdzie pada w opisie bez potwierdzenia.
+
+**Gatunki z Galerii przy miejscach Route G** (pole `home` w `site2/src/wild.js`):
+
+| gatunek | miejsca | podstawa |
+|---|---|---|
+| kukang mały (`kukang`) | cattien, cucphuong | Cát Tiên: na wolności, bambusy przy drodze na zachód od rzeki, po 20:00, szansa mała (MW-CT-2023†, MW-CT-2024†; wiersz „Kukang mały” przewodnika); Cúc Phương: ośrodek lori na nocnej przejażdżce (CP-NOC, aktualizacja 13.09.2026), sekcja `cucphuong` wyżej |
+| niedźwiedź malajski (`niedzwm`) | cucphuong, cattien | tylko ośrodki: BEAR SANCTUARY Ninh Bình ok. 8 km od Cúc Phương (SPL-2026, 15.05.2026) i Cat Tien Bear Sanctuary (FTB, © 2026); te same miejsca co spotkania niedźwiedzi w `niedzwiedz` |
+| kurtaczek prążkowany (`kurtaczek`) | cattien | kryjówki w Cát Tiên (10KB-2024, 26.08.2024; ANBUI-2026, IV 2026); Cúc Phương tylko z badań z 1988 r., więc bez niego |
+| wieloszpon wietnamski (`wieloszpon`) | cattien | kryjówki z karmnikiem przewodników ornitologów (BQ-2023†, BE-2025†); wiersz „Ptaki przy drogach” przewodnika |
+| sędzioł czerwonogłowy (`sedziol`) | cucphuong | szlak do drzewa Đăng (VNE-CP, aktualizacja 14.04.2026) |
+| dzioborożec wielki (`dzioborozec`) | cattien | rzadki osiadły w Cát Tiên (VW-HH, 29.08.2023); dzioborożce w wierszu przewodnika Cát Tiên (POTOO-CT, 1.05.2026). Phú Quốc (VW-HH) nie ma sekcji w przewodniku, a ptaki wypuszczone w Phong Nha w 2023 i 2025 r. to nie miejsce do oglądania, więc bez nich |
+| żaba mszysta (`zaba`) | cucphuong | żyje w parku (NNMT-2025-04-15, 15.04.2025); miejsca do oglądania źródła nie podają, więc mapa pokazuje park, a nie szansę |
+| *Troides aeacus* (`troides`) | żadne | w Cúc Phương tylko wśród zagrożonych motyli trzech parków bez wskazania którego (VVL-2013); zdjęcie z Bạch Mã. Bez potwierdzonego miejsca na Route G |
+| skamielinowiec laotański (`skamielinowiec`, legenda) | phongnha | najczęstsze zwierzę fotopułapek parku, 212 punktów (DBND-2025, 5.08.2025); turysta go nie zobaczy |
+
+**Legendy i miejsca poza Route G** (`WILD_SPOTS` w `site2/src/wild.js`; szare kropki, widoczne tylko zapalone):
+
+| punkt | szer., dł. | gatunek, wiersz „Poza Route G” | podstawa |
+|---|---|---|---|
+| Khau Ca (`khauca`) | 22,84 N, 105,12 E | rokselana zadartonosa; Khau Ca | środek obszaru 22°49′–22°52′ N, 105°05′–105°09′ E, ok. 1 000 ha, 15–20 km na wschód od miasta Hà Giang (CLP-KHAUCA, XII 2008) |
+| Trùng Khánh (`trungkhanh`) | 22,85 N, 106,72 E | gibboniec reliktowy; Trùng Khánh | „przy Bản Giốc” (TP-2026-09-07, 7.09.2026); punkt wodospadu Bản Giốc z `site2/src/content/caobang.js`; obszar ok. 2 500 ha leży obok, w skali mapy (ok. 2,5 km na piksel) to ten sam punkt |
+| Bạch Mã (`bachma`) | 16,20 N, 107,87 E | kiściec annamski; Bạch Mã | 16°12′ N, 107°52′ E (BM: WIKI-EN) |
+| Côn Đảo (`condao`) | 8,69 N, 106,63 E | wiersz Côn Đảo (żółwie zielone) | WIKI-CONDAO |
+| Tràm Chim (`tramchim`) | 10,73 N, 105,52 E | wiersz Tràm Chim (żurawie) | WIKI-TRAMCHIM |
+
+Saola bez punktu: opisana ze szczątków z Vũ Quang (1992), ostatnie zdjęcie z fotopułapki z 2013 r. „w środkowym Wietnamie” bez nazwy miejsca (WIKI-SAOLA), a Pù Mát (PM: VNS-2026) to inne miejsce. Jednego rzetelnego punktu nie ma, więc mapa mówi przy niej, że miejsca nie pokazuje.
+
+| etykieta | opis | adres | rodzaj | data |
+|---|---|---|---|---|
+| CLP-KHAUCA | Le Khac Quyet, „Behavioural ecology and conservation of Rhinopithecus avunculus in Vietnam”, raport końcowy dla Conservation Leadership Programme: Khau Ca Forest 22°49′–22°52′ N i 105°05′–105°09′ E, ok. 1 000 ha, gminy Minh Sơn, Yên Định i Tùng Bá (PDF otwarty 19.10.2026, tekst odczytany lokalnie) | https://www.conservationleadershipprogramme.org/wp-content/uploads/2024/12/001604_Vietnam_FR_Rhinopithecus_avunculus1.pdf | raport naukowy | XII 2008 |
+| WIKI-CONDAO | Wikipedia „Côn Đảo National Park”: 8,69167 N, 106,63333 E (odczyt 19.10.2026) | https://en.wikipedia.org/wiki/C%C3%B4n_%C4%90%E1%BA%A3o_National_Park | encyklopedia | edycja 5.07.2026 |
+| WIKI-TRAMCHIM | Wikipedia „Tràm Chim National Park”: 10,725 N, 105,51667 E (odczyt 19.10.2026) | https://en.wikipedia.org/wiki/Tr%C3%A0m_Chim_National_Park | encyklopedia | edycja 7.07.2026 |
+
 ## Nie ustaliłem
 
 - Oficjalnych godzin i cen EPRC i ośrodka żółwi na 2026 r. oraz aktualnej liczby żółwi i gatunków w TCC (strona Asian Turtle Program zwraca 425).
