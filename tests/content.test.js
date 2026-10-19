@@ -720,6 +720,21 @@ contentCheck('wildlife in two languages', function (need) {
   need(WILD_AVOID_EN.length === WILD_AVOID.length && WILD_OUTSIDE_EN.length === WILD_OUTSIDE.length, 'WILD_AVOID_EN and WILD_OUTSIDE_EN: as many as in Polish');
 });
 
+/* What the final review of stage 6 found in the subpage's texts: each sentence says only what research/zwierzeta-2026-10.md
+   holds from an opened source, the legend of the chance has every level the field guide uses, the English words for the
+   day's plan are one, the gallery speaks to mouse and touch, and a card of several species has no one IUCN status. */
+contentCheck('wildlife facts after the review', function (need) {
+  var row = function (p, name) { var i = -1; WILD_GUIDE[p].rows.forEach(function (r, k) { if (r.name === name) i = k; }); return i; };
+  var ff = row('saigon', 'Rudawki'), mk = row('saigon', 'Makaki na Đảo Khỉ');
+  need(ff > -1 && /setki/.test(WILD_GUIDE.saigon.rows[ff].how) && !/tysiąc/.test(WILD_GUIDE.saigon.rows[ff].how) &&
+    /hundreds/.test(WILD_GUIDE_EN.saigon.rows[ff].how) && !/thousand/.test(WILD_GUIDE_EN.saigon.rows[ff].how), 'flying foxes in Cần Giờ: hundreds, as the opened source says');
+  need(mk > -1 && !/karmion/.test(WILD_GUIDE.saigon.rows[mk].how) && !/\bfed\b/.test(WILD_GUIDE_EN.saigon.rows[mk].how), 'the macaques on Đảo Khỉ: nothing about feeding without a source');
+  need(['w.plan.yes', 'w.plan.level', 'w.plan.no'].every(function (k) { return WUI.en[k].indexOf('day’s plan') > -1; }), 'WUI.en: “day’s plan” in all three lines');
+  ['●●●', '●●○', '●○○', '○○○'].forEach(function (d) { need(WUI.pl['w.legend'].indexOf(d) > -1 && WUI.en['w.legend'].indexOf(d) > -1, 'w.legend: the chance ' + d); });
+  need(/kliknij/.test(WUI.pl['w.gallery.lead']) && /click/.test(WUI.en['w.gallery.lead']), 'w.gallery.lead: tap or click');
+  Object.keys(WILD).forEach(function (id) { need(!/ i inne$/.test(WILD[id].lat) || !WILD[id].iucn, 'WILD.' + id + ': several species, no one IUCN status'); });
+});
+
 /* The subpage's interface (wildui.js, finding 19): the same keys in both languages and in the same order, British English,
    Polish to one reader; each key used by the subpage (wildapp.js, wild.html), and each key the subpage asks for there, in
    WUI or, for the words both pages share, in UI. */

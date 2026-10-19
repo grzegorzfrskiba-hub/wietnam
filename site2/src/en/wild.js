@@ -139,8 +139,8 @@ var WILD_EN = {
 var WILD_GUIDE_EN = {
   mekong: { where: 'around Cần Thơ', rows: [] },
   saigon: { where: 'Cần Giờ, the mangroves south of the city', rows: [
-    { name: 'Flying foxes', how: 'at Đầm Dơi in Vàm Sát, by boat around the mangroves; thousands hang upside down on one small island of trees', when: 'all year, by day' },
-    { name: 'Macaques on Đảo Khỉ', how: 'over 1,000 free-living long-tailed macaques, fed by visitors; they snatch cameras, bags and food' } ] },
+    { name: 'Flying foxes', how: 'at Đầm Dơi in Vàm Sát, by boat around the mangroves; hundreds hang upside down on one small island of trees', when: 'all year, by day' },
+    { name: 'Macaques on Đảo Khỉ', how: 'over 1,000 free-living long-tailed macaques; they snatch cameras, bags and food' } ] },
   cattien: { where: 'jungle, the best place on Route G for animals in the wild', rows: [
     { name: 'Pygmy slow loris', how: 'in the evening, in the bamboo by the road on the west side of the river', when: 'not before 20:00' },
     { name: 'Birds along the roads', how: 'hornbills, rollers, bee-eaters, barbets and pigeons; Germain’s peacock-pheasant mostly from local bird guides’ hides', when: 'about 7:00 by the visitor centre' },

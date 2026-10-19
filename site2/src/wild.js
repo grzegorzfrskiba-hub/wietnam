@@ -87,7 +87,7 @@ var WILD = {
       { place: 'cattien', kind: 'wild', where: 'drogi parku: do Thác Trời i droga z rzędem drzew przy kryjówce ptasiej', chance: 2, chanceNote: 'średnia, „50 na 50”',
         when: 'ok. 6:00–7:00 i po 17:00', months: null, plan: null }
     ] },
-  jelenie: { name: 'Sambary i jelenie', vn: 'nai, hươu', lat: 'Rusa unicolor i inne', iucn: 'VU', group: 'mammals', route: true, gallery: false,
+  jelenie: { name: 'Sambary i jelenie', vn: 'nai, hươu', lat: 'Rusa unicolor i inne', group: 'mammals', route: true, gallery: false,
     why: 'Na nocnym safari w Cát Tiên większość nocy daje jelenie i cywety. W Cúc Phương park wypuszcza do lasu w etapach ok. 60 jeleni i sambarów.',
     meet: [
       { place: 'cattien', kind: 'wild', where: 'nocne safari parku: ok. 1 h, 12 km odkrytym autem; też cywety, jeżozwierze i mundżaki', chance: 3,
@@ -149,8 +149,8 @@ var WILD = {
 var WILD_GUIDE = {
   mekong: { where: 'okolice Cần Thơ', rows: [] },
   saigon: { where: 'Cần Giờ, namorzyny na południe od miasta', rows: [
-    { name: 'Rudawki', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; tysiące wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
-    { name: 'Makaki na Đảo Khỉ', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych, karmionych przez turystów; wyrywają aparaty, torby i jedzenie' } ] },
+    { name: 'Rudawki', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; setki wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
+    { name: 'Makaki na Đảo Khỉ', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych; wyrywają aparaty, torby i jedzenie' } ] },
   cattien: { where: 'dżungla, najlepsze miejsce Route G na zwierzęta na wolności', rows: [
     { name: 'Kukang mały', kind: 'wild', how: 'wieczorem w bambusach przy drodze po zachodniej stronie rzeki', when: 'nie przed 20:00', chance: 1 },
     { name: 'Ptaki przy drogach', kind: 'wild', how: 'dzioborożce, kraski, żołny, brodacze i gołębie; wieloszpon wietnamski głównie z kryjówek przewodników ptasich', when: 'ok. 7:00 przy centrum dla zwiedzających', chance: 3 },
