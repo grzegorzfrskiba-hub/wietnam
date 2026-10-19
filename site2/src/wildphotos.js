@@ -31,3 +31,14 @@ var WILD_PHOTOS = {
   kisciecann: { cap: 'Samiec kiśćca annamskiego w zoo w Hồ Chí Minh City, w niewoli', artist: 'Hà Nghĩa VN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Vietnam_Pheasant.jpg' },
   skamielinowiec: { cap: 'Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje', artist: 'Jean-Pierre Hugot', license: 'CC BY 2.5', page: 'https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg' }
 };
+
+/* The frame of a photo on a card of On your route (19.10.2026), where the usual one, 3:2 around the middle, would cut the
+   animal: [aspect-ratio, object-position]. The whole animal stays in the frame (the map of the subpage, decision 10: other
+   proportions rather than a cut animal); every other card photo takes the usual frame. */
+var WILD_CROPS = {
+  duk: ['3 / 2', '50% 5%'],
+  gibbon: ['4 / 3', '50% 30%'],
+  swietliki: ['3 / 2', '50% 70%'],
+  lutungj: ['3 / 2', '50% 62%'],
+  gaur: ['4 / 3', '50% 40%']
+};

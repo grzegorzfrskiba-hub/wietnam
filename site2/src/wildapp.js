@@ -61,15 +61,18 @@
 
   /* ---------- pieces ---------- */
   var DOTS = { 3: '●●●', 2: '●●○', 1: '●○○', 0: '○○○' };
-  function img(id, sizes) {
+  // a photo; style: its frame on a card (WILD_CROPS), or none
+  function img(id, sizes, style) {
     var p = WILD_PICS[id];
     return '<img src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
-      '" alt="' + esc(caption(id)) + '" loading="lazy" decoding="async">';
+      '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' loading="lazy" decoding="async">';
   }
+  // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame
   function photoBox(id, cls) {
     if (SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
+    var crop = cls === 'w-card-photo' && WILD_CROPS[id];
     return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id].name })) + '">' +
-      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : '(max-width: 640px) 100vw, 380px') + '</button>';
+      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
   }
   function kind(k) { return '<span class="w-kind w-kind-' + k + '">' + esc(T('w.kind.' + k)) + '</span>'; }
   function chance(c, note) { return '<span class="w-dots" aria-hidden="true">' + DOTS[c] + '</span> <span>' + esc(note || T('w.chance.' + c)) + '</span>'; }
@@ -88,10 +91,11 @@
     var what = x.drops.length ? T('off.drops', { list: names(x.drops) }) : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops');
     return '<p class="w-drops">' + esc(tied(what)) + '</p><a class="btn-small w-add" href="' + esc(tripLink(trip.settings, lang, costs, p)) + '">' + esc(T('w.add', { x: short(p) })) + '</a>';
   }
-  // one encounter of a card: where and how, the chance, when; with a trip, what the trip means for it (finding 9)
+  /* one encounter of a card: the place, how and the chance in sight, where and when folded under them (the map of the
+     subpage, decision 11); with a trip, what the trip means for it (finding 9), in sight */
   function meetBlock(m) {
-    var h = '<li class="w-meet"><p class="w-meet-top">' + kind(m.kind) + ' <b>' + esc(short(m.place)) + '</b> <span class="w-chance">' + chance(m.chance, m.chanceNote) + '</span></p>' +
-      '<p>' + esc(tied(capFirst(m.where))) + '</p><p class="w-muted">' + esc(T('w.when', { when: tied(m.when) })) + '</p>';
+    var h = '<li class="w-meet"><details class="w-more"><summary><span class="w-meet-top">' + kind(m.kind) + ' <b>' + esc(short(m.place)) + '</b> <span class="w-chance">' + chance(m.chance, m.chanceNote) + '</span></span></summary>' +
+      '<p>' + esc(tied(capFirst(m.where))) + '</p><p class="w-muted">' + esc(T('w.when', { when: tied(m.when) })) + '</p></details>';
     if (trip) {
       var o = meetOnTrip(m, trip.stays, trip.st.months);
       if (o) {
@@ -181,6 +185,7 @@
     $('#w-back').href = tripLink(trip && trip.settings, lang, costs, null);
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
     lightNow();
+    prepRise();
   }
   function render() {
     renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab();
@@ -196,7 +201,7 @@
     // another tab starts at its top, under the tabs, when the page had scrolled past them
     var head = $('.w-head').getBoundingClientRect().bottom + window.scrollY;
     if (was !== view.tab && !view.place && window.scrollY > head) window.scrollTo(0, head);
-    if (view.place) { var s = $('#guide-' + view.place); if (s) { s.scrollIntoView(); s.focus({ preventScroll: true }); } }
+    if (view.place) bring($('#guide-' + view.place));
   }
   function setLang(l) {
     lang = l;
@@ -324,6 +329,33 @@
   window.addEventListener('beforeprint', function () { light({ places: Object.keys(GD), none: false }); });
   window.addEventListener('afterprint', lightNow);
 
+  /* ---------- the cards, tiles and places come in as they reach the screen (19.10.2026) ---------- */
+  /* When a tab opens, those below the screen wait hidden (w-pre) and rise into place once their top is on it; none wait with
+     reduced motion. The printout shows them all, with every encounter's where and when unfolded. */
+  var STILL = window.matchMedia('(prefers-reduced-motion: reduce)'), unfolded = [];
+  function prepRise() {
+    all('.w-pre').forEach(function (el) { el.classList.remove('w-pre'); });   // another tab's, from its last visit
+    if (STILL.matches) return;
+    mapEls().forEach(function (el) { if (el.getBoundingClientRect().top > window.innerHeight) el.classList.add('w-pre'); });
+  }
+  // a place or a card the page moves to (a link with #guide-<place>, a name in the guide): in sight at once, then to the top
+  function bring(el) {
+    if (!el) return;
+    el.classList.remove('w-pre');
+    el.scrollIntoView();
+    el.focus({ preventScroll: true });
+    rise();
+  }
+  function rise() { all('.w-pre').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.remove('w-pre'); }); }
+  window.addEventListener('scroll', rise, { passive: true });
+  window.addEventListener('resize', rise);
+  window.addEventListener('beforeprint', function () {
+    all('.w-pre').forEach(function (el) { el.classList.remove('w-pre'); });
+    unfolded = all('details.w-more:not([open])');
+    unfolded.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener('afterprint', function () { unfolded.forEach(function (d) { d.open = false; }); unfolded = []; });
+
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
   var opener = null;
   function openViewer(id, from) {
@@ -351,7 +383,7 @@
       try { history.pushState(null, '', c.getAttribute('href')); } catch (err) { location.hash = c.getAttribute('href'); }
       fromHash();
       var el = $('#sp-' + c.getAttribute('data-card'));
-      if (el) { el.scrollIntoView(); el.focus({ preventScroll: true }); }
+      bring(el);
       return;
     }
     if (e.target.id === 'wv-close' || e.target.id === 'w-viewer') closeViewer();

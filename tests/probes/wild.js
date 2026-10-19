@@ -26,6 +26,26 @@
   // On your route: 16 cards; with a trip in two groups, the ✓ lines only with a trip
   var cards = document.querySelectorAll('#p-route .w-card');
   check('16 cards On your route', cards.length === 16, cards.length);
+  // the big photos (19.10.2026): one card a row, its photo the card's width, in its frame (WILD_CROPS); where and when folded
+  // under each encounter's place, the trip's lines in sight; the cards below the screen wait hidden until they reach it
+  if (W.view().tab === 'route') {
+    var c0 = cards[0].getBoundingClientRect(), c1 = cards[1].getBoundingClientRect(), ph = cards[0].querySelector('.w-card-photo img').getBoundingClientRect();
+    check('one card a row, the photo its width', Math.round(c1.top) > Math.round(c0.bottom) && Math.round(c0.width) === Math.round(document.querySelector('#p-route .w-cards').getBoundingClientRect().width) &&
+      Math.abs(ph.width - c0.width) < 3, Math.round(c0.width) + ' / ' + Math.round(ph.width));
+    var ga = document.querySelector('#sp-gaur .w-card-photo img').getBoundingClientRect(), dk = document.querySelector('#sp-dukc .w-card-photo img').getBoundingClientRect();
+    check('the frames: 4:3 for the gaur, 3:2 for the others', Math.abs(ga.width / ga.height - 4 / 3) < 0.02 && Math.abs(dk.width / dk.height - 1.5) < 0.02 &&
+      getComputedStyle(document.querySelector('#sp-duk .w-card-photo img')).objectPosition === '50% 5%', (ga.width / ga.height).toFixed(2) + ' ' + (dk.width / dk.height).toFixed(2));
+    var more = Array.prototype.slice.call(document.querySelectorAll('#p-route .w-meet > details.w-more'));
+    check('each encounter folded: its place, how and the chance in sight, where and when not', more.length === document.querySelectorAll('#p-route .w-meet').length &&
+      more.every(function (d) { return !d.open && d.querySelector('summary .w-kind') && d.querySelector('summary .w-chance') && !d.querySelector(':scope > p').checkVisibility(); }));
+    more[0].querySelector('summary').click();
+    check('a click opens where and when', more[0].open && more[0].querySelector(':scope > p').checkVisibility());
+    more[0].querySelector('summary').click();
+    if (trip) check('the trip’s lines in sight, not folded', Array.prototype.every.call(document.querySelectorAll('#p-route .w-meet .w-ok, #p-route .w-meet .w-no'), function (e) { return !e.closest('details') && e.checkVisibility(); }));
+    var low = Array.prototype.filter.call(cards, function (x) { return x.getBoundingClientRect().top > innerHeight; });
+    check('the cards below the screen wait hidden, the others not', !matchMedia('(prefers-reduced-motion: reduce)').matches ? low.length > 0 && low.every(function (x) { return x.classList.contains('w-pre'); }) &&
+      !Array.prototype.some.call(cards, function (x) { return x.getBoundingClientRect().top < innerHeight - 40 && x.classList.contains('w-pre'); }) : !document.querySelector('.w-pre'), low.length);
+  }
   check(trip ? 'two groups, on the trip and to add' : 'one group, no ✓ and ✗', trip ? document.querySelectorAll('#p-route .w-group').length === 2 : document.querySelectorAll('#p-route .w-group').length === 0 && !/[✓✗]/.test(document.querySelector('#p-route .w-cards').textContent));
   if (trip) {
     var month = trip.st.months[0] + 1, ff = document.querySelector('#sp-swietliki'), cz = document.querySelector('#sp-czaple');
@@ -85,6 +105,10 @@
     Array.prototype.forEach.call(s.cssRules, function (r) { if (r.media && /print/.test(r.media.mediaText)) Array.prototype.forEach.call(r.cssRules, function (x) { printCss.push(x.cssText); }); });
   });
   var ps = document.createElement('style'); ps.textContent = printCss.join('\n'); document.head.appendChild(ps);
+  window.dispatchEvent(new Event('beforeprint'));
+  check('the print: every card shown, where and when unfolded', !document.querySelector('.w-pre') && !document.querySelector('details.w-more:not([open])'));
+  window.dispatchEvent(new Event('afterprint'));
+  check('after the print: folded again', !document.querySelector('#p-route details.w-more[open]'));
   check('the print: only the open tab, without the way back and Dodaj', ['route', 'gallery', 'guide'].filter(function (t) { return vis('#p-' + t); }).length === 1 && vis('#p-' + W.view().tab) &&
     !vis('#w-back') && !Array.prototype.some.call(document.querySelectorAll('.w-add, .w-drops'), function (e) { return e.checkVisibility(); }));
   ps.remove();
@@ -102,6 +126,8 @@
   location.hash = document.querySelector('#tab-' + to).getAttribute('href');
   setTimeout(function () {
     check('a tab link shows its tab', W.view().tab === to && vis('#p-' + to));
+    // its cards, tiles or places on the screen are in sight at once, not waiting to come in (19.10.2026)
+    check('the new tab: nothing on the screen waits hidden', !Array.prototype.some.call(document.querySelectorAll('#p-' + to + ' .w-pre'), function (e) { return e.getBoundingClientRect().top < innerHeight - 40; }));
     if (to !== 'gallery') { done(); return; }
     // on the Gallery: Escape-like close gives the focus back to the tile that opened the viewer
     var t = document.querySelector('#p-gallery .w-tile-name');

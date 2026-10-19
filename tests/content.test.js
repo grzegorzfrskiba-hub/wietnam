@@ -690,6 +690,11 @@ contentCheck('wildlife map', function (need) {
     need(s.pt[0] < f.lat0 && s.pt[0] > f.lat1 && s.pt[1] > f.lon0 && s.pt[1] < f.lon1, 'WILD_SPOTS.' + k + ': inside the map of the country');
   });
   need(WILD_OUTSIDE.every(function (o) { return WILD_SPOTS[o.spot] && WILD_SPOTS[o.spot].short === o.name; }), 'WILD_OUTSIDE: each place with its point of WILD_SPOTS, of the same name');
+  // the frames of the card photos (decision 10): a species with a card and a photo, 3:2 or 4:3, a point of the photo
+  Object.keys(WILD_CROPS).forEach(function (id) {
+    var c = WILD_CROPS[id];
+    need(WILD[id] && WILD[id].route && WILD_PHOTOS[id] && ['3 / 2', '4 / 3'].indexOf(c[0]) > -1 && /^\d{1,3}% \d{1,3}%$/.test(c[1]), 'WILD_CROPS.' + id + ': a card photo, 3 / 2 or 4 / 3, x% y%');
+  });
   var none = Object.keys(WILD).filter(function (id) { return WILD[id].gallery && !speciesPlaces(WILD[id]).length; });
   need(JSON.stringify(none) === '["troides","saola"]', 'a place on the map for every species of the Gallery but the golden birdwing and the saola, not ' + none.join(', '));
 });

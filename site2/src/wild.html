@@ -53,18 +53,25 @@ main { padding-block: 28px 48px; }
 .w-iucn-en { background: var(--warm-soft); color: var(--warm); }
 
 /* On your route: cards */
-.w-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 18px; margin-top: 16px; }
+/* one card a row, its photo the column's width (19.10.2026: big photos, the map beside them) */
+.w-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 16px; }
 .w-card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .w-photo { display: block; width: 100%; padding: 0; border: 0; background: var(--photo-bg); cursor: zoom-in; }
-.w-card-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.w-card-photo img { width: 100%; aspect-ratio: var(--ar, 3 / 2); object-fit: cover; object-position: var(--pos, 50% 50%); }
 .w-nophoto { display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; padding: 16px; background: var(--land-o); color: var(--muted); text-align: center; font-size: 14px; }
-.w-card-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 6px; }
-.w-card h3 { font-size: 24px; }
+.w-card-body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 6px; }
+.w-card h3 { font-size: clamp(26px, 4vw, 32px); }
 .w-alt, .w-sci { font-size: 14px; color: var(--muted); }
 .w-why { margin-top: 4px; }
 .w-meets { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
 .w-meet { padding-top: 10px; border-top: 1px solid var(--line); font-size: 15px; }
 .w-meet-top { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+/* an encounter's where and when, folded under its place: the arrow at the right turns when it opens */
+.w-more > summary { display: flex; align-items: center; gap: 12px; min-height: 44px; list-style: none; cursor: pointer; }
+.w-more > summary::-webkit-details-marker { display: none; }
+.w-more > summary::after { content: ''; flex: none; margin: 0 6px 0 auto; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .2s; }
+.w-more[open] > summary::after { transform: rotate(-135deg); }
+.w-more > p { margin-top: 4px; }
 .w-chance { font-size: 14px; }
 .w-addbox { margin-top: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 15px; }
 
@@ -154,8 +161,10 @@ main { padding-block: 28px 48px; }
   @keyframes bm-pulse-band { 0% { r: 26px; opacity: 0.45; } 100% { r: 70px; opacity: 0; } }
 }
 @media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { r: 44px; } }
-/* the items a dot on the map frames: the cards, tiles and places of its place */
-.w-card, .w-tile, .w-place, .w-box { transition: box-shadow .2s, border-color .2s; }
+/* the items a dot on the map frames: the cards, tiles and places of its place; those below the screen when a tab opens
+   wait hidden (w-pre) and rise into place as they reach it (wildapp.js) */
+.w-card, .w-tile, .w-place, .w-box { transition: opacity .5s ease-out, transform .5s ease-out, box-shadow .2s, border-color .2s; }
+.w-pre { opacity: 0; transform: translateY(28px); }
 .w-lit { border-color: var(--ink) !important; box-shadow: 0 0 0 1px var(--ink); }
 
 /* the photo viewer */
@@ -175,6 +184,10 @@ footer p { margin-top: 8px; }
 @page { size: A4; margin: 12mm; }
 @media print {
   .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer { display: none !important; }
+  .w-pre { opacity: 1 !important; transform: none !important; }
+  .w-more > summary::after { display: none; }
+  /* on paper two cards a row, as before the big photos */
+  .w-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
   /* the map once, before the open tab, with every place of the field guide named on it (wildapp.js lights them all) */
   .w-main { display: block; }
   .w-map { position: static; display: flex; align-items: flex-start; gap: 6mm; margin: 0 0 6mm; padding: 0; border: 0; background: none; break-inside: avoid; }
