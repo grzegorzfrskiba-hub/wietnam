@@ -142,6 +142,14 @@
   // the Gallery: a row lights the places of its tiles, a legend its grey point, a species without a place says so
   function gallery() {
     tab('gallery', function () {
+      // from deep in the other tab (final review of the map, 19.10.2026): at once, without a scroll of the page, the row
+      // across the middle lit and the tiles below the screen waiting to rise
+      var l0 = line(), tiles = Array.prototype.slice.call(document.querySelectorAll('#p-gallery .w-tile'));
+      var mid = tiles.filter(function (x) { return x.getBoundingClientRect().bottom > l0; })[0] || tiles[tiles.length - 1];
+      var below = tiles.filter(function (x) { return x.getBoundingClientRect().top > innerHeight; }), want = placesOf(idsOf(rowOf(mid.querySelector('[data-view]').getAttribute('data-view'))));
+      check('another tab from deep in the page: the row across the middle lit at once, the tiles below waiting to rise',
+        lit() === want && below.length > 0 && below.every(function (x) { return x.classList.contains('w-pre'); }),
+        lit() + ' / ' + want + ', ' + below.filter(function (x) { return x.classList.contains('w-pre'); }).length + ' of ' + below.length + ' below waiting');
       var row = rowOf('rokselana');
       toMiddle(row, function () {
         var ids = idsOf(row);

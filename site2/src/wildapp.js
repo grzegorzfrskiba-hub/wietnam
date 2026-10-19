@@ -187,8 +187,6 @@
     });
     $('#w-back').href = tripLink(trip && trip.settings, lang, costs, null);
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
-    lightNow();
-    prepRise();
   }
   function render() {
     renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab();
@@ -204,7 +202,11 @@
     // another tab starts at its top, under the tabs, when the page had scrolled past them
     var head = $('.w-head').getBoundingClientRect().bottom + window.scrollY;
     if (was !== view.tab && !view.place && window.scrollY > head) window.scrollTo(0, head);
+    // once the page stands where the tab opens (final review of the map, 19.10.2026): its items below the screen wait to
+    // rise, and the map lights what is across the middle now, without waiting for a scroll of the page
+    prepRise();
     if (view.place) bring($('#guide-' + view.place));
+    lightNow();
   }
   function setLang(l) {
     lang = l;
