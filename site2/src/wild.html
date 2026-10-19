@@ -93,6 +93,7 @@ main { padding-block: 28px 48px; }
    thumbnail on the left of the rest */
 .w-row { display: grid; grid-template-columns: 96px minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
 .w-row.w-note { grid-template-columns: 1fr; color: var(--muted); }
+.w-row.w-note.w-note-pic { grid-template-columns: 96px minmax(0, 1fr); }   /* a note with its photo (20.10.2026) */
 .w-row-photo { width: 96px; border-radius: 6px; overflow: hidden; }
 .w-row-photo img { width: 96px; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
 .w-row-photo:hover img { transform: scale(1.06); }
@@ -104,8 +105,10 @@ main { padding-block: 28px 48px; }
   .w-row.w-row-nopic { grid-template-columns: 1fr; }
   .w-row.w-row-nopic > .w-row-photo { display: none; }
   .w-row.w-row-nopic > :not(.w-row-photo) { grid-column: 1; }
-  .w-row.w-note { grid-template-columns: 1fr; }   /* a note: no thumbnail's column, its text from the left edge */
+  .w-row.w-note { grid-template-columns: 1fr; }   /* a note without a photo: no thumbnail's column, its text from the left */
   .w-row.w-note > p { grid-column: 1; }
+  .w-row.w-note.w-note-pic { grid-template-columns: 80px minmax(0, 1fr); }
+  .w-row.w-note.w-note-pic > p { grid-column: 2; }
 }
 .w-box { margin-top: 26px; padding: 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
 .w-avoid { background: var(--wet-soft); border-color: transparent; }

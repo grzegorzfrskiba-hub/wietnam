@@ -1,4 +1,4 @@
-/* The photos of the wildlife subpage (stage 6): one per species, in the order of the gallery, from Wikimedia Commons, the
+/* The photos of the wildlife subpage (stage 6): one per species, in the order of the gallery, then the field guide's own, from Wikimedia Commons, the
    caption saying where it was taken (decision 6 of stage 6: the wild in Vietnam first, then the wild elsewhere, captivity only
    when nothing else; notes/wizja.md). Licences as in photos.js: CC0, CC BY, CC BY-SA or public domain, never NC or ND.
    The files are photos/wild/<id>.jpg (not in git; see notes/etapy.md); sources: research/zwierzeta-zdjecia-2026-10.md. */
@@ -29,7 +29,23 @@ var WILD_PHOTOS = {
   troides: { cap: 'Samiec Troides aeacus na wolności w Parku Narodowym Bạch Mã', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Golden_birdwing_(Troides_aeacus)_male_Bach_Ma.jpg' },
   czaple: { cap: 'Kolonia czapli w ogrodzie ptaków koło Cần Thơ w delcie Mekongu', artist: 'Isabell Schulz', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Stork_sanctuary,_Mekong_Delta_(45199906095).jpg' },
   kisciecann: { cap: 'Samiec kiśćca annamskiego w zoo w Hồ Chí Minh City, w niewoli', artist: 'Hà Nghĩa VN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Vietnam_Pheasant.jpg' },
-  skamielinowiec: { cap: 'Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje', artist: 'Jean-Pierre Hugot', license: 'CC BY 2.5', page: 'https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg' }
+  skamielinowiec: { cap: 'Młody skamielinowiec laotański w klatce badaczy; miejsca źródło nie podaje', artist: 'Jean-Pierre Hugot', license: 'CC BY 2.5', page: 'https://commons.wikimedia.org/wiki/File:Laonastes_aenigmamus_-_young_male_JP_Hugot_PLOS_ONE.jpg' },
+  // the field guide's own photos (20.10.2026): rows and notes without a species' photo (pic in wild.js), no species of WILD;
+  // sources: research/zwierzeta-zdjecia-2026-10.md, „Zdjęcia do wierszy i notatek przewodnika”
+  rudawka: { cap: 'Rudawka (Pteropus lylei) w locie w Tajlandii', artist: 'lonelyshrimp', license: 'CC0', page: 'https://commons.wikimedia.org/wiki/File:YT_0072_Lyle%27s_flying_fox_(35959946475).jpg' },
+  sokolyd: { cap: 'Sokół Neohierax insignis na wolności w Krông Na (Đắk Lắk), przy Yok Đôn', artist: 'christoph_moning', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Neohierax_insignis,_Kr%C3%B4ng_Na,_%C4%90%E1%BA%AFk_L%E1%BA%AFk_Province,_Vietnam_1.jpg' },
+  banteng: { cap: 'Dzikie bantengi w rezerwacie Huai Kha Khaeng w Tajlandii', artist: 'Rushen, Thai National Parks', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Bos_javanicus,_(wild)_Banteng_-_Huai_Kha_Khaeng_(20536293581).jpg' },
+  makakn: { cap: 'Makak niedźwiedzi na wolności koło Parku Narodowego Kaeng Krachan w Tajlandii', artist: 'Thomas Galewski', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Macaca_arctoides_624873256.jpg' },
+  wielkolot: { cap: 'Wielkolot nocą na wolności na Tajwanie', artist: '鄭宇希', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:%E5%A4%9C%E6%99%9A%E7%9A%84%E5%B0%8F%E7%B2%BE%E9%9D%88-%E5%A4%A7%E8%B5%A4%E9%BC%AF%E9%BC%A0.jpg' },
+  puong: { cap: 'Jaskinia Puông w Parku Narodowym Ba Bể', artist: 'Ba Be National Park', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:Ba_Be_Lake_-_Puong_cave.JPG' },
+  kobra: { cap: 'Samica kobry królewskiej na wolności w Parku Narodowym Kaeng Krachan w Tajlandii', artist: 'Rushen, Thai National Parks', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:Ophiophagus_hannah,_King_cobra_(female)_-_Kaeng_Krachan_National_Park_(25458697183).jpg' },
+  zolwtcc: { cap: 'Żółw Cyclemys pulchristriata w ośrodku żółwi w Parku Narodowym Cúc Phương', artist: 'Superbass', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:2024-03-29-Cyclemys_pulchristriata-3451.jpg' },
+  makakcg: { cap: 'Makak na Đảo Khỉ w Cần Giờ', artist: 'Wahan Shahbazian', license: 'CC BY 3.0', page: 'https://commons.wikimedia.org/wiki/File:Lost_In_Thoughts_(101278339).jpeg' },
+  cattienlas: { cap: 'Nizinny las tropikalny w Parku Narodowym Cát Tiên', artist: 'Vyacheslav Argenberg', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Cat_Tien_Park,_Vietnam,_lowland_tropical_forest.jpg' },
+  sontralas: { cap: 'Las na półwyspie Sơn Trà, w tle morze', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Son_Tra_Mountain_6.jpg' },
+  rezusy: { cap: 'Samiec i samica rezusa na wolności na półwyspie Sơn Trà', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Rhesus_macaques_(Macaca_mulatta)_male_female_Son_Tra.jpg' },
+  phongnhagory: { cap: 'Wapienne góry porośnięte lasem w Parku Narodowym Phong Nha-Kẻ Bàng', artist: 'Tansincos', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Part_of_mountain_range_in_Phong_Nha_-_Ke_Bang_National_Park.jpg' },
+  makakhl: { cap: 'Rezus w zatoce Hạ Long', artist: 'shankar s.', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Rhesus_macaque,_Ha_Long_Bay,_Vietnam_(31489200272).jpg' }
 };
 
 /* The frame of a photo on a card of On your route (19.10.2026), where the usual one, 3:2 around the middle, would cut the

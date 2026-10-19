@@ -80,14 +80,22 @@
   var places = document.querySelectorAll('#p-guide .w-place');
   check('the field guide: 10 places, what to avoid and beyond Route G', places.length === 10 && document.querySelectorAll('#p-guide .w-box').length === 2 && document.querySelectorAll('#p-guide .w-avoid li').length === 5);
   check('each place of the guide: on the trip, or Dodaj', Array.prototype.every.call(places, function (p) { return !!p.querySelector('.w-ok, .w-add, .w-muted'); }));
-  // the guide's thumbnails (19.10.2026): every row of a species with its photo, and the five rows of the guide's own with one
-  var thumbs = document.querySelectorAll('#p-guide .w-row .w-row-photo[data-view] img'), rowsAll = document.querySelectorAll('#p-guide .w-row:not(.w-note)');
-  check('the field guide: 27 rows with a thumbnail, the others without', thumbs.length === 27 && document.querySelectorAll('#p-guide .w-row-nopic').length === rowsAll.length - 27, thumbs.length + ' / ' + rowsAll.length);
-  // a note of the guide (Makaki na Đảo Khỉ…) without a thumbnail's column: its text from the left edge of the row, on a phone
-  // too (final review of the map, 19.10.2026)
-  var note = document.querySelector('#p-guide .w-note');
-  if (note.checkVisibility()) check('a note of the guide from the left edge of its row', Math.abs(note.firstElementChild.getBoundingClientRect().left - note.getBoundingClientRect().left) < 1,
-    Math.round(note.firstElementChild.getBoundingClientRect().left) + ' / ' + Math.round(note.getBoundingClientRect().left));
+  // the guide's thumbnails (19.10.2026 and 20.10.2026): every row and every note with a photo, 22 of species' encounters,
+  // 5 of the guide's rows with a species' photo, 7 rows and 7 notes with the guide's own
+  var thumbs = document.querySelectorAll('#p-guide .w-row .w-row-photo[data-view] img'), notes = document.querySelectorAll('#p-guide .w-note');
+  check('the field guide: a thumbnail at all 41 rows and notes, none without', thumbs.length === 41 && !document.querySelector('#p-guide .w-row-nopic') &&
+    notes.length === 7 && Array.prototype.every.call(notes, function (n) { return !!n.querySelector('.w-row-photo[data-view] img'); }), thumbs.length + ', ' + notes.length + ' notes');
+  // a note's text beside its thumbnail, as in a row (on a phone too; final review of the map, 19.10.2026)
+  var note = notes[0], nph = note.querySelector('.w-row-photo'), ntx = note.querySelector('p');
+  if (note.checkVisibility()) check('a note of the guide: its text beside its thumbnail', Math.abs(ntx.getBoundingClientRect().left - nph.getBoundingClientRect().right - 16) < 1 && Math.abs(nph.getBoundingClientRect().left - note.getBoundingClientRect().left) < 1,
+    Math.round(nph.getBoundingClientRect().left) + '–' + Math.round(nph.getBoundingClientRect().right) + ', text ' + Math.round(ntx.getBoundingClientRect().left));
+  // the guide's own photo (no species): the viewer names it by its caption, without a species' names and sentence
+  var own = note.querySelector('.w-row-photo[data-view]'), oid = own.getAttribute('data-view');
+  own.click();
+  var ownCap = LANG === 'en' ? WILD_CAPS_EN[oid] : WILD_PHOTOS[oid].cap;
+  check('the guide\u2019s own photo in the viewer: its caption, no species', !WILD[oid] && document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent === ownCap &&
+    document.querySelector('#wv-sci').textContent === '' && document.querySelector('#wv-why').textContent === '', oid + ': ' + document.querySelector('#wv-name').textContent);
+  document.querySelector('#w-viewer').close();
   var tb0 = document.querySelector('#p-guide .w-row-photo[data-view]'), y0 = window.scrollY;
   tb0.focus({ preventScroll: true }); tb0.click();
   check('a thumbnail opens the viewer with its species', document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent.indexOf(WILD[tb0.getAttribute('data-view')] && (LANG === 'en' ? WILD_EN : WILD)[tb0.getAttribute('data-view')].name) === 0);

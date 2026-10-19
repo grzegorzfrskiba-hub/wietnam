@@ -7,8 +7,8 @@
    home (a species of the Gallery only, without meet): the places its tile lights on the map of the subpage, places of the
    field guide or points beyond Route G of WILD_SPOTS; none where the research confirms no place (the map of the subpage,
    research/zwierzeta-2026-10.md, „Mapa podstrony”).
-   A row of the field guide: name, kind, how, when?, chance?; pic: a species whose photo (WILD_PHOTOS) shows the row's
-   animal, for a row of its own (the guide's thumbnails, 19.10.2026).
+   A row of the field guide: name, kind, how, when?, chance?; pic: its photo (WILD_PHOTOS), of a species that shows the
+   row's animal (the guide's thumbnails, 19.10.2026) or the guide's own, also for a note (20.10.2026).
    Facts and sources: research/zwierzeta-2026-10.md; the bar-bellied pitta, the red-headed trogon, the great hornbill, the mossy
    frog and the golden birdwing: the gallery research of 16.10.2026. */
 var WILD = {
@@ -154,33 +154,33 @@ var WILD = {
 var WILD_GUIDE = {
   mekong: { where: 'okolice Cần Thơ', rows: [] },
   saigon: { where: 'Cần Giờ, namorzyny na południe od miasta', rows: [
-    { name: 'Rudawki', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; setki wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
-    { name: 'Makaki na Đảo Khỉ', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych; wyrywają aparaty, torby i jedzenie' } ] },
+    { name: 'Rudawki', pic: 'rudawka', kind: 'wild', how: 'nad Đầm Dơi w Vàm Sát, łodzią wokół namorzyn; setki wiszą głową w dół na jednej małej wysepce drzew', when: 'cały rok, za dnia', chance: 3 },
+    { name: 'Makaki na Đảo Khỉ', pic: 'makakcg', kind: 'note', how: 'ponad 1 000 wolno żyjących makaków krabożernych; wyrywają aparaty, torby i jedzenie' } ] },
   cattien: { where: 'dżungla, najlepsze miejsce Route G na zwierzęta na wolności', rows: [
     { name: 'Kukang mały', pic: 'kukang', kind: 'wild', how: 'wieczorem w bambusach przy drodze po zachodniej stronie rzeki', when: 'nie przed 20:00', chance: 1 },
     { name: 'Ptaki przy drogach', pic: 'dzioborozec', kind: 'wild', how: 'dzioborożce, kraski, żołny, brodacze i gołębie; wieloszpon wietnamski głównie z kryjówek przewodników ptasich', when: 'ok. 7:00 przy centrum dla zwiedzających', chance: 3 },
-    { name: 'Kobry królewskie', kind: 'note', how: 'żyją w wysokiej trawie przy wieżach obserwacyjnych: przez trawę nie chodź' },
-    { name: 'Đảo Tiên', kind: 'note', how: 'wyspa z ośrodkiem naczelnych jest zamknięta i nie ma daty otwarcia (stan z V 2026)' } ] },
+    { name: 'Kobry królewskie', pic: 'kobra', kind: 'note', how: 'żyją w wysokiej trawie przy wieżach obserwacyjnych: przez trawę nie chodź' },
+    { name: 'Đảo Tiên', pic: 'cattienlas', kind: 'note', how: 'wyspa z ośrodkiem naczelnych jest zamknięta i nie ma daty otwarcia (stan z V 2026)' } ] },
   yokdon: { where: 'suchy las z programem słoni bez jazdy', rows: [
-    { name: 'Ptaki suchego lasu', kind: 'wild', how: 'ponad 300 gatunków, m.in. dzięcioły i sokoliki; z przewodnikiem ptasim parku, bo bez przewodnika do lasu wejść nie wolno', when: '5:00–8:00 i 15:00–18:00', chance: 2 },
-    { name: 'Bantengi', kind: 'wild', how: 'stado widziały tylko fotopułapki parku (IV 2026)', chance: 0 } ] },
+    { name: 'Ptaki suchego lasu', pic: 'sokolyd', kind: 'wild', how: 'ponad 300 gatunków, m.in. dzięcioły i sokoliki; z przewodnikiem ptasim parku, bo bez przewodnika do lasu wejść nie wolno', when: '5:00–8:00 i 15:00–18:00', chance: 2 },
+    { name: 'Bantengi', pic: 'banteng', kind: 'wild', how: 'stado widziały tylko fotopułapki parku (IV 2026)', chance: 0 } ] },
   danang: { where: 'półwysep Sơn Trà', rows: [
-    { name: 'Las Sơn Trà', kind: 'note', how: 'zamknięty dla trekkingu i obserwacji zwierząt, a nocne wyjścia są zakazane: duki ogląda się tylko z dróg' },
-    { name: 'Makaki przy pagodzie Linh Ứng', kind: 'note', how: 'to nie duki: nie karm ich i pilnuj torby' } ] },
+    { name: 'Las Sơn Trà', pic: 'sontralas', kind: 'note', how: 'zamknięty dla trekkingu i obserwacji zwierząt, a nocne wyjścia są zakazane: duki ogląda się tylko z dróg' },
+    { name: 'Makaki przy pagodzie Linh Ứng', pic: 'rezusy', kind: 'note', how: 'to nie duki: nie karm ich i pilnuj torby' } ] },
   phongnha: { where: 'las pełen rzadkich zwierząt, prawie niewidocznych dla turysty', rows: [
-    { name: 'Małpy w ogrodzie botanicznym', kind: 'wild', how: 'w koronach drzew; gatunku park nie podaje, a najczęstszy naczelny na jego fotopułapkach to makak niedźwiedzi', when: 'w dzień', chance: 1 },
+    { name: 'Małpy w ogrodzie botanicznym', pic: 'makakn', kind: 'wild', how: 'w koronach drzew; gatunku park nie podaje, a najczęstszy naczelny na jego fotopułapkach to makak niedźwiedzi', when: 'w dzień', chance: 1 },
     { name: 'Lutung pręgogłowy, duk wspaniały, skamielinowiec laotański', pic: 'duk', kind: 'wild', how: 'żyją w parku, ale widzą je tylko fotopułapki', chance: 0 },
-    { name: 'Wybieg Núi Đôi', kind: 'note', how: 'półdziki wybieg ośrodka ratowania parku przyjmował turystów jeszcze w 2021 r.; czy przyjmuje dziś, trzeba zapytać w parku' } ] },
+    { name: 'Wybieg Núi Đôi', pic: 'phongnhagory', kind: 'note', how: 'półdziki wybieg ośrodka ratowania parku przyjmował turystów jeszcze w 2021 r.; czy przyjmuje dziś, trzeba zapytać w parku' } ] },
   cucphuong: { where: 'trzy ośrodki ratowania przy bramie i las nocą', rows: [
-    { name: 'Ośrodek żółwi', kind: 'rescue', how: 'żółwie lądowe i słodkowodne, obok EPRC; zwiedzanie trwa ok. 20 min', when: 'w dzień', chance: 3 },
+    { name: 'Ośrodek żółwi', pic: 'zolwtcc', kind: 'rescue', how: 'żółwie lądowe i słodkowodne, obok EPRC; zwiedzanie trwa ok. 20 min', when: 'w dzień', chance: 3 },
     { name: 'Ptaki', pic: 'sedziol', kind: 'wild', how: 'ponad 300 gatunków; na szlaku do drzewa Đăng m.in. sędzioł czerwonogłowy, dzięcioły i kiściec srebrzysty', chance: 2 },
-    { name: 'Wielkoloty', kind: 'wild', how: 'duże latające wiewiórki: na ścieżce do drzewa Chò i nocą przy drodze koło restauracji w centrum parku', chance: 1 } ] },
+    { name: 'Wielkoloty', pic: 'wielkolot', kind: 'wild', how: 'duże latające wiewiórki: na ścieżce do drzewa Chò i nocą przy drodze koło restauracji w centrum parku', chance: 1 } ] },
   ninhbinh: { where: 'mokradła Vân Long pod wapiennymi turniami', rows: [
     { name: 'Ptaki wodne Vân Long', pic: 'czaple', kind: 'wild', how: 'zimorodki, czaple i bociany; bociany wracają do gniazd późnym popołudniem', when: 'cały rok, zimą też ptaki przelotne', chance: 3 } ] },
   catba: { where: 'wyspa i zatoka Lan Hạ', rows: [
-    { name: 'Makaki na Monkey Island', kind: 'note', how: 'to nie lutungi: wyrywają jedzenie, telefony i torby, a relacje mówią o ugryzieniach' } ] },
+    { name: 'Makaki na Monkey Island', pic: 'makakhl', kind: 'note', how: 'to nie lutungi: wyrywają jedzenie, telefony i torby, a relacje mówią o ugryzieniach' } ] },
   babe: { where: 'jezioro Ba Bể i jaskinia Puông', rows: [
-    { name: 'Nietoperze w jaskini Puông', kind: 'wild', how: '5–10 tys. nietoperzy z 18 gatunków; z łodzi słychać je i czuć, ale na wysokim stropie trudno je wypatrzyć', when: 'cały rok, w dzień', chance: 2 } ] }
+    { name: 'Nietoperze w jaskini Puông', pic: 'puong', kind: 'wild', how: '5–10 tys. nietoperzy z 18 gatunków; z łodzi słychać je i czuć, ale na wysokim stropie trudno je wypatrzyć', when: 'cały rok, w dzień', chance: 2 } ] }
 };
 
 // "Czego unikać": five points, each the object of "avoid" (in Polish in the genitive)

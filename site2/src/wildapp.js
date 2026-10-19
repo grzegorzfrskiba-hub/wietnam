@@ -67,11 +67,12 @@
     return '<img src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
       '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' loading="lazy" decoding="async">';
   }
-  // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame
+  // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame; id: a species, or
+  // a photo of the field guide's own (20.10.2026), named by its caption
   function photoBox(id, cls) {
-    if (SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
+    if (SP[id] && SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
     var crop = cls === 'w-card-photo' && WILD_CROPS[id];
-    return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id].name })) + '">' +
+    return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id] ? SP[id].name : caption(id) })) + '">' +
       img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : cls === 'w-row-photo' ? '96px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
   }
   function kind(k) { return '<span class="w-kind w-kind-' + k + '">' + esc(T('w.kind.' + k)) + '</span>'; }
@@ -147,7 +148,7 @@
   function guideRow(r) {
     if (r.row) {
       var x = r.row;
-      if (x.kind === 'note') return '<li class="w-row w-note"><p><b>' + esc(x.name) + ':</b> ' + esc(tied(x.how)) + '</p></li>';
+      if (x.kind === 'note') return '<li class="w-row w-note' + (x.pic ? ' w-note-pic' : '') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '') + '<p><b>' + esc(x.name) + ':</b> ' + esc(tied(x.how)) + '</p></li>';
       return '<li class="w-row' + (x.pic ? '' : ' w-row-nopic') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '<span class="w-row-photo"></span>') +
         '<p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
         (x.when ? '<p class="w-muted">' + esc(T('w.when', { when: tied(x.when) })) + '</p>' : '') + '</div><p class="w-chance">' + chance(x.chance) + '</p></li>';
@@ -369,14 +370,16 @@
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
   var opener = null;
+  // a species: its photo, names and sentence; a photo of the field guide's own (no species, 20.10.2026): its caption as the
+  // title, and only the author and the licence under it
   function openViewer(id, from) {
-    var x = SP[id], d = $('#w-viewer');
+    var x = SP[id] || { nophoto: false }, d = $('#w-viewer');
     opener = from;
     $('#wv-photo').innerHTML = x.nophoto ? '<div class="w-nophoto"><span>' + esc(T('w.nophoto')) + '</span></div>' : img(id, '(max-width: 900px) 100vw, 900px');
-    $('#wv-name').textContent = x.name + (x.alt ? ' (' + x.alt + ')' : '');
-    $('#wv-sci').innerHTML = esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '');
-    $('#wv-why').textContent = tied(x.why);
-    $('#wv-cap').innerHTML = x.nophoto ? '' : esc(caption(id)) + ' · ' + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
+    $('#wv-name').textContent = SP[id] ? x.name + (x.alt ? ' (' + x.alt + ')' : '') : caption(id);
+    $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
+    $('#wv-why').textContent = SP[id] ? tied(x.why) : '';
+    $('#wv-cap').innerHTML = x.nophoto ? '' : (SP[id] ? esc(caption(id)) + ' · ' : '') + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
     if (d.showModal) d.showModal(); else d.setAttribute('open', '');
   }
   function closeViewer() {

@@ -26,5 +26,19 @@ var WILD_CAPS_EN = {
   troides: 'A male golden birdwing in the wild in Bạch Mã National Park',
   czaple: 'A colony of egrets in a bird sanctuary near Cần Thơ in the Mekong delta',
   kisciecann: 'A male Edwards’s pheasant at the zoo in Hồ Chí Minh City, in captivity',
-  skamielinowiec: 'A young Laotian rock rat in a researchers’ cage; the source does not give the place'
+  skamielinowiec: 'A young Laotian rock rat in a researchers’ cage; the source does not give the place',
+  rudawka: 'A Lyle’s flying fox (Pteropus lylei) in flight in Thailand',
+  sokolyd: 'A white-rumped falcon in the wild at Krông Na (Đắk Lắk), by Yok Đôn',
+  banteng: 'Wild banteng in the Huai Kha Khaeng sanctuary, Thailand',
+  makakn: 'A stump-tailed macaque in the wild near Kaeng Krachan National Park, Thailand',
+  wielkolot: 'A giant flying squirrel at night in the wild in Taiwan',
+  puong: 'Puông cave in Ba Bể National Park',
+  kobra: 'A female king cobra in the wild in Kaeng Krachan National Park, Thailand',
+  zolwtcc: 'A Cyclemys pulchristriata turtle at the turtle centre in Cúc Phương National Park',
+  makakcg: 'A macaque on Đảo Khỉ in Cần Giờ',
+  cattienlas: 'Lowland tropical forest in Cát Tiên National Park',
+  sontralas: 'Forest on the Sơn Trà peninsula, the sea behind',
+  rezusy: 'A male and a female rhesus macaque in the wild on the Sơn Trà peninsula',
+  phongnhagory: 'Forested limestone mountains in Phong Nha-Kẻ Bàng National Park',
+  makakhl: 'A rhesus macaque in Hạ Long Bay'
 };
