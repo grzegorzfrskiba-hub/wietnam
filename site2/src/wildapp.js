@@ -228,7 +228,7 @@
      a card lights its species' places, a row of the Gallery those of its tiles, a place of the field guide itself and
      "Poza Route G" its points. The caption names the lit places, with their days on the trip; a species without a place
      says so. Hidden from a screen reader, which has the same in the tabs. */
-  var BAND = window.matchMedia('(max-width: 1100px)'), mapDots = [], mapW = 0, litKey = null, mouse = null, NAME_H = 18;
+  var BAND = window.matchMedia('(max-width: 1100px)'), mapDots = [], mapW = 0, litKey = null, mouse = null, pinned = null, pinTop = 0, NAME_H = 18;
   function all(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
   function r1(v) { return v.toFixed(1); }
   function curve(a, b) {
@@ -301,7 +301,9 @@
     if (!mapDots.length) return;
     var items = mapItems(), i = -1, el = mouse && document.elementFromPoint(mouse.x, mouse.y);
     if (el) items.forEach(function (it, k) { if (i < 0 && it.els.some(function (e) { return e.contains(el); })) i = k; });
-    if (i < 0) i = midItem(items.map(itemBox), middleLine());
+    // the place or card a link brought to the top lights while it stays there, however short (final review of the map)
+    if (i < 0 && pinned) items.forEach(function (it, k) { if (i < 0 && it.els.indexOf(pinned) > -1 && Math.abs(pinned.getBoundingClientRect().top - pinTop) < 48) i = k; });
+    if (i < 0) { pinned = null; i = midItem(items.map(itemBox), middleLine()); }
     light(i > -1 ? items[i] : null);
   }
   function itemOf(el) { return mapItems().filter(function (it) { return it.els.some(function (e) { return e.contains(el); }); })[0]; }
@@ -347,7 +349,9 @@
     el.classList.remove('w-pre');
     el.scrollIntoView();
     el.focus({ preventScroll: true });
+    pinned = el; pinTop = el.getBoundingClientRect().top;
     rise();
+    lightNow();
   }
   function rise() { all('.w-pre').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.remove('w-pre'); }); }
   window.addEventListener('scroll', rise, { passive: true });

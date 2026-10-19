@@ -71,9 +71,20 @@
   check('the points beyond Route G hidden while not lit', pts().filter(function (g) { return g.classList.contains('spot') && !g.classList.contains('on'); }).every(function (g) { return !shown(g); }));
   check('no sideways scroll', document.documentElement.scrollWidth <= innerWidth, document.documentElement.scrollWidth + ' > ' + innerWidth);
 
+  // a link to a place of the field guide (the way in from the page with the route): the map lights that place, however
+  // short its section at the top of the screen (final review of the map, 19.10.2026)
+  function placeLink(then) {
+    var p = W.view().place;
+    if (!p) return then();
+    setTimeout(function () {
+      check('a link to a place of the field guide lights that place', lit() === p, lit() + ' / ' + p);
+      then();
+    }, 600);
+  }
+
   // On your route: a card with two places across the middle lights both (with the cards beside it in its row), named in
   // the caption, the days of a place on the trip
-  tab('route', function () {
+  placeLink(function () { tab('route', function () {
     var row = rowOf('lutungb');
     toMiddle(row, function () {
       check('a card across the middle lights its places', lit() === placesOf(idsOf(row)) && /cucphuong ninhbinh|cucphuong .*ninhbinh/.test(lit()), lit());
@@ -121,7 +132,7 @@
         }, 250);
       }, 250);
     });
-  });
+  }); });
 
   // the Gallery: a row lights the places of its tiles, a legend its grey point, a species without a place says so
   function gallery() {
