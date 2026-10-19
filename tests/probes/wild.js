@@ -83,6 +83,11 @@
   // the guide's thumbnails (19.10.2026): every row of a species with its photo, and the five rows of the guide's own with one
   var thumbs = document.querySelectorAll('#p-guide .w-row .w-row-photo[data-view] img'), rowsAll = document.querySelectorAll('#p-guide .w-row:not(.w-note)');
   check('the field guide: 27 rows with a thumbnail, the others without', thumbs.length === 27 && document.querySelectorAll('#p-guide .w-row-nopic').length === rowsAll.length - 27, thumbs.length + ' / ' + rowsAll.length);
+  // a note of the guide (Makaki na Đảo Khỉ…) without a thumbnail's column: its text from the left edge of the row, on a phone
+  // too (final review of the map, 19.10.2026)
+  var note = document.querySelector('#p-guide .w-note');
+  if (note.checkVisibility()) check('a note of the guide from the left edge of its row', Math.abs(note.firstElementChild.getBoundingClientRect().left - note.getBoundingClientRect().left) < 1,
+    Math.round(note.firstElementChild.getBoundingClientRect().left) + ' / ' + Math.round(note.getBoundingClientRect().left));
   var tb0 = document.querySelector('#p-guide .w-row-photo[data-view]'), y0 = window.scrollY;
   tb0.focus({ preventScroll: true }); tb0.click();
   check('a thumbnail opens the viewer with its species', document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent.indexOf(WILD[tb0.getAttribute('data-view')] && (LANG === 'en' ? WILD_EN : WILD)[tb0.getAttribute('data-view')].name) === 0);

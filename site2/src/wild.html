@@ -104,6 +104,8 @@ main { padding-block: 28px 48px; }
   .w-row.w-row-nopic { grid-template-columns: 1fr; }
   .w-row.w-row-nopic > .w-row-photo { display: none; }
   .w-row.w-row-nopic > :not(.w-row-photo) { grid-column: 1; }
+  .w-row.w-note { grid-template-columns: 1fr; }   /* a note: no thumbnail's column, its text from the left edge */
+  .w-row.w-note > p { grid-column: 1; }
 }
 .w-box { margin-top: 26px; padding: 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
 .w-avoid { background: var(--wet-soft); border-color: transparent; }
