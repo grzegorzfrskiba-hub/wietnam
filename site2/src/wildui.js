@@ -30,6 +30,7 @@ WUI.pl = {
   'w.g.legends': 'Legendy: prawie nikt ich nie widział',
   'w.guide.h': 'Przewodnik po miejscach',
   'w.guide.lead': 'Co żyje w miejscach Route G, z południa na północ: gdzie i kiedy szukać, z przewodnikiem czy bez. Także ptaki i drobniejsze zwierzęta.',
+  'w.map.out': 'poza Route G', 'w.map.none': 'Bez potwierdzonego miejsca do pokazania na mapie.', 'w.map.key': '● na twojej trasie · ○ poza nią',
   'w.place.on': '✓ Na twojej trasie', 'w.avoid.h': 'Czego unikać', 'w.outside.h': 'Poza Route G',
   'w.nophoto': 'Nie ma dobrego zdjęcia tego gatunku na wolnej licencji.', 'w.view.aria': 'Powiększ zdjęcie: {x}', 'w.close': 'Zamknij',
   'w.credits.h': 'Zdjęcia: autorzy i licencje ({n})',

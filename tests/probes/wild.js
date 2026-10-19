@@ -64,7 +64,10 @@
   // a place of the guide in the address: its section on the screen
   if (W.view().place) {
     var sec = document.querySelector('#guide-' + W.view().place);
-    check('the place of the guide on the screen', Math.abs(sec.getBoundingClientRect().top) < 60, sec.getBoundingClientRect().top);
+    // under the band with the map below 1101 px (the map of the subpage, 19.10.2026), at the top of the screen above it; the
+    // fonts load after the page has moved there, so the text above it may still shrink by about 30 px in headless Chrome
+    var band = innerWidth <= 1100 && document.getElementById('w-map') ? document.getElementById('w-map').getBoundingClientRect().bottom : 0;
+    check('the place of the guide on the screen' + (band ? ', under the band' : ''), Math.abs(sec.getBoundingClientRect().top - band) < 60, Math.round(sec.getBoundingClientRect().top) + ' / ' + Math.round(band));
   }
   // the final review of stage 6: a wrong part of the link said as on the page with the route; all three tabs in view from
   // 320 px; the way back a 44 px target; the print only of the open tab, without the way back and without Dodaj

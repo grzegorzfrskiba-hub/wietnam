@@ -113,3 +113,11 @@ var B = [{ top: 100, bottom: 200 }, { top: 210, bottom: 300 }, { top: 310, botto
 eq([midItem([], 100), midItem(B, 50), midItem(B, 150), midItem(B, 250), midItem(B, 350), midItem(B, 900)], [-1, 0, 0, 1, 2, 2],
   'midItem: the item across the line, the first while the list is under it, the last once it is above');
 print('map ok');
+// two close names lit together (a card of Ninh Bình and Cúc Phương, 8 px apart): the eastern keeps its side, the western
+// goes left; a name that fits nowhere else keeps its side; names far apart keep theirs
+var cpd = dotOf('cucphuong'), nbd = dotOf('ninhbinh'), wOf = function (d) { return { id: d.id, x: d.x, y: d.y, left: d.left, w: textWidth(CONTENT[d.id].short, BIG_NAME_PX) }; };
+eq(labelSides([wOf(cpd), wOf(nbd)], BIG_NAME_GAP, m0.w, 18), { ninhbinh: false, cucphuong: true }, 'labelSides: Cúc Phương to the left of Ninh Bình');
+eq(labelSides([wOf(cpd), wOf(dotOf('cattien'))], BIG_NAME_GAP, m0.w, 18), { cattien: false, cucphuong: false }, 'labelSides: names far apart keep their sides');
+eq(labelSides([{ id: 'a', x: 10, y: 50, left: false, w: 60 }, { id: 'b', x: 20, y: 52, left: false, w: 60 }], 14, 340, 18), { b: false, a: false },
+  'labelSides: a name with no room on the other side keeps its own');
+print('labels ok');

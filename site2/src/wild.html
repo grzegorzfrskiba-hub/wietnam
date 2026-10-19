@@ -90,6 +90,74 @@ main { padding-block: 28px 48px; }
 .w-box h3 { font-size: 24px; }
 .w-box ul { margin-top: 10px; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px; }
 
+/* The map beside the tabs (19.10.2026): the country with the trip, a dot at every place of the field guide in its colour, a
+   ring for a place off the trip, and the points beyond Route G, grey and shown only while lit (wildapp.js). A lit place
+   (class on) has its dot bigger, with a pulse around it, and its name; the other dots fade; the caption names the lit places.
+   From 1101 px the map stands beside the tabs, sticky; below, a band over them: the map 180 px high on the left, the
+   caption beside it. Its rules for the dots come from the map of the list of the places off the trip (template.html). */
+.w-map { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; margin: -8px 0 12px; padding: 6px 0;
+  background: var(--paper); border-bottom: 1px solid var(--line); }
+.w-map svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
+/* a place of the field guide or a card the page brings to the top (a link with #guide-<place>, a name in the guide) stands
+   under the band, not behind it */
+@media (max-width: 1100px) { .w-place, .w-card { scroll-margin-top: 210px; } }
+.w-map-cap { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.w-map-names { display: flex; flex-direction: column; gap: 2px; font-weight: 600; font-size: 15px; line-height: 1.35; }
+.w-map-names:empty { display: none; }
+.w-map-name { display: flex; align-items: center; gap: 8px; animation: w-in .3s ease-out; }
+.w-map-none { font-weight: 400; color: var(--muted); }
+.w-map-key { font-size: 13px; color: var(--muted); }
+.w-map .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.w-map .dot.ring { background: var(--surface); box-shadow: inset 0 0 0 2px var(--c); }
+@keyframes w-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (min-width: 1101px) {
+  .w-main { display: grid; grid-template-columns: minmax(0, 780px) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .w-panels { grid-column: 1; grid-row: 1; }
+  .w-map { grid-column: 2; grid-row: 1; top: 16px; display: block; margin: 0; padding: 0; background: none; border: 0; }
+  .w-map svg { width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 150px); }
+  .w-map-cap { margin-top: 10px; min-height: 48px; }
+}
+.bm-land { fill: var(--land); stroke: var(--border); stroke-width: 1; stroke-linejoin: round; }
+.bm-road { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.75; }
+.bm-fly { stroke: var(--ink); stroke-width: 1.3; stroke-dasharray: 4 4; fill: none; opacity: 0.75; }
+.bm-stay { fill: var(--ink); }
+.bm-pt { cursor: pointer; }
+.bm-pt .bm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 2; transition: r .3s, opacity .3s; }
+.bm-pt.ring .bm-dot { fill: var(--surface); stroke: var(--c); stroke-width: 3; }
+.bm-pt .bm-halo { fill: var(--c); opacity: 0; }
+.bm-hit { fill: transparent; }
+.bm-pt.spot { pointer-events: none; }
+.bm-pt.spot .bm-dot { opacity: 0; }
+.bm-pt.spot.on .bm-dot { opacity: 1; }
+/* the name: 14 px (BIG_NAME_PX in page.js), 14 px from the dot (BIG_NAME_GAP) */
+.bm-pt text { font: 600 14px var(--body); fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.bm-pt.on .bm-dot { r: 9px; }
+.bm-pt.on .bm-halo { animation: bm-pulse 1.6s ease-out infinite; }
+.bm-pt.on text { opacity: 1; }
+.w-map.any .bm-pt:not(.on) .bm-dot { opacity: 0.45; }
+.w-map.any .bm-pt.spot:not(.on) .bm-dot { opacity: 0; }
+@keyframes bm-pulse { 0% { r: 9px; opacity: 0.45; } 100% { r: 26px; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { animation: none; r: 16px; opacity: 0.25; } .w-map-name { animation: none; } }
+/* the band: the map drawn 180 px high, about 0.27 of its px, so its lines, dots and the place to tap one are drawn bigger
+   in its px; the names stand beside the map */
+@media (max-width: 1100px) {
+  .bm-land { stroke-width: 3; }
+  .bm-road { stroke-width: 5; }
+  .bm-fly { stroke-width: 4.5; stroke-dasharray: 12 12; }
+  .bm-stay { r: 8px; }
+  .bm-pt .bm-dot { r: 15px; stroke-width: 5; }
+  .bm-pt.ring .bm-dot { stroke-width: 8; }
+  .bm-pt.on .bm-dot { r: 26px; }
+  .bm-pt.on .bm-halo { animation-name: bm-pulse-band; }
+  .bm-hit { r: 40px; }
+  .bm-pt text { display: none; }
+  @keyframes bm-pulse-band { 0% { r: 26px; opacity: 0.45; } 100% { r: 70px; opacity: 0; } }
+}
+@media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { r: 44px; } }
+/* the items a dot on the map frames: the cards, tiles and places of its place */
+.w-card, .w-tile, .w-place, .w-box { transition: box-shadow .2s, border-color .2s; }
+.w-lit { border-color: var(--ink) !important; box-shadow: 0 0 0 1px var(--ink); }
+
 /* the photo viewer */
 .w-viewer { width: min(940px, 100vw - 24px); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 10px; background: var(--surface); color: var(--ink); }
 .w-viewer::backdrop { background: rgba(var(--scrim), 0.82); }
@@ -105,7 +173,23 @@ footer ul { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
 footer p { margin-top: 8px; }
 .noscript { padding: 16px var(--gutter); }
 @page { size: A4; margin: 12mm; }
-@media print { .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer { display: none !important; } }
+@media print {
+  .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer { display: none !important; }
+  /* the map once, before the open tab, with every place of the field guide named on it (wildapp.js lights them all) */
+  .w-main { display: block; }
+  .w-map { position: static; display: flex; align-items: flex-start; gap: 6mm; margin: 0 0 6mm; padding: 0; border: 0; background: none; break-inside: avoid; }
+  .w-map svg { width: 70mm; max-width: none; height: auto; max-height: none; }
+  .w-map-cap { margin: 0; }
+  .w-map-names { display: none; }
+  .bm-pt .bm-dot, .bm-pt.on .bm-dot { r: 6px; stroke-width: 2; }
+  .bm-pt.ring .bm-dot { stroke-width: 3; }
+  .bm-pt .bm-halo { display: none; }
+  .bm-pt text { display: inline; }
+  .bm-land { stroke-width: 1; }
+  .bm-road { stroke-width: 1.6; }
+  .bm-fly { stroke-width: 1.3; stroke-dasharray: 4 4; }
+  .bm-stay { r: 3px; }
+}
 </style>
 <noscript>__NOSCRIPT__</noscript>
 <header class="w-head">
@@ -119,10 +203,13 @@ footer p { margin-top: 8px; }
     <nav class="w-tabs" data-i18n-aria="w.tabs.aria"><a id="tab-route" href="#route" data-i18n="w.tab.route"></a><a id="tab-gallery" href="#gallery" data-i18n="w.tab.gallery"></a><a id="tab-guide" href="#guide" data-i18n="w.tab.guide"></a></nav>
   </div>
 </header>
-<main class="wrap">
-  <section id="p-route" hidden></section>
-  <section id="p-gallery" hidden></section>
-  <section id="p-guide" hidden></section>
+<main class="wrap w-main">
+  <div class="w-map" id="w-map" aria-hidden="true"></div>
+  <div class="w-panels">
+    <section id="p-route" hidden></section>
+    <section id="p-gallery" hidden></section>
+    <section id="p-guide" hidden></section>
+  </div>
 </main>
 <footer>
   <div class="wrap">

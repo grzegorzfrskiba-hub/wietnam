@@ -24,7 +24,7 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
 # and not in out/web (finding 4 of stage 6).
 WILD_SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
                 + [n for n in SCRIPTS if n.startswith(("content/", "en/content/"))]
-                + ["ui.js", "en/ui.js", "page.js", "wildpage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
+                + ["ui.js", "en/ui.js", "panels.js", "page.js", "basemap.js", "wildpage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
 WILD_PHOTO_DIR = os.path.join(PHOTO_DIR, "wild")
 WILD_SMALLER = (480, 960)   # srcset of a wildlife photo: the gallery's tiles and a phone pick these
 # Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo; 160 px for the

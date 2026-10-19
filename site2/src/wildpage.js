@@ -143,6 +143,27 @@ function midItem(boxes, line) {
   return boxes.length - 1;
 }
 
+/* The side of each lit name on the map: its own side (left, from countryMapAll: on the left only where it would cross the
+   right edge), unless its box meets the box of a name already placed; then the other side, when the name fits there and
+   meets none. Names are placed from east to west, so of two close places (Ninh Bình and Cúc Phương, 8 px apart) the
+   eastern keeps its side and the western goes left. lit: [{ id, x, y, left, w }], w the name's width in px; gap: from the
+   dot to the name (BIG_NAME_GAP); width: the map's; h: a name's height. Returns { id: true for a name on the left }. */
+function labelSides(lit, gap, width, h) {
+  var placed = [], out = {};
+  function box(d, left) { return left ? [d.x - gap - d.w, d.x - gap] : [d.x + gap, d.x + gap + d.w]; }
+  function meets(d, b) { return placed.some(function (p) { return Math.abs(p.y - d.y) < h && b[0] < p.b[1] && p.b[0] < b[1]; }); }
+  lit.slice().sort(function (a, b) { return b.x - a.x; }).forEach(function (d) {
+    var left = d.left, b = box(d, left);
+    if (meets(d, b)) {
+      var o = box(d, !left);
+      if (o[0] >= 0 && o[1] <= width && !meets(d, o)) { left = !left; b = o; }
+    }
+    placed.push({ y: d.y, b: b });
+    out[d.id] = left;
+  });
+  return out;
+}
+
 /* The encounters of the field guide's place p (finding 14): every encounter of a species there, in the order of WILD, then
    the guide's own rows. Returns [{ id, i } | { row }]: id and the index of its encounter, or the row of WILD_GUIDE. */
 function guideRows(wild, guide, p) {

@@ -158,7 +158,7 @@
         '<ul class="w-rows">' + guideRows(SP, GD, p).map(guideRow).join('') + '</ul></section>';
     });
     h += '<section class="w-box w-avoid"><h3>' + esc(T('w.avoid.h')) + '</h3><ul>' + AVOID.map(function (t) { return '<li>' + esc(tied(t)) + '</li>'; }).join('') + '</ul></section>';
-    h += '<section class="w-box"><h3>' + esc(T('w.outside.h')) + '</h3><ul>' + OUTSIDE.map(function (o) { return '<li><b>' + esc(o.name) + '</b>: ' + esc(tied(o.text)) + '</li>'; }).join('') + '</ul></section>';
+    h += '<section class="w-box w-out"><h3>' + esc(T('w.outside.h')) + '</h3><ul>' + OUTSIDE.map(function (o) { return '<li><b>' + esc(o.name) + '</b>: ' + esc(tied(o.text)) + '</li>'; }).join('') + '</ul></section>';
     $('#p-guide').innerHTML = h;
   }
   function renderCredits() {
@@ -180,9 +180,10 @@
     });
     $('#w-back').href = tripLink(trip && trip.settings, lang, costs, null);
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
+    lightNow();
   }
   function render() {
-    renderRoute(); renderGallery(); renderGuide(); showTab();
+    renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab();
   }
   /* The address: the trip (only when it changed, as planning takes a moment), the language, the tab. An address of a place
      of the guide moves to its section. */
@@ -211,6 +212,117 @@
     Array.prototype.forEach.call(document.querySelectorAll('#lang-switch [data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
     renderCredits();
   }
+
+  /* ---------- the map beside the tabs (19.10.2026, notes/plans/2026-10-19-mapa-zwierzat-projekt.md) ---------- */
+  /* The country with the trip, a dot at every place of the field guide in its colour (a ring for a place off the trip) and
+     the points beyond Route G, grey and shown only while lit (wildMapData in wildpage.js). What is lit follows the open tab:
+     the item under the mouse, else the item across the middle of the screen (below 1101 px, of the part under the band);
+     a card lights its species' places, a row of the Gallery those of its tiles, a place of the field guide itself and
+     "Poza Route G" its points. The caption names the lit places, with their days on the trip; a species without a place
+     says so. Hidden from a screen reader, which has the same in the tabs. */
+  var BAND = window.matchMedia('(max-width: 1100px)'), mapDots = [], mapW = 0, litKey = null, mouse = null, NAME_H = 18;
+  function all(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+  function r1(v) { return v.toFixed(1); }
+  function curve(a, b) {
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1];
+    var len = Math.sqrt(dx * dx + dy * dy) || 1, k = 0.16 * len;
+    return 'M' + r1(a[0]) + ' ' + r1(a[1]) + ' Q' + r1(mx - dy / len * k) + ' ' + r1(my + dx / len * k) + ' ' + r1(b[0]) + ' ' + r1(b[1]);
+  }
+  function placeColor(p) { return WILD_SPOTS[p] ? 'var(--muted)' : 'var(--pal-' + VIEW[p].color + ')'; }
+  function placeName(p) { return WILD_SPOTS[p] ? WILD_SPOTS[p].short : short(p); }
+  function renderMap() {
+    var m = wildMapData(trip && trip.route, trip && trip.stays, Object.keys(GD), Object.keys(WILD_SPOTS), { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS, spots: WILD_SPOTS });
+    mapDots = m.dots; mapW = m.w;
+    $('#w-map').innerHTML = '<svg viewBox="0 0 ' + m.w + ' ' + m.h + '"><path class="bm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
+      return g.mode === 'fly' ? '<path class="bm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
+        : '<line class="bm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
+    }).join('') + m.stays.map(function (p) { return '<circle class="bm-stay" cx="' + r1(p.x) + '" cy="' + r1(p.y) + '" r="3"/>'; }).join('') +
+      m.dots.map(function (d) {
+        var at = 'cx="' + r1(d.x) + '" cy="' + r1(d.y) + '"';
+        return '<g class="bm-pt' + (d.spot ? ' spot' : trip && !d.trip ? ' ring' : '') + '" data-p="' + d.id + '" style="--c:' + placeColor(d.id) + '">' +
+          '<circle class="bm-halo" ' + at + ' r="9"/><circle class="bm-dot" ' + at + ' r="6"/><text y="' + r1(d.y + 5) + '">' + esc(placeName(d.id)) + '</text>' +
+          '<circle class="bm-hit" ' + at + ' r="12"/></g>';
+      }).join('') + '</svg><div class="w-map-cap"><p class="w-map-names"></p>' + (trip ? '<p class="w-map-key">' + esc(T('w.map.key')) + '</p>' : '') + '</div>';
+    litKey = null;
+  }
+  // the elements of the open tab that light places: its cards, its tiles or its places and boxes
+  function mapEls() { return all(view.tab === 'route' ? '#p-route .w-card' : view.tab === 'gallery' ? '#p-gallery .w-tile' : '#p-guide .w-place, #p-guide .w-box'); }
+  // the places of one: a card's or a tile's species, a place of the field guide, the points of "Poza Route G"
+  function elPlaces(el) {
+    if (view.tab !== 'guide') return speciesPlaces(SP[el.id ? el.id.slice(3) : el.querySelector('[data-view]').getAttribute('data-view')]);
+    return el.id ? [el.id.slice(6)] : el.classList.contains('w-out') ? WILD_OUTSIDE.map(function (o) { return o.spot; }) : [];
+  }
+  /* The items that light places: [{ els, places, none }]; none: only species without a place on the map. The elements in
+     rows, as they stand on the screen now: a row of cards or tiles lights the places of all its species. */
+  function mapItems() {
+    var rows = [];
+    mapEls().forEach(function (el) {
+      var top = Math.round(el.getBoundingClientRect().top), p = elPlaces(el), row = rows[rows.length - 1];
+      if (!row || Math.abs(row.top - top) > 2) rows.push(row = { top: top, els: [], places: [], none: view.tab !== 'guide' });
+      row.els.push(el);
+      p.forEach(function (x) { if (row.places.indexOf(x) < 0) row.places.push(x); });
+      row.none = row.none && !p.length;
+    });
+    return rows;
+  }
+  function itemBox(it) {
+    var r = it.els.map(function (el) { return el.getBoundingClientRect(); });
+    return { top: Math.min.apply(null, r.map(function (b) { return b.top; })), bottom: Math.max.apply(null, r.map(function (b) { return b.bottom; })) };
+  }
+  // the line an item lights on: the middle of the screen, below 1101 px of the part under the band
+  function middleLine() { return BAND.matches ? (Math.max($('#w-map').getBoundingClientRect().bottom, 0) + window.innerHeight) / 2 : window.innerHeight / 2; }
+  function light(item) {
+    var ids = item ? item.places : [], none = !!(item && item.none), key = ids.join(' ') + (none ? ' none' : '');
+    if (key === litKey) return;
+    litKey = key;
+    var lit = mapDots.filter(function (d) { return ids.indexOf(d.id) > -1; });
+    var sides = labelSides(lit.map(function (d) { return { id: d.id, x: d.x, y: d.y, left: d.left, w: textWidth(placeName(d.id), BIG_NAME_PX) }; }), BIG_NAME_GAP, mapW, NAME_H);
+    all('#w-map .bm-pt').forEach(function (g) {
+      var p = g.getAttribute('data-p'), on = ids.indexOf(p) > -1, d = mapDots.filter(function (x) { return x.id === p; })[0], t = g.querySelector('text');
+      g.classList.toggle('on', on);
+      if (on) { t.setAttribute('x', r1(d.x + (sides[p] ? -BIG_NAME_GAP : BIG_NAME_GAP))); t.setAttribute('text-anchor', sides[p] ? 'end' : 'start'); }
+    });
+    $('#w-map').classList.toggle('any', ids.length > 0 || none);
+    $('#w-map .w-map-names').innerHTML = none ? '<span class="w-map-name w-map-none">' + esc(T('w.map.none')) + '</span>' : ids.map(function (p) {
+      var stays = trip && trip.stays[p], ring = trip && !stays && !WILD_SPOTS[p];
+      return '<span class="w-map-name"><span class="dot' + (ring ? ' ring' : '') + '" style="--c:' + placeColor(p) + '"></span>' + esc(placeName(p)) +
+        (WILD_SPOTS[p] ? ' · ' + esc(T('w.map.out')) : stays ? ' · ' + esc(dayRange(stays[0].first, stays[stays.length - 1].last)) : '') + '</span>';
+    }).join('');
+  }
+  function lightNow() {
+    if (!mapDots.length) return;
+    var items = mapItems(), i = -1, el = mouse && document.elementFromPoint(mouse.x, mouse.y);
+    if (el) items.forEach(function (it, k) { if (i < 0 && it.els.some(function (e) { return e.contains(el); })) i = k; });
+    if (i < 0) i = midItem(items.map(itemBox), middleLine());
+    light(i > -1 ? items[i] : null);
+  }
+  function itemOf(el) { return mapItems().filter(function (it) { return it.els.some(function (e) { return e.contains(el); }); })[0]; }
+  // a browser sends scroll and pointermove at most once a frame, and lightNow reads the boxes of 12–25 items only
+  window.addEventListener('scroll', lightNow, { passive: true });
+  window.addEventListener('resize', lightNow);
+  BAND.addEventListener('change', lightNow);
+  // the mouse (not a finger) over the tabs: the item under it; the keyboard: the item with the focus
+  $('.w-panels').addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mouse = { x: e.clientX, y: e.clientY }; lightNow(); });
+  $('.w-panels').addEventListener('pointerleave', function () { mouse = null; lightNow(); });
+  $('.w-panels').addEventListener('focusin', function (e) { var it = itemOf(e.target); if (it) light(it); });
+  // the mouse on a dot frames the cards, tiles or places of its place; a click on it brings the first of them to the middle
+  $('#w-map').addEventListener('mouseover', function (e) {
+    var g = e.target.closest('.bm-pt'), p = g && g.getAttribute('data-p');
+    mapEls().forEach(function (el) { el.classList.toggle('w-lit', !!p && elPlaces(el).indexOf(p) > -1); });
+  });
+  $('#w-map').addEventListener('mouseleave', function () { all('.w-lit').forEach(function (el) { el.classList.remove('w-lit'); }); });
+  $('#w-map').addEventListener('click', function (e) {
+    var g = e.target.closest('.bm-pt'), p = g && g.getAttribute('data-p'), el = p && mapEls().filter(function (x) { return elPlaces(x).indexOf(p) > -1; })[0];
+    if (!el) return;
+    var it = itemOf(el), b = itemBox(it), top = BAND.matches ? Math.max($('#w-map').getBoundingClientRect().bottom, 0) : 0, line = middleLine();
+    // an item taller than the half of the screen it would have under the line comes to its top instead
+    window.scrollBy(0, b.bottom - b.top > 2 * (window.innerHeight - line) ? b.top - top - 12 : (b.top + b.bottom) / 2 - line);
+    mouse = null;
+    light(it);
+  });
+  // the printout: the map once, with every place of the field guide lit and named
+  window.addEventListener('beforeprint', function () { light({ places: Object.keys(GD), none: false }); });
+  window.addEventListener('afterprint', lightNow);
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
   var opener = null;
