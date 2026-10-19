@@ -29,7 +29,7 @@ WUI.en = {
   'w.guide.h': 'Field guide to the places',
   'w.guide.lead': 'What lives at the places of Route G, from south to north: where and when to look, with a guide or without. Birds and smaller animals too.',
   'w.place.on': '✓ On your route', 'w.avoid.h': 'What to avoid', 'w.outside.h': 'Beyond Route G',
-  'w.nophoto': 'There is not a single good photo of this species.', 'w.view.aria': 'Enlarge the photo: {x}', 'w.close': 'Close',
+  'w.nophoto': 'There is no good freely licensed photo of this species.', 'w.view.aria': 'Enlarge the photo: {x}', 'w.close': 'Close',
   'w.credits.h': 'Photos: authors and licences ({n})',
   'w.credits.note': 'Photos from Wikimedia Commons, under CC0, CC BY or CC BY-SA or in the public domain; each caption says where it was taken.'
 };

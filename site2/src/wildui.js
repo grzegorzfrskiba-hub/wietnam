@@ -31,7 +31,7 @@ WUI.pl = {
   'w.guide.h': 'Przewodnik po miejscach',
   'w.guide.lead': 'Co żyje w miejscach Route G, z południa na północ: gdzie i kiedy szukać, z przewodnikiem czy bez. Także ptaki i drobniejsze zwierzęta.',
   'w.place.on': '✓ Na twojej trasie', 'w.avoid.h': 'Czego unikać', 'w.outside.h': 'Poza Route G',
-  'w.nophoto': 'Nie ma ani jednego dobrego zdjęcia tego gatunku.', 'w.view.aria': 'Powiększ zdjęcie: {x}', 'w.close': 'Zamknij',
+  'w.nophoto': 'Nie ma dobrego zdjęcia tego gatunku na wolnej licencji.', 'w.view.aria': 'Powiększ zdjęcie: {x}', 'w.close': 'Zamknij',
   'w.credits.h': 'Zdjęcia: autorzy i licencje ({n})',
   'w.credits.note': 'Zdjęcia z Wikimedia Commons, na licencjach CC0, CC BY albo CC BY-SA albo w domenie publicznej; podpis mówi, gdzie je zrobiono.'
 };
