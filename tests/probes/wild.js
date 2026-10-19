@@ -33,6 +33,8 @@
     if (onCP && month === 5) check('fireflies in May: on the trip and in the day’s plan', /✓/.test(ff.textContent) && ff.textContent.indexOf(L({ en: 'In the day’s plan', pl: 'W planie dnia' })) > -1);
     if (onCP && month === 2) check('fireflies in February: out of the term', ff.querySelector('.w-no') && /✗/.test(ff.querySelector('.w-no').textContent));
     if (!trip.stays.mekong && [2, 3, 4, 5, 6, 7].indexOf(month) > -1) check('egrets out of the term instead of Dodaj (finding 10)', !!cz.querySelector('.w-no') && !cz.querySelector('.w-add'));
+    // butterflies in June at Cúc Phương only (IV–V there): Dodaj Cát Tiên, where they are in V–VII (final review of stage 6)
+    if (onCP && !trip.stays.cattien && month === 6) check('butterflies in June: Dodaj Cát Tiên', !!document.querySelector('#sp-motyle .w-addbox') && /dodaj=cattien|Cát Tiên/.test(document.querySelector('#sp-motyle .w-addbox').innerHTML));
     // Dodaj (finding 27): a link back with dodaj=, and what would leave the trip before it
     var add = document.querySelector('#p-route .w-add');
     if (add) check('Dodaj: back to the trip with dodaj=, after what would leave it', /^\.\.\/#od=.*&dodaj=[a-z]+/.test(add.getAttribute('href')) && /dodaj=[a-z]+/.test(add.getAttribute('href')) &&

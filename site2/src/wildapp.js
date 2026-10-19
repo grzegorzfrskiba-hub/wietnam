@@ -49,7 +49,7 @@
     if (!r.ok) return;
     var off = {};
     whyOff(r, got.settings, got.st, DATA, CLIMATE).forEach(function (x) { off[x.id] = x; });
-    trip = { settings: got.settings, st: got.st, route: r, stays: tripStays(r, got.st, CONTENT, FERRY), months: termMonths(got.st), off: off, dropped: got.dropped.length > 0 };
+    trip = { settings: got.settings, st: got.st, route: r, stays: tripStays(r, got.st, CONTENT, FERRY, selfSwaps(got.settings.moto, SWAPS).places), months: termMonths(got.st), off: off, dropped: got.dropped.length > 0 };
   }
   // the trip in one line, as in the summary of the page with the route: the term, the days and the level
   function tripLine() {
@@ -104,14 +104,12 @@
     return h + '</li>';
   }
   function card(id) {
-    var x = SP[id], places = [];
-    x.meet.forEach(function (m) { if (places.indexOf(m.place) < 0) places.push(m.place); });
-    var adds = trip ? places.filter(function (p) { return !trip.stays[p]; }) : places;
+    var x = SP[id], adds = addPlaces(x, trip && trip.stays, trip && trip.st.months);
     var h = '<article class="w-card" id="sp-' + id + '" tabindex="-1">' + photoBox(id, 'w-card-photo') + '<div class="w-card-body"><h3>' + esc(x.name) + '</h3>' +
       (x.alt ? '<p class="w-alt">' + esc(x.alt) + '</p>' : '') + namesLine(x) + iucn(x) + '<p class="w-why">' + esc(tied(x.why)) + '</p>' +
       '<ul class="w-meets">' + x.meet.map(meetBlock).join('') + '</ul>';
-    // Dodaj only when the species is not on the trip yet: one per place, at the encounter of that place
-    if (!onTrip(id)) h += adds.map(function (p) { return '<div class="w-addbox">' + addBlock(p, x.meet.filter(function (m) { return m.place === p; })[0]) + '</div>'; }).join('');
+    // Dodaj when the species is not on the trip in its term yet: one per place, at the encounter of that place
+    h += adds.map(function (p) { return '<div class="w-addbox">' + addBlock(p, x.meet.filter(function (m) { return m.place === p; })[0]) + '</div>'; }).join('');
     return h + '</div></article>';
   }
 

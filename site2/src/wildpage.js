@@ -42,16 +42,28 @@ function tripLink(settings, lang, costs, add) {
 /* ---------- the trip ---------- */
 /* The stays of a trip by place, with their trip days and day plans (stopDays): { id: [{ first, last, days }] }, a city twice
    on a round trip with both stays. route: planRoute's trip; st: its normSettings' result; content: the places' texts (their
-   days); ferry: FERRY of travel.js (legAfter). */
-function tripStays(route, st, content, ferry) {
+   days); ferry: FERRY of travel.js (legAfter); self: the places of the swaps set to „Samodzielnie” (selfSwaps(…).places),
+   whose days take their self versions, as on the page with the route. */
+function tripStays(route, st, content, ferry, self) {
   var out = {}, done = {};
   route.stops.forEach(function (x, i) {
     if (!content[x.id]) return;   // a night on the way has no plans
-    var days = stopDays(content[x.id], x, done[x.id] || 0, st.level, st.months, legAfter(route, i, ferry)) || [];
+    var days = stopDays(content[x.id], x, done[x.id] || 0, st.level, st.months, legAfter(route, i, ferry), !!(self && self[x.id])) || [];
     done[x.id] = (done[x.id] || 0) + x.n;
     (out[x.id] = out[x.id] || []).push({ first: x.start, last: x.start + x.n - 1, days: days });
   });
   return out;
+}
+
+/* The places a card offers to add (finding 27): without a trip (stays null) each place of the species; with one, the
+   places off the trip, unless the species is on the trip in its term already (an encounter on the trip in a month of its
+   months, or of the whole year): butterflies in June at Cúc Phương (IV–V) offer Cát Tiên (V–VII). sp: a species of WILD;
+   stays: tripStays; months: st.months. */
+function addPlaces(sp, stays, months) {
+  var places = [];
+  sp.meet.forEach(function (m) { if (places.indexOf(m.place) < 0 && !(stays && stays[m.place])) places.push(m.place); });
+  if (stays && sp.meet.some(function (m) { var o = meetOnTrip(m, stays, months); return o && o.month !== false; })) return [];
+  return places;
 }
 
 /* What the trip means for one encounter (findings 9 and 11): null when its place is not on the trip; else

@@ -64,6 +64,19 @@ eq([meetOnTrip({ place: 'cattien', months: null, plan: [[1, 'solo']] }, solo, [4
 eq(meetOnTrip({ place: 'cattien', months: [4], plan: [[1, 'solo']] }, solo, [4, 4, 4, 4]), { first: 3, last: 3, plan: false, month: false }, 'meetOnTrip: out of season, neither');
 eq(meetOnTrip({ place: 'cattien', months: [5], plan: [[1, 'solo']] }, solo, [4, 4, 4, 4]), { first: 3, last: 3, plan: true, month: true }, 'meetOnTrip: in season, both');
 eq([meetInTerm({ months: null }, [2]), meetInTerm({ months: [4, 5, 6] }, [2, 3]), meetInTerm({ months: [4, 5, 6] }, [3, 4])], [true, false, true], 'meetInTerm (finding 10)');
+
+/* ---------- the final review of stage 6 ---------- */
+// a swap set to „Samodzielnie” (moto) gives the place's days their self versions, as on the page with the route (app.js)
+var SM = { from: 'HAN', to: 'HAN', year: 2027, month: 3, days: 14, interests: ['gory'], level: 2, add: ['caobang'], remove: [], moto: ['caobang'] };
+var stm = normSettings(SM, PLACES, HUBS), rm = planRoute(stm, DATA_W), sm = tripStays(rm, stm, CONTENT, FERRY, selfSwaps(SM.moto, SWAPS).places);
+ok(sm.caobang && sm.caobang[0].days.some(function (d) { return d.plan.v === 'self'; }), 'tripStays with the swaps: Cao Bằng on the motorbike takes its self days');
+ok(!tripStays(rm, stm, CONTENT, FERRY).caobang[0].days.some(function (d) { return d.plan.v === 'self'; }), 'tripStays without the swaps: no self days');
+// Dodaj (finding 27): without a trip each place of the species; on the trip only out of its term (butterflies in June at
+// Cúc Phương), the places off the trip; on the trip in its term, none
+var BF = { meet: [{ place: 'cucphuong', months: [4, 5] }, { place: 'cattien', months: [5, 6, 7] }, { place: 'cattien', months: null }] };
+var onCP = { cucphuong: [{ first: 2, last: 3, days: [] }] }, june = [5, 5, 5, 5], may = [4, 4, 4, 4];
+eq([addPlaces(BF, null, null), addPlaces(BF, onCP, june), addPlaces(BF, onCP, may), addPlaces({ meet: [{ place: 'cucphuong', months: null }, { place: 'yokdon', months: null }] }, onCP, june)],
+  [['cucphuong', 'cattien'], ['cattien'], [], []], 'addPlaces: Dodaj on the trip only out of the term');
 eq(termMonths({ months: [0, 0, 1, 1, 1] }), [1, 2], 'termMonths: once each, 1–12');
 print('encounters ok');
 
