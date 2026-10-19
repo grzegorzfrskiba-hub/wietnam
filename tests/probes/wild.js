@@ -80,6 +80,14 @@
   var places = document.querySelectorAll('#p-guide .w-place');
   check('the field guide: 10 places, what to avoid and beyond Route G', places.length === 10 && document.querySelectorAll('#p-guide .w-box').length === 2 && document.querySelectorAll('#p-guide .w-avoid li').length === 5);
   check('each place of the guide: on the trip, or Dodaj', Array.prototype.every.call(places, function (p) { return !!p.querySelector('.w-ok, .w-add, .w-muted'); }));
+  // the guide's thumbnails (19.10.2026): every row of a species with its photo, and the five rows of the guide's own with one
+  var thumbs = document.querySelectorAll('#p-guide .w-row .w-row-photo[data-view] img'), rowsAll = document.querySelectorAll('#p-guide .w-row:not(.w-note)');
+  check('the field guide: 27 rows with a thumbnail, the others without', thumbs.length === 27 && document.querySelectorAll('#p-guide .w-row-nopic').length === rowsAll.length - 27, thumbs.length + ' / ' + rowsAll.length);
+  var tb0 = document.querySelector('#p-guide .w-row-photo[data-view]'), y0 = window.scrollY;
+  tb0.focus({ preventScroll: true }); tb0.click();
+  check('a thumbnail opens the viewer with its species', document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent.indexOf(WILD[tb0.getAttribute('data-view')] && (LANG === 'en' ? WILD_EN : WILD)[tb0.getAttribute('data-view')].name) === 0);
+  document.querySelector('#w-viewer').close();
+  window.scrollTo(0, y0);   // the focus back on the thumbnail may have moved the page
 
   // a place of the guide in the address: its section on the screen
   if (W.view().place) {

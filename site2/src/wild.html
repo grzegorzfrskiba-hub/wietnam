@@ -89,9 +89,22 @@ main { padding-block: 28px 48px; }
 .w-place-h { display: flex; flex-direction: column; gap: 4px; }
 .w-place h3 { font-size: 26px; }
 .w-rows { margin-top: 12px; display: flex; flex-direction: column; }
-.w-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+/* a row: its thumbnail (96 px, 4:3; the photo viewer on a click), the name, how and when, the chance; on a phone the
+   thumbnail on the left of the rest */
+.w-row { display: grid; grid-template-columns: 96px minmax(0, 1.1fr) minmax(0, 2fr) auto; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
 .w-row.w-note { grid-template-columns: 1fr; color: var(--muted); }
-@media (max-width: 640px) { .w-row { grid-template-columns: 1fr; } }
+.w-row-photo { width: 96px; border-radius: 6px; overflow: hidden; }
+.w-row-photo img { width: 96px; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
+.w-row-photo:hover img { transform: scale(1.06); }
+@media (max-width: 640px) {
+  .w-row { grid-template-columns: 80px minmax(0, 1fr); }
+  .w-row > .w-row-photo { grid-row: 1 / span 3; width: 80px; }
+  .w-row > .w-row-photo img { width: 80px; }
+  .w-row > :not(.w-row-photo) { grid-column: 2; }
+  .w-row.w-row-nopic { grid-template-columns: 1fr; }
+  .w-row.w-row-nopic > .w-row-photo { display: none; }
+  .w-row.w-row-nopic > :not(.w-row-photo) { grid-column: 1; }
+}
 .w-box { margin-top: 26px; padding: 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
 .w-avoid { background: var(--wet-soft); border-color: transparent; }
 .w-box h3 { font-size: 24px; }

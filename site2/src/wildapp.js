@@ -72,7 +72,7 @@
     if (SP[id].nophoto) return '<div class="w-nophoto ' + cls + '"><span>' + esc(T('w.nophoto')) + '</span></div>';
     var crop = cls === 'w-card-photo' && WILD_CROPS[id];
     return '<button type="button" class="w-photo ' + cls + '" data-view="' + id + '" aria-label="' + esc(T('w.view.aria', { x: SP[id].name })) + '">' +
-      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
+      img(id, cls === 'w-tile-photo' ? '(max-width: 640px) 50vw, 240px' : cls === 'w-row-photo' ? '96px' : '(max-width: 1100px) 100vw, 780px', crop ? '--ar:' + crop[0] + ';--pos:' + crop[1] : '') + '</button>';
   }
   function kind(k) { return '<span class="w-kind w-kind-' + k + '">' + esc(T('w.kind.' + k)) + '</span>'; }
   function chance(c, note) { return '<span class="w-dots" aria-hidden="true">' + DOTS[c] + '</span> <span>' + esc(note || T('w.chance.' + c)) + '</span>'; }
@@ -142,15 +142,18 @@
     });
     $('#p-gallery').innerHTML = h;
   }
+  /* A row of the field guide with its thumbnail, which opens the photo viewer (19.10.2026: no row of text alone): a species'
+     photo, or for a row of the guide's own the photo of its pic; a row without one keeps the thumbnail's column empty. */
   function guideRow(r) {
     if (r.row) {
       var x = r.row;
       if (x.kind === 'note') return '<li class="w-row w-note"><p><b>' + esc(x.name) + ':</b> ' + esc(tied(x.how)) + '</p></li>';
-      return '<li class="w-row"><p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
+      return '<li class="w-row' + (x.pic ? '' : ' w-row-nopic') + '">' + (x.pic ? photoBox(x.pic, 'w-row-photo') : '<span class="w-row-photo"></span>') +
+        '<p class="w-row-name"><b>' + esc(x.name) + '</b> ' + kind(x.kind) + '</p><div><p>' + esc(tied(capFirst(x.how))) + '</p>' +
         (x.when ? '<p class="w-muted">' + esc(T('w.when', { when: tied(x.when) })) + '</p>' : '') + '</div><p class="w-chance">' + chance(x.chance) + '</p></li>';
     }
     var s = SP[r.id], m = s.meet[r.i];
-    return '<li class="w-row"><p class="w-row-name"><a href="' + esc(wildHash({ tab: 'route', place: null }, trip && trip.settings, lang, costs)) + '" data-card="' + r.id + '"><b>' + esc(s.name) + '</b></a> ' + kind(m.kind) + '</p>' +
+    return '<li class="w-row">' + photoBox(r.id, 'w-row-photo') + '<p class="w-row-name"><a href="' + esc(wildHash({ tab: 'route', place: null }, trip && trip.settings, lang, costs)) + '" data-card="' + r.id + '"><b>' + esc(s.name) + '</b></a> ' + kind(m.kind) + '</p>' +
       '<div><p>' + esc(tied(capFirst(m.where))) + '</p><p class="w-muted">' + esc(T('w.when', { when: tied(m.when) })) + '</p></div><p class="w-chance">' + chance(m.chance, m.chanceNote) + '</p></li>';
   }
   function renderGuide() {

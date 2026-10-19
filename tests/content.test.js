@@ -654,6 +654,8 @@ contentCheck('wildlife', function (need) {
     g.rows.forEach(function (r, i) {
       need(['wild', 'rescue', 'note'].indexOf(r.kind) > -1 && isText(r.name) && isText(r.how), 'WILD_GUIDE.' + p + '.rows.' + i + ': kind, name and how');
       need(r.kind === 'note' ? r.chance === undefined && r.when === undefined : [0, 1, 2, 3].indexOf(r.chance) > -1, 'WILD_GUIDE.' + p + '.rows.' + i + ': a chance 0–3, none for a note');
+      // the guide's thumbnails (19.10.2026): a row of its own may show the photo of a species (pic), not a note
+      need(r.pic === undefined || r.kind !== 'note' && !!WILD_PHOTOS[r.pic], 'WILD_GUIDE.' + p + '.rows.' + i + ': pic, the photo of a species, not on a note');
     });
   });
   Object.keys(WILD).forEach(function (id) { (WILD[id].meet || []).forEach(function (m) { need(WILD_GUIDE[m.place], 'WILD.' + id + ': ' + m.place + ' has no section in the field guide'); }); });
@@ -695,6 +697,9 @@ contentCheck('wildlife map', function (need) {
     var c = WILD_CROPS[id];
     need(WILD[id] && WILD[id].route && WILD_PHOTOS[id] && ['3 / 2', '4 / 3'].indexOf(c[0]) > -1 && /^\d{1,3}% \d{1,3}%$/.test(c[1]), 'WILD_CROPS.' + id + ': a card photo, 3 / 2 or 4 / 3, x% y%');
   });
+  var pics = [];
+  Object.keys(WILD_GUIDE).forEach(function (p) { WILD_GUIDE[p].rows.forEach(function (r) { if (r.pic) pics.push(p + ':' + r.pic); }); });
+  need(pics.join(' ') === 'cattien:kukang cattien:dzioborozec phongnha:duk cucphuong:sedziol ninhbinh:czaple', 'the rows of the field guide with a photo of a species: ' + pics.join(' '));
   var none = Object.keys(WILD).filter(function (id) { return WILD[id].gallery && !speciesPlaces(WILD[id]).length; });
   need(JSON.stringify(none) === '["troides","saola"]', 'a place on the map for every species of the Gallery but the golden birdwing and the saola, not ' + none.join(', '));
 });
