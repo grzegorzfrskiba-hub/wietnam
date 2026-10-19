@@ -18,7 +18,7 @@ UI.pl = {
   'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',
   'set.term': 'Termin', 'set.mode.month': 'Miesiąc i liczba dni', 'set.mode.dates': 'Dokładne daty',
   'set.month': 'Miesiąc', 'set.days': 'Liczba dni', 'set.start': 'Dzień przylotu', 'set.end': 'Dzień wylotu',
-  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.', 'set.sum': '{term} · {days} dni',
+  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.',
   'set.airports': 'Lotniska', 'set.from': 'Przylot do', 'set.to': 'Wylot z',
   'set.interests': 'Co lubisz (najwyżej dwie rzeczy)',
   'set.interests.none': 'Bez wyboru trasa ma po trochu wszystkiego.',

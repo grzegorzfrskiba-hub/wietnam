@@ -208,11 +208,6 @@ ul, ol { padding: 0; list-style: none; }
 .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .chip:has(input:disabled) { opacity: 0.45; cursor: default; }
 .set-note { font-size: 13px; color: var(--muted); }
-/* the settings in short (fix 3): a link that holds a trip opens with the form folded into three lines (the term, the
-   airports, what you like and the level) and „Zmień”, which opens it */
-.set-sum { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(16px, 2.4vw, 26px); }
-.set-sum-lines { display: grid; gap: 2px; min-width: 0; }
-.set-sum-lines span:first-child { font-weight: 600; }
 .set-msg { font-size: 14.5px; color: var(--wet); }
 .set-msg:not(:empty) { margin-top: 14px; }
 /* Holiday warnings under the facts, and the places that did not fit */
@@ -742,10 +737,6 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="eyebrow" data-i18n="set.eyebrow"></p>
       <h2 data-i18n="set.h2"></h2>
       <p data-i18n="set.p"></p>
-    </div>
-    <div class="set-sum" id="set-sum" hidden>
-      <p class="set-sum-lines"><span id="ss-term"></span><span id="ss-air"></span><span id="ss-likes"></span></p>
-      <button type="button" class="btn-ghost" id="set-open" data-i18n="nav.change"></button>
     </div>
     <form class="settings" id="settings-form" novalidate>
       <fieldset class="set-group">
@@ -2768,7 +2759,7 @@ UI.pl = {
   'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',
   'set.term': 'Termin', 'set.mode.month': 'Miesiąc i liczba dni', 'set.mode.dates': 'Dokładne daty',
   'set.month': 'Miesiąc', 'set.days': 'Liczba dni', 'set.start': 'Dzień przylotu', 'set.end': 'Dzień wylotu',
-  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.', 'set.sum': '{term} · {days} dni',
+  'set.days.note': 'Dni liczymy od przylotu do wylotu, oba włącznie.',
   'set.airports': 'Lotniska', 'set.from': 'Przylot do', 'set.to': 'Wylot z',
   'set.interests': 'Co lubisz (najwyżej dwie rzeczy)',
   'set.interests.none': 'Bez wyboru trasa ma po trochu wszystkiego.',
@@ -3039,7 +3030,7 @@ UI.en = {
   'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',
   'set.term': 'Dates', 'set.mode.month': 'By month', 'set.mode.dates': 'Exact dates',
   'set.month': 'Month', 'set.days': 'Number of days', 'set.start': 'Arrival day', 'set.end': 'Departure day',
-  'set.days.note': 'Days count from arrival to departure, both included.', 'set.sum': '{term} · {days} days',
+  'set.days.note': 'Days count from arrival to departure, both included.',
   'set.airports': 'Airports', 'set.from': 'Fly into', 'set.to': 'Fly out of',
   'set.interests': 'What you like (two at most)',
   'set.interests.none': 'With nothing chosen, the route has a bit of everything.',
@@ -4984,7 +4975,6 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       var el = a && document.getElementById(a.getAttribute('href').slice(1));
       if (!el) return;
       e.preventDefault();
-      if (el.id === 'settings') openForm();   // „Ustaw swój wyjazd”, „Ustawienia” and „Zmień” open the folded form
       reveal(el);   // a day of the strip opens (finding 3 of fix 3)
       el.scrollIntoView({ block: 'start' });
       if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
@@ -5021,26 +5011,12 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     return T('sum', { term: term, days: st.days, level: T('lvl.' + st.level) });
   }
 
-  /* The settings in short (finding 10 of fix 3): the form folded into three lines, the term with its days, the airports,
-     and what you like with the level; „Zmień” opens the whole form, which stays open until the page loads again. */
-  function renderSetSum() {
-    var st = state.st;
-    $('#ss-term').textContent = capFirst(T('set.sum', { term: termText(st), days: st.days }));
-    $('#ss-air').textContent = T('pt.route', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name });
-    $('#ss-likes').textContent = (st.interests.length ? st.interests.map(function (k) { return T('int.' + k); }).join(', ') : capFirst(T('pt.any'))) + ' · ' + T('lvl.' + st.level);
-  }
-  function openForm() {
-    $('#set-sum').hidden = true;
-    F.hidden = false;
-  }
-
   function render() {
     // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
     var keep = openFolds(), trip = tripKey(state.route);
     if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
     foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
-    renderSetSum();
     renderFacts();
     renderShape();
     renderOffRoute();
@@ -6044,9 +6020,6 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   /* ---------- wiring ---------- */
   setLang(langOf(location.hash));   // the texts first, in the language of the link
   buildForm();
-  // a link that holds a trip (its settings, not only lang=) opens with the form folded (finding 10 of fix 3)
-  if (Object.keys(parseLink(location.hash)).length) { F.hidden = true; $('#set-sum').hidden = false; }
-  $('#set-open').addEventListener('click', function () { openForm(); F.querySelector('input[name=mode]:checked').focus(); });
   bindLightbox();
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)

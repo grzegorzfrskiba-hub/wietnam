@@ -86,11 +86,11 @@ setTimeout(function () {
   var self = document.querySelector('#stops .swap[data-swap="caobang"] input[value="self"]');
   self.click();
   check('after a swap the open rows stay open', /motocykl=caobang/.test(location.hash) && isOpen(key) && isOpen(leg), location.hash);
-  // the form of a link's trip, folded (finding 10 of fix 3): „Ustaw swój wyjazd” opens it, and it stays open
+  // the form of a link's trip is open (19.10.2026); „Ustaw swój wyjazd” leads to it
   var form = document.getElementById('settings-form');
-  check('the form of the link\'s trip is folded into three lines', form.hidden && !document.getElementById('set-sum').hidden && document.querySelectorAll('#set-sum .set-sum-lines span').length === 3);
+  check('the form of the link\'s trip is open', !form.hidden);
   document.querySelector('.hero-cta a[href="#settings"]').click();
-  check('„Ustaw swój wyjazd” opens the whole form', !form.hidden && document.getElementById('set-sum').hidden);
+  check('„Ustaw swój wyjazd” leaves the form open', !form.hidden);
   // the printout opens everything (before printing) and closes back what was closed (after it)
   window.dispatchEvent(new Event('beforeprint'));
   var every = Array.prototype.slice.call(document.querySelectorAll('details'));

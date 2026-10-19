@@ -264,6 +264,7 @@ Decyzje (trzy):
 1. Dni w kartach miejsc: tytuły dni widoczne, opis dnia i plan na deszcz po kliknięciu w dzień (rekomendacja); zdjęcia widoczne od razu, bez rozwijania, bo według użytkownika obrazy przyciągają ludzi bardziej niż ściany tekstu (odrzucone: cała karta zwinięta, bo bez tytułów dni trudno zobaczyć całą wyprawę bez klikania; opisy widoczne i zwinięte tylko dodatki, bo największy kawałek tekstu by został).
 2. Zwinięte też: przejazdy do jednej linii, „Przed wyjazdem” z podsumowaniami i lista autorów zdjęć (rekomendacja); wskazówki przy miejscach („Ukryta perełka”, „Do pominięcia”) zostają widoczne (wybór użytkownika; rekomendacja była zwinąć je pod jednym „Wskazówki”).
 3. Formularz ustawień przy otwarciu linku z gotową trasą zwinięty do podsumowania z przyciskiem „Zmień” (rekomendacja; odrzucone: zawsze pełny, jak dziś).
+   **Odwołane 19.10.2026:** testerzy nie widzieli przycisku „Zmień”, więc formularz „Twój wyjazd” jest zawsze rozwinięty, także z linku z trasą; podsumowanie w trzech linijkach i `#set-sum` usunięte (pasek u góry z „Zmień” zostaje).
 
 Ustalenia (13, przyjęte w jednym kroku):
 - Dni:

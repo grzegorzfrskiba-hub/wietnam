@@ -17,7 +17,7 @@ UI.en = {
   'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',
   'set.term': 'Dates', 'set.mode.month': 'By month', 'set.mode.dates': 'Exact dates',
   'set.month': 'Month', 'set.days': 'Number of days', 'set.start': 'Arrival day', 'set.end': 'Departure day',
-  'set.days.note': 'Days count from arrival to departure, both included.', 'set.sum': '{term} · {days} days',
+  'set.days.note': 'Days count from arrival to departure, both included.',
   'set.airports': 'Airports', 'set.from': 'Fly into', 'set.to': 'Fly out of',
   'set.interests': 'What you like (two at most)',
   'set.interests.none': 'With nothing chosen, the route has a bit of everything.',

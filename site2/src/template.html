@@ -167,11 +167,6 @@ ul, ol { padding: 0; list-style: none; }
 .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .chip:has(input:disabled) { opacity: 0.45; cursor: default; }
 .set-note { font-size: 13px; color: var(--muted); }
-/* the settings in short (fix 3): a link that holds a trip opens with the form folded into three lines (the term, the
-   airports, what you like and the level) and „Zmień”, which opens it */
-.set-sum { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(16px, 2.4vw, 26px); }
-.set-sum-lines { display: grid; gap: 2px; min-width: 0; }
-.set-sum-lines span:first-child { font-weight: 600; }
 .set-msg { font-size: 14.5px; color: var(--wet); }
 .set-msg:not(:empty) { margin-top: 14px; }
 /* Holiday warnings under the facts, and the places that did not fit */
@@ -699,10 +694,6 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="eyebrow" data-i18n="set.eyebrow"></p>
       <h2 data-i18n="set.h2"></h2>
       <p data-i18n="set.p"></p>
-    </div>
-    <div class="set-sum" id="set-sum" hidden>
-      <p class="set-sum-lines"><span id="ss-term"></span><span id="ss-air"></span><span id="ss-likes"></span></p>
-      <button type="button" class="btn-ghost" id="set-open" data-i18n="nav.change"></button>
     </div>
     <form class="settings" id="settings-form" novalidate>
       <fieldset class="set-group">
