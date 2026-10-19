@@ -123,6 +123,11 @@
             var first = Array.prototype.filter.call(document.querySelectorAll('#p-route .w-card'), function (c) { return speciesPlaces(WILD[c.id.slice(3)]).indexOf('cattien') > -1; })[0], b = first.getBoundingClientRect();
             check('a click on a dot: the first card of its place on the screen, lit', b.top < innerHeight && b.bottom > 0 && lit() === placesOf(idsOf(rowOf(first.id.slice(3)))) && lit().indexOf('cattien') > -1,
               first.id + ' ' + Math.round(b.top) + ' / ' + lit());
+            // where it lands (final review of the map, 19.10.2026): a tall card at its top under the band (or the top of the
+            // screen), another across the middle line, also when the band had not stuck yet at the top of the page
+            var under = wide ? 0 : Math.max(map.getBoundingClientRect().bottom, 0), l = line(), tall = b.bottom - b.top > 2 * (innerHeight - l);
+            check('a click on a dot at the top of the page: the card under the band (a tall one) or across the middle', tall ? Math.abs(b.top - under - 12) < 30 : Math.abs((b.top + b.bottom) / 2 - l) < 30,
+              'top ' + Math.round(b.top) + ', bottom ' + Math.round(b.bottom) + ', band ' + Math.round(under) + ', line ' + Math.round(l) + (tall ? ', tall' : ''));
             // the printout: every place of the field guide lit and named; after it, the middle again
             window.dispatchEvent(new Event('beforeprint'));
             check('the printout: every place of the field guide lit', lit() === GP.slice().sort().join(' '), lit());

@@ -324,7 +324,9 @@
   $('#w-map').addEventListener('click', function (e) {
     var g = e.target.closest('.bm-pt'), p = g && g.getAttribute('data-p'), el = p && mapEls().filter(function (x) { return elPlaces(x).indexOf(p) > -1; })[0];
     if (!el) return;
-    var it = itemOf(el), b = itemBox(it), top = BAND.matches ? Math.max($('#w-map').getBoundingClientRect().bottom, 0) : 0, line = middleLine();
+    // the band as it will stand once the page has moved: stuck at the top, also when the click came before it stuck (final
+    // review of the map, 19.10.2026)
+    var it = itemOf(el), b = itemBox(it), top = BAND.matches ? $('#w-map').offsetHeight : 0, line = (top + window.innerHeight) / 2;
     // an item taller than the half of the screen it would have under the line comes to its top instead
     window.scrollBy(0, b.bottom - b.top > 2 * (window.innerHeight - line) ? b.top - top - 12 : (b.top + b.bottom) / 2 - line);
     mouse = null;
