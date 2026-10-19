@@ -44,11 +44,12 @@
     trip = null;
     if (!hasTrip(location.hash)) return;
     var defaults = defaultSettings(TODAY, DATA, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
-    var got = settingsFromLink(parseLink(location.hash), defaults, PLACES, HUBS, [], SWAPS), r = planRoute(got.st, DATA);
+    // the parts of the link the engine cannot take are dropped as on the page with the route (app.js), and said
+    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), defaults, PLACES, HUBS, bad, SWAPS), r = planRoute(got.st, DATA);
     if (!r.ok) return;
     var off = {};
     whyOff(r, got.settings, got.st, DATA, CLIMATE).forEach(function (x) { off[x.id] = x; });
-    trip = { settings: got.settings, st: got.st, route: r, stays: tripStays(r, got.st, CONTENT, FERRY), months: termMonths(got.st), off: off };
+    trip = { settings: got.settings, st: got.st, route: r, stays: tripStays(r, got.st, CONTENT, FERRY), months: termMonths(got.st), off: off, dropped: got.dropped.length > 0 };
   }
   // the trip in one line, as in the summary of the page with the route: the term, the days and the level
   function tripLine() {
@@ -117,7 +118,8 @@
   /* ---------- the tabs ---------- */
   function renderRoute() {
     var o = routeOrder(SP, trip ? onTrip : null), h = '<div class="w-intro"><h2>' + esc(T('w.route.h')) + '</h2><p>' + esc(T('w.route.lead')) + '</p></div>';
-    h += trip ? '<div class="w-tripbox"><p><b>' + esc(T('w.trip.h')) + '</b> ' + esc(tripLine()) + '</p><p class="w-muted">' + esc(T('w.trip.places', { list: names(trip.route.stops.filter(function (s) { return !PLACES[s.id].node; }).map(function (s) { return s.id; }).filter(function (id, i, a) { return a.indexOf(id) === i; })) })) + '</p></div>'
+    h += trip ? '<div class="w-tripbox"><p><b>' + esc(T('w.trip.h')) + '</b> ' + esc(tripLine()) + '</p><p class="w-muted">' + esc(T('w.trip.places', { list: names(trip.route.stops.filter(function (s) { return !PLACES[s.id].node; }).map(function (s) { return s.id; }).filter(function (id, i, a) { return a.indexOf(id) === i; })) })) + '</p>' +
+      (trip.dropped ? '<p class="w-muted w-dropped">' + esc(T('set.dropped')) + '</p>' : '') + '</div>'
       : '<div class="w-tripbox"><p><b>' + esc(T('w.notrip.h')) + '</b> ' + esc(T('w.notrip')) + '</p></div>';
     h += '<p class="w-legend">' + esc(T('w.legend')) + ' ' + kind('wild') + ' ' + kind('rescue') + ' ' + kind('program') + '</p>';
     if (trip) {

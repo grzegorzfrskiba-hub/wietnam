@@ -64,6 +64,29 @@
     var sec = document.querySelector('#guide-' + W.view().place);
     check('the place of the guide on the screen', Math.abs(sec.getBoundingClientRect().top) < 60, sec.getBoundingClientRect().top);
   }
+  // the final review of stage 6: a wrong part of the link said as on the page with the route; all three tabs in view from
+  // 320 px; the way back a 44 px target; the print only of the open tab, without the way back and without Dodaj
+  // (the parts of the link the page with the route drops: app.js, settingsFromLink with the rejected fields of parseLink)
+  var bad = [], told = !!document.querySelector('#p-route .w-tripbox .w-dropped');
+  var defs = defaultSettings(W.today, { places: PLACES, seasons: SEASONS, graph: travelGraph(ROADS, FLIGHTS), hubs: HUBS }, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
+  var dropped = hasTrip(hash) && settingsFromLink(parseLink(hash, bad), defs, PLACES, HUBS, bad, SWAPS).dropped.length > 0;
+  if (trip) check(dropped ? 'a wrong part of the link: said above the cards, as on the page with the route' : 'no sentence on a wrong part of the link', told === dropped &&
+    (!told || document.querySelector('#p-route .w-dropped').textContent === UI[LANG]['set.dropped']));
+  var tb = document.querySelector('.w-tabs');
+  check('all three tabs in view', tb.scrollWidth <= tb.clientWidth + 1, tb.scrollWidth + ' > ' + tb.clientWidth);
+  check('the way back: at least 44 px high', document.querySelector('#w-back').getBoundingClientRect().height >= 44, document.querySelector('#w-back').getBoundingClientRect().height);
+  var printCss = [];
+  Array.prototype.forEach.call(document.styleSheets, function (s) {
+    Array.prototype.forEach.call(s.cssRules, function (r) { if (r.media && /print/.test(r.media.mediaText)) Array.prototype.forEach.call(r.cssRules, function (x) { printCss.push(x.cssText); }); });
+  });
+  var ps = document.createElement('style'); ps.textContent = printCss.join('\n'); document.head.appendChild(ps);
+  check('the print: only the open tab, without the way back and Dodaj', ['route', 'gallery', 'guide'].filter(function (t) { return vis('#p-' + t); }).length === 1 && vis('#p-' + W.view().tab) &&
+    !vis('#w-back') && !Array.prototype.some.call(document.querySelectorAll('.w-add, .w-drops'), function (e) { return e.checkVisibility(); }));
+  ps.remove();
+  check('the print on A4, as the page with the route', Array.prototype.some.call(document.styleSheets, function (s) {
+    return Array.prototype.some.call(s.cssRules, function (r) { return r.type === CSSRule.PAGE_RULE && /size:\s*A4/i.test(r.cssText); });
+  }));
+
   // EN · PL: the other language, the same tab and trip, lang=pl in the address or not
   var other = pl ? 'en' : 'pl', tab = W.view().tab;
   document.querySelector('#lang-switch [data-lang="' + other + '"]').click();
