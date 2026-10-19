@@ -692,11 +692,20 @@ function wildPairs() {
   Object.keys(WILD_PHOTOS).forEach(function (id) { add('WILD_PHOTOS.' + id + '.cap', WILD_PHOTOS[id].cap, WILD_CAPS_EN[id]); });
   return out;
 }
+// The times of day in a pair of wildlife texts (final review of stage 6: the English “when” of the douc lost the morning):
+// each one named in Polish is named in English too, and the other way round.
+var TIMES_OF_DAY = [[/(^|[^\p{L}])(rano|ranem|poranek|poranka|świcie|świtem)(?!\p{L})/iu, /morning|dawn/i, 'morning'],
+  [/popołudni|po południu/iu, /afternoon/i, 'afternoon'], [/wiecz[oó]r/iu, /evening/i, 'evening'], [/(^|[^\p{L}])noc(ą|y|na|ne|nej|nego|nym|nych|ny)?(?!\p{L})/iu, /night/i, 'night']];
+function timeProblems(path, pl, en) {
+  return TIMES_OF_DAY.filter(function (t) { return t[0].test(pl) !== t[1].test(en); }).map(function (t) {
+    return path + ': the ' + t[2] + ' in only one language';
+  });
+}
 contentCheck('wildlife in two languages', function (need) {
   wildPairs().forEach(function (x) {
     need(isText(x[1]) && isText(x[2]), x[0] + ': a text in both languages');
     if (!isText(x[1]) || !isText(x[2])) return;
-    englishProblems(x[0] + ' (en)', x[2]).concat(factProblems(x[0], x[1], x[2])).forEach(function (p) { need(false, p); });
+    englishProblems(x[0] + ' (en)', x[2]).concat(factProblems(x[0], x[1], x[2]), timeProblems(x[0], x[1], x[2])).forEach(function (p) { need(false, p); });
     if (x[3]) {
       need(wordCount(x[1]) <= x[3], x[0] + ': ' + wordCount(x[1]) + ' words, at most ' + x[3]);
       need(wordCount(x[2]) <= x[3] + 6, x[0] + ' (en): ' + wordCount(x[2]) + ' words, at most ' + (x[3] + 6));

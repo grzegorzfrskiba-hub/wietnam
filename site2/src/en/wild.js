@@ -4,7 +4,7 @@ var WILD_EN = {
     why: 'Called the “queen of primates”. Doucs share food by passing leaves to one another, which is rare among Old World monkeys.',
     meet: [
       { where: 'the Sơn Trà peninsula: from the roads, in the treetops, in groups of 5–7; a car with a driver, stops and binoculars', chanceNote: 'high to medium',
-        when: 'all year, 7:30–17:30 (March–September until 18:30), best early and late in the afternoon; from late March to June they come down for flowers; roads sometimes close in October–November' }
+        when: 'all year, 7:30–17:30 (March–September until 18:30), best early in the morning and in the late afternoon; from late March to June they come down for flowers; roads sometimes close in October–November' }
     ] },
   gibbon: { name: 'Yellow-cheeked gibbon', alt: 'yellow-cheeked crested gibbon',
     why: 'Pairs sing duets at dawn. Males are black with golden cheeks; females are born pale, darken, and turn golden again when they mature.',
