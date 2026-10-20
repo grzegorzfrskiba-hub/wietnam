@@ -280,14 +280,23 @@
     renderStops();
     renderMini();
     renderBefore();
-    $('#copy-status').textContent = '';
-    $('#copy-fallback').hidden = true;
+    renderFinale();
+    $('#copy-status').textContent = $('#end-status').textContent = '';
+    $('#copy-fallback').hidden = $('#end-fallback').hidden = true;
     renderPrintLink();
     $('#wild-hero').href = $('#wild-top').href = $('#wild-nav').href = wildLink('route');
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
     paintFrames();
+    syncDay();
+  }
+
+  /* The end of the page (finishing touches, finding 9): the sunset over Pù Luông (FINALE_PHOTO), over the title the trip's
+     last day, as "Dzień 15 · Hà Nội · Wylot". */
+  function renderFinale() {
+    $('#finale-photo').innerHTML = img(FINALE_PHOTO, '', '(max-width: 700px) 200vw, 100vw');
+    $('#end-day').textContent = T('day') + ' ' + state.route.days + ' · ' + AIRPORTS[state.st.to].name + ' · ' + T('flyhome');
   }
 
   /* The wildlife subpage (stage 6, finding 5) with this trip: its tab (route, or guide-<place> for a stay's „Zwierzęta
@@ -486,7 +495,7 @@
   // the last day: the way to the departure airport and the flight home, without a time
   function homeCard() {
     var r = state.route, d = T('home.d') + (r.home.total >= 2 ? ' ' + T('home.far', { time: approx(r.home.total) }) : '');
-    return '<section class="stop stop-compact stop-home" id="stop-home"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
+    return '<section class="stop stop-compact stop-home" id="stop-home" data-short="' + esc(T('flyhome')) + '"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
       '<div class="stop-title"><p class="eyebrow">' + T('day') + ' ' + r.days + '</p><h3>' + esc(T('home.h3', { airport: AIRPORTS[state.st.to].name })) + '</h3></div></header>' +
       '<ol class="days">' + dayFold(r.days, '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4>', '<p>' + esc(d) + '</p>') + '</ol></section>';
   }
@@ -498,7 +507,7 @@
     r.stops.forEach(function (s, i) {
       var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; }), compact = !c.photos.length || again, sw = swapOfPlace(s.id);
       html += legCard(s.leg, s.start, i ? r.stops[i - 1] : null, s.id) +
-        '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
+        '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" data-short="' + esc(c.short) + '" style="--c:' + stopColor(s.id) + '">' +
         '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
         '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
@@ -1068,19 +1077,23 @@
     lines.push(T('pt.link') + SITE_URL + pageHash(state.settings, lang, costs));
     return lines.join('\n');
   }
+  // the button under the figures of the trip and the one at the end of the page (finishing touches, finding 9), each with
+  // its own line for the result and its own box for the text when the clipboard says no
   function bindCopy() {
-    var btn = $('#copy-plan'), status = $('#copy-status'), box = $('#copy-fallback');
-    btn.addEventListener('click', function () {
-      var text = planText();
-      box.hidden = true;
-      var done = function () { status.textContent = T('copy.ok'); };
-      var fail = function () {
-        box.hidden = false; box.value = text; box.focus(); box.select();
-        status.textContent = T('copy.fail');
-      };
-      try {
-        navigator.clipboard.writeText(text).then(done, fail);
-      } catch (e) { fail(); }
+    [['#copy-plan', '#copy-status', '#copy-fallback'], ['#end-copy', '#end-status', '#end-fallback']].forEach(function (x) {
+      var btn = $(x[0]), status = $(x[1]), box = $(x[2]);
+      btn.addEventListener('click', function () {
+        var text = planText();
+        box.hidden = true;
+        var done = function () { status.textContent = T('copy.ok'); };
+        var fail = function () {
+          box.hidden = false; box.value = text; box.focus(); box.select();
+          status.textContent = T('copy.fail');
+        };
+        try {
+          navigator.clipboard.writeText(text).then(done, fail);
+        } catch (e) { fail(); }
+      });
     });
   }
 
@@ -1244,6 +1257,34 @@
     document.addEventListener(k, function (e) { if (e.target.classList && e.target.classList.contains('ph')) shown(e.target); }, true);
   });
 
+  /* The bar at the top over the days (finding 8): while the days go by, the summary of the settings gives way to the day
+     across the middle of the screen under the bar (and under the small map on a phone): its place's dot and "Dzień 6 · Hội
+     An"; over a stay's heading and photos its first day, over a journey "Dzień 3 · Hồ Chí Minh City → Đà Lạt"; over and
+     under the days the summary again. On every scroll, as the small map (syncMini), so the probes can see it. */
+  function syncDay() {
+    var bar = $('#secnav'), mini = $('#minimap'), day = $('#sum-day'), at = null;
+    var line = (bar.getBoundingClientRect().bottom + (mini.classList.contains('on') ? mini.offsetHeight : 0) + window.innerHeight) / 2;
+    document.querySelectorAll('#stops .leg, #stops .stop, #stops .day').forEach(function (el) { if (el.getBoundingClientRect().top <= line) at = el; });
+    var on = !!at && $('#stops').getBoundingClientRect().bottom > line;
+    bar.classList.toggle('in-days', on);
+    if (!on) return;
+    var text, c = '';
+    if (at.classList.contains('leg')) {
+      text = at.querySelector('.leg-day').textContent + ' · ' + at.querySelector('.leg-route').textContent;
+      c = at.nextElementSibling ? at.nextElementSibling.style.getPropertyValue('--c') : '';
+    } else {
+      var stop = at.closest('.stop'), first = at.classList.contains('day') ? at : stop.querySelector('.day');
+      text = T('day') + ' ' + first.id.slice(4) + ' · ' + stop.getAttribute('data-short');
+      c = stop.style.getPropertyValue('--c');
+    }
+    text = text.replace(/\s+/g, ' ');
+    if (day.getAttribute('data-text') === text) return;
+    day.setAttribute('data-text', text);
+    day.innerHTML = (c ? '<span class="dot" style="--c:' + c + '"></span>' : '') + esc(text);
+  }
+  window.addEventListener('scroll', syncDay, { passive: true });
+  window.addEventListener('resize', syncDay);
+
   /* ---------- the footer and the texts in the template ---------- */
   function renderCredits() {
     var used = {};
@@ -1296,6 +1337,7 @@
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
   $('#pdf-plan').addEventListener('click', function () { window.print(); });
+  $('#end-pdf').addEventListener('click', function () { window.print(); });
   bindAnchors();
   bindMapZoom();
   bindMini();

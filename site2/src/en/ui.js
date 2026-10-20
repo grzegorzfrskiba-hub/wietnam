@@ -73,6 +73,7 @@ UI.en = {
   'missing': 'Did not fit: {x}. The rest of the route is unchanged.',
   'copy.btn': 'Copy plan for WhatsApp', 'copy.aria': 'The plan as text', 'copy.ok': 'Copied. Paste the plan into a chat.', 'copy.fail': 'Copy the selected text below.',
   'pdf.btn': 'Save route as PDF',
+  'end.h2': 'That’s your Vietnam.', 'end.p': 'Send it to whoever is coming with you, or keep it as a PDF.', 'end.change': 'Change the route',
   'pdf.hint': 'A print window opens. On an iPhone tap Share at the top, then “Save to Files”; on Android choose “Save as PDF” at the top, and on a computer the “Save as PDF” printer. You can then open the PDF without internet.',
 
   'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',

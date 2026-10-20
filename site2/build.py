@@ -184,18 +184,22 @@ def wild_page(template, fonts):
 
 
 def photo_ids():
-    """The photo ids in photos.js (one entry per line, '  id: { cap: …') and the hero photo."""
+    """The photo ids in photos.js (one entry per line, '  id: { cap: …'), the hero photo and the photo at the end of the page
+    (finishing touches, finding 9)."""
     text = open(os.path.join(SRC, "photos.js"), encoding="utf-8").read()
     ids = re.findall(r"^  ([a-z]+_\d+): \{", text, re.M)
     assert len(ids) == len(set(ids)), "an id twice in photos.js: %s" % sorted(p for p in set(ids) if ids.count(p) > 1)
     assert "nieznany" not in text, "photos.js: a photo without its real author"
     hero = re.search(r"^var HERO_PHOTO = '([a-z]+_\d+)';", text, re.M).group(1)
     assert hero in ids, hero
-    return ids, hero
+    finale = re.search(r"^var FINALE_PHOTO = '([a-z]+_\d+)';", text, re.M).group(1)
+    assert finale in ids, finale
+    return ids, hero, finale
 
 
 def main():
-    ids, hero = photo_ids()
+    ids, hero, finale = photo_ids()
+    big = (hero, finale)   # the photos the page's width: at the top and at the end
     missing = [p for p in ids if not os.path.exists(os.path.join(PHOTO_DIR, p + ".jpg"))]
     assert not missing, "no file in photos/ for %s" % missing
     js = "\n".join(open(os.path.join(SRC, name), encoding="utf-8").read() for name in SCRIPTS)
@@ -212,18 +216,20 @@ def main():
     web, off = {}, {}
     for pid in ids:
         im = Image.open(os.path.join(PHOTO_DIR, pid + ".jpg")).convert("RGB")
-        (w, h), b = encode(im, 1920 if pid == hero else 1400, 74)
+        (w, h), b = encode(im, 1920 if pid in big else 1400, 74)
         open(os.path.join(OUT_WEB, "img", pid + ".jpg"), "wb").write(b)
         web[pid] = dict(src="img/%s.jpg" % pid, w=w, h=h, bg=mean_colour(im))
         srcset = []
-        for sw in SMALLER["hero" if pid == hero else "photo"]:
+        # the photo at the end is a place's photo too, so it keeps the small copies of the galleries and of the list of the
+        # places off the trip, and gets the large one of the photo at the top
+        for sw in SMALLER["hero"] if pid == hero else SMALLER["photo"] + SMALLER["hero"][-1:] if pid == finale else SMALLER["photo"]:
             if sw < w:
                 (vw, _), vb = encode(im, sw, 74)
                 open(os.path.join(OUT_WEB, "img", "%s-%d.jpg" % (pid, vw)), "wb").write(vb)
                 srcset.append("img/%s-%d.jpg %dw" % (pid, vw, vw))
         if srcset:
             web[pid]["srcset"] = ", ".join(srcset + ["img/%s.jpg %dw" % (pid, w)])
-        (w, h), b = encode(im, *OFFLINE["hero" if pid == hero else "photo"])
+        (w, h), b = encode(im, *OFFLINE["hero" if pid in big else "photo"])
         off[pid] = dict(src="data:image/jpeg;base64," + base64.b64encode(b).decode(), w=w, h=h, bg=web[pid]["bg"])
         if pid == hero:
             # link preview image: the hero cut to 1200 x 630, kept low so the rower stays in the picture

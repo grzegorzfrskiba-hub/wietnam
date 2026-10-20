@@ -74,6 +74,7 @@ UI.pl = {
   'missing': 'Nie zmieściło się: {x}. Reszta trasy jest bez zmian.',
   'copy.btn': 'Kopiuj plan na WhatsApp', 'copy.aria': 'Plan jako tekst', 'copy.ok': 'Skopiowano. Wklej plan do czatu.', 'copy.fail': 'Skopiuj zaznaczony tekst poniżej.',
   'pdf.btn': 'Zapisz trasę jako PDF',
+  'end.h2': 'To twój Wietnam.', 'end.p': 'Wyślij trasę tym, którzy jadą z tobą, albo zapisz ją jako PDF.', 'end.change': 'Zmień trasę',
   'pdf.hint': 'Otworzy się okno drukowania. Na iPhonie stuknij Udostępnij u góry, potem „Zachowaj w Plikach”; na Androidzie wybierz u góry „Zapisz jako PDF”, a na komputerze drukarkę „Zapisz jako PDF”. PDF otworzysz potem bez internetu.',
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',

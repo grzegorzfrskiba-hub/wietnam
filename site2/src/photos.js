@@ -102,3 +102,4 @@ var PHOTO_META = {
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview
+var FINALE_PHOTO = 'puluong_1';   // the photo at the end of the page (finishing touches, finding 9), one of Pù Luông's

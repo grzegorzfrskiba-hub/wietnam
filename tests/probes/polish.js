@@ -3,7 +3,10 @@
      bash tests/probe.sh tests/probes/polish.js 1400 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
    Headless Chrome calls an IntersectionObserver once, right after the page opens, and runs no CSS transition: the probe
    checks the final state, and the rules of the motion by setting the class live itself. The photos: every photo loaded late
-   with its mean colour, unseen till it has loaded (finding 6); the slow zoom of the photo at the top (5); the typography (12). */
+   with its mean colour, unseen till it has loaded (finding 6); the slow zoom of the photo at the top (5); the typography (12).
+   The bar at the top over the days (8): the day across the middle of the screen under it, the summary over and under the
+   days. The end of the page (9 and 10): the sunset over Pù Luông, the last day of the trip, the title, the sentence and
+   three buttons, not on paper. */
 (function () {
   document.documentElement.style.scrollBehavior = 'auto';
   var root = document.documentElement, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,6 +39,67 @@
     var loaded = ph.filter(function (i) { return i.complete && i.naturalWidth; });
     check('the loaded photos are marked to show', loaded.length > 0 && loaded.every(function (i) { return i.classList.contains('in'); }), loaded.length + ' / ' + ph.length);
     check('their frames lose the mean colour once loaded', loaded.every(function (i) { return !i.parentNode.style.backgroundColor; }));
-    done();
+    days();
   }, 1500);
+
+  // the bar over the days (finding 8): an element brought just above the line in the middle of the screen under the bar (and
+  // under the small map on a phone), as the page counts it; headless Chrome sends no scroll event of its own, so the probe does
+  var S = window.__trip.state, V = localContent(CONTENT, LANG === 'en' ? CONTENT_EN : null);
+  function line() {
+    var mini = document.getElementById('minimap');
+    return (document.getElementById('secnav').getBoundingClientRect().bottom + (mini.classList.contains('on') ? mini.offsetHeight : 0) + innerHeight) / 2;
+  }
+  function bring(el) {
+    for (var k = 0; k < 3; k++) { window.scrollBy(0, el.getBoundingClientRect().top - (line() - 12)); window.dispatchEvent(new Event('scroll')); }
+  }
+  function days() {
+    var bar = document.getElementById('secnav'), sum = textOf('#sum-text'), day = function () { return textOf('#sum-day'); };
+    var fold = function (t) { return t.replace(/\s+/g, ' ').trim(); };
+    var s2 = S.route.stops[1], li = document.getElementById('day-' + (s2.end > s2.start ? s2.start + 1 : s2.start));
+    bring(li);
+    var n = +li.id.slice(4);
+    check('over a day: the bar says the day and its place', bar.classList.contains('in-days') && day() === UI[LANG].day + ' ' + n + ' · ' + V[s2.id].short &&
+      document.querySelector('#sum-day .dot').style.getPropertyValue('--c') === document.getElementById('stop-2').style.getPropertyValue('--c'), day());
+    check('the summary of the settings stays, hidden', textOf('#sum-text') === sum && getComputedStyle(document.getElementById('sum-text')).visibility === 'hidden');
+    bring(document.getElementById('stop-2'));
+    check('over a stay’s heading and photos: its first day', day() === UI[LANG].day + ' ' + s2.start + ' · ' + V[s2.id].short, day());
+    var leg = document.getElementById('stop-2').previousElementSibling;
+    bring(leg);
+    check('over a journey: its day and its ends', day() === fold(leg.querySelector('.leg-day').textContent + ' · ' + leg.querySelector('.leg-route').textContent), day());
+    bring(document.getElementById('stop-home').querySelector('.day'));
+    check('over the last day: the departure', day() === UI[LANG].day + ' ' + S.route.days + ' · ' + UI[LANG].flyhome, day());
+    bring(document.getElementById('shape'));
+    check('over the days: the summary again', !bar.classList.contains('in-days') && getComputedStyle(document.getElementById('sum-text')).visibility === 'visible');
+    bring(document.getElementById('before'));
+    check('under the days: the summary again', !bar.classList.contains('in-days'));
+    window.scrollTo(0, 0);
+    end();
+  }
+
+  // the end of the page (findings 9 and 10)
+  function end() {
+    var f = document.getElementById('finale'), im = f && f.querySelector('.finale-photo img');
+    check('the end of the page: under „Before you go”, over the footer', !!f && !!(document.getElementById('before').compareDocumentPosition(f) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+      f.nextElementSibling === document.querySelector('footer'));
+    check('its photo: the sunset over Pù Luông, the page’s width, loaded late', !!im && /puluong_1(-\d+)?\.jpg$/.test(im.currentSrc || im.src) && im.classList.contains('ph') &&
+      Math.abs(f.getBoundingClientRect().width - innerWidth) < 1 && textOf('.finale-where') === 'Pù Luông' && im.alt === (LANG === 'en' ? PHOTO_CAPS_EN.puluong_1 : PHOTO_META.puluong_1.cap), im && (im.currentSrc || im.src));
+    var r = S.route, st = S.st;
+    check('the last day of the trip over the title', textOf('#end-day') === UI[LANG].day + ' ' + r.days + ' · ' + AIRPORTS[st.to].name + ' · ' + UI[LANG].flyhome, textOf('#end-day'));
+    check('the title, the sentence and three buttons', textOf('#end-h2') === UI[LANG]['end.h2'] && textOf('.finale-p') === UI[LANG]['end.p'] && textOf('#end-copy') === UI[LANG]['copy.btn'] &&
+      textOf('#end-pdf') === UI[LANG]['pdf.btn'] && f.querySelector('a[href="#settings"]').textContent === UI[LANG]['end.change']);
+    document.getElementById('end-copy').click();
+    setTimeout(function () {
+      var box = document.getElementById('end-fallback');
+      check('copy at the end: the plan copied, or the text to copy under the buttons', (textOf('#end-status') === UI[LANG]['copy.ok'] || (!box.hidden && box.value.indexOf(SITE_URL) > -1 && textOf('#end-status') === UI[LANG]['copy.fail'])) &&
+        textOf('#copy-status') === '', textOf('#end-status'));
+      var printCss = [];
+      Array.prototype.forEach.call(document.styleSheets, function (s) {
+        Array.prototype.forEach.call(s.cssRules, function (x) { if (x.media && /print/.test(x.media.mediaText)) Array.prototype.forEach.call(x.cssRules, function (y) { printCss.push(y.cssText); }); });
+      });
+      var ps = document.createElement('style'); ps.textContent = printCss.join('\n'); document.head.appendChild(ps);
+      check('not on paper', !f.checkVisibility());
+      ps.remove();
+      done();
+    }, 400);
+  }
 })();

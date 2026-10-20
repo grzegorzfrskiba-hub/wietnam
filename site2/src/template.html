@@ -514,6 +514,23 @@ details[open] > summary .fold-arrow { transform: rotate(180deg); }
 .tip-skip b { color: var(--warm); }
 .instead { display: block; margin-top: 4px; font-weight: 500; }
 
+/* The end of the page (finishing touches, finding 9): the sunset over the valley of Pù Luông the page's width, coming out of
+   the page above it; over the title the trip's last day, under it a sentence and three buttons; not on paper (the PDF has its
+   own end) */
+.finale { position: relative; display: flex; align-items: flex-end; min-height: clamp(440px, 72vh, 680px); margin-top: clamp(56px, 8vw, 96px); overflow: hidden; background: var(--photo-bg); }
+.finale-photo { position: absolute; inset: 0; }
+.finale-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
+.finale::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, var(--paper) 0%, rgba(var(--scrim), 0) 24%, rgba(var(--scrim), 0.12) 52%, var(--shade) 100%); }
+.finale-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(40px, 7vh, 64px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
+.finale .eyebrow { color: var(--on-photo); opacity: 0.85; }
+.finale h2 { margin-top: 8px; font-size: clamp(38px, 6vw, 72px); font-weight: 400; letter-spacing: -0.02em; }
+.finale-p { margin-top: 10px; max-width: 46ch; font-size: clamp(16px, 1.5vw, 19px); opacity: 0.94; }
+.finale-cta button { font: 500 15px var(--body); padding: 11px 18px; border-radius: 6px; min-height: 44px; border: 0; cursor: pointer; }
+.finale-cta .ghost { background: none; }
+.finale-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+.finale-status { margin-top: 10px; min-height: 1.6em; }
+#end-fallback { display: block; width: 100%; max-width: 640px; margin-top: 8px; color: var(--ink); background: var(--surface); text-shadow: none; }
+.finale + footer { margin-top: 0; }
 footer { margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: 12.5px; }
 footer h2 { font: 400 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 10px; }
 footer h2:first-child { margin-top: 0; }
@@ -615,6 +632,14 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
+/* over the days the summary gives way to the day across the middle of the screen (finishing touches, finding 8): both in
+   one place, crossfading; the dot in its place's colour */
+.sum-swap { display: grid; min-width: 0; }
+.sum-swap > span { grid-area: 1 / 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; transition: opacity .25s, visibility .25s; }
+#sum-day { opacity: 0; visibility: hidden; }
+#sum-day .dot { margin-right: 8px; vertical-align: -1px; }
+.secnav.in-days #sum-text { opacity: 0; visibility: hidden; }
+.secnav.in-days #sum-day { opacity: 1; visibility: visible; }
 /* on the narrowest phones the summary is cut short (…), and "Zmień" stays whole */
 #sum-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .secnav.away .secnav-sum { display: flex; }
@@ -629,7 +654,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-wild, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
+  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-wild, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -696,7 +721,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <a href="#before" data-i18n="nav.before"></a>
     <a class="wild-link" id="wild-nav" href="wildlife/" data-i18n="nav.wild"></a>
   </div>
-  <p class="secnav-sum"><span id="sum-text"></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
+  <p class="secnav-sum"><span class="sum-swap"><span id="sum-text"></span><span id="sum-day"></span></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>
 <a class="totop" id="totop" href="#top" data-i18n-aria="nav.top" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg></a>
 
@@ -804,6 +829,19 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     </div>
   </section>
 </main>
+
+<section class="finale" id="finale" aria-labelledby="end-h2">
+  <div class="finale-photo" id="finale-photo"></div>
+  <span class="finale-where">Pù Luông</span>
+  <div class="finale-text"><div class="wrap">
+    <p class="eyebrow" id="end-day"></p>
+    <h2 id="end-h2" data-i18n="end.h2"></h2>
+    <p class="finale-p" data-i18n="end.p"></p>
+    <div class="hero-cta finale-cta"><button type="button" class="primary" id="end-copy" data-i18n="copy.btn"></button><button type="button" class="ghost" id="end-pdf" data-i18n="pdf.btn"></button><a class="ghost" href="#settings" data-i18n="end.change"></a></div>
+    <p class="finale-status" id="end-status" role="status"></p>
+    <textarea id="end-fallback" rows="9" readonly hidden data-i18n-aria="copy.aria"></textarea>
+  </div></div>
+</section>
 
 <footer>
   <div class="wrap">

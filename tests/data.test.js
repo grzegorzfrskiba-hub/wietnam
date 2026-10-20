@@ -155,6 +155,10 @@ dataCheck('photos', function (need) {
     need(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(m.page), ph + ': its page on Wikimedia Commons');
   });
   need(PHOTO_META[HERO_PHOTO], 'the hero photo ' + HERO_PHOTO + ' has its credits');
+  // the photo at the end of the page (finishing touches, finding 9) is one of a place's photos, so the list of the photos
+  // names its author
+  need(PHOTO_META[FINALE_PHOTO] && Object.keys(CONTENT).some(function (id) { return CONTENT[id].photos.indexOf(FINALE_PHOTO) > -1; }),
+    'the photo at the end of the page ' + FINALE_PHOTO + ' has its credits and is in a gallery');
   // each id once (a second entry with the same id would silently replace the first) and a real author, never a stand-in
   var entries = readFile('site2/src/photos.js').match(/^  [a-z]+_\d+: \{/gm) || [];
   need(entries.length === Object.keys(PHOTO_META).length, 'photos.js: ' + entries.length + ' entries for ' + Object.keys(PHOTO_META).length + ' ids, so an id is there twice');
