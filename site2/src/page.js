@@ -1034,7 +1034,9 @@ function placeLabels(items, obstacles, bounds) {
    The whole degrees of latitude come last: each line is drawn, and its label at the right edge (gridBox) only where it
    covers no label and no marker.
    Returns { height, panels: [{ key, y, p (panelSize), grid, names, segs, stubs, pins, airports, pois, faint, labels }] };
-   a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
+   a seg and a stub are { mode, x1, y1, x2, y2, leg }: leg the trip's leg it belongs to, 0 the way from the arrival airport
+   to the first stay, the last the way home (a stub of several legs: the first), so the route draws itself in the trip's
+   order (finishing touches, finding 1); a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
    grid is [{ lat, y, label }] (label: its text is drawn), a name { text, kind, x, y, anchor }, a label { kind:
    'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
 // the box of a degree's label: "21°N" in 10 px monospace, ending 6 px from the panel's right edge, 4 px over its line (app.js)
@@ -1103,13 +1105,13 @@ function mapLayout(route, st, m) {
     });
     // the legs inside the panel; the legs from one point here to another panel make one stub
     var stubAt = {}, stubs = [];
-    legs.forEach(function (L) {
+    legs.forEach(function (L, li) {
       L.segs.forEach(function (g) {
         var a = proj(where(g.from)), b = proj(where(g.to)), ia = inside(a), ib = inside(b);
-        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] }); return; }
+        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1], leg: li }); return; }
         if (!ia && !ib) return;
         var here = ia ? g.from : g.to, from = ia ? a : b, to = ia ? b : a, dx = to[0] - from[0], dy = to[1] - from[1], len = Math.sqrt(dx * dx + dy * dy) || 1;
-        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [] });
+        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [], leg: li });
         if (!s.names.length) stubs.push(s);
         s.vx += dx / len; s.vy += dy / len;
         // the other end by name, a flight with ✈ and a road with an arrow (stage 3: Phong Nha has roads to the north panel)
@@ -1164,7 +1166,7 @@ function mapLayout(route, st, m) {
       var it = best.list[i];
       if (it.stub) {
         var v = STUB_TIPS[l.alt], tip = tipOf(it.stub, STUB * v[0], v[1]);
-        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1] });
+        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1], leg: it.stub.leg });
       }
       P.labels.push(Object.assign({}, it.what, l, l.oneLine ? { lines: it.what.lines.slice(0, 1) } : {}));
       taken.push(l.box);

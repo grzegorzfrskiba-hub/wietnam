@@ -571,6 +571,12 @@ eq([pinsOf(mH)[0], labelsOf(mH.panels[0], 'stop'), labelsOf(mH.panels[0], 'stub'
   'a round trip: one pin for the city with both numbers; two flights from one airport make one stub, short names of airports');
 eq(mA.panels.map(function (P) { return P.grid.map(function (g) { return g.lat + (g.label ? '' : '-'); }).join(' '); }), ['20 21 22 23', '16 17 18', '10 11- 12- 13'],
   'the degrees of latitude: every line, but no label where a label of the trip stands (11° and 12° N by Hồ Chí Minh City and Đà Lạt)');
+// the leg of each line and stub (finishing touches, finding 1: the route draws itself in the trip's order): 0 the way from
+// the arrival airport to the first stay, the last the way home; a stub of two legs (the round trip's Hà Nội) the first
+function legsOf(P) { return P.segs.map(function (g) { return g.mode + g.leg; }).join(' ') + ' | ' + P.stubs.map(function (g) { return g.mode + g.leg; }).sort().join(' '); }
+eq(mA.panels.map(legsOf), ['road4 road5 | fly4', 'road2 road3 road4 | fly2 fly4', 'road0 road1 fly1 road1 road2 | fly2'],
+  'mapLayout: every line and stub with its leg of the trip (north, centre, south)');
+eq(mH.panels.map(legsOf)[0], 'road0 road1 road5 road6 | fly1', 'mapLayout: the round trip from Hà Nội, its stub with the first of its legs');
 var mD = mapLayout(tD.r, tD.st, MAPW);   // Cao Bằng on the trip: Bản Giốc
 eq([mD.panels[0].pois.map(function (q) { return q.name; }), labelsOf(mD.panels[0], 'poi')], [['Bản Giốc'], ['Bản Giốc']], 'a point of interest with its stay');
 [mA, mH, mD].forEach(function (L, n) {

@@ -204,6 +204,7 @@
   function onFormChange(e) {
     var s, st = state.st;
     if (e.target.name === 'costs') { setCosts(e.target.checked); return; }   // no setting of the trip (fix 2)
+    byHand = e.isTrusted;   // the visitor's own change moves the page (finishing touches)
     if (e.target.name === 'mode') {
       s = copySettings(state.settings);
       if (e.target.value === 'dates' && !s.start) {
@@ -220,6 +221,7 @@
     }
     if (apply(s)) syncForm();
     else syncLocks();
+    byHand = false;
   }
 
   /* Links inside the page (a day in the strip, the menu, back to the top) scroll without changing the address, which
@@ -269,7 +271,7 @@
 
   function render() {
     // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
-    var keep = openFolds(), trip = tripKey(state.route);
+    var keep = openFolds(), trip = tripKey(state.route), again = drawnTrip !== null && trip !== drawnTrip && byHand;
     if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
     foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
@@ -290,6 +292,8 @@
     syncDaysAll();
     paintFrames();
     syncDay();
+    drawRoute(trip, drawnTrip === null || again);
+    if (again) rebuilt();
   }
 
   /* The end of the page (finishing touches, finding 9): the sunset over Pù Luông (FINALE_PHOTO), over the title the trip's
@@ -313,7 +317,7 @@
   }
 
   function renderFacts() {
-    var r = state.route, st = state.st, k = routeStats(r, state.plans, PLACES), n = r.days - 1;
+    var r = state.route, st = state.st, k = routeStats(r, state.plans, PLACES), n = r.days - 1, before = figures();
     $('#facts-for').textContent = T('f.for', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name, term: termText(st) });
     $('#facts').innerHTML =
       '<li><b>' + r.days + '</b><span>' + T('f.days', { nights: n + ' ' + countWord('nights', n) }) + '</span></li>' +
@@ -325,6 +329,7 @@
       // the budget only with the costs shown (fix 2); without it the five figures fill their rows (no-budget, template.html)
       (costs ? '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>' : '');
     $('#facts').classList.toggle('no-budget', !costs);
+    if (byHand && onScreen($('#facts'))) countUp(before);
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -573,15 +578,15 @@
       });
       P.faint.forEach(function (f) { g.push('<circle class="m-faint" cx="' + r1(f.x) + '" cy="' + r1(f.y) + '" r="3.5"/>'); });
       P.segs.forEach(function (s) {
-        g.push(s.mode === 'fly' ? '<path class="m-fly" d="' + curve([s.x1, s.y1], [s.x2, s.y2]) + '"/>'
-          : '<line class="m-road" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>');
+        g.push(s.mode === 'fly' ? '<path class="m-fly" data-leg="' + s.leg + '" d="' + curve([s.x1, s.y1], [s.x2, s.y2]) + '"/>'
+          : '<line class="m-road" data-leg="' + s.leg + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>');
       });
       // a stub: the start of the way to another panel, with a small arrowhead at its tip
       P.stubs.forEach(function (s) {
         var dx = s.x2 - s.x1, dy = s.y2 - s.y1, len = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / len, uy = dy / len;
         var bx = s.x2 - ux * 6, by = s.y2 - uy * 6;
-        g.push('<line class="' + (s.mode === 'fly' ? 'm-fly' : 'm-road') + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>' +
-          '<path class="m-arrow" d="M' + r1(s.x2) + ' ' + r1(s.y2) + 'L' + r1(bx - uy * 3.5) + ' ' + r1(by + ux * 3.5) + 'L' + r1(bx + uy * 3.5) + ' ' + r1(by - ux * 3.5) + 'z"/>');
+        g.push('<line class="' + (s.mode === 'fly' ? 'm-fly' : 'm-road') + '" data-leg="' + s.leg + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>' +
+          '<path class="m-arrow" data-leg="' + s.leg + '" d="M' + r1(s.x2) + ' ' + r1(s.y2) + 'L' + r1(bx - uy * 3.5) + ' ' + r1(by + ux * 3.5) + 'L' + r1(bx + uy * 3.5) + ' ' + r1(by - ux * 3.5) + 'z"/>');
       });
       P.pois.forEach(function (o) {
         g.push('<line class="m-road m-local" x1="' + r1(o.from[0]) + '" y1="' + r1(o.from[1]) + '" x2="' + r1(o.x) + '" y2="' + r1(o.y) + '"/>' +
@@ -605,7 +610,7 @@
       // the pins last, each with its label in one group, so the stay being read lights up both (observeStops)
       P.pins.forEach(function (pn) {
         var l = P.labels.filter(function (x) { return x.kind === 'stop' && x.key === pn.key; })[0];
-        g.push('<g class="pin" data-pin="' + pn.key + '" style="--c:' + stopColor(pn.key) + '"><rect x="' + r1(pn.x - pn.w / 2) + '" y="' + r1(pn.y - PIN_H / 2) +
+        g.push('<g class="pin" data-pin="' + pn.key + '" data-leg="' + (parseInt(pn.nums, 10) - 1) + '" style="--c:' + stopColor(pn.key) + '"><rect x="' + r1(pn.x - pn.w / 2) + '" y="' + r1(pn.y - PIN_H / 2) +
           '" width="' + r1(pn.w) + '" height="' + PIN_H + '" rx="' + PIN_H / 2 + '"/><text class="pin-num" x="' + r1(pn.x) + '" y="' + r1(pn.y + 4) + '" text-anchor="middle">' +
           pn.nums + '</text>' + (l ? labelText(l) : '') + '</g>');
       });
@@ -704,6 +709,7 @@
   function openMapZoom(kb, one) {
     one = one == null ? null : one;
     if (mz.open || mz.busy || (one == null && !mzWide())) return;
+    finishDraw();   // the copies show the whole route
     var src = mzSource(one), dst = mzTarget(one), box = $('#mapzoom'), svg = $('#map svg').outerHTML;
     var panels = mzBoxes(one).map(function (b, i) {
       var d = document.createElement('div');
@@ -912,7 +918,10 @@
       var s = b.id === 'reset-changes' ? withoutChanges(base)
         : added ? withAdded(base, added)
         : withRemoved(base, b.getAttribute('data-remove'));
-      if (apply(s)) {
+      byHand = e.isTrusted;
+      var ok = apply(s);
+      byHand = false;
+      if (ok) {
         syncForm();
         if (added) reportAdd(added, before);
         $('#shape-h2').focus({ preventScroll: true });   // the button is gone with the old trip; the trip's heading takes the focus
@@ -1281,9 +1290,131 @@
     if (day.getAttribute('data-text') === text) return;
     day.setAttribute('data-text', text);
     day.innerHTML = (c ? '<span class="dot" style="--c:' + c + '"></span>' : '') + esc(text);
+    if (touched && moving()) day.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 220, easing: 'ease-out' });   // one day to the next
   }
   window.addEventListener('scroll', syncDay, { passive: true });
   window.addEventListener('resize', syncDay);
+
+  /* ---------- the motion of a new trip (finishing touches, findings 1–3) ---------- */
+  /* Only the visitor's own doing moves the page: a change of the trip by hand (byHand: the form's change event or the click
+     of Dodaj, Usuń or the reset was isTrusted), and what first comes on the screen after the visitor has touched, scrolled
+     with the wheel or pressed a key (touched). A script, as the probes, swaps the trip at once and scrolls without motion,
+     so what a probe reads is the final state. Never with reduced motion. */
+  var byHand = false, touched = false, SVG_NS = 'http://www.w3.org/2000/svg', STILL = window.matchMedia('(prefers-reduced-motion: reduce)');
+  ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (k) {
+    window.addEventListener(k, function (e) { if (e.isTrusted) touched = true; }, { capture: true, passive: true });
+  });
+  function moving() { return !STILL.matches && !!Element.prototype.animate; }
+  function onScreen(el) { var b = el.getBoundingClientRect(); return b.bottom > 0 && b.top < window.innerHeight; }
+
+  /* The route draws itself (finding 1): on the page's first trip once the visitor has scrolled the map about half onto the
+     screen, and on a trip the visitor changed (draw) as soon as about half the map is on it (at once, or when it comes);
+     till then, once its first edge shows, the route waits unseen (m-wait), so it never vanishes in sight. The same trip
+     drawn again (the costs, EN · PL) stands still. Each leg of the trip (data-leg on its lines, stubs and pins, mapLayout) in its share of about 2 s: a road
+     drawn along its length, a flight's dashes uncovered by a drawn mask, a stub's arrow and a stay's pin as their leg
+     ends. The copies of the map (the small map, the printout) are made before it starts; the zoom and the printout finish it
+     at once (finishDraw). */
+  var DRAW_MS = 2000, drawnTrip = null, drawIO = null, drawEnd = null, drawing = [], drawOk = false;
+  function drawRoute(trip, draw) {
+    var svg = $('#map svg');
+    if (trip === drawnTrip && drawIO) { drawIO.disconnect(); drawIO.observe(svg); return; }   // a new map of the same trip
+    if (trip === drawnTrip) return;
+    drawnTrip = trip;
+    finishDraw();
+    if (!draw || !moving() || !('IntersectionObserver' in window)) return;
+    drawOk = byHand;
+    drawIO = new IntersectionObserver(function (es) {
+      var e = es[es.length - 1];
+      if (!touched && !drawOk) return;
+      if (e.intersectionRatio < 0.45) { $('#map').classList.add('m-wait'); return; }
+      drawIO.disconnect(); drawIO = null;
+      startDraw(e.target);
+    }, { threshold: [0, 0.45] });
+    drawIO.observe(svg);
+  }
+  function startDraw(svg) {
+    $('#map').classList.remove('m-wait');
+    if (!svg.isConnected) return;
+    var slot = DRAW_MS / (state.route.stops.length + 1), defs = svg.querySelector('defs'), n = 0;
+    svg.querySelectorAll('[data-leg]').forEach(function (el) {
+      var k = +el.getAttribute('data-leg');
+      if (el.classList.contains('pin')) {
+        drawing.push(el.animate([{ opacity: 0, transform: 'scale(0.3)' }, { opacity: 1, transform: 'none' }], { delay: (k + 0.85) * slot, duration: 280, easing: 'cubic-bezier(.2,.8,.2,1.2)', fill: 'backwards' }));
+        return;
+      }
+      if (el.classList.contains('m-arrow')) { drawing.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { delay: (k + 0.9) * slot, duration: 120, fill: 'backwards' })); return; }
+      var len = el.getTotalLength(), line = el;
+      if (el.classList.contains('m-fly')) {
+        var m = document.createElementNS(SVG_NS, 'mask'), id = 'draw-' + (n++);
+        m.id = id;
+        [['maskUnits', 'userSpaceOnUse'], ['x', -2000], ['y', -2000], ['width', 6000], ['height', 6000]].forEach(function (x) { m.setAttribute(x[0], x[1]); });
+        line = el.cloneNode(false);
+        ['class', 'data-leg'].forEach(function (x) { line.removeAttribute(x); });
+        [['fill', 'none'], ['stroke', '#fff'], ['stroke-width', 8]].forEach(function (x) { line.setAttribute(x[0], x[1]); });
+        m.appendChild(line); defs.appendChild(m);
+        el.setAttribute('mask', 'url(#' + id + ')');
+      }
+      drawing.push(line.animate([{ strokeDasharray: len + ' ' + len, strokeDashoffset: len }, { strokeDasharray: len + ' ' + len, strokeDashoffset: 0 }],
+        { delay: k * slot, duration: slot, easing: 'ease-in-out', fill: 'backwards' }));
+    });
+    drawEnd = setTimeout(finishDraw, DRAW_MS + 400);
+  }
+  function finishDraw() {
+    clearTimeout(drawEnd);
+    if (drawIO) { drawIO.disconnect(); drawIO = null; }
+    $('#map').classList.remove('m-wait');
+    drawing.forEach(function (x) { x.finish(); });
+    drawing = [];
+    var svg = $('#map svg');
+    if (!svg) return;
+    svg.querySelectorAll('mask[id^="draw-"]').forEach(function (x) { x.remove(); });
+    svg.querySelectorAll('[mask^="url(#draw-"]').forEach(function (x) { x.removeAttribute('mask'); });
+  }
+  window.addEventListener('beforeprint', finishDraw);
+
+  /* A new trip comes in softly (finding 2): the squares of the strip in a wave, day by day, the list of the places off the
+     trip, the days and „Przed wyjazdem” fading up. Not the View Transitions API: it swaps the page in a later frame, and the
+     page (syncForm, reportAdd) and the probes read the new trip right after apply. */
+  function wave() {
+    $('#strip').querySelectorAll('.cell').forEach(function (c, i) {
+      c.animate([{ opacity: 0, transform: 'scale(0.6)' }, { opacity: 1, transform: 'none' }], { duration: 320, delay: i * 18, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' });
+    });
+  }
+  function rebuilt() {
+    if (!moving()) return;
+    wave();
+    ['#strip-legend', '#offroute-list', '#stops', '#before .before'].forEach(function (s) {
+      $(s).animate([{ opacity: 0.25, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 360, easing: 'ease-out' });
+    });
+  }
+
+  /* The figures of the trip count up (finding 3): from 0 the first time they come on the screen after the visitor's touch
+     (not when the page opens with them in sight), from the last trip's after the visitor's change; whole numbers only (not
+     8½ nor the budget), about 0.8 s, the final text at the end also where the browser holds back its frames. */
+  function figures() { return Array.prototype.map.call(document.querySelectorAll('#facts li > b'), function (b) { return b.firstChild ? +b.firstChild.nodeValue : NaN; }); }
+  function countUp(from) {
+    if (!moving()) return;
+    document.querySelectorAll('#facts li > b').forEach(function (b, i) {
+      var node = b.firstChild, to = node && node.nodeType === 3 ? +node.nodeValue : NaN, a = from ? from[i] : 0;
+      if (!(to >= 0) || Math.round(to) !== to || !(a >= 0) || a === to) return;
+      var t0 = performance.now(), end = setTimeout(function () { k = 1; node.nodeValue = String(to); }, 850), k = 0;
+      (function step() {
+        if (k >= 1) return;
+        k = Math.min(1, (performance.now() - t0) / 800);
+        node.nodeValue = String(Math.round(a + (to - a) * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(step); else clearTimeout(end);
+      })();
+    });
+  }
+  // the first time on the screen after the visitor's touch: the figures and the strip
+  [['#facts', function () { countUp(null); }], ['#strip', function () { if (moving()) wave(); }]].forEach(function (x) {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es, o) {
+      if (!es[0].isIntersecting) return;
+      o.disconnect();
+      if (touched) x[1]();
+    }, { threshold: 0.4 }).observe($(x[0]));
+  });
 
   /* ---------- the footer and the texts in the template ---------- */
   function renderCredits() {
@@ -1354,5 +1485,6 @@
     new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
   }
   /* for the probes in tests/probes/ */
-  window.__trip = { state: state, apply: apply, today: TODAY };
+  window.__trip = { state: state, apply: apply, today: TODAY, draw: function () { startDraw($('#map svg')); }, finishDraw: finishDraw,
+    byHand: function (on) { byHand = on; } };
 })();

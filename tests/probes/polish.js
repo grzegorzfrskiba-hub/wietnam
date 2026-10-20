@@ -6,7 +6,9 @@
    with its mean colour, unseen till it has loaded (finding 6); the slow zoom of the photo at the top (5); the typography (12).
    The bar at the top over the days (8): the day across the middle of the screen under it, the summary over and under the
    days. The end of the page (9 and 10): the sunset over Pù Luông, the last day of the trip, the title, the sentence and
-   three buttons, not on paper. */
+   three buttons, not on paper. The motion of a new trip (1–3): the leg of every line and pin, the drawing itself started
+   and finished by hand, a script's change of the trip at once and still, a visitor's change (byHand) with the strip in a
+   wave, the days fading up and the figures counting from the last trip's. */
 (function () {
   document.documentElement.style.scrollBehavior = 'auto';
   var root = document.documentElement, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -99,7 +101,44 @@
       var ps = document.createElement('style'); ps.textContent = printCss.join('\n'); document.head.appendChild(ps);
       check('not on paper', !f.checkVisibility());
       ps.remove();
-      done();
+      motion();
     }, 400);
+  }
+
+  // the motion of a new trip (findings 1–3); the page's own animations only (Web Animations, not its CSS transitions)
+  function own(list) { return list.filter(function (x) { return !(x instanceof CSSTransition) && !(x instanceof CSSAnimation); }); }
+  function motion() {
+    var svg = document.querySelector('#map svg'), legs = S.route.stops.length + 1, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var lines = Array.prototype.slice.call(svg.querySelectorAll('.m-road:not(.m-local), .m-fly'));
+    check('every line of the route with its leg of the trip', lines.length > 0 && lines.every(function (l) { var k = +l.getAttribute('data-leg'); return l.hasAttribute('data-leg') && k >= 0 && k < legs; }), lines.length);
+    check('every pin with the leg that brings its first stay', Array.prototype.every.call(svg.querySelectorAll('.pin'), function (p) {
+      return +p.getAttribute('data-leg') === parseInt(p.querySelector('.pin-num').textContent, 10) - 1;
+    }));
+    check('at rest: the route whole, no mask, nothing moving', !svg.querySelector('mask, [mask]') && own(svg.getAnimations({ subtree: true })).length === 0 &&
+      !document.getElementById('map').classList.contains('m-wait'));
+    window.__trip.draw();
+    var moving = own(svg.getAnimations({ subtree: true })), flights = svg.querySelectorAll('.m-fly[data-leg]');
+    check('drawing: each line, arrow and pin moves, each flight under its mask', moving.length === svg.querySelectorAll('[data-leg]').length &&
+      Array.prototype.every.call(flights, function (x) { return /^url\(#draw-\d+\)$/.test(x.getAttribute('mask')); }), moving.length + ' / ' + svg.querySelectorAll('[data-leg]').length);
+    var last = svg.querySelector('.pin');
+    check('drawing: a stay’s pin waits for its leg', !!last && getComputedStyle(last).opacity === '0');
+    window.__trip.finishDraw();
+    check('finished: no mask, the pin in place', !svg.querySelector('mask, [mask]') && getComputedStyle(last).opacity === '1' && own(svg.getAnimations({ subtree: true })).length === 0);
+    // a script's change, as a probe makes: the new trip at once, nothing moving
+    var days = S.route.days, set = JSON.parse(JSON.stringify(S.settings)), other = days > 12 ? days - 2 : days + 2;
+    set.days = other;
+    window.__trip.apply(set);
+    check('a script’s change: the new figures at once, nothing moving', textOf('#facts li b') === String(other) && own(document.getAnimations()).length === 0, textOf('#facts li b'));
+    // the visitor's change: the strip in a wave, the rest fading up, the figures counting from the last trip's
+    document.getElementById('shape').scrollIntoView();
+    window.__trip.byHand(true); set.days = days; window.__trip.apply(set); window.__trip.byHand(false);
+    var cells = document.querySelectorAll('#strip .cell'), d0 = cells[0].getAnimations()[0], d1 = cells[cells.length - 1].getAnimations()[0];
+    check('a visitor’s change: the squares of the strip in a wave', still ? !d0 : !!d0 && !!d1 && d1.effect.getTiming().delay > d0.effect.getTiming().delay);
+    check('a visitor’s change: the days and the list fade up', still || (own(document.getElementById('stops').getAnimations()).length === 1 && own(document.getElementById('offroute-list').getAnimations()).length === 1));
+    check('a visitor’s change: the figures count from the last trip’s', still || textOf('#facts li b') === String(other), textOf('#facts li b'));
+    setTimeout(function () {
+      check('… and end at the new ones', textOf('#facts li b') === String(days), textOf('#facts li b'));
+      done();
+    }, 1200);
   }
 })();
