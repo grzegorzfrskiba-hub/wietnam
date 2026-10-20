@@ -287,6 +287,7 @@
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
+    paintFrames();
   }
 
   /* The wildlife subpage (stage 6, finding 5) with this trip: its tab (route, or guide-<place> for a stay's „Zwierzęta
@@ -408,11 +409,12 @@
     if (c.skip) t += '<p class="tip tip-skip"><b>' + T('t.skip') + '</b>' + esc(c.skip) + ' <span class="instead">' + T('t.instead') + esc(c.instead) + '</span></p>';
     return t ? '<div class="tips">' + t + '</div>' : '';
   }
-  // sizes: how wide the photo is drawn, so the browser picks the smallest copy from srcset (the offline file has none)
+  // sizes: how wide the photo is drawn, so the browser picks the smallest copy from srcset (the offline file has none); the
+  // photo comes in once loaded (class ph, paintFrames)
   function img(id, cls, sizes) {
     var p = PHOTOS[id];
-    return '<img class="' + (cls || '') + '" src="' + p.src + '" alt="' + esc(caption(id)) + '" width="' + p.w + '" height="' + p.h +
-      '" loading="lazy" decoding="async"' + (p.srcset && sizes ? ' srcset="' + p.srcset + '" sizes="' + sizes + '"' : '') + '>';
+    return '<img class="' + (cls ? cls + ' ' : '') + 'ph" src="' + p.src + '" alt="' + esc(caption(id)) + '" width="' + p.w + '" height="' + p.h +
+      '" data-ph="' + p.bg + '" loading="lazy" decoding="async"' + (p.srcset && sizes ? ' srcset="' + p.srcset + '" sizes="' + sizes + '"' : '') + '>';
   }
   // the photos of a place; keyboard stops: the photo strip (arrow keys), previous, next and full screen
   function gallery(id) {
@@ -1227,6 +1229,20 @@
       $('#secnav').classList.toggle('away', !es[0].isIntersecting && es[0].boundingClientRect.bottom < 0);
     }).observe($('#settings'));
   }
+
+  /* ---------- the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md) ---------- */
+  /* The page moves only where the browser runs IntersectionObserver: its first call marks <html> live (template.html: the
+     slow zoom of the photo at the top, the photos coming in). */
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { document.documentElement.classList.add('live'); o.disconnect(); }).observe($('.hero'));
+  /* A photo loaded late comes in softly (finding 6): till it has loaded, its frame shows the photo's mean colour (data-ph,
+     from build.py) and the photo waits unseen; once loaded (or failed), class in, and the frame drops the colour. */
+  function shown(im) { im.classList.add('in'); im.parentNode.style.backgroundColor = ''; }
+  function paintFrames() {
+    document.querySelectorAll('img.ph:not(.in)').forEach(function (im) { if (im.complete) shown(im); else im.parentNode.style.backgroundColor = im.getAttribute('data-ph'); });
+  }
+  ['load', 'error'].forEach(function (k) {
+    document.addEventListener(k, function (e) { if (e.target.classList && e.target.classList.contains('ph')) shown(e.target); }, true);
+  });
 
   /* ---------- the footer and the texts in the template ---------- */
   function renderCredits() {

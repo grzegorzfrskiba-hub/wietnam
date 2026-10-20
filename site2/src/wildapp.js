@@ -61,11 +61,11 @@
 
   /* ---------- pieces ---------- */
   var DOTS = { 3: '●●●', 2: '●●○', 1: '●○○', 0: '○○○' };
-  // a photo; style: its frame on a card (WILD_CROPS), or none
+  // a photo; style: its frame on a card (WILD_CROPS), or none; it comes in once loaded (class ph, paintFrames)
   function img(id, sizes, style) {
     var p = WILD_PICS[id];
-    return '<img src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
-      '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' loading="lazy" decoding="async">';
+    return '<img class="ph" src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
+      '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' data-ph="' + p.bg + '" loading="lazy" decoding="async">';
   }
   // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame; id: a species, or
   // a photo of the field guide's own (20.10.2026), named by its caption
@@ -190,7 +190,7 @@
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
   }
   function render() {
-    renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab();
+    renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab(); paintFrames();
   }
   /* The address: the trip (only when it changed, as planning takes a moment), the language, the tab. An address of a place
      of the guide moves to its section. */
@@ -218,6 +218,7 @@
     OUTSIDE = lang === 'en' ? WILD_OUTSIDE_EN : WILD_OUTSIDE;
     document.documentElement.lang = lang;
     document.title = T('w.doc.title');
+    $('#w-hero-img').alt = caption(WILD_HERO);
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = T(el.getAttribute('data-i18n')); });
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.getAttribute('data-i18n-aria'))); });
     Array.prototype.forEach.call(document.querySelectorAll('#lang-switch [data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
@@ -380,12 +381,27 @@
     $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
     $('#wv-why').textContent = SP[id] ? tied(x.why) : '';
     $('#wv-cap').innerHTML = x.nophoto ? '' : (SP[id] ? esc(caption(id)) + ' · ' : '') + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
+    paintFrames();
     if (d.showModal) d.showModal(); else d.setAttribute('open', '');
   }
   function closeViewer() {
     var d = $('#w-viewer');
     if (d.close) d.close(); else d.removeAttribute('open');
   }
+
+  /* ---------- the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md) ---------- */
+  /* The page moves only where the browser runs IntersectionObserver: its first call marks <html> live (wild.html: the slow
+     zoom of the photo at the top, the photos coming in). */
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { document.documentElement.classList.add('live'); o.disconnect(); }).observe($('.w-head'));
+  /* A photo loaded late comes in softly (finding 6): till it has loaded, its frame shows the photo's mean colour (data-ph,
+     from build.py) and the photo waits unseen; once loaded (or failed), class in, and the frame drops the colour. */
+  function shown(im) { im.classList.add('in'); im.parentNode.style.backgroundColor = ''; }
+  function paintFrames() {
+    all('img.ph:not(.in)').forEach(function (im) { if (im.complete) shown(im); else im.parentNode.style.backgroundColor = im.getAttribute('data-ph'); });
+  }
+  ['load', 'error'].forEach(function (k) {
+    document.addEventListener(k, function (e) { if (e.target.classList && e.target.classList.contains('ph')) shown(e.target); }, true);
+  });
 
   /* ---------- wiring ---------- */
   document.addEventListener('click', function (e) {

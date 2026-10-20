@@ -51,6 +51,9 @@ var WILD_PHOTOS = {
 /* The frame of a photo on a card of On your route (19.10.2026), where the usual one, 3:2 around the middle, would cut the
    animal: [aspect-ratio, object-position]. The whole animal stays in the frame (the map of the subpage, decision 10: other
    proportions rather than a cut animal); every other card photo takes the usual frame. */
+// the photo at the top of the subpage (finishing touches, finding 4): the red-shanked douc of Sơn Trà, as in the link preview
+var WILD_HERO = 'duk';
+
 var WILD_CROPS = {
   duk: ['3 / 2', '50% 5%'],
   gibbon: ['4 / 3', '50% 30%'],

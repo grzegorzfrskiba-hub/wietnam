@@ -22,6 +22,25 @@
   }));
   check('the way back: the trip or the planner', document.querySelector('#w-back').getAttribute('href') === (trip ? '../' + pageHash(trip.settings, LANG, /(&|#)koszty=1(&|$)/.test(hash)) : '../' + (pl ? '#lang=pl' : '')));
   check('no sideways scroll', document.documentElement.scrollWidth <= window.innerWidth, document.documentElement.scrollWidth + ' > ' + window.innerWidth);
+  // the photo at the top (finishing touches, finding 4): the red-shanked douc of Sơn Trà the page's width with the title on
+  // it and its place in the corner, the tabs under it; on a laptop (1366 × 860) the tabs on the first screen
+  var hero = document.querySelector('.w-hero'), him = document.querySelector('.w-hero > img'), hb = hero ? hero.getBoundingClientRect() : {};
+  check('the photo at the top: the douc of Sơn Trà, the page’s width, the title and its place on it', !!him && /\/duk(-\d+)?\.jpg$/.test(him.currentSrc) &&
+    Math.abs(hb.width - innerWidth) < 1 && hero.contains(document.querySelector('.w-head h1')) && hero.contains(document.querySelector('#lang-switch')) &&
+    textOf('.w-where') === 'Sơn Trà, Đà Nẵng' && him.alt === (LANG === 'en' ? WILD_CAPS_EN.duk : WILD_PHOTOS.duk.cap), him && him.currentSrc);
+  check('the tabs under the photo', !!hero && document.querySelector('.w-tabs').getBoundingClientRect().top >= hb.bottom - 1);
+  if (innerWidth >= 1366 && window.scrollY === 0) check('on a laptop the tabs on the first screen', document.querySelector('.w-tabs').getBoundingClientRect().bottom <= 860,
+    Math.round(document.querySelector('.w-tabs').getBoundingClientRect().bottom));
+  // the photos loaded late with their mean colour (finding 6); the slow zoom of the photo at the top only with the class
+  // live (the first call of an IntersectionObserver)
+  var phs = document.querySelectorAll('img.ph');
+  check('every photo loaded late has its mean colour, the one at the top none', phs.length > 20 && Array.prototype.every.call(phs, function (i) { return /^#[0-9a-f]{6}$/.test(i.getAttribute('data-ph')); }) &&
+    !!him && !him.classList.contains('ph'), phs.length);
+  var was = document.documentElement.classList.contains('live');
+  document.documentElement.classList.add('live');
+  var hz = getComputedStyle(him || document.body).animationName;
+  document.documentElement.classList.toggle('live', was);
+  check('live: the photo at the top zooms slowly', hz === (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'none' : 'kb'), hz);
 
   // On your route: 16 cards; with a trip in two groups, the ✓ lines only with a trip
   var cards = document.querySelectorAll('#p-route .w-card');

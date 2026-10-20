@@ -13,23 +13,36 @@ a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.1; text-wrap: balance; }
 p, ul { margin: 0; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--surface); }
 ul { padding: 0; list-style: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
 .btn-small { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 6px; background: var(--accent); color: var(--surface); font: 500 14px var(--body); text-decoration: none; }
 .btn-small:hover { filter: brightness(1.08); }
 
-/* heading and tabs */
+/* heading and tabs: the photo at the top (finishing touches, finding 4), the way back, EN · PL and the title on it, as on the
+   page with the route; a little lower than there, so on a laptop (1366 × 860) the tabs under it stand on the first screen */
 .w-head { background: var(--surface); border-bottom: 1px solid var(--line); }
-.w-head .wrap { position: relative; padding-block: 18px 0; }
+.w-hero { position: relative; overflow: hidden; background: var(--photo-bg); }
+.w-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transform-origin: 50% 28%; }
+.w-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.5) 0%, rgba(var(--scrim), 0.1) 26%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
+.w-hero-in { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: clamp(380px, 54vh, 580px);
+  padding-block: 6px 34px; color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.4); }
+.w-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 10px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+/* on a wide screen the square photo stands in the right two thirds, fading into the dark on its left, so the douc keeps its
+   face and shoulders and the title stands beside it, not on it (a crop the width of the screen showed its eyes alone) */
+@media (min-width: 1101px) {
+  .w-hero > img { left: auto; width: 66%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 36%); mask-image: linear-gradient(90deg, transparent, #000 36%); }
+}
 .w-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
-.w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
-.lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--muted); }
-.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
-.lang-switch button[aria-pressed="true"] { color: var(--ink); text-decoration: underline 2px; text-underline-offset: 5px; }
-.w-eyebrow { margin-top: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.w-head h1 { font-size: clamp(34px, 6vw, 56px); margin-top: 4px; }
-.w-lead { max-width: 62ch; margin-top: 10px; color: var(--muted); }
-.w-tabs { display: flex; gap: 4px; margin-top: 18px; overflow-x: auto; }
+.w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--on-photo); }
+.lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--on-photo); }
+.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
+.lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline 2px; text-underline-offset: 5px; }
+.w-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+.w-head h1 { font-size: clamp(40px, 6.6vw, 76px); font-weight: 400; letter-spacing: -0.02em; margin-top: 6px; }
+.w-lead { max-width: 58ch; margin-top: 10px; font-size: clamp(16px, 1.4vw, 18px); opacity: 0.94; }
+.w-tabs { display: flex; gap: 4px; margin-top: 6px; overflow-x: auto; }
 .w-tabs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-bottom: 3px solid transparent; color: var(--muted); font-weight: 500; text-decoration: none; white-space: nowrap; }
 .w-tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
 @media (max-width: 374px) { .w-tabs { gap: 0; } .w-tabs a { padding: 0 7px; } }
@@ -188,6 +201,17 @@ main { padding-block: 28px 48px; }
 .w-pre { opacity: 0; transform: translateY(28px); }
 .w-lit { border-color: var(--ink) !important; box-shadow: 0 0 0 1px var(--ink); }
 
+/* the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md): the motion starts with the class live on <html>,
+   which wildapp.js sets on the first call of an IntersectionObserver; without it (no JavaScript, an old browser) all stands
+   still. The
+   photo at the top zooms slowly, once (finding 5); a photo loaded late waits unseen in its frame, which shows the photo's
+   mean colour, and comes in once loaded (class in, finding 6) */
+.live .w-hero > img { animation: kb 24s ease-out forwards; }
+@keyframes kb { from { transform: none; } to { transform: scale(1.08); } }
+img.ph { transition: opacity .4s ease-out; }
+@media screen { .live img.ph:not(.in) { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .live .w-hero > img { animation: none; } }
+
 /* the photo viewer */
 .w-viewer { width: min(940px, 100vw - 24px); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 10px; background: var(--surface); color: var(--ink); }
 .w-viewer::backdrop { background: rgba(var(--scrim), 0.82); }
@@ -204,7 +228,9 @@ footer p { margin-top: 8px; }
 .noscript { padding: 16px var(--gutter); }
 @page { size: A4; margin: 12mm; }
 @media print {
-  .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer { display: none !important; }
+  .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
+  .w-hero { background: none; }
+  .w-hero-in { min-height: 0; padding-block: 0 4mm; color: var(--ink); text-shadow: none; }
   .w-pre { opacity: 1 !important; transform: none !important; }
   .w-more > summary::after { display: none; }
   /* on paper two cards a row, as before the big photos */
@@ -227,13 +253,19 @@ footer p { margin-top: 8px; }
 </style>
 <noscript>__NOSCRIPT__</noscript>
 <header class="w-head">
-  <div class="wrap">
-    <div class="w-top"><a id="w-back" href="../"></a>
-      <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+  <div class="w-hero">
+    <img id="w-hero-img" src="__HERO_SRC__" srcset="__HERO_SRCSET__" sizes="(max-width: 700px) 200vw, 100vw" alt="" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
+    <span class="w-where">Sơn Trà, Đà Nẵng</span>
+    <div class="wrap w-hero-in">
+      <div class="w-top"><a id="w-back" href="../"></a>
+        <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+      </div>
+      <div><p class="w-eyebrow" data-i18n="w.eyebrow"></p>
+        <h1 data-i18n="w.h1"></h1>
+        <p class="w-lead" data-i18n="w.lead"></p></div>
     </div>
-    <p class="w-eyebrow" data-i18n="w.eyebrow"></p>
-    <h1 data-i18n="w.h1"></h1>
-    <p class="w-lead" data-i18n="w.lead"></p>
+  </div>
+  <div class="wrap">
     <nav class="w-tabs" data-i18n-aria="w.tabs.aria"><a id="tab-route" href="#route" data-i18n="w.tab.route"></a><a id="tab-gallery" href="#gallery" data-i18n="w.tab.gallery"></a><a id="tab-guide" href="#guide" data-i18n="w.tab.guide"></a></nav>
   </div>
 </header>

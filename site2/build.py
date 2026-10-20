@@ -119,6 +119,11 @@ def fonts_css(inline):
     return re.sub(r"url\(fonts/([a-z0-9-]+\.woff2)\)", one, open(os.path.join(FONT_DIR, "fonts.css"), encoding="utf-8").read())
 
 
+def mean_colour(im):
+    """The photo's mean colour as #rrggbb: its frame shows it till the photo has loaded (finishing touches, finding 6)."""
+    return "#%02x%02x%02x" % im.resize((1, 1), Image.BOX).getpixel((0, 0))
+
+
 def og_image(im, path, low):
     """A link preview image: the photo cut to OG_SIZE, the cut taken at the height low (0 top, 1 bottom)."""
     ow, oh = OG_SIZE
@@ -131,29 +136,31 @@ def og_image(im, path, low):
 
 def wild_photo_ids():
     """The photo ids of the wildlife subpage in wildphotos.js (one entry per line, '  id: { cap: …'); each needs its file in
-    photos/wild/."""
+    photos/wild/. And the photo at the top of the subpage (WILD_HERO, finishing touches, finding 4)."""
     text = open(os.path.join(SRC, "wildphotos.js"), encoding="utf-8").read()
     ids = re.findall(r"^  ([a-z]+): \{ cap: ", text, re.M)
     assert len(ids) == len(set(ids)), "an id twice in wildphotos.js"
     missing = [p for p in ids if not os.path.exists(os.path.join(WILD_PHOTO_DIR, p + ".jpg"))]
     assert not missing, "no file in photos/wild/ for %s" % missing
-    return ids
+    hero = re.search(r"^var WILD_HERO = '([a-z]+)';", text, re.M).group(1)
+    assert hero in ids, hero
+    return ids, hero
 
 
 def wild_page(template, fonts):
     """The wildlife subpage for GitHub Pages: out/pages/wildlife/index.html, with the colours of the page with the route (its
     :root tokens and their dark versions, cut from template.html), the fonts and images one folder up, and its photos in
-    out/pages/img/wild/ with smaller copies for the tiles."""
-    ids = wild_photo_ids()
+    out/pages/img/wild/ with smaller copies for the tiles; the photo at the top as wide as the one of the page with the route."""
+    ids, hero = wild_photo_ids()
     os.makedirs(os.path.join(OUT_PAGES, "img", "wild"))
     pics = {}
     for pid in ids:
         im = Image.open(os.path.join(WILD_PHOTO_DIR, pid + ".jpg")).convert("RGB")
-        (w, h), b = encode(im, 1400, 74)
+        (w, h), b = encode(im, 1920 if pid == hero else 1400, 74)
         open(os.path.join(OUT_PAGES, "img", "wild", pid + ".jpg"), "wb").write(b)
-        pics[pid] = dict(src="../img/wild/%s.jpg" % pid, w=w, h=h)
+        pics[pid] = dict(src="../img/wild/%s.jpg" % pid, w=w, h=h, bg=mean_colour(im))
         srcset = []
-        for sw in WILD_SMALLER:
+        for sw in WILD_SMALLER + ((1400,) if pid == hero else ()):
             if sw < w:
                 (vw, _), vb = encode(im, sw, 74)
                 open(os.path.join(OUT_PAGES, "img", "wild", "%s-%d.jpg" % (pid, vw)), "wb").write(vb)
@@ -167,7 +174,9 @@ def wild_page(template, fonts):
     js = "\n".join(open(os.path.join(SRC, name), encoding="utf-8").read() for name in WILD_SCRIPTS)
     script = (js + "\nvar WILD_PICS = " + json.dumps(pics, ensure_ascii=False) + ";\n"
               + open(os.path.join(SRC, "wildapp.js"), encoding="utf-8").read()).replace("</script", "<\\/script")
-    page = (template.replace("/* __FONTS__ */", fonts.replace("url(fonts/", "url(../fonts/")).replace("/* __TOKENS__ */", tokens)
+    top = pics[hero]
+    page = (template.replace("__HERO_SRC__", top["src"]).replace("__HERO_SRCSET__", top["srcset"]).replace("__HERO_W__", str(top["w"])).replace("__HERO_H__", str(top["h"]))
+            .replace("/* __FONTS__ */", fonts.replace("url(fonts/", "url(../fonts/")).replace("/* __TOKENS__ */", tokens)
             .replace("__NOSCRIPT__", "".join('<p class="noscript" lang="%s">%s</p>' % x for x in NOSCRIPT["page"])).replace("__SCRIPT__", script))
     os.makedirs(os.path.join(OUT_PAGES, "wildlife"))
     open(os.path.join(OUT_PAGES, "wildlife", "index.html"), "w", encoding="utf-8").write(full_document(page, preview=WILD_PREVIEW))
@@ -205,7 +214,7 @@ def main():
         im = Image.open(os.path.join(PHOTO_DIR, pid + ".jpg")).convert("RGB")
         (w, h), b = encode(im, 1920 if pid == hero else 1400, 74)
         open(os.path.join(OUT_WEB, "img", pid + ".jpg"), "wb").write(b)
-        web[pid] = dict(src="img/%s.jpg" % pid, w=w, h=h)
+        web[pid] = dict(src="img/%s.jpg" % pid, w=w, h=h, bg=mean_colour(im))
         srcset = []
         for sw in SMALLER["hero" if pid == hero else "photo"]:
             if sw < w:
@@ -215,7 +224,7 @@ def main():
         if srcset:
             web[pid]["srcset"] = ", ".join(srcset + ["img/%s.jpg %dw" % (pid, w)])
         (w, h), b = encode(im, *OFFLINE["hero" if pid == hero else "photo"])
-        off[pid] = dict(src="data:image/jpeg;base64," + base64.b64encode(b).decode(), w=w, h=h)
+        off[pid] = dict(src="data:image/jpeg;base64," + base64.b64encode(b).decode(), w=w, h=h, bg=web[pid]["bg"])
         if pid == hero:
             # link preview image: the hero cut to 1200 x 630, kept low so the rower stays in the picture
             og_image(im, os.path.join(OUT_WEB, "img", "og.jpg"), 0.95)
