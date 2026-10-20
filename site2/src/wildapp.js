@@ -370,19 +370,41 @@
   window.addEventListener('afterprint', function () { unfolded.forEach(function (d) { d.open = false; }); unfolded = []; });
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
-  var opener = null;
+  /* An album (finishing touches, finding 7): the photos of the tab it was opened in, in their order there, each once, the
+     species without a photo left out (unless opened); ‹ ›, the arrow keys and a swipe go through it, a counter says where. */
+  var opener = null, album = [], at = 0;
+  function albumOf(id, from) {
+    var ids = [], tab = from && from.closest('.w-panels > section');
+    (tab ? all('#' + tab.id + ' [data-view]') : []).forEach(function (b) {
+      var x = b.getAttribute('data-view');
+      if (ids.indexOf(x) < 0 && (!SP[x] || !SP[x].nophoto || x === id)) ids.push(x);
+    });
+    return ids.indexOf(id) > -1 ? ids : [id];
+  }
+  function openViewer(id, from) {
+    var d = $('#w-viewer');
+    opener = from; album = albumOf(id, from); at = album.indexOf(id);
+    showPhoto();
+    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  }
+  function step(k) {
+    if (at + k < 0 || at + k >= album.length) return;
+    at += k;
+    showPhoto();
+  }
   // a species: its photo, names and sentence; a photo of the field guide's own (no species, 20.10.2026): its caption as the
   // title, and only the author and the licence under it
-  function openViewer(id, from) {
-    var x = SP[id] || { nophoto: false }, d = $('#w-viewer');
-    opener = from;
+  function showPhoto() {
+    var id = album[at], x = SP[id] || { nophoto: false };
+    $('#wv-count').textContent = (at + 1) + ' / ' + album.length;
+    $('#wv-prev').disabled = at === 0; $('#wv-next').disabled = at === album.length - 1;
+    $('#wv-count').hidden = $('#wv-prev').hidden = $('#wv-next').hidden = album.length < 2;
     $('#wv-photo').innerHTML = x.nophoto ? '<div class="w-nophoto"><span>' + esc(T('w.nophoto')) + '</span></div>' : img(id, '(max-width: 900px) 100vw, 900px');
     $('#wv-name').textContent = SP[id] ? x.name + (x.alt ? ' (' + x.alt + ')' : '') : caption(id);
     $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
     $('#wv-why').textContent = SP[id] ? tied(x.why) : '';
     $('#wv-cap').innerHTML = x.nophoto ? '' : (SP[id] ? esc(caption(id)) + ' · ' : '') + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
     paintFrames();
-    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
   }
   function closeViewer() {
     var d = $('#w-viewer');
@@ -417,8 +439,21 @@
       return;
     }
     if (e.target.id === 'wv-close' || e.target.id === 'w-viewer') closeViewer();
+    var nav = e.target.closest ? e.target.closest('.wv-nav') : null;
+    if (nav) step(nav.id === 'wv-next' ? 1 : -1);
   });
   $('#w-viewer').addEventListener('close', function () { if (opener) opener.focus(); opener = null; });
+  $('#w-viewer').addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1); }
+  });
+  var x0 = null;
+  $('#w-viewer').addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+  $('#w-viewer').addEventListener('touchend', function (e) {
+    if (x0 == null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) >= 50) step(dx < 0 ? 1 : -1);
+  });
   $('#lang-switch').addEventListener('click', function (e) {
     var b = e.target.closest('[data-lang]');
     if (!b || b.getAttribute('data-lang') === lang) return;

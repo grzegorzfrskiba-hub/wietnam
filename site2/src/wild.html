@@ -92,6 +92,12 @@ main { padding-block: 28px 48px; }
 .w-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 220px), 1fr)); gap: 14px; margin-top: 14px; }
 .w-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .w-tile-photo img, .w-tile .w-nophoto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* a tile's photo comes a little closer under the mouse (finishing touches, finding 7) */
+.w-tile-photo { overflow: hidden; }
+@media (hover: hover) {
+  .w-tile-photo img { transition: transform .4s ease-out, opacity .4s ease-out; }
+  .w-tile:hover .w-tile-photo img { transform: scale(1.04); }
+}
 .w-tile-name { display: flex; flex-direction: column; width: 100%; padding: 10px 12px 12px; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
 .w-tile-name i { font-size: 13px; color: var(--muted); }
 .w-legend-tile { border-style: dashed; }
@@ -216,6 +222,13 @@ img.ph { transition: opacity .4s ease-out; }
 .w-viewer { width: min(940px, 100vw - 24px); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 10px; background: var(--surface); color: var(--ink); }
 .w-viewer::backdrop { background: rgba(var(--scrim), 0.82); }
 .w-viewer img { width: 100%; max-height: 70vh; object-fit: contain; background: var(--photo-bg); }
+/* the album (finishing touches, finding 7): ‹ › over the photo, the counter in its corner */
+.wv-stage { position: relative; }
+.wv-nav { position: absolute; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 0; border-radius: 22px; background: var(--ctl-bg); color: var(--ctl-ink); cursor: pointer; }
+.wv-nav:disabled { opacity: 0.35; cursor: default; }
+.wv-prev { left: 10px; }
+.wv-next { right: 10px; }
+.wv-count { position: absolute; top: 12px; left: 12px; padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); color: var(--on-photo); font: 500 12px var(--mono); }
 .wv-text { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
 .wv-text h2 { font-size: 26px; padding-right: 50px; }
 .wv-sci, .wv-cap { font-size: 14px; color: var(--muted); }
@@ -285,7 +298,10 @@ footer p { margin-top: 8px; }
   </div>
 </footer>
 <dialog class="w-viewer" id="w-viewer">
-  <div id="wv-photo"></div>
+  <div class="wv-stage"><div id="wv-photo"></div>
+    <button type="button" class="wv-nav wv-prev" id="wv-prev" data-i18n-aria="g.prev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="wv-nav wv-next" id="wv-next" data-i18n-aria="g.next"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    <span class="wv-count" id="wv-count"></span></div>
   <div class="wv-text"><h2 id="wv-name"></h2><p class="wv-sci" id="wv-sci"></p><p id="wv-why"></p><p class="wv-cap" id="wv-cap"></p></div>
   <button type="button" class="wv-close" id="wv-close" data-i18n-aria="w.close">×</button>
 </dialog>

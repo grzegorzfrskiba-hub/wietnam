@@ -93,6 +93,27 @@
   b.focus(); b.click();
   var d = document.querySelector('#w-viewer');
   check('a tile opens the viewer with its species', d.open && document.querySelector('#wv-name').textContent.indexOf(b.querySelector('b').textContent) === 0 && document.querySelector('#wv-why').textContent.length > 20);
+  // the album (finishing touches, finding 7): ‹ ›, the arrow keys and a swipe go through the photos of the tab it was opened
+  // in, each once, the species without a photo left out; a counter says where
+  var album = function (sel) {
+    var ids = [];
+    Array.prototype.forEach.call(document.querySelectorAll(sel + ' [data-view]'), function (e) { var x = e.getAttribute('data-view'); if (ids.indexOf(x) < 0 && !(WILD[x] && WILD[x].nophoto)) ids.push(x); });
+    return ids;
+  }, gal = album('#p-gallery'), sp = LANG === 'en' ? WILD_EN : WILD;
+  check('the viewer: an album of the tab’s photos, at the first', textOf('#wv-count') === '1 / ' + gal.length && document.querySelector('#wv-prev').disabled && !document.querySelector('#wv-next').disabled, textOf('#wv-count'));
+  document.querySelector('#wv-next').click();
+  check('› shows the next photo', textOf('#wv-count') === '2 / ' + gal.length && document.querySelector('#wv-name').textContent.indexOf(sp[gal[1]].name) === 0, textOf('#wv-count'));
+  d.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  d.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+  d.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+  check('→ and ← go through it, not past its first photo', textOf('#wv-count') === '1 / ' + gal.length && document.querySelector('#wv-name').textContent.indexOf(sp[gal[0]].name) === 0, textOf('#wv-count'));
+  var swipe = function (dx) {
+    var t0 = new Touch({ identifier: 1, target: d, clientX: 200, clientY: 200 }), t1 = new Touch({ identifier: 1, target: d, clientX: 200 + dx, clientY: 205 });
+    d.dispatchEvent(new TouchEvent('touchstart', { touches: [t0], changedTouches: [t0], bubbles: true }));
+    d.dispatchEvent(new TouchEvent('touchend', { touches: [], changedTouches: [t1], bubbles: true }));
+  };
+  swipe(-120);
+  check('a swipe to the left shows the next photo', textOf('#wv-count') === '2 / ' + gal.length, textOf('#wv-count'));
   d.close();
 
   // the field guide (finding 14): the places from south to north, each on the trip or with Dodaj; what to avoid, beyond
@@ -118,6 +139,7 @@
   var tb0 = document.querySelector('#p-guide .w-row-photo[data-view]'), y0 = window.scrollY;
   tb0.focus({ preventScroll: true }); tb0.click();
   check('a thumbnail opens the viewer with its species', document.querySelector('#w-viewer').open && document.querySelector('#wv-name').textContent.indexOf(WILD[tb0.getAttribute('data-view')] && (LANG === 'en' ? WILD_EN : WILD)[tb0.getAttribute('data-view')].name) === 0);
+  check('the field guide’s album: its thumbnails', textOf('#wv-count') === '1 / ' + album('#p-guide').length, textOf('#wv-count') + ' / ' + album('#p-guide').length);
   document.querySelector('#w-viewer').close();
   window.scrollTo(0, y0);   // the focus back on the thumbnail may have moved the page
 
