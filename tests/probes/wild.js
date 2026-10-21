@@ -118,6 +118,13 @@
   };
   swipe(-120);
   check('a swipe to the left shows the next photo', textOf('#wv-count') === '2 / ' + gal.length, textOf('#wv-count'));
+  // at the end of the album › turns off: the focus goes to ‹, so the arrow keys keep working (final review of the finishing
+  // touches: the focus stayed on the switched-off ›)
+  var nx = document.querySelector('#wv-next');
+  nx.focus();
+  while (!nx.disabled) nx.click();
+  var fe = document.activeElement;
+  check('at the last photo the focus on ‹, in the viewer', textOf('#wv-count') === gal.length + ' / ' + gal.length && fe === document.querySelector('#wv-prev'), fe && (fe.id || fe.tagName));
   d.close();
 
   // the field guide (finding 14): the places from south to north, each on the trip or with Dodaj; what to avoid, beyond

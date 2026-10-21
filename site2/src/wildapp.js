@@ -399,6 +399,9 @@
     $('#wv-count').textContent = (at + 1) + ' / ' + album.length;
     $('#wv-prev').disabled = at === 0; $('#wv-next').disabled = at === album.length - 1;
     $('#wv-count').hidden = $('#wv-prev').hidden = $('#wv-next').hidden = album.length < 2;
+    // an arrow switched off at an end of the album hands the focus to the other one, so the arrow keys keep working
+    var off = document.activeElement;
+    if (off && off.disabled && /^wv-(prev|next)$/.test(off.id)) $(off.id === 'wv-next' ? '#wv-prev' : '#wv-next').focus();
     $('#wv-photo').innerHTML = x.nophoto ? '<div class="w-nophoto"><span>' + esc(T('w.nophoto')) + '</span></div>' : img(id, '(max-width: 900px) 100vw, 900px');
     $('#wv-name').textContent = SP[id] ? x.name + (x.alt ? ' (' + x.alt + ')' : '') : caption(id);
     $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
