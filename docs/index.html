@@ -111,6 +111,8 @@ a { color: var(--accent); text-underline-offset: 2px; }
 h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
 h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.1; }
 p, ul, ol { margin: 0; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--surface); }
 ul, ol { padding: 0; list-style: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
@@ -124,7 +126,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero { position: relative; min-height: clamp(460px, 64vh, 680px); display: flex; align-items: flex-end; overflow: hidden; background: var(--photo-bg); }
 /* without JavaScript (an iPhone's preview of the offline file): where to open the page instead */
 .noscript { margin: 0; padding: 16px var(--gutter); background: var(--warm-soft); color: var(--ink); }
-.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; transform-origin: center 55%; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.45) 0%, rgba(var(--scrim), 0.12) 28%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
 .hero .eyebrow { color: var(--on-photo); opacity: 0.85; }
@@ -147,6 +149,16 @@ ul, ol { padding: 0; list-style: none; }
 .lang-switch button:hover, .lang-switch button[aria-pressed="true"] { opacity: 1; }
 .lang-switch button[aria-pressed="true"] { text-decoration: underline 2px; text-underline-offset: 5px; }
 .lang-switch span { opacity: 0.7; }
+
+/* The finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md): the motion starts with the class live on <html>,
+   which app.js sets on the first call of an IntersectionObserver; without it (no JavaScript, an old browser) all stands
+   still. The photo at the top zooms slowly, once (finding 5); a photo loaded late waits unseen in its frame, which shows the
+   photo's mean colour, and comes in once loaded (class in, finding 6). */
+.live .hero > img { animation: kb 24s ease-out forwards; }
+@keyframes kb { from { transform: none; } to { transform: scale(1.08); } }
+img.ph { transition: opacity .4s ease-out; }
+@media screen { .live img.ph:not(.in) { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .live .hero > img { animation: none; } }
 
 /* Facts: the trip in figures, right under the settings */
 .facts { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(16px, 2.4vw, 26px); margin-bottom: clamp(28px, 4vw, 40px); }
@@ -431,6 +443,10 @@ footer .ft-copy { margin-top: 18px; }
 .m-label { fill: var(--ink); font: 600 11.5px var(--body); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .m-sub { fill: var(--muted); font: 400 10px var(--mono); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .pin rect { fill: var(--c); stroke: var(--surface); stroke-width: 2; transition: transform .2s; transform-box: fill-box; transform-origin: center; }
+/* the route draws itself (finishing touches, finding 1, app.js): till then its lines, stubs and pins wait unseen (m-wait);
+   a pin comes in from its middle */
+#map.m-wait [data-leg] { opacity: 0; }
+.pin { transform-box: fill-box; transform-origin: center; }
 .pin-num { fill: var(--on-c); font: 600 11px var(--mono); }
 .pin.on rect { transform: scale(1.25); }
 .pin.on .m-label { fill: var(--c); }
@@ -543,6 +559,23 @@ details[open] > summary .fold-arrow { transform: rotate(180deg); }
 .tip-skip b { color: var(--warm); }
 .instead { display: block; margin-top: 4px; font-weight: 500; }
 
+/* The end of the page (finishing touches, finding 9): the sunset over the valley of Pù Luông the page's width, coming out of
+   the page above it; over the title the trip's last day, under it a sentence and three buttons; not on paper (the PDF has its
+   own end) */
+.finale { position: relative; display: flex; align-items: flex-end; min-height: clamp(440px, 72vh, 680px); margin-top: clamp(56px, 8vw, 96px); overflow: hidden; background: var(--photo-bg); }
+.finale-photo { position: absolute; inset: 0; }
+.finale-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
+.finale::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, var(--paper) 0%, rgba(var(--scrim), 0) 24%, rgba(var(--scrim), 0.12) 52%, var(--shade) 100%); }
+.finale-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(40px, 7vh, 64px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
+.finale .eyebrow { color: var(--on-photo); opacity: 0.85; }
+.finale h2 { margin-top: 8px; font-size: clamp(38px, 6vw, 72px); font-weight: 400; letter-spacing: -0.02em; }
+.finale-p { margin-top: 10px; max-width: 46ch; font-size: clamp(16px, 1.5vw, 19px); opacity: 0.94; }
+.finale-cta button { font: 500 15px var(--body); padding: 11px 18px; border-radius: 6px; min-height: 44px; border: 0; cursor: pointer; }
+.finale-cta .ghost { background: none; }
+.finale-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+.finale-status { margin-top: 10px; min-height: 1.6em; }
+#end-fallback { display: block; width: 100%; max-width: 640px; margin-top: 8px; color: var(--ink); background: var(--surface); text-shadow: none; }
+.finale + footer { margin-top: 0; }
 footer { margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: 12.5px; }
 footer h2 { font: 400 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 10px; }
 footer h2:first-child { margin-top: 0; }
@@ -644,6 +677,14 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
+/* over the days the summary gives way to the day across the middle of the screen (finishing touches, finding 8): both in
+   one place, crossfading; the dot in its place's colour */
+.sum-swap { display: grid; min-width: 0; }
+.sum-swap > span { grid-area: 1 / 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; transition: opacity .25s, visibility .25s; }
+#sum-day { opacity: 0; visibility: hidden; }
+#sum-day .dot { margin-right: 8px; vertical-align: -1px; }
+.secnav.in-days #sum-text { opacity: 0; visibility: hidden; }
+.secnav.in-days #sum-day { opacity: 1; visibility: visible; }
 /* on the narrowest phones the summary is cut short (…), and "Zmień" stays whole */
 #sum-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .secnav.away .secnav-sum { display: flex; }
@@ -658,7 +699,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-wild, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
+  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-wild, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -727,7 +768,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <a href="#before" data-i18n="nav.before"></a>
     <a class="wild-link" id="wild-nav" href="wildlife/" data-i18n="nav.wild"></a>
   </div>
-  <p class="secnav-sum"><span id="sum-text"></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
+  <p class="secnav-sum"><span class="sum-swap"><span id="sum-text"></span><span id="sum-day"></span></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>
 <a class="totop" id="totop" href="#top" data-i18n-aria="nav.top" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg></a>
 
@@ -835,6 +876,19 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     </div>
   </section>
 </main>
+
+<section class="finale" id="finale" aria-labelledby="end-h2">
+  <div class="finale-photo" id="finale-photo"></div>
+  <span class="finale-where">Pù Luông</span>
+  <div class="finale-text"><div class="wrap">
+    <p class="eyebrow" id="end-day"></p>
+    <h2 id="end-h2" data-i18n="end.h2"></h2>
+    <p class="finale-p" data-i18n="end.p"></p>
+    <div class="hero-cta finale-cta"><button type="button" class="primary" id="end-copy" data-i18n="copy.btn"></button><button type="button" class="ghost" id="end-pdf" data-i18n="pdf.btn"></button><a class="ghost" href="#settings" data-i18n="end.change"></a></div>
+    <p class="finale-status" id="end-status" role="status"></p>
+    <textarea id="end-fallback" rows="9" readonly hidden data-i18n-aria="copy.aria"></textarea>
+  </div></div>
+</section>
 
 <footer>
   <div class="wrap">
@@ -2636,6 +2690,7 @@ var PHOTO_META = {
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
 };
 var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview
+var FINALE_PHOTO = 'puluong_1';   // the photo at the end of the page (finishing touches, finding 9), one of Pù Luông's
 
 /* The captions of the photos in English (stage 5, finding 8), by the ids of photos.js, where the author, the licence
    and the photo's page stay; each names the same place as the Polish caption. */
@@ -2815,6 +2870,7 @@ UI.pl = {
   'missing': 'Nie zmieściło się: {x}. Reszta trasy jest bez zmian.',
   'copy.btn': 'Kopiuj plan na WhatsApp', 'copy.aria': 'Plan jako tekst', 'copy.ok': 'Skopiowano. Wklej plan do czatu.', 'copy.fail': 'Skopiuj zaznaczony tekst poniżej.',
   'pdf.btn': 'Zapisz trasę jako PDF',
+  'end.h2': 'To twój Wietnam.', 'end.p': 'Wyślij trasę tym, którzy jadą z tobą, albo zapisz ją jako PDF.', 'end.change': 'Zmień trasę',
   'pdf.hint': 'Otworzy się okno drukowania. Na iPhonie stuknij Udostępnij u góry, potem „Zachowaj w Plikach”; na Androidzie wybierz u góry „Zapisz jako PDF”, a na komputerze drukarkę „Zapisz jako PDF”. PDF otworzysz potem bez internetu.',
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
@@ -3086,6 +3142,7 @@ UI.en = {
   'missing': 'Did not fit: {x}. The rest of the route is unchanged.',
   'copy.btn': 'Copy plan for WhatsApp', 'copy.aria': 'The plan as text', 'copy.ok': 'Copied. Paste the plan into a chat.', 'copy.fail': 'Copy the selected text below.',
   'pdf.btn': 'Save route as PDF',
+  'end.h2': 'That’s your Vietnam.', 'end.p': 'Send it to whoever is coming with you, or keep it as a PDF.', 'end.change': 'Change the route',
   'pdf.hint': 'A print window opens. On an iPhone tap Share at the top, then “Save to Files”; on Android choose “Save as PDF” at the top, and on a computer the “Save as PDF” printer. You can then open the PDF without internet.',
 
   'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',
@@ -4588,7 +4645,9 @@ function placeLabels(items, obstacles, bounds) {
    The whole degrees of latitude come last: each line is drawn, and its label at the right edge (gridBox) only where it
    covers no label and no marker.
    Returns { height, panels: [{ key, y, p (panelSize), grid, names, segs, stubs, pins, airports, pois, faint, labels }] };
-   a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
+   a seg and a stub are { mode, x1, y1, x2, y2, leg }: leg the trip's leg it belongs to, 0 the way from the arrival airport
+   to the first stay, the last the way home (a stub of several legs: the first), so the route draws itself in the trip's
+   order (finishing touches, finding 1); a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
    grid is [{ lat, y, label }] (label: its text is drawn), a name { text, kind, x, y, anchor }, a label { kind:
    'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
 // the box of a degree's label: "21°N" in 10 px monospace, ending 6 px from the panel's right edge, 4 px over its line (app.js)
@@ -4657,13 +4716,13 @@ function mapLayout(route, st, m) {
     });
     // the legs inside the panel; the legs from one point here to another panel make one stub
     var stubAt = {}, stubs = [];
-    legs.forEach(function (L) {
+    legs.forEach(function (L, li) {
       L.segs.forEach(function (g) {
         var a = proj(where(g.from)), b = proj(where(g.to)), ia = inside(a), ib = inside(b);
-        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] }); return; }
+        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1], leg: li }); return; }
         if (!ia && !ib) return;
         var here = ia ? g.from : g.to, from = ia ? a : b, to = ia ? b : a, dx = to[0] - from[0], dy = to[1] - from[1], len = Math.sqrt(dx * dx + dy * dy) || 1;
-        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [] });
+        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [], leg: li });
         if (!s.names.length) stubs.push(s);
         s.vx += dx / len; s.vy += dy / len;
         // the other end by name, a flight with ✈ and a road with an arrow (stage 3: Phong Nha has roads to the north panel)
@@ -4718,7 +4777,7 @@ function mapLayout(route, st, m) {
       var it = best.list[i];
       if (it.stub) {
         var v = STUB_TIPS[l.alt], tip = tipOf(it.stub, STUB * v[0], v[1]);
-        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1] });
+        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1], leg: it.stub.leg });
       }
       P.labels.push(Object.assign({}, it.what, l, l.oneLine ? { lines: it.what.lines.slice(0, 1) } : {}));
       taken.push(l.box);
@@ -4742,7 +4801,7 @@ var BASEMAP = {"north":{"vn":"M41.6 276 36.8 274.2 34 274.9 30 272.4 28.8 270.4 
    the islands of Hoàng Sa and Trường Sa lie outside its frame, as on the map of the trip. */
 var OUTLINE = "M245 387.7 245.1 387.1 244 385.9 244.5 385.4 243.7 383.4 246.6 379.8 242.4 376.8 241.7 373.8 244.9 372.7 247.5 372.8 248 372.3 247.6 370.7 249.1 369 249.6 366.3 250.8 366.2 251.3 363.2 247.9 359.9 247.3 356.9 244.7 357 243.8 356.6 243.6 353.9 242.4 353.8 241.6 352.7 240 352.7 238.9 353.6 238.4 353.2 236.1 349.2 232.7 346.8 232.1 343.6 228.8 341.2 230.4 337.4 232.6 337.6 235.6 335.7 238.7 334.8 241.7 330.8 241.1 329.6 241.3 328.3 236.6 328.8 235.3 328.5 232.7 325.6 228.5 323.6 227 319.6 224.6 318.4 220.4 317.9 220 316.2 217.9 314.8 216.9 313.1 216 313.2 216.4 309.3 215.6 308.2 214.6 308.1 213.5 310.4 211.8 311.6 211.1 312.9 210.4 313.1 210.2 312.4 208.9 312.6 208 311.9 206.7 309 206.6 305.7 203.7 304.5 202.3 302.6 202 288.9 201.6 288.2 200.4 289.3 196.6 287.9 195.6 285.6 195.9 284.7 192.1 280 192.3 277.8 191.3 276.6 191.1 275.3 190 275.1 188.4 277 186.8 276.5 179.6 270.5 170.9 260.6 166.6 258.3 163.2 251.9 161.5 250.5 161 249 161.5 245.7 160.8 244.3 159.5 243.4 159 241.5 155.9 238.6 155.5 236.2 153 235.3 152.2 235.6 151.1 237.5 148 235.6 147.9 233.1 145.4 233.2 144.5 232 142.4 230.7 142 230.2 142.2 228.1 139.1 225.5 138.6 224.3 140.1 218.8 140.7 218 142.2 218 142.5 217.3 142.5 216.6 140 213.7 137.9 213.7 134.7 212.2 131.6 212 130.7 210.5 129.6 210.2 126.5 210.3 122.5 209.4 121.4 208.2 119.7 207.8 115.8 205 113.2 201.9 109.6 201.2 107 198.4 104.7 197.5 102.9 196 100.7 196.1 100.2 194.1 98 192.5 93.1 190.5 90.4 190.7 87.7 189 86.9 187.7 84.9 187.4 85.9 186.3 88.1 185.1 89.5 183.5 93.2 182.5 94.2 180 95.5 179.4 94.7 176.1 92.3 174.3 91.4 172.1 91.6 170.8 95.4 172.1 96.3 172 97.5 170.5 101.5 169.7 103.6 170.7 104.4 172 106.4 170.7 108.1 170.6 109.6 172.1 113.6 174.2 115.3 174.3 116.8 173.6 118.3 174 121 168.9 123.7 168 126.6 166 127.1 163.5 124.5 162.7 125.6 160.9 128.9 158.9 129.6 157.7 132.3 157.6 132.9 157.1 132.7 154 133.6 153.6 131 151.1 131.1 149.3 127.2 147.3 121.7 148.4 120.2 147.7 120.2 144.7 121.6 143.8 121.2 142.1 118.2 140.5 116.6 138.9 110.4 139 107.2 137.8 107.5 136.9 110 135.3 110.9 133.6 113.2 134.6 115.2 133.6 118 129.9 118.4 128.7 113 126.3 111.3 123.6 108.5 123.3 103.7 118.1 101.2 118 100 116.4 96.9 115.8 95.6 115 94 115.1 92 117.3 85.4 119 84 120 82.2 120 80.9 122.2 80.8 124.5 78.8 125.5 79.1 127.6 77.4 128.3 73.1 125 69.3 124.1 67.1 121.4 66.5 121.1 65 122.3 63.1 122.5 58.7 120.7 56.5 120.8 53 119.1 50.9 116.3 48.6 111.6 47.9 110.8 45.8 110.3 44.7 107.2 43.1 106.1 43.1 103.4 41.4 102.4 39.3 102.2 40.5 100.9 42.5 100 42.9 96.4 44.4 93.7 41.4 94.8 43.4 91.7 46.8 88.3 46.2 82.3 45.7 81.2 41.3 82.6 40.8 82.1 40.4 77.5 39.5 76.9 38.8 77.6 38.6 81.1 37.1 83.7 35.8 84.5 32.7 84.7 31.9 82.5 31.6 77.2 30.1 74 25.2 71.6 24.7 69.9 25.4 68.8 22.8 67 21.3 64.6 16.8 61 13.4 59 13.1 58.2 11.1 56.5 11.2 55.4 9.5 52.4 11.5 51.2 13.9 51.8 15.4 48.1 20.8 42.9 21.1 42.3 19.9 40.5 22.1 39.5 23.7 36.4 24.7 36.2 26.8 37.3 27.7 39.4 28.7 39.5 29.9 38.5 31.1 39.6 34.6 40.5 37.1 42.5 40.6 43.6 43.7 48.9 49.2 51 49.9 50.5 49.9 48.5 54.1 46.3 53.6 44.6 54.1 43.3 58.6 40.6 61.4 35.4 63.5 35.9 65.5 37.6 65.6 39.7 67.5 42.8 68.6 44 69.9 44.4 72 41.8 71.8 39.2 73.7 36.3 76.1 34.9 82.6 41 84.4 43.5 85.7 44.7 86.9 44.9 87.9 46.5 89.8 47.6 90.9 46.8 90.9 44.9 92.6 38.4 95.3 35.2 102.1 33.8 101.5 35.6 101.9 37.4 106.4 39.8 111.1 37.3 115.7 33.3 117.2 34.6 118.1 33.9 120.4 34.4 122.1 34.1 125.3 30.7 127.4 29.5 127.6 28.1 126.3 22.4 129.1 20.9 129.5 19 130.5 18.7 132.3 19.4 137.8 16 141.9 14.5 143.9 15.1 144.6 14.6 145.8 11.8 147.9 10.2 148.7 10.2 150.1 12.9 152.1 14.1 153.7 14.2 155.8 17.7 158.2 19.4 159.2 23.6 165.2 24.2 168 25.9 172.3 30.3 173.3 29.3 177 29.1 178.7 27.2 184.5 27.2 187.5 28.5 188.4 30 188.6 31.6 189.9 32.5 192.5 32.5 198.7 31 200 29.4 204.1 30.7 205.3 32.6 206.3 32.7 207 32 207.8 31.9 210.6 35 213.1 35 213.2 36.1 211.3 37.3 208.4 44.5 206.9 44.9 205.2 43.2 203.9 43.8 201.7 50.6 202.3 54.7 206.3 56.3 207.6 60 206.6 61.4 208 65.7 207 69.9 207.2 71.1 208.1 71.4 210.5 69.4 212.8 70.8 216.4 71.1 218.8 73.4 221.1 72.5 222.7 72.9 223.2 74.4 221.7 76.5 222.4 78 225.2 78.6 229.8 82.2 231.6 82.6 234.2 82 235.5 83.3 236.7 86.5 237.5 87.2 240.9 84.9 242.2 85.8 242.4 87.3 244.2 88 245.5 86.8 249 86.9 252.4 86.1 254.8 84.7 256.2 84.7 258.6 85.5 259.6 87.2 265.5 92.2 262.8 94 262.2 93.4 262.8 92 262 90.4 260.8 90.1 260.2 90.9 259.9 90.2 258.7 92 258.3 90.4 257.7 90.6 258.1 91.8 257.5 91.2 257.2 91.6 257 90.7 255.7 90.7 255.1 91.2 256.7 91.8 256.9 92.4 256.3 92.2 256.6 93.4 255.5 93.7 254.9 95.4 252.7 96 251.5 95.4 251.2 96.9 250 96.6 250.3 97.5 249.8 97.9 250.3 98.4 249.4 98.7 249.7 99 248.8 98.7 248.1 100.5 246.5 100.1 245.6 98.3 245.1 98.1 245.2 99.9 245.7 100.2 245.3 100.3 242.9 100.1 240.4 99 240.1 99.6 241.6 100.8 238.3 101.4 238.6 102 238 102.9 237.8 105 239.2 105.3 238.7 108.3 238 108.9 238.3 109.5 237.8 109.7 238.6 112.1 236.9 113.1 231.5 113.7 232.4 114.2 230.7 115.4 230.9 116.1 228.8 116.3 228.1 115.7 225.2 115.1 226.5 113.3 228.8 111.6 227.2 111.9 226 113.1 225.8 111.9 225.1 112.9 224.6 111.9 224.3 113.3 224.3 112.2 223.4 111.9 224 113.3 222.2 112.5 222.1 113.1 223.4 114.5 222.4 115.5 220 115.3 217.3 113.6 215.9 113.7 219.8 117.2 218 117.3 216.8 116.1 217.4 117.2 216.6 118.4 215 116.1 213.9 116.3 212.4 115.2 214.5 114.4 213.5 113.2 214.1 112.8 213.5 112.3 212.7 112.1 213 112.8 210.6 112 209.7 112.5 210 113.1 206.7 112.5 208.5 113.1 207.3 113.1 208.2 115.1 211.6 116 211.2 118.4 210 117.5 209.2 118.4 211.2 119.9 211.4 121.9 210.8 122.3 210 121.7 211.7 124.2 212.4 124.7 212.7 124.4 213.8 127.4 212.2 125.8 210 126.8 207.6 126.5 209.4 127.6 209.4 128.2 206.5 129.5 205.4 129.2 204.3 128 206.1 130 206 131 201.3 133.3 202.7 133.7 204 133.1 203.5 134 204.2 135.3 204 136.1 202.1 136.8 201.3 137.9 203.2 137.1 204.6 137.4 204.2 140.3 203.7 140.9 203.4 140.2 203.1 140.5 203.9 141.3 204.5 144.9 204.1 145.4 202.1 143.4 200.4 143.5 201.1 144.1 201.6 143.5 202.6 144.2 203.5 146.8 195.9 148 196.2 147.4 195.3 147.7 195.6 148.3 194.1 149.2 190 154.3 187.3 156.4 187.9 155.2 187.6 154.9 186.4 157.3 183.4 158.4 183.4 155.5 182.4 158.4 179.8 157 176.8 160.2 176.8 162.3 175.9 163.5 175.6 165.9 175 165.3 172.9 166.8 173.2 167.1 175.6 166.5 175.4 167.1 174.2 169.1 172.9 169.1 171.1 172.5 170.8 174.9 170.8 173.9 169.6 174.2 169.6 174.9 170.2 174 170.8 175.5 170.6 182.1 169.9 181.7 169.3 182.9 168.7 182.9 170.4 186.5 170.6 187.1 169.6 186.5 169.9 187.5 170.5 187.5 170.4 188.3 169.2 189 168.8 190.2 167.5 190.4 167 193.1 167.3 195.8 165.4 197 164.3 196.6 163.2 197.7 161.9 201.1 162.8 204.4 164.3 206 166.4 206.9 165.8 207.7 164.6 206.9 165.1 208.1 166.5 208.2 167.9 209.8 167.5 212.2 168.1 212.9 167.9 215.2 168.7 214.8 168.4 211 169.3 211.5 169.6 214 171.1 218.2 173.5 221.8 175 223.5 176.5 223.6 177.7 226.6 183.5 232.1 183.6 232.6 182.8 232.8 183.2 233.1 185.9 232.5 190.5 235.2 193.8 238.3 194.1 239.1 192.8 239 192.1 239.7 193.6 239.7 193.8 241.5 194.4 239.7 195.9 239.7 197.1 238.5 197.7 238.7 197.1 240 197.4 240.9 201.6 246.3 198.6 249.3 197.7 249.2 198.4 250 198 250.8 199.2 255.1 200.4 256.7 199.6 257 198.3 256.5 197.7 255.5 195 254.3 191.1 254 197.4 255.8 195.4 256.3 195.3 257.2 196.5 257.9 195.9 257 196.9 256.6 200.7 257.9 205.5 265.1 206.4 267.2 212 273.1 227.2 283.8 227.9 285.1 227.6 286.9 231.2 291.2 228.5 293.5 230.6 293.2 230.6 292.4 231.7 291.7 248.7 305.3 250 305.7 248.3 305.5 243 302.8 241.6 303 246.9 305.9 248.2 305.7 250 306.9 249.1 306.9 248.8 307.5 251.2 307.2 250.6 308.6 251.2 309.6 252.7 308.6 258.1 314.4 259 314.7 258.4 315 257 314.4 257.7 317.6 261.4 319.2 263.2 317.7 262.8 315.9 263.5 315.7 266.4 317.4 267.8 316.2 270 321 268.2 319.9 268.2 321 274.8 321.8 272.1 324.8 272.1 326.1 274.5 328.1 275.8 327.4 276.1 329.7 274.5 331.1 276.8 330.3 277.2 330.8 276.4 328 276.7 325.9 275.7 325.7 276.6 324.2 279.7 325.4 280.3 324.5 281.1 325.4 279.6 326.9 277.5 326.6 277.2 328.2 278.1 331.5 279.2 333.2 282.8 335.7 283.2 336.5 282.3 337 283.8 336.5 284.4 339.8 285.7 342.3 292.9 351.8 294.1 352.5 295.7 352.3 295 353.8 294.5 353.2 293.3 353.7 293 354.2 293.3 355 294.3 355.7 296.3 353.5 296.6 355.5 299.6 358 299.6 360.7 300.2 359.8 301.7 359.8 300.6 359.3 300.3 358.6 301.4 357.1 300.8 356.2 302 356.2 302.5 358.6 304.4 360.2 304.5 362.4 307.4 364 306.6 365 305.3 365.2 306.2 366.1 305.6 365.7 305 368.2 303.5 368.2 303.8 368.8 304.8 368.7 305 369.6 305.6 368.5 307 375.8 309.7 381.9 308.9 382 310 382.6 313.2 387.3 313.6 389.4 312.8 388.6 313.3 392.8 312.1 393.9 312.4 394.5 312.7 393.2 315 398.2 315.4 402.5 317.8 405.8 318.3 408.2 317.8 408.8 319.9 412.7 319.1 412.6 318.1 411.1 317.1 411 317 411.6 319.3 413.9 320.5 417 321.1 421.9 322.9 423.9 322.7 429 321.2 429.1 321.4 426.1 320.4 423.2 319.1 426.9 319.6 426.7 319.9 427.7 320.8 428.2 319.3 429.6 319.3 430.6 320.3 434.9 322.7 437.3 322 437.7 322.3 438.9 319 433.9 318.6 434.6 319.6 435.4 322 439.9 323.2 439.3 322.7 441.1 324.3 441.8 322.9 444.3 321.4 443.3 322.6 441.9 320.9 440.7 320.2 440.9 319.6 441.9 320.2 443.4 319.6 444.9 321.7 446.7 322.5 446.2 322.9 446.7 322.8 447.5 322 447.6 322.3 449.1 321.4 448.5 320.8 449.1 322.3 451.8 322.7 448.8 323.4 449.5 322.9 456.3 323.8 458.4 329.8 465.8 329.5 468.5 328.3 468.8 329.1 467.6 328.6 467.3 327.1 469.1 325.6 469.7 325.9 471.8 327.8 475.5 330.1 477 329.2 477.8 329.2 480.8 328.7 481 327.1 478.7 328 477.2 327.1 475.7 326.7 476.3 325.9 476.3 325.9 477.8 324.4 476.9 326.5 474.6 325.3 472.4 325.1 470.9 319.7 475.7 318.4 477.5 318.4 481.7 319 482 319.9 480.5 319.6 479.9 320.3 480.1 319.6 482.1 319.8 482.9 322.5 484.8 322.5 486.9 324.6 488.4 324.1 488.8 324.4 489.1 324.1 489.4 323.5 488.8 322.4 490.3 317.6 485.6 316.3 485.8 316.9 486.7 316 486.4 317.2 488.2 318 488.1 318.8 491.1 320 492.3 319.8 493 319 492.7 318.4 494.2 317.2 493.6 318.7 494.8 318.4 495.5 319.3 496.9 318.1 496.6 317.5 497.2 318.4 497.2 319.4 499.6 318.6 500.9 319.1 503.4 320.3 505.8 322 507.1 321.1 509.6 322.3 511.3 320.9 511.5 319.9 510.6 319.3 510.9 319 505 317.6 500.5 317.2 500 316.6 500.8 317.4 502.1 317.2 503.3 318.7 505.4 318.6 506.7 317.4 509.1 315.5 510.2 315 511.6 315.2 513.1 316.6 513.3 318.4 511.4 317.9 513.2 318.4 515 320.1 517.2 319.6 518.1 319 518.1 317.5 521.4 315.4 524.4 312.4 523.8 311.4 521.4 310.4 521.6 311.2 523 311.2 525.6 310 525.6 310.7 526.7 310.7 528.6 310.5 533.2 309.7 534.3 307.4 535.7 304 534.7 302.4 534.8 299.7 536.7 297.7 541.3 294.5 540.8 291.1 541.4 289.1 542.5 287.7 544 286.5 546.9 282 548.2 280.9 551.2 279.6 551.7 279 553 278.3 551.7 277.2 551.3 270.5 552.8 268.8 555 265.8 562.3 262.4 561.4 258.2 562.6 255.8 564.5 247.6 568 244.6 571 241 572.4 236.9 573 234.2 576.3 230.6 575.2 231.8 573.9 230 572 228.5 571.9 228.2 572.5 226.8 571.5 224.9 571.9 224.9 570.7 223.7 572.2 223.4 571 221.9 571.9 222.1 571.2 223.7 569.9 223.7 566.3 222.8 565 223.4 565.3 223.3 564.2 221.6 562.3 221.4 563 222.8 564.3 222.4 565.9 223.4 566.5 222.8 568.3 223.5 569.1 223.1 569.5 222.2 568.9 221.9 565.6 221.6 568.1 222.8 570.1 220.7 572.5 220.7 571 219.6 568.9 219.8 566.6 217.1 564.4 214.8 565.3 213 563.2 212.4 562.9 211.3 563.5 210.8 564.1 211.8 564.9 212.4 566.5 210.7 570 208.7 570.9 207.3 570.1 207.9 571.3 204.6 573.7 204 571.6 204.1 573.1 204.8 573.9 205.5 573.8 207.3 572.2 207.9 574 208.8 573.9 209.8 572.4 211 572.4 213.1 575.7 213.2 580.4 212.5 580.8 209.4 580.2 204.8 580.2 197.1 579 199.7 580.6 210.1 584.1 213.5 586 213.2 588 210.8 590.5 209.4 590.7 209.6 589.5 209.1 589.2 207.9 591.4 208.5 592.3 207.7 592.6 207 593.9 204.5 593.7 199.2 590.2 194.4 583.2 193.2 581.9 191.4 581.4 193.9 583.5 194.8 586 198.8 591.3 209.1 597.3 207.9 599.7 208.2 598.6 207.6 597.9 207.4 599.4 206.5 600.4 204.3 600.5 200.7 596.9 195.9 593.9 185 582.9 183.7 582.6 185.6 584.3 187.1 587.6 191.1 590.6 195.7 595.7 199.5 598.8 200.6 600.1 202.2 603.7 203.8 604.2 203.8 608.1 202.4 610.9 199.9 612.6 195.5 612.5 189.6 608.9 181.5 601.4 175.8 594.8 170.8 592.5 181.9 603.8 182.8 606.2 187.3 612.8 187.9 615.9 186.1 618.2 187.2 619 187.1 620.3 179.5 622.7 158.6 630.8 152.9 636.4 152.9 637.3 148.9 644.6 146.4 646.9 143.2 647.7 139.6 652.4 128.9 655.3 123 653.7 122.9 653.2 124.6 653.2 127.9 651.2 127.9 650.3 127.3 649.9 127.8 649.5 131.3 650.1 133.5 648.6 131.1 649.5 128.7 648.9 128.7 648.2 132 647.4 131.7 644.7 127.1 646.4 126 645.8 125.3 644.3 126.9 639.2 126.9 630.6 128.9 604.2 130.5 599.3 133.8 599.2 134.8 597.7 137.5 595.7 138.5 595.3 138.9 595.6 140.1 599.1 139.8 594.9 138.9 593 135.3 588.8 133.6 588.2 130.8 588.6 129.4 587.8 126.6 583.8 125.2 582.9 122.4 583.1 119.9 586.5 118.3 586.5 117.2 581.4 115.6 579.9 115 580.5 114.9 579.3 113.3 576.7 114.4 575.8 114.4 574.5 112 576.3 111.3 576.3 111.2 574.5 113.1 574.2 116.2 569.8 118.8 569.6 125.3 570.4 128.8 569.7 132.1 565.3 138 561.7 138 560.3 135.8 555.8 135.6 554.3 136.4 553 138.5 551.5 139.4 553 146.2 554.3 149 556.3 150.7 553.2 153 550.8 155.8 551.8 162.7 550.4 166.8 548.4 167.9 548.6 170.9 552.7 172.1 555.5 173.4 556.7 174.7 556.3 175.7 553.7 179.5 557.1 181.9 558.1 185.5 558.6 186.4 559.4 184 552.5 184.4 550.6 186.9 550.3 185.7 546.9 183.7 545.4 182.5 546.8 178.2 541.5 174.4 539.7 173.8 537.6 171.9 536.6 173.1 529.9 172.3 525.4 170.1 524.5 169.6 523.6 170.2 522 172.5 520.4 175.8 521.2 179.4 515.6 188.5 517.6 190.7 519.7 194.2 519.1 197.3 520.4 197.7 519.7 196.1 516 197.8 511.6 195.9 507 198 506.7 199.4 507.7 200.7 506.8 206.6 507.3 206.2 506.7 209.3 506.9 211.4 503.4 212.4 502.8 217 502.9 220.3 502.1 229 493.6 231.5 492.3 236.3 491.3 239.4 494.6 240.4 494.6 241.9 492.6 244.7 490.7 246.6 485 246.3 483.4 246.9 481.9 246.9 479.2 245.8 474.4 245.7 470.8 243.6 467.7 242.6 464.1 243.3 462.5 242.4 461.1 248.8 445.9 248.6 440.3 248.3 438.7 244.7 431.9 241.6 427.9 241.8 425.5 241.3 424.1 241.8 422.4 241.1 419.1 240.1 418.5 237.8 418.4 237.3 417.6 237.3 414.9 236.3 413.2 237.9 408.1 238.2 406.1 237.6 403.6 239.2 400.1 240.1 399.6 240.8 400.2 241.6 400 242.6 398.9 244.3 394.9 244.3 392.2 245.5 388.9zM187.9 609.3 191.4 610.8 191.4 611.9 190.5 613.1 189.4 613.1 189.6 612 187.3 609.8 187 610.1 188.6 611.8 187.3 611.5 184.2 607.1 183.8 605.4 182.5 603.5 182.8 603.2zM210.3 581.1 211.7 581.6 211.8 582.2 210.3 582.9 208.8 581.8 203.1 580.8 201 579.9 204.3 580.7zM229.8 572.6 231.5 574.3 230.6 573.9 229.5 575.8 228.2 576.3 226.1 578.7 225.8 575.8 228.8 574.7zM219.5 573.7 221.3 575.2 217.4 576.6 216.8 574.3 217.7 571.9 217.4 572.5 217.1 571.5 217.4 570.8 219.1 570.1 220 570.7 218.9 574.3zM218.3 569.6 217.5 569.9 215.9 568.3 216.7 566.3 215.9 565.3 217.4 565.2 219.2 566.8 218.9 569.2 217.7 567.7zM323.8 496 324.7 496.9 323.8 497.5 323 497 322.9 497.5 321.2 497 320.2 495.7 321.4 496 321.4 495.4zM207.6 647.8 206.6 647.9 207.3 649.5 205 649.7 205 651.4 203.9 651.4 203.1 650.3 203.6 649.2 207.4 646.6 207.8 646.9 207.3 647.2zM200.4 597.6 202.4 599.9 202.1 600.3 201.4 599.9 200.4 598.3 197.1 595.5zM95.1 576.6 95.3 582 93 588.6 93.8 589.8 93.8 592.5 92 591.5 89.7 582.6 88.8 581.2 85.3 578.8 84.8 576.6 88.7 576.9 90.1 575.3 90.8 573.5 91.7 573.2zM216.8 572.8 214.4 572.5 215 572.5 216.2 574 216.2 574.8 215.3 575.2 214.3 574.7 212.3 572.6 211.6 570.9 211.5 568.1 212.7 567.7 213 566.6 211.5 563.8 212.9 563.9 213.9 565.2 215.7 566.1 215.9 567.4 215.3 568.4 216.7 570.4 215.3 571.3 216.4 571.6zM225.8 122 225.2 121.4 225.5 122.9 224.9 123.1 223.7 122.6 223.9 123.5 225.2 124.2 225.5 125 224.9 124.7 224.3 126.2 224.3 125.3 223.1 125.3 224 125 223.7 124.4 223.1 124.7 222.2 124.1 222.5 125 221.7 124.4 218.4 121.2 218.5 120.4 219.8 119.9 220.4 118.7 220.1 119 220.7 119.6 222.5 120.2 222.9 119.5 223.9 119.6 224.2 120.7 226.1 121.1 227 122zM215.3 118.6 217.1 121.1 217.4 122.2 216.8 122.5 215.7 122.2 214.4 118.7 214.4 120.2 212.3 119.5 212.1 118.7 213 116.3 214.7 117zM245.2 117.2 246.4 114.5 246.4 116.1 243.4 121.1 242.5 121.4 243.3 119.2 242.8 118.4 244.3 118.2zM254.8 112.5 256.9 113.9 256 113.7 255.9 115.2 254.5 116.1 255.4 114.1 254.5 113.2zM245.5 112.5 246.6 111.8 244.6 116.6 239.5 117.8 243.7 114.9 244.3 112.5 245 112.8 245.5 111.6zM249.4 108.3 249.8 108.5 247.6 114.1 246.7 113.9 247.2 113.8 247 112.6 248.2 109.5zM247.6 104.1 248.7 103.9 248 104.9 246.2 106.5 245.2 106.4 242.8 109.2 239.3 111.3 238.6 110.7 240.5 104.8 241.3 105.1 241.9 104.4 242.2 101.3 245.1 103.3 245.5 104.7zM257.8 97.6 257.9 98.1 253.3 99.9 256.5 97.8zM260.2 96.3 265.8 95.7 263.5 97.3 262.8 96.9 259 98.1 259.3 97.2 259.6 97.8 260.4 97 258.4 96.9zM307 568.8 307.7 569.4 307.8 570.9 306.4 570.4 306.4 569.1zM326.6 479.4 326.9 481.3 323.1 478.9 323.4 478.3 325.6 478.3zM239 118.2 239.5 118.6 239.3 119.1 238.3 119.5 236.8 118.4z";
 
-var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_0-160.jpg 160w, img/saigon_0-480.jpg 480w, img/saigon_0-960.jpg 960w, img/saigon_0.jpg 1400w"}, "saigon_1": {"src": "img/saigon_1.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_1-160.jpg 160w, img/saigon_1-480.jpg 480w, img/saigon_1-960.jpg 960w, img/saigon_1.jpg 1400w"}, "saigon_2": {"src": "img/saigon_2.jpg", "w": 1400, "h": 883, "srcset": "img/saigon_2-160.jpg 160w, img/saigon_2-480.jpg 480w, img/saigon_2-960.jpg 960w, img/saigon_2.jpg 1400w"}, "saigon_3": {"src": "img/saigon_3.jpg", "w": 1400, "h": 788, "srcset": "img/saigon_3-160.jpg 160w, img/saigon_3-480.jpg 480w, img/saigon_3-960.jpg 960w, img/saigon_3.jpg 1400w"}, "saigon_4": {"src": "img/saigon_4.jpg", "w": 1400, "h": 933, "srcset": "img/saigon_4-160.jpg 160w, img/saigon_4-480.jpg 480w, img/saigon_4-960.jpg 960w, img/saigon_4.jpg 1400w"}, "mekong_0": {"src": "img/mekong_0.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_0-160.jpg 160w, img/mekong_0-480.jpg 480w, img/mekong_0-960.jpg 960w, img/mekong_0.jpg 1400w"}, "mekong_2": {"src": "img/mekong_2.jpg", "w": 1400, "h": 929, "srcset": "img/mekong_2-160.jpg 160w, img/mekong_2-480.jpg 480w, img/mekong_2-960.jpg 960w, img/mekong_2.jpg 1400w"}, "mekong_3": {"src": "img/mekong_3.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_3-160.jpg 160w, img/mekong_3-480.jpg 480w, img/mekong_3-960.jpg 960w, img/mekong_3.jpg 1400w"}, "mekong_1": {"src": "img/mekong_1.jpg", "w": 1400, "h": 933, "srcset": "img/mekong_1-160.jpg 160w, img/mekong_1-480.jpg 480w, img/mekong_1-960.jpg 960w, img/mekong_1.jpg 1400w"}, "phuquoc_0": {"src": "img/phuquoc_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phuquoc_0-160.jpg 160w, img/phuquoc_0-480.jpg 480w, img/phuquoc_0-960.jpg 960w, img/phuquoc_0.jpg 1400w"}, "phuquoc_1": {"src": "img/phuquoc_1.jpg", "w": 1400, "h": 933, "srcset": "img/phuquoc_1-160.jpg 160w, img/phuquoc_1-480.jpg 480w, img/phuquoc_1-960.jpg 960w, img/phuquoc_1.jpg 1400w"}, "phuquoc_2": {"src": "img/phuquoc_2.jpg", "w": 1400, "h": 1054, "srcset": "img/phuquoc_2-160.jpg 160w, img/phuquoc_2-480.jpg 480w, img/phuquoc_2-960.jpg 960w, img/phuquoc_2.jpg 1400w"}, "phuquoc_5": {"src": "img/phuquoc_5.jpg", "w": 1400, "h": 954, "srcset": "img/phuquoc_5-160.jpg 160w, img/phuquoc_5-480.jpg 480w, img/phuquoc_5-960.jpg 960w, img/phuquoc_5.jpg 1400w"}, "cattien_0": {"src": "img/cattien_0.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_0-160.jpg 160w, img/cattien_0-480.jpg 480w, img/cattien_0-960.jpg 960w, img/cattien_0.jpg 1400w"}, "cattien_1": {"src": "img/cattien_1.jpg", "w": 1400, "h": 1050, "srcset": "img/cattien_1-160.jpg 160w, img/cattien_1-480.jpg 480w, img/cattien_1-960.jpg 960w, img/cattien_1.jpg 1400w"}, "cattien_3": {"src": "img/cattien_3.jpg", "w": 1400, "h": 933, "srcset": "img/cattien_3-160.jpg 160w, img/cattien_3-480.jpg 480w, img/cattien_3-960.jpg 960w, img/cattien_3.jpg 1400w"}, "cattien_4": {"src": "img/cattien_4.jpg", "w": 1400, "h": 996, "srcset": "img/cattien_4-160.jpg 160w, img/cattien_4-480.jpg 480w, img/cattien_4-960.jpg 960w, img/cattien_4.jpg 1400w"}, "dalat_0": {"src": "img/dalat_0.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_0-160.jpg 160w, img/dalat_0-480.jpg 480w, img/dalat_0-960.jpg 960w, img/dalat_0.jpg 1400w"}, "dalat_1": {"src": "img/dalat_1.jpg", "w": 1400, "h": 1052, "srcset": "img/dalat_1-160.jpg 160w, img/dalat_1-480.jpg 480w, img/dalat_1-960.jpg 960w, img/dalat_1.jpg 1400w"}, "dalat_2": {"src": "img/dalat_2.jpg", "w": 1400, "h": 933, "srcset": "img/dalat_2-160.jpg 160w, img/dalat_2-480.jpg 480w, img/dalat_2-960.jpg 960w, img/dalat_2.jpg 1400w"}, "dalat_4": {"src": "img/dalat_4.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_4-160.jpg 160w, img/dalat_4-480.jpg 480w, img/dalat_4-960.jpg 960w, img/dalat_4.jpg 1400w"}, "dalat_3": {"src": "img/dalat_3.jpg", "w": 1400, "h": 1050, "srcset": "img/dalat_3-160.jpg 160w, img/dalat_3-480.jpg 480w, img/dalat_3-960.jpg 960w, img/dalat_3.jpg 1400w"}, "hoian_0": {"src": "img/hoian_0.jpg", "w": 1400, "h": 930, "srcset": "img/hoian_0-160.jpg 160w, img/hoian_0-480.jpg 480w, img/hoian_0-960.jpg 960w, img/hoian_0.jpg 1400w"}, "hoian_1": {"src": "img/hoian_1.jpg", "w": 1400, "h": 936, "srcset": "img/hoian_1-160.jpg 160w, img/hoian_1-480.jpg 480w, img/hoian_1-960.jpg 960w, img/hoian_1.jpg 1400w"}, "hoian_4": {"src": "img/hoian_4.jpg", "w": 1400, "h": 917, "srcset": "img/hoian_4-160.jpg 160w, img/hoian_4-480.jpg 480w, img/hoian_4-960.jpg 960w, img/hoian_4.jpg 1400w"}, "hoian_5": {"src": "img/hoian_5.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_5-160.jpg 160w, img/hoian_5-480.jpg 480w, img/hoian_5-960.jpg 960w, img/hoian_5.jpg 1400w"}, "hoian_6": {"src": "img/hoian_6.jpg", "w": 1400, "h": 933, "srcset": "img/hoian_6-160.jpg 160w, img/hoian_6-480.jpg 480w, img/hoian_6-960.jpg 960w, img/hoian_6.jpg 1400w"}, "hue_0": {"src": "img/hue_0.jpg", "w": 1400, "h": 933, "srcset": "img/hue_0-160.jpg 160w, img/hue_0-480.jpg 480w, img/hue_0-960.jpg 960w, img/hue_0.jpg 1400w"}, "hue_1": {"src": "img/hue_1.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_1-160.jpg 160w, img/hue_1-480.jpg 480w, img/hue_1-960.jpg 960w, img/hue_1.jpg 1400w"}, "hue_2": {"src": "img/hue_2.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_2-160.jpg 160w, img/hue_2-480.jpg 480w, img/hue_2-960.jpg 960w, img/hue_2.jpg 1400w"}, "hue_6": {"src": "img/hue_6.jpg", "w": 1400, "h": 933, "srcset": "img/hue_6-160.jpg 160w, img/hue_6-480.jpg 480w, img/hue_6-960.jpg 960w, img/hue_6.jpg 1400w"}, "hue_4": {"src": "img/hue_4.jpg", "w": 1400, "h": 1050, "srcset": "img/hue_4-160.jpg 160w, img/hue_4-480.jpg 480w, img/hue_4-960.jpg 960w, img/hue_4.jpg 1400w"}, "puluong_1": {"src": "img/puluong_1.jpg", "w": 1400, "h": 1050, "srcset": "img/puluong_1-160.jpg 160w, img/puluong_1-480.jpg 480w, img/puluong_1-960.jpg 960w, img/puluong_1.jpg 1400w"}, "puluong_2": {"src": "img/puluong_2.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_2-160.jpg 160w, img/puluong_2-480.jpg 480w, img/puluong_2-960.jpg 960w, img/puluong_2.jpg 1400w"}, "puluong_3": {"src": "img/puluong_3.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_3-160.jpg 160w, img/puluong_3-480.jpg 480w, img/puluong_3-960.jpg 960w, img/puluong_3.jpg 1400w"}, "puluong_0": {"src": "img/puluong_0.jpg", "w": 1400, "h": 933, "srcset": "img/puluong_0-160.jpg 160w, img/puluong_0-480.jpg 480w, img/puluong_0-960.jpg 960w, img/puluong_0.jpg 1400w"}, "puluong_5": {"src": "img/puluong_5.jpg", "w": 1400, "h": 935, "srcset": "img/puluong_5-160.jpg 160w, img/puluong_5-480.jpg 480w, img/puluong_5-960.jpg 960w, img/puluong_5.jpg 1400w"}, "ninhbinh_1": {"src": "img/ninhbinh_1.jpg", "w": 1920, "h": 1282, "srcset": "img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w"}, "ninhbinh_0": {"src": "img/ninhbinh_0.jpg", "w": 1400, "h": 894, "srcset": "img/ninhbinh_0-160.jpg 160w, img/ninhbinh_0-480.jpg 480w, img/ninhbinh_0-960.jpg 960w, img/ninhbinh_0.jpg 1400w"}, "ninhbinh_3": {"src": "img/ninhbinh_3.jpg", "w": 1400, "h": 937, "srcset": "img/ninhbinh_3-160.jpg 160w, img/ninhbinh_3-480.jpg 480w, img/ninhbinh_3-960.jpg 960w, img/ninhbinh_3.jpg 1400w"}, "ninhbinh_4": {"src": "img/ninhbinh_4.jpg", "w": 1400, "h": 933, "srcset": "img/ninhbinh_4-160.jpg 160w, img/ninhbinh_4-480.jpg 480w, img/ninhbinh_4-960.jpg 960w, img/ninhbinh_4.jpg 1400w"}, "ninhbinh_5": {"src": "img/ninhbinh_5.jpg", "w": 1400, "h": 935, "srcset": "img/ninhbinh_5-160.jpg 160w, img/ninhbinh_5-480.jpg 480w, img/ninhbinh_5-960.jpg 960w, img/ninhbinh_5.jpg 1400w"}, "ninhbinh_6": {"src": "img/ninhbinh_6.jpg", "w": 1400, "h": 940, "srcset": "img/ninhbinh_6-160.jpg 160w, img/ninhbinh_6-480.jpg 480w, img/ninhbinh_6-960.jpg 960w, img/ninhbinh_6.jpg 1400w"}, "catba_0": {"src": "img/catba_0.jpg", "w": 1400, "h": 887, "srcset": "img/catba_0-160.jpg 160w, img/catba_0-480.jpg 480w, img/catba_0-960.jpg 960w, img/catba_0.jpg 1400w"}, "catba_3": {"src": "img/catba_3.jpg", "w": 1400, "h": 935, "srcset": "img/catba_3-160.jpg 160w, img/catba_3-480.jpg 480w, img/catba_3-960.jpg 960w, img/catba_3.jpg 1400w"}, "catba_1": {"src": "img/catba_1.jpg", "w": 1400, "h": 892, "srcset": "img/catba_1-160.jpg 160w, img/catba_1-480.jpg 480w, img/catba_1-960.jpg 960w, img/catba_1.jpg 1400w"}, "catba_2": {"src": "img/catba_2.jpg", "w": 1400, "h": 935, "srcset": "img/catba_2-160.jpg 160w, img/catba_2-480.jpg 480w, img/catba_2-960.jpg 960w, img/catba_2.jpg 1400w"}, "catba_6": {"src": "img/catba_6.jpg", "w": 1400, "h": 935, "srcset": "img/catba_6-160.jpg 160w, img/catba_6-480.jpg 480w, img/catba_6-960.jpg 960w, img/catba_6.jpg 1400w"}, "hanoi_0": {"src": "img/hanoi_0.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_0-160.jpg 160w, img/hanoi_0-480.jpg 480w, img/hanoi_0-960.jpg 960w, img/hanoi_0.jpg 1400w"}, "hanoi_1": {"src": "img/hanoi_1.jpg", "w": 1400, "h": 934, "srcset": "img/hanoi_1-160.jpg 160w, img/hanoi_1-480.jpg 480w, img/hanoi_1-960.jpg 960w, img/hanoi_1.jpg 1400w"}, "hanoi_3": {"src": "img/hanoi_3.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_3-160.jpg 160w, img/hanoi_3-480.jpg 480w, img/hanoi_3-960.jpg 960w, img/hanoi_3.jpg 1400w"}, "hanoi_5": {"src": "img/hanoi_5.jpg", "w": 1400, "h": 933, "srcset": "img/hanoi_5-160.jpg 160w, img/hanoi_5-480.jpg 480w, img/hanoi_5-960.jpg 960w, img/hanoi_5.jpg 1400w"}, "babe_0": {"src": "img/babe_0.jpg", "w": 1400, "h": 1050, "srcset": "img/babe_0-160.jpg 160w, img/babe_0-480.jpg 480w, img/babe_0-960.jpg 960w, img/babe_0.jpg 1400w"}, "babe_1": {"src": "img/babe_1.jpg", "w": 1400, "h": 914, "srcset": "img/babe_1-160.jpg 160w, img/babe_1-480.jpg 480w, img/babe_1-960.jpg 960w, img/babe_1.jpg 1400w"}, "babe_2": {"src": "img/babe_2.jpg", "w": 1400, "h": 933, "srcset": "img/babe_2-160.jpg 160w, img/babe_2-480.jpg 480w, img/babe_2-960.jpg 960w, img/babe_2.jpg 1400w"}, "babe_3": {"src": "img/babe_3.jpg", "w": 1400, "h": 933, "srcset": "img/babe_3-160.jpg 160w, img/babe_3-480.jpg 480w, img/babe_3-960.jpg 960w, img/babe_3.jpg 1400w"}, "babe_5": {"src": "img/babe_5.jpg", "w": 1400, "h": 907, "srcset": "img/babe_5-160.jpg 160w, img/babe_5-480.jpg 480w, img/babe_5-960.jpg 960w, img/babe_5.jpg 1400w"}, "caobang_0": {"src": "img/caobang_0.jpg", "w": 1400, "h": 934, "srcset": "img/caobang_0-160.jpg 160w, img/caobang_0-480.jpg 480w, img/caobang_0-960.jpg 960w, img/caobang_0.jpg 1400w"}, "caobang_6": {"src": "img/caobang_6.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_6-160.jpg 160w, img/caobang_6-480.jpg 480w, img/caobang_6-960.jpg 960w, img/caobang_6.jpg 1400w"}, "caobang_1": {"src": "img/caobang_1.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_1-160.jpg 160w, img/caobang_1-480.jpg 480w, img/caobang_1-960.jpg 960w, img/caobang_1.jpg 1400w"}, "caobang_2": {"src": "img/caobang_2.jpg", "w": 1400, "h": 933, "srcset": "img/caobang_2-160.jpg 160w, img/caobang_2-480.jpg 480w, img/caobang_2-960.jpg 960w, img/caobang_2.jpg 1400w"}, "caobang_3": {"src": "img/caobang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/caobang_3-160.jpg 160w, img/caobang_3-480.jpg 480w, img/caobang_3-960.jpg 960w, img/caobang_3.jpg 1400w"}, "phongnha_0": {"src": "img/phongnha_0.jpg", "w": 1400, "h": 1050, "srcset": "img/phongnha_0-160.jpg 160w, img/phongnha_0-480.jpg 480w, img/phongnha_0-960.jpg 960w, img/phongnha_0.jpg 1400w"}, "phongnha_1": {"src": "img/phongnha_1.jpg", "w": 1400, "h": 852, "srcset": "img/phongnha_1-160.jpg 160w, img/phongnha_1-480.jpg 480w, img/phongnha_1-960.jpg 960w, img/phongnha_1.jpg 1400w"}, "phongnha_2": {"src": "img/phongnha_2.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_2-160.jpg 160w, img/phongnha_2-480.jpg 480w, img/phongnha_2-960.jpg 960w, img/phongnha_2.jpg 1400w"}, "phongnha_3": {"src": "img/phongnha_3.jpg", "w": 1400, "h": 1049, "srcset": "img/phongnha_3-160.jpg 160w, img/phongnha_3-480.jpg 480w, img/phongnha_3-960.jpg 960w, img/phongnha_3.jpg 1400w"}, "phongnha_4": {"src": "img/phongnha_4.jpg", "w": 1400, "h": 933, "srcset": "img/phongnha_4-160.jpg 160w, img/phongnha_4-480.jpg 480w, img/phongnha_4-960.jpg 960w, img/phongnha_4.jpg 1400w"}, "cucphuong_0": {"src": "img/cucphuong_0.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_0-160.jpg 160w, img/cucphuong_0-480.jpg 480w, img/cucphuong_0-960.jpg 960w, img/cucphuong_0.jpg 1400w"}, "cucphuong_1": {"src": "img/cucphuong_1.jpg", "w": 1400, "h": 930, "srcset": "img/cucphuong_1-160.jpg 160w, img/cucphuong_1-480.jpg 480w, img/cucphuong_1-960.jpg 960w, img/cucphuong_1.jpg 1400w"}, "cucphuong_2": {"src": "img/cucphuong_2.jpg", "w": 1400, "h": 1867, "srcset": "img/cucphuong_2-160.jpg 160w, img/cucphuong_2-480.jpg 480w, img/cucphuong_2-960.jpg 960w, img/cucphuong_2.jpg 1400w"}, "cucphuong_3": {"src": "img/cucphuong_3.jpg", "w": 1400, "h": 1050, "srcset": "img/cucphuong_3-160.jpg 160w, img/cucphuong_3-480.jpg 480w, img/cucphuong_3-960.jpg 960w, img/cucphuong_3.jpg 1400w"}, "cucphuong_4": {"src": "img/cucphuong_4.jpg", "w": 1400, "h": 933, "srcset": "img/cucphuong_4-160.jpg 160w, img/cucphuong_4-480.jpg 480w, img/cucphuong_4-960.jpg 960w, img/cucphuong_4.jpg 1400w"}, "danang_0": {"src": "img/danang_0.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_0-160.jpg 160w, img/danang_0-480.jpg 480w, img/danang_0-960.jpg 960w, img/danang_0.jpg 1400w"}, "danang_1": {"src": "img/danang_1.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_1-160.jpg 160w, img/danang_1-480.jpg 480w, img/danang_1-960.jpg 960w, img/danang_1.jpg 1400w"}, "danang_2": {"src": "img/danang_2.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_2-160.jpg 160w, img/danang_2-480.jpg 480w, img/danang_2-960.jpg 960w, img/danang_2.jpg 1400w"}, "danang_3": {"src": "img/danang_3.jpg", "w": 1400, "h": 1050, "srcset": "img/danang_3-160.jpg 160w, img/danang_3-480.jpg 480w, img/danang_3-960.jpg 960w, img/danang_3.jpg 1400w"}, "danang_4": {"src": "img/danang_4.jpg", "w": 1400, "h": 876, "srcset": "img/danang_4-160.jpg 160w, img/danang_4-480.jpg 480w, img/danang_4-960.jpg 960w, img/danang_4.jpg 1400w"}, "hagiang_0": {"src": "img/hagiang_0.jpg", "w": 1400, "h": 933, "srcset": "img/hagiang_0-160.jpg 160w, img/hagiang_0-480.jpg 480w, img/hagiang_0-960.jpg 960w, img/hagiang_0.jpg 1400w"}, "hagiang_1": {"src": "img/hagiang_1.jpg", "w": 1400, "h": 788, "srcset": "img/hagiang_1-160.jpg 160w, img/hagiang_1-480.jpg 480w, img/hagiang_1-960.jpg 960w, img/hagiang_1.jpg 1400w"}, "hagiang_2": {"src": "img/hagiang_2.jpg", "w": 1400, "h": 935, "srcset": "img/hagiang_2-160.jpg 160w, img/hagiang_2-480.jpg 480w, img/hagiang_2-960.jpg 960w, img/hagiang_2.jpg 1400w"}, "hagiang_3": {"src": "img/hagiang_3.jpg", "w": 1400, "h": 536, "srcset": "img/hagiang_3-160.jpg 160w, img/hagiang_3-480.jpg 480w, img/hagiang_3-960.jpg 960w, img/hagiang_3.jpg 1400w"}, "hagiang_4": {"src": "img/hagiang_4.jpg", "w": 1400, "h": 952, "srcset": "img/hagiang_4-160.jpg 160w, img/hagiang_4-480.jpg 480w, img/hagiang_4-960.jpg 960w, img/hagiang_4.jpg 1400w"}, "sapa_0": {"src": "img/sapa_0.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_0-160.jpg 160w, img/sapa_0-480.jpg 480w, img/sapa_0-960.jpg 960w, img/sapa_0.jpg 1400w"}, "sapa_1": {"src": "img/sapa_1.jpg", "w": 1400, "h": 933, "srcset": "img/sapa_1-160.jpg 160w, img/sapa_1-480.jpg 480w, img/sapa_1-960.jpg 960w, img/sapa_1.jpg 1400w"}, "sapa_2": {"src": "img/sapa_2.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_2-160.jpg 160w, img/sapa_2-480.jpg 480w, img/sapa_2-960.jpg 960w, img/sapa_2.jpg 1400w"}, "sapa_3": {"src": "img/sapa_3.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_3-160.jpg 160w, img/sapa_3-480.jpg 480w, img/sapa_3-960.jpg 960w, img/sapa_3.jpg 1400w"}, "yokdon_0": {"src": "img/yokdon_0.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_0-160.jpg 160w, img/yokdon_0-480.jpg 480w, img/yokdon_0-960.jpg 960w, img/yokdon_0.jpg 1400w"}, "yokdon_1": {"src": "img/yokdon_1.jpg", "w": 1400, "h": 933, "srcset": "img/yokdon_1-160.jpg 160w, img/yokdon_1-480.jpg 480w, img/yokdon_1-960.jpg 960w, img/yokdon_1.jpg 1400w"}, "yokdon_2": {"src": "img/yokdon_2.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_2-160.jpg 160w, img/yokdon_2-480.jpg 480w, img/yokdon_2-960.jpg 960w, img/yokdon_2.jpg 1400w"}, "yokdon_3": {"src": "img/yokdon_3.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_3-160.jpg 160w, img/yokdon_3-480.jpg 480w, img/yokdon_3-960.jpg 960w, img/yokdon_3.jpg 1400w"}, "yokdon_4": {"src": "img/yokdon_4.jpg", "w": 1400, "h": 1050, "srcset": "img/yokdon_4-160.jpg 160w, img/yokdon_4-480.jpg 480w, img/yokdon_4-960.jpg 960w, img/yokdon_4.jpg 1400w"}, "mucangchai_0": {"src": "img/mucangchai_0.jpg", "w": 1400, "h": 933, "srcset": "img/mucangchai_0-160.jpg 160w, img/mucangchai_0-480.jpg 480w, img/mucangchai_0-960.jpg 960w, img/mucangchai_0.jpg 1400w"}, "mucangchai_1": {"src": "img/mucangchai_1.jpg", "w": 1400, "h": 935, "srcset": "img/mucangchai_1-160.jpg 160w, img/mucangchai_1-480.jpg 480w, img/mucangchai_1-960.jpg 960w, img/mucangchai_1.jpg 1400w"}, "mucangchai_2": {"src": "img/mucangchai_2.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_2-160.jpg 160w, img/mucangchai_2-480.jpg 480w, img/mucangchai_2-960.jpg 960w, img/mucangchai_2.jpg 1400w"}, "mucangchai_3": {"src": "img/mucangchai_3.jpg", "w": 1400, "h": 788, "srcset": "img/mucangchai_3-160.jpg 160w, img/mucangchai_3-480.jpg 480w, img/mucangchai_3-960.jpg 960w, img/mucangchai_3.jpg 1400w"}, "mucangchai_4": {"src": "img/mucangchai_4.jpg", "w": 1400, "h": 1050, "srcset": "img/mucangchai_4-160.jpg 160w, img/mucangchai_4-480.jpg 480w, img/mucangchai_4-960.jpg 960w, img/mucangchai_4.jpg 1400w"}, "sapa_4": {"src": "img/sapa_4.jpg", "w": 1400, "h": 1050, "srcset": "img/sapa_4-160.jpg 160w, img/sapa_4-480.jpg 480w, img/sapa_4-960.jpg 960w, img/sapa_4.jpg 1400w"}};
+var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "bg": "#33425a", "srcset": "img/saigon_0-160.jpg 160w, img/saigon_0-480.jpg 480w, img/saigon_0-960.jpg 960w, img/saigon_0.jpg 1400w"}, "saigon_1": {"src": "img/saigon_1.jpg", "w": 1400, "h": 933, "bg": "#488bbc", "srcset": "img/saigon_1-160.jpg 160w, img/saigon_1-480.jpg 480w, img/saigon_1-960.jpg 960w, img/saigon_1.jpg 1400w"}, "saigon_2": {"src": "img/saigon_2.jpg", "w": 1400, "h": 883, "bg": "#717070", "srcset": "img/saigon_2-160.jpg 160w, img/saigon_2-480.jpg 480w, img/saigon_2-960.jpg 960w, img/saigon_2.jpg 1400w"}, "saigon_3": {"src": "img/saigon_3.jpg", "w": 1400, "h": 788, "bg": "#5d504b", "srcset": "img/saigon_3-160.jpg 160w, img/saigon_3-480.jpg 480w, img/saigon_3-960.jpg 960w, img/saigon_3.jpg 1400w"}, "saigon_4": {"src": "img/saigon_4.jpg", "w": 1400, "h": 933, "bg": "#948c70", "srcset": "img/saigon_4-160.jpg 160w, img/saigon_4-480.jpg 480w, img/saigon_4-960.jpg 960w, img/saigon_4.jpg 1400w"}, "mekong_0": {"src": "img/mekong_0.jpg", "w": 1400, "h": 933, "bg": "#564636", "srcset": "img/mekong_0-160.jpg 160w, img/mekong_0-480.jpg 480w, img/mekong_0-960.jpg 960w, img/mekong_0.jpg 1400w"}, "mekong_2": {"src": "img/mekong_2.jpg", "w": 1400, "h": 929, "bg": "#827f7c", "srcset": "img/mekong_2-160.jpg 160w, img/mekong_2-480.jpg 480w, img/mekong_2-960.jpg 960w, img/mekong_2.jpg 1400w"}, "mekong_3": {"src": "img/mekong_3.jpg", "w": 1400, "h": 933, "bg": "#6a675c", "srcset": "img/mekong_3-160.jpg 160w, img/mekong_3-480.jpg 480w, img/mekong_3-960.jpg 960w, img/mekong_3.jpg 1400w"}, "mekong_1": {"src": "img/mekong_1.jpg", "w": 1400, "h": 933, "bg": "#60634a", "srcset": "img/mekong_1-160.jpg 160w, img/mekong_1-480.jpg 480w, img/mekong_1-960.jpg 960w, img/mekong_1.jpg 1400w"}, "phuquoc_0": {"src": "img/phuquoc_0.jpg", "w": 1400, "h": 1050, "bg": "#88a2c0", "srcset": "img/phuquoc_0-160.jpg 160w, img/phuquoc_0-480.jpg 480w, img/phuquoc_0-960.jpg 960w, img/phuquoc_0.jpg 1400w"}, "phuquoc_1": {"src": "img/phuquoc_1.jpg", "w": 1400, "h": 933, "bg": "#7d8754", "srcset": "img/phuquoc_1-160.jpg 160w, img/phuquoc_1-480.jpg 480w, img/phuquoc_1-960.jpg 960w, img/phuquoc_1.jpg 1400w"}, "phuquoc_2": {"src": "img/phuquoc_2.jpg", "w": 1400, "h": 1054, "bg": "#6c6561", "srcset": "img/phuquoc_2-160.jpg 160w, img/phuquoc_2-480.jpg 480w, img/phuquoc_2-960.jpg 960w, img/phuquoc_2.jpg 1400w"}, "phuquoc_5": {"src": "img/phuquoc_5.jpg", "w": 1400, "h": 954, "bg": "#7d8b8f", "srcset": "img/phuquoc_5-160.jpg 160w, img/phuquoc_5-480.jpg 480w, img/phuquoc_5-960.jpg 960w, img/phuquoc_5.jpg 1400w"}, "cattien_0": {"src": "img/cattien_0.jpg", "w": 1400, "h": 1050, "bg": "#718a75", "srcset": "img/cattien_0-160.jpg 160w, img/cattien_0-480.jpg 480w, img/cattien_0-960.jpg 960w, img/cattien_0.jpg 1400w"}, "cattien_1": {"src": "img/cattien_1.jpg", "w": 1400, "h": 1050, "bg": "#45422c", "srcset": "img/cattien_1-160.jpg 160w, img/cattien_1-480.jpg 480w, img/cattien_1-960.jpg 960w, img/cattien_1.jpg 1400w"}, "cattien_3": {"src": "img/cattien_3.jpg", "w": 1400, "h": 933, "bg": "#464a38", "srcset": "img/cattien_3-160.jpg 160w, img/cattien_3-480.jpg 480w, img/cattien_3-960.jpg 960w, img/cattien_3.jpg 1400w"}, "cattien_4": {"src": "img/cattien_4.jpg", "w": 1400, "h": 996, "bg": "#495843", "srcset": "img/cattien_4-160.jpg 160w, img/cattien_4-480.jpg 480w, img/cattien_4-960.jpg 960w, img/cattien_4.jpg 1400w"}, "dalat_0": {"src": "img/dalat_0.jpg", "w": 1400, "h": 1050, "bg": "#9a9889", "srcset": "img/dalat_0-160.jpg 160w, img/dalat_0-480.jpg 480w, img/dalat_0-960.jpg 960w, img/dalat_0.jpg 1400w"}, "dalat_1": {"src": "img/dalat_1.jpg", "w": 1400, "h": 1052, "bg": "#4b574a", "srcset": "img/dalat_1-160.jpg 160w, img/dalat_1-480.jpg 480w, img/dalat_1-960.jpg 960w, img/dalat_1.jpg 1400w"}, "dalat_2": {"src": "img/dalat_2.jpg", "w": 1400, "h": 933, "bg": "#979c85", "srcset": "img/dalat_2-160.jpg 160w, img/dalat_2-480.jpg 480w, img/dalat_2-960.jpg 960w, img/dalat_2.jpg 1400w"}, "dalat_4": {"src": "img/dalat_4.jpg", "w": 1400, "h": 1050, "bg": "#a4b09a", "srcset": "img/dalat_4-160.jpg 160w, img/dalat_4-480.jpg 480w, img/dalat_4-960.jpg 960w, img/dalat_4.jpg 1400w"}, "dalat_3": {"src": "img/dalat_3.jpg", "w": 1400, "h": 1050, "bg": "#989fa7", "srcset": "img/dalat_3-160.jpg 160w, img/dalat_3-480.jpg 480w, img/dalat_3-960.jpg 960w, img/dalat_3.jpg 1400w"}, "hoian_0": {"src": "img/hoian_0.jpg", "w": 1400, "h": 930, "bg": "#69685f", "srcset": "img/hoian_0-160.jpg 160w, img/hoian_0-480.jpg 480w, img/hoian_0-960.jpg 960w, img/hoian_0.jpg 1400w"}, "hoian_1": {"src": "img/hoian_1.jpg", "w": 1400, "h": 936, "bg": "#5a583a", "srcset": "img/hoian_1-160.jpg 160w, img/hoian_1-480.jpg 480w, img/hoian_1-960.jpg 960w, img/hoian_1.jpg 1400w"}, "hoian_4": {"src": "img/hoian_4.jpg", "w": 1400, "h": 917, "bg": "#908d84", "srcset": "img/hoian_4-160.jpg 160w, img/hoian_4-480.jpg 480w, img/hoian_4-960.jpg 960w, img/hoian_4.jpg 1400w"}, "hoian_5": {"src": "img/hoian_5.jpg", "w": 1400, "h": 933, "bg": "#8facc4", "srcset": "img/hoian_5-160.jpg 160w, img/hoian_5-480.jpg 480w, img/hoian_5-960.jpg 960w, img/hoian_5.jpg 1400w"}, "hoian_6": {"src": "img/hoian_6.jpg", "w": 1400, "h": 933, "bg": "#7e806f", "srcset": "img/hoian_6-160.jpg 160w, img/hoian_6-480.jpg 480w, img/hoian_6-960.jpg 960w, img/hoian_6.jpg 1400w"}, "hue_0": {"src": "img/hue_0.jpg", "w": 1400, "h": 933, "bg": "#828481", "srcset": "img/hue_0-160.jpg 160w, img/hue_0-480.jpg 480w, img/hue_0-960.jpg 960w, img/hue_0.jpg 1400w"}, "hue_1": {"src": "img/hue_1.jpg", "w": 1400, "h": 1050, "bg": "#7a8176", "srcset": "img/hue_1-160.jpg 160w, img/hue_1-480.jpg 480w, img/hue_1-960.jpg 960w, img/hue_1.jpg 1400w"}, "hue_2": {"src": "img/hue_2.jpg", "w": 1400, "h": 1050, "bg": "#858a7c", "srcset": "img/hue_2-160.jpg 160w, img/hue_2-480.jpg 480w, img/hue_2-960.jpg 960w, img/hue_2.jpg 1400w"}, "hue_6": {"src": "img/hue_6.jpg", "w": 1400, "h": 933, "bg": "#7e8078", "srcset": "img/hue_6-160.jpg 160w, img/hue_6-480.jpg 480w, img/hue_6-960.jpg 960w, img/hue_6.jpg 1400w"}, "hue_4": {"src": "img/hue_4.jpg", "w": 1400, "h": 1050, "bg": "#628090", "srcset": "img/hue_4-160.jpg 160w, img/hue_4-480.jpg 480w, img/hue_4-960.jpg 960w, img/hue_4.jpg 1400w"}, "puluong_1": {"src": "img/puluong_1.jpg", "w": 1920, "h": 1440, "bg": "#8b8e8c", "srcset": "img/puluong_1-160.jpg 160w, img/puluong_1-480.jpg 480w, img/puluong_1-960.jpg 960w, img/puluong_1-1400.jpg 1400w, img/puluong_1.jpg 1920w"}, "puluong_2": {"src": "img/puluong_2.jpg", "w": 1400, "h": 935, "bg": "#70763c", "srcset": "img/puluong_2-160.jpg 160w, img/puluong_2-480.jpg 480w, img/puluong_2-960.jpg 960w, img/puluong_2.jpg 1400w"}, "puluong_3": {"src": "img/puluong_3.jpg", "w": 1400, "h": 935, "bg": "#778069", "srcset": "img/puluong_3-160.jpg 160w, img/puluong_3-480.jpg 480w, img/puluong_3-960.jpg 960w, img/puluong_3.jpg 1400w"}, "puluong_0": {"src": "img/puluong_0.jpg", "w": 1400, "h": 933, "bg": "#85967e", "srcset": "img/puluong_0-160.jpg 160w, img/puluong_0-480.jpg 480w, img/puluong_0-960.jpg 960w, img/puluong_0.jpg 1400w"}, "puluong_5": {"src": "img/puluong_5.jpg", "w": 1400, "h": 935, "bg": "#6d5a4b", "srcset": "img/puluong_5-160.jpg 160w, img/puluong_5-480.jpg 480w, img/puluong_5-960.jpg 960w, img/puluong_5.jpg 1400w"}, "ninhbinh_1": {"src": "img/ninhbinh_1.jpg", "w": 1920, "h": 1282, "bg": "#73775e", "srcset": "img/ninhbinh_1-960.jpg 960w, img/ninhbinh_1-1400.jpg 1400w, img/ninhbinh_1.jpg 1920w"}, "ninhbinh_0": {"src": "img/ninhbinh_0.jpg", "w": 1400, "h": 894, "bg": "#70746e", "srcset": "img/ninhbinh_0-160.jpg 160w, img/ninhbinh_0-480.jpg 480w, img/ninhbinh_0-960.jpg 960w, img/ninhbinh_0.jpg 1400w"}, "ninhbinh_3": {"src": "img/ninhbinh_3.jpg", "w": 1400, "h": 937, "bg": "#998277", "srcset": "img/ninhbinh_3-160.jpg 160w, img/ninhbinh_3-480.jpg 480w, img/ninhbinh_3-960.jpg 960w, img/ninhbinh_3.jpg 1400w"}, "ninhbinh_4": {"src": "img/ninhbinh_4.jpg", "w": 1400, "h": 933, "bg": "#8c8c8c", "srcset": "img/ninhbinh_4-160.jpg 160w, img/ninhbinh_4-480.jpg 480w, img/ninhbinh_4-960.jpg 960w, img/ninhbinh_4.jpg 1400w"}, "ninhbinh_5": {"src": "img/ninhbinh_5.jpg", "w": 1400, "h": 935, "bg": "#413f33", "srcset": "img/ninhbinh_5-160.jpg 160w, img/ninhbinh_5-480.jpg 480w, img/ninhbinh_5-960.jpg 960w, img/ninhbinh_5.jpg 1400w"}, "ninhbinh_6": {"src": "img/ninhbinh_6.jpg", "w": 1400, "h": 940, "bg": "#a0aeb5", "srcset": "img/ninhbinh_6-160.jpg 160w, img/ninhbinh_6-480.jpg 480w, img/ninhbinh_6-960.jpg 960w, img/ninhbinh_6.jpg 1400w"}, "catba_0": {"src": "img/catba_0.jpg", "w": 1400, "h": 887, "bg": "#989f9c", "srcset": "img/catba_0-160.jpg 160w, img/catba_0-480.jpg 480w, img/catba_0-960.jpg 960w, img/catba_0.jpg 1400w"}, "catba_3": {"src": "img/catba_3.jpg", "w": 1400, "h": 935, "bg": "#838d85", "srcset": "img/catba_3-160.jpg 160w, img/catba_3-480.jpg 480w, img/catba_3-960.jpg 960w, img/catba_3.jpg 1400w"}, "catba_1": {"src": "img/catba_1.jpg", "w": 1400, "h": 892, "bg": "#5d7583", "srcset": "img/catba_1-160.jpg 160w, img/catba_1-480.jpg 480w, img/catba_1-960.jpg 960w, img/catba_1.jpg 1400w"}, "catba_2": {"src": "img/catba_2.jpg", "w": 1400, "h": 935, "bg": "#527057", "srcset": "img/catba_2-160.jpg 160w, img/catba_2-480.jpg 480w, img/catba_2-960.jpg 960w, img/catba_2.jpg 1400w"}, "catba_6": {"src": "img/catba_6.jpg", "w": 1400, "h": 935, "bg": "#848f6c", "srcset": "img/catba_6-160.jpg 160w, img/catba_6-480.jpg 480w, img/catba_6-960.jpg 960w, img/catba_6.jpg 1400w"}, "hanoi_0": {"src": "img/hanoi_0.jpg", "w": 1400, "h": 933, "bg": "#948d8d", "srcset": "img/hanoi_0-160.jpg 160w, img/hanoi_0-480.jpg 480w, img/hanoi_0-960.jpg 960w, img/hanoi_0.jpg 1400w"}, "hanoi_1": {"src": "img/hanoi_1.jpg", "w": 1400, "h": 934, "bg": "#414227", "srcset": "img/hanoi_1-160.jpg 160w, img/hanoi_1-480.jpg 480w, img/hanoi_1-960.jpg 960w, img/hanoi_1.jpg 1400w"}, "hanoi_3": {"src": "img/hanoi_3.jpg", "w": 1400, "h": 933, "bg": "#78624d", "srcset": "img/hanoi_3-160.jpg 160w, img/hanoi_3-480.jpg 480w, img/hanoi_3-960.jpg 960w, img/hanoi_3.jpg 1400w"}, "hanoi_5": {"src": "img/hanoi_5.jpg", "w": 1400, "h": 933, "bg": "#607545", "srcset": "img/hanoi_5-160.jpg 160w, img/hanoi_5-480.jpg 480w, img/hanoi_5-960.jpg 960w, img/hanoi_5.jpg 1400w"}, "babe_0": {"src": "img/babe_0.jpg", "w": 1400, "h": 1050, "bg": "#99abb3", "srcset": "img/babe_0-160.jpg 160w, img/babe_0-480.jpg 480w, img/babe_0-960.jpg 960w, img/babe_0.jpg 1400w"}, "babe_1": {"src": "img/babe_1.jpg", "w": 1400, "h": 914, "bg": "#6d7576", "srcset": "img/babe_1-160.jpg 160w, img/babe_1-480.jpg 480w, img/babe_1-960.jpg 960w, img/babe_1.jpg 1400w"}, "babe_2": {"src": "img/babe_2.jpg", "w": 1400, "h": 933, "bg": "#7f8f7a", "srcset": "img/babe_2-160.jpg 160w, img/babe_2-480.jpg 480w, img/babe_2-960.jpg 960w, img/babe_2.jpg 1400w"}, "babe_3": {"src": "img/babe_3.jpg", "w": 1400, "h": 933, "bg": "#5f6d73", "srcset": "img/babe_3-160.jpg 160w, img/babe_3-480.jpg 480w, img/babe_3-960.jpg 960w, img/babe_3.jpg 1400w"}, "babe_5": {"src": "img/babe_5.jpg", "w": 1400, "h": 907, "bg": "#847f67", "srcset": "img/babe_5-160.jpg 160w, img/babe_5-480.jpg 480w, img/babe_5-960.jpg 960w, img/babe_5.jpg 1400w"}, "caobang_0": {"src": "img/caobang_0.jpg", "w": 1400, "h": 934, "bg": "#515451", "srcset": "img/caobang_0-160.jpg 160w, img/caobang_0-480.jpg 480w, img/caobang_0-960.jpg 960w, img/caobang_0.jpg 1400w"}, "caobang_6": {"src": "img/caobang_6.jpg", "w": 1400, "h": 1050, "bg": "#909283", "srcset": "img/caobang_6-160.jpg 160w, img/caobang_6-480.jpg 480w, img/caobang_6-960.jpg 960w, img/caobang_6.jpg 1400w"}, "caobang_1": {"src": "img/caobang_1.jpg", "w": 1400, "h": 933, "bg": "#646c4d", "srcset": "img/caobang_1-160.jpg 160w, img/caobang_1-480.jpg 480w, img/caobang_1-960.jpg 960w, img/caobang_1.jpg 1400w"}, "caobang_2": {"src": "img/caobang_2.jpg", "w": 1400, "h": 933, "bg": "#4e3b1d", "srcset": "img/caobang_2-160.jpg 160w, img/caobang_2-480.jpg 480w, img/caobang_2-960.jpg 960w, img/caobang_2.jpg 1400w"}, "caobang_3": {"src": "img/caobang_3.jpg", "w": 1400, "h": 1050, "bg": "#808e72", "srcset": "img/caobang_3-160.jpg 160w, img/caobang_3-480.jpg 480w, img/caobang_3-960.jpg 960w, img/caobang_3.jpg 1400w"}, "phongnha_0": {"src": "img/phongnha_0.jpg", "w": 1400, "h": 1050, "bg": "#6c7463", "srcset": "img/phongnha_0-160.jpg 160w, img/phongnha_0-480.jpg 480w, img/phongnha_0-960.jpg 960w, img/phongnha_0.jpg 1400w"}, "phongnha_1": {"src": "img/phongnha_1.jpg", "w": 1400, "h": 852, "bg": "#716546", "srcset": "img/phongnha_1-160.jpg 160w, img/phongnha_1-480.jpg 480w, img/phongnha_1-960.jpg 960w, img/phongnha_1.jpg 1400w"}, "phongnha_2": {"src": "img/phongnha_2.jpg", "w": 1400, "h": 933, "bg": "#4a4f46", "srcset": "img/phongnha_2-160.jpg 160w, img/phongnha_2-480.jpg 480w, img/phongnha_2-960.jpg 960w, img/phongnha_2.jpg 1400w"}, "phongnha_3": {"src": "img/phongnha_3.jpg", "w": 1400, "h": 1049, "bg": "#89a9a6", "srcset": "img/phongnha_3-160.jpg 160w, img/phongnha_3-480.jpg 480w, img/phongnha_3-960.jpg 960w, img/phongnha_3.jpg 1400w"}, "phongnha_4": {"src": "img/phongnha_4.jpg", "w": 1400, "h": 933, "bg": "#7ba191", "srcset": "img/phongnha_4-160.jpg 160w, img/phongnha_4-480.jpg 480w, img/phongnha_4-960.jpg 960w, img/phongnha_4.jpg 1400w"}, "cucphuong_0": {"src": "img/cucphuong_0.jpg", "w": 1400, "h": 933, "bg": "#72726a", "srcset": "img/cucphuong_0-160.jpg 160w, img/cucphuong_0-480.jpg 480w, img/cucphuong_0-960.jpg 960w, img/cucphuong_0.jpg 1400w"}, "cucphuong_1": {"src": "img/cucphuong_1.jpg", "w": 1400, "h": 930, "bg": "#384432", "srcset": "img/cucphuong_1-160.jpg 160w, img/cucphuong_1-480.jpg 480w, img/cucphuong_1-960.jpg 960w, img/cucphuong_1.jpg 1400w"}, "cucphuong_2": {"src": "img/cucphuong_2.jpg", "w": 1400, "h": 1867, "bg": "#75726b", "srcset": "img/cucphuong_2-160.jpg 160w, img/cucphuong_2-480.jpg 480w, img/cucphuong_2-960.jpg 960w, img/cucphuong_2.jpg 1400w"}, "cucphuong_3": {"src": "img/cucphuong_3.jpg", "w": 1400, "h": 1050, "bg": "#584a27", "srcset": "img/cucphuong_3-160.jpg 160w, img/cucphuong_3-480.jpg 480w, img/cucphuong_3-960.jpg 960w, img/cucphuong_3.jpg 1400w"}, "cucphuong_4": {"src": "img/cucphuong_4.jpg", "w": 1400, "h": 933, "bg": "#6e6a66", "srcset": "img/cucphuong_4-160.jpg 160w, img/cucphuong_4-480.jpg 480w, img/cucphuong_4-960.jpg 960w, img/cucphuong_4.jpg 1400w"}, "danang_0": {"src": "img/danang_0.jpg", "w": 1400, "h": 1050, "bg": "#75775b", "srcset": "img/danang_0-160.jpg 160w, img/danang_0-480.jpg 480w, img/danang_0-960.jpg 960w, img/danang_0.jpg 1400w"}, "danang_1": {"src": "img/danang_1.jpg", "w": 1400, "h": 1050, "bg": "#757f78", "srcset": "img/danang_1-160.jpg 160w, img/danang_1-480.jpg 480w, img/danang_1-960.jpg 960w, img/danang_1.jpg 1400w"}, "danang_2": {"src": "img/danang_2.jpg", "w": 1400, "h": 1050, "bg": "#3b362d", "srcset": "img/danang_2-160.jpg 160w, img/danang_2-480.jpg 480w, img/danang_2-960.jpg 960w, img/danang_2.jpg 1400w"}, "danang_3": {"src": "img/danang_3.jpg", "w": 1400, "h": 1050, "bg": "#808a84", "srcset": "img/danang_3-160.jpg 160w, img/danang_3-480.jpg 480w, img/danang_3-960.jpg 960w, img/danang_3.jpg 1400w"}, "danang_4": {"src": "img/danang_4.jpg", "w": 1400, "h": 876, "bg": "#918d81", "srcset": "img/danang_4-160.jpg 160w, img/danang_4-480.jpg 480w, img/danang_4-960.jpg 960w, img/danang_4.jpg 1400w"}, "hagiang_0": {"src": "img/hagiang_0.jpg", "w": 1400, "h": 933, "bg": "#70634c", "srcset": "img/hagiang_0-160.jpg 160w, img/hagiang_0-480.jpg 480w, img/hagiang_0-960.jpg 960w, img/hagiang_0.jpg 1400w"}, "hagiang_1": {"src": "img/hagiang_1.jpg", "w": 1400, "h": 788, "bg": "#394d69", "srcset": "img/hagiang_1-160.jpg 160w, img/hagiang_1-480.jpg 480w, img/hagiang_1-960.jpg 960w, img/hagiang_1.jpg 1400w"}, "hagiang_2": {"src": "img/hagiang_2.jpg", "w": 1400, "h": 935, "bg": "#617b59", "srcset": "img/hagiang_2-160.jpg 160w, img/hagiang_2-480.jpg 480w, img/hagiang_2-960.jpg 960w, img/hagiang_2.jpg 1400w"}, "hagiang_3": {"src": "img/hagiang_3.jpg", "w": 1400, "h": 536, "bg": "#6c6f60", "srcset": "img/hagiang_3-160.jpg 160w, img/hagiang_3-480.jpg 480w, img/hagiang_3-960.jpg 960w, img/hagiang_3.jpg 1400w"}, "hagiang_4": {"src": "img/hagiang_4.jpg", "w": 1400, "h": 952, "bg": "#878478", "srcset": "img/hagiang_4-160.jpg 160w, img/hagiang_4-480.jpg 480w, img/hagiang_4-960.jpg 960w, img/hagiang_4.jpg 1400w"}, "sapa_0": {"src": "img/sapa_0.jpg", "w": 1400, "h": 1050, "bg": "#526155", "srcset": "img/sapa_0-160.jpg 160w, img/sapa_0-480.jpg 480w, img/sapa_0-960.jpg 960w, img/sapa_0.jpg 1400w"}, "sapa_1": {"src": "img/sapa_1.jpg", "w": 1400, "h": 933, "bg": "#cdcac8", "srcset": "img/sapa_1-160.jpg 160w, img/sapa_1-480.jpg 480w, img/sapa_1-960.jpg 960w, img/sapa_1.jpg 1400w"}, "sapa_2": {"src": "img/sapa_2.jpg", "w": 1400, "h": 1050, "bg": "#72835e", "srcset": "img/sapa_2-160.jpg 160w, img/sapa_2-480.jpg 480w, img/sapa_2-960.jpg 960w, img/sapa_2.jpg 1400w"}, "sapa_3": {"src": "img/sapa_3.jpg", "w": 1400, "h": 1050, "bg": "#5b6568", "srcset": "img/sapa_3-160.jpg 160w, img/sapa_3-480.jpg 480w, img/sapa_3-960.jpg 960w, img/sapa_3.jpg 1400w"}, "yokdon_0": {"src": "img/yokdon_0.jpg", "w": 1400, "h": 1050, "bg": "#9faaa1", "srcset": "img/yokdon_0-160.jpg 160w, img/yokdon_0-480.jpg 480w, img/yokdon_0-960.jpg 960w, img/yokdon_0.jpg 1400w"}, "yokdon_1": {"src": "img/yokdon_1.jpg", "w": 1400, "h": 933, "bg": "#727158", "srcset": "img/yokdon_1-160.jpg 160w, img/yokdon_1-480.jpg 480w, img/yokdon_1-960.jpg 960w, img/yokdon_1.jpg 1400w"}, "yokdon_2": {"src": "img/yokdon_2.jpg", "w": 1400, "h": 1050, "bg": "#5e769a", "srcset": "img/yokdon_2-160.jpg 160w, img/yokdon_2-480.jpg 480w, img/yokdon_2-960.jpg 960w, img/yokdon_2.jpg 1400w"}, "yokdon_3": {"src": "img/yokdon_3.jpg", "w": 1400, "h": 1050, "bg": "#8e7b63", "srcset": "img/yokdon_3-160.jpg 160w, img/yokdon_3-480.jpg 480w, img/yokdon_3-960.jpg 960w, img/yokdon_3.jpg 1400w"}, "yokdon_4": {"src": "img/yokdon_4.jpg", "w": 1400, "h": 1050, "bg": "#74655b", "srcset": "img/yokdon_4-160.jpg 160w, img/yokdon_4-480.jpg 480w, img/yokdon_4-960.jpg 960w, img/yokdon_4.jpg 1400w"}, "mucangchai_0": {"src": "img/mucangchai_0.jpg", "w": 1400, "h": 933, "bg": "#8d8679", "srcset": "img/mucangchai_0-160.jpg 160w, img/mucangchai_0-480.jpg 480w, img/mucangchai_0-960.jpg 960w, img/mucangchai_0.jpg 1400w"}, "mucangchai_1": {"src": "img/mucangchai_1.jpg", "w": 1400, "h": 935, "bg": "#5b7426", "srcset": "img/mucangchai_1-160.jpg 160w, img/mucangchai_1-480.jpg 480w, img/mucangchai_1-960.jpg 960w, img/mucangchai_1.jpg 1400w"}, "mucangchai_2": {"src": "img/mucangchai_2.jpg", "w": 1400, "h": 1050, "bg": "#6f6145", "srcset": "img/mucangchai_2-160.jpg 160w, img/mucangchai_2-480.jpg 480w, img/mucangchai_2-960.jpg 960w, img/mucangchai_2.jpg 1400w"}, "mucangchai_3": {"src": "img/mucangchai_3.jpg", "w": 1400, "h": 788, "bg": "#708287", "srcset": "img/mucangchai_3-160.jpg 160w, img/mucangchai_3-480.jpg 480w, img/mucangchai_3-960.jpg 960w, img/mucangchai_3.jpg 1400w"}, "mucangchai_4": {"src": "img/mucangchai_4.jpg", "w": 1400, "h": 1050, "bg": "#94918c", "srcset": "img/mucangchai_4-160.jpg 160w, img/mucangchai_4-480.jpg 480w, img/mucangchai_4-960.jpg 960w, img/mucangchai_4.jpg 1400w"}, "sapa_4": {"src": "img/sapa_4.jpg", "w": 1400, "h": 1050, "bg": "#7a8874", "srcset": "img/sapa_4-160.jpg 160w, img/sapa_4-480.jpg 480w, img/sapa_4-960.jpg 960w, img/sapa_4.jpg 1400w"}};
 /* Page logic: reads the settings (the link or the form), plans the trip with the engine (engine.js) and renders the facts,
    the day strip, the stays with their day plans and the journeys. Pure helpers: page.js; texts: ui.js, content/, photos.js,
    and in English (stage 5) en/: the page's language comes from the link and the switch EN · PL (setLang). */
@@ -4949,6 +5008,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   function onFormChange(e) {
     var s, st = state.st;
     if (e.target.name === 'costs') { setCosts(e.target.checked); return; }   // no setting of the trip (fix 2)
+    byHand = e.isTrusted;   // the visitor's own change moves the page (finishing touches)
     if (e.target.name === 'mode') {
       s = copySettings(state.settings);
       if (e.target.value === 'dates' && !s.start) {
@@ -4965,6 +5025,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     }
     if (apply(s)) syncForm();
     else syncLocks();
+    byHand = false;
   }
 
   /* Links inside the page (a day in the strip, the menu, back to the top) scroll without changing the address, which
@@ -5014,7 +5075,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
 
   function render() {
     // the folded rows open before open again, but on another trip the days and journeys start closed (tripKey in page.js)
-    var keep = openFolds(), trip = tripKey(state.route);
+    var keep = openFolds(), trip = tripKey(state.route), again = drawnTrip !== null && trip !== drawnTrip && byHand;
     if (trip !== foldTrip) keep = keep.filter(function (k) { return !/^(day|leg)-/.test(k); });
     foldTrip = trip;
     $('#sum-text').textContent = summaryText(state.st);
@@ -5025,13 +5086,25 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     renderStops();
     renderMini();
     renderBefore();
-    $('#copy-status').textContent = '';
-    $('#copy-fallback').hidden = true;
+    renderFinale();
+    $('#copy-status').textContent = $('#end-status').textContent = '';
+    $('#copy-fallback').hidden = $('#end-fallback').hidden = true;
     renderPrintLink();
     $('#wild-hero').href = $('#wild-top').href = $('#wild-nav').href = wildLink('route');
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
+    paintFrames();
+    syncDay();
+    drawRoute(trip, drawnTrip === null || again);
+    if (again) rebuilt();
+  }
+
+  /* The end of the page (finishing touches, finding 9): the sunset over Pù Luông (FINALE_PHOTO), over the title the trip's
+     last day, as "Dzień 15 · Hà Nội · Wylot". */
+  function renderFinale() {
+    $('#finale-photo').innerHTML = img(FINALE_PHOTO, '', '(max-width: 700px) 200vw, 100vw');
+    $('#end-day').textContent = T('day') + ' ' + state.route.days + ' · ' + AIRPORTS[state.st.to].name + ' · ' + T('flyhome');
   }
 
   /* The wildlife subpage (stage 6, finding 5) with this trip: its tab (route, or guide-<place> for a stay's „Zwierzęta
@@ -5048,7 +5121,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   }
 
   function renderFacts() {
-    var r = state.route, st = state.st, k = routeStats(r, state.plans, PLACES), n = r.days - 1;
+    var r = state.route, st = state.st, k = routeStats(r, state.plans, PLACES), n = r.days - 1, before = figures();
     $('#facts-for').textContent = T('f.for', { from: AIRPORTS[st.from].name, to: AIRPORTS[st.to].name, term: termText(st) });
     $('#facts').innerHTML =
       '<li><b>' + r.days + '</b><span>' + T('f.days', { nights: n + ' ' + countWord('nights', n) }) + '</span></li>' +
@@ -5060,6 +5133,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       // the budget only with the costs shown (fix 2); without it the five figures fill their rows (no-budget, template.html)
       (costs ? '<li class="f-budget"><a href="#b-budget" aria-label="' + esc(T('f.budget.aria', { x: vnd(state.budget.two, true) })) + '"><b>' + vnd(state.budget.two, true) + '</b><span>' + T('f.budget') + '</span></a></li>' : '');
     $('#facts').classList.toggle('no-budget', !costs);
+    if (byHand && onScreen($('#facts'))) countUp(before);
     // first a link that was partly wrong, then a term that has passed (an old link keeps its trip, and says so), then the
     // holidays; the missing holiday dates only for a term still ahead
     var a = tripAlerts(st, HOLIDAYS, HOLIDAYS_FROM, HOLIDAYS_UNTIL, TET_MARGIN_DAYS), passed = termPassed(st, TODAY), lines = [];
@@ -5153,11 +5227,12 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     if (c.skip) t += '<p class="tip tip-skip"><b>' + T('t.skip') + '</b>' + esc(c.skip) + ' <span class="instead">' + T('t.instead') + esc(c.instead) + '</span></p>';
     return t ? '<div class="tips">' + t + '</div>' : '';
   }
-  // sizes: how wide the photo is drawn, so the browser picks the smallest copy from srcset (the offline file has none)
+  // sizes: how wide the photo is drawn, so the browser picks the smallest copy from srcset (the offline file has none); the
+  // photo comes in once loaded (class ph, paintFrames)
   function img(id, cls, sizes) {
     var p = PHOTOS[id];
-    return '<img class="' + (cls || '') + '" src="' + p.src + '" alt="' + esc(caption(id)) + '" width="' + p.w + '" height="' + p.h +
-      '" loading="lazy" decoding="async"' + (p.srcset && sizes ? ' srcset="' + p.srcset + '" sizes="' + sizes + '"' : '') + '>';
+    return '<img class="' + (cls ? cls + ' ' : '') + 'ph" src="' + p.src + '" alt="' + esc(caption(id)) + '" width="' + p.w + '" height="' + p.h +
+      '" data-ph="' + p.bg + '" loading="lazy" decoding="async"' + (p.srcset && sizes ? ' srcset="' + p.srcset + '" sizes="' + sizes + '"' : '') + '>';
   }
   // the photos of a place; keyboard stops: the photo strip (arrow keys), previous, next and full screen
   function gallery(id) {
@@ -5229,7 +5304,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   // the last day: the way to the departure airport and the flight home, without a time
   function homeCard() {
     var r = state.route, d = T('home.d') + (r.home.total >= 2 ? ' ' + T('home.far', { time: approx(r.home.total) }) : '');
-    return '<section class="stop stop-compact stop-home" id="stop-home"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
+    return '<section class="stop stop-compact stop-home" id="stop-home" data-short="' + esc(T('flyhome')) + '"><header class="stop-head"><span class="stop-num home-num">' + ICON.fly + '</span>' +
       '<div class="stop-title"><p class="eyebrow">' + T('day') + ' ' + r.days + '</p><h3>' + esc(T('home.h3', { airport: AIRPORTS[state.st.to].name })) + '</h3></div></header>' +
       '<ol class="days">' + dayFold(r.days, '<h4>' + T('home.t') + ' <span class="pace pace-travel">' + T('pace.travel') + '</span></h4>', '<p>' + esc(d) + '</p>') + '</ol></section>';
   }
@@ -5241,7 +5316,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     r.stops.forEach(function (s, i) {
       var c = C(s.id), again = r.stops.slice(0, i).some(function (x) { return x.id === s.id; }), compact = !c.photos.length || again, sw = swapOfPlace(s.id);
       html += legCard(s.leg, s.start, i ? r.stops[i - 1] : null, s.id) +
-        '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" style="--c:' + stopColor(s.id) + '">' +
+        '<section class="stop' + (compact ? ' stop-compact' : '') + '" id="stop-' + (i + 1) + '" data-pin="' + nodeOf(s.id) + '" data-short="' + esc(c.short) + '" style="--c:' + stopColor(s.id) + '">' +
         '<header class="stop-head"><span class="stop-num">' + (i + 1) + '</span><div class="stop-title">' +
         '<p class="eyebrow">' + dayRange(s.start, s.end) + ' · ' + s.n + ' ' + countWord('nights', s.n) + ' · ' + T('reg.' + c.region) + '</p>' +
         '<h3>' + esc(c.name) + '</h3><p class="stop-sub">' + esc(c.sub) + '</p></div>' + stopTools(s) + '</header>' +
@@ -5307,15 +5382,15 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       });
       P.faint.forEach(function (f) { g.push('<circle class="m-faint" cx="' + r1(f.x) + '" cy="' + r1(f.y) + '" r="3.5"/>'); });
       P.segs.forEach(function (s) {
-        g.push(s.mode === 'fly' ? '<path class="m-fly" d="' + curve([s.x1, s.y1], [s.x2, s.y2]) + '"/>'
-          : '<line class="m-road" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>');
+        g.push(s.mode === 'fly' ? '<path class="m-fly" data-leg="' + s.leg + '" d="' + curve([s.x1, s.y1], [s.x2, s.y2]) + '"/>'
+          : '<line class="m-road" data-leg="' + s.leg + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>');
       });
       // a stub: the start of the way to another panel, with a small arrowhead at its tip
       P.stubs.forEach(function (s) {
         var dx = s.x2 - s.x1, dy = s.y2 - s.y1, len = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / len, uy = dy / len;
         var bx = s.x2 - ux * 6, by = s.y2 - uy * 6;
-        g.push('<line class="' + (s.mode === 'fly' ? 'm-fly' : 'm-road') + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>' +
-          '<path class="m-arrow" d="M' + r1(s.x2) + ' ' + r1(s.y2) + 'L' + r1(bx - uy * 3.5) + ' ' + r1(by + ux * 3.5) + 'L' + r1(bx + uy * 3.5) + ' ' + r1(by - ux * 3.5) + 'z"/>');
+        g.push('<line class="' + (s.mode === 'fly' ? 'm-fly' : 'm-road') + '" data-leg="' + s.leg + '" x1="' + r1(s.x1) + '" y1="' + r1(s.y1) + '" x2="' + r1(s.x2) + '" y2="' + r1(s.y2) + '"/>' +
+          '<path class="m-arrow" data-leg="' + s.leg + '" d="M' + r1(s.x2) + ' ' + r1(s.y2) + 'L' + r1(bx - uy * 3.5) + ' ' + r1(by + ux * 3.5) + 'L' + r1(bx + uy * 3.5) + ' ' + r1(by - ux * 3.5) + 'z"/>');
       });
       P.pois.forEach(function (o) {
         g.push('<line class="m-road m-local" x1="' + r1(o.from[0]) + '" y1="' + r1(o.from[1]) + '" x2="' + r1(o.x) + '" y2="' + r1(o.y) + '"/>' +
@@ -5339,7 +5414,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       // the pins last, each with its label in one group, so the stay being read lights up both (observeStops)
       P.pins.forEach(function (pn) {
         var l = P.labels.filter(function (x) { return x.kind === 'stop' && x.key === pn.key; })[0];
-        g.push('<g class="pin" data-pin="' + pn.key + '" style="--c:' + stopColor(pn.key) + '"><rect x="' + r1(pn.x - pn.w / 2) + '" y="' + r1(pn.y - PIN_H / 2) +
+        g.push('<g class="pin" data-pin="' + pn.key + '" data-leg="' + (parseInt(pn.nums, 10) - 1) + '" style="--c:' + stopColor(pn.key) + '"><rect x="' + r1(pn.x - pn.w / 2) + '" y="' + r1(pn.y - PIN_H / 2) +
           '" width="' + r1(pn.w) + '" height="' + PIN_H + '" rx="' + PIN_H / 2 + '"/><text class="pin-num" x="' + r1(pn.x) + '" y="' + r1(pn.y + 4) + '" text-anchor="middle">' +
           pn.nums + '</text>' + (l ? labelText(l) : '') + '</g>');
       });
@@ -5438,6 +5513,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   function openMapZoom(kb, one) {
     one = one == null ? null : one;
     if (mz.open || mz.busy || (one == null && !mzWide())) return;
+    finishDraw();   // the copies show the whole route
     var src = mzSource(one), dst = mzTarget(one), box = $('#mapzoom'), svg = $('#map svg').outerHTML;
     var panels = mzBoxes(one).map(function (b, i) {
       var d = document.createElement('div');
@@ -5646,7 +5722,10 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
       var s = b.id === 'reset-changes' ? withoutChanges(base)
         : added ? withAdded(base, added)
         : withRemoved(base, b.getAttribute('data-remove'));
-      if (apply(s)) {
+      byHand = e.isTrusted;
+      var ok = apply(s);
+      byHand = false;
+      if (ok) {
         syncForm();
         if (added) reportAdd(added, before);
         $('#shape-h2').focus({ preventScroll: true });   // the button is gone with the old trip; the trip's heading takes the focus
@@ -5811,19 +5890,23 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     lines.push(T('pt.link') + SITE_URL + pageHash(state.settings, lang, costs));
     return lines.join('\n');
   }
+  // the button under the figures of the trip and the one at the end of the page (finishing touches, finding 9), each with
+  // its own line for the result and its own box for the text when the clipboard says no
   function bindCopy() {
-    var btn = $('#copy-plan'), status = $('#copy-status'), box = $('#copy-fallback');
-    btn.addEventListener('click', function () {
-      var text = planText();
-      box.hidden = true;
-      var done = function () { status.textContent = T('copy.ok'); };
-      var fail = function () {
-        box.hidden = false; box.value = text; box.focus(); box.select();
-        status.textContent = T('copy.fail');
-      };
-      try {
-        navigator.clipboard.writeText(text).then(done, fail);
-      } catch (e) { fail(); }
+    [['#copy-plan', '#copy-status', '#copy-fallback'], ['#end-copy', '#end-status', '#end-fallback']].forEach(function (x) {
+      var btn = $(x[0]), status = $(x[1]), box = $(x[2]);
+      btn.addEventListener('click', function () {
+        var text = planText();
+        box.hidden = true;
+        var done = function () { status.textContent = T('copy.ok'); };
+        var fail = function () {
+          box.hidden = false; box.value = text; box.focus(); box.select();
+          status.textContent = T('copy.fail');
+        };
+        try {
+          navigator.clipboard.writeText(text).then(done, fail);
+        } catch (e) { fail(); }
+      });
     });
   }
 
@@ -5973,6 +6056,174 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     }).observe($('#settings'));
   }
 
+  /* ---------- the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md) ---------- */
+  /* The page moves only where the browser runs IntersectionObserver: its first call marks <html> live (template.html: the
+     slow zoom of the photo at the top, the photos coming in). */
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { document.documentElement.classList.add('live'); o.disconnect(); }).observe($('.hero'));
+  /* A photo loaded late comes in softly (finding 6): till it has loaded, its frame shows the photo's mean colour (data-ph,
+     from build.py) and the photo waits unseen; once loaded (or failed), class in, and the frame drops the colour. */
+  function shown(im) { im.classList.add('in'); im.parentNode.style.backgroundColor = ''; }
+  function paintFrames() {
+    document.querySelectorAll('img.ph:not(.in)').forEach(function (im) { if (im.complete) shown(im); else im.parentNode.style.backgroundColor = im.getAttribute('data-ph'); });
+  }
+  ['load', 'error'].forEach(function (k) {
+    document.addEventListener(k, function (e) { if (e.target.classList && e.target.classList.contains('ph')) shown(e.target); }, true);
+  });
+
+  /* The bar at the top over the days (finding 8): while the days go by, the summary of the settings gives way to the day
+     across the middle of the screen under the bar (and under the small map on a phone): its place's dot and "Dzień 6 · Hội
+     An"; over a stay's heading and photos its first day, over a journey "Dzień 3 · Hồ Chí Minh City → Đà Lạt"; over and
+     under the days the summary again. On every scroll, as the small map (syncMini), so the probes can see it. */
+  function syncDay() {
+    var bar = $('#secnav'), mini = $('#minimap'), day = $('#sum-day'), at = null;
+    var line = (bar.getBoundingClientRect().bottom + (mini.classList.contains('on') ? mini.offsetHeight : 0) + window.innerHeight) / 2;
+    document.querySelectorAll('#stops .leg, #stops .stop, #stops .day').forEach(function (el) { if (el.getBoundingClientRect().top <= line) at = el; });
+    var on = !!at && $('#stops').getBoundingClientRect().bottom > line;
+    bar.classList.toggle('in-days', on);
+    if (!on) return;
+    var text, c = '';
+    if (at.classList.contains('leg')) {
+      text = at.querySelector('.leg-day').textContent + ' · ' + at.querySelector('.leg-route').textContent;
+      c = at.nextElementSibling ? at.nextElementSibling.style.getPropertyValue('--c') : '';
+    } else {
+      var stop = at.closest('.stop'), first = at.classList.contains('day') ? at : stop.querySelector('.day');
+      text = T('day') + ' ' + first.id.slice(4) + ' · ' + stop.getAttribute('data-short');
+      c = stop.style.getPropertyValue('--c');
+    }
+    text = text.replace(/\s+/g, ' ');
+    if (day.getAttribute('data-text') === text) return;
+    day.setAttribute('data-text', text);
+    day.innerHTML = (c ? '<span class="dot" style="--c:' + c + '"></span>' : '') + esc(text);
+    if (touched && moving()) day.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 220, easing: 'ease-out' });   // one day to the next
+  }
+  window.addEventListener('scroll', syncDay, { passive: true });
+  window.addEventListener('resize', syncDay);
+
+  /* ---------- the motion of a new trip (finishing touches, findings 1–3) ---------- */
+  /* Only the visitor's own doing moves the page: a change of the trip by hand (byHand: the form's change event or the click
+     of Dodaj, Usuń or the reset was isTrusted), and what first comes on the screen after the visitor has touched, scrolled
+     with the wheel or pressed a key (touched). A script, as the probes, swaps the trip at once and scrolls without motion,
+     so what a probe reads is the final state. Never with reduced motion. */
+  var byHand = false, touched = false, SVG_NS = 'http://www.w3.org/2000/svg', STILL = window.matchMedia('(prefers-reduced-motion: reduce)');
+  ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (k) {
+    window.addEventListener(k, function (e) { if (e.isTrusted) touched = true; }, { capture: true, passive: true });
+  });
+  function moving() { return !STILL.matches && !!Element.prototype.animate; }
+  function onScreen(el) { var b = el.getBoundingClientRect(); return b.bottom > 0 && b.top < window.innerHeight; }
+
+  /* The route draws itself (finding 1): on the page's first trip once the visitor has scrolled the map about half onto the
+     screen, and on a trip the visitor changed (draw) as soon as about half the map is on it (at once, or when it comes);
+     till then, once its first edge shows, the route waits unseen (m-wait), so it never vanishes in sight. The same trip
+     drawn again (the costs, EN · PL) stands still. Each leg of the trip (data-leg on its lines, stubs and pins, mapLayout) in its share of about 2 s: a road
+     drawn along its length, a flight's dashes uncovered by a drawn mask, a stub's arrow and a stay's pin as their leg
+     ends. The copies of the map (the small map, the printout) are made before it starts; the zoom and the printout finish it
+     at once (finishDraw). */
+  var DRAW_MS = 2000, drawnTrip = null, drawIO = null, drawEnd = null, drawing = [], drawOk = false;
+  function drawRoute(trip, draw) {
+    var svg = $('#map svg');
+    if (trip === drawnTrip && drawIO) { drawIO.disconnect(); drawIO.observe(svg); return; }   // a new map of the same trip
+    if (trip === drawnTrip) return;
+    drawnTrip = trip;
+    finishDraw();
+    if (!draw || !moving() || !('IntersectionObserver' in window)) return;
+    drawOk = byHand;
+    drawIO = new IntersectionObserver(function (es) {
+      var e = es[es.length - 1];
+      // a route seen whole before the visitor's first touch (a link straight to it) stays whole, so it never vanishes in sight
+      if (!touched && !drawOk) { if (e.intersectionRatio > 0) { drawIO.disconnect(); drawIO = null; } return; }
+      if (e.intersectionRatio < drawNeed()) { $('#map').classList.add('m-wait'); return; }
+      drawIO.disconnect(); drawIO = null;
+      startDraw(e.target);
+    }, { threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45] });
+    drawIO.observe(svg);
+  }
+  // the share of the map on the screen that starts the drawing: about half, or less where the map is taller than the
+  // window (a phone turned sideways shows at most 40% of it), so the route never waits unseen for good
+  function drawNeed() { var h = $('#map svg').getBoundingClientRect().height; return Math.min(0.45, 0.8 * window.innerHeight / (h || 1)); }
+  function startDraw(svg) {
+    $('#map').classList.remove('m-wait');
+    if (!svg.isConnected) return;
+    var slot = DRAW_MS / (state.route.stops.length + 1), defs = svg.querySelector('defs'), n = 0;
+    svg.querySelectorAll('[data-leg]').forEach(function (el) {
+      var k = +el.getAttribute('data-leg');
+      if (el.classList.contains('pin')) {
+        drawing.push(el.animate([{ opacity: 0, transform: 'scale(0.3)' }, { opacity: 1, transform: 'none' }], { delay: (k + 0.85) * slot, duration: 280, easing: 'cubic-bezier(.2,.8,.2,1.2)', fill: 'backwards' }));
+        return;
+      }
+      if (el.classList.contains('m-arrow')) { drawing.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { delay: (k + 0.9) * slot, duration: 120, fill: 'backwards' })); return; }
+      var len = el.getTotalLength(), line = el;
+      if (el.classList.contains('m-fly')) {
+        var m = document.createElementNS(SVG_NS, 'mask'), id = 'draw-' + (n++);
+        m.id = id;
+        [['maskUnits', 'userSpaceOnUse'], ['x', -2000], ['y', -2000], ['width', 6000], ['height', 6000]].forEach(function (x) { m.setAttribute(x[0], x[1]); });
+        line = el.cloneNode(false);
+        ['class', 'data-leg'].forEach(function (x) { line.removeAttribute(x); });
+        [['fill', 'none'], ['stroke', '#fff'], ['stroke-width', 8]].forEach(function (x) { line.setAttribute(x[0], x[1]); });
+        m.appendChild(line); defs.appendChild(m);
+        el.setAttribute('mask', 'url(#' + id + ')');
+      }
+      drawing.push(line.animate([{ strokeDasharray: len + ' ' + len, strokeDashoffset: len }, { strokeDasharray: len + ' ' + len, strokeDashoffset: 0 }],
+        { delay: k * slot, duration: slot, easing: 'ease-in-out', fill: 'backwards' }));
+    });
+    drawEnd = setTimeout(finishDraw, DRAW_MS + 400);
+  }
+  function finishDraw() {
+    clearTimeout(drawEnd);
+    if (drawIO) { drawIO.disconnect(); drawIO = null; }
+    $('#map').classList.remove('m-wait');
+    drawing.forEach(function (x) { x.finish(); });
+    drawing = [];
+    var svg = $('#map svg');
+    if (!svg) return;
+    svg.querySelectorAll('mask[id^="draw-"]').forEach(function (x) { x.remove(); });
+    svg.querySelectorAll('[mask^="url(#draw-"]').forEach(function (x) { x.removeAttribute('mask'); });
+  }
+  window.addEventListener('beforeprint', finishDraw);
+
+  /* A new trip comes in softly (finding 2): the squares of the strip in a wave, day by day, the list of the places off the
+     trip, the days and „Przed wyjazdem” fading up. Not the View Transitions API: it swaps the page in a later frame, and the
+     page (syncForm, reportAdd) and the probes read the new trip right after apply. */
+  function wave() {
+    $('#strip').querySelectorAll('.cell').forEach(function (c, i) {
+      c.animate([{ opacity: 0, transform: 'scale(0.6)' }, { opacity: 1, transform: 'none' }], { duration: 320, delay: i * 18, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' });
+    });
+  }
+  function rebuilt() {
+    if (!moving()) return;
+    wave();
+    ['#strip-legend', '#offroute-list', '#stops', '#before .before'].forEach(function (s) {
+      $(s).animate([{ opacity: 0.25, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 360, easing: 'ease-out' });
+    });
+  }
+
+  /* The figures of the trip count up (finding 3): from 0 the first time they come on the screen after the visitor's touch
+     (not when the page opens with them in sight), from the last trip's after the visitor's change; whole numbers only (not
+     8½ nor the budget), about 0.8 s, the final text at the end also where the browser holds back its frames. */
+  function figures() { return Array.prototype.map.call(document.querySelectorAll('#facts li > b'), function (b) { return b.firstChild ? +b.firstChild.nodeValue : NaN; }); }
+  function countUp(from) {
+    if (!moving()) return;
+    document.querySelectorAll('#facts li > b').forEach(function (b, i) {
+      var node = b.firstChild, to = node && node.nodeType === 3 ? +node.nodeValue : NaN, a = from ? from[i] : 0;
+      if (!(to >= 0) || Math.round(to) !== to || !(a >= 0) || a === to) return;
+      var t0 = performance.now(), end = setTimeout(function () { k = 1; node.nodeValue = String(to); }, 850), k = 0;
+      (function step() {
+        if (k >= 1) return;
+        k = Math.min(1, (performance.now() - t0) / 800);
+        node.nodeValue = String(Math.round(a + (to - a) * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(step); else clearTimeout(end);
+      })();
+    });
+  }
+  // the first time on the screen after the visitor's touch: the figures and the strip
+  [['#facts', function () { countUp(null); }], ['#strip', function () { if (moving()) wave(); }]].forEach(function (x) {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es, o) {
+      if (!es[0].isIntersecting) return;
+      o.disconnect();
+      if (touched) x[1]();
+    }, { threshold: 0.4 }).observe($(x[0]));
+  });
+
   /* ---------- the footer and the texts in the template ---------- */
   function renderCredits() {
     var used = {};
@@ -6025,6 +6276,7 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
   bindCopy();
   // „Zapisz trasę jako PDF”: the print dialog straight from the tap (Safari refuses a print it did not see asked for)
   $('#pdf-plan').addEventListener('click', function () { window.print(); });
+  $('#end-pdf').addEventListener('click', function () { window.print(); });
   bindAnchors();
   bindMapZoom();
   bindMini();
@@ -6041,7 +6293,8 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "srcs
     new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
   }
   /* for the probes in tests/probes/ */
-  window.__trip = { state: state, apply: apply, today: TODAY };
+  window.__trip = { state: state, apply: apply, today: TODAY, draw: function () { startDraw($('#map svg')); }, finishDraw: finishDraw,
+    drawNeed: drawNeed, byHand: function (on) { byHand = on; } };
 })();
 
 </script>

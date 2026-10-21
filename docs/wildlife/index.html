@@ -109,23 +109,37 @@ a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.1; text-wrap: balance; }
 p, ul { margin: 0; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--surface); }
 ul { padding: 0; list-style: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
 .btn-small { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 6px; background: var(--accent); color: var(--surface); font: 500 14px var(--body); text-decoration: none; }
 .btn-small:hover { filter: brightness(1.08); }
 
-/* heading and tabs */
+/* heading and tabs: the photo at the top (finishing touches, finding 4), the way back, EN · PL and the title on it, as on the
+   page with the route; a little lower than there, so on a laptop (1366 × 860) the tabs under it stand on the first screen */
 .w-head { background: var(--surface); border-bottom: 1px solid var(--line); }
-.w-head .wrap { position: relative; padding-block: 18px 0; }
+.w-hero { position: relative; overflow: hidden; background: var(--photo-bg); }
+.w-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transform-origin: 50% 28%; }
+.w-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.5) 0%, rgba(var(--scrim), 0.1) 26%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
+.w-hero-in { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: clamp(380px, 54vh, 580px);
+  padding-block: 6px 34px; color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.4); }
+.w-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 10px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+/* on a wide screen the square photo stands in the right two thirds, fading into the dark on its left, so the douc keeps its
+   face and shoulders and the title stands beside it, not on it (a crop the width of the screen showed its eyes alone, and
+   at 1024 × 768 the title on its mouth: from 901 px, the page's own step, final review of the finishing touches) */
+@media (min-width: 901px) {
+  .w-hero > img { left: auto; width: 66%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 36%); mask-image: linear-gradient(90deg, transparent, #000 36%); }
+}
 .w-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
-.w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
-.lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--muted); }
-.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
-.lang-switch button[aria-pressed="true"] { color: var(--ink); text-decoration: underline 2px; text-underline-offset: 5px; }
-.w-eyebrow { margin-top: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.w-head h1 { font-size: clamp(34px, 6vw, 56px); margin-top: 4px; }
-.w-lead { max-width: 62ch; margin-top: 10px; color: var(--muted); }
-.w-tabs { display: flex; gap: 4px; margin-top: 18px; overflow-x: auto; }
+.w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--on-photo); }
+.lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--on-photo); }
+.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
+.lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline 2px; text-underline-offset: 5px; }
+.w-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+.w-head h1 { font-size: clamp(40px, 6.6vw, 76px); font-weight: 400; letter-spacing: -0.02em; margin-top: 6px; }
+.w-lead { max-width: 58ch; margin-top: 10px; font-size: clamp(16px, 1.4vw, 18px); opacity: 0.94; }
+.w-tabs { display: flex; gap: 4px; margin-top: 6px; overflow-x: auto; }
 .w-tabs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-bottom: 3px solid transparent; color: var(--muted); font-weight: 500; text-decoration: none; white-space: nowrap; }
 .w-tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
 @media (max-width: 374px) { .w-tabs { gap: 0; } .w-tabs a { padding: 0 7px; } }
@@ -175,6 +189,12 @@ main { padding-block: 28px 48px; }
 .w-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 220px), 1fr)); gap: 14px; margin-top: 14px; }
 .w-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .w-tile-photo img, .w-tile .w-nophoto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* a tile's photo comes a little closer under the mouse (finishing touches, finding 7) */
+.w-tile-photo { overflow: hidden; }
+@media (hover: hover) {
+  .w-tile-photo img { transition: transform .4s ease-out, opacity .4s ease-out; }
+  .w-tile:hover .w-tile-photo img { transform: scale(1.04); }
+}
 .w-tile-name { display: flex; flex-direction: column; width: 100%; padding: 10px 12px 12px; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
 .w-tile-name i { font-size: 13px; color: var(--muted); }
 .w-legend-tile { border-style: dashed; }
@@ -284,10 +304,28 @@ main { padding-block: 28px 48px; }
 .w-pre { opacity: 0; transform: translateY(28px); }
 .w-lit { border-color: var(--ink) !important; box-shadow: 0 0 0 1px var(--ink); }
 
+/* the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md): the motion starts with the class live on <html>,
+   which wildapp.js sets on the first call of an IntersectionObserver; without it (no JavaScript, an old browser) all stands
+   still. The
+   photo at the top zooms slowly, once (finding 5); a photo loaded late waits unseen in its frame, which shows the photo's
+   mean colour, and comes in once loaded (class in, finding 6) */
+.live .w-hero > img { animation: kb 24s ease-out forwards; }
+@keyframes kb { from { transform: none; } to { transform: scale(1.08); } }
+img.ph { transition: opacity .4s ease-out; }
+@media screen { .live img.ph:not(.in) { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .live .w-hero > img { animation: none; } }
+
 /* the photo viewer */
 .w-viewer { width: min(940px, 100vw - 24px); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 10px; background: var(--surface); color: var(--ink); }
 .w-viewer::backdrop { background: rgba(var(--scrim), 0.82); }
 .w-viewer img { width: 100%; max-height: 70vh; object-fit: contain; background: var(--photo-bg); }
+/* the album (finishing touches, finding 7): ‹ › over the photo, the counter in its corner */
+.wv-stage { position: relative; }
+.wv-nav { position: absolute; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 0; border-radius: 22px; background: var(--ctl-bg); color: var(--ctl-ink); cursor: pointer; }
+.wv-nav:disabled { opacity: 0.35; cursor: default; }
+.wv-prev { left: 10px; }
+.wv-next { right: 10px; }
+.wv-count { position: absolute; top: 12px; left: 12px; padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); color: var(--on-photo); font: 500 12px var(--mono); }
 .wv-text { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
 .wv-text h2 { font-size: 26px; padding-right: 50px; }
 .wv-sci, .wv-cap { font-size: 14px; color: var(--muted); }
@@ -300,7 +338,9 @@ footer p { margin-top: 8px; }
 .noscript { padding: 16px var(--gutter); }
 @page { size: A4; margin: 12mm; }
 @media print {
-  .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer { display: none !important; }
+  .w-tabs, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
+  .w-hero { background: none; }
+  .w-hero-in { min-height: 0; padding-block: 0 4mm; color: var(--ink); text-shadow: none; }
   .w-pre { opacity: 1 !important; transform: none !important; }
   .w-more > summary::after { display: none; }
   /* on paper two cards a row, as before the big photos */
@@ -325,13 +365,19 @@ footer p { margin-top: 8px; }
 <body>
 <noscript><p class="noscript" lang="en">This page plans your route in the browser and needs JavaScript: turn it on in your browser’s settings.</p><p class="noscript" lang="pl">Ta strona układa trasę w przeglądarce i potrzebuje JavaScriptu: włącz go w ustawieniach przeglądarki.</p></noscript>
 <header class="w-head">
-  <div class="wrap">
-    <div class="w-top"><a id="w-back" href="../"></a>
-      <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+  <div class="w-hero">
+    <img id="w-hero-img" src="../img/wild/duk.jpg" srcset="../img/wild/duk-480.jpg 480w, ../img/wild/duk-960.jpg 960w, ../img/wild/duk-1400.jpg 1400w, ../img/wild/duk.jpg 1920w" sizes="(max-width: 700px) 200vw, 100vw" alt="" width="1920" height="1920" fetchpriority="high">
+    <span class="w-where">Sơn Trà, Đà Nẵng</span>
+    <div class="wrap w-hero-in">
+      <div class="w-top"><a id="w-back" href="../"></a>
+        <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+      </div>
+      <div><p class="w-eyebrow" data-i18n="w.eyebrow"></p>
+        <h1 data-i18n="w.h1"></h1>
+        <p class="w-lead" data-i18n="w.lead"></p></div>
     </div>
-    <p class="w-eyebrow" data-i18n="w.eyebrow"></p>
-    <h1 data-i18n="w.h1"></h1>
-    <p class="w-lead" data-i18n="w.lead"></p>
+  </div>
+  <div class="wrap">
     <nav class="w-tabs" data-i18n-aria="w.tabs.aria"><a id="tab-route" href="#route" data-i18n="w.tab.route"></a><a id="tab-gallery" href="#gallery" data-i18n="w.tab.gallery"></a><a id="tab-guide" href="#guide" data-i18n="w.tab.guide"></a></nav>
   </div>
 </header>
@@ -351,7 +397,10 @@ footer p { margin-top: 8px; }
   </div>
 </footer>
 <dialog class="w-viewer" id="w-viewer">
-  <div id="wv-photo"></div>
+  <div class="wv-stage"><div id="wv-photo"></div>
+    <button type="button" class="wv-nav wv-prev" id="wv-prev" data-i18n-aria="g.prev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="wv-nav wv-next" id="wv-next" data-i18n-aria="g.next"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    <span class="wv-count" id="wv-count"></span></div>
   <div class="wv-text"><h2 id="wv-name"></h2><p class="wv-sci" id="wv-sci"></p><p id="wv-why"></p><p class="wv-cap" id="wv-cap"></p></div>
   <button type="button" class="wv-close" id="wv-close" data-i18n-aria="w.close">×</button>
 </dialog>
@@ -2107,6 +2156,7 @@ UI.pl = {
   'missing': 'Nie zmieściło się: {x}. Reszta trasy jest bez zmian.',
   'copy.btn': 'Kopiuj plan na WhatsApp', 'copy.aria': 'Plan jako tekst', 'copy.ok': 'Skopiowano. Wklej plan do czatu.', 'copy.fail': 'Skopiuj zaznaczony tekst poniżej.',
   'pdf.btn': 'Zapisz trasę jako PDF',
+  'end.h2': 'To twój Wietnam.', 'end.p': 'Wyślij trasę tym, którzy jadą z tobą, albo zapisz ją jako PDF.', 'end.change': 'Zmień trasę',
   'pdf.hint': 'Otworzy się okno drukowania. Na iPhonie stuknij Udostępnij u góry, potem „Zachowaj w Plikach”; na Androidzie wybierz u góry „Zapisz jako PDF”, a na komputerze drukarkę „Zapisz jako PDF”. PDF otworzysz potem bez internetu.',
 
   'days.eyebrow': 'Dzień po dniu', 'days.h2': 'Trasa', 'map.aria': 'Mapa trasy',
@@ -2378,6 +2428,7 @@ UI.en = {
   'missing': 'Did not fit: {x}. The rest of the route is unchanged.',
   'copy.btn': 'Copy plan for WhatsApp', 'copy.aria': 'The plan as text', 'copy.ok': 'Copied. Paste the plan into a chat.', 'copy.fail': 'Copy the selected text below.',
   'pdf.btn': 'Save route as PDF',
+  'end.h2': 'That’s your Vietnam.', 'end.p': 'Send it to whoever is coming with you, or keep it as a PDF.', 'end.change': 'Change the route',
   'pdf.hint': 'A print window opens. On an iPhone tap Share at the top, then “Save to Files”; on Android choose “Save as PDF” at the top, and on a computer the “Save as PDF” printer. You can then open the PDF without internet.',
 
   'days.eyebrow': 'Day by day', 'days.h2': 'Route', 'map.aria': 'Route map',
@@ -3634,7 +3685,9 @@ function placeLabels(items, obstacles, bounds) {
    The whole degrees of latitude come last: each line is drawn, and its label at the right edge (gridBox) only where it
    covers no label and no marker.
    Returns { height, panels: [{ key, y, p (panelSize), grid, names, segs, stubs, pins, airports, pois, faint, labels }] };
-   a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
+   a seg and a stub are { mode, x1, y1, x2, y2, leg }: leg the trip's leg it belongs to, 0 the way from the arrival airport
+   to the first stay, the last the way home (a stub of several legs: the first), so the route draws itself in the trip's
+   order (finishing touches, finding 1); a pin is { key, x, y, w, nums, px, py }: px, py its point, x, y where it is drawn;
    grid is [{ lat, y, label }] (label: its text is drawn), a name { text, kind, x, y, anchor }, a label { kind:
    'stop'|'stub'|'poi'|'faint', key, lines, x, y, anchor, box, clear }. */
 // the box of a degree's label: "21°N" in 10 px monospace, ending 6 px from the panel's right edge, 4 px over its line (app.js)
@@ -3703,13 +3756,13 @@ function mapLayout(route, st, m) {
     });
     // the legs inside the panel; the legs from one point here to another panel make one stub
     var stubAt = {}, stubs = [];
-    legs.forEach(function (L) {
+    legs.forEach(function (L, li) {
       L.segs.forEach(function (g) {
         var a = proj(where(g.from)), b = proj(where(g.to)), ia = inside(a), ib = inside(b);
-        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1] }); return; }
+        if (ia && ib) { P.segs.push({ mode: g.mode, x1: a[0], y1: a[1], x2: b[0], y2: b[1], leg: li }); return; }
         if (!ia && !ib) return;
         var here = ia ? g.from : g.to, from = ia ? a : b, to = ia ? b : a, dx = to[0] - from[0], dy = to[1] - from[1], len = Math.sqrt(dx * dx + dy * dy) || 1;
-        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [] });
+        var s = stubAt[here] || (stubAt[here] = { mode: g.mode, x1: from[0], y1: from[1], vx: 0, vy: 0, names: [], leg: li });
         if (!s.names.length) stubs.push(s);
         s.vx += dx / len; s.vy += dy / len;
         // the other end by name, a flight with ✈ and a road with an arrow (stage 3: Phong Nha has roads to the north panel)
@@ -3764,7 +3817,7 @@ function mapLayout(route, st, m) {
       var it = best.list[i];
       if (it.stub) {
         var v = STUB_TIPS[l.alt], tip = tipOf(it.stub, STUB * v[0], v[1]);
-        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1] });
+        P.stubs.push({ mode: it.stub.mode, x1: it.stub.x1, y1: it.stub.y1, x2: tip[0], y2: tip[1], leg: it.stub.leg });
       }
       P.labels.push(Object.assign({}, it.what, l, l.oneLine ? { lines: it.what.lines.slice(0, 1) } : {}));
       taken.push(l.box);
@@ -4416,6 +4469,9 @@ var WILD_PHOTOS = {
 /* The frame of a photo on a card of On your route (19.10.2026), where the usual one, 3:2 around the middle, would cut the
    animal: [aspect-ratio, object-position]. The whole animal stays in the frame (the map of the subpage, decision 10: other
    proportions rather than a cut animal); every other card photo takes the usual frame. */
+// the photo at the top of the subpage (finishing touches, finding 4): the red-shanked douc of Sơn Trà, as in the link preview
+var WILD_HERO = 'duk';
+
 var WILD_CROPS = {
   duk: ['3 / 2', '50% 5%'],
   gibbon: ['4 / 3', '50% 30%'],
@@ -4545,7 +4601,7 @@ WUI.en = {
   'w.credits.note': 'Photos from Wikimedia Commons, under CC0, CC BY or CC BY-SA or in the public domain; each caption says where it was taken.'
 };
 
-var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/duk-480.jpg 480w, ../img/wild/duk-960.jpg 960w, ../img/wild/duk.jpg 1400w"}, "dukc": {"src": "../img/wild/dukc.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dukc-480.jpg 480w, ../img/wild/dukc-960.jpg 960w, ../img/wild/dukc.jpg 1400w"}, "lutungb": {"src": "../img/wild/lutungb.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/lutungb-480.jpg 480w, ../img/wild/lutungb-960.jpg 960w, ../img/wild/lutungb.jpg 1400w"}, "lutungj": {"src": "../img/wild/lutungj.jpg", "w": 1400, "h": 1985, "srcset": "../img/wild/lutungj-480.jpg 480w, ../img/wild/lutungj-960.jpg 960w, ../img/wild/lutungj.jpg 1400w"}, "gibbon": {"src": "../img/wild/gibbon.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/gibbon-480.jpg 480w, ../img/wild/gibbon-960.jpg 960w, ../img/wild/gibbon.jpg 1400w"}, "rokselana": {"src": "../img/wild/rokselana.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rokselana-480.jpg 480w, ../img/wild/rokselana-960.jpg 960w, ../img/wild/rokselana.jpg 1400w"}, "kukang": {"src": "../img/wild/kukang.jpg", "w": 1300, "h": 1733, "srcset": "../img/wild/kukang-480.jpg 480w, ../img/wild/kukang-960.jpg 960w, ../img/wild/kukang.jpg 1300w"}, "slon": {"src": "../img/wild/slon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/slon-480.jpg 480w, ../img/wild/slon-960.jpg 960w, ../img/wild/slon.jpg 1400w"}, "niedzwm": {"src": "../img/wild/niedzwm.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwm-480.jpg 480w, ../img/wild/niedzwm-960.jpg 960w, ../img/wild/niedzwm.jpg 1400w"}, "niedzwiedz": {"src": "../img/wild/niedzwiedz.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/niedzwiedz-480.jpg 480w, ../img/wild/niedzwiedz-960.jpg 960w, ../img/wild/niedzwiedz.jpg 1400w"}, "gaur": {"src": "../img/wild/gaur.jpg", "w": 1400, "h": 1400, "srcset": "../img/wild/gaur-480.jpg 480w, ../img/wild/gaur-960.jpg 960w, ../img/wild/gaur.jpg 1400w"}, "luskowiec": {"src": "../img/wild/luskowiec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/luskowiec-480.jpg 480w, ../img/wild/luskowiec-960.jpg 960w, ../img/wild/luskowiec.jpg 1400w"}, "jelenie": {"src": "../img/wild/jelenie.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/jelenie-480.jpg 480w, ../img/wild/jelenie-960.jpg 960w, ../img/wild/jelenie.jpg 1400w"}, "paw": {"src": "../img/wild/paw.jpg", "w": 1400, "h": 1000, "srcset": "../img/wild/paw-480.jpg 480w, ../img/wild/paw-960.jpg 960w, ../img/wild/paw.jpg 1400w"}, "wieloszpon": {"src": "../img/wild/wieloszpon.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/wieloszpon-480.jpg 480w, ../img/wild/wieloszpon-960.jpg 960w, ../img/wild/wieloszpon.jpg 1400w"}, "kisciec": {"src": "../img/wild/kisciec.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/kisciec-480.jpg 480w, ../img/wild/kisciec-960.jpg 960w, ../img/wild/kisciec.jpg 1400w"}, "kurtaczek": {"src": "../img/wild/kurtaczek.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kurtaczek-480.jpg 480w, ../img/wild/kurtaczek-960.jpg 960w, ../img/wild/kurtaczek.jpg 1400w"}, "dzioborozec": {"src": "../img/wild/dzioborozec.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/dzioborozec-480.jpg 480w, ../img/wild/dzioborozec-960.jpg 960w, ../img/wild/dzioborozec.jpg 1400w"}, "sedziol": {"src": "../img/wild/sedziol.jpg", "w": 1077, "h": 1616, "srcset": "../img/wild/sedziol-480.jpg 480w, ../img/wild/sedziol-960.jpg 960w, ../img/wild/sedziol.jpg 1077w"}, "kroko": {"src": "../img/wild/kroko.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kroko-480.jpg 480w, ../img/wild/kroko-960.jpg 960w, ../img/wild/kroko.jpg 1400w"}, "zaba": {"src": "../img/wild/zaba.jpg", "w": 1400, "h": 1051, "srcset": "../img/wild/zaba-480.jpg 480w, ../img/wild/zaba-960.jpg 960w, ../img/wild/zaba.jpg 1400w"}, "swietliki": {"src": "../img/wild/swietliki.jpg", "w": 1400, "h": 1867, "srcset": "../img/wild/swietliki-480.jpg 480w, ../img/wild/swietliki-960.jpg 960w, ../img/wild/swietliki.jpg 1400w"}, "motyle": {"src": "../img/wild/motyle.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/motyle-480.jpg 480w, ../img/wild/motyle-960.jpg 960w, ../img/wild/motyle.jpg 1400w"}, "troides": {"src": "../img/wild/troides.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/troides-480.jpg 480w, ../img/wild/troides-960.jpg 960w, ../img/wild/troides.jpg 1400w"}, "czaple": {"src": "../img/wild/czaple.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/czaple-480.jpg 480w, ../img/wild/czaple-960.jpg 960w, ../img/wild/czaple.jpg 1400w"}, "kisciecann": {"src": "../img/wild/kisciecann.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/kisciecann-480.jpg 480w, ../img/wild/kisciecann-960.jpg 960w, ../img/wild/kisciecann.jpg 1400w"}, "skamielinowiec": {"src": "../img/wild/skamielinowiec.jpg", "w": 673, "h": 677, "srcset": "../img/wild/skamielinowiec-480.jpg 480w, ../img/wild/skamielinowiec.jpg 673w"}, "rudawka": {"src": "../img/wild/rudawka.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rudawka-480.jpg 480w, ../img/wild/rudawka-960.jpg 960w, ../img/wild/rudawka.jpg 1400w"}, "sokolyd": {"src": "../img/wild/sokolyd.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/sokolyd-480.jpg 480w, ../img/wild/sokolyd-960.jpg 960w, ../img/wild/sokolyd.jpg 1400w"}, "banteng": {"src": "../img/wild/banteng.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/banteng-480.jpg 480w, ../img/wild/banteng-960.jpg 960w, ../img/wild/banteng.jpg 1400w"}, "makakn": {"src": "../img/wild/makakn.jpg", "w": 1400, "h": 1005, "srcset": "../img/wild/makakn-480.jpg 480w, ../img/wild/makakn-960.jpg 960w, ../img/wild/makakn.jpg 1400w"}, "wielkolot": {"src": "../img/wild/wielkolot.jpg", "w": 1400, "h": 2100, "srcset": "../img/wild/wielkolot-480.jpg 480w, ../img/wild/wielkolot-960.jpg 960w, ../img/wild/wielkolot.jpg 1400w"}, "puong": {"src": "../img/wild/puong.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/puong-480.jpg 480w, ../img/wild/puong-960.jpg 960w, ../img/wild/puong.jpg 1400w"}, "kobra": {"src": "../img/wild/kobra.jpg", "w": 1400, "h": 934, "srcset": "../img/wild/kobra-480.jpg 480w, ../img/wild/kobra-960.jpg 960w, ../img/wild/kobra.jpg 1400w"}, "zolwtcc": {"src": "../img/wild/zolwtcc.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/zolwtcc-480.jpg 480w, ../img/wild/zolwtcc-960.jpg 960w, ../img/wild/zolwtcc.jpg 1400w"}, "makakcg": {"src": "../img/wild/makakcg.jpg", "w": 1400, "h": 937, "srcset": "../img/wild/makakcg-480.jpg 480w, ../img/wild/makakcg-960.jpg 960w, ../img/wild/makakcg.jpg 1400w"}, "cattienlas": {"src": "../img/wild/cattienlas.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/cattienlas-480.jpg 480w, ../img/wild/cattienlas-960.jpg 960w, ../img/wild/cattienlas.jpg 1400w"}, "sontralas": {"src": "../img/wild/sontralas.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/sontralas-480.jpg 480w, ../img/wild/sontralas-960.jpg 960w, ../img/wild/sontralas.jpg 1400w"}, "rezusy": {"src": "../img/wild/rezusy.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/rezusy-480.jpg 480w, ../img/wild/rezusy-960.jpg 960w, ../img/wild/rezusy.jpg 1400w"}, "phongnhagory": {"src": "../img/wild/phongnhagory.jpg", "w": 1400, "h": 1050, "srcset": "../img/wild/phongnhagory-480.jpg 480w, ../img/wild/phongnhagory-960.jpg 960w, ../img/wild/phongnhagory.jpg 1400w"}, "makakhl": {"src": "../img/wild/makakhl.jpg", "w": 1400, "h": 933, "srcset": "../img/wild/makakhl-480.jpg 480w, ../img/wild/makakhl-960.jpg 960w, ../img/wild/makakhl.jpg 1400w"}};
+var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1920, "h": 1920, "bg": "#726957", "srcset": "../img/wild/duk-480.jpg 480w, ../img/wild/duk-960.jpg 960w, ../img/wild/duk-1400.jpg 1400w, ../img/wild/duk.jpg 1920w"}, "dukc": {"src": "../img/wild/dukc.jpg", "w": 1400, "h": 933, "bg": "#526b3c", "srcset": "../img/wild/dukc-480.jpg 480w, ../img/wild/dukc-960.jpg 960w, ../img/wild/dukc.jpg 1400w"}, "lutungb": {"src": "../img/wild/lutungb.jpg", "w": 1400, "h": 933, "bg": "#8c8988", "srcset": "../img/wild/lutungb-480.jpg 480w, ../img/wild/lutungb-960.jpg 960w, ../img/wild/lutungb.jpg 1400w"}, "lutungj": {"src": "../img/wild/lutungj.jpg", "w": 1400, "h": 1985, "bg": "#7c7760", "srcset": "../img/wild/lutungj-480.jpg 480w, ../img/wild/lutungj-960.jpg 960w, ../img/wild/lutungj.jpg 1400w"}, "gibbon": {"src": "../img/wild/gibbon.jpg", "w": 1400, "h": 1867, "bg": "#6d7933", "srcset": "../img/wild/gibbon-480.jpg 480w, ../img/wild/gibbon-960.jpg 960w, ../img/wild/gibbon.jpg 1400w"}, "rokselana": {"src": "../img/wild/rokselana.jpg", "w": 1400, "h": 933, "bg": "#61665e", "srcset": "../img/wild/rokselana-480.jpg 480w, ../img/wild/rokselana-960.jpg 960w, ../img/wild/rokselana.jpg 1400w"}, "kukang": {"src": "../img/wild/kukang.jpg", "w": 1300, "h": 1733, "bg": "#5b5048", "srcset": "../img/wild/kukang-480.jpg 480w, ../img/wild/kukang-960.jpg 960w, ../img/wild/kukang.jpg 1300w"}, "slon": {"src": "../img/wild/slon.jpg", "w": 1400, "h": 933, "bg": "#8c7c60", "srcset": "../img/wild/slon-480.jpg 480w, ../img/wild/slon-960.jpg 960w, ../img/wild/slon.jpg 1400w"}, "niedzwm": {"src": "../img/wild/niedzwm.jpg", "w": 1400, "h": 933, "bg": "#628d50", "srcset": "../img/wild/niedzwm-480.jpg 480w, ../img/wild/niedzwm-960.jpg 960w, ../img/wild/niedzwm.jpg 1400w"}, "niedzwiedz": {"src": "../img/wild/niedzwiedz.jpg", "w": 1400, "h": 933, "bg": "#5f5d42", "srcset": "../img/wild/niedzwiedz-480.jpg 480w, ../img/wild/niedzwiedz-960.jpg 960w, ../img/wild/niedzwiedz.jpg 1400w"}, "gaur": {"src": "../img/wild/gaur.jpg", "w": 1400, "h": 1400, "bg": "#626953", "srcset": "../img/wild/gaur-480.jpg 480w, ../img/wild/gaur-960.jpg 960w, ../img/wild/gaur.jpg 1400w"}, "luskowiec": {"src": "../img/wild/luskowiec.jpg", "w": 1400, "h": 933, "bg": "#434f42", "srcset": "../img/wild/luskowiec-480.jpg 480w, ../img/wild/luskowiec-960.jpg 960w, ../img/wild/luskowiec.jpg 1400w"}, "jelenie": {"src": "../img/wild/jelenie.jpg", "w": 1400, "h": 933, "bg": "#948d70", "srcset": "../img/wild/jelenie-480.jpg 480w, ../img/wild/jelenie-960.jpg 960w, ../img/wild/jelenie.jpg 1400w"}, "paw": {"src": "../img/wild/paw.jpg", "w": 1400, "h": 1000, "bg": "#a1824e", "srcset": "../img/wild/paw-480.jpg 480w, ../img/wild/paw-960.jpg 960w, ../img/wild/paw.jpg 1400w"}, "wieloszpon": {"src": "../img/wild/wieloszpon.jpg", "w": 1400, "h": 933, "bg": "#6b645d", "srcset": "../img/wild/wieloszpon-480.jpg 480w, ../img/wild/wieloszpon-960.jpg 960w, ../img/wild/wieloszpon.jpg 1400w"}, "kisciec": {"src": "../img/wild/kisciec.jpg", "w": 1400, "h": 934, "bg": "#80935b", "srcset": "../img/wild/kisciec-480.jpg 480w, ../img/wild/kisciec-960.jpg 960w, ../img/wild/kisciec.jpg 1400w"}, "kurtaczek": {"src": "../img/wild/kurtaczek.jpg", "w": 1400, "h": 933, "bg": "#4f5642", "srcset": "../img/wild/kurtaczek-480.jpg 480w, ../img/wild/kurtaczek-960.jpg 960w, ../img/wild/kurtaczek.jpg 1400w"}, "dzioborozec": {"src": "../img/wild/dzioborozec.jpg", "w": 1400, "h": 933, "bg": "#606a28", "srcset": "../img/wild/dzioborozec-480.jpg 480w, ../img/wild/dzioborozec-960.jpg 960w, ../img/wild/dzioborozec.jpg 1400w"}, "sedziol": {"src": "../img/wild/sedziol.jpg", "w": 1077, "h": 1616, "bg": "#9eab5f", "srcset": "../img/wild/sedziol-480.jpg 480w, ../img/wild/sedziol-960.jpg 960w, ../img/wild/sedziol.jpg 1077w"}, "kroko": {"src": "../img/wild/kroko.jpg", "w": 1400, "h": 933, "bg": "#574634", "srcset": "../img/wild/kroko-480.jpg 480w, ../img/wild/kroko-960.jpg 960w, ../img/wild/kroko.jpg 1400w"}, "zaba": {"src": "../img/wild/zaba.jpg", "w": 1400, "h": 1051, "bg": "#2b4a21", "srcset": "../img/wild/zaba-480.jpg 480w, ../img/wild/zaba-960.jpg 960w, ../img/wild/zaba.jpg 1400w"}, "swietliki": {"src": "../img/wild/swietliki.jpg", "w": 1400, "h": 1867, "bg": "#272c31", "srcset": "../img/wild/swietliki-480.jpg 480w, ../img/wild/swietliki-960.jpg 960w, ../img/wild/swietliki.jpg 1400w"}, "motyle": {"src": "../img/wild/motyle.jpg", "w": 1400, "h": 933, "bg": "#857b63", "srcset": "../img/wild/motyle-480.jpg 480w, ../img/wild/motyle-960.jpg 960w, ../img/wild/motyle.jpg 1400w"}, "troides": {"src": "../img/wild/troides.jpg", "w": 1400, "h": 933, "bg": "#816b53", "srcset": "../img/wild/troides-480.jpg 480w, ../img/wild/troides-960.jpg 960w, ../img/wild/troides.jpg 1400w"}, "czaple": {"src": "../img/wild/czaple.jpg", "w": 1400, "h": 933, "bg": "#788d48", "srcset": "../img/wild/czaple-480.jpg 480w, ../img/wild/czaple-960.jpg 960w, ../img/wild/czaple.jpg 1400w"}, "kisciecann": {"src": "../img/wild/kisciecann.jpg", "w": 1400, "h": 933, "bg": "#78736f", "srcset": "../img/wild/kisciecann-480.jpg 480w, ../img/wild/kisciecann-960.jpg 960w, ../img/wild/kisciecann.jpg 1400w"}, "skamielinowiec": {"src": "../img/wild/skamielinowiec.jpg", "w": 673, "h": 677, "bg": "#96897a", "srcset": "../img/wild/skamielinowiec-480.jpg 480w, ../img/wild/skamielinowiec.jpg 673w"}, "rudawka": {"src": "../img/wild/rudawka.jpg", "w": 1400, "h": 933, "bg": "#5d603c", "srcset": "../img/wild/rudawka-480.jpg 480w, ../img/wild/rudawka-960.jpg 960w, ../img/wild/rudawka.jpg 1400w"}, "sokolyd": {"src": "../img/wild/sokolyd.jpg", "w": 1400, "h": 1050, "bg": "#a6aeb7", "srcset": "../img/wild/sokolyd-480.jpg 480w, ../img/wild/sokolyd-960.jpg 960w, ../img/wild/sokolyd.jpg 1400w"}, "banteng": {"src": "../img/wild/banteng.jpg", "w": 1400, "h": 934, "bg": "#3c4c35", "srcset": "../img/wild/banteng-480.jpg 480w, ../img/wild/banteng-960.jpg 960w, ../img/wild/banteng.jpg 1400w"}, "makakn": {"src": "../img/wild/makakn.jpg", "w": 1400, "h": 1005, "bg": "#8e847c", "srcset": "../img/wild/makakn-480.jpg 480w, ../img/wild/makakn-960.jpg 960w, ../img/wild/makakn.jpg 1400w"}, "wielkolot": {"src": "../img/wild/wielkolot.jpg", "w": 1400, "h": 2100, "bg": "#43362a", "srcset": "../img/wild/wielkolot-480.jpg 480w, ../img/wild/wielkolot-960.jpg 960w, ../img/wild/wielkolot.jpg 1400w"}, "puong": {"src": "../img/wild/puong.jpg", "w": 1400, "h": 933, "bg": "#474839", "srcset": "../img/wild/puong-480.jpg 480w, ../img/wild/puong-960.jpg 960w, ../img/wild/puong.jpg 1400w"}, "kobra": {"src": "../img/wild/kobra.jpg", "w": 1400, "h": 934, "bg": "#989179", "srcset": "../img/wild/kobra-480.jpg 480w, ../img/wild/kobra-960.jpg 960w, ../img/wild/kobra.jpg 1400w"}, "zolwtcc": {"src": "../img/wild/zolwtcc.jpg", "w": 1400, "h": 933, "bg": "#636660", "srcset": "../img/wild/zolwtcc-480.jpg 480w, ../img/wild/zolwtcc-960.jpg 960w, ../img/wild/zolwtcc.jpg 1400w"}, "makakcg": {"src": "../img/wild/makakcg.jpg", "w": 1400, "h": 937, "bg": "#46592f", "srcset": "../img/wild/makakcg-480.jpg 480w, ../img/wild/makakcg-960.jpg 960w, ../img/wild/makakcg.jpg 1400w"}, "cattienlas": {"src": "../img/wild/cattienlas.jpg", "w": 1400, "h": 933, "bg": "#4b5335", "srcset": "../img/wild/cattienlas-480.jpg 480w, ../img/wild/cattienlas-960.jpg 960w, ../img/wild/cattienlas.jpg 1400w"}, "sontralas": {"src": "../img/wild/sontralas.jpg", "w": 1400, "h": 1050, "bg": "#586d6b", "srcset": "../img/wild/sontralas-480.jpg 480w, ../img/wild/sontralas-960.jpg 960w, ../img/wild/sontralas.jpg 1400w"}, "rezusy": {"src": "../img/wild/rezusy.jpg", "w": 1400, "h": 933, "bg": "#748274", "srcset": "../img/wild/rezusy-480.jpg 480w, ../img/wild/rezusy-960.jpg 960w, ../img/wild/rezusy.jpg 1400w"}, "phongnhagory": {"src": "../img/wild/phongnhagory.jpg", "w": 1400, "h": 1050, "bg": "#739075", "srcset": "../img/wild/phongnhagory-480.jpg 480w, ../img/wild/phongnhagory-960.jpg 960w, ../img/wild/phongnhagory.jpg 1400w"}, "makakhl": {"src": "../img/wild/makakhl.jpg", "w": 1400, "h": 933, "bg": "#6b735a", "srcset": "../img/wild/makakhl-480.jpg 480w, ../img/wild/makakhl-960.jpg 960w, ../img/wild/makakhl.jpg 1400w"}};
 /* The wildlife subpage (stage 6, …/wildlife/): three tabs, On your route, Gallery and Field guide, each with its own address
    (wildView in wildpage.js). With the settings of a trip in the address it plans the same trip as the page with the route
    (engine.js) and says for each encounter whether its place is on the trip, in the day's plan and in the term; Dodaj goes
@@ -4609,11 +4665,11 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
 
   /* ---------- pieces ---------- */
   var DOTS = { 3: '●●●', 2: '●●○', 1: '●○○', 0: '○○○' };
-  // a photo; style: its frame on a card (WILD_CROPS), or none
+  // a photo; style: its frame on a card (WILD_CROPS), or none; it comes in once loaded (class ph, paintFrames)
   function img(id, sizes, style) {
     var p = WILD_PICS[id];
-    return '<img src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
-      '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' loading="lazy" decoding="async">';
+    return '<img class="ph" src="' + esc(p.src) + '"' + (p.srcset ? ' srcset="' + esc(p.srcset) + '" sizes="' + sizes + '"' : '') + ' width="' + p.w + '" height="' + p.h +
+      '" alt="' + esc(caption(id)) + '"' + (style ? ' style="' + style + '"' : '') + ' data-ph="' + p.bg + '" loading="lazy" decoding="async">';
   }
   // a card's photo the width of its column (up to 780 px, the whole screen below 1101 px), in its frame; id: a species, or
   // a photo of the field guide's own (20.10.2026), named by its caption
@@ -4738,7 +4794,7 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
   }
   function render() {
-    renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab();
+    renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab(); paintFrames();
   }
   /* The address: the trip (only when it changed, as planning takes a moment), the language, the tab. An address of a place
      of the guide moves to its section. */
@@ -4766,6 +4822,7 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
     OUTSIDE = lang === 'en' ? WILD_OUTSIDE_EN : WILD_OUTSIDE;
     document.documentElement.lang = lang;
     document.title = T('w.doc.title');
+    $('#w-hero-img').alt = caption(WILD_HERO);
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = T(el.getAttribute('data-i18n')); });
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.getAttribute('data-i18n-aria'))); });
     Array.prototype.forEach.call(document.querySelectorAll('#lang-switch [data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
@@ -4917,23 +4974,63 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
   window.addEventListener('afterprint', function () { unfolded.forEach(function (d) { d.open = false; }); unfolded = []; });
 
   /* ---------- the photo viewer (finding 13): the photo, two sentences, the names and the photo's caption ---------- */
-  var opener = null;
+  /* An album (finishing touches, finding 7): the photos of the tab it was opened in, in their order there, each once, the
+     species without a photo left out (unless opened); ‹ ›, the arrow keys and a swipe go through it, a counter says where. */
+  var opener = null, album = [], at = 0;
+  function albumOf(id, from) {
+    var ids = [], tab = from && from.closest('.w-panels > section');
+    (tab ? all('#' + tab.id + ' [data-view]') : []).forEach(function (b) {
+      var x = b.getAttribute('data-view');
+      if (ids.indexOf(x) < 0 && (!SP[x] || !SP[x].nophoto || x === id)) ids.push(x);
+    });
+    return ids.indexOf(id) > -1 ? ids : [id];
+  }
+  function openViewer(id, from) {
+    var d = $('#w-viewer');
+    opener = from; album = albumOf(id, from); at = album.indexOf(id);
+    showPhoto();
+    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  }
+  function step(k) {
+    if (at + k < 0 || at + k >= album.length) return;
+    at += k;
+    showPhoto();
+  }
   // a species: its photo, names and sentence; a photo of the field guide's own (no species, 20.10.2026): its caption as the
   // title, and only the author and the licence under it
-  function openViewer(id, from) {
-    var x = SP[id] || { nophoto: false }, d = $('#w-viewer');
-    opener = from;
+  function showPhoto() {
+    var id = album[at], x = SP[id] || { nophoto: false };
+    $('#wv-count').textContent = (at + 1) + ' / ' + album.length;
+    $('#wv-prev').disabled = at === 0; $('#wv-next').disabled = at === album.length - 1;
+    $('#wv-count').hidden = $('#wv-prev').hidden = $('#wv-next').hidden = album.length < 2;
+    // an arrow switched off at an end of the album hands the focus to the other one, so the arrow keys keep working
+    var off = document.activeElement;
+    if (off && off.disabled && /^wv-(prev|next)$/.test(off.id)) $(off.id === 'wv-next' ? '#wv-prev' : '#wv-next').focus();
     $('#wv-photo').innerHTML = x.nophoto ? '<div class="w-nophoto"><span>' + esc(T('w.nophoto')) + '</span></div>' : img(id, '(max-width: 900px) 100vw, 900px');
     $('#wv-name').textContent = SP[id] ? x.name + (x.alt ? ' (' + x.alt + ')' : '') : caption(id);
     $('#wv-sci').innerHTML = SP[id] ? esc(x.vn) + ' · <i>' + esc(x.lat) + '</i>' + (x.iucn ? ' · ' + esc(T('w.iucn', { cat: T('w.iucn.' + x.iucn) })) : '') : '';
     $('#wv-why').textContent = SP[id] ? tied(x.why) : '';
     $('#wv-cap').innerHTML = x.nophoto ? '' : (SP[id] ? esc(caption(id)) + ' · ' : '') + esc(WILD_PHOTOS[id].artist) + ' · <a href="' + esc(WILD_PHOTOS[id].page) + '" target="_blank" rel="noopener">' + esc(WILD_PHOTOS[id].license === 'Public domain' ? UI[lang]['ft.pd'] : WILD_PHOTOS[id].license) + '</a>';
-    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+    paintFrames();
   }
   function closeViewer() {
     var d = $('#w-viewer');
     if (d.close) d.close(); else d.removeAttribute('open');
   }
+
+  /* ---------- the finishing touches (notes/plans/2026-10-20-wykonczenia-projekt.md) ---------- */
+  /* The page moves only where the browser runs IntersectionObserver: its first call marks <html> live (wild.html: the slow
+     zoom of the photo at the top, the photos coming in). */
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { document.documentElement.classList.add('live'); o.disconnect(); }).observe($('.w-head'));
+  /* A photo loaded late comes in softly (finding 6): till it has loaded, its frame shows the photo's mean colour (data-ph,
+     from build.py) and the photo waits unseen; once loaded (or failed), class in, and the frame drops the colour. */
+  function shown(im) { im.classList.add('in'); im.parentNode.style.backgroundColor = ''; }
+  function paintFrames() {
+    all('img.ph:not(.in)').forEach(function (im) { if (im.complete) shown(im); else im.parentNode.style.backgroundColor = im.getAttribute('data-ph'); });
+  }
+  ['load', 'error'].forEach(function (k) {
+    document.addEventListener(k, function (e) { if (e.target.classList && e.target.classList.contains('ph')) shown(e.target); }, true);
+  });
 
   /* ---------- wiring ---------- */
   document.addEventListener('click', function (e) {
@@ -4949,8 +5046,21 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1400, "h": 1400, "sr
       return;
     }
     if (e.target.id === 'wv-close' || e.target.id === 'w-viewer') closeViewer();
+    var nav = e.target.closest ? e.target.closest('.wv-nav') : null;
+    if (nav) step(nav.id === 'wv-next' ? 1 : -1);
   });
   $('#w-viewer').addEventListener('close', function () { if (opener) opener.focus(); opener = null; });
+  $('#w-viewer').addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1); }
+  });
+  var x0 = null;
+  $('#w-viewer').addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+  $('#w-viewer').addEventListener('touchend', function (e) {
+    if (x0 == null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) >= 50) step(dx < 0 ? 1 : -1);
+  });
   $('#lang-switch').addEventListener('click', function (e) {
     var b = e.target.closest('[data-lang]');
     if (!b || b.getAttribute('data-lang') === lang) return;
