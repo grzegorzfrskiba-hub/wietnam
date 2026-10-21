@@ -1326,12 +1326,15 @@
     drawIO = new IntersectionObserver(function (es) {
       var e = es[es.length - 1];
       if (!touched && !drawOk) return;
-      if (e.intersectionRatio < 0.45) { $('#map').classList.add('m-wait'); return; }
+      if (e.intersectionRatio < drawNeed()) { $('#map').classList.add('m-wait'); return; }
       drawIO.disconnect(); drawIO = null;
       startDraw(e.target);
-    }, { threshold: [0, 0.45] });
+    }, { threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45] });
     drawIO.observe(svg);
   }
+  // the share of the map on the screen that starts the drawing: about half, or less where the map is taller than the
+  // window (a phone turned sideways shows at most 40% of it), so the route never waits unseen for good
+  function drawNeed() { var h = $('#map svg').getBoundingClientRect().height; return Math.min(0.45, 0.8 * window.innerHeight / (h || 1)); }
   function startDraw(svg) {
     $('#map').classList.remove('m-wait');
     if (!svg.isConnected) return;
@@ -1486,5 +1489,5 @@
   }
   /* for the probes in tests/probes/ */
   window.__trip = { state: state, apply: apply, today: TODAY, draw: function () { startDraw($('#map svg')); }, finishDraw: finishDraw,
-    byHand: function (on) { byHand = on; } };
+    drawNeed: drawNeed, byHand: function (on) { byHand = on; } };
 })();

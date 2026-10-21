@@ -114,6 +114,10 @@
     check('every pin with the leg that brings its first stay', Array.prototype.every.call(svg.querySelectorAll('.pin'), function (p) {
       return +p.getAttribute('data-leg') === parseInt(p.querySelector('.pin-num').textContent, 10) - 1;
     }));
+    // the share of the map on the screen that starts the drawing is one the map can reach: on a phone turned sideways the map
+    // is taller than the window (final review of the finishing touches: at 844 × 390 at most 40% of it shows, under 45%)
+    var most = Math.min(1, innerHeight / svg.getBoundingClientRect().height), need = window.__trip.drawNeed ? window.__trip.drawNeed() : 0.45;
+    check('the drawing starts at a share of the map the screen can show', need <= most - 0.05 && need > 0, need.toFixed(2) + ' of at most ' + most.toFixed(2));
     check('at rest: the route whole, no mask, nothing moving', !svg.querySelector('mask, [mask]') && own(svg.getAnimations({ subtree: true })).length === 0 &&
       !document.getElementById('map').classList.contains('m-wait'));
     window.__trip.draw();
