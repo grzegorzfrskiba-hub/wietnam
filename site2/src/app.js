@@ -1325,7 +1325,8 @@
     drawOk = byHand;
     drawIO = new IntersectionObserver(function (es) {
       var e = es[es.length - 1];
-      if (!touched && !drawOk) return;
+      // a route seen whole before the visitor's first touch (a link straight to it) stays whole, so it never vanishes in sight
+      if (!touched && !drawOk) { if (e.intersectionRatio > 0) { drawIO.disconnect(); drawIO = null; } return; }
       if (e.intersectionRatio < drawNeed()) { $('#map').classList.add('m-wait'); return; }
       drawIO.disconnect(); drawIO = null;
       startDraw(e.target);
