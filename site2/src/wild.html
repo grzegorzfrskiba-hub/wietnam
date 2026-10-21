@@ -30,8 +30,9 @@ ul { padding: 0; list-style: none; }
   padding-block: 6px 34px; color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.4); }
 .w-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 10px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
 /* on a wide screen the square photo stands in the right two thirds, fading into the dark on its left, so the douc keeps its
-   face and shoulders and the title stands beside it, not on it (a crop the width of the screen showed its eyes alone) */
-@media (min-width: 1101px) {
+   face and shoulders and the title stands beside it, not on it (a crop the width of the screen showed its eyes alone, and
+   at 1024 × 768 the title on its mouth: from 901 px, the page's own step, final review of the finishing touches) */
+@media (min-width: 901px) {
   .w-hero > img { left: auto; width: 66%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 36%); mask-image: linear-gradient(90deg, transparent, #000 36%); }
 }
 .w-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }

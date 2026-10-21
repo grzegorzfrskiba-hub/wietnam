@@ -31,6 +31,10 @@
   check('the tabs under the photo', !!hero && document.querySelector('.w-tabs').getBoundingClientRect().top >= hb.bottom - 1);
   if (innerWidth >= 1366 && window.scrollY === 0) check('on a laptop the tabs on the first screen', document.querySelector('.w-tabs').getBoundingClientRect().bottom <= 860,
     Math.round(document.querySelector('.w-tabs').getBoundingClientRect().bottom));
+  // from 901 px the square photo stands in the right two thirds, so the douc's face is beside the title, not under it (final
+  // review of the finishing touches: at 1024 × 768 the title covered its mouth); under 901 px the photo is the page's width
+  var hl = him ? him.getBoundingClientRect().left : -1;
+  check('the photo at the top: from 901 px in the right two thirds, the face beside the title', innerWidth >= 901 ? hl >= innerWidth * 0.3 : hl === 0, Math.round(hl));
   // the photos loaded late with their mean colour (finding 6); the slow zoom of the photo at the top only with the class
   // live (the first call of an IntersectionObserver)
   var phs = document.querySelectorAll('img.ph');
