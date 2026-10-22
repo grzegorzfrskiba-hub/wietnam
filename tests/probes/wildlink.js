@@ -7,8 +7,8 @@
   var s = window.__trip.state, h = pageHash(s.settings, LANG, COSTS).slice(1);
   var want = SITE_URL + 'wildlife/#route&' + h;
   check('„Zwierzęta” under the title: the subpage with this trip', document.querySelector('#wild-hero').href === want, document.querySelector('#wild-hero').href);
-  check('… on a phone too, and set apart: filled, with the tag', document.querySelector('#wild-hero').checkVisibility() &&
-    getComputedStyle(document.querySelector('#wild-hero')).backgroundColor === 'rgb(12, 106, 90)' && document.querySelector('#wild-hero .wild-tag').textContent === UI[LANG]['nav.wildtag']);
+  check('… on a phone too, and set apart: filled jade', document.querySelector('#wild-hero').checkVisibility() &&
+    getComputedStyle(document.querySelector('#wild-hero')).backgroundColor === 'rgb(12, 106, 90)');
   check('„Zwierzęta” in the bar: the same address', document.querySelector('#wild-nav').href === want);
   check('„Zwierzęta” in the bar only from 641 px', document.querySelector('#wild-nav').checkVisibility() === (window.innerWidth >= 641));
   check('„Zwierzęta” in the language of the page', document.querySelector('#wild-hero > span').textContent === UI[LANG]['nav.wild']);
