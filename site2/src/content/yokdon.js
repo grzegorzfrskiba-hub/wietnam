@@ -5,7 +5,7 @@ CONTENT.yokdon = {
   sub: 'Słonie bez jazdy, suchy las i rzeka Sêrêpốk',
   what: 'Park narodowy na Wyżynie Centralnej przy granicy z Kambodżą, jedyny w Wietnamie, który chroni suchy las zrzucający liście.',
   region: 'south', maps: 'Yok Don National Park Headquarters, Buon Don, Dak Lak', pt: [12.87, 107.81], color: 18,
-  photos: ['yokdon_0', 'yokdon_1', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
+  photos: ['yokdon_1', 'yokdon_0', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['yokdon.boat'], t: 'Do lasu nad Sêrêpốk', d: 'Zamelduj się w domu gościnnym parku, przy siedzibie, gdzie zaczynają się wszystkie wycieczki. Po południu łódź po rzece Sêrêpốk, 40–60 minut. Jeśli jedziesz przez Buôn Ma Thuột, zatrzymaj się w Muzeum Kawy, zbudowanym na wzór długiego domu ludu Ê Đê.',
       rain: 'w burzy łódź nie wypłynie: zostań dłużej w Buôn Ma Thuột, w Muzeum Kawy i w muzeum Đắk Lắk o ludach Wyżyny Centralnej, a do parku dojedź na wieczór.',
