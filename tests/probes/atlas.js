@@ -132,6 +132,40 @@
   cells[0].click();
   check('the bar: a tap on a month says it', line.textContent === cells[0].getAttribute('aria-label') && cells[0].classList.contains('at'), line.textContent);
   cells[0].blur();
+  // the bar as a whole to a reader of the screen: its months by season (seasonGroups), as the legend names the seasons
+  check('the bar: its label lists the months by season', AUI[LANG].hasOwnProperty('a.when.aria') && bar.getAttribute('aria-label') === T('a.when.aria', { list: seasonGroups(seasonBar(SEASONS.hoian, CLIMATE.hoian.why, null)).map(function (g) {
+    return (g.season === 'X' ? T('a.closed') : UI[LANG]['season.' + g.season]) + ': ' + g.months.map(function (m) { return UI[LANG]['mon.' + m]; }).join(', ');
+  }).join('; ') }), bar.getAttribute('aria-label'));
+  // each month's short name within its field, down to 320 px (finding W2 of the final review)
+  var wide = [];
+  document.querySelectorAll('.a-m').forEach(function (m) {
+    var r = document.createRange(); r.setStart(m.lastChild, 0); r.setEnd(m.lastChild, m.lastChild.length);
+    if (r.getBoundingClientRect().width > m.getBoundingClientRect().width + 0.5) wide.push(flat(m.textContent));
+  });
+  check('the bar: each month’s name within its field', !wide.length, wide.length + ' ' + wide.slice(0, 3).join(' '));
+  /* The seasons told apart without their hues (finding W1): good, fair and poor at least 1.5:1 from each other in lightness,
+     each at least 2.5:1 from the card, a closed month (none today) 3:1, in the light and the dark theme */
+  function lum(c) {
+    var v = c.match(/[\d.]+/g).slice(0, 3).map(function (x) { x = x / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  function ratio(a, b) { var x = lum(a) + 0.05, y = lum(b) + 0.05; return Math.max(x, y) / Math.min(x, y); }
+  function seasonsApart(theme) {
+    var root = document.documentElement, was = root.getAttribute('data-theme'), probe = document.createElement('div');
+    root.setAttribute('data-theme', theme);
+    probe.className = 'a-m'; probe.innerHTML = '<i></i>'; c0.appendChild(probe);
+    var cs = {}, bg = getComputedStyle(c0).backgroundColor;
+    ['D', 'S', 'Z', 'X'].forEach(function (s) { probe.className = 'a-m s' + s; cs[s] = getComputedStyle(probe.firstChild).backgroundColor; });
+    probe.remove();
+    if (was === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', was);
+    var bad = [];
+    [['D', 'S'], ['D', 'Z'], ['S', 'Z']].forEach(function (p) { if (ratio(cs[p[0]], cs[p[1]]) < 1.5) bad.push(p.join('') + ' ' + ratio(cs[p[0]], cs[p[1]]).toFixed(2)); });
+    ['D', 'S', 'Z'].forEach(function (s) { if (ratio(cs[s], bg) < 2.5) bad.push(s + '/card ' + ratio(cs[s], bg).toFixed(2)); });
+    if (ratio(cs.X, bg) < 3) bad.push('X/card ' + ratio(cs.X, bg).toFixed(2));
+    return bad;
+  }
+  var apart = seasonsApart('light').concat(seasonsApart('dark').map(function (x) { return 'dark ' + x; }));
+  check('the bar: the seasons apart in lightness, in both themes', !apart.length, apart.join(', '));
 
   // the printout (finding 23): two cards a row with the big photo, without the strip, the buttons and the links
   var printCss = [];
@@ -143,6 +177,9 @@
   var grid = getComputedStyle(document.querySelector('.a-places')).gridTemplateColumns.split(' ').length;
   check('the print: two cards a row, with the big photo, without the strip, the buttons, the links and the way back', grid === 2 && vis('.a-big') &&
     !vis('.a-strip') && !vis('.a-links') && !vis('#a-back') && !vis('#lang-switch') && !vis('#a-regions'), grid);
+  // the trip's months framed by a line on paper, which a print without the background graphics keeps (finding D7)
+  var tm = document.querySelector('.a-m.trip i');
+  if (tm) check('the print: the trip’s months framed by an outline', getComputedStyle(tm).outlineStyle === 'solid' && getComputedStyle(tm).boxShadow === 'none', getComputedStyle(tm).outlineStyle);
   window.dispatchEvent(new Event('afterprint'));
   pst.remove();
   check('the print on A4, as the page with the route', Array.prototype.some.call(document.styleSheets, function (s) {

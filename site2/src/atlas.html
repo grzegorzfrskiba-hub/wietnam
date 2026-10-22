@@ -6,10 +6,11 @@
    as on the wildlife subpage (wild.html, whose class names they keep), then its own: the links to the regions, the cards of
    the places, the bar of the months and the map beside them. */
 /* __TOKENS__ */
-/* the seasons in the bar of the months (finding 7): good, fair, poor and closed, on a card in both themes */
-:root { --ssn-d: #2f7d5b; --ssn-s: #c9982c; --ssn-z: #c0553d; --ssn-x: #b7c1bc; }
-@media screen and (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ssn-d: #4fb48a; --ssn-s: #d9b04c; --ssn-z: #e57c64; --ssn-x: #3b4a44; } }
-@media screen { :root[data-theme="dark"] { --ssn-d: #4fb48a; --ssn-s: #d9b04c; --ssn-z: #e57c64; --ssn-x: #3b4a44; } }
+/* the seasons in the bar of the months (finding 7): good, fair, poor and closed, on a card in both themes, apart in lightness
+   too (at least 1.5:1 from each other, so they read without their hues: finding W1 of the final review) */
+:root { --ssn-d: #1d5e41; --ssn-s: #b8862a; --ssn-z: #b45039; --ssn-x: #7d8a84; }
+@media screen and (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ssn-d: #4fb48a; --ssn-s: #e5c984; --ssn-z: #db4928; --ssn-x: #6f7e78; } }
+@media screen { :root[data-theme="dark"] { --ssn-d: #4fb48a; --ssn-s: #e5c984; --ssn-z: #db4928; --ssn-x: #6f7e78; } }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -112,6 +113,7 @@ main { padding-block: 28px 48px; }
 .sS i { background: var(--ssn-s); }
 .sZ i { background: var(--ssn-z); }
 .sX i { background: var(--ssn-x); }
+@media (max-width: 359px) { .a-m { font-size: 10px; } }
 .a-m.trip { color: var(--ink); font-weight: 700; }
 .a-m.trip i { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
 .a-m.at { color: var(--ink); }
@@ -247,6 +249,7 @@ footer p { margin-top: 8px; }
   .a-card h3 { font-size: 24px; }
   .a-sub { font-size: 16px; }
   .a-m { min-height: 0; }
+  .a-m.trip i { box-shadow: none; outline: 2px solid var(--ink); outline-offset: 2px; }
   .a-pre { opacity: 1 !important; transform: none !important; }
   .w-main { display: block; }
   .w-map { position: static; display: flex; align-items: flex-start; gap: 6mm; margin: 0 0 6mm; padding: 0; border: 0; background: none; break-inside: avoid; }

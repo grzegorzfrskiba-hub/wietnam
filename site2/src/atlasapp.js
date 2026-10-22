@@ -87,10 +87,16 @@
      through the months. */
   function season(id) {
     var bar = seasonBar(SEASONS[id], CLIMATE[id].why, trip && trip.months), first = trip ? trip.months[0] : 1;
-    return '<p class="a-k">' + esc(T('a.when')) + '</p><div class="a-bar" role="group" aria-label="' + esc(T('a.when')) + '">' + bar.map(function (x) {
+    return '<p class="a-k">' + esc(T('a.when')) + '</p><div class="a-bar" role="group" aria-label="' + esc(barLabel(bar)) + '">' + bar.map(function (x) {
       return '<button type="button" class="a-m s' + x.season + (x.trip ? ' trip' : '') + '" data-m="' + x.m + '" tabindex="' + (x.m === first ? 0 : -1) + '" aria-label="' + esc(monthLine(x)) + '">' +
         '<i></i>' + esc(T('mon3.' + x.m)) + '</button>';
     }).join('') + '</div><p class="a-mline" aria-hidden="true"></p>';
+  }
+  // the bar to a reader of the screen at once (finding D2 of the final review): "Kiedy jechać (dobry sezon: styczeń, luty; …)"
+  function barLabel(bar) {
+    return T('a.when.aria', { list: seasonGroups(bar).map(function (g) {
+      return (g.season === 'X' ? T('a.closed') : T('season.' + g.season)) + ': ' + g.months.map(function (m) { return T('mon.' + m); }).join(', ');
+    }).join('; ') });
   }
   // "listopad: zły sezon, ulewy przez większość dni, pora powodzi"
   function monthLine(x) {

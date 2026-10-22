@@ -11,7 +11,7 @@ AUI.pl = {
   'a.places.one': '{n} miejsce', 'a.places.few': '{n} miejsca', 'a.places.many': '{n} miejsc',
   'a.intro': 'Przewijaj, a mapa pokaże, gdzie leży każde miejsce. Zdjęcie otwiera album miejsca.',
   'a.legend': 'Kiedy jechać:', 'a.legend.trip': 'w ramce twój termin',
-  'a.when': 'Kiedy jechać', 'a.closed': 'zamknięte', 'a.month': '{month}: {season}',
+  'a.when': 'Kiedy jechać', 'a.when.aria': 'Kiedy jechać ({list})', 'a.closed': 'zamknięte', 'a.month': '{month}: {season}',
   'a.todo': 'Co tu robić', 'a.nights': '{n} {nights} na trasie',
   'a.on': '✓ Na twojej trasie: {days}.', 'a.off': 'Nie ma na twojej trasie: {why}.'
 };

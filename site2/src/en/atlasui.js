@@ -8,7 +8,7 @@ AUI.en = {
   'a.places.one': '{n} place', 'a.places.few': '{n} places', 'a.places.many': '{n} places',
   'a.intro': 'Scroll, and the map shows where each place lies. A photo opens the place’s album.',
   'a.legend': 'When to go:', 'a.legend.trip': 'framed: your dates',
-  'a.when': 'When to go', 'a.closed': 'closed', 'a.month': '{month}: {season}',
+  'a.when': 'When to go', 'a.when.aria': 'When to go ({list})', 'a.closed': 'closed', 'a.month': '{month}: {season}',
   'a.todo': 'What to do', 'a.nights': '{n} {nights} on a route',
   'a.on': '✓ On your route: {days}.', 'a.off': 'Not on your route: {why}.'
 };
