@@ -1,6 +1,6 @@
 /* The ways into the atlas of places on the page with the route (stage 7, finding 19): „Atlas ↗” under the title right after
-   „Zwierzęta”, outlined as it (the user's choice of 22.10.2026), on a phone in the photo's top corner
-   instead, opposite EN · PL, both to the atlas with this trip; in the bar at the top from 1101 px, where it fits beside the
+   „Zwierzęta”, outlined as it (the user's choice of 22.10.2026), on a phone too, beside „Zwierzęta” (the user's choice after
+   the phone check of 22.10.2026; at 320 px in Polish it takes a third row), to the atlas with this trip; in the bar at the top from 1101 px, where it fits beside the
    other links and the summary, once the photo at the top has gone, as „Zwierzęta”, filled blue beside its jade; „W atlasie →” beside „Zwierzęta tutaj →” at the first
    stay of every place and in every row of the list „Nie ma na twojej trasie”, to the place's card; none in print. In both
    languages (the Polish page ties „W” to its next word with a no-break space, \s in a check takes it):
@@ -10,10 +10,10 @@
   var $ = function (sel) { return document.querySelector(sel); }, phone = innerWidth <= 640;
   var hero = $('#atlas-hero'), hs = getComputedStyle(hero);
   check('„Atlas” under the title: the atlas with this trip, right after „Zwierzęta”, outlined, not filled', hero.href === want && hero.previousElementSibling === $('#wild-hero') &&
-    hero.checkVisibility() === !phone && hs.backgroundColor === 'rgba(0, 0, 0, 0)' && parseFloat(hs.borderTopWidth) >= 1, hero.href + ' ' + hs.backgroundColor);
-  var at = $('#atlas-top').getBoundingClientRect(), sw = $('#lang-switch').getBoundingClientRect();
-  check('… on a phone in the photo’s top corner instead, clear of EN · PL, a 44 px target', $('#atlas-top').href === want && $('#atlas-top').checkVisibility() === phone &&
-    (!phone || at.right + 4 <= sw.left && at.height >= 44 && at.top < sw.bottom), Math.round(at.left) + '–' + Math.round(at.right) + ' / ' + Math.round(sw.left));
+    hero.checkVisibility() && hs.backgroundColor === 'rgba(0, 0, 0, 0)' && parseFloat(hs.borderTopWidth) >= 1, hero.href + ' ' + hs.backgroundColor);
+  var hr = hero.getBoundingClientRect(), wr = $('#wild-hero').getBoundingClientRect();
+  check('… on a phone too, beside „Zwierzęta” where the row has room, a 44 px target, none in the photo’s corner', !$('#atlas-top') && hr.height >= 44 &&
+    (innerWidth < 360 || Math.abs(hr.top - wr.top) < 2 && hr.left > wr.right), Math.round(hr.left) + ',' + Math.round(hr.top) + ' / ' + Math.round(wr.right) + ',' + Math.round(wr.top));
   // in the bar not while the photo at the top is on the screen (class at-hero, as „Zwierzęta”); once it has gone (the probe takes
   // the class off itself, as headless Chrome calls the observer after a scroll only now and then), from 1101 px
   var nav = $('#secnav'), links = nav.querySelector('.secnav-links'), away = nav.classList.contains('away');
@@ -27,7 +27,7 @@
   if (innerWidth >= 1101) check('the bar from 1101 px: every link beside the summary, none to scroll to', links.scrollWidth <= links.clientWidth, links.scrollWidth + ' > ' + links.clientWidth);
   nav.classList.toggle('away', away);
   nav.classList.add('at-hero');
-  check('„Atlas” in the language of the page', ['#atlas-hero', '#atlas-top', '#atlas-nav'].every(function (s) { return $(s + ' > span').textContent === UI[LANG]['nav.atlas']; }));
+  check('„Atlas” in the language of the page', ['#atlas-hero', '#atlas-nav'].every(function (s) { return $(s + ' > span').textContent === UI[LANG]['nav.atlas']; }));
   // „W atlasie →”: at the first stay of every place (not a night on the way), beside „Zwierzęta tutaj →”
   var seen = {}, stays = s.route.stops.filter(function (x) { if (seen[x.id] || PLACES[x.id].node) return false; seen[x.id] = true; return true; });
   var links2 = document.querySelectorAll('#stops .stop-atlas a');
@@ -54,7 +54,7 @@
     Array.prototype.forEach.call(x.cssRules, function (r) { if (r.media && /print/.test(r.media.mediaText)) Array.prototype.forEach.call(r.cssRules, function (y) { printCss.push(y.cssText); }); });
   });
   var ps = document.createElement('style'); ps.textContent = printCss.join('\n'); document.head.appendChild(ps);
-  check('none in print', !Array.prototype.some.call(document.querySelectorAll('#atlas-hero, #atlas-top, #atlas-nav, .stop-atlas a, .off-atlas'), function (a) { return a.checkVisibility(); }));
+  check('none in print', !Array.prototype.some.call(document.querySelectorAll('#atlas-hero, #atlas-nav, .stop-atlas a, .off-atlas'), function (a) { return a.checkVisibility(); }));
   ps.remove();
   check('no sideways scroll', document.documentElement.scrollWidth <= innerWidth);
   done();

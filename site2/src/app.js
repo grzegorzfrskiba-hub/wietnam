@@ -290,7 +290,7 @@
     $('#copy-fallback').hidden = $('#end-fallback').hidden = true;
     renderPrintLink();
     $('#wild-hero').href = $('#wild-nav').href = wildLink('route');
-    $('#atlas-hero').href = $('#atlas-top').href = $('#atlas-nav').href = atlasLink(null);
+    $('#atlas-hero').href = $('#atlas-nav').href = atlasLink(null);
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
