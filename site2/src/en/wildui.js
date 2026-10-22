@@ -26,6 +26,7 @@ WUI.en = {
   'w.gallery.lead': 'The most beautiful animals of Vietnam’s forests, including some that almost nobody has seen. Tap or click a photo to enlarge it.',
   'w.g.primates': 'Primates', 'w.g.mammals': 'Other mammals', 'w.g.birds': 'Birds', 'w.g.reptiles': 'Reptiles and amphibians', 'w.g.insects': 'Insects',
   'w.g.legends': 'Legends: almost nobody has seen them',
+  'w.mode.one': 'One by one', 'w.mode.mosaic': 'Mosaic', 'w.mode.aria': 'Gallery view',
   'w.guide.h': 'Field guide to the places',
   'w.guide.lead': 'What lives at the places of Route G, from south to north: where and when to look, with a guide or without. Birds and smaller animals too.',
   'w.map.out': 'beyond Route G', 'w.map.none': 'No confirmed place to show on the map.', 'w.map.key': '● on your route · ○ off it',

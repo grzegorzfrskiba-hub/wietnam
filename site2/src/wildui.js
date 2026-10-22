@@ -28,6 +28,7 @@ WUI.pl = {
   'w.gallery.lead': 'Najpiękniejsze zwierzęta wietnamskich lasów, także te, których prawie nikt nie widział. Stuknij albo kliknij zdjęcie, żeby je powiększyć.',
   'w.g.primates': 'Naczelne', 'w.g.mammals': 'Inne ssaki', 'w.g.birds': 'Ptaki', 'w.g.reptiles': 'Gady i płazy', 'w.g.insects': 'Owady',
   'w.g.legends': 'Legendy: prawie nikt ich nie widział',
+  'w.mode.one': 'Po kolei', 'w.mode.mosaic': 'Mozaika', 'w.mode.aria': 'Widok galerii',
   'w.guide.h': 'Przewodnik po miejscach',
   'w.guide.lead': 'Co żyje w miejscach Route G, z południa na północ: gdzie i kiedy szukać, z przewodnikiem czy bez. Także ptaki i drobniejsze zwierzęta.',
   'w.map.out': 'poza Route G', 'w.map.none': 'Bez potwierdzonego miejsca do pokazania na mapie.', 'w.map.key': '● na twojej trasie · ○ poza nią',

@@ -92,11 +92,29 @@
   check('the gallery: 25 tiles, the legends last', tiles.length === 25 && document.querySelectorAll('#p-gallery .w-legend-tile').length === 5 &&
     tiles[tiles.length - 1].classList.contains('w-legend-tile'), tiles.length);
   check('two species without a photo say so', document.querySelectorAll('#p-gallery .w-nophoto').length === 2);
-  // the viewer: a tile opens it with the name and the two sentences; Escape closes it and gives the focus back
-  var b = document.querySelector('#p-gallery .w-tile-name');
+  // one by one at first (22.10.2026): each animal with its names and two sentences, one a row, its photo the column's width
+  var mode = function () { return Array.prototype.map.call(document.querySelectorAll('#p-gallery [data-mode]'), function (x) { return x.getAttribute('data-mode') + '=' + x.getAttribute('aria-pressed'); }).join(' '); };
+  check('the gallery one by one at first: names and two sentences, no tile names', mode() === 'one=true mosaic=false' && document.querySelectorAll('#p-gallery .w-big .w-tile').length === 25 &&
+    !document.querySelector('#p-gallery .w-tile-name') && Array.prototype.every.call(tiles, function (t) { return !!t.querySelector('h3') && t.querySelector('.w-why').textContent.length > 20; }), mode());
+  if (vis('#p-gallery')) {
+    var g0 = tiles[0].getBoundingClientRect(), g1 = tiles[1].getBoundingClientRect(), gp = tiles[0].querySelector('.w-card-photo img').getBoundingClientRect();
+    check('one by one: one a row, the photo its width', Math.round(g1.top) > Math.round(g0.bottom) && Math.round(g0.width) === Math.round(document.querySelector('#p-gallery .w-big').getBoundingClientRect().width) && gp.width >= g0.width - 2, Math.round(gp.width) + ' / ' + Math.round(g0.width));
+  }
+  // Mozaika: the tiles, the switch keeping the focus and the link; then back to one by one
+  var hash0 = location.hash, mb = document.querySelector('#p-gallery [data-mode="mosaic"]');
+  mb.click();
+  var mt = document.querySelectorAll('#p-gallery .w-tiles .w-tile');
+  check('Mozaika: 25 tiles with their names, the focus on the switch, the link the same', mode() === 'one=false mosaic=true' && mt.length === 25 && document.querySelectorAll('#p-gallery .w-tile-name').length === 25 &&
+    !document.querySelector('#p-gallery .w-big') && (!vis('#p-gallery') || document.activeElement === document.querySelector('#p-gallery [data-mode="mosaic"]')) && location.hash === hash0, mode());
+  if (vis('#p-gallery') && innerWidth >= 480) check('Mozaika: two tiles or more a row', Math.round(mt[1].getBoundingClientRect().top) === Math.round(mt[0].getBoundingClientRect().top));
+  document.querySelector('#p-gallery [data-mode="one"]').click();
+  check('Po kolei again', mode() === 'one=true mosaic=false' && document.querySelectorAll('#p-gallery .w-big .w-tile').length === 25);
+  tiles = document.querySelectorAll('#p-gallery .w-tile');
+  // the viewer: a photo opens it with the name and the two sentences; Escape closes it and gives the focus back
+  var b = document.querySelector('#p-gallery .w-photo');
   b.focus(); b.click();
   var d = document.querySelector('#w-viewer');
-  check('a tile opens the viewer with its species', d.open && document.querySelector('#wv-name').textContent.indexOf(b.querySelector('b').textContent) === 0 && document.querySelector('#wv-why').textContent.length > 20);
+  check('a photo opens the viewer with its species', d.open && document.querySelector('#wv-name').textContent.indexOf(b.closest('.w-tile').querySelector('h3').textContent) === 0 && document.querySelector('#wv-why').textContent.length > 20);
   // the album (finishing touches, finding 7): ‹ ›, the arrow keys and a swipe go through the photos of the tab it was opened
   // in, each once, the species without a photo left out; a counter says where
   var album = function (sel) {
@@ -203,7 +221,7 @@
     check('the new tab: nothing on the screen waits hidden', !Array.prototype.some.call(document.querySelectorAll('#p-' + to + ' .w-pre'), function (e) { return e.getBoundingClientRect().top < innerHeight - 40; }));
     if (to !== 'gallery') { done(); return; }
     // on the Gallery: Escape-like close gives the focus back to the tile that opened the viewer
-    var t = document.querySelector('#p-gallery .w-tile-name');
+    var t = document.querySelector('#p-gallery .w-photo');
     t.focus(); t.click(); d.close();
     setTimeout(function () { check('closing the viewer gives the focus back', document.activeElement === t); done(); }, 100);
   }, 300);

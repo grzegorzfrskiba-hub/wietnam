@@ -37,11 +37,11 @@
   // the cards or the tiles in the row of the species id, as they stand now, and their species
   function rowOf(id) {
     var el = document.getElementById('sp-' + id), sel = '#p-route .w-card';
-    if (!el || !el.checkVisibility()) { el = document.querySelector('#p-gallery [data-view="' + id + '"]').closest('.w-tile'); sel = '#p-gallery .w-tile'; }
+    if (!el || !el.checkVisibility()) { el = document.querySelector('#p-gallery [data-sp="' + id + '"]'); sel = '#p-gallery .w-tile'; }
     var top = Math.round(el.getBoundingClientRect().top);
     return Array.prototype.filter.call(document.querySelectorAll(sel), function (x) { return Math.abs(Math.round(x.getBoundingClientRect().top) - top) <= 2; });
   }
-  function idsOf(row) { return row.map(function (x) { return x.id ? x.id.slice(3) : x.querySelector('[data-view]').getAttribute('data-view'); }); }
+  function idsOf(row) { return row.map(function (x) { return x.id ? x.id.slice(3) : x.getAttribute('data-sp'); }); }
   function placesOf(ids) {
     var out = [];
     ids.forEach(function (id) { speciesPlaces(WILD[id]).forEach(function (p) { if (out.indexOf(p) < 0) out.push(p); }); });
@@ -146,7 +146,7 @@
       // across the middle lit and the tiles below the screen waiting to rise
       var l0 = line(), tiles = Array.prototype.slice.call(document.querySelectorAll('#p-gallery .w-tile'));
       var mid = tiles.filter(function (x) { return x.getBoundingClientRect().bottom > l0; })[0] || tiles[tiles.length - 1];
-      var below = tiles.filter(function (x) { return x.getBoundingClientRect().top > innerHeight; }), want = placesOf(idsOf(rowOf(mid.querySelector('[data-view]').getAttribute('data-view'))));
+      var below = tiles.filter(function (x) { return x.getBoundingClientRect().top > innerHeight; }), want = placesOf(idsOf(rowOf(mid.getAttribute('data-sp'))));
       check('another tab from deep in the page: the row across the middle lit at once, the tiles below waiting to rise',
         lit() === want && below.length > 0 && below.every(function (x) { return x.classList.contains('w-pre'); }),
         lit() + ' / ' + want + ', ' + below.filter(function (x) { return x.classList.contains('w-pre'); }).length + ' of ' + below.length + ' below waiting');

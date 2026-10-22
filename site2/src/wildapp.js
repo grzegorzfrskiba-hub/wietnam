@@ -40,6 +40,8 @@
   var TODAY = clampToday(new Date().toISOString().slice(0, 10), HOLIDAYS_FROM, PLAN_LAST_YEAR);
   // trip: { settings, st, route, stays, months, off } or null (no trip in the address, or one that gives no trip)
   var trip = null, view = { tab: 'gallery', place: null };
+  // the Gallery one by one, as the cards of On your route, or as a mosaic of tiles (22.10.2026); not in the link
+  var mosaic = false;
   function readTrip() {
     trip = null;
     if (!hasTrip(location.hash)) return;
@@ -108,10 +110,13 @@
     }
     return h + '</li>';
   }
+  // a species' names, its IUCN status and its two sentences, at the top of its card
+  function about(x) {
+    return '<h3>' + esc(x.name) + '</h3>' + (x.alt ? '<p class="w-alt">' + esc(x.alt) + '</p>' : '') + namesLine(x) + iucn(x) + '<p class="w-why">' + esc(tied(x.why)) + '</p>';
+  }
   function card(id) {
     var x = SP[id], adds = addPlaces(x, trip && trip.stays, trip && trip.st.months);
-    var h = '<article class="w-card" id="sp-' + id + '" tabindex="-1">' + photoBox(id, 'w-card-photo') + '<div class="w-card-body"><h3>' + esc(x.name) + '</h3>' +
-      (x.alt ? '<p class="w-alt">' + esc(x.alt) + '</p>' : '') + namesLine(x) + iucn(x) + '<p class="w-why">' + esc(tied(x.why)) + '</p>' +
+    var h = '<article class="w-card" id="sp-' + id + '" tabindex="-1">' + photoBox(id, 'w-card-photo') + '<div class="w-card-body">' + about(x) +
       '<ul class="w-meets">' + x.meet.map(meetBlock).join('') + '</ul>';
     // Dodaj when the species is not on the trip in its term yet: one per place, at the encounter of that place
     h += adds.map(function (p) { return '<div class="w-addbox">' + addBlock(p, x.meet.filter(function (m) { return m.place === p; })[0]) + '</div>'; }).join('');
@@ -131,15 +136,22 @@
     } else h += '<div class="w-cards">' + o.off.map(card).join('') + '</div>';
     $('#p-route').innerHTML = h;
   }
+  /* The Gallery: one by one (22.10.2026: each animal on its own, its photo the column's width, as in On your route, with its
+     names and two sentences) or, switched by Po kolei · Mozaika, as a mosaic of tiles with the names alone */
   function renderGallery() {
-    var h = '<div class="w-intro"><h2>' + esc(T('w.gallery.h')) + '</h2><p>' + esc(T('w.gallery.lead')) + '</p></div>';
+    var h = '<div class="w-intro"><h2>' + esc(T('w.gallery.h')) + '</h2><p>' + esc(T('w.gallery.lead')) + '</p></div>' +
+      '<div class="w-mode" role="group" aria-label="' + esc(T('w.mode.aria')) + '">' + ['one', 'mosaic'].map(function (m) {
+        return '<button type="button" data-mode="' + m + '" aria-pressed="' + String(mosaic === (m === 'mosaic')) + '">' + esc(T('w.mode.' + m)) + '</button>';
+      }).join('<span aria-hidden="true">·</span>') + '</div>';
     WILD_GROUPS.forEach(function (g) {
-      var ids = Object.keys(SP).filter(function (id) { return SP[id].gallery && SP[id].group === g; });
+      var ids = Object.keys(SP).filter(function (id) { return SP[id].gallery && SP[id].group === g; }), leg = g === 'legends' ? ' w-legend-tile' : '';
       if (!ids.length) return;
-      h += '<h2 class="w-group">' + esc(T('w.g.' + g)) + ' <small>' + ids.length + '</small></h2><ul class="w-tiles">' + ids.map(function (id) {
-        return '<li class="w-tile' + (g === 'legends' ? ' w-legend-tile' : '') + '">' + photoBox(id, 'w-tile-photo') +
+      h += '<h2 class="w-group">' + esc(T('w.g.' + g)) + ' <small>' + ids.length + '</small></h2>' + (mosaic ? '<ul class="w-tiles">' + ids.map(function (id) {
+        return '<li class="w-tile' + leg + '" data-sp="' + id + '">' + photoBox(id, 'w-tile-photo') +
           '<button type="button" class="w-tile-name" data-view="' + id + '"><b>' + esc(SP[id].name) + '</b><i>' + esc(SP[id].lat) + '</i></button></li>';
-      }).join('') + '</ul>';
+      }).join('') + '</ul>' : '<ul class="w-cards w-big">' + ids.map(function (id) {
+        return '<li class="w-tile w-card' + leg + '" data-sp="' + id + '">' + photoBox(id, 'w-card-photo') + '<div class="w-card-body">' + about(SP[id]) + '</div></li>';
+      }).join('') + '</ul>');
     });
     $('#p-gallery').innerHTML = h;
   }
@@ -261,7 +273,7 @@
   function mapEls() { return all(view.tab === 'route' ? '#p-route .w-card' : view.tab === 'gallery' ? '#p-gallery .w-tile' : '#p-guide .w-place, #p-guide .w-box'); }
   // the places of one: a card's or a tile's species, a place of the field guide, the points of "Poza Route G"
   function elPlaces(el) {
-    if (view.tab !== 'guide') return speciesPlaces(SP[el.id ? el.id.slice(3) : el.querySelector('[data-view]').getAttribute('data-view')]);
+    if (view.tab !== 'guide') return speciesPlaces(SP[el.id ? el.id.slice(3) : el.getAttribute('data-sp')]);
     return el.id ? [el.id.slice(6)] : el.classList.contains('w-out') ? WILD_OUTSIDE.map(function (o) { return o.spot; }) : [];
   }
   /* The items that light places: [{ els, places, none }]; none: only species without a place on the map. The elements in
@@ -432,6 +444,16 @@
   document.addEventListener('click', function (e) {
     var v = e.target.closest ? e.target.closest('[data-view]') : null;
     if (v) { openViewer(v.getAttribute('data-view'), v); return; }
+    var md = e.target.closest ? e.target.closest('[data-mode]') : null;
+    if (md) {   // Po kolei · Mozaika: the Gallery anew, the focus kept on the switch, the map lit for what now stands mid-screen
+      var m = md.getAttribute('data-mode');
+      if (mosaic === (m === 'mosaic')) return;
+      mosaic = m === 'mosaic';
+      renderGallery(); paintFrames();
+      $('#p-gallery [data-mode="' + m + '"]').focus();
+      prepRise(); lightNow();
+      return;
+    }
     var c = e.target.closest ? e.target.closest('[data-card]') : null;
     if (c) {   // a species of the guide: its card in On your route
       e.preventDefault();
