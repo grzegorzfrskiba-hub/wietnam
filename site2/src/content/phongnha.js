@@ -4,7 +4,7 @@ CONTENT.phongnha = {
   sub: 'Jaskinie z łodzi i pieszo wśród krasowych dolin',
   what: 'Park narodowy na liście UNESCO, z jaskiniami w wapiennych górach przy granicy z Laosem, ok. 200 km na północny zachód od Huế.',
   region: 'centre', maps: 'Phong Nha, Quang Tri, Vietnam', pt: [17.61, 106.31], color: 14,
-  photos: ['phongnha_0', 'phongnha_1', 'phongnha_2', 'phongnha_3', 'phongnha_4'],
+  photos: ['phongnha_5', 'phongnha_0', 'phongnha_2', 'phongnha_3', 'phongnha_6'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Nad rzeką Son', d: 'Nocleg w miasteczku Phong Nha nad rzeką Son, ok. godziny od lotniska Đồng Hới. Wieczorem rowerem po dolinie Bồng Lai, wśród pól i farm; wiele noclegów pożycza rowery za darmo.' },
     { p: 2, o: 2, pace: 'hike', cost: ['phongnha.paradise7'], t: '7 km w głąb Paradise Cave', d: 'Całodniowa trasa ośrodka Paradise Cave (Động Thiên Đường): pierwszy kilometr drewnianą kładką, dalej z przewodnikiem i czołówką w ciemności, 7 km w głąb jaskini, z obiadem w środku. Sprzęt wydają o 8:00, koniec ok. 14:30–16:00. Trasa jest od 16 lat i nie dla osób z chorobami serca albo nadciśnieniem. W porze deszczowej woda podnosi się i wyprawa zawraca po ok. 4 km.',

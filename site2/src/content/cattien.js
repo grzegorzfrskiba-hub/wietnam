@@ -4,7 +4,7 @@ CONTENT.cattien = {
   sub: 'Nizinna dżungla, gibony i nocne safari',
   what: 'Park narodowy chroniący las tropikalny nad rzeką Đồng Nai, ok. 150 km na północny wschód od Hồ Chí Minh City.',
   region: 'south', maps: 'Cat Tien National Park, Vietnam', pt: [11.43, 107.43], color: 4,
-  photos: ['cattien_0', 'cattien_1', 'cattien_3', 'cattien_4'],
+  photos: ['cattien_0', 'cattien_6', 'cattien_7', 'cattien_3', 'cattien_8'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['cattien.safari'], t: 'W głąb dżungli', d: 'Przepraw się małym promem przez rzekę Đồng Nai do siedziby parku i nocuj na jego terenie. Po zmroku nocna przejażdżka w poszukiwaniu jeleni i cywet.',
       solo: { pace: 'nature', cost: ['cattien.safari', 'cattien.gibbons'], t: 'Dżungla nocą i o świcie', d: 'Dotrzyj najpóźniej w połowie popołudnia i nocuj w parku; spacer o świcie do gibonów zarezerwuj w parku przed przyjazdem, bo miejsc jest niewiele. Po zmroku nocna przejażdżka w poszukiwaniu jeleni i cywet. Następnego dnia przed świtem wyjście ze strażnikiem parku, żeby posłuchać nawoływania gibonów, potem śniadanie i dalej w drogę.', early: true } },

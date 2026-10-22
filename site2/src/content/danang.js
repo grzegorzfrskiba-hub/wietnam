@@ -5,7 +5,7 @@ CONTENT.danang = {
   sub: 'Duki czerwononogie na Sơn Trà, plaża Mỹ Khê i Marmurowe Góry',
   what: 'Największe miasto środkowego Wietnamu, nad morzem, ok. 30 km na północ od Hội An, z zalesionym półwyspem Sơn Trà.',
   region: 'centre', maps: 'My Khe Beach, Da Nang, Vietnam', pt: [16.06, 108.25], color: 16,
-  photos: ['danang_0', 'danang_1', 'danang_2', 'danang_3', 'danang_4'],
+  photos: ['danang_0', 'danang_5', 'danang_1', 'danang_6', 'danang_7'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Marmurowe Góry i wieczór nad Hàn', d: 'Marmurowe Góry (Ngũ Hành Sơn) na południe od centrum: na Thủy Sơn schodami albo windą, jaskinia Huyền Không i widok z Vọng Giang Đài, czynne 7:00–17:30. Wieczorem kolacja nad rzeką Hàn, a w sobotę i niedzielę o 21:00 Smoczy Most zieje ogniem i wodą.',
       rain: 'w Muzeum Rzeźby Czamskiej (7:00–17:00) zamiast na śliskich schodach Marmurowych Gór.',

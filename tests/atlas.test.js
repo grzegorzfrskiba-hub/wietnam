@@ -60,8 +60,17 @@ eq([dayLink(S_A, 'en', false, 3), dayLink(S_A, 'pl', true, 9)],
 eq([dayAnchor(dayLink(S_A, 'pl', true, 9).slice(3)), parseLink(dayLink(S_A, 'pl', true, 9).slice(3))], [9, parseLink(linkHash(S_A))], 'dayAnchor and parseLink read dayLink back');
 print('address ok');
 
-/* ---------- the photos (finding 21) ---------- */
-eq([CONTENT.yokdon.photos[0], CONTENT.cucphuong.photos[0]], ['yokdon_1', 'cucphuong_1'], 'the first photos: the Sêrêpốk river in Yok Đôn and the forest path in Cúc Phương');
-eq([CONTENT.yokdon.photos.slice().sort(), CONTENT.cucphuong.photos.slice().sort()],
-  [['yokdon_0', 'yokdon_1', 'yokdon_2', 'yokdon_3', 'yokdon_4'], ['cucphuong_0', 'cucphuong_1', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4']], 'the same photos as before, in another order');
+/* ---------- the photos (finding 21; the round of new photos of 22.10.2026, research/zdjecia-miejsc-2026-10.md) ---------- */
+// the first photo is the big one of the atlas card and the thumbnail of the list „Nie ma na twojej trasie”
+var GALLERIES = {
+  sapa: ['sapa_6', 'sapa_7', 'sapa_8', 'sapa_9', 'sapa_1'],
+  danang: ['danang_0', 'danang_5', 'danang_1', 'danang_6', 'danang_7'],
+  yokdon: ['yokdon_1', 'yokdon_5', 'yokdon_2', 'yokdon_6', 'yokdon_3'],
+  cucphuong: ['cucphuong_5', 'cucphuong_1', 'cucphuong_2', 'cucphuong_0', 'cucphuong_6'],
+  cattien: ['cattien_0', 'cattien_6', 'cattien_7', 'cattien_3', 'cattien_8'],
+  hoian: ['hoian_7', 'hoian_1', 'hoian_6', 'hoian_4', 'hoian_8'],
+  phongnha: ['phongnha_5', 'phongnha_0', 'phongnha_2', 'phongnha_3', 'phongnha_6']
+};
+Object.keys(GALLERIES).forEach(function (id) { eq(CONTENT[id].photos, GALLERIES[id], id + ': the photos chosen on 22.10.2026, the first one first'); });
+eq(CONTENT.yokdon.photos[0], 'yokdon_1', 'Yok Đôn still opens with the Sêrêpốk river (finding 21)');
 print('photos ok');

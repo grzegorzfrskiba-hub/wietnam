@@ -4,7 +4,7 @@ CONTENT.cucphuong = {
   sub: 'Ratowane naczelne, stare drzewa i las nocą',
   what: 'Najstarszy park narodowy Wietnamu, od 1962 roku chroniący tropikalny las na wapiennych grzbietach, ok. 120 km na południe od Hà Nội.',
   region: 'north', maps: 'Cuc Phuong National Park, Ninh Binh, Vietnam', pt: [20.25, 105.71], color: 15,
-  photos: ['cucphuong_1', 'cucphuong_0', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4'],
+  photos: ['cucphuong_5', 'cucphuong_1', 'cucphuong_2', 'cucphuong_0', 'cucphuong_6'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['cucphuong.centres', 'cucphuong.night'], t: 'Ratowane naczelne i las nocą', d: 'Zamelduj się w pokoju parku przy bramie albo nad jeziorem Mạc. Po południu ośrodki ratowania, 500 m od kasy: langury Delacoura i z Cát Bà, gibony, lori i żółwie zwykle do 17:00, a łuskowce do 20:00, najlepiej po 15:00. Wieczorem nocna przejażdżka melexem po skraju lasu: jelenie, ośrodek lori albo łuskowców, a od końca kwietnia do początku czerwca świetliki; zbiórka o 18:30, start o 19:00, nocujący mają pierwszeństwo.',
       rain: 'muzeum parku i centrum dla zwiedzających są pod dachem, a w ośrodkach ratowania przyda się parasol; o tym, czy nocna przejażdżka pojedzie w ulewie, decyduje park.',

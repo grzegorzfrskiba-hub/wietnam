@@ -5,7 +5,7 @@ CONTENT.sapa = {
   sub: "Tarasy doliny Mường Hoa, wioski H'Mông i Giáy oraz Fansipan, dach Indochin",
   what: 'Górskie miasteczko na ok. 1500 m, dawne francuskie letnisko na północnym zachodzie, ok. 320 km od Hà Nội.',
   region: 'north', maps: 'Sa Pa, Lao Cai, Vietnam', pt: [22.34, 103.84], color: 17,
-  photos: ['sapa_0', 'sapa_1', 'sapa_2', 'sapa_3', 'sapa_4'],
+  photos: ['sapa_6', 'sapa_7', 'sapa_8', 'sapa_9', 'sapa_1'],
   days: [
     { p: 1, o: 1, pace: 'travel', t: 'Miasteczko na zboczu', d: 'Zamelduj się w Sa Pa, ok. 1500 m nad morzem, w dawnym francuskim letnisku. Wieczorem spacer po miasteczku. Nawet latem noce są tu chłodne, więc miej pod ręką ciepłą warstwę.' },
     { p: 2, o: 2, pace: 'hike', cost: ['sapa.trek'], t: 'Wioski doliny Mường Hoa', d: "Całodniowa wędrówka z lokalnym przewodnikiem: z Sa Pa w dół do Ý Linh Hồ i Lao Chải, a potem wzdłuż potoku Mường Hoa do Tả Van, między tarasami ryżowymi ludu H'Mông i Giáy. To ok. 10 km, głównie w dół, z obiadem u rodziny w wiosce. Z Tả Van wrócisz samochodem.",
