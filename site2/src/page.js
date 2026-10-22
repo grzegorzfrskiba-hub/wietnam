@@ -64,6 +64,8 @@ function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')
    koszty=1; another value, or none, hides them, with no warning of a wrong link: the costs are no setting of the trip, as
    the language is not, and parseLink leaves them out. */
 function costsOf(hash) { return /(?:^#?|&)koszty=1(?:&|$)/.test(String(hash || '')); }
+// The day of a link that opens on it (#day-5&od=…, ✓ in the atlas): N of a #day-N before the settings, else null.
+function dayAnchor(hash) { var m = /^#?day-(\d+)(?:&|$)/.exec(String(hash || '')); return m ? +m[1] : null; }
 /* The address of the settings in the page's view: koszty=1 when the costs show, then lang=pl at the end in Polish, so a
    link copied, sent or printed opens the same trip as its sender sees it; English and hidden costs add nothing, so every
    link from before opens in English with the costs hidden. */

@@ -54,6 +54,10 @@ var H_A = atlasHash('hoian', S_A, 'pl', true);
 eq([atlasPlace(H_A, ATLAS_IDS), hasTrip(H_A), langOf(H_A), costsOf(H_A), parseLink(H_A)], ['hoian', true, 'pl', true, parseLink(linkHash(S_A))], 'atlasPlace, hasTrip, langOf, costsOf and parseLink read atlasHash back');
 eq([atlasPlace('', ATLAS_IDS), atlasPlace('#od=SGN&do=HAN', ATLAS_IDS), atlasPlace('#hanoiStop', ATLAS_IDS), atlasPlace('#constructor&lang=pl', ATLAS_IDS), atlasPlace('#Hoian', ATLAS_IDS)],
   [null, null, null, null, null], 'atlasPlace: no place, a night on the way, an object’s property or a wrong name is none');
+// ✓ on a card links to the first day of the stay on the page with the route, with the trip (finding D9 of the final review)
+eq([dayLink(S_A, 'en', false, 3), dayLink(S_A, 'pl', true, 9)],
+  ['../#day-3&od=SGN&do=HAN&miesiac=2027-03&dni=15&co=przyroda&poziom=2', '../#day-9&od=SGN&do=HAN&miesiac=2027-03&dni=15&co=przyroda&poziom=2&koszty=1&lang=pl'], 'dayLink: the day, then the trip as pageHash');
+eq([dayAnchor(dayLink(S_A, 'pl', true, 9).slice(3)), parseLink(dayLink(S_A, 'pl', true, 9).slice(3))], [9, parseLink(linkHash(S_A))], 'dayAnchor and parseLink read dayLink back');
 print('address ok');
 
 /* ---------- the photos (finding 21) ---------- */

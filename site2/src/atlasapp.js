@@ -144,10 +144,12 @@
     var c = VIEW[id], ps = c.photos, stays = trip && trip.stays[id];
     return '<article class="a-card" id="pl-' + id + '" tabindex="-1" style="--c:var(--pal-' + c.color + ')">' +
       photo(ps[0], id, 'a-big', '(max-width: 1100px) 100vw, 780px') +
-      '<div class="a-strip">' + ps.slice(1).map(function (p) { return photo(p, id, 'a-thumb', '(max-width: 640px) 25vw, 200px'); }).join('') + '</div>' +
+      // the strip's photos share the card's width (finding D6 of the final review: 254 px each when there are three)
+      '<div class="a-strip">' + ps.slice(1).map(function (p) { return photo(p, id, 'a-thumb', '(max-width: 1100px) ' + Math.ceil(100 / (ps.length - 1)) + 'vw, ' + Math.ceil(780 / (ps.length - 1)) + 'px'); }).join('') + '</div>' +
       '<div class="a-body"><p class="a-regname">' + esc(T('a.reg.' + c.region)) + '</p><h3><span class="a-num">' + n + '</span> ' + esc(c.name) + '</h3>' +
       '<p class="a-sub">' + esc(tied(c.sub)) + '</p><p class="a-ints">' + placeInterests(PLACES[id].fit).map(function (k) { return '<span>' + esc(T('int.' + k)) + '</span>'; }).join('') + '</p>' +
-      (stays ? '<p class="w-ok">' + esc(T('a.on', { days: stays.map(function (s) { return dayRange(s.first, s.last); }).join(' ' + T('and') + ' ') })) + '</p>' : '') +
+      (stays ? '<p class="w-ok"><a href="' + esc(dayLink(trip.settings, lang, costs, stays[0].first)) + '">' +
+        esc(T('a.on', { days: stays.map(function (s) { return dayRange(s.first, s.last); }).join(' ' + T('and') + ' ') })) + '</a></p>' : '') +
       '<p class="a-what">' + esc(tied(c.what)) + '</p>' + season(id) + todo(id) +
       (c.gem ? '<p class="a-gem"><b>' + esc(T('t.gem')) + ':</b> ' + esc(tied(c.gem)) + '</p>' : '') + links(id) + '</div></article>';
   }

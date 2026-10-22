@@ -82,3 +82,8 @@ function atlasHash(place, settings, lang, costs) {
   else if (lang === 'pl') parts.push('lang=pl');
   return parts.length ? '#' + parts.join('&') : '';
 }
+/* A day of the trip on the page with the route (✓ on a card, finding D9 of the final review): the day first, then the trip
+   (pageHash), which the page opens on that day (dayAnchor in page.js). Relative, as the atlas lives one folder down. */
+function dayLink(settings, lang, costs, day) {
+  return '../#day-' + day + '&' + pageHash(settings, lang, costs).slice(1);
+}

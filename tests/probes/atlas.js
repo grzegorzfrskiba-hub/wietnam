@@ -90,6 +90,10 @@
       var days = s.map(function (x) { return x.first === x.last ? T('w.day', { n: x.first }) : T('w.days', { a: x.first, b: x.last }); }).join(' ' + UI[LANG].and + ' ');
       return !!ok && flat(ok.textContent) === flat(T('a.on', { days: days })) && !c.querySelector('.btn-small');
     }).join(', '));
+    check('a place on the trip: ✓ links to its first day on the page with the route', !failing(function (id, c) {
+      var s = trip.stays[id], a = c.querySelector('.w-ok a');
+      return !s || !!a && href(a) === dayLink(trip.settings, LANG, COSTS, s[0].first);
+    }).join(', '));
     check('a place off the trip: why, what Dodaj would drop and Dodaj back to the trip with the place', !failing(function (id, c) {
       if (trip.stays[id]) return true;
       var x = trip.off[id], add = c.querySelector('.btn-small'), why = c.querySelector('.a-add > .w-muted');
@@ -114,6 +118,15 @@
   check('the heading’s links on one line, 44 px targets', top.height < 50 && back.height >= 44 && back.right <= r.left && document.getElementById('a-wild').getBoundingClientRect().height >= 44, Math.round(top.height) + ', ' + Math.round(back.right) + ' / ' + Math.round(r.left));
   check('no sideways scroll', document.documentElement.scrollWidth <= innerWidth, document.documentElement.scrollWidth + ' > ' + innerWidth);
   var ps = []; IDS.forEach(function (id) { CONTENT[id].photos.forEach(function (p) { if (ps.indexOf(p) < 0) ps.push(p); }); });
+  /* the strip's photos no wider than their sizes say (finding D6 of the final review), so a screen of two pixels a point takes
+     a sharp enough copy */
+  function sizesPx(im) {
+    var parts = im.getAttribute('sizes').split(','), v = parts[parts.length - 1].trim();
+    for (var i = 0; i < parts.length - 1; i++) { var m = /^\s*(\([^)]*\))\s*(.+)$/.exec(parts[i]); if (m && matchMedia(m[1]).matches) { v = m[2]; break; } }
+    return /vw$/.test(v) ? parseFloat(v) * innerWidth / 100 : parseFloat(v);
+  }
+  var soft = Array.prototype.filter.call(document.querySelectorAll('.a-thumb img'), function (im) { return im.getBoundingClientRect().width > sizesPx(im) + 1; });
+  check('the strip: each photo within its sizes', !soft.length, soft.length + (soft[0] ? ' ' + Math.round(soft[0].getBoundingClientRect().width) + ' > ' + Math.round(sizesPx(soft[0])) : ''));
   check('the credits: the photos of the 20 places', document.querySelectorAll('#a-credits li').length === ps.length && textOf('#a-credits-h') === T('w.credits.h', { n: ps.length }), ps.length);
 
   // an address with a place (finding 4): its card at the top of the screen, with the focus

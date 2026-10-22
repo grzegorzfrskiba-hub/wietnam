@@ -872,3 +872,8 @@ eq(tieEnglish(tieEnglish('≈ 4 h, 1–3 km')), tieEnglish('≈ 4 h, 1–3 km'),
 eq([inMonthText('marcu', 'pl'), inMonthText('wrześniu', 'pl'), inMonthText('lutym', 'pl'), inMonthText('March', 'en'), inMonthText('September', 'en')],
   ['w marcu', 'we wrześniu', 'w lutym', 'in March', 'in September'], 'inMonthText: we before w and a consonant in Polish; in English, in');
 print('words ok');
+
+/* ---------- a day of the page with the route in its link (finding D9 of the atlas's final review) ---------- */
+eq([dayAnchor('#day-3&od=SGN&do=HAN'), dayAnchor('#day-12'), dayAnchor('#od=SGN&do=HAN'), dayAnchor('#day-x&od=SGN'), dayAnchor('#days'), dayAnchor(''), dayAnchor('#od=SGN&day-3')],
+  [3, 12, null, null, null, null, null], 'dayAnchor: the day of a #day-N before the settings, else none');
+print('day anchor ok');

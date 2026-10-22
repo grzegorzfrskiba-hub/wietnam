@@ -127,9 +127,12 @@
   function fromLink() {
     if (langOf(location.hash) !== lang) setLang(langOf(location.hash));
     costs = costsOf(location.hash);
-    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS);
+    var bad = [], got = settingsFromLink(parseLink(location.hash, bad), DEFAULTS, PLACES, HUBS, bad, SWAPS), day = dayAnchor(location.hash);
     if (!apply(got.settings, got.dropped.length > 0)) apply(withoutChanges(got.settings), true);
     syncForm();
+    // a link with a day before the settings (✓ in the atlas) opens on that day
+    var at = day && document.getElementById('day-' + day);
+    if (at) { reveal(at); at.scrollIntoView({ block: 'start' }); }
   }
 
   /* ---------- the settings form ---------- */
