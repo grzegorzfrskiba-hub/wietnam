@@ -95,7 +95,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero { position: relative; min-height: clamp(460px, 64vh, 680px); display: flex; align-items: flex-end; overflow: hidden; background: var(--photo-bg); }
 /* without JavaScript (an iPhone's preview of the offline file): where to open the page instead */
 .noscript { margin: 0; padding: 16px var(--gutter); background: var(--warm-soft); color: var(--ink); }
-.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transform-origin: center 30%; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 56% 40%; transform-origin: 56% 40%; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.45) 0%, rgba(var(--scrim), 0.12) 28%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
 .hero .eyebrow { color: var(--on-photo); opacity: 0.85; }
@@ -714,7 +714,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 <noscript>__NOSCRIPT__</noscript>
 <header class="hero" id="top">
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
-  <span class="hero-where">Mã Pí Lèng, Hà Giang</span>
+  <span class="hero-where">Fansipan, Sa Pa</span>
   <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
   <a class="hero-wild" id="wild-top" href="wildlife/" data-i18n="nav.wild"></a>
   <div class="hero-text">

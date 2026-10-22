@@ -88,6 +88,7 @@ var PHOTO_META = {
   sapa_1: { cap: 'Znak na szczycie Fansipan, 3143 m (2024)', artist: 'MinhVN1863', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Fansipan_Summit_Mark_2024.jpg' },
   sapa_2: { cap: 'Obóz na 2800 m na szlaku na Fansipan', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Base_camp_of_the_Fansipan.jpg' },
   sapa_3: { cap: 'Pasmo Hoàng Liên Sơn ze stacji strażników Núi Xẻ', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains_01.jpg' },
+  sapa_5: { cap: 'Szczyt Fansipan o zachodzie słońca nad morzem chmur', artist: 'Vivu Vietnam', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Fansipan_summit_pyramid_monument_sunset_sea_of_clouds_Sa_Pa_Vietnam.jpg' },
   yokdon_0: { cap: 'Park Yok Đôn w porze suchej', artist: 'Đỗ Tuấn Hưng', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:Yokdon8.JPG' },
   yokdon_1: { cap: 'Rzeka Sêrêpốk', artist: 'Đông Hồ', license: 'CC BY-SA 2.0', page: 'https://commons.wikimedia.org/wiki/File:M%E1%BB%99t_%C4%91o%E1%BA%A1n_Serepok_(12393625664).jpg' },
   yokdon_2: { cap: 'Suchy las dwuskrzydlcowy w okolicy Buôn Ma Thuột', artist: 'Lam Nguyen', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:R%E1%BB%ABng_kh%E1%BB%99p_Bu%C3%B4n_M%C3%AA_Thu%E1%BA%ADt.jpg' },
@@ -100,5 +101,5 @@ var PHOTO_META = {
   mucangchai_4: { cap: 'Tarasy w porze wody w Dế Xu Phình', artist: 'Gió Đông', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mu_Cang_Chai_02.JPG' },
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
 };
-var HERO_PHOTO = 'hagiang_0';   // the photo at the top of the page and in the link preview (next round of fixes, fix 1: Mã Pí Lèng)
+var HERO_PHOTO = 'sapa_5';   // the photo at the top of the page and in the link preview (round from 22.10.2026, fix 1: Fansipan)
 var FINALE_PHOTO = 'puluong_1';   // the photo at the end of the page (finishing touches, finding 9), one of Pù Luông's

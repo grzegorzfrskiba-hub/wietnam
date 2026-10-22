@@ -41,7 +41,7 @@ PREVIEW = {
     "url": SITE_URL, "image": SITE_URL + "img/og.jpg",
     "title": "Route G · Vietnam, up to you",
     "description": "Set your dates, your airports, what you like and how adventurous you are, and the page plans a route around Vietnam: the places, a plan for each day, the journeys and a map.",
-    "alt": "The sun over the peaks at the Mã Pí Lèng pass, with the canyon of the Nho Quế river below, Hà Giang",
+    "alt": "The sun setting over the pyramid on the summit of Fansipan, 3,143 m, above a sea of clouds, Sa Pa",
 }
 # the wildlife subpage's own link preview, in English, with the red-shanked douc (finding 2 of stage 6)
 WILD_PREVIEW = {
@@ -232,8 +232,8 @@ def main():
         (w, h), b = encode(im, *OFFLINE["hero" if pid in big else "photo"])
         off[pid] = dict(src="data:image/jpeg;base64," + base64.b64encode(b).decode(), w=w, h=h, bg=web[pid]["bg"])
         if pid == hero:
-            # link preview image: the hero cut to 1200 x 630 at mid height, the sun and the viewpoint's path both in it
-            og_image(im, os.path.join(OUT_WEB, "img", "og.jpg"), 0.5)
+            # link preview image: the hero cut to 1200 x 630 a little above mid height, the sun and the summit's pyramid in it
+            og_image(im, os.path.join(OUT_WEB, "img", "og.jpg"), 0.45)
 
     def page(photos, fonts, kind):
         script = js + "\nvar PHOTOS = " + json.dumps(photos, ensure_ascii=False) + ";\n" + app_js

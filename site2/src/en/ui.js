@@ -6,7 +6,7 @@ UI.en = {
   'nav.aria': 'Sections', 'nav.settings': 'Settings', 'nav.shape': 'At a glance', 'nav.days': 'Day by day', 'nav.before': 'Before you go',
   'nav.top': 'Back to top', 'nav.change': 'Change', 'lang.aria': 'Language',
   'sum': '{term} · {days} days · {level}',
-  'hero.alt': 'The sun over the peaks at the Mã Pí Lèng pass, with the canyon of the Nho Quế river below, Hà Giang',
+  'hero.alt': 'The sun setting over the pyramid on the summit of Fansipan, 3,143 m, above a sea of clouds, Sa Pa',
   'hero.eyebrow': 'Vietnam trip planner',
   'hero.h1': 'Route G',
   'hero.tag': 'Vietnam, up to you',

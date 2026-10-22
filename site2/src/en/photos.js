@@ -86,6 +86,7 @@ var PHOTO_CAPS_EN = {
   sapa_1: 'The summit marker on Fansipan, 3,143 m (2024)',
   sapa_2: 'The camp at 2,800 m on the Fansipan trail',
   sapa_3: 'The Hoàng Liên Sơn range from the Núi Xẻ ranger station',
+  sapa_5: 'The summit of Fansipan at sunset above a sea of clouds',
   yokdon_0: 'Yok Đôn park in the dry season',
   yokdon_1: 'The Sêrêpốk river',
   yokdon_2: 'Dry dipterocarp forest near Buôn Ma Thuột',
