@@ -200,6 +200,8 @@
     });
     $('#w-back').href = tripLink(trip && trip.settings, lang, costs, null);
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
+    // the atlas of places (stage 7, finding 3), with the trip
+    $('#w-atlas').href = '../atlas/' + atlasHash(null, trip && trip.settings, lang, costs);
   }
   function render() {
     renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab(); paintFrames();

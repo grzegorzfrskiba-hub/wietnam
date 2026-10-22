@@ -191,6 +191,10 @@
   var tb = document.querySelector('.w-tabs');
   check('all three tabs in view', tb.scrollWidth <= tb.clientWidth + 1, tb.scrollWidth + ' > ' + tb.clientWidth);
   check('the way back: at least 44 px high', document.querySelector('#w-back').getBoundingClientRect().height >= 44, document.querySelector('#w-back').getBoundingClientRect().height);
+  // „Atlas” in the heading (stage 7, finding 3): the atlas with the trip, beside EN · PL, on the line of the way back
+  var wa = document.querySelector('#w-atlas'), wab = wa.getBoundingClientRect(), wbb = document.querySelector('#w-back').getBoundingClientRect();
+  check('„Atlas” in the heading: the atlas with the trip, on one line with the way back', wa.getAttribute('href') === '../atlas/' + atlasHash(null, trip && trip.settings, LANG, /(&|#)koszty=1(&|$)/.test(hash)) &&
+    wa.textContent === UI[LANG]['nav.atlas'] && Math.abs(wab.top - wbb.top) < 2 && wab.left >= wbb.right && wab.height >= 44, wa.getAttribute('href') + ' ' + Math.round(wab.left) + ' / ' + Math.round(wbb.right));
   var printCss = [];
   Array.prototype.forEach.call(document.styleSheets, function (s) {
     Array.prototype.forEach.call(s.cssRules, function (r) { if (r.media && /print/.test(r.media.mediaText)) Array.prototype.forEach.call(r.cssRules, function (x) { printCss.push(x.cssText); }); });
@@ -201,7 +205,7 @@
   window.dispatchEvent(new Event('afterprint'));
   check('after the print: folded again', !document.querySelector('#p-route details.w-more[open]'));
   check('the print: only the open tab, without the way back and Dodaj', ['route', 'gallery', 'guide'].filter(function (t) { return vis('#p-' + t); }).length === 1 && vis('#p-' + W.view().tab) &&
-    !vis('#w-back') && !Array.prototype.some.call(document.querySelectorAll('.w-add, .w-drops'), function (e) { return e.checkVisibility(); }));
+    !vis('#w-back') && !vis('#w-atlas') && !Array.prototype.some.call(document.querySelectorAll('.w-add, .w-drops'), function (e) { return e.checkVisibility(); }));
   ps.remove();
   check('the print on A4, as the page with the route', Array.prototype.some.call(document.styleSheets, function (s) {
     return Array.prototype.some.call(s.cssRules, function (r) { return r.type === CSSRule.PAGE_RULE && /size:\s*A4/i.test(r.cssText); });

@@ -287,6 +287,7 @@
     $('#copy-fallback').hidden = $('#end-fallback').hidden = true;
     renderPrintLink();
     $('#wild-hero').href = $('#wild-nav').href = wildLink('route');
+    $('#atlas-hero').href = $('#atlas-top').href = $('#atlas-nav').href = atlasLink(null);
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
@@ -309,6 +310,14 @@
   function wildLink(tab) { return SITE_URL + 'wildlife/#' + tab + '&' + pageHash(state.settings, lang, costs).slice(1); }
   function wildHere(id) {
     return WILD_GUIDE_PLACES.indexOf(id) > -1 ? '<p class="stop-wild"><a href="' + esc(wildLink('guide-' + id)) + '">' + esc(T('stop.wild')) + '</a></p>' : '';
+  }
+  /* The atlas of places (stage 7, finding 19) with this trip: a place's card (#<place>) or its top, then the trip in the
+     page's view, as wildLink; always the public page's address. */
+  function atlasLink(place) { return SITE_URL + 'atlas/#' + (place ? place + '&' : '') + pageHash(state.settings, lang, costs).slice(1); }
+  // the ways on from a stay: its place in the wildlife subpage's field guide and its card in the atlas, side by side
+  function stayLinks(id) {
+    var h = wildHere(id) + (PLACES[id].node ? '' : '<p class="stop-atlas"><a href="' + esc(atlasLink(id)) + '">' + esc(T('stop.atlas')) + '</a></p>');
+    return h ? '<div class="stop-links">' + h + '</div>' : '';
   }
   // the printout names this route's address on the public page, in the page's view (as the copied plan does)
   function renderPrintLink() {
@@ -519,7 +528,7 @@
         '<div class="why">' + stayFacts(i, compact) + '</div>' +
         (again ? '' : gallery(s.id)) + (sw ? swapBlock(sw, s.start) : '') + '<ol class="days">' + state.plans[i].map(function (d) {
           return dayItem(d, rainyMonth(CLIMATE[s.id], state.st.months[d.day - 1] + 1));
-        }).join('') + '</ol>' + (again ? '' : tips(c) + wildHere(s.id)) + '</section>';
+        }).join('') + '</ol>' + (again ? '' : tips(c) + stayLinks(s.id)) + '</section>';
     });
     html += legCard(r.home, r.days, r.stops[r.stops.length - 1], null) + homeCard();
     $('#stops').innerHTML = html;
@@ -812,7 +821,8 @@
         '<p class="off-why">' + esc(capFirst(x.reasons.map(function (r) { return offReason(r, x); }).join('; '))) + '.</p>' +
         (x.canAdd ? '<p class="off-drops">' + esc(x.drops.length ? T('off.drops', { list: names(x.drops) })
           : x.shorter.length ? T('off.shorter', { list: names(x.shorter) }) : T('off.nodrops')) + '</p>' : '') +
-        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') + '</div>' +
+        (x.canAdd ? '<button type="button" class="btn-small" data-add="' + x.id + '" aria-label="' + esc(T('off.add.aria', { x: c.short })) + '">' + T('off.add') + '</button>' : '') +
+        '<a class="off-atlas" href="' + esc(atlasLink(x.id)) + '">' + esc(T('stop.atlas')) + '</a></div>' +
         '</div></details></li>';
     }).join('');
     $('#reset-changes').hidden = !(s.add.length || s.remove.length);
@@ -1483,8 +1493,8 @@
   bindFolds();
   bindCosts();
   fromLink();
-  /* back-to-top button and „Zwierzęta” in the bar: shown once the photo opener has scrolled away (class at-hero on the bar
-     hides the button there while the photo, with its own „Zwierzęta”, is on the screen); by hand the button comes in softly */
+  /* back-to-top button and „Zwierzęta” and „Atlas” in the bar: shown once the photo opener has scrolled away (class at-hero on
+     the bar hides them there while the photo, with its own, is on the screen); by hand they come in softly */
   var totop = $('#totop'), hero = $('.hero'), secnav = $('#secnav');
   if (totop && hero && 'IntersectionObserver' in window) {
     secnav.classList.add('at-hero');
@@ -1492,9 +1502,10 @@
       var at = es[0].isIntersecting, was = secnav.classList.contains('at-hero');
       totop.hidden = at;
       secnav.classList.toggle('at-hero', at);
-      var w = $('#wild-nav');
-      if (was && !at && touched && moving() && w.getClientRects().length)
-        w.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'ease-out' });
+      [$('#wild-nav'), $('#atlas-nav')].forEach(function (w) {
+        if (was && !at && touched && moving() && w.getClientRects().length)
+          w.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'ease-out' });
+      });
     }).observe(hero);
   }
   /* for the probes in tests/probes/ */

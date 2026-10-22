@@ -109,6 +109,13 @@ ul, ol { padding: 0; list-style: none; }
 /* „Zwierzęta” (stage 6, finding 5): the third button under the title, on a phone too. It leads to another page, not down
    this one, so it has ↗; over the photo outlined, as „Zobacz trasę”; in the bar it is filled (22.10.2026) */
 .wild-link > span::after { content: "\00a0\2197"; }
+/* „Atlas” (stage 7, finding 19): another page, so with ↗ as „Zwierzęta”; under the title the fourth button, outlined as
+   „Zwierzęta”; on a phone in the photo's top corner instead, opposite the switch EN · PL, so the buttons under the title stay
+   two rows and the photo above the title stays (tests/probes/settings.js); in the bar filled blue (the user's choice of
+   22.10.2026: „Zwierzęta” jade, „Atlas” blue, white text about 6.6:1, in dark mode 8.2:1) */
+.atlas-link > span::after, .hero-atlas > span::after { content: "\00a0\2197"; }
+.hero-atlas { display: none; position: absolute; z-index: 2; top: 4px; left: calc(var(--gutter) - 4px); min-height: 44px; align-items: center; padding: 0 4px; color: var(--on-photo); font: 500 13px var(--mono); letter-spacing: 0.08em; text-shadow: 0 1px 10px rgba(var(--black), 0.45); text-underline-offset: 5px; }
+@media (max-width: 640px) { .hero-atlas { display: inline-flex; } .hero-cta .atlas-link { display: none; } }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
 /* the language switch (stage 5): EN · PL in the photo's top right corner, each at least 44 px for a finger, the active one
    underlined; it scrolls with the page */
@@ -520,7 +527,9 @@ details[open] > summary .fold-arrow { transform: rotate(180deg); }
 .day-rain b { font-weight: 600; }
 .tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
 /* the way into the wildlife subpage's field guide for this place (stage 6, finding 5) */
-.stop-wild a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
+/* and the way into the atlas of places, beside it (stage 7, finding 19), also in an open row of the places off the trip */
+.stop-links { display: flex; flex-wrap: wrap; gap: 0 22px; }
+.stop-wild a, .stop-atlas a, .off-atlas { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
 .tip { font-size: 14px; line-height: 1.5; background: var(--accent-soft); padding: 10px 12px; border-radius: 6px; }
 .tip b { display: block; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2px; }
 .tip-skip { background: var(--warm-soft); }
@@ -641,14 +650,19 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   /* „Zwierzęta” does not fit beside them down to 320 px (stage 6, finding 5): on a phone the hero and the stays lead there */
   .secnav-links .wild-link { display: none; }
 }
+/* „Atlas” (stage 7, finding 19), a filled tag, fits beside the other links and the longest summary from 1101 px (dates over
+   the new year in Polish: at 1024 px 12 px too wide; tests/probes/atlaslink.js); below, the hero and the stays lead there */
+@media (max-width: 1100px) { .secnav-links .atlas-link { display: none; } }
 .secnav a { flex: none; padding: 12px 0; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .secnav a:hover { color: var(--ink); }
 /* „Zwierzęta” leads to another page: over the photo outlined, in the bar a small filled tag with ↗ (22.10.2026) */
 .secnav .wild-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: var(--surface); font-weight: 600; }
 .secnav .wild-link:hover { color: var(--surface); filter: brightness(1.1); }
-/* while the photo at the top is on the screen, its own „Zwierzęta” is there, so the bar has none (class at-hero, app.js);
+.secnav .atlas-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--cool); color: var(--surface); font-weight: 600; }
+.secnav .atlas-link:hover { color: var(--surface); filter: brightness(1.1); }
+/* while the photo at the top is on the screen, its own „Zwierzęta” and „Atlas” are there, so the bar has neither (class at-hero, app.js);
    once the photo has gone, the button comes into the bar (22.10.2026) */
-.secnav.at-hero .wild-link { display: none; }
+.secnav.at-hero .wild-link, .secnav.at-hero .atlas-link { display: none; }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
@@ -674,7 +688,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
+  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-atlas, .stop-links, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -721,6 +735,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
   <span class="hero-where">Fansipan, Sa Pa</span>
   <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+  <a class="hero-atlas" id="atlas-top" href="atlas/"><span data-i18n="nav.atlas"></span></a>
   <div class="hero-text">
     <div class="wrap">
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
@@ -728,7 +743,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="hero-tag" data-i18n="hero.tag"></p>
       <p class="hero-lede" data-i18n="hero.lede"></p>
       <p class="print-link" id="print-link"></p>
-      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="ghost wild-link" id="wild-hero" href="wildlife/"><span data-i18n="nav.wild"></span></a></div>
+      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="ghost wild-link" id="wild-hero" href="wildlife/"><span data-i18n="nav.wild"></span></a><a class="ghost atlas-link" id="atlas-hero" href="atlas/"><span data-i18n="nav.atlas"></span></a></div>
     </div>
   </div>
 </header>
@@ -739,6 +754,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <a href="#days" data-i18n="nav.days"></a>
     <a href="#before" data-i18n="nav.before"></a>
     <a class="wild-link" id="wild-nav" href="wildlife/"><span data-i18n="nav.wild"></span></a>
+    <a class="atlas-link" id="atlas-nav" href="atlas/"><span data-i18n="nav.atlas"></span></a>
   </div>
   <p class="secnav-sum"><span class="sum-swap"><span id="sum-text"></span><span id="sum-day"></span></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>

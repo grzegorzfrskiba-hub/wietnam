@@ -20,12 +20,12 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
            + sorted("content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "content", "*.js")))
            + sorted("en/content/" + os.path.basename(p) for p in glob.glob(os.path.join(SRC, "en", "content", "*.js")))
            + ["photos.js", "en/photos.js", "ui.js", "en/ui.js", "panels.js", "costs.js", "before.js", "en/names.js", "page.js", "basemap.js"])
-# The wildlife subpage's scripts (stage 6): those of the page that plan a trip and name its places, then its own helpers,
-# data and texts (English after Polish); its logic, wildapp.js, comes after them, as app.js does. Not in the offline file
-# and not in out/web (finding 4 of stage 6).
+# The wildlife subpage's scripts (stage 6): those of the page that plan a trip and name its places, then its own helpers
+# (and the atlas's, for its link to the atlas, stage 7), data and texts (English after Polish); its logic, wildapp.js, comes
+# after them, as app.js does. Not in the offline file and not in out/web (finding 4 of stage 6).
 WILD_SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
                 + [n for n in SCRIPTS if n.startswith(("content/", "en/content/"))]
-                + ["ui.js", "en/ui.js", "panels.js", "page.js", "basemap.js", "wildpage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
+                + ["ui.js", "en/ui.js", "panels.js", "page.js", "basemap.js", "wildpage.js", "atlaspage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
 # The atlas of places' scripts (stage 7): those of the wildlife subpage that plan a trip and name its places, the credits of
 # the places' photos, the helpers and the texts it shares with the wildlife subpage, then its own (English after Polish);
 # its logic, atlasapp.js, comes after them. Not in the offline file and not in out/web, as the wildlife subpage.
