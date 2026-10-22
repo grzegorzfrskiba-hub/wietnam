@@ -6,7 +6,7 @@ CONTENT.hagiang = {
   what: 'Wapienny płaskowyż pełen skalnych szczytów i kanionów, na samej północy kraju, przy granicy z Chinami: pierwszy w Wietnamie światowy geopark UNESCO.',
   region: 'north', maps: 'Ha Giang, Vietnam', pt: [22.83, 104.99], color: 19,
   poi: { name: 'Đồng Văn', pt: [23.29, 105.36] },
-  photos: ['hagiang_0', 'hagiang_1', 'hagiang_2', 'hagiang_3', 'hagiang_4'],
+  photos: ['hagiang_1', 'hagiang_2', 'hagiang_3', 'hagiang_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['hagiang.permit'], t: 'Wieczór w Hà Giang', d: 'Nocleg w mieście Hà Giang, skąd rano ruszysz na pętlę. Kierowcę albo przewodnika na motocyklu (easy rider) zamawiaj tylko w biurze z licencją. Đồng Văn, Mã Pí Lèng i Lũng Cú leżą w strefie przygranicznej, więc potrzebne jest pozwolenie za ok. 230 000–300 000 VND, które załatwia biuro. Paszport miej zawsze przy sobie.',
       rain: 'nic nie zmieniaj, ale zapytaj biuro o prognozę i stan drogi QL4C.',

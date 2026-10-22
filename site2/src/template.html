@@ -95,7 +95,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero { position: relative; min-height: clamp(460px, 64vh, 680px); display: flex; align-items: flex-end; overflow: hidden; background: var(--photo-bg); }
 /* without JavaScript (an iPhone's preview of the offline file): where to open the page instead */
 .noscript { margin: 0; padding: 16px var(--gutter); background: var(--warm-soft); color: var(--ink); }
-.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; transform-origin: center 55%; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transform-origin: center 30%; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.45) 0%, rgba(var(--scrim), 0.12) 28%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
 .hero-text { position: relative; z-index: 1; width: 100%; padding-block: 48px clamp(32px, 6vh, 56px); color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.35); }
 .hero .eyebrow { color: var(--on-photo); opacity: 0.85; }
@@ -580,8 +580,9 @@ footer a { color: var(--muted); }
   #facts .f-budget { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid var(--line); }
 }
 @media (max-width: 640px) {
-  /* a lower photo, so the form starts on the first screen (tests/probes/settings.js) */
-  .hero { min-height: 0; }
+  /* the photo above the title, as on the wildlife subpage (fix 1 of the round from 22.10.2026): the hero keeps the height
+     it has on a computer, so about 200 px of the photo stand clear of the text; the buttons stay on the first screen and
+     the form starts a swipe lower (tests/probes/settings.js) */
   .hero-text { padding-block: 40px 34px; }   /* room under the buttons for the place of the photo (.hero-where) */
   .hero-lede { margin-top: 10px; }
   .hero-cta { margin-top: 16px; }
@@ -713,7 +714,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 <noscript>__NOSCRIPT__</noscript>
 <header class="hero" id="top">
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
-  <span class="hero-where">Tràng An, Ninh Bình</span>
+  <span class="hero-where">Mã Pí Lèng, Hà Giang</span>
   <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
   <a class="hero-wild" id="wild-top" href="wildlife/" data-i18n="nav.wild"></a>
   <div class="hero-text">

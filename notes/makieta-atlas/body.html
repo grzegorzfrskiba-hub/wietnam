@@ -1,0 +1,43 @@
+<header class="w-head">
+  <div class="w-hero">
+    <img id="w-hero-img" src="../img/mucangchai_1.jpg" srcset="../img/mucangchai_1-960.jpg 960w, ../img/mucangchai_1.jpg 1400w" sizes="(max-width: 700px) 200vw, 100vw" alt="Tarasy pod przełęczą Khau Phạ" width="1400" height="934" fetchpriority="high">
+    <span class="w-where">Mù Cang Chải, przełęcz Khau Phạ</span>
+    <div class="wrap w-hero-in">
+      <div class="w-top"><a id="w-back" href="../#lang=pl">← Zaplanuj trasę</a>
+        <div class="lang-switch"><button type="button" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" aria-pressed="true">PL</button></div>
+      </div>
+      <div><p class="w-eyebrow">Route G</p>
+        <h1>Atlas Wietnamu</h1>
+        <p class="w-lead">Dwadzieścia miejsc, z których Route G układa trasy, od gór na północy po wyspy na południu: jak wyglądają, kiedy jechać i co tam robić.</p></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="w-tabs a-regions" id="a-regions"></nav>
+  </div>
+</header>
+<div class="wrap">
+  <div class="a-mock" id="a-mock">
+    <b>Tylko w makiecie</b>
+    <div class="row"><span>Układ miejsca</span><button data-o="layout" data-v="a">A · Karta i album</button><button data-o="layout" data-v="b">B · Kadr po kadrze</button><button data-o="layout" data-v="c">C · Mozaika</button></div>
+    <div class="row"><span>Mapa</span><button data-o="map" data-v="country">Cały kraj</button><button data-o="map" data-v="zoom">Przybliża region</button></div>
+    <div class="row"><span>Kolejność</span><button data-o="order" data-v="ns">Z północy na południe</button><button data-o="order" data-v="sn">Z południa na północ</button></div>
+    <div class="row"><span>Trasa z linku</span><button data-o="trip" data-v="none">Bez trasy</button><button data-o="trip" data-v="demo">Z trasą: HCMC → Hà Nội, 15 dni, marzec 2027, przyroda</button></div>
+  </div>
+</div>
+<main class="wrap w-main">
+  <div class="w-map" id="w-map" aria-hidden="true"></div>
+  <div class="w-panels" id="a-panels"></div>
+</main>
+<footer>
+  <div class="wrap">
+    <p>Makieta do wyrzucenia po sesji: prawdziwe teksty, zdjęcia i trasy z silnika; nazwa, nagłówek i ramka „Tylko w makiecie” są robocze.</p>
+  </div>
+</footer>
+<dialog class="w-viewer" id="w-viewer">
+  <div class="wv-stage"><div id="wv-photo"></div>
+    <button type="button" class="wv-nav wv-prev" id="wv-prev" aria-label="Poprzednie"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="wv-nav wv-next" id="wv-next" aria-label="Następne"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    <span class="wv-count" id="wv-count"></span></div>
+  <div class="wv-text"><h2 id="wv-name"></h2><p class="wv-cap" id="wv-cap"></p></div>
+  <button type="button" class="wv-close" id="wv-close" aria-label="Zamknij">×</button>
+</dialog>

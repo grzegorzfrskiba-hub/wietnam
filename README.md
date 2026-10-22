@@ -12,7 +12,7 @@ The subpage Wildlife of Vietnam, https://grzegorzfrskiba-hub.github.io/wietnam/w
 
 ## Photos, map and fonts
 
-- The photos come from Wikimedia Commons, under CC0, CC BY and CC BY-SA or in the public domain. The author, the licence and a link to each photo’s page are in the page’s footer and in `site2/src/photos.js` (the wildlife subpage: its footer and `site2/src/wildphotos.js`); those licences still apply. The image in the link preview is the photo “A rowing boat below the cliffs of Tràng An” by Jakub Hałun, CC BY 4.0.
+- The photos come from Wikimedia Commons, under CC0, CC BY and CC BY-SA or in the public domain. The author, the licence and a link to each photo’s page are in the page’s footer and in `site2/src/photos.js` (the wildlife subpage: its footer and `site2/src/wildphotos.js`); those licences still apply. The image in the link preview is the photo “The Mã Pí Lèng pass above the canyon of the Nho Quế river” by Hoach Le Dinh, CC0.
 - Map outlines: Natural Earth, public domain.
 - Fonts: IBM Plex Sans, IBM Plex Mono and Newsreader under the SIL Open Font License 1.1 (licence files in `site2/fonts/`).
 

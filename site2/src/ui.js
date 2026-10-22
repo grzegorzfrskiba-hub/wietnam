@@ -7,7 +7,7 @@ UI.pl = {
   'nav.aria': 'Sekcje', 'nav.settings': 'Ustawienia', 'nav.shape': 'W skrócie', 'nav.days': 'Dzień po dniu', 'nav.before': 'Przed wyjazdem',
   'nav.top': 'Na górę', 'nav.change': 'Zmień', 'lang.aria': 'Język strony',
   'sum': '{term} · {days} dni · {level}',
-  'hero.alt': 'Kobieta wiosłuje małą łodzią po rzece u stóp wapiennych skał w Tràng An, Ninh Bình',
+  'hero.alt': 'Słońce nad szczytami przy przełęczy Mã Pí Lèng, a w dole kanion rzeki Nho Quế, Hà Giang',
   'hero.eyebrow': 'Planer podróży po Wietnamie',
   'hero.h1': 'Route G',
   'hero.tag': 'Wietnam po swojemu',

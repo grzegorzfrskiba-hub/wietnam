@@ -40,7 +40,6 @@ var PHOTO_META = {
   puluong_3: { cap: 'Bambusowa tratwa pchana tyczką po rzece', artist: 'Benjamin Smith', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:P%C3%B9_Lu%C3%B4ng_-_07.jpg' },
   puluong_0: { cap: 'Tarasy Pù Luông w porze zbiorów (wrzesień)', artist: 'NKSTTSSHNVN', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Ru%E1%BB%99ng_b%E1%BA%ADc_thang_P%C3%B9_Lu%C3%B4ng_1_-_NKS.jpg' },
   puluong_5: { cap: 'Tkanie na drewnianym krośnie w domu', artist: 'Benjamin Smith', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:P%C3%B9_Lu%C3%B4ng_-_03.jpg' },
-  ninhbinh_1: { cap: 'Łódź wiosłowa pod skałami Tràng An', artist: 'Jakub Hałun', license: 'CC BY 4.0', page: 'https://commons.wikimedia.org/wiki/File:Trang_An_Landscape_Complex,_Ninh_Binh_Province,_Vietnam,_20240202_1433_5283.jpg' },
   ninhbinh_0: { cap: 'Wapienne turnie w Tràng An', artist: 'Richard Mortel from Riyadh, Saudi Arabia', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Trang_An_Scenic_Landscape_Complex,_northern_Vietnam_(354)_(38540830421).jpg' },
   ninhbinh_3: { cap: 'Mokradła Vân Long o złotej godzinie', artist: 'Hòa Nguyễn', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Van_Long_Swamp_(24135913297).jpg' },
   ninhbinh_4: { cap: 'Langur Delacoura na wapiennej skale', artist: 'Charles J. Sharp', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Delacour%27s_langur_(Trachypithecus_delacouri)_Van_Long.jpg' },
@@ -101,5 +100,5 @@ var PHOTO_META = {
   mucangchai_4: { cap: 'Tarasy w porze wody w Dế Xu Phình', artist: 'Gió Đông', license: 'Public domain', page: 'https://commons.wikimedia.org/wiki/File:Mu_Cang_Chai_02.JPG' },
   sapa_4: { cap: 'Sa Pa widziana ze zboczy gór Hoàng Liên Sơn', artist: 'Christophe95', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:View_of_Sa_Pa_from_the_Ho%C3%A0ng_Li%C3%AAn_S%C6%A1n_mountains.jpg' }
 };
-var HERO_PHOTO = 'ninhbinh_1';   // the photo at the top of the page and in the link preview
+var HERO_PHOTO = 'hagiang_0';   // the photo at the top of the page and in the link preview (next round of fixes, fix 1: Mã Pí Lèng)
 var FINALE_PHOTO = 'puluong_1';   // the photo at the end of the page (finishing touches, finding 9), one of Pù Luông's

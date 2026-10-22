@@ -6,7 +6,7 @@ UI.en = {
   'nav.aria': 'Sections', 'nav.settings': 'Settings', 'nav.shape': 'At a glance', 'nav.days': 'Day by day', 'nav.before': 'Before you go',
   'nav.top': 'Back to top', 'nav.change': 'Change', 'lang.aria': 'Language',
   'sum': '{term} · {days} days · {level}',
-  'hero.alt': 'A woman rows a small boat on a river below limestone cliffs in Tràng An, Ninh Bình',
+  'hero.alt': 'The sun over the peaks at the Mã Pí Lèng pass, with the canyon of the Nho Quế river below, Hà Giang',
   'hero.eyebrow': 'Vietnam trip planner',
   'hero.h1': 'Route G',
   'hero.tag': 'Vietnam, up to you',
