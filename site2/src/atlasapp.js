@@ -4,7 +4,8 @@
    places): the line under its name, the interests it serves, what it is, the bar of the twelve months, what to do and its
    hidden gem. With the settings of a trip in the address it plans the same trip as the page with the route (engine.js) and
    says for each place whether it is on the trip, with its days, or why not, what Dodaj would drop, and Dodaj itself, back to
-   that page with the place added (decision 1). An address with a place (#hoian&…) opens the atlas on it (finding 4).
+   that page with the place added (decision 1). An address with a place (#hoian&…) opens the atlas on it (finding 4). Beside
+   the cards a map of the whole country lights the place across the middle of the screen, as on the wildlife subpage.
    Texts: atlasui.js, in English en/atlasui.js; the words it shares with the wildlife subpage come from wildui.js, the words
    of both pages from ui.js; the page's language as on the page with the route. */
 (function () {
@@ -171,16 +172,17 @@
     $('#a-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
     $('#a-wild').href = '../wildlife/' + wildHash({ tab: trip ? 'route' : 'gallery', place: null }, trip && trip.settings, lang, costs);
   }
-  function render() { renderPlaces(); renderLinks(); paintFrames(); }
+  function render() { renderPlaces(); renderLinks(); renderMap(); paintFrames(); }
 
   /* ---------- the view ---------- */
   /* The address: the trip (only when it changed, as planning takes a moment) and the language; a place before them moves the
      page to its card. */
   function fromHash() {
     var parts = location.hash.replace(/^#/, '').split('&'), key = (parts[0].indexOf('=') < 0 ? parts.slice(1) : parts).join('&');
-    if (key !== fromHash.key) { fromHash.key = key; costs = costsOf(location.hash); readTrip(); setLang(langOf(location.hash)); render(); }
+    if (key !== fromHash.key) { fromHash.key = key; costs = costsOf(location.hash); readTrip(); setLang(langOf(location.hash)); render(); prepRise(); }
     var p = atlasPlace(location.hash, IDS);
     if (p) bring($('#pl-' + p));
+    lightNow();
   }
   function setLang(l) {
     lang = l;
@@ -193,14 +195,138 @@
     all('#lang-switch [data-lang]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
     renderCredits();
   }
-  // a card the address brings (a link with #<place> from the page with the route): to the top of the screen, with the focus
+  /* A card the address brings (a link with #<place> from the page with the route): in sight at once, to the top of the screen
+     (under the band of the map), with the focus; the map lights it while it stays there, however short its part across the
+     middle (as a place of the field guide on the wildlife subpage). */
   function bring(el) {
     if (!el) return;
+    el.classList.remove('a-pre');
     el.scrollIntoView();
     el.focus({ preventScroll: true });
+    pinned = el; pinTop = el.getBoundingClientRect().top;
+    rise();
+    lightNow();
   }
   // a link to a region: its heading to the top, the address as it was
-  function toRegion(r) { $('#reg-' + r).scrollIntoView(); }
+  function toRegion(r) {
+    $('#reg-' + r).scrollIntoView();
+    rise();
+    lightNow();
+  }
+
+  /* ---------- the map beside the cards (findings 13 and 15) ---------- */
+  /* The whole country (decision 4) with the trip, a dot at every place in its colour, a ring for a place off the trip
+     (countryMapAll in page.js); what is lit: the card under the mouse or with the focus, else the item across the middle of
+     the screen (below 1101 px, of the part under the band): a card lights its place, with its name and its days on the trip,
+     a region's heading (finding 12) all its places, without names, while it crosses the middle. A printout shows every place
+     with its number (finding 23). Hidden from a screen reader, which has the same in the cards. */
+  var BAND = window.matchMedia('(max-width: 1100px)'), mapDots = [], mapW = 0, litKey = null, mouse = null, pinned = null, pinTop = 0, NAME_H = 18, NUM_PX = 13;
+  function r1(v) { return v.toFixed(1); }
+  function curve(a, b) {
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1];
+    var len = Math.sqrt(dx * dx + dy * dy) || 1, k = 0.16 * len;
+    return 'M' + r1(a[0]) + ' ' + r1(a[1]) + ' Q' + r1(mx - dy / len * k) + ' ' + r1(my + dx / len * k) + ' ' + r1(b[0]) + ' ' + r1(b[1]);
+  }
+  function stayText(id) { return trip.stays[id].map(function (s) { return dayRange(s.first, s.last); }).join(' ' + T('and') + ' '); }
+  function renderMap() {
+    var m = countryMapAll(trip && trip.route, IDS, { frame: COUNTRY_MAP, content: VIEW, airports: AIRPORTS });
+    mapDots = m.dots; mapW = m.w;
+    // the numbers on paper: each beside its dot, on the side where it meets no other (labelSides in wildpage.js)
+    var nums = labelSides(m.dots.map(function (d, i) { return { id: d.id, x: d.x, y: d.y, left: d.left, w: textWidth(String(i + 1), NUM_PX) }; }), 9, m.w, NUM_PX + 2);
+    $('#a-map').innerHTML = '<svg viewBox="0 0 ' + m.w + ' ' + m.h + '"><path class="bm-land" d="' + OUTLINE + '"/>' + m.segs.map(function (g) {
+      return g.mode === 'fly' ? '<path class="bm-fly" d="' + curve([g.x1, g.y1], [g.x2, g.y2]) + '"/>'
+        : '<line class="bm-road" x1="' + r1(g.x1) + '" y1="' + r1(g.y1) + '" x2="' + r1(g.x2) + '" y2="' + r1(g.y2) + '"/>';
+    }).join('') + m.stays.map(function (p) { return '<circle class="bm-stay" cx="' + r1(p.x) + '" cy="' + r1(p.y) + '" r="3"/>'; }).join('') +
+      m.dots.map(function (d, i) {
+        var at = 'cx="' + r1(d.x) + '" cy="' + r1(d.y) + '"', left = nums[d.id];
+        return '<g class="bm-pt' + (trip && !trip.stays[d.id] ? ' ring' : '') + '" data-p="' + d.id + '" style="--c:var(--pal-' + VIEW[d.id].color + ')">' +
+          '<circle class="bm-halo" ' + at + ' r="9"/><circle class="bm-dot" ' + at + ' r="6"/><text class="bm-name" y="' + r1(d.y + 5) + '">' + esc(short(d.id)) + '</text>' +
+          '<text class="bm-num" x="' + r1(d.x + (left ? -9 : 9)) + '" y="' + r1(d.y + 4.5) + '" text-anchor="' + (left ? 'end' : 'start') + '">' + (i + 1) + '</text>' +
+          '<circle class="bm-hit" ' + at + ' r="12"/></g>';
+      }).join('') + '</svg><div class="w-map-cap"><p class="w-map-names"></p>' + (trip ? '<p class="w-map-key">' + esc(T('w.map.key')) + '</p>' : '') +
+      '<ol class="a-maplist">' + IDS.map(function (id, i) { return '<li><b>' + (i + 1) + '</b>' + esc(short(id)) + '</li>'; }).join('') + '</ol></div>';
+    litKey = null;
+  }
+  // the items that light the map, in their order on the page: the headings of the regions and the cards
+  function items() { return all('#a-panels .a-region, #a-panels .a-card'); }
+  function itemPlaces(el) { return el.classList.contains('a-region') ? IDS.filter(function (id) { return CONTENT[id].region === el.getAttribute('data-reg'); }) : [el.id.slice(3)]; }
+  // the line an item lights on: the middle of the screen, below 1101 px of the part under the band
+  function middleLine() { return BAND.matches ? (Math.max($('#a-map').getBoundingClientRect().bottom, 0) + window.innerHeight) / 2 : window.innerHeight / 2; }
+  function light(el) {
+    var ids = el ? itemPlaces(el) : [], one = !!el && el.classList.contains('a-card'), key = ids.join(' ');
+    if (key === litKey) return;
+    litKey = key;
+    all('#a-map .bm-pt').forEach(function (g) {
+      var p = g.getAttribute('data-p'), on = ids.indexOf(p) > -1, t = g.querySelector('.bm-name');
+      g.classList.toggle('on', on);
+      g.classList.toggle('named', on && one);
+      if (on && one) {
+        var d = mapDots.filter(function (x) { return x.id === p; })[0];
+        t.setAttribute('x', r1(d.x + (d.left ? -BIG_NAME_GAP : BIG_NAME_GAP))); t.setAttribute('text-anchor', d.left ? 'end' : 'start');
+      }
+    });
+    $('#a-map').classList.toggle('any', ids.length > 0);
+    $('#a-map').classList.toggle('group', ids.length > 0 && !one);
+    $('#a-map .w-map-names').innerHTML = !el ? '' : one ? '<span class="w-map-name"><span class="dot' + (trip && !trip.stays[ids[0]] ? ' ring' : '') + '" style="--c:var(--pal-' + VIEW[ids[0]].color + ')"></span>' +
+      esc(short(ids[0])) + (trip && trip.stays[ids[0]] ? ' · ' + esc(stayText(ids[0])) : '') + '</span>'
+      : '<span class="w-map-name">' + esc(T('a.reg.' + el.getAttribute('data-reg')) + ' · ' + placesText(ids.length)) + '</span>';
+  }
+  function lightNow() {
+    if (!mapDots.length) return;
+    var els = items(), i = -1, el = mouse && document.elementFromPoint(mouse.x, mouse.y);
+    if (el) els.forEach(function (e, k) { if (i < 0 && e.classList.contains('a-card') && e.contains(el)) i = k; });
+    // the card an address brought to the top lights while it stays there (bring)
+    if (i < 0 && pinned && Math.abs(pinned.getBoundingClientRect().top - pinTop) < 48) i = els.indexOf(pinned);
+    if (i < 0) { pinned = null; i = midItem(els.map(function (e) { var r = e.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }), middleLine()); }
+    light(i > -1 ? els[i] : null);
+  }
+  // a browser sends scroll and pointermove at most once a frame, and lightNow reads the boxes of 23 items only
+  window.addEventListener('scroll', lightNow, { passive: true });
+  window.addEventListener('resize', lightNow);
+  BAND.addEventListener('change', lightNow);
+  // the mouse (not a finger) over the cards: the card under it; the keyboard: the card with the focus
+  $('#a-panels').addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mouse = { x: e.clientX, y: e.clientY }; lightNow(); });
+  $('#a-panels').addEventListener('pointerleave', function () { mouse = null; lightNow(); });
+  $('#a-panels').addEventListener('focusin', function (e) { var c = e.target.closest('.a-card'); if (c) light(c); });
+  // the mouse on a dot frames the card of its place; a click on it brings the card to the top of the screen (under the band)
+  $('#a-map').addEventListener('mouseover', function (e) {
+    var g = e.target.closest('.bm-pt'), p = g && g.getAttribute('data-p');
+    all('#a-panels .a-card').forEach(function (c) { c.classList.toggle('w-lit', !!p && c.id === 'pl-' + p); });
+  });
+  $('#a-map').addEventListener('mouseleave', function () { all('.w-lit').forEach(function (c) { c.classList.remove('w-lit'); }); });
+  $('#a-map').addEventListener('click', function (e) {
+    var g = e.target.closest('.bm-pt'), el = g && $('#pl-' + g.getAttribute('data-p'));
+    if (!el) return;
+    el.classList.remove('a-pre');
+    // the band as it will stand once the page has moved: stuck at the top, also when the click came before it stuck
+    var top = BAND.matches ? $('#a-map').offsetHeight : 0, line = (top + window.innerHeight) / 2, b = el.getBoundingClientRect();
+    // a card taller than the half of the screen it would have under the line (most of them) comes to its top instead
+    window.scrollBy(0, b.bottom - b.top > 2 * (window.innerHeight - line) ? b.top - top - 12 : (b.top + b.bottom) / 2 - line);
+    mouse = null;
+    rise();
+    light(el);
+  });
+  // the printout: the map once, every place lit with its number
+  window.addEventListener('beforeprint', function () {
+    all('.a-pre').forEach(function (c) { c.classList.remove('a-pre'); });
+    litKey = null;
+    $('#a-map').classList.remove('group');
+    all('#a-map .bm-pt').forEach(function (g) { g.classList.add('on'); g.classList.remove('named'); });
+  });
+  window.addEventListener('afterprint', function () { litKey = 'print'; lightNow(); });
+
+  /* ---------- the cards come in as they reach the screen (finding 15) ---------- */
+  /* When the page opens, the cards below the screen wait hidden (a-pre) and rise into place once their top is on it; none
+     wait with reduced motion. */
+  var STILL = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function prepRise() {
+    all('.a-pre').forEach(function (c) { c.classList.remove('a-pre'); });
+    if (STILL.matches) return;
+    all('#a-panels .a-card').forEach(function (c) { if (c.getBoundingClientRect().top > window.innerHeight) c.classList.add('a-pre'); });
+  }
+  function rise() { all('.a-pre').forEach(function (c) { if (c.getBoundingClientRect().top < window.innerHeight - 40) c.classList.remove('a-pre'); }); }
+  window.addEventListener('scroll', rise, { passive: true });
+  window.addEventListener('resize', rise);
 
   /* ---------- the bar of the months: the line under it ---------- */
   function showMonth(b) {
@@ -300,13 +426,16 @@
     x0 = null;
     if (Math.abs(dx) >= 50) step(dx < 0 ? 1 : -1);
   });
-  /* EN · PL: the texts anew, without the place in the address (the page stays where it is), the trip and the costs kept */
+  /* EN · PL: the texts anew, without the place in the address, the trip and the costs kept; the card lit across the middle
+     stays where it stood on the screen, as the cards' heights change with the language */
   $('#lang-switch').addEventListener('click', function (e) {
     var b = e.target.closest('[data-lang]');
     if (!b || b.getAttribute('data-lang') === lang) return;
+    var keep = litKey && litKey.indexOf(' ') < 0 ? litKey : null, before = keep ? $('#pl-' + keep).getBoundingClientRect().top : 0;
     var h = atlasHash(null, trip && trip.settings, b.getAttribute('data-lang'), costs) || location.pathname;
     try { history.replaceState(null, '', h); } catch (err) { location.replace(h); }
     fromHash();
+    if (keep) { window.scrollBy(0, $('#pl-' + keep).getBoundingClientRect().top - before); rise(); lightNow(); }
   });
   window.addEventListener('hashchange', fromHash);
   fromHash();

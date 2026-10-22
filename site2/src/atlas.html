@@ -4,7 +4,7 @@
 /* The atlas of places (stage 7, notes/plans/2026-10-22-atlas-projekt.md): the colours, the fonts and the base rules of the
    page with the route (build.py copies its :root tokens here); the photo at the top, the switch EN · PL and the photo viewer
    as on the wildlife subpage (wild.html, whose class names they keep), then its own: the links to the regions, the cards of
-   the places and the bar of the months. */
+   the places, the bar of the months and the map beside them. */
 /* __TOKENS__ */
 /* the seasons in the bar of the months (finding 7): good, fair, poor and closed, on a card in both themes */
 :root { --ssn-d: #2f7d5b; --ssn-s: #c9982c; --ssn-z: #c0553d; --ssn-x: #b7c1bc; }
@@ -69,6 +69,9 @@ main { padding-block: 28px 48px; }
 
 /* the regions: a heading with the number of its places (finding 12) */
 .a-region { margin-top: 48px; font-size: clamp(32px, 4.6vw, 44px); scroll-margin-top: 16px; }
+/* a heading or a card the page brings to the top (a link to a region, an address with a place) stands under the band of the
+   map, not behind it */
+@media (max-width: 1100px) { .a-region, .a-card { scroll-margin-top: 210px; } }
 .a-region small { margin-left: 6px; font: 500 14px var(--mono); color: var(--muted); letter-spacing: 0; }
 .a-region:first-of-type { margin-top: 34px; }
 
@@ -124,6 +127,79 @@ main { padding-block: 28px 48px; }
 .a-links > a:not(.btn-small) { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
 @media (max-width: 640px) { .a-body { padding: 14px 16px 18px; } }
 
+/* The map beside the cards (findings 13 and 15), as on the wildlife subpage: the whole country (decision 4) with the trip, a
+   dot at every place in its colour, a ring for a place off the trip. The card across the middle of the screen lights its
+   place (class on: the dot bigger, a pulse around it, its name), a region's heading all its places, without names; the other
+   dots fade; the caption names what is lit. From 1101 px the map stands beside the cards, sticky; below, a band over them:
+   the map 180 px high on the left, the caption beside it. */
+.w-map { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; margin: -8px 0 12px; padding: 6px 0;
+  background: var(--paper) var(--grain, none); border-bottom: 1px solid var(--line); }
+.w-map svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
+.w-map-cap { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.w-map-names { display: flex; flex-direction: column; gap: 2px; font-weight: 600; font-size: 15px; line-height: 1.35; }
+.w-map-names:empty { display: none; }
+.w-map-name { display: flex; align-items: center; gap: 8px; animation: w-in .3s ease-out; }
+.w-map-key { font-size: 13px; color: var(--muted); }
+.w-map .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.w-map .dot.ring { background: var(--surface); box-shadow: inset 0 0 0 2px var(--c); }
+.a-maplist { display: none; }
+@keyframes w-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (min-width: 1101px) {
+  .w-main { display: grid; grid-template-columns: minmax(0, 780px) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .w-panels { grid-column: 1; grid-row: 1; }
+  .w-map { grid-column: 2; grid-row: 1; top: 16px; display: block; margin: 0; padding: 0; background: none; border: 0; }
+  /* the map and its caption fit above the footer, so at the end of the page the map stays where it sticks with its lit dot
+     on the screen, as on the wildlife subpage: 16 px above the map, 10 px to the caption, its room for a name and the key
+     (70 px), the footer with the space above it (208 px) */
+  .w-map svg { width: 100%; max-width: 340px; height: auto; max-height: calc(100vh - 304px); }
+  .w-map-cap { margin-top: 10px; min-height: 70px; }
+}
+.bm-land { fill: var(--land); stroke: var(--border); stroke-width: 1; stroke-linejoin: round; }
+.bm-road { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.75; }
+.bm-fly { stroke: var(--ink); stroke-width: 1.3; stroke-dasharray: 4 4; fill: none; opacity: 0.75; }
+.bm-stay { fill: var(--ink); }
+.bm-pt { cursor: pointer; }
+.bm-pt .bm-dot { fill: var(--c); stroke: var(--surface); stroke-width: 2; transition: r .3s, opacity .3s; }
+.bm-pt.ring .bm-dot { fill: var(--surface); stroke: var(--c); stroke-width: 3; }
+.bm-pt .bm-halo { fill: var(--c); opacity: 0; }
+.bm-hit { fill: transparent; }
+/* the name: 14 px (BIG_NAME_PX in page.js), 14 px from the dot (BIG_NAME_GAP), only for a place lit alone; the number, on
+   paper only */
+.bm-pt text { font: 600 14px var(--body); fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.bm-pt .bm-num { display: none; }
+.bm-pt.on .bm-dot { r: 9px; }
+.bm-pt.on .bm-halo { animation: bm-pulse 1.6s ease-out infinite; }
+.bm-pt.on.named .bm-name { opacity: 1; }
+.w-map.any .bm-pt:not(.on) .bm-dot { opacity: 0.45; }
+/* a region lit (class group): its dots in their usual size, without the pulse, the others faded; ten dots of the north grown
+   bigger would run into one blot, most of all in the band */
+.w-map.group .bm-pt.on .bm-dot { r: 6px; }
+.w-map.group .bm-pt.on .bm-halo { animation: none; }
+@keyframes bm-pulse { 0% { r: 9px; opacity: 0.45; } 100% { r: 26px; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { animation: none; r: 16px; opacity: 0.25; } .w-map-name { animation: none; } }
+/* the band: the map drawn 180 px high, about 0.27 of its px, so its lines, dots and the place to tap one are drawn bigger in
+   its px; the name stands beside the map */
+@media (max-width: 1100px) {
+  .bm-land { stroke-width: 3; }
+  .bm-road { stroke-width: 5; }
+  .bm-fly { stroke-width: 4.5; stroke-dasharray: 12 12; }
+  .bm-stay { r: 8px; }
+  .bm-pt .bm-dot { r: 15px; stroke-width: 5; }
+  .bm-pt.ring .bm-dot { stroke-width: 8; }
+  .bm-pt.on .bm-dot { r: 26px; }
+  .w-map.group .bm-pt.on .bm-dot { r: 15px; }
+  .bm-pt.on .bm-halo { animation-name: bm-pulse-band; }
+  .bm-hit { r: 40px; }
+  .bm-pt text { display: none; }
+  @keyframes bm-pulse-band { 0% { r: 26px; opacity: 0.45; } 100% { r: 70px; opacity: 0; } }
+}
+@media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .bm-pt.on .bm-halo { r: 44px; } }
+/* the cards a dot on the map frames; those below the screen when the page opens wait hidden (a-pre) and rise into place as
+   they reach it (atlasapp.js) */
+.a-card { transition: opacity .5s ease-out, transform .5s ease-out, box-shadow .2s, border-color .2s; }
+.a-pre { opacity: 0; transform: translateY(28px); }
+.w-lit { border-color: var(--ink) !important; box-shadow: 0 0 0 1px var(--ink); }
+
 /* the finishing touches as on the wildlife subpage: the motion starts with the class live on <html>, which atlasapp.js sets
    on the first call of an IntersectionObserver; the photo at the top zooms slowly, once; a photo loaded late waits unseen in
    its frame, which shows the photo's mean colour, and comes in once loaded (class in) */
@@ -154,8 +230,10 @@ footer ul { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
 footer p { margin-top: 8px; }
 .noscript { padding: 16px var(--gutter); }
 @page { size: A4; margin: 12mm; }
-/* the printout (finding 23): on white paper two cards a row, each with its big photo, without the strip, the buttons, the
-   links and the sentence on scrolling; a region's heading stays with its first cards */
+/* the printout (finding 23): on white paper the map once, every place on it with its number (20 names do not fit: Ninh Bình,
+   Cúc Phương and Pù Luông stand a few px apart), the list of the numbers beside it, each card with the same number before
+   its name; two cards a row, each with its big photo, without the strip, the buttons, the links and the sentence on
+   scrolling; a region's heading stays with its first cards */
 @media print {
   .w-tabs, .lang-switch, .w-top a, .a-intro, .a-strip, .a-links, .a-mline, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
   body { background: var(--surface); }
@@ -169,6 +247,23 @@ footer p { margin-top: 8px; }
   .a-card h3 { font-size: 24px; }
   .a-sub { font-size: 16px; }
   .a-m { min-height: 0; }
+  .a-pre { opacity: 1 !important; transform: none !important; }
+  .w-main { display: block; }
+  .w-map { position: static; display: flex; align-items: flex-start; gap: 6mm; margin: 0 0 6mm; padding: 0; border: 0; background: none; break-inside: avoid; }
+  .w-map svg { width: 70mm; max-width: none; height: auto; max-height: none; }
+  .w-map-cap { margin: 0; }
+  .w-map-names { display: none; }
+  .a-maplist { display: grid; grid-template-rows: repeat(10, auto); grid-auto-flow: column; gap: 1mm 8mm; justify-content: start; margin: 0; padding: 0; list-style: none; font-size: 13px; }
+  .a-maplist b { display: inline-block; min-width: 2.2em; font: 600 12px var(--mono); }
+  .bm-pt .bm-dot, .bm-pt.on .bm-dot { r: 6px; stroke-width: 2; }
+  .bm-pt.ring .bm-dot { stroke-width: 3; }
+  .bm-pt .bm-halo, .bm-pt .bm-name { display: none; }
+  .bm-pt .bm-num { display: inline; opacity: 1; font-size: 13px; }
+  .bm-land { stroke-width: 1; }
+  .bm-road { stroke-width: 1.6; }
+  .bm-fly { stroke-width: 1.3; stroke-dasharray: 4 4; }
+  .bm-stay { r: 3px; }
+  .a-num { display: inline; font: 600 0.7em var(--mono); color: var(--muted); vertical-align: 0.15em; }
 }
 </style>
 <noscript>__NOSCRIPT__</noscript>
@@ -192,6 +287,7 @@ footer p { margin-top: 8px; }
   </div>
 </header>
 <main class="wrap w-main">
+  <div class="w-map" id="a-map" aria-hidden="true"></div>
   <div class="w-panels" id="a-panels"></div>
 </main>
 <footer>
