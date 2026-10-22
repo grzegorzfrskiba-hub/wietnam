@@ -21,6 +21,7 @@
   --on-photo: #ffffff;
   --shade: rgba(6, 16, 14, 0.78);
   /* over photos, in the photo viewer and in shadows: the same in light and dark (rgb triplets go into rgba(var(--x), a)) */
+  --on-jade-bg: #0c6a5a; --on-jade-hover: #0a5e50; --on-jade-tag: #e4f0ea;
   --photo-bg: #10201c; --scrim: 6, 16, 14; --black: 0, 0, 0; --white: 255, 255, 255;
   --ctl-bg: rgba(250, 252, 251, 0.92); --ctl-ink: #13221f; --badge-bg: rgba(10, 20, 18, 0.72); --lb-bg: rgba(6, 12, 11, 0.95); --lb-ink: #f2f5f4;
   --stop-gap: 18px; --stop-gap-compact: 10px;
@@ -106,10 +107,13 @@ ul, ol { padding: 0; list-style: none; }
 .hero-cta a { font: 500 15px var(--body); text-decoration: none; padding: 11px 18px; border-radius: 6px; min-height: 44px; display: inline-flex; align-items: center; }
 .hero-cta .primary { background: var(--on-photo); color: var(--photo-bg); }
 .hero-cta .ghost { color: var(--on-photo); border: 1px solid rgba(var(--white), 0.6); }
-/* „Zwierzęta” (stage 6, finding 5): the third button under the title; on a phone it would push the form below the first
-   screen, so there it stands in the photo's top corner, opposite the switch EN · PL */
-.hero-wild { display: none; position: absolute; z-index: 2; top: 4px; left: calc(var(--gutter) - 4px); min-height: 44px; align-items: center; padding: 0 4px; color: var(--on-photo); font: 500 13px var(--mono); letter-spacing: 0.08em; text-shadow: 0 1px 10px rgba(var(--black), 0.45); text-underline-offset: 5px; }
-@media (max-width: 640px) { .hero-wild { display: inline-flex; } .hero-cta .wild-link { display: none; } }
+/* „Zwierzęta” (stage 6, finding 5): the third button under the title, on a phone too. It leads to another page, not down
+   this one, so it stands apart from the two before it (22.10.2026): filled jade with ↗ and the tag „osobna strona”; fixed
+   colours, as the photo is the same in both modes (white on jade about 6.6:1) */
+.hero-cta .wild-link { gap: 10px; background: var(--on-jade-bg); color: var(--on-photo); font-weight: 600; text-shadow: none; box-shadow: 0 6px 24px rgba(var(--black), 0.35); }
+.hero-cta .wild-link:hover { background: var(--on-jade-hover); }
+.wild-link > span::after { content: "\00a0\2197"; }
+.wild-tag { font: 500 10.5px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; background: var(--on-jade-tag); color: var(--on-jade-hover); padding: 3px 6px; border-radius: 4px; }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
 /* the language switch (stage 5): EN · PL in the photo's top right corner, each at least 44 px for a finger, the active one
    underlined; it scrolls with the page */
@@ -644,6 +648,9 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 }
 .secnav a { flex: none; padding: 12px 0; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .secnav a:hover { color: var(--ink); }
+/* „Zwierzęta” leads to another page, so in the bar too it is a small filled tag with ↗ (22.10.2026) */
+.secnav .wild-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: var(--surface); font-weight: 600; }
+.secnav .wild-link:hover { color: var(--surface); filter: brightness(1.1); }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
@@ -669,7 +676,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   body { background: var(--surface); }
   .hero { min-height: 0; background: none; }
   /* the settings section goes with its heading: the facts row above the route already names the airports, the term and the days */
-  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .hero-wild, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
+  .secnav, .totop, .finale, .hero > img, .hero::after, .hero-where, .lang-switch, .hero-cta, .stop-wild, .copy, #settings, .offroute, .dropped, .stop-remove, .gal-btn, .gal-full, .gal-count, .gal-thumbs, .map-hint, .days-map, .lightbox, .mapzoom, .minimap, .shape-click, .fold-arrow, .days-all, .days-click, .b-gist, .b-off { display: none !important; }
   /* every folded part open on paper (app.js opens them before printing; this is for a browser that does not say it prints),
      a day's row as high as its title */
   details::details-content { content-visibility: visible; }
@@ -716,7 +723,6 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
   <img src="__HERO_SRC__" __HERO_SRCSET__ alt="" data-i18n-alt="hero.alt" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
   <span class="hero-where">Fansipan, Sa Pa</span>
   <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
-  <a class="hero-wild" id="wild-top" href="wildlife/" data-i18n="nav.wild"></a>
   <div class="hero-text">
     <div class="wrap">
       <p class="eyebrow" data-i18n="hero.eyebrow"></p>
@@ -724,7 +730,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="hero-tag" data-i18n="hero.tag"></p>
       <p class="hero-lede" data-i18n="hero.lede"></p>
       <p class="print-link" id="print-link"></p>
-      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="ghost wild-link" id="wild-hero" href="wildlife/" data-i18n="nav.wild"></a></div>
+      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="wild-link" id="wild-hero" href="wildlife/"><span data-i18n="nav.wild"></span><i class="wild-tag" data-i18n="nav.wildtag"></i></a></div>
     </div>
   </div>
 </header>
@@ -734,7 +740,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
     <a href="#shape" data-i18n="nav.shape"></a>
     <a href="#days" data-i18n="nav.days"></a>
     <a href="#before" data-i18n="nav.before"></a>
-    <a class="wild-link" id="wild-nav" href="wildlife/" data-i18n="nav.wild"></a>
+    <a class="wild-link" id="wild-nav" href="wildlife/"><span data-i18n="nav.wild"></span></a>
   </div>
   <p class="secnav-sum"><span class="sum-swap"><span id="sum-text"></span><span id="sum-day"></span></span><a class="sum-change" href="#settings" data-i18n="nav.change"></a></p>
 </div></nav>

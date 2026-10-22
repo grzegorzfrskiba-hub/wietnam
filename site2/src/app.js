@@ -286,7 +286,7 @@
     $('#copy-status').textContent = $('#end-status').textContent = '';
     $('#copy-fallback').hidden = $('#end-fallback').hidden = true;
     renderPrintLink();
-    $('#wild-hero').href = $('#wild-top').href = $('#wild-nav').href = wildLink('route');
+    $('#wild-hero').href = $('#wild-nav').href = wildLink('route');
     tieShortWords(document.body);
     reopenFolds(keep);
     syncDaysAll();
