@@ -66,12 +66,13 @@ setTimeout(function () {
   check('a click opens a part: its list in sight', parts[2].open && seen(document.querySelector('#b-pack .b-list')));
   // the credits of the photos: closed, one line with their number; the notes and the rights stay in sight (finding 9)
   var cr = document.querySelector('footer details[data-fold="credits"]');
-  check('the credits of the photos are closed, under one line with their number', !!cr && !cr.open && textOf('footer summary') === L({ en: 'Photos: authors and licences (97)', pl: 'Zdjęcia: autorzy i licencje (97)' }) &&
+  var NPHOTOS = Object.keys(PHOTO_META).length;   // every photo of photos.js: the galleries' and the one at the top
+  check('the credits of the photos are closed, under one line with their number', !!cr && !cr.open && textOf('footer summary') === L({ en: 'Photos: authors and licences (' + NPHOTOS + ')', pl: 'Zdjęcia: autorzy i licencje (' + NPHOTOS + ')' }) &&
     !seen(document.getElementById('credits')), textOf('footer summary'));
   check('the notes and the rights stay in sight', seen(document.querySelector('.ft-copy')) && L({ en: /Natural Earth/, pl: /Natural Earth/ }).test(textOf('footer')) &&
     seen(document.querySelector('[data-i18n="ft.notes.p"]')));
   cr.querySelector('summary').click();
-  check('a click opens the credits: the photos with their authors and licences', cr.open && document.querySelectorAll('#credits li').length === 97 && seen(document.getElementById('credits')));
+  check('a click opens the credits: the photos with their authors and licences', cr.open && document.querySelectorAll('#credits li').length === NPHOTOS && seen(document.getElementById('credits')));
   cr.querySelector('summary').click();
   // open rows stay open after a change of the language and of a swap (the same trip), and close on another trip
   days[2].querySelector('summary').click();

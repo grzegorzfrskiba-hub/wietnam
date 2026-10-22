@@ -1,5 +1,5 @@
 // The settings on a phone: the whole form is open on every visit, also from a link that holds a trip;
-// the form on the first screen, the photo credit clear of the buttons on the photo, the figures
+// the photo above the title and its buttons on the first screen, the photo credit clear of the buttons on the photo, the figures
 // of the trip right under the form and following each change, the interests greyed out after two also when a change gives
 // no trip, the changes building on the form, the level's words, the summary for the bar, and a link that was partly wrong.
 // tests/probe.sh tests/probes/settings.js 390 'od=SGN&do=HAN&miesiac=MIESIAC&dni=15&co=&poziom=2'
@@ -14,8 +14,14 @@ setTimeout(function () {
   check('the whole form is open, also from a link with a trip', !f.hidden && !document.getElementById('set-sum') && !document.getElementById('set-open'));
   var gap0 = box(document.querySelector('.facts')).top - box(document.getElementById('settings-msg')).bottom;
   check('the figures of the trip come right under the form (gap under 110 px)', gap0 >= 0 && gap0 < 110, Math.round(gap0));
-  // a phone of 360 px or more is at least 640 px high; the first screen of a 390 × 844 phone is the goal
-  if (window.innerWidth >= 360) check('the month field ends on the first screen of a 390 × 844 phone (bottom at most 760 px)', box(f.month).bottom - top <= 760, Math.round(box(f.month).bottom - top));
+  // the photo above the title (fix 1 of the round from 22.10.2026): on a 390 × 844 phone at least 180 px of the photo clear
+  // of the texts, and the hero's buttons, not the form, end on the first screen (bottom at most 760 px); a phone of 360 px
+  // or more is at least 640 px high
+  if (window.innerWidth >= 360) {
+    var btns = Array.prototype.map.call(document.querySelectorAll('.hero .hero-cta a'), function (a) { return box(a).bottom - top; });
+    check('the buttons on the photo end on the first screen of a 390 × 844 phone (bottom at most 760 px)', Math.max.apply(null, btns) <= 760, Math.round(Math.max.apply(null, btns)));
+    if (window.innerHeight >= 800) check('at least 180 px of the photo stand clear of the texts on it', box(document.querySelector('.hero .eyebrow')).top - top >= 180, Math.round(box(document.querySelector('.hero .eyebrow')).top - top));
+  }
   // the place of the photo, in the photo's bottom right corner, stays clear of the buttons on the photo
   var where = box(document.querySelector('.hero-where'));
   check('the photo credit keeps 4 px or more from the buttons on the photo', Array.prototype.every.call(document.querySelectorAll('.hero-cta a'), function (a) {

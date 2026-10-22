@@ -38,7 +38,6 @@ var PHOTO_CAPS_EN = {
   puluong_3: 'A bamboo raft poled along the river',
   puluong_0: 'The Pù Luông terraces at harvest time (September)',
   puluong_5: 'Weaving on a wooden loom at home',
-  ninhbinh_1: 'A rowing boat below the cliffs of Tràng An',
   ninhbinh_0: 'Limestone karsts in Tràng An',
   ninhbinh_3: 'The Vân Long wetlands at golden hour',
   ninhbinh_4: 'A Delacour’s langur on a limestone crag',
