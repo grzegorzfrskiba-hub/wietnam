@@ -1483,10 +1483,19 @@
   bindFolds();
   bindCosts();
   fromLink();
-  /* back-to-top button: shown once the photo opener has scrolled away */
-  var totop = $('#totop'), hero = $('.hero');
+  /* back-to-top button and „Zwierzęta” in the bar: shown once the photo opener has scrolled away (class at-hero on the bar
+     hides the button there while the photo, with its own „Zwierzęta”, is on the screen); by hand the button comes in softly */
+  var totop = $('#totop'), hero = $('.hero'), secnav = $('#secnav');
   if (totop && hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
+    secnav.classList.add('at-hero');
+    new IntersectionObserver(function (es) {
+      var at = es[0].isIntersecting, was = secnav.classList.contains('at-hero');
+      totop.hidden = at;
+      secnav.classList.toggle('at-hero', at);
+      var w = $('#wild-nav');
+      if (was && !at && touched && moving() && w.getClientRects().length)
+        w.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'ease-out' });
+    }).observe(hero);
   }
   /* for the probes in tests/probes/ */
   window.__trip = { state: state, apply: apply, today: TODAY, draw: function () { startDraw($('#map svg')); }, finishDraw: finishDraw,

@@ -650,6 +650,9 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 /* „Zwierzęta” leads to another page, so in the bar too it is a small filled tag with ↗ (22.10.2026) */
 .secnav .wild-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: var(--surface); font-weight: 600; }
 .secnav .wild-link:hover { color: var(--surface); filter: brightness(1.1); }
+/* while the photo at the top is on the screen, its own „Zwierzęta” is there, so the bar has none (class at-hero, app.js);
+   once the photo has gone, the button comes into the bar (22.10.2026) */
+.secnav.at-hero .wild-link { display: none; }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
