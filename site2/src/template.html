@@ -21,7 +21,6 @@
   --on-photo: #ffffff;
   --shade: rgba(6, 16, 14, 0.78);
   /* over photos, in the photo viewer and in shadows: the same in light and dark (rgb triplets go into rgba(var(--x), a)) */
-  --on-jade-bg: #0c6a5a; --on-jade-hover: #0a5e50;
   --photo-bg: #10201c; --scrim: 6, 16, 14; --black: 0, 0, 0; --white: 255, 255, 255;
   --ctl-bg: rgba(250, 252, 251, 0.92); --ctl-ink: #13221f; --badge-bg: rgba(10, 20, 18, 0.72); --lb-bg: rgba(6, 12, 11, 0.95); --lb-ink: #f2f5f4;
   --stop-gap: 18px; --stop-gap-compact: 10px;
@@ -108,10 +107,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero-cta .primary { background: var(--on-photo); color: var(--photo-bg); }
 .hero-cta .ghost { color: var(--on-photo); border: 1px solid rgba(var(--white), 0.6); }
 /* „Zwierzęta” (stage 6, finding 5): the third button under the title, on a phone too. It leads to another page, not down
-   this one, so it stands apart from the two before it (22.10.2026): filled jade with ↗; fixed colours, as the photo
-   is the same in both modes (white on jade about 6.6:1) */
-.hero-cta .wild-link { background: var(--on-jade-bg); color: var(--on-photo); font-weight: 600; text-shadow: none; box-shadow: 0 6px 24px rgba(var(--black), 0.35); }
-.hero-cta .wild-link:hover { background: var(--on-jade-hover); }
+   this one, so it has ↗; over the photo outlined, as „Zobacz trasę”; in the bar it is filled (22.10.2026) */
 .wild-link > span::after { content: "\00a0\2197"; }
 .hero-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 12px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
 /* the language switch (stage 5): EN · PL in the photo's top right corner, each at least 44 px for a finger, the active one
@@ -647,7 +643,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 }
 .secnav a { flex: none; padding: 12px 0; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .secnav a:hover { color: var(--ink); }
-/* „Zwierzęta” leads to another page, so in the bar too it is a small filled tag with ↗ (22.10.2026) */
+/* „Zwierzęta” leads to another page: over the photo outlined, in the bar a small filled tag with ↗ (22.10.2026) */
 .secnav .wild-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: var(--surface); font-weight: 600; }
 .secnav .wild-link:hover { color: var(--surface); filter: brightness(1.1); }
 /* while the photo at the top is on the screen, its own „Zwierzęta” is there, so the bar has none (class at-hero, app.js);
@@ -732,7 +728,7 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
       <p class="hero-tag" data-i18n="hero.tag"></p>
       <p class="hero-lede" data-i18n="hero.lede"></p>
       <p class="print-link" id="print-link"></p>
-      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="wild-link" id="wild-hero" href="wildlife/"><span data-i18n="nav.wild"></span></a></div>
+      <div class="hero-cta"><a class="primary" href="#settings" data-i18n="hero.cta1"></a><a class="ghost" href="#shape" data-i18n="hero.cta2"></a><a class="ghost wild-link" id="wild-hero" href="wildlife/"><span data-i18n="nav.wild"></span></a></div>
     </div>
   </div>
 </header>
