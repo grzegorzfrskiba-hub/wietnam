@@ -6,6 +6,8 @@ Przejrzana z tym, co jest na stronie, 14.10.2026 (etap 4): decyzje podjęte pó�
 
 Sesja decyzji etapu 6 (16.10.2026) dodała podstronę zwierząt `…/wietnam/wildlife/` z trzema zakładkami, „Na trasie”, „Galeria” i „Przewodnik”, i własną zasadę treści tej podstrony (szczegóły w [etapy.md](etapy.md), „Etap 6”).
 
+Sesja decyzji etapu 7 (22.10.2026) dodała drugi sposób korzystania ze strony obok planera: „Atlas Wietnamu” `…/wietnam/atlas/`, przegląd 20 miejsc puli z dużymi zdjęciami i mapą kraju, która zapala miejsce przy przewijaniu, jak na podstronie zwierząt; bez nowych tekstów miejsc, ze znajomością trasy z linku (szczegóły w [etapy.md](etapy.md), „Etap 7”, i w [plans/2026-10-22-atlas-projekt.md](plans/2026-10-22-atlas-projekt.md)).
+
 ## W skrócie
 
 Każdy ustawia sobie:
