@@ -7,7 +7,7 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+body { background: var(--paper) var(--grain, none); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -147,7 +147,7 @@ main { padding-block: 28px 48px; }
    From 1101 px the map stands beside the tabs, sticky; below, a band over them: the map 180 px high on the left, the
    caption beside it. Its rules for the dots come from the map of the list of the places off the trip (template.html). */
 .w-map { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; margin: -8px 0 12px; padding: 6px 0;
-  background: var(--paper); border-bottom: 1px solid var(--line); }
+  background: var(--paper) var(--grain, none); border-bottom: 1px solid var(--line); }
 .w-map svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
 /* a place of the field guide or a card the page brings to the top (a link with #guide-<place>, a name in the guide) stands
    under the band, not behind it */
