@@ -691,6 +691,9 @@ html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
 /* „Zwierzęta” leads to another page, so in the bar too it is a small filled tag with ↗ (22.10.2026) */
 .secnav .wild-link { align-self: center; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: var(--surface); font-weight: 600; }
 .secnav .wild-link:hover { color: var(--surface); filter: brightness(1.1); }
+/* while the photo at the top is on the screen, its own „Zwierzęta” is there, so the bar has none (class at-hero, app.js);
+   once the photo has gone, the button comes into the bar (22.10.2026) */
+.secnav.at-hero .wild-link { display: none; }
 /* once the form has gone up off the screen (class away, app.js), the bar sums up the settings, with "Zmień" back to the form;
    on a phone the summary takes the place of the links */
 .secnav-sum { display: none; margin: 0 0 0 auto; min-width: 0; align-items: center; gap: 4px 12px; font-size: 14px; color: var(--ink); white-space: nowrap; }
@@ -6303,10 +6306,19 @@ var PHOTOS = {"saigon_0": {"src": "img/saigon_0.jpg", "w": 1400, "h": 788, "bg":
   bindFolds();
   bindCosts();
   fromLink();
-  /* back-to-top button: shown once the photo opener has scrolled away */
-  var totop = $('#totop'), hero = $('.hero');
+  /* back-to-top button and „Zwierzęta” in the bar: shown once the photo opener has scrolled away (class at-hero on the bar
+     hides the button there while the photo, with its own „Zwierzęta”, is on the screen); by hand the button comes in softly */
+  var totop = $('#totop'), hero = $('.hero'), secnav = $('#secnav');
   if (totop && hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { totop.hidden = es[0].isIntersecting; }).observe(hero);
+    secnav.classList.add('at-hero');
+    new IntersectionObserver(function (es) {
+      var at = es[0].isIntersecting, was = secnav.classList.contains('at-hero');
+      totop.hidden = at;
+      secnav.classList.toggle('at-hero', at);
+      var w = $('#wild-nav');
+      if (was && !at && touched && moving() && w.getClientRects().length)
+        w.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'ease-out' });
+    }).observe(hero);
   }
   /* for the probes in tests/probes/ */
   window.__trip = { state: state, apply: apply, today: TODAY, draw: function () { startDraw($('#map svg')); }, finishDraw: finishDraw,
