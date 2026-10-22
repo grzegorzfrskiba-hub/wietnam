@@ -1,7 +1,8 @@
 """Build the page: a fragment with separate image and font files (out/web, for a private artifact), the same page as a full
 document for GitHub Pages (out/pages, with the link preview and the robots tag) and one offline file with the images and
 the fonts inside (out/offline), for a computer or Chrome on Android (an iPhone does not run its scripts). Next to the page,
-for GitHub Pages only, the wildlife subpage (stage 6): out/pages/wildlife/index.html, its photos in out/pages/img/wild/."""
+for GitHub Pages only, the wildlife subpage (stage 6): out/pages/wildlife/index.html, its photos in out/pages/img/wild/;
+and the atlas of places (stage 7): out/pages/atlas/index.html, with the photos of the page with the route."""
 import base64, glob, io, json, os, re, shutil
 from PIL import Image
 
@@ -25,6 +26,13 @@ SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "
 WILD_SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
                 + [n for n in SCRIPTS if n.startswith(("content/", "en/content/"))]
                 + ["ui.js", "en/ui.js", "panels.js", "page.js", "basemap.js", "wildpage.js", "wild.js", "en/wild.js", "wildphotos.js", "en/wildphotos.js", "wildui.js", "en/wildui.js"])
+# The atlas of places' scripts (stage 7): those of the wildlife subpage that plan a trip and name its places, the credits of
+# the places' photos, the helpers and the texts it shares with the wildlife subpage, then its own (English after Polish);
+# its logic, atlasapp.js, comes after them. Not in the offline file and not in out/web, as the wildlife subpage.
+ATLAS_SCRIPTS = (["places.js", "seasons.js", "climate.js", "travel.js", "engine.js", "holidays.js", "content.js"]
+                 + [n for n in SCRIPTS if n.startswith(("content/", "en/content/"))]
+                 + ["photos.js", "en/photos.js", "ui.js", "en/ui.js", "panels.js", "page.js", "basemap.js", "wildpage.js", "wildui.js", "en/wildui.js",
+                    "atlaspage.js", "atlasui.js", "en/atlasui.js"])
 WILD_PHOTO_DIR = os.path.join(PHOTO_DIR, "wild")
 WILD_SMALLER = (480, 960)   # srcset of a wildlife photo: the gallery's tiles and a phone pick these
 # Smaller copies for the hosted page (srcset): phones and thumbnails pick these instead of the full photo; 160 px for the
@@ -51,6 +59,13 @@ WILD_PREVIEW = {
     "alt": "A red-shanked douc in the wild on the Sơn Trà peninsula in Đà Nẵng",
 }
 WILD_OG = "duk"
+# the atlas's own link preview, in English, with the terraces below the Khau Phạ pass (ATLAS_HERO in photos.js)
+ATLAS_PREVIEW = {
+    "url": SITE_URL + "atlas/", "image": SITE_URL + "img/og-atlas.jpg",
+    "title": "Atlas of Vietnam · Route G",
+    "description": "The twenty places Route G builds its routes from, with big photos and a map: what they look like, when to go and what to do there.",
+    "alt": "Rice terraces below the Khau Phạ pass in Mù Cang Chải",
+}
 OG_SIZE = (1200, 630)
 # The public page stays out of search engines while the first friends try it (decision of 14.10.2026); to open it, set
 # NOINDEX = False, build and publish again.
@@ -183,6 +198,35 @@ def wild_page(template, fonts):
     return len(ids)
 
 
+def atlas_page(template, fonts, web):
+    """The atlas of places for GitHub Pages (stage 7): out/pages/atlas/index.html, with the colours of the page with the route
+    (its :root tokens and their dark versions, as the wildlife subpage) and the fonts one folder up; its photos are those of
+    the page with the route (web: their copies in out/pages/img/), the one at the top (ATLAS_HERO in photos.js) with a copy of
+    1920 px for a wide screen and the image of the link preview, og-atlas.jpg. Returns the size of the page in MB."""
+    hero = re.search(r"^var ATLAS_HERO = '([a-z]+_\d+)';", open(os.path.join(SRC, "photos.js"), encoding="utf-8").read(), re.M).group(1)
+    assert hero in web, hero
+    im = Image.open(os.path.join(PHOTO_DIR, hero + ".jpg")).convert("RGB")
+    (bw, _), b = encode(im, 1920, 74)
+    open(os.path.join(OUT_PAGES, "img", "%s-%d.jpg" % (hero, bw)), "wb").write(b)
+    og_image(im, os.path.join(OUT_PAGES, "img", "og-atlas.jpg"), 0.6)
+    up = lambda s: re.sub(r"(^|, )img/", r"\1../img/", s)
+    pics = {pid: dict(p, src=up(p["src"]), **({"srcset": up(p["srcset"])} if "srcset" in p else {})) for pid, p in web.items()}
+    page_tpl = open(os.path.join(SRC, "template.html"), encoding="utf-8").read()
+    tokens = page_tpl[page_tpl.index(":root {"):page_tpl.index("\n* { box-sizing")]
+    js = "\n".join(open(os.path.join(SRC, name), encoding="utf-8").read() for name in ATLAS_SCRIPTS)
+    script = (js + "\nvar ATLAS_PICS = " + json.dumps(pics, ensure_ascii=False) + ";\n"
+              + open(os.path.join(SRC, "atlasapp.js"), encoding="utf-8").read()).replace("</script", "<\\/script")
+    top = pics[hero]
+    page = (template.replace("__HERO_SRC__", top["src"]).replace("__HERO_SRCSET__", top["srcset"] + ", ../img/%s-%d.jpg %dw" % (hero, bw, bw))
+            .replace("__HERO_W__", str(top["w"])).replace("__HERO_H__", str(top["h"]))
+            .replace("/* __FONTS__ */", fonts.replace("url(fonts/", "url(../fonts/")).replace("/* __TOKENS__ */", tokens)
+            .replace("__NOSCRIPT__", "".join('<p class="noscript" lang="%s">%s</p>' % x for x in NOSCRIPT["page"])).replace("__SCRIPT__", script))
+    os.makedirs(os.path.join(OUT_PAGES, "atlas"))
+    path = os.path.join(OUT_PAGES, "atlas", "index.html")
+    open(path, "w", encoding="utf-8").write(full_document(page, preview=ATLAS_PREVIEW))
+    return os.path.getsize(path) / 1e6
+
+
 def photo_ids():
     """The photo ids in photos.js (one entry per line, '  id: { cap: …'), the hero photo and the photo at the end of the page
     (finishing touches, finding 9)."""
@@ -251,6 +295,7 @@ def main():
     shutil.copytree(os.path.join(OUT_WEB, "img"), os.path.join(OUT_PAGES, "img"))
     shutil.copytree(os.path.join(OUT_WEB, "fonts"), os.path.join(OUT_PAGES, "fonts"))
     n_wild = wild_page(open(os.path.join(SRC, "wild.html"), encoding="utf-8").read(), fonts_css(False))
+    mb_atlas = atlas_page(open(os.path.join(SRC, "atlas.html"), encoding="utf-8").read(), fonts_css(False), web)
     open(os.path.join(OUT_OFF, OFFLINE_NAME), "w", encoding="utf-8").write(full_document(page(off, fonts_css(True), "offline")))
 
     size = lambda p: os.path.getsize(p) / 1e6
@@ -258,6 +303,7 @@ def main():
     print("web page %.2f MB + %d images %.1f MB" % (size(os.path.join(OUT_WEB, "index.html")), len(web), img_total))
     print("pages page %.2f MB + copy of the images" % size(os.path.join(OUT_PAGES, "index.html")))
     print("wildlife subpage %.2f MB + %d photos" % (size(os.path.join(OUT_PAGES, "wildlife", "index.html")), n_wild))
+    print("atlas subpage %.2f MB" % mb_atlas)
     print("offline file %.1f MB" % size(os.path.join(OUT_OFF, OFFLINE_NAME)))
 
 

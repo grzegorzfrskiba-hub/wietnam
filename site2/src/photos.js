@@ -103,3 +103,4 @@ var PHOTO_META = {
 };
 var HERO_PHOTO = 'sapa_5';   // the photo at the top of the page and in the link preview (round from 22.10.2026, fix 1: Fansipan)
 var FINALE_PHOTO = 'puluong_1';   // the photo at the end of the page (finishing touches, finding 9), one of Pù Luông's
+var ATLAS_HERO = 'mucangchai_1';   // the photo at the top of the atlas of places and in its link preview (stage 7, decision 8), one of Mù Cang Chải's

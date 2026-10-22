@@ -1,0 +1,214 @@
+<title>Atlas of Vietnam · Route G</title>
+<style>
+/* __FONTS__ */
+/* The atlas of places (stage 7, notes/plans/2026-10-22-atlas-projekt.md): the colours, the fonts and the base rules of the
+   page with the route (build.py copies its :root tokens here); the photo at the top, the switch EN · PL and the photo viewer
+   as on the wildlife subpage (wild.html, whose class names they keep), then its own: the links to the regions, the cards of
+   the places and the bar of the months. */
+/* __TOKENS__ */
+/* the seasons in the bar of the months (finding 7): good, fair, poor and closed, on a card in both themes */
+:root { --ssn-d: #2f7d5b; --ssn-s: #c9982c; --ssn-z: #c0553d; --ssn-x: #b7c1bc; }
+@media screen and (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ssn-d: #4fb48a; --ssn-s: #d9b04c; --ssn-z: #e57c64; --ssn-x: #3b4a44; } }
+@media screen { :root[data-theme="dark"] { --ssn-d: #4fb48a; --ssn-s: #d9b04c; --ssn-z: #e57c64; --ssn-x: #3b4a44; } }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+body { background: var(--paper) var(--grain, none); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--accent); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.1; text-wrap: balance; }
+p, ul { margin: 0; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--surface); }
+ul { padding: 0; list-style: none; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
+.btn-small { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 6px; background: var(--accent); color: var(--surface); font: 500 14px var(--body); text-decoration: none; }
+.btn-small:hover { filter: brightness(1.08); }
+
+/* the heading: the terraces below the Khau Phạ pass (decision 8), the way back, Zwierzęta, EN · PL and the title on it, as on
+   the wildlife subpage; the links to the regions under it */
+.w-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+.w-hero { position: relative; overflow: hidden; background: var(--photo-bg); }
+.w-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; transform-origin: 50% 60%; }
+.w-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.5) 0%, rgba(var(--scrim), 0.1) 26%, rgba(var(--scrim), 0.2) 50%, var(--shade) 100%); }
+.w-hero-in { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: clamp(380px, 54vh, 580px);
+  padding-block: 6px 34px; color: var(--on-photo); text-shadow: 0 1px 14px rgba(var(--black), 0.4); }
+.w-where { position: absolute; z-index: 1; right: var(--gutter); bottom: 10px; font: 12px var(--mono); color: var(--on-photo); opacity: 0.85; }
+/* on a wide screen the photo stands in the right part, fading into the dark on its left, so the title stands beside the
+   terraces, as the douc on the wildlife subpage */
+@media (min-width: 901px) {
+  .w-hero > img { left: auto; width: 72%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 36%); mask-image: linear-gradient(90deg, transparent, #000 36%); }
+}
+.w-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
+.w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--on-photo); }
+.w-top-r { display: flex; align-items: center; gap: 6px; }
+.lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--on-photo); }
+.lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
+.lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline 2px; text-underline-offset: 5px; }
+@media (max-width: 374px) { .w-top { gap: 6px; } .w-top a { font-size: 14px; } .lang-switch button { min-width: 40px; padding: 0 6px; } }
+.w-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+.w-head h1 { font-size: clamp(40px, 6.6vw, 76px); font-weight: 400; letter-spacing: -0.02em; margin-top: 6px; }
+.w-lead { max-width: 58ch; margin-top: 10px; font-size: clamp(16px, 1.4vw, 18px); opacity: 0.94; }
+.w-tabs { display: flex; gap: 4px; margin-top: 6px; overflow-x: auto; }
+.w-tabs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-bottom: 3px solid transparent; color: var(--muted); font-weight: 500; text-decoration: none; white-space: nowrap; }
+.w-tabs a:hover { color: var(--ink); }
+@media (max-width: 374px) { .w-tabs { gap: 0; } .w-tabs a { padding: 0 10px; } }
+
+main { padding-block: 28px 48px; }
+.w-panels { max-width: 780px; }
+.a-intro { color: var(--muted); max-width: 70ch; }
+.w-tripbox { margin-top: 16px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); }
+.w-muted { color: var(--muted); }
+.w-ok { color: var(--accent); font-weight: 500; }
+/* the legend of the bar of the months, once, under the introduction */
+.a-legend { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13.5px; color: var(--muted); }
+.a-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.a-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.a-legend .trip i { background: none; box-shadow: inset 0 0 0 2px var(--ink); }
+
+/* the regions: a heading with the number of its places (finding 12) */
+.a-region { margin-top: 48px; font-size: clamp(32px, 4.6vw, 44px); scroll-margin-top: 16px; }
+.a-region small { margin-left: 6px; font: 500 14px var(--mono); color: var(--muted); letter-spacing: 0; }
+.a-region:first-of-type { margin-top: 34px; }
+
+/* a place (layout A, decision 3): one big photo the column's width with its caption on it, a strip of the others, which open
+   the place's album, then the texts */
+.a-card { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; scroll-margin-top: 16px; }
+.a-card:focus { outline: none; }
+.a-ph { position: relative; display: block; width: 100%; padding: 0; border: 0; background: var(--photo-bg); cursor: zoom-in; overflow: hidden; }
+.a-ph img { width: 100%; height: 100%; object-fit: cover; }
+@media (hover: hover) {
+  .a-ph img { transition: transform .5s ease-out, opacity .4s ease-out; }
+  .a-ph:hover img { transform: scale(1.03); }
+}
+.a-big img { aspect-ratio: 3 / 2; }
+.a-capline { position: absolute; left: 10px; bottom: 8px; max-width: calc(100% - 20px); padding: 2px 8px; border-radius: 999px; background: var(--badge-bg); color: var(--on-photo);
+  font: 12px var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-strip { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; gap: 4px; padding: 4px 4px 0; }
+.a-strip .a-ph { border-radius: 4px; }
+.a-strip img { aspect-ratio: 4 / 3; }
+.a-body { display: flex; flex-direction: column; gap: 8px; padding: 18px 22px 22px; }
+.a-regname { font: 600 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.a-card h3 { font-size: clamp(28px, 4vw, 36px); }
+.a-num { display: none; }
+.a-sub { font-family: var(--display); font-size: 20px; font-style: italic; line-height: 1.3; }
+.a-ints { display: flex; flex-wrap: wrap; gap: 6px; }
+.a-ints span { padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); font-size: 13.5px; }
+.a-what { color: var(--muted); }
+.a-k { margin-top: 10px; font: 600 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.a-k small { font: inherit; text-transform: none; letter-spacing: 0; }
+/* the bar of the months (finding 7): twelve fields in the colours of the seasons, the trip's months framed; the mouse on a
+   field, a tap or the focus says the month's season and its reasons in one line under the bar */
+.a-bar { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; margin-top: 2px; }
+.a-m { display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 44px; padding: 4px 0 0; border: 0; border-radius: 4px; background: none;
+  color: var(--muted); font: 500 11px var(--mono); cursor: pointer; }
+.a-m i, .a-legend i { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.a-m i { display: block; width: 100%; height: 14px; border-radius: 3px; }
+.sD i { background: var(--ssn-d); }
+.sS i { background: var(--ssn-s); }
+.sZ i { background: var(--ssn-z); }
+.sX i { background: var(--ssn-x); }
+.a-m.trip { color: var(--ink); font-weight: 700; }
+.a-m.trip i { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
+.a-m.at { color: var(--ink); }
+.a-mline { min-height: 1.6em; font-size: 14px; }
+.a-todo { display: flex; flex-direction: column; gap: 3px; }
+.a-todo li { position: relative; padding-left: 16px; }
+.a-todo li::before { content: ""; position: absolute; left: 2px; top: .68em; width: 6px; height: 6px; border-radius: 50%; background: var(--c, var(--accent)); }
+.a-todo .hard { color: var(--muted); }
+.a-gem { margin-top: 6px; padding: 10px 14px; border-left: 3px solid var(--c, var(--accent)); border-radius: 0 8px 8px 0; background: var(--paper); }
+.a-gem b { font-weight: 600; }
+.a-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 8px; }
+.a-add { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.a-links > a:not(.btn-small) { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
+@media (max-width: 640px) { .a-body { padding: 14px 16px 18px; } }
+
+/* the finishing touches as on the wildlife subpage: the motion starts with the class live on <html>, which atlasapp.js sets
+   on the first call of an IntersectionObserver; the photo at the top zooms slowly, once; a photo loaded late waits unseen in
+   its frame, which shows the photo's mean colour, and comes in once loaded (class in) */
+.live .w-hero > img { animation: kb 24s ease-out forwards; }
+@keyframes kb { from { transform: none; } to { transform: scale(1.08); } }
+img.ph { transition: opacity .4s ease-out; }
+@media screen { .live img.ph:not(.in) { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .live .w-hero > img { animation: none; } }
+
+/* the photo viewer: the album of a place (finding 5), as on the wildlife subpage */
+.w-viewer { width: min(940px, 100vw - 24px); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 10px; background: var(--surface); color: var(--ink); }
+.w-viewer::backdrop { background: rgba(var(--scrim), 0.82); }
+.w-viewer img { width: 100%; max-height: 70vh; object-fit: contain; background: var(--photo-bg); }
+.wv-stage { position: relative; }
+.wv-nav { position: absolute; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 0; border-radius: 22px; background: var(--ctl-bg); color: var(--ctl-ink); cursor: pointer; }
+.wv-nav:disabled { opacity: 0.35; cursor: default; }
+.wv-prev { left: 10px; }
+.wv-next { right: 10px; }
+.wv-count { position: absolute; top: 12px; left: 12px; padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); color: var(--on-photo); font: 500 12px var(--mono); }
+.wv-text { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
+.wv-text h2 { font-size: 26px; padding-right: 50px; }
+.wv-cap { font-size: 14px; color: var(--muted); }
+.wv-close { position: absolute; top: 8px; right: 8px; min-width: 44px; min-height: 44px; border: 0; border-radius: 22px; background: var(--ctl-bg); color: var(--ctl-ink); font-size: 22px; cursor: pointer; }
+
+footer { border-top: 1px solid var(--line); background: var(--surface); padding-block: 22px 32px; font-size: 14px; color: var(--muted); }
+footer summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--ink); }
+footer ul { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+footer p { margin-top: 8px; }
+.noscript { padding: 16px var(--gutter); }
+@page { size: A4; margin: 12mm; }
+/* the printout (finding 23): on white paper two cards a row, each with its big photo, without the strip, the buttons, the
+   links and the sentence on scrolling; a region's heading stays with its first cards */
+@media print {
+  .w-tabs, .lang-switch, .w-top a, .a-intro, .a-strip, .a-links, .a-mline, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
+  body { background: var(--surface); }
+  .w-hero { background: none; }
+  .w-hero-in { min-height: 0; padding-block: 0 4mm; color: var(--ink); text-shadow: none; }
+  .w-panels { max-width: none; }
+  .a-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .a-region { margin-top: 8mm; break-after: avoid; }
+  .a-card { margin-top: 0; break-inside: avoid; }
+  .a-body { padding: 10px 12px 12px; gap: 5px; }
+  .a-card h3 { font-size: 24px; }
+  .a-sub { font-size: 16px; }
+  .a-m { min-height: 0; }
+}
+</style>
+<noscript>__NOSCRIPT__</noscript>
+<header class="w-head">
+  <div class="w-hero">
+    <img id="a-hero-img" src="__HERO_SRC__" srcset="__HERO_SRCSET__" sizes="(max-width: 700px) 200vw, (max-width: 900px) 100vw, 72vw" alt="" width="__HERO_W__" height="__HERO_H__" fetchpriority="high">
+    <span class="w-where">Khau Phạ, Mù Cang Chải</span>
+    <div class="wrap w-hero-in">
+      <div class="w-top"><a id="a-back" href="../"></a>
+        <div class="w-top-r"><a id="a-wild" href="../wildlife/" data-i18n="nav.wild"></a>
+          <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+        </div>
+      </div>
+      <div><p class="w-eyebrow" data-i18n="w.eyebrow"></p>
+        <h1 data-i18n="a.h1"></h1>
+        <p class="w-lead" data-i18n="a.lead"></p></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="w-tabs" id="a-regions" data-i18n-aria="a.regions.aria"></nav>
+  </div>
+</header>
+<main class="wrap w-main">
+  <div class="w-panels" id="a-panels"></div>
+</main>
+<footer>
+  <div class="wrap">
+    <details><summary id="a-credits-h"></summary><ul id="a-credits"></ul></details>
+    <p data-i18n="w.credits.note"></p>
+    <p data-i18n="ft.copy"></p>
+  </div>
+</footer>
+<dialog class="w-viewer" id="w-viewer">
+  <div class="wv-stage"><div id="wv-photo"></div>
+    <button type="button" class="wv-nav wv-prev" id="wv-prev" data-i18n-aria="g.prev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="wv-nav wv-next" id="wv-next" data-i18n-aria="g.next"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    <span class="wv-count" id="wv-count"></span></div>
+  <div class="wv-text"><h2 id="wv-name"></h2><p class="wv-cap" id="wv-cap"></p></div>
+  <button type="button" class="wv-close" id="wv-close" data-i18n-aria="w.close">×</button>
+</dialog>
+<script>
+__SCRIPT__
+</script>

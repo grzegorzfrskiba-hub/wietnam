@@ -783,6 +783,29 @@ contentCheck('wildlife facts after the review', function (need) {
   Object.keys(WILD).forEach(function (id) { need(!/ i inne$/.test(WILD[id].lat) || !WILD[id].iucn, 'WILD.' + id + ': several species, no one IUCN status'); });
 });
 
+/* The atlas's interface (atlasui.js, stage 7, finding 10): the same keys in both languages and in the same order, British
+   English, Polish to one reader; each key used by the atlas (atlasapp.js, atlas.html), and each key the atlas asks for
+   there in AUI or, for the words it shares, in WUI or UI; the lead names its places in a word, as many as it has. */
+contentCheck('atlas interface', function (need) {
+  styleOk(need, strings(AUI.pl, 'AUI.pl', []));
+  need(JSON.stringify(Object.keys(AUI.pl)) === JSON.stringify(Object.keys(AUI.en)), 'AUI.en: the keys of AUI.pl in the same order');
+  Object.keys(AUI.en).forEach(function (k) {
+    need(isText(AUI.pl[k]) && isText(AUI.en[k]), 'AUI: ' + k + ' in both languages');
+    if (isText(AUI.en[k])) englishProblems('AUI.en.' + k, AUI.en[k]).forEach(function (p) { need(false, p); });
+  });
+  var app = readFile('site2/src/atlasapp.js'), tpl = readFile('site2/src/atlas.html'), used = {};
+  (app.match(/\bT\('[^']+'/g) || []).forEach(function (m) { used[m.slice(3, -1)] = true; });
+  (app.match(/\bT\([^'()]{1,80}\? *'[^']+' *: *'[^']+'/g) || []).forEach(function (m) { m.match(/'[^']+'/g).forEach(function (q) { used[q.slice(1, -1)] = true; }); });
+  (tpl.match(/data-i18n(?:-aria)?="[^"]+"/g) || []).forEach(function (m) { used[m.split('"')[1]] = true; });
+  Object.keys(used).forEach(function (k) { need(/\.$/.test(k) || k in AUI.pl || k in WUI.pl || k in UI.pl, 'the atlas asks for the missing key ' + k); });
+  // keys built from a prefix: a.reg., a.places.
+  ['a.reg.', 'a.places.'].forEach(function (p) { need(app.indexOf("T('" + p + "' + ") > -1, 'atlasapp.js never builds a key ' + p + '…'); });
+  Object.keys(AUI.pl).forEach(function (k) { need(used[k] || /^a\.(reg|places)\./.test(k), 'AUI.pl[\'' + k + '\'] is used nowhere'); });
+  ['north', 'centre', 'south'].forEach(function (r) { need(AUI.pl['a.reg.' + r] && AUI.en['a.reg.' + r], 'AUI: the region ' + r); });
+  ['one', 'few', 'many'].forEach(function (f) { need(/\{n\}/.test(AUI.pl['a.places.' + f] || '') && /\{n\}/.test(AUI.en['a.places.' + f] || ''), 'AUI: a.places.' + f + ' with {n}'); });
+  need(atlasOrder(PLACES).length === 20 && /^Dwadzieścia /.test(AUI.pl['a.lead']) && /^The twenty /.test(AUI.en['a.lead']), 'a.lead: twenty places, as many as atlasOrder gives');
+});
+
 /* The subpage's interface (wildui.js, finding 19): the same keys in both languages and in the same order, British English,
    Polish to one reader; each key used by the subpage (wildapp.js, wild.html), and each key the subpage asks for there, in
    WUI or, for the words both pages share, in UI. */

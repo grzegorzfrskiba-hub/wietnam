@@ -159,6 +159,9 @@ dataCheck('photos', function (need) {
   // names its author
   need(PHOTO_META[FINALE_PHOTO] && Object.keys(CONTENT).some(function (id) { return CONTENT[id].photos.indexOf(FINALE_PHOTO) > -1; }),
     'the photo at the end of the page ' + FINALE_PHOTO + ' has its credits and is in a gallery');
+  // the photo at the top of the atlas (stage 7, decision 8) is one of a place's photos too, in the atlas's list of photos
+  need(PHOTO_META[ATLAS_HERO] && atlasOrder(PLACES).some(function (id) { return CONTENT[id].photos.indexOf(ATLAS_HERO) > -1; }),
+    'the photo at the top of the atlas ' + ATLAS_HERO + ' has its credits and is in a gallery of the atlas');
   // each id once (a second entry with the same id would silently replace the first) and a real author, never a stand-in
   var entries = readFile('site2/src/photos.js').match(/^  [a-z]+_\d+: \{/gm) || [];
   need(entries.length === Object.keys(PHOTO_META).length, 'photos.js: ' + entries.length + ' entries for ' + Object.keys(PHOTO_META).length + ' ids, so an id is there twice');
