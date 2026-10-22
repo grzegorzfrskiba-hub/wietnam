@@ -75,12 +75,22 @@ body { margin: 0; }
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --gutter: clamp(16px, 4vw, 40px);
 }
+/* light colours on screen (22.10.2026): jade paper with a fine grain under the white cards, the lines, the grey text, the
+   land of the maps and a darker green to go with it; a printout keeps the colours above, without the grain. The bars
+   that stick over the page in its colour (the maps by the lists, the small map of the trip) have the grain too */
+@media screen {
+  :root {
+    --paper: #bcd6cc; --surface: #f7fbf8; --line: #a5c3b7; --muted: #3b554b; --accent: #0a5e50; --accent-soft: #d0e6dc;
+    --land: #f7fbf7; --land-o: #dbe9e2; --border: #86a89b;
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.15  0 0 0 0 0.1  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
 /* dark colours on screen only: a printout is always dark ink on white paper */
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
-    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
+    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd; --grain: none;
     --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
     --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
     --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
@@ -91,7 +101,7 @@ body { margin: 0; }
   :root[data-theme="dark"] {
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
-    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
+    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd; --grain: none;
     --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
     --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
     --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
@@ -103,7 +113,7 @@ body { margin: 0; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
-body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+body { background: var(--paper) var(--grain, none); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
 body.lb-open { overflow: hidden; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--accent); text-underline-offset: 2px; }
@@ -298,7 +308,7 @@ footer .ft-copy { margin-top: 18px; }
    scrolls (app.js). */
 .off-split { display: flex; flex-direction: column; width: 100%; }
 .off-big { order: -1; position: sticky; top: 46px; z-index: 5; display: flex; align-items: center; gap: 16px; margin-bottom: 8px; padding: 5px 0;
-  background: var(--paper); border-bottom: 1px solid var(--line); }
+  background: var(--paper) var(--grain, none); border-bottom: 1px solid var(--line); }
 .off-big svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
 .off-list li { transition: border-color .15s, box-shadow .15s; }
 .off-list li.lit { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
@@ -387,7 +397,7 @@ footer .ft-copy { margin-top: 18px; }
    zoom, one panel). */
 .minimap { display: none; }
 @media screen and (max-width: 900px) {
-  .minimap { display: block; position: fixed; top: 46px; left: 0; right: 0; z-index: 25; padding: 6px var(--gutter); background: var(--paper); border-bottom: 1px solid var(--line);
+  .minimap { display: block; position: fixed; top: 46px; left: 0; right: 0; z-index: 25; padding: 6px var(--gutter); background: var(--paper) var(--grain, none); border-bottom: 1px solid var(--line);
     visibility: hidden; opacity: 0; transform: translateY(-24px) scale(1.06); transform-origin: 50% 0; pointer-events: none;
     transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s; }
   .minimap.on { visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: opacity .25s ease, transform .25s ease; }

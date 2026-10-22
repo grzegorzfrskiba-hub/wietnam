@@ -76,12 +76,22 @@ body { margin: 0; }
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --gutter: clamp(16px, 4vw, 40px);
 }
+/* light colours on screen (22.10.2026): jade paper with a fine grain under the white cards, the lines, the grey text, the
+   land of the maps and a darker green to go with it; a printout keeps the colours above, without the grain. The bars
+   that stick over the page in its colour (the maps by the lists, the small map of the trip) have the grain too */
+@media screen {
+  :root {
+    --paper: #bcd6cc; --surface: #f7fbf8; --line: #a5c3b7; --muted: #3b554b; --accent: #0a5e50; --accent-soft: #d0e6dc;
+    --land: #f7fbf7; --land-o: #dbe9e2; --border: #86a89b;
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.15  0 0 0 0 0.1  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
 /* dark colours on screen only: a printout is always dark ink on white paper */
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
-    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
+    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd; --grain: none;
     --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
     --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
     --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
@@ -92,7 +102,7 @@ body { margin: 0; }
   :root[data-theme="dark"] {
     --paper: #0c1513; --surface: #131f1c; --ink: #e3ece8; --muted: #9bb0a8; --line: #26342f;
     --accent: #5cc4ad; --accent-soft: #163a32; --warm-soft: #3a2e14; --warm: #e8b856; --cool-soft: #172c42; --cool: #8ab8ec;
-    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd;
+    --wet-soft: #43211b; --wet: #f09a85; --lilac-soft: #2b2440; --on-c: #0c1513; --sea: #0b1a26; --land: #26372f; --land-o: #18231f; --border: #4a5d55; --river: #2f5a6e; --water-ink: #7fa6bd; --grain: none;
     --pal-1: #b2c1cc; --pal-2: #d9a874; --pal-3: #5fcad8; --pal-4: #a2d16f; --pal-5: #6fcf9d; --pal-6: #ee8f80; --pal-7: #a9b1f0;
     --pal-8: #c3d975; --pal-9: #6cc6c0; --pal-10: #86b4ee; --pal-11: #ec96c3; --pal-12: #bba0ec; --pal-13: #f0bb4f; --pal-14: #f59ab8;
     --pal-15: #b2acf2; --pal-16: #86d394; --pal-17: #f4ad6d; --pal-18: #d9a3e6; --pal-19: #7cc0e6; --pal-20: #d3d36a;
@@ -103,7 +113,7 @@ body { margin: 0; }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+body { background: var(--paper) var(--grain, none); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -243,7 +253,7 @@ main { padding-block: 28px 48px; }
    From 1101 px the map stands beside the tabs, sticky; below, a band over them: the map 180 px high on the left, the
    caption beside it. Its rules for the dots come from the map of the list of the places off the trip (template.html). */
 .w-map { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; margin: -8px 0 12px; padding: 6px 0;
-  background: var(--paper); border-bottom: 1px solid var(--line); }
+  background: var(--paper) var(--grain, none); border-bottom: 1px solid var(--line); }
 .w-map svg { display: block; height: 180px; width: auto; flex: none; overflow: visible; }
 /* a place of the field guide or a card the page brings to the top (a link with #guide-<place>, a name in the guide) stands
    under the band, not behind it */
