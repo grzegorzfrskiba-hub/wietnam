@@ -143,6 +143,7 @@ ul { padding: 0; list-style: none; }
 }
 .w-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
 .w-top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--on-photo); }
+.w-top-r { display: flex; align-items: center; gap: 6px; }   /* „Atlas” (stage 7, finding 3) beside the switch EN · PL */
 .lang-switch { display: flex; align-items: center; font: 500 13px var(--mono); letter-spacing: 0.08em; color: var(--on-photo); }
 .lang-switch button { min-width: 44px; min-height: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; opacity: 0.78; }
 .lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline 2px; text-underline-offset: 5px; }
@@ -354,7 +355,7 @@ footer p { margin-top: 8px; }
 .noscript { padding: 16px var(--gutter); }
 @page { size: A4; margin: 12mm; }
 @media print {
-  .w-tabs, .w-mode, .lang-switch, #w-back, .w-addbox, .w-drops, .w-add, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
+  .w-tabs, .w-mode, .lang-switch, #w-back, #w-atlas, .w-addbox, .w-drops, .w-add, .w-viewer, .w-hero > img, .w-hero::after, .w-where { display: none !important; }
   .w-hero { background: none; }
   .w-hero-in { min-height: 0; padding-block: 0 4mm; color: var(--ink); text-shadow: none; }
   .w-pre { opacity: 1 !important; transform: none !important; }
@@ -386,7 +387,9 @@ footer p { margin-top: 8px; }
     <span class="w-where">Sơn Trà, Đà Nẵng</span>
     <div class="wrap w-hero-in">
       <div class="w-top"><a id="w-back" href="../"></a>
-        <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+        <div class="w-top-r"><a id="w-atlas" href="../atlas/" data-i18n="nav.atlas"></a>
+          <div class="lang-switch" id="lang-switch" role="group" data-i18n-aria="lang.aria"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="pl" lang="pl" aria-pressed="false">PL</button></div>
+        </div>
       </div>
       <div><p class="w-eyebrow" data-i18n="w.eyebrow"></p>
         <h1 data-i18n="w.h1"></h1>
@@ -1207,7 +1210,7 @@ CONTENT.cucphuong = {
   sub: 'Ratowane naczelne, stare drzewa i las nocą',
   what: 'Najstarszy park narodowy Wietnamu, od 1962 roku chroniący tropikalny las na wapiennych grzbietach, ok. 120 km na południe od Hà Nội.',
   region: 'north', maps: 'Cuc Phuong National Park, Ninh Binh, Vietnam', pt: [20.25, 105.71], color: 15,
-  photos: ['cucphuong_0', 'cucphuong_1', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4'],
+  photos: ['cucphuong_1', 'cucphuong_0', 'cucphuong_2', 'cucphuong_3', 'cucphuong_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['cucphuong.centres', 'cucphuong.night'], t: 'Ratowane naczelne i las nocą', d: 'Zamelduj się w pokoju parku przy bramie albo nad jeziorem Mạc. Po południu ośrodki ratowania, 500 m od kasy: langury Delacoura i z Cát Bà, gibony, lori i żółwie zwykle do 17:00, a łuskowce do 20:00, najlepiej po 15:00. Wieczorem nocna przejażdżka melexem po skraju lasu: jelenie, ośrodek lori albo łuskowców, a od końca kwietnia do początku czerwca świetliki; zbiórka o 18:30, start o 19:00, nocujący mają pierwszeństwo.',
       rain: 'muzeum parku i centrum dla zwiedzających są pod dachem, a w ośrodkach ratowania przyda się parasol; o tym, czy nocna przejażdżka pojedzie w ulewie, decyduje park.',
@@ -1601,7 +1604,7 @@ CONTENT.yokdon = {
   sub: 'Słonie bez jazdy, suchy las i rzeka Sêrêpốk',
   what: 'Park narodowy na Wyżynie Centralnej przy granicy z Kambodżą, jedyny w Wietnamie, który chroni suchy las zrzucający liście.',
   region: 'south', maps: 'Yok Don National Park Headquarters, Buon Don, Dak Lak', pt: [12.87, 107.81], color: 18,
-  photos: ['yokdon_0', 'yokdon_1', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
+  photos: ['yokdon_1', 'yokdon_0', 'yokdon_2', 'yokdon_3', 'yokdon_4'],
   days: [
     { p: 1, o: 1, pace: 'travel', cost: ['yokdon.boat'], t: 'Do lasu nad Sêrêpốk', d: 'Zamelduj się w domu gościnnym parku, przy siedzibie, gdzie zaczynają się wszystkie wycieczki. Po południu łódź po rzece Sêrêpốk, 40–60 minut. Jeśli jedziesz przez Buôn Ma Thuột, zatrzymaj się w Muzeum Kawy, zbudowanym na wzór długiego domu ludu Ê Đê.',
       rain: 'w burzy łódź nie wypłynie: zostań dłużej w Buôn Ma Thuột, w Muzeum Kawy i w muzeum Đắk Lắk o ludach Wyżyny Centralnej, a do parku dojedź na wieczór.',
@@ -2110,7 +2113,7 @@ UI.pl = {
   'hero.h1': 'Route G',
   'hero.tag': 'Wietnam po swojemu',
   'hero.lede': 'Ustaw termin, lotniska, to, co lubisz, i poziom przygody. Strona od razu ułoży trasę: miejsca, plan każdego dnia, przejazdy i mapę. Potem możesz ją poprawić i wysłać linkiem.',
-  'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę', 'nav.wild': 'Zwierzęta', 'stop.wild': 'Zwierzęta tutaj →',
+  'hero.cta1': 'Ustaw swój wyjazd', 'hero.cta2': 'Zobacz trasę', 'nav.wild': 'Zwierzęta', 'stop.wild': 'Zwierzęta tutaj →', 'nav.atlas': 'Atlas', 'stop.atlas': 'W atlasie →',
 
   'set.eyebrow': 'Krok 1', 'set.h2': 'Twój wyjazd',
   'set.p': 'Trasa przelicza się przy każdej zmianie, a adres strony to gotowy link do niej.',
@@ -2382,7 +2385,7 @@ UI.en = {
   'hero.h1': 'Route G',
   'hero.tag': 'Vietnam, up to you',
   'hero.lede': 'Set your dates, your airports, what you like and how adventurous you are. The page plans a route at once: the places, a plan for every day, the journeys and a map. You can then change it and send it as a link.',
-  'hero.cta1': 'Set up your trip', 'hero.cta2': 'See the route', 'nav.wild': 'Wildlife', 'stop.wild': 'Wildlife here →',
+  'hero.cta1': 'Set up your trip', 'hero.cta2': 'See the route', 'nav.wild': 'Wildlife', 'stop.wild': 'Wildlife here →', 'nav.atlas': 'Atlas', 'stop.atlas': 'In the atlas →',
 
   'set.eyebrow': 'Step 1', 'set.h2': 'Your trip',
   'set.p': 'The route changes with every setting, and the page’s address is a ready link to it.',
@@ -2731,6 +2734,8 @@ function langOf(hash) { return /(?:^#?|&)lang=pl(?:&|$)/.test(String(hash || '')
    koszty=1; another value, or none, hides them, with no warning of a wrong link: the costs are no setting of the trip, as
    the language is not, and parseLink leaves them out. */
 function costsOf(hash) { return /(?:^#?|&)koszty=1(?:&|$)/.test(String(hash || '')); }
+// The day of a link that opens on it (#day-5&od=…, ✓ in the atlas): N of a #day-N before the settings, else null.
+function dayAnchor(hash) { var m = /^#?day-(\d+)(?:&|$)/.exec(String(hash || '')); return m ? +m[1] : null; }
 /* The address of the settings in the page's view: koszty=1 when the costs show, then lang=pl at the end in Polish, so a
    link copied, sent or printed opens the same trip as its sender sees it; English and hidden costs add nothing, so every
    link from before opens in English with the costs hidden. */
@@ -4032,6 +4037,96 @@ function guideRows(wild, guide, p) {
   return out;
 }
 
+/* Pure helpers of the atlas of places (stage 7, …/atlas/, notes/plans/2026-10-22-atlas-projekt.md), shared with the tests:
+   the order of the places and their regions, what a card shows from the data that is there already (the interests, the
+   nights, the bar of the twelve months, what to do) and the atlas's address. No DOM here. Calls page.js (nightForm,
+   pageHash) and engine.js (INTERESTS); the data comes in through arguments. */
+
+/* ---------- the places ---------- */
+// the regions in the atlas's order, from the north (decision 5)
+var ATLAS_REGIONS = ['north', 'centre', 'south'];
+
+/* The places of the atlas from north to south (findings 11 and 5): every place without a node (a night on the way has no
+   card of its own), by axis in places.js, the highest first; places with the same axis by id. places: PLACES. */
+function atlasOrder(places) {
+  return Object.keys(places).filter(function (id) { return !places[id].node; })
+    .sort(function (a, b) { return places[b].axis - places[a].axis || (a < b ? -1 : 1); });
+}
+
+/* The places by region (finding 12): [{ region, ids }] in the order of ATLAS_REGIONS, each region's places in the order of
+   ids; a region without a place is left out. content: the places' texts (their region). */
+function atlasRegions(ids, content) {
+  return ATLAS_REGIONS.map(function (r) { return { region: r, ids: ids.filter(function (id) { return content[id].region === r; }) }; })
+    .filter(function (g) { return g.ids.length; });
+}
+
+/* The interests a place serves well (finding 6): those it fits 2 or 3 (fit in places.js), the best first, then in the
+   order of INTERESTS. */
+function placeInterests(fit) {
+  return INTERESTS.filter(function (k) { return (fit[k] || 0) >= 2; })
+    .sort(function (a, b) { return fit[b] - fit[a] || INTERESTS.indexOf(a) - INTERESTS.indexOf(b); });
+}
+
+/* The nights a stay of the place takes on a trip (finding 8): from its least to its most (nights in places.js, [min, ideal,
+   max]) as "2–4", one number when they are the same; form, the plural class of the larger one for its word ("2–4 noce",
+   "4–5 nocy"; nightForm). */
+function nightsSpan(nights) {
+  return { text: nights[0] === nights[2] ? String(nights[0]) : nights[0] + '–' + nights[2], form: nightForm(nights[2]) };
+}
+
+/* What to do at a place (finding 8): the titles of its usual plans in the order of a stay (o), each once, and the titles of
+   its hard versions (Ekstremalnie), each once and none that is a usual title already. Not the easy versions, the plan of
+   one night (solo), the second stay (again), a swap's own plan (self), what to skip or the version over two days (next).
+   c: the place's texts in the page's language. Returns { usual: [titles], hard: [titles] }. */
+function placeTodo(c) {
+  var usual = [], hard = [];
+  c.days.slice().sort(function (a, b) { return a.o - b.o; }).forEach(function (d) { if (usual.indexOf(d.t) < 0) usual.push(d.t); });
+  c.days.slice().sort(function (a, b) { return a.o - b.o; }).forEach(function (d) {
+    if (d.hard && usual.indexOf(d.hard.t) < 0 && hard.indexOf(d.hard.t) < 0) hard.push(d.hard.t);
+  });
+  return { usual: usual, hard: hard };
+}
+
+/* ---------- the bar of the twelve months (finding 7) ---------- */
+/* The place's season month by month: [{ m: 1–12, season: 'D' | 'S' | 'Z' | 'X', why, trip }]; why, the reasons of a fair or
+   poor month (codes of WEATHER_WHY, from the place's climate), none for a good one; trip, a month of the trip (tripMonths:
+   1–12, termMonths in wildpage.js; null without a trip). code: SEASONS[id]; why: CLIMATE[id].why. */
+function seasonBar(code, why, tripMonths) {
+  var out = [];
+  for (var m = 1; m <= 12; m++) {
+    var s = code.charAt(m - 1);
+    out.push({ m: m, season: s, why: s === 'D' ? [] : (why[m] || []).slice(), trip: !!tripMonths && tripMonths.indexOf(m) > -1 });
+  }
+  return out;
+}
+/* The months of the bar by season, for the reader of a screen: [{ season, months }] good, fair, poor, closed, each season
+   once with its months in order, a season without a month left out. bar: seasonBar's. */
+function seasonGroups(bar) {
+  return ['D', 'S', 'Z', 'X'].map(function (s) { return { season: s, months: bar.filter(function (x) { return x.season === s; }).map(function (x) { return x.m; }) }; })
+    .filter(function (g) { return g.months.length; });
+}
+
+/* ---------- the address (findings 4 and 18) ---------- */
+/* The place of the atlas's address: its first part, before the trip's settings (#hoian&od=…), when that is a place of the
+   atlas (ids); else null. */
+function atlasPlace(hash, ids) {
+  var first = String(hash || '').replace(/^#/, '').split('&')[0];
+  return ids.indexOf(first) > -1 ? first : null;
+}
+/* The atlas's address: the place, when there is one, then the trip's settings in the page's view (pageHash: koszty=1 and
+   lang=pl as on the page with the route), or without a trip lang=pl alone; '' for the atlas in English without either. */
+function atlasHash(place, settings, lang, costs) {
+  var parts = place ? [place] : [];
+  if (settings) parts.push(pageHash(settings, lang, costs).slice(1));
+  else if (lang === 'pl') parts.push('lang=pl');
+  return parts.length ? '#' + parts.join('&') : '';
+}
+/* A day of the trip on the page with the route (✓ on a card, finding D9 of the final review): the day first, then the trip
+   (pageHash), which the page opens on that day (dayAnchor in page.js). Relative, as the atlas lives one folder down. */
+function dayLink(settings, lang, costs, day) {
+  return '../#day-' + day + '&' + pageHash(settings, lang, costs).slice(1);
+}
+
 /* The wildlife subpage (stage 6): one list of the species for its three tabs, the Field guide by place, what to avoid and
    the places off Route G. Written in Polish, to one reader (ty), without gendered forms (notes/wizja.md).
    A species: name, alt (the name known from guidebooks), vn, lat, iucn, group, route (a card in "On your route"),
@@ -4822,6 +4917,8 @@ var WILD_PICS = {"duk": {"src": "../img/wild/duk.jpg", "w": 1920, "h": 1920, "bg
     });
     $('#w-back').href = tripLink(trip && trip.settings, lang, costs, null);
     $('#w-back').textContent = T(trip ? 'w.back.trip' : 'w.back.plan');
+    // the atlas of places (stage 7, finding 3), with the trip
+    $('#w-atlas').href = '../atlas/' + atlasHash(null, trip && trip.settings, lang, costs);
   }
   function render() {
     renderRoute(); renderGallery(); renderGuide(); renderMap(); showTab(); paintFrames();
