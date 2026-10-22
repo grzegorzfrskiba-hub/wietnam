@@ -447,7 +447,7 @@ Zrobione: pod tytułem wypełniony jadeitowy przycisk „Wildlife ↗” z plaki
 
 Commit d59f1e2. Publikacja (22.10.2026): za zgodą użytkownika `tools/publish.sh`, commit `docs/` (ad967d0) i `git push`; żywa strona ma jadeitowy przycisk z plakietką pod tytułem i plakietkę w pasku, dalej z `noindex`.
 
-Bez plakietki (22.10.2026): uwaga użytkownika po publikacji, przycisk był za długi, a „own page” niepotrzebne; plakietka „OWN PAGE” / „OSOBNA STRONA” i tekst `nav.wildtag` usunięte, zostaje wypełniony jadeit ze strzałką ↗; sonda `wildlink.js` nie szuka już plakietki. `tests/run.sh` ALL PASS, `wildlink.js` przy 390 i 1400 px w obu językach bez błędów, zrzuty przy 390 i 1400 px.
+Bez plakietki (22.10.2026): uwaga użytkownika po publikacji, przycisk był za długi, a „own page” niepotrzebne; plakietka „OWN PAGE” / „OSOBNA STRONA” i tekst `nav.wildtag` usunięte, zostaje wypełniony jadeit ze strzałką ↗; sonda `wildlink.js` nie szuka już plakietki. `tests/run.sh` ALL PASS, `wildlink.js` przy 390 i 1400 px w obu językach bez błędów, zrzuty przy 390 i 1400 px. Commit 50e513a; za zgodą użytkownika `tools/publish.sh`, commit `docs/` (56fb8b6) i `git push`; żywa strona ma przycisk bez plakietki, dalej z `noindex`.
 
 ### Z etapu 5
 
