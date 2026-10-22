@@ -24,7 +24,12 @@
   // the cards for which test fails, by id
   function failing(test) { return IDS.filter(function (id) { try { return !test(id, card(id)); } catch (e) { return true; } }); }
 
-  check('the page language from the link', document.documentElement.lang === (/(&|#)lang=pl(&|$)/.test(hash) ? 'pl' : 'en'));
+  /* A trip in the link always gives a trip, as on the page with the route: one whose Dodaj and Usuń leave none opens without
+     them and says the link was partly wrong (finding D4 of the final review; the link with usun= of every place:
+     PAGE=atlas bash tests/probe.sh tests/probes/atlas.js 1024 'od=HAN&do=SGN&miesiac=2027-03&dni=15&co=przyroda&poziom=2&usun=<all 20>') */
+  check('a trip in the link gives a trip, as on the page with the route', !hasTrip(hash) || !!trip && (!/(^|&)usun=[^&]/.test(hash) || trip.settings.remove.length > 0 ||
+    trip.dropped && flat(document.querySelector('.w-tripbox').textContent).indexOf(flat(UI[LANG]['set.dropped'])) > -1), trip ? JSON.stringify(trip.settings.remove) : 'no trip');
+  check('the page language from the link',document.documentElement.lang === (/(&|#)lang=pl(&|$)/.test(hash) ? 'pl' : 'en'));
   check('noindex and its own link preview', !!document.querySelector('meta[name="robots"][content="noindex"]') &&
     /\/atlas\/$/.test((document.querySelector('meta[property="og:url"]') || {}).content || '') && /og-atlas\.jpg$/.test((document.querySelector('meta[property="og:image"]') || {}).content || ''));
   check('the title in the page’s language', document.title === AUI[LANG]['a.doc.title'] && textOf('.w-head h1') === AUI[LANG]['a.h1'], document.title);
@@ -191,6 +196,15 @@
   document.querySelector('#a-regions [data-go="south"]').click();
   var st = south.getBoundingClientRect().top, under = parseFloat(getComputedStyle(south).scrollMarginTop) || 0;
   check('a link to a region: its heading at the top, the address as it was', Math.abs(st - under) < 30 && location.hash === was, Math.round(st) + ' / ' + under);
+  // its address carries the trip, so a region opened in a new tab keeps it, and such an address brings the region (finding D3)
+  var regHref = href(document.querySelector('#a-regions [data-go="north"]')), north = document.getElementById('reg-north');
+  check('a link to a region: its address with the trip', regHref === atlasHash('reg-north', trip && trip.settings, LANG, COSTS), regHref);
+  window.scrollTo(0, document.documentElement.scrollHeight);
+  history.replaceState(null, '', regHref); window.dispatchEvent(new HashChangeEvent('hashchange'));
+  var nt = north.getBoundingClientRect().top, nu = parseFloat(getComputedStyle(north).scrollMarginTop) || 0;
+  check('an address with a region: its heading at the top, the trip kept', window.scrollY > 0 && Math.abs(nt - nu) < 30 && JSON.stringify(A.trip() && A.trip().settings) === JSON.stringify(trip && trip.settings),
+    Math.round(nt) + ' / ' + nu);
+  history.replaceState(null, '', was || location.pathname); window.dispatchEvent(new HashChangeEvent('hashchange'));
 
   // the album of a place (finding 5): from its big photo or the strip, ‹ ›, the arrow keys, the counter, the focus back
   var d = document.getElementById('w-viewer'), first = card(IDS[0]), ph = CONTENT[IDS[0]].photos, opener = first.querySelector('.a-big');

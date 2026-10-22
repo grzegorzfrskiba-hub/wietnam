@@ -3,7 +3,7 @@
 AUI.en = {
   'a.doc.title': 'Atlas of Vietnam · Route G',
   'a.h1': 'Atlas of Vietnam',
-  'a.lead': 'The twenty places Route G builds its routes from, the mountains of the north to the islands of the south: what they look like, when to go and what to do there.',
+  'a.lead': 'The twenty places Route G builds its routes from, from the mountains of the north to the islands of the south: what they look like, when to go and what to do there.',
   'a.regions.aria': 'Regions', 'a.reg.north': 'North', 'a.reg.centre': 'Centre', 'a.reg.south': 'South',
   'a.places.one': '{n} place', 'a.places.few': '{n} places', 'a.places.many': '{n} places',
   'a.intro': 'Scroll, and the map shows where each place lies. A photo opens the place’s album.',

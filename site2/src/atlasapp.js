@@ -56,7 +56,13 @@
     var defaults = defaultSettings(TODAY, DATA, { list: HOLIDAYS, from: HOLIDAYS_FROM, until: HOLIDAYS_UNTIL, tetMargin: TET_MARGIN_DAYS });
     // the parts of the link the engine cannot take are dropped as on the page with the route (app.js), and said
     var bad = [], got = settingsFromLink(parseLink(location.hash, bad), defaults, PLACES, HUBS, bad, SWAPS), r = planRoute(got.st, DATA);
-    if (!r.ok) return;
+    // a link whose Dodaj and Usuń leave no trip opens without them, as on the page with the route (fromLink in app.js), and says so
+    if (!r.ok) {
+      var s = withoutChanges(got.settings), st = normSettings(s, PLACES, HUBS);
+      r = st.ok ? planRoute(st, DATA) : r;
+      if (!r.ok) return;
+      got = { settings: s, st: st, dropped: ['add', 'remove'] };
+    }
     var off = {};
     whyOff(r, got.settings, got.st, DATA, CLIMATE).forEach(function (x) { off[x.id] = x; });
     trip = { settings: got.settings, st: got.st, route: r, stays: tripStays(r, got.st, CONTENT, FERRY, selfSwaps(got.settings.moto, SWAPS).places), months: termMonths(got.st), off: off, dropped: got.dropped.length > 0 };
@@ -159,7 +165,10 @@
         '<div class="a-places">' + g.ids.map(function (id) { return card(id, ++n); }).join('') + '</div>';
     });
     $('#a-panels').innerHTML = h;
-    $('#a-regions').innerHTML = REGS.map(function (g) { return '<a href="#reg-' + g.region + '" data-go="' + g.region + '">' + esc(T('a.reg.' + g.region)) + '</a>'; }).join('');
+    // a region's address carries the trip, so a region opened in a new tab keeps it (fromHash brings the region)
+    $('#a-regions').innerHTML = REGS.map(function (g) {
+      return '<a href="' + esc(atlasHash('reg-' + g.region, trip && trip.settings, lang, costs)) + '" data-go="' + g.region + '">' + esc(T('a.reg.' + g.region)) + '</a>';
+    }).join('');
   }
   // the photos of the 20 places, in the atlas's order, with their authors and licences
   function renderCredits() {
@@ -186,8 +195,9 @@
   function fromHash() {
     var parts = location.hash.replace(/^#/, '').split('&'), key = (parts[0].indexOf('=') < 0 ? parts.slice(1) : parts).join('&');
     if (key !== fromHash.key) { fromHash.key = key; costs = costsOf(location.hash); readTrip(); setLang(langOf(location.hash)); render(); prepRise(); }
-    var p = atlasPlace(location.hash, IDS);
+    var p = atlasPlace(location.hash, IDS), g = location.hash.replace(/^#/, '').split('&')[0].replace(/^reg-/, '');
     if (p) bring($('#pl-' + p));
+    else if (/^#reg-/.test(location.hash) && ATLAS_REGIONS.indexOf(g) > -1) toRegion(g);
     lightNow();
   }
   function setLang(l) {

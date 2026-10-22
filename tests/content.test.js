@@ -804,6 +804,8 @@ contentCheck('atlas interface', function (need) {
   ['north', 'centre', 'south'].forEach(function (r) { need(AUI.pl['a.reg.' + r] && AUI.en['a.reg.' + r], 'AUI: the region ' + r); });
   ['one', 'few', 'many'].forEach(function (f) { need(/\{n\}/.test(AUI.pl['a.places.' + f] || '') && /\{n\}/.test(AUI.en['a.places.' + f] || ''), 'AUI: a.places.' + f + ' with {n}'); });
   need(atlasOrder(PLACES).length === 20 && /^Dwadzieścia /.test(AUI.pl['a.lead']) && /^The twenty /.test(AUI.en['a.lead']), 'a.lead: twenty places, as many as atlasOrder gives');
+  // the same span as in Polish („od gór na północy po wyspy na południu”), with its own from (finding D1 of the final review)
+  need(/, from the mountains of the north to the islands of the south:/.test(AUI.en['a.lead']), 'a.lead (en): from the mountains of the north to the islands of the south');
 });
 
 /* The subpage's interface (wildui.js, finding 19): the same keys in both languages and in the same order, British English,
